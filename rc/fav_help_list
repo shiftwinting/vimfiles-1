@@ -1,0 +1,13 @@
+function-list       関数一覧
+autocmd-events      autocmd-events
+eval                Vim script の書き方 tips
+usr_41              Vim script 書法
+user-commands       ユーザのコマンド定義
+doc-file-list       home
+ex-cmd-index        ":"のコマンド
+filename-modifiers  :p とか :h とか
+functions
+help-summary
+index               各モードのマッピング
+pattern-overview    regexの書き方
+quickref
