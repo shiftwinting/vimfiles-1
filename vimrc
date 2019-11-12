@@ -103,8 +103,8 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'machakann/vim-Verdin'
 
 " " == textobj
-" Plug 'kana/vim-textobj-user'
-" Plug 'osyo-manga/vim-textobj-multiblock'
+Plug 'kana/vim-textobj-user'
+Plug 'osyo-manga/vim-textobj-multiblock'
 " Plug 'kana/vim-textobj-entire'
 " Plug 'kana/vim-textobj-line'
 " Plug 'coderifous/textobj-word-column.vim'
@@ -122,6 +122,7 @@ Plug 'Shougo/defx.nvim'
 Plug 'kristijanhusak/defx-icons'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'Shougo/echodoc.vim'
 
 " == lightline
 Plug 'itchyny/lightline.vim'
@@ -231,8 +232,6 @@ set wildmode=longest:full,list:full
 
 " cmdline から cmdline-window へ移動
 set cedit=\<C-l>
-
-" cd ~/src
 
 " listchars (不可視文字を表示する) " {{{
 set list
@@ -1241,13 +1240,6 @@ xmap ib <Plug>(textobj-multiblock-i)
 
 " }}}
 
-" " skywind3000/asyncrun.vim {{{
-"
-" " 出力の文字コードを指定
-" let g:asyncrun_encs = 'cp932'
-"
-" " }}}
-
 " machakann/vim-highlightedyank {{{
 
 " なんとなくちょうどいい
@@ -1256,7 +1248,7 @@ let g:highlightedyank_highlight_duration = 70
 " }}}
 
 " ctrlp
-let g:ctrlp_launcher_file = '~/vimfiles/rc/plugins/ctrlp-launcher'
+" let g:ctrlp_launcher_file = '~/vimfiles/rc/plugins/ctrlp-launcher'
 
 " }}}1
 
@@ -1281,10 +1273,6 @@ endif
 " :SyntaxInfo
 
 command! HereOpen call execute('!start %:p:h', "silent")
-
-" XXX: isort と black を実行する
-" isort {filename} | black {filename}
-" isort => https://timothycrosley.github.io/isort/
 
 function! s:get_maxlen(list) abort " {{{
     let maxlen = 0
@@ -1503,77 +1491,6 @@ function! s:get_syn_info() abort
 endfunction
 
 command! SyntaxInfo call s:get_syn_info()
-
-" }}}
-
-" command! MIT call <SID>write_mit_lisence_text('tamago324')
-"
-" function! s:license_mit_text(fullname) abort
-"     let texts = [
-"         \ 'MIT License',
-"         \ '',
-"         \ 'Copyright (c) {{year}} {{fullname}}',
-"         \ '',
-"         \ 'Permission is hereby granted, free of charge, to any person obtaining a copy',
-"         \ 'of this software and associated documentation files (the "Software"), to deal',
-"         \ 'in the Software without restriction, including without limitation the rights',
-"         \ 'to use, copy, modify, merge, publish, distribute, sublicense, and/or sell',
-"         \ 'copies of the Software, and to permit persons to whom the Software is',
-"         \ 'furnished to do so, subject to the following conditions:',
-"         \ '',
-"         \ 'The above copyright notice and this permission notice shall be included in all',
-"         \ 'copies or substantial portions of the Software.',
-"         \ '',
-"         \ 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR',
-"         \ 'IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,',
-"         \ 'FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE',
-"         \ 'AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER',
-"         \ 'LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,',
-"         \ 'OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE',
-"         \ 'SOFTWARE.',
-"         \]
-"     let text = join(texts, "\n")
-"     let text = substitute(text, '{{year}}', strftime('%Y'), '')
-"     let text = substitute(text, '{{fullname}}', a:fullname, '')
-"     return text
-" endfunction
-"
-" function! s:write_mit_lisence_text(fullname) abort
-"     let text = s:license_mit_text(a:fullname)
-"     if line('$') == 1 && empty(getline('.'))
-"         silent put=text
-"         silent 1 delete _
-"     else
-"         exec 'silent '.line('$').' put=text'
-"     endif
-" endfunction
-
-" " popup_now {{{
-"
-" nnoremap <Space>now :<C-u>Now<CR>
-" command! Now call <SID>popup_now()
-"
-" function! s:popup_now() abort
-"     let opt = {
-"         \ 'pos': 'botleft',
-"         \ 'line': 'cursor-1',
-"         \ 'col': 'cursor',
-"         \ 'tabpage': -1,
-"         \ 'border': [1, 1, 1, 1],
-"         \ 'padding': [1, 1, 1, 1],
-"         \ 'moved': 'WORD',
-"         \ 'highlight': 'ErrorMsg',
-"         \}
-"     call popup_create(s:now(), opt)
-" endfunction
-"
-" function! s:now() abort
-"     let idx = strftime('%w')
-"     let wk_lst = ['日', '月', '火', '水', '木', '金', '土']
-"     return printf('%s(%s) %s', strftime('%Y/%m/%d'), wk_lst[idx], strftime('%H:%M'))
-" endfunction
-"
-" " }}}
 
 " }}}
 
@@ -1918,10 +1835,13 @@ augroup END
 colorscheme solarized8
 set background=light
 
-" italic なくしたい
-let g:solarized_italic = 0
+" italic なくす
+let g:solarized_italics = 0
 
 " tab で補完
 inoremap <expr> <TAB>     pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr> <S-TAB>   pumvisible() ? "\<C-p>" : "\<S-TAB>"
 inoremap <expr> <C-Space> "\<C-n>"
+
+" echodoc
+let g:echodoc#enable_at_startup = 1
