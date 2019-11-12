@@ -1922,5 +1922,6 @@ set background=light
 let g:solarized_italic = 0
 
 " tab で補完
-inoremap <expr> <TAB>    pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-TAB>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr> <TAB>     pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <S-TAB>   pumvisible() ? "\<C-p>" : "\<S-TAB>"
+inoremap <expr> <C-Space> "\<C-n>"
