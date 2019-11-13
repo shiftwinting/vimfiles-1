@@ -1671,7 +1671,7 @@ xmap ]tr <Plug>(VTranslateBang)
 " packages 機能 {{{
 
 " 末尾の '/' を取り除くため、 :p:h とする
-let s:pack_base_dir = tr(fnamemodify('~/vimfiles/pack/plugs/opt', ':p:h'), "\\", '/')
+let s:pack_base_dir = tr(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'), "\\", '/')
 let s:sep = has('win32') ? "\\" : '/'
 
 function! s:packadd(plugin_name) abort
@@ -1832,11 +1832,11 @@ augroup MyColorScheme
     autocmd ColorScheme * :call DefineMyHighlishts()
 augroup END
 
-colorscheme solarized8
-set background=light
-
 " italic なくす
 let g:solarized_italics = 0
+
+colorscheme solarized8
+set background=light
 
 " tab で補完
 inoremap <expr> <TAB>     pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -1845,3 +1845,6 @@ inoremap <expr> <C-Space> "\<C-n>"
 
 " echodoc
 let g:echodoc#enable_at_startup = 1
+
+" calendar.vim
+let g:calendar_google_task = 0
