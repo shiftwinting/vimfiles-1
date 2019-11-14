@@ -871,18 +871,19 @@ xmap <Space>M <Plug>(quickhl-manual-reset)
 
 " tyru/open-browser.vim {{{
 
-" TODO: マッピングどうするか
-" nnoremap <Space>fb :<C-u>OpenBrowserSearch 
-" nnoremap sm :<C-u>OpenBrowserSearch -vimemo 
+" netrw の gx のマッピングをさせない
+let g:netrw_nogx = 1
+
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+nnoremap <A-o> :<C-u>OpenBrowserSearch 
 
 " 追加
 let g:openbrowser_search_engines = {
-    \ 'devdocs': 'http://devdocs.io/#q={query}',
-    \ 'github': 'http://github.com/search?q={query}',
-    \ 'google': 'http://google.com/search?q={query}',
-    \ 'python': 'http://docs.python.org/dev/search.html?q={query}&check_keywords=yes&area=default',
-    \ 'vim': 'http://www.google.com/cse?cx=partner-pub-3005259998294962%3Abvyni59kjr1&ie=ISO-8859-1&q={query}&sa=Search&siteurl=www.vim.org%2F#gsc.tab=0&gsc.q={query}&gsc.page=1',
-    \ }
+\   'devdocs': 'http://devdocs.io/#q={query}',
+\   'github': 'http://github.com/search?q={query}',
+\   'duckduckgo': 'http://duckduckgo.com/?q={query}',
+\}
 
 " }}}
 
