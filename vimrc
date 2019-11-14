@@ -1632,9 +1632,14 @@ function! s:defx_my_settings() abort
 
     command! -buffer BookmarkAdd call defx#call_action('add_session')
 endfunction
+
+function! DefxCurrentFileOpen() abort
+    execute "Defx -no-toggle `expand('%:p:h')` -search=`expand('%:p')`"
+    call defx#call_action('change_vim_cwd')
+endfunction
 "
 nnoremap <silent><C-e> :<C-u>Defx<CR>
-nnoremap <silent><Space>cdn :<C-u>Defx -no-toggle `expand('%:p:h')` -search=`expand('%:p')`<CR>
+nnoremap <silent><Space>cdn :<C-u>call DefxCurrentFileOpen()<CR>
 
 command! DefxSessions call DefxSessions(g:defx_session_file)
 nnoremap <Space>fb :<C-u>DefxSessions<CR>
