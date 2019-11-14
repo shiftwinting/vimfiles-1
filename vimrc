@@ -1876,3 +1876,7 @@ function! FFDosUnix() abort
     normal! :<C-u>%s/\r//g
 endfunction
 command! FFDosUnix call FFDosUnix()
+
+" クリップボード貼り付け
+inoremap <C-r><C-r> <C-r>*
+cnoremap <C-r><C-r> <C-r>*
