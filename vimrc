@@ -67,6 +67,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
 Plug 'tyru/open-browser.vim'
+Plug 'itchyny/calendar.vim'
 
 " ==============================================================================
 
@@ -852,7 +853,7 @@ set pyxversion=3
 " インデントつけないバッファの名前
 let g:indentLine_bufNameExclude = ['_.*']
 let g:indentLine_bufTypeExclude = ['terminal']
-let g:indentLine_fileTypeExclude = ['defx']
+let g:indentLine_fileTypeExclude = ['defx', 'calendar']
 let g:indentLine_char = '|'
 
 " }}}
@@ -1848,3 +1849,16 @@ let g:echodoc#enable_at_startup = 1
 
 " calendar.vim
 let g:calendar_google_task = 0
+" 初期表示で task を表示
+let g:calendar_task = 1
+
+" view のリスト
+let g:calendar_views = ['year', 'month', 'week', 'day']
+
+" 初期のview
+let g:calendar_view = 'month'
+
+augroup MyAutoCmdCalendar
+    autocmd!
+    " autocmd Filetype calendar nmap x <Plug>(calendar_xx)
+augroup END
