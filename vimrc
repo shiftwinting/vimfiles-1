@@ -1549,10 +1549,10 @@ function! s:defx_my_settings() abort
     \ defx#do_action('open_or_close_tree') :
     \ defx#do_action('drop')
     " 垂直分割で開く
-    nnoremap <silent><buffer><expr> s
+    nnoremap <silent><buffer><expr> <C-i>
     \ defx#do_action('drop', 'vsplit')
     " 分割で開く
-    nnoremap <silent><buffer><expr> i
+    nnoremap <silent><buffer><expr> <C-s>
     \ defx#do_action('drop', 'split')
     " タブで開く
     nnoremap <silent><buffer><expr> t
