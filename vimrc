@@ -124,6 +124,7 @@ Plug 'kristijanhusak/defx-icons'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'Shougo/echodoc.vim'
+Plug 'Shougo/neopairs.vim'
 
 " == lightline
 Plug 'itchyny/lightline.vim'
@@ -1880,3 +1881,6 @@ command! FFDosUnix call FFDosUnix()
 " クリップボード貼り付け
 inoremap <C-r><C-r> <C-r>*
 cnoremap <C-r><C-r> <C-r>*
+
+" neopairs
+let g:neopairs#enable = 1
