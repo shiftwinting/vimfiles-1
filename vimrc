@@ -1868,3 +1868,11 @@ augroup MyAutoCmdCalendar
     autocmd!
     " autocmd Filetype calendar nmap x <Plug>(calendar_xx)
 augroup END
+
+" fileformat を変換
+" https://qiita.com/gillax/items/3dad7318662d29b3f6d1
+function! FFDosUnix() abort
+    edit ++ff=unix
+    normal! :<C-u>%s/\r//g
+endfunction
+command! FFDosUnix call FFDosUnix()
