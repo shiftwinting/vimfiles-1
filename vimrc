@@ -1716,12 +1716,23 @@ function! s:packget_cb(job, status) abort
     echomsg job_status(a:job)
 endfunction
 
-function! s:packget(url, ...) abort
-    if s:pack_base_dir =~# '/$'
-        let l:base = s:pack_base_dir
+function! s:add_end_slash(path) abort
+    if a:path =~# '/$'
+        let l:result = a:path
     else
-        let l:base = s:pack_base_dir.'/'
+        let l:result = a:path.'/'
     endif
+    return l:result
+endfunction
+
+function! s:fix_url(url) abort
+    return a:url =~# '^http' ?
+    \   a:url :
+    \   'https://github.com/'.a:url
+endfunction
+
+function! s:packget(url, ...) abort
+    let l:base = s:add_end_slash(s:pack_base_dir)
 
     " 引数指定されていたら、その名前のディレクトリに作成する
     let l:plug_name = a:0 ==# 0 ?
@@ -1737,13 +1748,33 @@ function! s:packget(url, ...) abort
         return
     endif
 
-    let l:cmd = 'git clone '.a:url.' '.l:dst
+    let l:cmd = 'git clone ' . s:fix_url(a:url) . ' '  . l:dst
 
     execute 'botright term ++rows=15 '.l:cmd
 endfunction
 
+" これやっても意味ない？
+" :help で検索聞いてなさそう?
+function! s:packhelptags(plugin_name) abort
+    let l:base = s:add_end_slash(s:pack_base_dir)
+    if !isdirectory(l:base . a:plugin_name)
+        echohl ErrorMsg
+        echomsg 'Not found plugin. '.a:plugin_name
+        echohl None
+        return
+    endif
+    execute 'helptags ' . l:base. a:plugin_name . '/doc'
+endfunction
+
 command! -nargs=+ PackGet call s:packget(<f-args>)
 command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
+command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
+
+" pack/plugs/opt の中の help を検索
+" runtimepath 内の doc/ も help で引ける
+"  -> packadd したもののhelpを引くには、runtimepath に含める必要がある？
+" command! -nargs=1 PackHelp -complete=customlist,func call s:packhelp(<f-args>)
+
 "}}}
 
 
