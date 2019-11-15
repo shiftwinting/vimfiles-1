@@ -1574,6 +1574,12 @@ function! s:defx_my_settings() abort
     " システムで設定しているプログラムで実行する
     nnoremap <silent><buffer><expr> x
     \ defx#do_action('execute_system')
+
+    nnoremap <silent><buffer> H
+    \ :<C-u>HereOpen<CR>
+
+    nnoremap <silent><buffer> B
+    \ :<C-u>BookmarkList<CR>
     
     " " trashboxに入れる(削除)、https://pypi.org/project/Send2Trash/ を使う
     " " pip install send2trash
@@ -1634,7 +1640,8 @@ function! s:defx_my_settings() abort
     " nnoremap <silent><buffer><expr> k
     " \ line('.') == 1 ? 'G' : 'k'
 
-    command! -buffer BookmarkAdd call defx#call_action('add_session')
+    command! -buffer BAdd call defx#call_action('add_session')
+    command! -buffer BookmarkList call DefxSessions(g:defx_session_file)
 endfunction
 
 function! DefxCurrentFileOpen() abort
@@ -1645,9 +1652,7 @@ endfunction
 nnoremap <silent><C-e> :<C-u>Defx<CR>
 nnoremap <silent><Space>cdn :<C-u>call DefxCurrentFileOpen()<CR>
 
-command! DefxSessions call DefxSessions(g:defx_session_file)
-nnoremap <Space>fb :<C-u>DefxSessions<CR>
-
+" DefxSessions
 execute 'source '.expand('~/vimfiles/rc/plugins/defx_sessions.vim')
 
 " icon を変える
