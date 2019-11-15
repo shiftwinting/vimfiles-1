@@ -84,13 +84,17 @@ Plug 'zah/nim.vim'
 " == frontend
 " https://www.davidosomething.com/blog/vim-for-javascript/
 " Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install' }
-Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
-Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
+" Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
+" Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
 Plug 'othree/html5.vim'
 " Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
 " Plug 'jelera/vim-javascript-syntax', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
-Plug 'posva/vim-vue', { 'for': 'javascript' }
+" Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
+" Plug 'posva/vim-vue', { 'for': 'javascript' }
+
+" syntax
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
 
 " == lsp
 Plug 'prabirshrestha/vim-lsp'
@@ -765,6 +769,9 @@ function! s:term_start_close(...) abort
 endfunction
 
 command! -nargs=* Term call <SID>term_start_close(<f-args>)
+if has('win32')
+    command! -nargs=* Cmd call <SID>term_start_close(<f-args>)
+endif
 
 " bash.exeの起動
 command! Bash call <SID>term_start_close('bash.exe')
