@@ -27,7 +27,7 @@ scriptencoding utf-8
 " " スクリプトの文字コード (encodingを設定した後に設定する必要がある)
 " scriptencoding utf-8
 
-" }}}
+
 
 " Plug {{{
 
@@ -63,11 +63,11 @@ Plug 'skanehira/translate.vim'
 Plug 'skywind3000/asyncrun.vim'
 Plug 't9md/vim-quickhl'
 Plug 'thinca/vim-quickrun'
-Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
 Plug 'tyru/open-browser.vim'
 Plug 'itchyny/calendar.vim'
+Plug 'previm/previm'
 
 " ==============================================================================
 
@@ -133,6 +133,11 @@ Plug 'Shougo/neopairs.vim'
 " == lightline
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
+
+" == tomtom
+Plug 'tomtom/tcomment_vim'
+Plug 'tomtom/ttodo_vim'
+Plug 'tomtom/tlib_vim'
 " ==============================================================================
 
 " == colorscheme
@@ -143,7 +148,7 @@ Plug '~/ghq/github.com/tamago324/gignores.vim'
 
 call plug#end()
 
-" }}}
+
 
 " options {{{1
 
@@ -220,7 +225,7 @@ set updatecount=0
 " Leader
 " <Leader>, <LocalLeader> を置き換える文字列
 let mapleader      = '\<Space>'
-let maplocalleader = '\<Space>'
+let maplocalleader = ';'
 
 " 自動でコメント開始文字を挿入しないようにする
 autocmd MyAutoCmd FileType * setlocal formatoptions-=r formatoptions-=o
@@ -269,7 +274,7 @@ augroup MyMatchAdd
     autocmd VimEnter,WinEnter * call matchadd('Tab', '\t')
     autocmd VimEnter,WinEnter * call matchadd('Eol', '$')
 augroup END
-" }}}
+
 
 " diff の設定
 " https://qiita.com/takaakikasai/items/3d4f8a4867364a46dfa3
@@ -295,7 +300,7 @@ if has('persistent_undo')
     augroup END
 endif
 
-" }}}
+
 
 " filetype ごとの <Tab> 設定 {{{
 
@@ -320,7 +325,7 @@ autocmd MyAutoCmd FileType yaml         setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 
-" }}}
+
 
 " " statusline 設定 {{{
 "
@@ -343,12 +348,12 @@ function! MyFoldText() abort " {{{
     return l:foldtext
 endfunction
 
-" }}}
+
 
 set foldtext=MyFoldText()
 " autocmd MyAutoCmd FileType vim setlocal foldmethod=marker
 
-" }}}
+
 
 " 拡張子をもとにファイルタイプを設定 {{{
 
@@ -356,7 +361,7 @@ autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini
 autocmd MyAutoCmd BufRead,BufWinEnter *.csv set filetype=csv
 autocmd MyAutoCmd BufRead,BufWinEnter *.jsx set filetype=javascript.jsx
 
-" }}}
+
 
 " from kaoriya's vimrc {{{
 
@@ -370,7 +375,7 @@ if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
     let $PATH = $VIM . ';' . $PATH
 endif
 
-" }}}
+
 
 autocmd MyAutoCmd BufRead,BufWinEnter * setlocal nonumber
 
@@ -409,7 +414,6 @@ function! TerminalSettings() abort
 endfunction
 autocmd MyAutoCmd TerminalWinOpen * call TerminalSettings()
 
-" }}}1
 
 " mapping {{{1
 
@@ -454,7 +458,7 @@ nnoremap <C-i> 
 " vimrc {{{
 nnoremap <Space>vs. :<C-u>source $MYVIMRC<CR>
 nnoremap <Space>v. :<C-u>tabedit $MYVIMRC<CR>
-" }}}
+
 
 " 保存、終了 {{{
 " 変更があったときのみ、保存される
@@ -462,7 +466,7 @@ nnoremap <silent> <Space>w :<C-u>update<CR>
 nnoremap <silent> <Space>W :<C-u>update!<CR>
 nnoremap <silent> <Space>q :<C-u>quit<CR>
 nnoremap <silent> <Space>Q :<C-u>quit!<CR>
-" }}}
+
 
 " window ウィンドウ操作 {{{
 " s の無効化
@@ -492,7 +496,7 @@ nnoremap <C-w>n <Nop>
 nnoremap <C-w><C-v> <Nop>
 nnoremap <C-w>v <Nop>
 
-" }}}
+
 
 " 新規タブ
 nnoremap so :<C-u>tabedit<CR>
@@ -503,10 +507,10 @@ function! NewTmpFile() abort " {{{
     exec 'new '.s:tmp
     exec 'set ft='.s:_ft
 endfunction
-" }}}
+
 " 一時ファイルの作成
 nnoremap sf :<C-u>call NewTmpFile()<CR>
-" }}}
+
 
 " 移動 {{{
 
@@ -528,7 +532,7 @@ noremap <Space>l $
 nnoremap G Gzz
 
 vnoremap <Space>l $h
-" }}}
+
 
 " cmdline コマンドライン {{{
 cnoremap <C-a> <Home>
@@ -538,7 +542,7 @@ cnoremap <C-d> <Del>
 
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-" }}}
+
 
 function! s:save_global_options(...) abort
     let s:save_opts = {}
@@ -610,7 +614,7 @@ autocmd MyAutoCmd CmdwinLeave * call CmdlineLeaveSettings()
 " すぐに cmdline-window に入る
 nnoremap : q:
 
-" }}}
+
 
 " yank コピー {{{
 
@@ -620,7 +624,7 @@ nnoremap Y y$
 " 全行コピー
 nnoremap <Space>ay :<C-u>%y<CR>
 
-" }}}
+
 
 " paste 貼り付け {{{
 
@@ -629,14 +633,14 @@ nnoremap <Space>ay :<C-u>%y<CR>
 nnoremap <Space>p "0p
 vnoremap <Space>p "0p
 
-" }}}
+
 
 " delete 削除 {{{
 
 " 1文字削除の場合、無名レジスタを汚さないようにする
 nnoremap x "_x
 
-" }}}
+
 
 " マクロ {{{
 
@@ -645,7 +649,7 @@ nnoremap Q @@
 
 " 選択範囲で マクロ繰り返し
 vnoremap <silent> @q :normal! @q<CR>
-" }}}
+
 
 " タブ {{{
 
@@ -654,7 +658,7 @@ nnoremap gt <Nop>
 nnoremap <C-l> gt
 nnoremap <C-h> gT
 
-" }}}
+
 
 " set filetype {{{
 function! s:set_filetype(ft) abort
@@ -662,7 +666,7 @@ function! s:set_filetype(ft) abort
 endfunction
 command! -nargs=1 -complete=filetype FileType call s:set_filetype(<f-args>)
 nnoremap <Space>ft :<C-u>FileType 
-" }}}
+
 
 " terminal {{{
 tnoremap <C-w>p <Nop>
@@ -670,7 +674,7 @@ tnoremap <C-w>p <C-w>"*
 " C-[ でTerminal Job モードへ移行
 tnoremap <Esc> <C-\><C-n>
 
-" }}}
+
 
 " search 検索 {{{
 
@@ -704,7 +708,7 @@ vnoremap <Space>/ "hy/\V<C-R>h<CR>
 " b と <bs> 単語の後ろに戻る
 " 検索結果レジスタに入っている文字で検索する(/だけだと、@/の値が参照されるため)
 nnoremap <silent> * :<C-u>let @/ = '\<' . expand('<cword>') . '\>'<cr>b<bs>/<cr>
-" }}}
+
 
 " substitute replace 置換 {{{
 
@@ -720,7 +724,7 @@ vnoremap <C-R>      "hy:%s/\v(<C-R>h)//g<left><left>
 vnoremap <C-R><C-d> "hy:%s/\V\(<C-R>h\)//g<left><left>
 nnoremap <C-R><C-d> v"hy:%s/\V\(<C-R>h\)//g<left><left>
 
-" }}}
+
 
 " diff {{{
 nnoremap          <Space>dt :<C-u>windo diffthis<CR>
@@ -731,7 +735,7 @@ nnoremap <silent> <Space>dg :diffget<CR>
 vnoremap <silent> <Space>dg :diffget<CR>
 " 更新
 " nnoremap <Space>du diffupdate
-" }}}
+
 
 " toggle option {{{
 function! MapToggleOption(key, opt) abort
@@ -740,7 +744,7 @@ endfunction
 " :help set-!
 call MapToggleOption('<F2>', 'wrap')
 call MapToggleOption('<F3>', 'readonly')
-" }}}
+
 
 " help {{{
 
@@ -756,9 +760,6 @@ nnoremap <A-h> :<C-u>h
 " 無効化
 vnoremap K <Nop>
 
-" }}}
-
-" }}}1
 
 " commands {{{1
 
@@ -782,16 +783,368 @@ if !executable('nyagos')
 endif
 command! Nyagos call <SID>term_start_close('nyagos.exe')
 
-" }}}
-"
-" " nnoremap <Space>fg :<C-u>Grep<CR>
-" nnoremap <Space>fr :<C-u>botright cwindow<CR>
 
-" }}}1
+nnoremap [MyCmd] <Nop>
+nmap <Space>; [MyCmd]
 
-" plugins {{{1
+nnoremap [MyCmd]f :<C-u>FnamemodsPopup<CR>
+nnoremap [MyCmd]h :<C-u>FavoriteHelps<CR>
 
-" thinca/quickrun {{{
+if executable('js-sqlformat')
+  command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
+endif
+
+if executable('jq')
+    command -range=% Jq <line1>,<line2>!jq
+else
+    echoerr "Let's install jq! $ choco install jq"
+endif
+
+command! HereOpen call execute('!start %:p:h', "silent")
+
+function! s:get_maxlen(list) abort " 
+    let maxlen = 0
+    for val in a:list
+        let length = len(val)
+        if maxlen < length
+            let maxlen = length
+        endif
+    endfor
+    return maxlen
+endfunction
+
+
+" カレントファイルのパスをいろんな形式で yank 
+
+command! FnamemodsPopup call s:yank_fnamemods_popup()
+
+" TODO: コマンドでパスの変換できるようにする
+" wsl wslpath -a 'xxxxx/xxxxx/xxx'
+
+let s:modifiers = []
+
+" %s がファイルパスに置き換わる
+let s:fmod_fmts = {
+\   'mods': [
+\      ':p:h',
+\      ':p:~',
+\      ':p',
+\      ':p:r',
+\      ':t:r',
+\      ':p:t',
+\      ':e',
+\   ],
+\   'cmds': [
+\       ['wslpath', 'wsl wslpath -a "%s"'],
+\   ]
+\}
+
+
+" 形式を設定
+" let s:modifiers = [
+"     \ ':p',
+"     \ ':p:.',
+"     \ ':p:~',
+"     \ ':h',
+"     \ ':p:h',
+"     \ ':p:h:h',
+"     \ ':t',
+"     \ ':p:t',
+"     \ ':r',
+"     \ ':p:r',
+"     \ ':t:r',
+"     \ ':e',
+"     \]
+let s:modifiers = [
+    \ ':p:h',
+    \ ':p:~',
+    \ ':p',
+    \ ':p:r',
+    \ ':t:r',
+    \ ':p:t',
+    \ ':e',
+    \]
+
+function! s:yank_fnamemods_popup() abort " 
+    let fnmods = s:create_fnmods_list(expand('%:p'), s:modifiers)
+
+    let c_fnmods = deepcopy(fnmods)
+    let disp_list = map(c_fnmods, {key, val -> val.mods.' '.val.path })
+
+    let popctx = {
+        \ 'fnmods': fnmods
+        \}
+
+    let opts = {
+        \ 'callback': function('s:fnmods_handler', [popctx]),
+        \ 'title': 'File modifiers to yank',
+        \ 'padding': [0, 1, 0, 1],
+        \}
+
+    " popup_menu: リストから選択する popup window
+    "             callback の第2引数に選択行のindexを渡す(1始まり)
+    let popctx.id = popup_menu(disp_list, opts)
+
+endfunction
+"}}}
+
+function! s:fnmods_handler(popctx, winid, idx) abort " 
+    " キャンセル時、-1が渡されるため
+    if a:idx != -1
+        " idx は 1 始まりのため -1 する
+        let fname = a:popctx.fnmods[a:idx-1].path
+        call setreg('+', trim(fname))
+        echo 'yanked'
+    endif
+endfunction
+
+
+function! s:create_fnmods_list(fullpath, fnmods) abort " 
+    let maxlen = s:get_maxlen(a:fnmods)
+
+    let fnmods_list = []
+
+    for mods in a:fnmods
+        let path = expand('%'.mods)
+
+        " パスの位置を合わせる
+        if mods ==# ':e'
+            " :e
+            let space_num = strridx(a:fullpath, path)
+        elseif stridx(mods, '~') != -1
+            " :~
+            let space_num = len($HOME) -1
+        else
+            let space_num = stridx(a:fullpath, path)
+        endif
+
+        " mods, path の調整
+        let just_mods = printf('%-'.maxlen.'s', mods)
+        let just_path = repeat(' ', space_num).' '.path
+
+        call add(fnmods_list, {
+            \ 'mods': just_mods,
+            \ 'path': just_path,
+            \})
+    endfor
+
+    return fnmods_list
+endfunction
+
+
+
+
+" よく使う help へのジャンプ 
+
+command! FavoriteHelps call <SID>favorite_helps()
+
+let s:fav_help_list_path = expand('~/vimfiles/rc/fav_help_list')
+let s:fav_help_history_path = expand('~/_fav_help_history')
+
+function! s:make_help_list() abort
+    if !filereadable(s:fav_help_list_path)
+        return {}
+    endif
+
+    let l:help_list = []
+
+    for l:line in readfile(s:fav_help_list_path)
+        let l:line = trim(l:line)
+        " 空行
+        if len(l:line) ==# 0 | continue | endif
+
+        " 先頭が \" で始まる
+        if match(l:line, '^\s\*"') !=# -1 | continue | endif
+
+        let l:cmd_m = matchstrpos(l:line, '\S\+')
+        let l:title_m = matchstrpos(l:line, '\S.*', l:cmd_m[2])
+        call add(l:help_list, [l:cmd_m[0], l:title_m[0]])
+    endfor
+    return l:help_list
+endfunction
+
+" 追加するヘルプ
+
+function! s:favorite_helps() abort " 
+    let l:help_list = s:make_help_list()
+    let popctx = {
+        \ 'text_list': s:help_create_text_list(l:help_list),
+        \ 'items': map(l:help_list, 'v:val'),
+        \}
+
+    let opts = {
+        \ 'callback': function('s:help_favorite_handler', [popctx]),
+        \ 'title': 'Favorite helps',
+        \ 'padding': [0, 1, 0, 1],
+        \}
+
+    let popctx.id = popup_menu(popctx.text_list, opts)
+endfunction
+
+
+function! s:help_favorite_handler(popctx, winid, idx) abort " 
+    " キャンセル時、-1が渡されるため
+    if a:idx != -1
+        " idx は 1 始まりのため -1 する
+        exec 'help '.a:popctx.items[a:idx-1]
+    endif
+endfunction
+
+
+" help menus 作成 
+function! s:help_create_text_list(list) abort
+    let help_items = []
+    " 最大桁数を取得
+    let l:list = deepcopy(a:list)
+    let max_len = s:get_maxlen(map(a:list, 'v:val[0]'))
+    for [k, v] in l:list
+        " 左揃えにする
+        call add(help_items, printf('%-'.max_len.'s', k).' '.v)
+    endfor
+    return help_items
+endfunction
+
+
+
+
+" カーソル下の highlight 情報を取得 (name のみ) 
+
+" http://cohama.hateblo.jp/entry/2013/08/11/020849
+function! s:get_syn_id(transparent) abort
+    " synID() で 構文ID が取得できる
+    " XXX: 構文ID とは?
+    " trans に1を渡しているため、実際に表示されている文字が評価対象
+    let synid = synID(line('.'), col('.'), 1)
+    if a:transparent
+        " 数値が返される
+        " XXX: なんの数値なのかはわからない...
+        " :hi link の参照先の情報を取得？
+        return synIDtrans(synid)
+    else
+        return synid
+    endif
+endfunction
+
+function! s:get_syn_attr(synid) abort
+    let name = synIDattr(a:synid, 'name')
+    return { 'name': name }
+endfunction
+
+function! s:get_syn_info() abort
+    let base_syn = s:get_syn_attr(s:get_syn_id(0))
+    echo 'name: ' . base_syn.name
+
+    let linked_syn = s:get_syn_attr(s:get_syn_id(1))
+    echo 'link to'
+    echo 'name: ' . linked_syn.name
+endfunction
+
+command! SyntaxInfo call s:get_syn_info()
+
+
+
+" packages 機能
+
+" 末尾の '/' を取り除くため、 :p:h とする
+let s:pack_base_dir = tr(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'), "\\", '/')
+let s:sep = has('win32') ? "\\" : '/'
+
+function! s:packadd(plugin_name) abort
+    if index(s:packages(), a:plugin_name) ==# -1
+        " echomsg に ErrorMsg ハイライトをつける
+        echohl ErrorMsg
+        echomsg 'Not found plugin. '.a:plugin_name
+        echohl None
+        return
+    endif
+    execute 'packadd '.a:plugin_name
+endfunction
+
+function! s:packages() abort
+    let l:result = []
+    for path in split(globpath(&packpath, '/pack/*/opt/*'))
+        if isdirectory(path)
+            let dirname = path[strridx(path, s:sep)+1:]
+            call add(l:result, dirname)
+        endif
+    endfor
+    return l:result
+endfunction
+
+function! s:packget_cb(job, status) abort
+    echomsg job_status(a:job)
+endfunction
+
+function! s:add_end_slash(path) abort
+    if a:path =~# '/$'
+        let l:result = a:path
+    else
+        let l:result = a:path.'/'
+    endif
+    return l:result
+endfunction
+
+function! s:fix_url(url) abort
+    return a:url =~# '^http' ?
+    \   a:url :
+    \   'https://github.com/'.a:url
+endfunction
+
+function! s:packget(url, ...) abort
+    let l:base = s:add_end_slash(s:pack_base_dir)
+
+    " 引数指定されていたら、その名前のディレクトリに作成する
+    let l:plug_name = a:0 ==# 0 ?
+    \   fnamemodify(a:url, ':t:r') :
+    \   a:1
+
+    let l:dst = l:base . l:plug_name
+
+    if isdirectory(l:dst)
+        echohl ErrorMsg
+        echomsg "Already exists. '".l:plug_name."'"
+        echohl None
+        return
+    endif
+
+    let l:cmd = 'git clone ' . s:fix_url(a:url) . ' '  . l:dst
+
+    execute 'botright term ++rows=15 '.l:cmd
+endfunction
+
+" これやっても意味ない？
+" :help で検索聞いてなさそう?
+function! s:packhelptags(plugin_name) abort
+    let l:base = s:add_end_slash(s:pack_base_dir)
+    if !isdirectory(l:base . a:plugin_name)
+        echohl ErrorMsg
+        echomsg 'Not found plugin. '.a:plugin_name
+        echohl None
+        return
+    endif
+    execute 'helptags ' . l:base. a:plugin_name . '/doc'
+endfunction
+
+command! -nargs=+ PackGet call s:packget(<f-args>)
+command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
+command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
+
+" pack/plugs/opt の中の help を検索
+" runtimepath 内の doc/ も help で引ける
+"  -> packadd したもののhelpを引くには、runtimepath に含める必要がある？
+" command! -nargs=1 PackHelp -complete=customlist,func call s:packhelp(<f-args>)
+
+
+
+" ==============================================================================
+" ******************************************************************************
+" plugins
+" ******************************************************************************
+" ==============================================================================
+
+
+" ==============================================================================
+" thinca/quickrun 
 
 let g:quickrun_config = {}
 
@@ -814,9 +1167,9 @@ let g:quickrun_config = {
 
 nmap <Space>r <Plug>(quickrun)
 
-" }}}
 
-" glidenote/memolist {{{
+" ==============================================================================
+" glidenote/memolist 
 
 let g:memolist_path = '~/memo'
 
@@ -824,9 +1177,9 @@ map <Space>mn  :<C-u>MemoNew<CR>
 " map <Space>ml  :<C-u>MemoList<CR>
 " map <Space>mg  :<C-u>MemoGrep<CR>
 
-" }}}
 
-" dhruvasagar/vim-table-mode {{{
+" ==============================================================================
+" dhruvasagar/vim-table-mode 
 
 " https://7me.oji.0j0.jp/2018/vim-table-mode-memo.html
 
@@ -843,21 +1196,21 @@ let g:table_mode_toggle_map = 'm'
 
 nnoremap <F4> :<C-u>%Tableize<CR>
 
-" }}}
 
-" roxma/nvim-yarp {{{
+" ==============================================================================
+" roxma/nvim-yarp
 
 let g:python3_host_prog = $LOCALAPPDATA.'/Programs/Python/Python37/python'
 
-" }}}
 
-" roxma/vim-hug-neovim-rpc {{{
+" ==============================================================================
+" roxma/vim-hug-neovim-rpc 
 
 set pyxversion=3
 
-" }}}
 
-" Yggdroot/indentLine {{{
+" ==============================================================================
+" Yggdroot/indentLine 
 
 " インデントつけないバッファの名前
 let g:indentLine_bufNameExclude = ['_.*']
@@ -865,51 +1218,49 @@ let g:indentLine_bufTypeExclude = ['terminal']
 let g:indentLine_fileTypeExclude = ['defx', 'calendar', 'help']
 let g:indentLine_char = '|'
 
-" }}}
 
-" }}}
-
-" t9md/vim-quickhl {{{
+" ==============================================================================
+" t9md/vim-quickhl 
 
 nmap <Space>mm <Plug>(quickhl-manual-this)
 xmap <Space>mm <Plug>(quickhl-manual-this)
 nmap <Space>M <Plug>(quickhl-manual-reset)
 xmap <Space>M <Plug>(quickhl-manual-reset)
 
-" }}}
 
-" tyru/open-browser.vim {{{
+" ==============================================================================
+" tyru/open-browser.vim 
 
 " netrw の gx のマッピングをさせない
 let g:netrw_nogx = 1
 
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
-nnoremap <A-o> :<C-u>OpenBrowserSearch 
+nnoremap <A-o> :<C-u>OpenBrowserSearch -
 
 " 追加
 let g:openbrowser_search_engines = {
-\   'devdocs': 'http://devdocs.io/#q={query}',
-\   'github': 'http://github.com/search?q={query}',
-\   'duckduckgo': 'http://duckduckgo.com/?q={query}',
+\   'dev': 'http://devdocs.io/#q={query}',
+\   'gh': 'http://github.com/search?q={query}',
+\   'memo': 'https://scrapbox.io/tamago324-05149866/search/page?q={query}'
 \}
 
-" }}}
 
-" ambv/black {{{
+" ==============================================================================
+" ambv/black 
 
 " :Blackでの1行を設定
 let g:black_linelength = 99
 
-" }}}
 
-" simeji/winresizer {{{
+" ==============================================================================
+" simeji/winresizer 
 
 let g:winresizer_start_key='ss'
 
-" }}}
 
-" davidhalter/jedi-vim {{{
+" ==============================================================================
+" davidhalter/jedi-vim 
 
 " GitHub の Readme も参考になる
 " https://github.com/davidhalter/jedi-vim
@@ -943,9 +1294,9 @@ let g:winresizer_start_key='ss'
 " let g:jedi#rename_command           = '<Space>r'
 " let g:jedi#goto_definitions_command = ''
 
-" }}}
 
-" w0rp/ale {{{
+" ==============================================================================
+" w0rp/ale 
 
 " Linterのみのためにaleを使用する
 let g:ale_linters = {
@@ -990,9 +1341,9 @@ nmap <silent> <A-k> <Plug>(ale_previous_wrap_error)
 nmap <silent> <A-u> <Plug>(ale_next_wrap_warning)
 nmap <silent> <A-i> <Plug>(ale_previous_wrap_warning)
 
-" }}}
 
-" Shougo/neosnippet.vim {{{
+" ==============================================================================
+" Shougo/neosnippet.vim 
 
 " C-L でsunippet を選択開始
 imap <C-l> <Plug>(neosnippet_expand_or_jump)
@@ -1007,9 +1358,9 @@ if has('conceal')
     set conceallevel=2 concealcursor=niv
 endif
 
-" }}}
 
-" kien/ctrlp.vim {{{
+" ==============================================================================
+" ctrlpvim/ctrlp.vim 
 
 " mapping
 nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
@@ -1115,9 +1466,9 @@ let g:ctrlp_map = ''
 
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
-" }}}
 
-" vim-lsp {{{
+" ==============================================================================
+" vim-lsp 
 
 " デバッグ
 let g:lsp_log_verbose = 1
@@ -1169,29 +1520,29 @@ endfunction
 "" sign の表示を無効化 ( mint で行うため )
 let g:lsp_diagnostics_enabled = 0
 
-" }}}
 
-" jremmen/vim-ripgrep {{{
+" ==============================================================================
+" jremmen/vim-ripgrep 
 
 nnoremap <Space>fgg :<C-u>Rg 
-nnoremap <Space>fgr :<C-u>RgRoot 
+" nnoremap <Space>fgr :<C-u>RgRoot 
 
 " let g:rg_format = ''
 
-" }}}
 
-" othree/javascript-libraries-syntax.vim {{{
-
-function! s:javascript_libraries_syntax() abort
-    let g:use_javascript_libs = 'vue'
-    let b:javascript_lib_use_vue = 1
-endfunction
-
-autocmd MyAutoCmd Filetype javascript,javascript.jsx call s:javascript_libraries_syntax()
-
-" }}}
-
-" " liuchengxu/clap {{{
+" " ==============================================================================
+" " othree/javascript-libraries-syntax.vim 
+"
+" function! s:javascript_libraries_syntax() abort
+"     let g:use_javascript_libs = 'vue'
+"     let b:javascript_lib_use_vue = 1
+" endfunction
+"
+" autocmd MyAutoCmd Filetype javascript,javascript.jsx call s:javascript_libraries_syntax()
+"
+" 
+" " ==============================================================================
+" " liuchengxu/clap 
 "
 " " nnoremap <Space>fl :<C-u>Clap blines<CR>
 " " nnoremap <Space>fj :<C-u>Clap buffers<CR>
@@ -1199,9 +1550,10 @@ autocmd MyAutoCmd Filetype javascript,javascript.jsx call s:javascript_libraries
 " nnoremap <Space>f; :<C-u>Clap command_history<CR>
 " " nnoremap <Space>ff :<C-u>Clap files<CR>
 "
-" " }}}
+" 
 
-" " mattn/efm-langserver {{{
+" " ==============================================================================
+" " mattn/efm-langserver 
 "
 " " sign
 " let g:lsp_signs_error = {'text': g:tamago324_sign_error}
@@ -1210,14 +1562,14 @@ autocmd MyAutoCmd Filetype javascript,javascript.jsx call s:javascript_libraries
 " " カーソル下の lint 結果を表示
 " let g:lsp_diagnostics_echo_cursor = 1
 "
-" }}}
 
-" posva/vim-vue {{{
+" ==============================================================================
+" posva/vim-vue 
 autocmd MyAutoCmd FileType vue syntax sync fromstart
 
-" }}}
 
-" LeafCage/yankround.vim {{{
+" ==============================================================================
+" LeafCage/yankround.vim 
 
 nmap p      <Plug>(yankround-p)
 xmap p      <Plug>(yankround-p)
@@ -1228,13 +1580,14 @@ nmap gP     <Plug>(yankround-gP)
 nmap <C-p>  <Plug>(yankround-prev)
 nmap <C-n>  <Plug>(yankround-next)
 
+
+" ==============================================================================
 " YankRoundRegion で変更可能
 let g:yankround_use_region_hl = 1
 
 
-" }}}
-
-" kana/vim-textobj-user {{{
+" ==============================================================================
+" kana/vim-textobj-user 
 
 " b
 omap ab <Plug>(textobj-multiblock-a)
@@ -1242,293 +1595,21 @@ omap ib <Plug>(textobj-multiblock-i)
 xmap ab <Plug>(textobj-multiblock-a)
 xmap ib <Plug>(textobj-multiblock-i)
 
-" e entire
-"  バッファ全体
 
-" l line
-
-" c ord-column
-
-" z fold
-
-" }}}
-
-" machakann/vim-highlightedyank {{{
+" ==============================================================================
+" machakann/vim-highlightedyank 
 
 " なんとなくちょうどいい
 let g:highlightedyank_highlight_duration = 70
 
-" }}}
 
-" ctrlp
+" ==============================================================================
+" ctrlp-lanchear
 " let g:ctrlp_launcher_file = '~/vimfiles/rc/plugins/ctrlp-launcher'
 
-" }}}1
 
-" my funcitons {{{
-
-nnoremap [MyCmd] <Nop>
-nmap <Space>; [MyCmd]
-
-nnoremap [MyCmd]f :<C-u>FnamemodsPopup<CR>
-nnoremap [MyCmd]h :<C-u>FavoriteHelps<CR>
-
-if executable('js-sqlformat')
-  command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
-endif
-
-if executable('jq')
-    command -range=% Jq <line1>,<line2>!jq
-else
-    echoerr "Let's install jq! $ choco install jq"
-endif
-
-" :SyntaxInfo
-
-command! HereOpen call execute('!start %:p:h', "silent")
-
-function! s:get_maxlen(list) abort " {{{
-    let maxlen = 0
-    for val in a:list
-        let length = len(val)
-        if maxlen < length
-            let maxlen = length
-        endif
-    endfor
-    return maxlen
-endfunction
-" }}}
-
-" カレントファイルのパスをいろんな形式で yank {{{
-
-command! FnamemodsPopup call s:yank_fnamemods_popup()
-
-" TODO: コマンドでパスの変換できるようにする
-" wsl wslpath -a 'xxxxx/xxxxx/xxx'
-
-let s:modifiers = []
-
-" %s がファイルパスに置き換わる
-let s:fmod_fmts = {
-\   'mods': [
-\      ':p:h',
-\      ':p:~',
-\      ':p',
-\      ':p:r',
-\      ':t:r',
-\      ':p:t',
-\      ':e',
-\   ],
-\   'cmds': [
-\       ['wslpath', 'wsl wslpath -a "%s"'],
-\   ]
-\}
-
-
-" 形式を設定
-" let s:modifiers = [
-"     \ ':p',
-"     \ ':p:.',
-"     \ ':p:~',
-"     \ ':h',
-"     \ ':p:h',
-"     \ ':p:h:h',
-"     \ ':t',
-"     \ ':p:t',
-"     \ ':r',
-"     \ ':p:r',
-"     \ ':t:r',
-"     \ ':e',
-"     \]
-let s:modifiers = [
-    \ ':p:h',
-    \ ':p:~',
-    \ ':p',
-    \ ':p:r',
-    \ ':t:r',
-    \ ':p:t',
-    \ ':e',
-    \]
-
-function! s:yank_fnamemods_popup() abort " {{{
-    let fnmods = s:create_fnmods_list(expand('%:p'), s:modifiers)
-
-    let c_fnmods = deepcopy(fnmods)
-    let disp_list = map(c_fnmods, {key, val -> val.mods.' '.val.path })
-
-    let popctx = {
-        \ 'fnmods': fnmods
-        \}
-
-    let opts = {
-        \ 'callback': function('s:fnmods_handler', [popctx]),
-        \ 'title': 'File modifiers to yank',
-        \ 'padding': [0, 1, 0, 1],
-        \}
-
-    " popup_menu: リストから選択する popup window
-    "             callback の第2引数に選択行のindexを渡す(1始まり)
-    let popctx.id = popup_menu(disp_list, opts)
-
-endfunction
-"}}}
-
-function! s:fnmods_handler(popctx, winid, idx) abort " {{{
-    " キャンセル時、-1が渡されるため
-    if a:idx != -1
-        " idx は 1 始まりのため -1 する
-        let fname = a:popctx.fnmods[a:idx-1].path
-        call setreg('+', trim(fname))
-        echo 'yanked'
-    endif
-endfunction
-" }}}
-
-function! s:create_fnmods_list(fullpath, fnmods) abort " {{{
-    let maxlen = s:get_maxlen(a:fnmods)
-
-    let fnmods_list = []
-
-    for mods in a:fnmods
-        let path = expand('%'.mods)
-
-        " パスの位置を合わせる
-        if mods ==# ':e'
-            " :e
-            let space_num = strridx(a:fullpath, path)
-        elseif stridx(mods, '~') != -1
-            " :~
-            let space_num = len($HOME) -1
-        else
-            let space_num = stridx(a:fullpath, path)
-        endif
-
-        " mods, path の調整
-        let just_mods = printf('%-'.maxlen.'s', mods)
-        let just_path = repeat(' ', space_num).' '.path
-
-        call add(fnmods_list, {
-            \ 'mods': just_mods,
-            \ 'path': just_path,
-            \})
-    endfor
-
-    return fnmods_list
-endfunction
-" }}}
-
-" }}}
-
-" よく使う help へのジャンプ {{{
-
-command! FavoriteHelps call <SID>favorite_helps()
-
-let s:fav_help_list_path = expand('~/vimfiles/rc/fav_help_list')
-let s:fav_help_history_path = expand('~/_fav_help_history')
-
-function! s:make_help_list() abort
-    if !filereadable(s:fav_help_list_path)
-        return {}
-    endif
-
-    let l:help_list = []
-
-    for l:line in readfile(s:fav_help_list_path)
-        let l:line = trim(l:line)
-        " 空行
-        if len(l:line) ==# 0 | continue | endif
-
-        " 先頭が \" で始まる
-        if match(l:line, '^\s\*"') !=# -1 | continue | endif
-
-        let l:cmd_m = matchstrpos(l:line, '\S\+')
-        let l:title_m = matchstrpos(l:line, '\S.*', l:cmd_m[2])
-        call add(l:help_list, [l:cmd_m[0], l:title_m[0]])
-    endfor
-    return l:help_list
-endfunction
-
-" 追加するヘルプ
-
-function! s:favorite_helps() abort " {{{
-    let l:help_list = s:make_help_list()
-    let popctx = {
-        \ 'text_list': s:help_create_text_list(l:help_list),
-        \ 'items': map(l:help_list, 'v:val'),
-        \}
-
-    let opts = {
-        \ 'callback': function('s:help_favorite_handler', [popctx]),
-        \ 'title': 'Favorite helps',
-        \ 'padding': [0, 1, 0, 1],
-        \}
-
-    let popctx.id = popup_menu(popctx.text_list, opts)
-endfunction
-" }}}
-
-function! s:help_favorite_handler(popctx, winid, idx) abort " {{{
-    " キャンセル時、-1が渡されるため
-    if a:idx != -1
-        " idx は 1 始まりのため -1 する
-        exec 'help '.a:popctx.items[a:idx-1]
-    endif
-endfunction
-" }}}
-
-" help menus 作成 {{{
-function! s:help_create_text_list(list) abort
-    let help_items = []
-    " 最大桁数を取得
-    let l:list = deepcopy(a:list)
-    let max_len = s:get_maxlen(map(a:list, 'v:val[0]'))
-    for [k, v] in l:list
-        " 左揃えにする
-        call add(help_items, printf('%-'.max_len.'s', k).' '.v)
-    endfor
-    return help_items
-endfunction
-" }}}
-
-" }}}
-
-" カーソル下の highlight 情報を取得 (name のみ) {{{
-
-" http://cohama.hateblo.jp/entry/2013/08/11/020849
-function! s:get_syn_id(transparent) abort
-    " synID() で 構文ID が取得できる
-    " XXX: 構文ID とは?
-    " trans に1を渡しているため、実際に表示されている文字が評価対象
-    let synid = synID(line('.'), col('.'), 1)
-    if a:transparent
-        " 数値が返される
-        " XXX: なんの数値なのかはわからない...
-        " :hi link の参照先の情報を取得？
-        return synIDtrans(synid)
-    else
-        return synid
-    endif
-endfunction
-
-function! s:get_syn_attr(synid) abort
-    let name = synIDattr(a:synid, 'name')
-    return { 'name': name }
-endfunction
-
-function! s:get_syn_info() abort
-    let base_syn = s:get_syn_attr(s:get_syn_id(0))
-    echo 'name: ' . base_syn.name
-
-    let linked_syn = s:get_syn_attr(s:get_syn_id(1))
-    echo 'link to'
-    echo 'name: ' . linked_syn.name
-endfunction
-
-command! SyntaxInfo call s:get_syn_info()
-
-" }}}
-
-" defx {{{
+" ==============================================================================
+" defx
 autocmd MyAutoCmd FileType defx call s:defx_my_settings()
 
 function! DefxTcdDown(ctx) abort
@@ -1608,7 +1689,7 @@ function! s:defx_my_settings() abort
 
     nnoremap <silent><buffer> B
     \ :<C-u>BookmarkList<CR>
-    
+
     " " trashboxに入れる(削除)、https://pypi.org/project/Send2Trash/ を使う
     " " pip install send2trash
     " nnoremap <silent><buffer><expr> d
@@ -1704,108 +1785,14 @@ call defx#custom#option('_', {
 \   'columns': 'indent:icon:filename:type',
 \})
 
-" }}}
 
-
+" ==============================================================================
 " translate.vim
 xmap [tr <Plug>(VTranslate)
 xmap ]tr <Plug>(VTranslateBang)
 
 
-" packages 機能 {{{
-
-" 末尾の '/' を取り除くため、 :p:h とする
-let s:pack_base_dir = tr(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'), "\\", '/')
-let s:sep = has('win32') ? "\\" : '/'
-
-function! s:packadd(plugin_name) abort
-    if index(s:packages(), a:plugin_name) ==# -1
-        " echomsg に ErrorMsg ハイライトをつける
-        echohl ErrorMsg
-        echomsg 'Not found plugin. '.a:plugin_name
-        echohl None
-        return
-    endif
-    execute 'packadd '.a:plugin_name
-endfunction
-
-function! s:packages() abort
-    let l:result = []
-    for path in split(globpath(&packpath, '/pack/*/opt/*'))
-        if isdirectory(path)
-            let dirname = path[strridx(path, s:sep)+1:]
-            call add(l:result, dirname)
-        endif
-    endfor
-    return l:result
-endfunction
-
-function! s:packget_cb(job, status) abort
-    echomsg job_status(a:job)
-endfunction
-
-function! s:add_end_slash(path) abort
-    if a:path =~# '/$'
-        let l:result = a:path
-    else
-        let l:result = a:path.'/'
-    endif
-    return l:result
-endfunction
-
-function! s:fix_url(url) abort
-    return a:url =~# '^http' ?
-    \   a:url :
-    \   'https://github.com/'.a:url
-endfunction
-
-function! s:packget(url, ...) abort
-    let l:base = s:add_end_slash(s:pack_base_dir)
-
-    " 引数指定されていたら、その名前のディレクトリに作成する
-    let l:plug_name = a:0 ==# 0 ?
-    \   fnamemodify(a:url, ':t:r') :
-    \   a:1
-
-    let l:dst = l:base . l:plug_name
-
-    if isdirectory(l:dst)
-        echohl ErrorMsg
-        echomsg "Already exists. '".l:plug_name."'"
-        echohl None
-        return
-    endif
-
-    let l:cmd = 'git clone ' . s:fix_url(a:url) . ' '  . l:dst
-
-    execute 'botright term ++rows=15 '.l:cmd
-endfunction
-
-" これやっても意味ない？
-" :help で検索聞いてなさそう?
-function! s:packhelptags(plugin_name) abort
-    let l:base = s:add_end_slash(s:pack_base_dir)
-    if !isdirectory(l:base . a:plugin_name)
-        echohl ErrorMsg
-        echomsg 'Not found plugin. '.a:plugin_name
-        echohl None
-        return
-    endif
-    execute 'helptags ' . l:base. a:plugin_name . '/doc'
-endfunction
-
-command! -nargs=+ PackGet call s:packget(<f-args>)
-command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
-command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
-
-" pack/plugs/opt の中の help を検索
-" runtimepath 内の doc/ も help で引ける
-"  -> packadd したもののhelpを引くには、runtimepath に含める必要がある？
-" command! -nargs=1 PackHelp -complete=customlist,func call s:packhelp(<f-args>)
-
-"}}}
-
-
+" ==============================================================================
 " lightline.vim
 set noshowmode
 set laststatus=2
@@ -1861,6 +1848,11 @@ let g:lightline#ale#indicator_warnings = nr2char('0xf071')  " 
 let g:lightline#ale#indicator_errors = nr2char('0xffb8a')   " 󿮊
 let g:lightline#ale#indicator_ok = nr2char('0xf00c')        " 
 
+" TODO: vimrc のプラグインの設定の部分で今どこかを表示する プラグインの名前
+" 区切り行の１行下の値を表示でもいいかも
+
+
+" ==============================================================================
 " colorscheme
 function! DefineMyHighlishts() abort
     if g:colors_name =~# '^solarized8'
@@ -1913,14 +1905,13 @@ let g:solarized_italics = 0
 colorscheme solarized8
 set background=light
 
-" tab で補完
-inoremap <expr> <TAB>     pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <S-TAB>   pumvisible() ? "\<C-p>" : "\<S-TAB>"
-inoremap <expr> <C-Space> "\<C-n>"
 
+" ==============================================================================
 " echodoc
 let g:echodoc#enable_at_startup = 1
 
+
+" ==============================================================================
 " calendar.vim
 let g:calendar_google_task = 0
 " 初期表示で task を表示
@@ -1949,5 +1940,28 @@ command! FFDosUnix call FFDosUnix()
 inoremap <C-r><C-r> <C-r>*
 cnoremap <C-r><C-r> <C-r>*
 
+
+" ==============================================================================
 " neopairs
 let g:neopairs#enable = 1
+
+
+" ==============================================================================
+" ttodo_vim
+" todo.txt があるディレクトリ
+let g:ttodo#dirs = expand($XDG_CACHE_HOME.'/ttodo')
+
+if !isdirectory(g:ttodo#dirs)
+    call mkdir(g:ttodo#dirs)
+endif
+
+" default: '<LocalLeader>t'
+let g:ttodo#mapleader = '<LocalLeader>t'
+
+" todo.txt のファイル名
+" let g:ttodo#inbox = 'todo.txt'
+
+
+" ==============================================================================
+" previm
+let g:previm_open_cmd
