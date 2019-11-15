@@ -1296,6 +1296,27 @@ endfunction
 
 command! FnamemodsPopup call s:yank_fnamemods_popup()
 
+" TODO: コマンドでパスの変換できるようにする
+" wsl wslpath -a 'xxxxx/xxxxx/xxx'
+
+let s:modifiers = []
+
+" %s がファイルパスに置き換わる
+let s:fmod_fmts = {
+\   'mods': [
+\      ':p:h',
+\      ':p:~',
+\      ':p',
+\      ':p:r',
+\      ':t:r',
+\      ':p:t',
+\      ':e',
+\   ],
+\   'cmds': [
+\       ['wslpath', 'wsl wslpath -a "%s"'],
+\   ]
+\}
+
 
 " 形式を設定
 " let s:modifiers = [
