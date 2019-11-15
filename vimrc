@@ -714,6 +714,7 @@ vnoremap <Space>s/ :s///g<Left><Left>
 " vnoremap <C-R>s "hy:%s/\v(<C-R>h)//g<left><left>
 vnoremap <C-R>      "hy:%s/\v(<C-R>h)//g<left><left>
 vnoremap <C-R><C-d> "hy:%s/\V\(<C-R>h\)//g<left><left>
+nnoremap <C-R><C-d> v"hy:%s/\V\(<C-R>h\)//g<left><left>
 
 " }}}
 
