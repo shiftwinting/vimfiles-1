@@ -1076,6 +1076,8 @@ let ctrlp_ghq_default_action = 'tabe | Defx'
 
 " .git を上の方へ探したいな...
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+" 非同期で実行
+let g:ctrlp_user_command_async = 1
 
 " 除くディレクトリ
 " let g:ctrlp_custom_ignore = '\v[\/](.venv|.git|.mypy_cache|.pytest_cache|.*.egg-info)$'
