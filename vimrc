@@ -1816,28 +1816,18 @@ let g:lightline.tabline = {
 \}
 
 let g:lightline.active = {
-\   'left': [ [ 'mode', 'paste' ],
-\             [ 'readonly', 'myfilename' ],
+\   'left': [ [ 't_mode', 'paste' ],
+\             [ 'readonly', 't_filename' ],
 \             [ 'linter_errors', 'linter_warnings', 'linter_ok' ]],
-\   'right': [ [ 'lineinfo' ],
-\              [ 'percent' ],
-\              [ 'filetype', 'fileencoding', 'fileformat' ]]
+\   'right': [ [ 't_lineinfo' ],
+\              [ 't_percent' ],
+\              [ 't_filetype', 't_fileencoding', 't_fileformat' ]]
 \}
 
 let g:lightline.inactive = {
-\   'left': [ [ 'filename' ] ],
-\   'right': [ [ 'lineinfo' ],
-\              [ 'percent' ] ]
-\}
-
-function! LightlineFilename() abort
-    " 無名ファイルは %:t が '' となる
-    return ( expand('%:t') !=# '' ? expand('%:t') : 'No Name') .
-    \       (&modifiable && &modified ? '[+]' : '')
-endfunction
-
-let g:lightline.component_function = {
-\   'myfilename': 'LightlineFilename',
+\   'left': [ [ 't_filename' ] ],
+\   'right': [ [ 't_lineinfo' ],
+\              [ 't_percent' ] ]
 \}
 
 let g:lightline.component_expand = {
@@ -1857,9 +1847,67 @@ let g:lightline#ale#indicator_warnings = nr2char('0xf071')  " 
 let g:lightline#ale#indicator_errors = nr2char('0xffb8a')   " 󿮊
 let g:lightline#ale#indicator_ok = nr2char('0xf00c')        " 
 
-" TODO: vimrc のプラグインの設定の部分で今どこかを表示する プラグインの名前
-" 区切り行の１行下の値を表示でもいいかも
 
+function! VisibleRightComponent() abort
+    return winwidth('.') > 70 &&
+    \       &filetype !~# '\v^denite|^defx'
+endfunction
+
+let g:lightline.component_function = {
+\   't_mode': 'LightlineMode',
+\   't_filename': 'LightlineFilename',
+\   't_filetype': 'LightlineFiletype',
+\   't_fileencoding': 'LightlineFileEncoding',
+\   't_fileformat': 'LightlineFileFileFormat',
+\   't_percent': 'LightlinePercent',
+\   't_lineinfo': 'LightlineLineinfo',
+\   't_inactive_mode': 'LightlineInactiveMode',
+\}
+
+function! LightlineMode() abort
+    return &filetype ==# 'denite' ? 'Denite' :
+    \       lightline#mode()
+endfunction
+
+function! LightlineFilename() abort
+    " 無名ファイルは %:t が '' となる
+    return &filetype ==# 'denite-filter' ? 
+    \           matchstr(denite#get_status('sources'), '^\w\+') :
+    \       &filetype ==# 'denite' ? denite#get_status('sources') :
+    \       &filetype =~# 'defx' ? '' :
+    \       (expand('%:t') !=# '' ? expand('%:t') : 'No Name') .
+    \       (&modifiable && &modified ? '[+]' : '')
+endfunction
+
+function! LightlineFiletype()
+    return  VisibleRightComponent() ?
+    \       (strlen(&filetype) ? &filetype : 'no ft') :
+    \       ''
+endfunction
+
+function! LightlineFileEncoding()
+    return  VisibleRightComponent() ?
+    \       (&fileencoding !=# '' ? &fileencoding : &fileencoding) :
+    \       ''
+endfunction
+
+function! LightlineFileFileFormat()
+    return  VisibleRightComponent() ?
+    \       &fileformat :
+    \       ''
+endfunction
+
+function! LightlinePercent()
+    return  VisibleRightComponent() ?
+    \       printf('%3d', line('.') * 100 / line('$')) . '%' :
+    \       ''
+endfunction
+
+function! LightlineLineinfo() abort
+    return  VisibleRightComponent() ?
+    \       line('.') . ':' . col('.') :
+    \       ''
+endfunction
 
 " ==============================================================================
 " colorscheme
