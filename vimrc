@@ -2122,11 +2122,13 @@ function! s:denite_my_settings() abort
     nnoremap <silent><buffer><expr> <C-c>    denite#do_map('quit')
     nnoremap <silent><buffer><expr> <C-q>    denite#do_map('quit')
     nnoremap <silent><buffer><expr> i        denite#do_map('open_filter_buffer')
-    " nnoremap <silent><buffer><expr> <Space>  denite#do_map('toggle_select').'j'
+    nnoremap <silent><buffer>       I        denite#do_map('open_filter_buffer')
     nnoremap <silent><buffer>       <C-j>    j
     nnoremap <silent><buffer>       <C-k>    k
     nnoremap <silent><buffer><expr> <C-o>    denite#do_map('choose_action')
+
     nnoremap <silent><buffer>       <Space>q <Nop>
+    nnoremap <silent><buffer>       <C-i>    <Nop>
 endfunction
 
 function! s:denite_filter_my_settigns() abort
