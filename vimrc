@@ -1972,6 +1972,7 @@ let g:lightline.component_function = {
 
 function! LightlineMode() abort
     return &filetype ==# 'denite' ? 'Denite' :
+    \       &filetype ==# 'defx' ? 'Defx' :
     \       lightline#mode()
 endfunction
 
@@ -2022,6 +2023,9 @@ function! DefineMyHighlishts() abort
         hi IncSearch  gui=NONE guifg=fg guibg=#FFBF80
         hi Search     gui=NONE guifg=fg guibg=#FFFFA0
         hi SignColumn gui=NONE guifg=fg guibg=#FCF0CF
+
+        " カーソル行はアンダーラインのみ
+        hi CursorLine gui=underline guifg=NONE guibg=NONE
 
         " Diff* がめっちゃ重かったし、この色好きだから、いい感じ
         hi DiffAdd    gui=NONE guifg=fg guibg=#DFFFDF
@@ -2185,13 +2189,12 @@ function! s:denite_my_settings() abort
     nnoremap <silent><buffer><expr> <C-c>    denite#do_map('quit')
     nnoremap <silent><buffer><expr> <C-q>    denite#do_map('quit')
     nnoremap <silent><buffer><expr> i        denite#do_map('open_filter_buffer')
-    nnoremap <silent><buffer>       I        denite#do_map('open_filter_buffer')
+    nnoremap <silent><buffer><expr> I        denite#do_map('open_filter_buffer')
+    " nnoremap <silent><buffer><expr> <Space>  denite#do_map('toggle_select').'j'
     nnoremap <silent><buffer>       <C-j>    j
     nnoremap <silent><buffer>       <C-k>    k
     nnoremap <silent><buffer><expr> <C-o>    denite#do_map('choose_action')
-
     nnoremap <silent><buffer>       <Space>q <Nop>
-    nnoremap <silent><buffer>       <C-i>    <Nop>
 endfunction
 
 function! s:denite_filter_my_settigns() abort
