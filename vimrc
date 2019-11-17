@@ -54,7 +54,6 @@ Plug 'majutsushi/tagbar'
 Plug 'markonm/traces.vim' " :s の可視化
 Plug 'mattn/emmet-vim'
 Plug 'mattn/sonictemplate-vim'
-Plug 'mattn/webapi-vim'
 Plug 'mechatroner/rainbow_csv'
 Plug 'rhysd/clever-f.vim'
 Plug 'ryanoasis/vim-devicons'
@@ -68,6 +67,10 @@ Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
 Plug 'tyru/open-browser.vim'
 Plug 'itchyny/calendar.vim'
 Plug 'previm/previm'
+Plug 'tpope/vim-endwise'
+Plug 'kana/vim-tabpagecd'
+Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
 
 " ==============================================================================
 
@@ -129,6 +132,12 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neopairs.vim'
+
+" denite
+Plug 'Shougo/denite.nvim'
+Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
+Plug 'Shougo/unite.vim'
+Plug 'Shougo/neomru.vim'
 
 " == lightline
 Plug 'itchyny/lightline.vim'
@@ -326,11 +335,6 @@ autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 
 
-
-" " statusline 設定 {{{
-"
-" " 常にステータスラインを表示
-set laststatus=2
 "
 " fold 折畳 {{{
 function! MyFoldText() abort " {{{
@@ -586,6 +590,12 @@ function! CmdlineEnterSettings() abort
     inoremap <buffer> <C-l> <C-c>
     nnoremap <buffer> <C-l> <C-c>
     inoremap <buffer> <CR>  <C-c><CR>
+
+    " if has(':Denite')
+    "     if getcmdwintype() ==# ':'
+    "     endif
+    " endif
+    nnoremap <buffer> <Space>fc <C-c><C-e><C-u>Denite command_history<CR>
 
     " global options
     call s:save_global_options(
@@ -1201,6 +1211,8 @@ nnoremap <F4> :<C-u>%Tableize<CR>
 " roxma/nvim-yarp
 
 let g:python3_host_prog = $LOCALAPPDATA.'/Programs/Python/Python37/python'
+let $NVIM_PYTHON_LOG_FILE = expand('~/tmp/nvim_log')
+let $NVIM_PYTHON_LOG_LEVEL = 'DEBUG'
 
 
 " ==============================================================================
@@ -1363,11 +1375,11 @@ endif
 " ctrlpvim/ctrlp.vim 
 
 " mapping
-nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
-nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
+" nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
+" nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
 nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
-nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
+" nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
 
 nnoremap <Space>fl :<C-u>CtrlPLine %<CR>
 " nnoremap <Space>fd :<C-u>CtrlPDir resolve(expnad('%:p:h'))<CR>
@@ -1485,8 +1497,8 @@ augroup MyLsp
             \   'pyls': {
             \       'plugins': {
             \           'jedi_definition': {
-            \               'follow_imports': v:true, 
-            \               'follow_builtin_imports': v:true,
+            \               'follow_imports': 1, 
+            \               'follow_builtin_imports': 1,
             \           },
             \   }
             \ }}
@@ -1580,9 +1592,6 @@ nmap gP     <Plug>(yankround-gP)
 nmap <C-p>  <Plug>(yankround-prev)
 nmap <C-n>  <Plug>(yankround-next)
 
-
-" ==============================================================================
-" YankRoundRegion で変更可能
 let g:yankround_use_region_hl = 1
 
 
@@ -1964,4 +1973,118 @@ let g:ttodo#mapleader = '<LocalLeader>t'
 
 " ==============================================================================
 " previm
-let g:previm_open_cmd
+
+
+
+" ==============================================================================
+" Shougo/denite.nvim
+
+
+nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split<CR>
+" nnoremap <silent> <Space>fh :<C-u>Denite help -default-action=<CR>
+nnoremap <silent> <Space>fj :<C-u>Denite buffer -default-action=split<Cr>
+" nnoremap <silent> <Space>fl :<C-u>Denite line -auto-action=highlight -winheight=25<CR>
+nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
+nnoremap <silent> <Space>fm :<C-u>Denite menu -start-filter=false<CR>
+" nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
+" https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
+nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
+
+" Denite の sources
+nnoremap <Space>fd :<C-u>Denite <C-l>
+
+" " 再表示
+nnoremap <silent> <Space>f[ :<C-u>Denite -resume<CR>
+
+
+call denite#custom#option('_', {
+\   'prompt': '>',
+\   'source_names': 1,
+\   'vertical_preview': 1,
+\   'direction': 'botright',
+\   'start_filter': 1,
+\   'winheight': 20,
+\   'matchers': 'matcher/fruzzy',
+\   'auto_resize': 1,
+\   'winminheight': 1,
+\   'filter-updatetime': 10,
+\   'statusline': 0,
+\})
+
+
+" rg の設定
+if executable('rg')
+  call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
+  call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
+  call denite#custom#var('grep', 'recursive_opts', [])
+  call denite#custom#var('grep', 'final_opts', [])
+  call denite#custom#var('grep', 'separator', ['--'])
+  call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--no-heading'])
+endif
+
+" buffer
+" timestamp を非表示
+call denite#custom#var('buffer', 'date_format', '')
+
+" mru
+" 以下のような表示となる
+" pwd:  ~\src\
+" もと: ~\src\python\sample\main.py
+" 結果:       python\sample\main.py
+let g:neomru#filename_format = ':~:.'
+let g:neomru#file_mru_limit = 500 " default is 1000
+let g:neomru#directory_mru_limit = 500 " default is 1000
+
+
+function! s:denite_my_settings() abort
+    nnoremap <silent><buffer><expr> <CR>     denite#do_map('do_action')
+    nnoremap <silent><buffer><expr> d        denite#do_map('do_action', 'delete')
+    nnoremap <silent><buffer><expr> p        denite#do_map('do_action', 'preview')
+    nnoremap <silent><buffer><expr> <C-c>    denite#do_map('quit')
+    nnoremap <silent><buffer><expr> <C-q>    denite#do_map('quit')
+    nnoremap <silent><buffer><expr> i        denite#do_map('open_filter_buffer')
+    " nnoremap <silent><buffer><expr> <Space>  denite#do_map('toggle_select').'j'
+    nnoremap <silent><buffer>       <C-j>    j
+    nnoremap <silent><buffer>       <C-k>    k
+    nnoremap <silent><buffer><expr> <C-o>    denite#do_map('choose_action')
+    nnoremap <silent><buffer>       <Space>q <Nop>
+endfunction
+
+function! s:denite_filter_my_settigns() abort
+    nnoremap <silent><buffer>       <Space>q <Nop>
+    inoremap <silent><buffer><expr> <C-q>
+    \   denite#do_map('quit')
+    inoremap <silent><buffer><expr> <C-c>
+    \   denite#do_map('quit')
+    nnoremap <silent><buffer><expr> <C-q>
+    \   denite#do_map('quit')
+
+    nnoremap <silent><buffer><expr> <C-c>
+    \   denite#do_map('quit')
+
+    " <C-w>p で最後にいたウィンドウに移動できる
+    inoremap <silent><buffer> <C-k>
+    \   <Esc><C-w>p
+    inoremap <silent><buffer> <C-j>
+    \   <Esc><C-w>p:call cursor(line('.')+1,0)<CR>
+
+    nnoremap <silent><buffer><expr> <C-l>
+    \   denite#do_map('toggle_matchers', 'matcher/regexp')
+    inoremap <silent><buffer><expr> <C-l>
+    \   denite#do_map('toggle_matchers', 'matcher/regexp')
+endfunction
+
+augroup MyDeniteSettings
+    autocmd!
+    autocmd FileType denite         call s:denite_my_settings()
+    autocmd FileType denite-filter  call s:denite_filter_my_settigns()
+augroup END
+
+
+
+
+" ==============================================================================
+" raghur/fruzzy
+
+let g:fruzzy#usenative = 1
+let g:fruzzy#sortonempty = 0
