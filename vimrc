@@ -568,6 +568,7 @@ endfunction
 function! CmdlineEnterSettings() abort
     " いらない
     nnoremap <buffer> <C-l> <Nop>
+    nnoremap <buffer> <C-i> <Nop>
 
     " <C-p> 行補完
     inoremap <buffer> <expr> <C-p> 
@@ -679,6 +680,8 @@ nnoremap <Space>ft :<C-u>FileType
 
 
 " terminal {{{
+tnoremap <C-r> <Nop>
+tnoremap <C-r><C-r> <C-w>"*
 tnoremap <C-w>p <Nop>
 tnoremap <C-w>p <C-w>"*
 " C-[ でTerminal Job モードへ移行
@@ -1146,6 +1149,39 @@ command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
 
 
 
+" fileformat を変換
+" https://qiita.com/gillax/items/3dad7318662d29b3f6d1
+function! FFDosUnix() abort
+    edit ++ff=unix
+    normal! :<C-u>%s/\r//g
+endfunction
+command! FFDosUnix call FFDosUnix()
+
+
+" クリップボード貼り付け
+inoremap <C-r><C-r> <C-r>*
+cnoremap <C-r><C-r> <C-r>*
+
+
+
+" ------------------------------------------------------------------------------
+
+" quickfix
+function! QfSettings() abort
+    nnoremap <buffer>         p         <CR>zz<C-w>p
+    nnoremap <buffer><silent> q         :<C-u>quit<CR>
+    nnoremap <buffer><silent> <C-q>     :<C-u>quit<CR>
+    setlocal winheight=20
+
+    nnoremap <buffer><silent> j  j
+    nnoremap <buffer><silent> k  k
+    nnoremap <buffer><silent> gj gj
+    nnoremap <buffer><silent> gk gk
+endfunction
+
+autocmd! MyAutoCmd FileType qf call QfSettings()
+
+
 " ==============================================================================
 " ******************************************************************************
 " plugins
@@ -1175,7 +1211,7 @@ let g:quickrun_config = {
     \   },
     \}
 
-nmap <Space>r <Plug>(quickrun)
+nmap <Space>rr <Plug>(quickrun)
 
 
 " ==============================================================================
@@ -1248,13 +1284,16 @@ let g:netrw_nogx = 1
 
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
-nnoremap <A-o> :<C-u>OpenBrowserSearch -
+nnoremap <A-o><A-o> :<C-u>OpenBrowserSearch -duckduckgo 
+nnoremap <A-o><A-n> :<C-u>OpenBrowserSearch -
 
 " 追加
 let g:openbrowser_search_engines = {
 \   'dev': 'http://devdocs.io/#q={query}',
 \   'gh': 'http://github.com/search?q={query}',
-\   'memo': 'https://scrapbox.io/tamago324-05149866/search/page?q={query}'
+\   'duckduckgo': 'http://duckduckgo.com/?q={query}',
+\   'memo': 'https://scrapbox.io/tamago324-05149866/search/page?q={query}',
+\   'vim': 'https://scrapbox.io/vimemo/search/page?q={query}',
 \}
 
 
@@ -1322,6 +1361,10 @@ let g:ale_linters = {
     \   'nimcheck'
     \ ],
     \ }
+
+let g:ale_fixers = {
+\   'nim': 'nimpretty'
+\}
 
 let g:ale_enabled = 1
 " テキスト変更時にlintを実行しない
@@ -1536,7 +1579,7 @@ let g:lsp_diagnostics_enabled = 0
 " ==============================================================================
 " jremmen/vim-ripgrep 
 
-nnoremap <Space>fgg :<C-u>Rg 
+nnoremap <Space>rg :<C-u>Rg 
 " nnoremap <Space>fgr :<C-u>RgRoot 
 
 " let g:rg_format = ''
@@ -1984,18 +2027,6 @@ augroup MyAutoCmdCalendar
     autocmd!
     " autocmd Filetype calendar nmap x <Plug>(calendar_xx)
 augroup END
-
-" fileformat を変換
-" https://qiita.com/gillax/items/3dad7318662d29b3f6d1
-function! FFDosUnix() abort
-    edit ++ff=unix
-    normal! :<C-u>%s/\r//g
-endfunction
-command! FFDosUnix call FFDosUnix()
-
-" クリップボード貼り付け
-inoremap <C-r><C-r> <C-r>*
-cnoremap <C-r><C-r> <C-r>*
 
 
 " ==============================================================================
