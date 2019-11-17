@@ -778,23 +778,23 @@ vnoremap K <Nop>
 
 " terminal {{{
 
-function! s:term_start_close(...) abort
+function! TermStartClose(...) abort
     exec 'botright term ++close ++rows=30' join(a:000)
 endfunction
 
-command! -nargs=* Term call <SID>term_start_close(<f-args>)
+command! -nargs=* Term call TermStartClose(<f-args>)
 if has('win32')
-    command! -nargs=* Cmd call <SID>term_start_close(<f-args>)
+    command! -nargs=* Cmd call TermStartClose(<f-args>)
 endif
 
 " bash.exeの起動
-command! Bash call <SID>term_start_close('bash.exe')
+command! Bash call TermStartClose('bash.exe')
 
 " nyagos
 if !executable('nyagos')
     let $PATH = $PATH.';'.expand('~/app/nyagos')
 endif
-command! Nyagos call <SID>term_start_close('nyagos.exe')
+command! Nyagos call TermStartClose('nyagos.exe')
 
 
 nnoremap [MyCmd] <Nop>
@@ -1163,6 +1163,68 @@ inoremap <C-r><C-r> <C-r>*
 cnoremap <C-r><C-r> <C-r>*
 
 
+
+" ------------------------------------------------------------------------------
+" terminal
+" TODO: タブごとにディレクトリを持っているターミナルを開けるようにするとか t:
+" を使う
+" hide/show の切り替えができるようにする
+
+
+function! OpenedTerm() abort
+    " NOTE: タブ内にあるターミナルウィンドウの WindowID を取得
+    for l:bufnr in tabpagebuflist()
+        if getbufvar(l:bufnr, '&buftype', '') ==# 'terminal'
+            let t:term_bufnr = l:bufnr
+        endif
+    endfor
+endfunction
+
+function! ShowTerm(tabnr) abort
+    let l:term_bufnr = gettabvar(a:tabnr, 'term_bufnr', '-1')
+
+    if l:term_bufnr ==# -1
+        " TODO: terminal の種類を指定できるようにする
+        call TermStartClose()
+    else
+        execute 'botright new | buffer '.l:term_bufnr
+        let l:rows = 30
+        call term_setsize(l:term_bufnr, l:rows, 0)
+    endif
+endfunction
+
+function! HideTerm(tabnr) abort
+    for l:bufnr in tabpagebuflist(a:tabnr)
+        if gettabvar(a:tabnr, 'term_bufnr', '-1') ==# l:bufnr
+            execute 'hide'
+            break
+        endif
+    endfor
+endfunction
+
+function! IsShowTerm(tabnr) abort
+    for l:bufnr in tabpagebuflist(a:tabnr)
+        if getbufvar(l:bufnr, '&buftype', '') ==# 'terminal'
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
+function! ToggleTerm(tabnr) abort
+    if IsShowTerm(a:tabnr)
+        call HideTerm(a:tabnr)
+    else
+        call ShowTerm(a:tabnr)
+    endif
+endfunction
+
+autocmd MyAutoCmd TerminalOpen * call OpenedTerm()
+command! ShowTerm call ShowTerm(tabpagenr())
+command! HideTerm call HideTerm(tabpagenr())
+command! ToggleTerm call ToggleTerm(tabpagenr())
+
+nnoremap <A-t> :<C-u>ToggleTerm<CR>
 
 " ------------------------------------------------------------------------------
 
