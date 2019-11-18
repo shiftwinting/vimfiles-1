@@ -1660,7 +1660,11 @@ let g:highlightedyank_highlight_duration = 70
 
 " ==============================================================================
 " defx
-autocmd MyAutoCmd FileType defx call s:defx_my_settings()
+
+augroup MyDefx
+    autocmd!
+    autocmd FileType defx call s:defx_my_settings()
+augroup END
 
 function! DefxTcdDown(ctx) abort
     if defx#is_directory()
@@ -1801,7 +1805,7 @@ function! s:defx_my_settings() abort
 
     command! -buffer BAdd call defx#call_action('add_session')
     " command! -buffer BookmarkList call DefxSessions(g:defx_session_file)
-    nnoremap B :<C-u>Denite defx/session<CR>
+    nnoremap <silent><buffer> B :<C-u>Denite defx/session<CR>
 endfunction
 
 function! DefxCurrentFileOpen() abort
