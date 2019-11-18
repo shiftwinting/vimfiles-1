@@ -89,7 +89,7 @@ Plug 'othree/html5.vim'
 
 " syntax
 Plug 'yuezk/vim-js'
-Plug 'maxmellon/vim-jsx-pretty'
+" Plug 'maxmellon/vim-jsx-pretty'
 
 " == lsp
 Plug 'prabirshrestha/vim-lsp'
@@ -826,12 +826,36 @@ if !executable('nyagos')
 endif
 command! Nyagos call TermStartClose('nyagos.exe')
 
+" クリップボード貼り付け
+inoremap <C-r><C-r> <C-r>*
+cnoremap <C-r><C-r> <C-r>*
 
-nnoremap [MyCmd] <Nop>
-nmap <Space>; [MyCmd]
 
-nnoremap [MyCmd]f :<C-u>FnamemodsPopup<CR>
-nnoremap [MyCmd]h :<C-u>FavoriteHelps<CR>
+" quickfix
+function! QfSettings() abort
+    nnoremap <buffer>         p         <CR>zz<C-w>p
+    nnoremap <buffer><silent> q         :<C-u>quit<CR>
+    nnoremap <buffer><silent> <C-q>     :<C-u>quit<CR>
+    setlocal winheight=20
+
+    nnoremap <buffer><silent> j  j
+    nnoremap <buffer><silent> k  k
+    nnoremap <buffer><silent> gj gj
+    nnoremap <buffer><silent> gk gk
+endfunction
+
+autocmd! MyAutoCmd FileType qf call QfSettings()
+
+
+
+
+" ==============================================================================
+" 便利なコマンドたち
+
+nnoremap <Space>;h :<C-u>FavoriteHelps<CR>
+nnoremap <Space>;f :<C-u>FnamemodsPopup<CR>
+
+command! HereOpen call execute('!start %:p:h', "silent")
 
 if executable('js-sqlformat')
   command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
@@ -839,11 +863,8 @@ endif
 
 if executable('jq')
     command -range=% Jq <line1>,<line2>!jq
-else
-    echoerr "Let's install jq! $ choco install jq"
 endif
 
-command! HereOpen call execute('!start %:p:h', "silent")
 
 function! s:get_maxlen(list) abort " 
     let maxlen = 0
@@ -857,8 +878,8 @@ function! s:get_maxlen(list) abort "
 endfunction
 
 
+" ------------------------------------------------------------------------------
 " カレントファイルのパスをいろんな形式で yank 
-
 command! FnamemodsPopup call s:yank_fnamemods_popup()
 
 " TODO: コマンドでパスの変換できるようにする
@@ -973,6 +994,7 @@ function! s:create_fnmods_list(fullpath, fnmods) abort "
 
     return fnmods_list
 endfunction
+" ------------------------------------------------------------------------------
 
 
 
@@ -1038,7 +1060,10 @@ endfunction
 " ------------------------------------------------------------------------------
 
 
+
+" ------------------------------------------------------------------------------
 " カーソル下の highlight 情報を取得 (name のみ) 
+command! SyntaxInfo call GetSynInfo()
 
 " http://cohama.hateblo.jp/entry/2013/08/11/020849
 function! s:get_syn_id(transparent) abort
@@ -1061,7 +1086,7 @@ function! s:get_syn_attr(synid) abort
     return { 'name': name }
 endfunction
 
-function! s:get_syn_info() abort
+function! GetSynInfo() abort
     let base_syn = s:get_syn_attr(s:get_syn_id(0))
     echo 'name: ' . base_syn.name
 
@@ -1069,12 +1094,15 @@ function! s:get_syn_info() abort
     echo 'link to'
     echo 'name: ' . linked_syn.name
 endfunction
-
-command! SyntaxInfo call s:get_syn_info()
-
+" ------------------------------------------------------------------------------
 
 
+
+" ------------------------------------------------------------------------------
 " packages 機能
+command! -nargs=+ PackGet call s:packget(<f-args>)
+command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
+command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
 
 " 末尾の '/' を取り除くため、 :p:h とする
 let s:pack_base_dir = tr(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'), "\\", '/')
@@ -1156,45 +1184,23 @@ function! s:packhelptags(plugin_name) abort
     execute 'helptags ' . l:base. a:plugin_name . '/doc'
 endfunction
 
-command! -nargs=+ PackGet call s:packget(<f-args>)
-command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
-command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
-
 " pack/plugs/opt の中の help を検索
 " runtimepath 内の doc/ も help で引ける
 "  -> packadd したもののhelpを引くには、runtimepath に含める必要がある？
 " command! -nargs=1 PackHelp -complete=customlist,func call s:packhelp(<f-args>)
+" ------------------------------------------------------------------------------
 
 
 
+" ------------------------------------------------------------------------------
 " fileformat を変換
 " https://qiita.com/gillax/items/3dad7318662d29b3f6d1
+command! FFDosUnix call FFDosUnix()
 function! FFDosUnix() abort
     edit ++ff=unix
     normal! :<C-u>%s/\r//g
 endfunction
-command! FFDosUnix call FFDosUnix()
-
-
-" クリップボード貼り付け
-inoremap <C-r><C-r> <C-r>*
-cnoremap <C-r><C-r> <C-r>*
-
-
-" quickfix
-function! QfSettings() abort
-    nnoremap <buffer>         p         <CR>zz<C-w>p
-    nnoremap <buffer><silent> q         :<C-u>quit<CR>
-    nnoremap <buffer><silent> <C-q>     :<C-u>quit<CR>
-    setlocal winheight=20
-
-    nnoremap <buffer><silent> j  j
-    nnoremap <buffer><silent> k  k
-    nnoremap <buffer><silent> gj gj
-    nnoremap <buffer><silent> gk gk
-endfunction
-
-autocmd! MyAutoCmd FileType qf call QfSettings()
+" ------------------------------------------------------------------------------
 
 
 " ==============================================================================
