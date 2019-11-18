@@ -1444,7 +1444,7 @@ let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
 " mapping
 " nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
 " nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
-" nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
+nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
 " nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 " nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
 
@@ -2084,7 +2084,7 @@ nnoremap <silent> <Space>fm :<C-u>Denite menu -start-filter=false<CR>
 " nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
 " https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
 nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
-nnoremap <silent> <Space>fq :<C-u>Denite ghq -default-action=open<CR>
+" nnoremap <silent> <Space>fq :<C-u>Denite ghq -default-action=open<CR>
 nnoremap <silent> ; :<C-u>Denite command_history<CR>
 nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
 
