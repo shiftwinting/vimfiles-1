@@ -132,6 +132,7 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/neopairs.vim'
+Plug 'Shougo/deol.nvim'
 
 " denite
 Plug 'Shougo/denite.nvim'
@@ -1163,71 +1164,6 @@ inoremap <C-r><C-r> <C-r>*
 cnoremap <C-r><C-r> <C-r>*
 
 
-
-" ------------------------------------------------------------------------------
-" terminal
-" TODO: タブごとにディレクトリを持っているターミナルを開けるようにするとか t:
-" を使う
-" hide/show の切り替えができるようにする
-
-
-function! OpenedTerm() abort
-    " NOTE: タブ内にあるターミナルウィンドウの WindowID を取得
-    for l:bufnr in tabpagebuflist()
-        if getbufvar(l:bufnr, '&buftype', '') ==# 'terminal'
-            let t:term_bufnr = l:bufnr
-        endif
-    endfor
-endfunction
-
-function! ShowTerm(tabnr) abort
-    let l:term_bufnr = gettabvar(a:tabnr, 'term_bufnr', '-1')
-
-    if l:term_bufnr ==# -1
-        " TODO: terminal の種類を指定できるようにする
-        call TermStartClose()
-    else
-        execute 'botright new | buffer '.l:term_bufnr
-        let l:rows = 30
-        call term_setsize(l:term_bufnr, l:rows, 0)
-    endif
-endfunction
-
-function! HideTerm(tabnr) abort
-    for l:bufnr in tabpagebuflist(a:tabnr)
-        if gettabvar(a:tabnr, 'term_bufnr', '-1') ==# l:bufnr
-            execute 'hide'
-            break
-        endif
-    endfor
-endfunction
-
-function! IsShowTerm(tabnr) abort
-    for l:bufnr in tabpagebuflist(a:tabnr)
-        if getbufvar(l:bufnr, '&buftype', '') ==# 'terminal'
-            return 1
-        endif
-    endfor
-    return 0
-endfunction
-
-function! ToggleTerm(tabnr) abort
-    if IsShowTerm(a:tabnr)
-        call HideTerm(a:tabnr)
-    else
-        call ShowTerm(a:tabnr)
-    endif
-endfunction
-
-autocmd MyAutoCmd TerminalOpen * call OpenedTerm()
-command! ShowTerm call ShowTerm(tabpagenr())
-command! HideTerm call HideTerm(tabpagenr())
-command! ToggleTerm call ToggleTerm(tabpagenr())
-
-nnoremap <A-t> :<C-u>ToggleTerm<CR>
-
-" ------------------------------------------------------------------------------
-
 " quickfix
 function! QfSettings() abort
     nnoremap <buffer>         p         <CR>zz<C-w>p
@@ -2102,29 +2038,12 @@ let g:neopairs#enable = 1
 
 
 " ==============================================================================
-" ttodo_vim
-" todo.txt があるディレクトリ
-let g:ttodo#dirs = expand($XDG_CACHE_HOME.'/ttodo')
-
-if !isdirectory(g:ttodo#dirs)
-    call mkdir(g:ttodo#dirs)
-endif
-
-" default: '<LocalLeader>t'
-let g:ttodo#mapleader = '<LocalLeader>t'
-
-" todo.txt のファイル名
-" let g:ttodo#inbox = 'todo.txt'
-
-
-" ==============================================================================
 " previm
 
 
 
 " ==============================================================================
 " Shougo/denite.nvim
-
 
 nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split<CR>
 " nnoremap <silent> <Space>fh :<C-u>Denite help -default-action=<CR>
@@ -2261,3 +2180,132 @@ let g:gist_update_on_write = 2
 
 let g:fruzzy#usenative = 1
 let g:fruzzy#sortonempty = 0
+
+
+" ==============================================================================
+" tomtom/ttodo_vim
+" todo.txt があるディレクトリ
+let g:ttodo#dirs = expand($XDG_CACHE_HOME.'/ttodo')
+
+if !isdirectory(g:ttodo#dirs)
+    call mkdir(g:ttodo#dirs)
+endif
+
+" default: '<LocalLeader>t'
+let g:ttodo#mapleader = '<LocalLeader>t'
+
+" todo.txt のファイル名
+" let g:ttodo#inbox = 'todo.txt'
+
+
+" ==============================================================================
+" Shougo/deol.nvim
+
+" XXX: 参考にする https://git.io/JeKIn
+
+" .\{-} : 最短一致 : (なんでもOK)
+let g:deol#prompt_pattern = '.\{-}>\|# $'
+
+" コマンドの履歴
+let g:deol#shell_history_path = expand('~/deol_history')
+
+augroup MyDeol
+    autocmd!
+    autocmd Filetype deol call DeolSettings()
+    autocmd Filetype zsh call DeolEditorSettings()
+augroup END
+
+function! DeolSettings() abort
+    tmap <buffer><silent> <A-e> <C-g>:call deol#edit()<CR>
+    nmap <buffer><silent> <A-e> <Plug>(deol_edit)
+    nmap <buffer><silent> <A-t> <Plug>(deol_quit)
+endfunction
+
+function! DeolEditorSettings() abort
+    imap <buffer> <C-q> <Esc>:call QuitDeolEditor()<CR>
+    nmap <buffer> <C-q> <Esc>:call QuitDeolEditor()<CR>
+    imap <buffer> <A-e> <Esc>:call QuitDeolEditor()<CR>
+    nmap <buffer> <A-e> <Esc>:call QuitDeolEditor()<CR>
+endfunction
+
+
+" TODO: タブが削除されたら、その中にある deol もちゃんと消してあげる
+
+function! QuitDeolEditor() abort
+    quit
+    if exists('t:deol')
+        call win_gotoid(bufwinid(t:deol.bufnr))
+    endif
+endfunction
+
+function! ShowDeol(tabnr, ...) abort
+    let l:deol = gettabvar(a:tabnr, 'deol', {})
+
+    if a:0 ==# 1
+        let l:command = a:1
+    else
+        let l:command = &shell
+    endif
+
+    botright 25new
+    setlocal winfixheight
+
+    if empty(l:deol)
+        let l:cwd = expand('%:p')
+        call deol#start(printf('-cwd=%s -command=%s', l:cwd, l:command))
+    elseif !bufexists(l:deol.bufnr)
+        let l:cwd = expand('%:p')
+        call deol#start(printf('-cwd=%s -command=%s', l:cwd, l:command))
+    else
+        " 復活
+        execute 'buffer ' . l:deol.bufnr
+        normal! i
+    endif
+endfunction
+
+
+function! HideDeol(tabnr) abort
+    let l:deol = gettabvar(a:tabnr, 'deol', {})
+    if empty(l:deol)
+        " まだ、作られていない場合、終わり
+        return
+    endif
+
+    for l:bufnr in tabpagebuflist(a:tabnr)
+        if l:deol.bufnr ==# l:bufnr
+            execute 'hide'
+            break
+        endif
+    endfor
+endfunction
+
+
+function! IsShowDeol(tabnr) abort
+    let l:deol = gettabvar(a:tabnr, 'deol', {})
+    if empty(l:deol)
+        " まだ、作られていない場合、終わり、表示すらされないため
+        return 0
+    endif
+
+    for l:bufnr in tabpagebuflist(a:tabnr)
+        if l:deol.bufnr ==# l:bufnr
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
+
+function! ToggleDeol(tabnr) abort
+    if IsShowDeol(a:tabnr)
+        call HideDeol(a:tabnr)
+    else
+        call ShowDeol(a:tabnr, 'bash.exe')
+    endif
+endfunction
+
+
+command! DeolOpen :<C-u>Deol bash<CR>
+command! ToggleDeol call ToggleDeol(tabpagenr())
+nnoremap <A-t> :<C-u>ToggleDeol<CR>
+tnoremap <A-t> <C-\><C-n>:<C-u>ToggleDeol<CR>
