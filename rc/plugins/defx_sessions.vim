@@ -75,12 +75,6 @@ endfunction
 function! s:defx_sessions_handler(winid, idx) abort
     if a:idx != -1
         " idx は 1 始まりのため -1 する
-        let l:defx_winid = s:get_defx_winid_of_curtab()
-        if l:defx_winid ==# -1
-            execute 'Defx '.s:ctx.items()[a:idx-1]
-        else
-            call win_gotoid(l:defx_winid)
-        endif
         call defx#call_action('cd', s:ctx.items()[a:idx-1])
         execute 'tcd '.s:ctx.items()[a:idx-1]
     endif
@@ -96,7 +90,7 @@ function! s:confirm_delete(idx) abort
     \   'filter': 'popup_filter_yesno',
     \   'callback': function('s:dialog_handler', [a:idx]),
     \   'zindex': 200,
-    \   'highlight': 'ErrorMsg',
+    \   'highlight': 'Error',
     \})
 endfunction
 
@@ -113,18 +107,18 @@ function! s:dialog_handler(idx, winid, yes) abort
 endfunction
 
 
-" カレントタブの defx の winid を取得する
-function! s:get_defx_winid_of_curtab() abort
-    " カレントタブの winid のリスト
-    for l:win in gettabinfo(tabpagenr())[0].windows
-        " getbufvar(bufid, '&filetype') でファイルタイプを取得
-        let l:ft = getbufvar(winbufnr(l:win), '&filetype')
-        if l:ft ==# 'defx'
-            return l:win
-        endif
-    endfor
-    return -1
-endfunction
+" " カレントタブの defx の winid を取得する
+" function! s:get_defx_winid_of_curtab() abort
+"     " カレントタブの winid のリスト
+"     for l:win in gettabinfo(tabpagenr())[0].windows
+"         " getbufvar(bufid, '&filetype') でファイルタイプを取得
+"         let l:ft = getbufvar(winbufnr(l:win), '&filetype')
+"         if l:ft ==# 'defx'
+"             return l:win
+"         endif
+"     endfor
+"     return -1
+" endfunction
 
 function! s:get_maxlen(list) abort
     let maxlen = 0
