@@ -1,32 +1,23 @@
 " Encoding {{{
 
 set encoding=utf-8
+scriptencoding utf-8
 
+" 変更可能なら、設定(エラーになるため)
 if &modifiable
     set fileencoding=utf-8
 endif
 
+" " 改行コードの設定
 set fileformats=unix,dos,mac
 
 " https://github.com/vim-jp/issues/issues/1186
 set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
 
-scriptencoding utf-8
-
 " " 内部エンコーディング
 " set encoding=utf-8
-" " 変更可能なら、設定(エラーになるため)
-" if &modifiable
-"     set fileencoding=utf-8
-" endif
-" " 改行コードの設定
-" set fileformats=unix,dos,mac
-" " https://github.com/vim-jp/issues/issues/1186
-" set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
-"
 " " スクリプトの文字コード (encodingを設定した後に設定する必要がある)
 " scriptencoding utf-8
-
 
 
 " Plug {{{
@@ -71,6 +62,7 @@ Plug 'tpope/vim-endwise'
 Plug 'kana/vim-tabpagecd'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
+Plug 'tomtom/ttodo_vim'
 
 " ==============================================================================
 
@@ -139,6 +131,7 @@ Plug 'Shougo/denite.nvim'
 Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
+Plug 'Jagua/vim-denite-ghq'
 
 " == lightline
 Plug 'itchyny/lightline.vim'
@@ -389,25 +382,60 @@ autocmd MyAutoCmd BufRead,BufWinEnter * setlocal nonumber
 autocmd MyAutoCmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 "
 " terminal settigns 
+" 0  black
+" 1  dark red
+" 2  dark green
+" 3  brown
+" 4  dark blue
+" 6  dark magenta
+" 7  dark cyan
+" 8  light grey
+" 9  dark grey
+" 10 red
+" 11 green
+" 12 yellow
+" 13 blue
+" 14 magenta
+" 15 cyan
+" 16 white
+
+" https://github.com/shanselman/cmd-colors-solarized
+" Black	    #002b36
+" DarkRed	    #cb4b16
+" DarkGreen	#586e75
+" DarkYellow	#657b83
+" DarkBlue	#839496
+" DarkMagenta	#6c71c4
+" DarkCyan	#93a1a1
+" Gray	    #eee8d5
+" DarkGray	#073642
+" Red	        #dc322f
+" Green	    #859900
+" Yellow	    #b58900
+" Blue	    #268bd2
+" Magenta	    #d33682
+" Cyan	    #2aa198
+" White	    #fdf6e3
+
 " https://qiita.com/yami_beta/items/97480d5e88f0d867176b
 let g:terminal_ansi_colors = [
-    \ '#073642', 
-    \ '#dc322f', 
-    \ '#859900', 
-    \ '#b58900', 
-    \ '#268bd2', 
-    \ '#d33682', 
-    \ '#2aa198', 
-    \ '#eee8d5', 
-    \ '#002b36', 
-    \ '#cb4b16', 
-    \ '#586e75', 
-    \ '#657b83', 
-    \ '#839496', 
-    \ '#6c71c4', 
-    \ '#93a1a1', 
-    \ '#fdf6e3', 
-    \ ]
+\   '#002b36',
+\   '#cb4b16',
+\   '#586e75',
+\   '#657b83',
+\   '#839496',
+\   '#6c71c4',
+\   '#93a1a1',
+\   '#eee8d5',
+\   '#073642',
+\   '#dc322f',
+\   '#859900',
+\   '#b58900',
+\   '#268bd2',
+\   '#d33682',
+\   '#2aa198',
+\   '#fdf6e3',
+\]
 
 " すぐに quickfixwidow を開く
 autocmd MyAutoCmd QuickFixCmdPost *grep* botright cwindow
@@ -593,11 +621,9 @@ function! CmdlineEnterSettings() abort
     nnoremap <buffer> <C-l> <C-c>
     inoremap <buffer> <CR>  <C-c><CR>
 
-    " if has(':Denite')
-    "     if getcmdwintype() ==# ':'
-    "     endif
-    " endif
-    nnoremap <buffer> <Space>fc <C-c><C-e><C-u>Denite command_history<CR>
+    " <C-c><C-e> でcmdline-win から抜ける
+    nnoremap <buffer> <C-o> <C-c><C-e><C-u>Denite command_history<CR>
+    inoremap <buffer> <C-o> <C-c><C-e><C-u>Denite command_history<CR>
 
     " global options
     call s:save_global_options(
@@ -681,6 +707,9 @@ nnoremap <Space>ft :<C-u>FileType
 
 
 " terminal {{{
+" prefix
+set termwinkey=<C-g>
+
 tnoremap <C-r> <Nop>
 tnoremap <C-r><C-r> <C-w>"*
 tnoremap <C-w>p <Nop>
@@ -1411,6 +1440,10 @@ if has('conceal')
     set conceallevel=2 concealcursor=niv
 endif
 
+" 自分の snippets
+let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
+
+" }}}
 
 " ==============================================================================
 " ctrlpvim/ctrlp.vim 
@@ -1418,8 +1451,8 @@ endif
 " mapping
 " nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
 " nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
-nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
-nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
+" nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
+" nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 " nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
 
 nnoremap <Space>fl :<C-u>CtrlPLine %<CR>
