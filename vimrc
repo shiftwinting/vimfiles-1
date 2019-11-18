@@ -1929,7 +1929,7 @@ let g:lightline#ale#indicator_ok = nr2char('0xf00c')        " 
 
 function! VisibleRightComponent() abort
     return winwidth('.') > 70 &&
-    \       &filetype !~# '\v^denite|^defx'
+    \       &filetype !~# '\v^denite|^defx|deol|zsh'
 endfunction
 
 let g:lightline.component_function = {
