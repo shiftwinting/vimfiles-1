@@ -2093,6 +2093,7 @@ nnoremap <silent> <Space>fm :<C-u>Denite menu -start-filter=false<CR>
 nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
 nnoremap <silent> <Space>fq :<C-u>Denite ghq -default-action=open<CR>
 nnoremap <silent> ; :<C-u>Denite command_history<CR>
+nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
 
 " Denite の sources
 nnoremap <Space>fd :<C-u>Denite <C-l>
@@ -2350,3 +2351,14 @@ command! DeolOpen :<C-u>Deol bash<CR>
 command! ToggleDeol call ToggleDeol(tabpagenr())
 nnoremap <A-t> :<C-u>ToggleDeol<CR>
 tnoremap <A-t> <C-\><C-n>:<C-u>ToggleDeol<CR>
+
+
+
+" ==============================================================================
+" mattn/sonictemplate-vim
+
+let g:sonictemplate_vim_template_dir = [
+\   expand('~/vimfiles/template'),
+\   expand('~/vimfiles/work/template'),
+\]
+
