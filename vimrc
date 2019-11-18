@@ -976,63 +976,30 @@ endfunction
 
 
 
-
+" ------------------------------------------------------------------------------
 " よく使う help へのジャンプ 
-
 command! FavoriteHelps call <SID>favorite_helps()
 
-let s:fav_help_list_path = expand('~/vimfiles/rc/fav_help_list')
-let s:fav_help_history_path = expand('~/_fav_help_history')
+" 順序を保持するため、リスト
+let s:fav_helps = []
 
-function! s:make_help_list() abort
-    if !filereadable(s:fav_help_list_path)
-        return {}
-    endif
+call add(s:fav_helps, ['function-list', '関数一覧'])
+call add(s:fav_helps, ['user-commands', 'command の書き方'])
+call add(s:fav_helps, ['autocmd-events', 'autocmd 一覧'])
+call add(s:fav_helps, ['E500', '<cword> とか <afile> とか'])
+call add(s:fav_helps, ['usr_41', 'Vim script 基本'])
+call add(s:fav_helps, ['pattern-overview', '正規表現'])
+call add(s:fav_helps, ['eval', 'Vim script [tips]'])
+call add(s:fav_helps, ['ex-cmd-index', '":"のコマンド'])
+call add(s:fav_helps, ['filename-modifiers', ':p とか :h とか'])
+" call add(s:fav_helps, ['doc-file-list', 'home'])
+" call add(s:fav_helps, ['functions', ''])
+" call add(s:fav_helps, ['help-summary', ''])
+" call add(s:fav_helps, ['index', '各モードのマッピング'])
+" call add(s:fav_helps, ['quickref', ''])
 
-    let l:help_list = []
-
-    for l:line in readfile(s:fav_help_list_path)
-        let l:line = trim(l:line)
-        " 空行
-        if len(l:line) ==# 0 | continue | endif
-
-        " 先頭が \" で始まる
-        if match(l:line, '^\s\*"') !=# -1 | continue | endif
-
-        let l:cmd_m = matchstrpos(l:line, '\S\+')
-        let l:title_m = matchstrpos(l:line, '\S.*', l:cmd_m[2])
-        call add(l:help_list, [l:cmd_m[0], l:title_m[0]])
-    endfor
-    return l:help_list
-endfunction
-
-" 追加するヘルプ
-
-function! s:favorite_helps() abort " 
-    let l:help_list = s:make_help_list()
-    let popctx = {
-        \ 'text_list': s:help_create_text_list(l:help_list),
-        \ 'items': map(l:help_list, 'v:val'),
-        \}
-
-    let opts = {
-        \ 'callback': function('s:help_favorite_handler', [popctx]),
-        \ 'title': 'Favorite helps',
-        \ 'padding': [0, 1, 0, 1],
-        \}
-
-    let popctx.id = popup_menu(popctx.text_list, opts)
-endfunction
-
-
-function! s:help_favorite_handler(popctx, winid, idx) abort " 
-    " キャンセル時、-1が渡されるため
-    if a:idx != -1
-        " idx は 1 始まりのため -1 する
-        exec 'help '.a:popctx.items[a:idx-1]
-    endif
-endfunction
-
+" TODO: よくアクセスする順に変更したい
+" let s:fav_help_history_path = expand('~/_fav_help_history')
 
 " help menus 作成 
 function! s:help_create_text_list(list) abort
@@ -1048,6 +1015,27 @@ function! s:help_create_text_list(list) abort
 endfunction
 
 
+function! s:help_favorite_handler(winid, idx) abort " 
+    " キャンセル時、-1が渡されるため
+    if a:idx != -1
+        " ウィンドウ関数から取得
+        let l:items = getwinvar(a:winid, 'items', [])
+        " idx は 1 始まりのため -1 する
+        exec 'help '.l:items[a:idx-1]
+    endif
+endfunction
+
+
+function! s:favorite_helps() abort " 
+    let l:winid = popup_menu(s:help_create_text_list(s:fav_helps), {
+    \   'callback': function('s:help_favorite_handler'),
+    \   'title': 'Favorite helps',
+    \   'padding': [0, 1, 0, 1],
+    \})
+    " window変数を使う
+    call setwinvar(l:winid, 'items', map(s:fav_helps, 'v:val'))
+endfunction
+" ------------------------------------------------------------------------------
 
 
 " カーソル下の highlight 情報を取得 (name のみ) 
