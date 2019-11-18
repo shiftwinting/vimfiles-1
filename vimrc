@@ -2054,6 +2054,8 @@ nnoremap <silent> <Space>fm :<C-u>Denite menu -start-filter=false<CR>
 " nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
 " https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
 nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
+nnoremap <silent> <Space>fq :<C-u>Denite ghq -default-action=open<CR>
+nnoremap <silent> ; :<C-u>Denite command_history<CR>
 
 " Denite の sources
 nnoremap <Space>fd :<C-u>Denite <C-l>
@@ -2100,7 +2102,6 @@ let g:neomru#filename_format = ':~:.'
 let g:neomru#file_mru_limit = 500 " default is 1000
 let g:neomru#directory_mru_limit = 500 " default is 1000
 
-
 function! s:denite_my_settings() abort
     nnoremap <silent><buffer><expr> <CR>     denite#do_map('do_action')
     nnoremap <silent><buffer><expr> d        denite#do_map('do_action', 'delete')
@@ -2109,11 +2110,12 @@ function! s:denite_my_settings() abort
     nnoremap <silent><buffer><expr> <C-q>    denite#do_map('quit')
     nnoremap <silent><buffer><expr> i        denite#do_map('open_filter_buffer')
     nnoremap <silent><buffer><expr> I        denite#do_map('open_filter_buffer')
-    " nnoremap <silent><buffer><expr> <Space>  denite#do_map('toggle_select').'j'
     nnoremap <silent><buffer>       <C-j>    j
     nnoremap <silent><buffer>       <C-k>    k
     nnoremap <silent><buffer><expr> <C-o>    denite#do_map('choose_action')
     nnoremap <silent><buffer>       <Space>q <Nop>
+    nnoremap <silent><buffer><expr> <C-i>    denite#do_map('do_action', 'vsplit')
+    nnoremap <silent><buffer><expr> <C-s>    denite#do_map('do_action', 'split')
 endfunction
 
 function! s:denite_filter_my_settigns() abort
@@ -2124,7 +2126,6 @@ function! s:denite_filter_my_settigns() abort
     \   denite#do_map('quit')
     nnoremap <silent><buffer><expr> <C-q>
     \   denite#do_map('quit')
-
     nnoremap <silent><buffer><expr> <C-c>
     \   denite#do_map('quit')
 
@@ -2138,6 +2139,9 @@ function! s:denite_filter_my_settigns() abort
     \   denite#do_map('toggle_matchers', 'matcher/regexp')
     inoremap <silent><buffer><expr> <C-l>
     \   denite#do_map('toggle_matchers', 'matcher/regexp')
+
+    nnoremap <silent><buffer><expr> <C-i>
+    \   denite#do_map('nop')
 endfunction
 
 augroup MyDeniteSettings
