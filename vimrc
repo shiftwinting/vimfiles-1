@@ -131,7 +131,7 @@ Plug 'Shougo/denite.nvim'
 Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
-Plug 'Jagua/vim-denite-ghq'
+" Plug 'Jagua/vim-denite-ghq'
 
 " == lightline
 Plug 'itchyny/lightline.vim'
@@ -708,12 +708,11 @@ nnoremap <Space>ft :<C-u>FileType
 
 " terminal {{{
 " prefix
-set termwinkey=<C-g>
+set termwinkey=<C-w>
 
 tnoremap <C-r> <Nop>
-tnoremap <C-r><C-r> <C-w>"*
-tnoremap <C-w>p <Nop>
-tnoremap <C-w>p <C-w>"*
+execute 'tnoremap <C-r><C-r> ' . &termwinkey . '"*'
+execute 'tnoremap ' . '&termwinkey' . 'p <Nop>'
 " C-[ でTerminal Job モードへ移行
 tnoremap <Esc> <C-\><C-n>
 
@@ -1717,36 +1716,44 @@ function! s:defx_my_settings() abort
     " copy
     nnoremap <silent><buffer><expr> c
     \ defx#do_action('copy')
+
     " move
     nnoremap <silent><buffer><expr> m
     \ defx#do_action('move')
+
     " paste
     nnoremap <silent><buffer><expr> p
     \ defx#do_action('paste')
+
     " rename
     nnoremap <silent><buffer><expr> r
     \ defx#do_action('rename')
 
     nnoremap <silent><buffer><expr> <CR>
     \ defx#do_action('drop')
+
     " 階層を下に移動
     nnoremap <silent><buffer><expr> l
     \ defx#do_action('call', 'DefxTcdDown')
-    " \ ''
+
     " 階層を上に移動
     nnoremap <silent><buffer><expr> u
     \ defx#do_action('call', 'DefxTcdUp')
+
     " treeの開閉
     nnoremap <silent><buffer><expr> o
     \ defx#is_directory() ?
     \ defx#do_action('open_or_close_tree') :
     \ defx#do_action('drop')
+
     " 垂直分割で開く
     nnoremap <silent><buffer><expr> <C-i>
     \ defx#do_action('drop', 'vsplit')
+
     " 分割で開く
     nnoremap <silent><buffer><expr> <C-s>
     \ defx#do_action('drop', 'split')
+
     " タブで開く
     nnoremap <silent><buffer><expr> t
     \ defx#do_action('open', 'tabnew')
@@ -1767,8 +1774,8 @@ function! s:defx_my_settings() abort
     nnoremap <silent><buffer> H
     \ :<C-u>HereOpen<CR>
 
-    " nnoremap <silent><buffer> B
-    " \ :<C-u>BookmarkList<CR>
+    nnoremap <silent><buffer> B
+    \ :<C-u>BookmarkList<CR>
 
     " " trashboxに入れる(削除)、https://pypi.org/project/Send2Trash/ を使う
     " " pip install send2trash
@@ -1830,20 +1837,23 @@ function! s:defx_my_settings() abort
     " \ line('.') == 1 ? 'G' : 'k'
 
     command! -buffer BAdd call defx#call_action('add_session')
-    " command! -buffer BookmarkList call DefxSessions(g:defx_session_file)
-    nnoremap <silent><buffer> B :<C-u>Denite defx/session<CR>
+    command! -buffer BookmarkList call DefxSessions(g:defx_session_file)
+    " nnoremap <silent><buffer> B :<C-u>Denite defx/session<CR>
+
+    nnoremap <buffer> <C-k> <Nop>
+    nnoremap <buffer> <C-j> <Nop>
 endfunction
 
 function! DefxCurrentFileOpen() abort
     execute "Defx -no-toggle `expand('%:p:h')` -search=`expand('%:p')`"
     call defx#call_action('change_vim_cwd')
 endfunction
-"
+
 nnoremap <silent><C-e> :<C-u>Defx<CR>
 nnoremap <silent><Space>cdn :<C-u>call DefxCurrentFileOpen()<CR>
 
 " DefxSessions
-" execute 'source '.expand('~/vimfiles/rc/plugins/defx_sessions.vim')
+execute 'source '.expand('~/vimfiles/rc/plugins/defx_sessions.vim')
 
 " icon を変える
 call defx#custom#column('icon', {
@@ -2182,6 +2192,10 @@ augroup MyDeniteSettings
 augroup END
 
 
+" call denite#custom#action('file', 'test',
+" \       {context -> execute('let g:foo = 1')})
+
+
 
 " ==============================================================================
 " mattn/gist-vim
@@ -2239,7 +2253,7 @@ let g:ttodo#mapleader = '<LocalLeader>t'
 " XXX: 参考にする https://git.io/JeKIn
 
 " .\{-} : 最短一致 : (なんでもOK)
-let g:deol#prompt_pattern = '.\{-}>\|# $'
+let g:deol#prompt_pattern = '.\{-}>\|# \|\$$'
 
 " コマンドの履歴
 let g:deol#shell_history_path = expand('~/deol_history')
@@ -2247,13 +2261,18 @@ let g:deol#shell_history_path = expand('~/deol_history')
 augroup MyDeol
     autocmd!
     autocmd Filetype deol call DeolSettings()
-    autocmd Filetype zsh call DeolEditorSettings()
+    " expand('<afile>') とする
+    autocmd BufWinEnter * if expand('<afile>') ==# 'deol-edit' | call DeolEditorSettings() | endif
 augroup END
 
 function! DeolSettings() abort
-    tmap <buffer><silent> <A-e> <C-g>:call deol#edit()<CR>
-    nmap <buffer><silent> <A-e> <Plug>(deol_edit)
-    nmap <buffer><silent> <A-t> <Plug>(deol_quit)
+    tmap     <buffer><silent> <A-e> <C-w>:call deol#edit()<CR>
+    nmap     <buffer><silent> <A-e> <Plug>(deol_edit)
+    nmap     <buffer><silent> <A-t> <Plug>(deol_quit)
+
+    " 不要なマッピングを削除
+    nnoremap <buffer>         <C-o> <Nop>
+    nnoremap <buffer>         <C-i> <Nop>
 endfunction
 
 function! DeolEditorSettings() abort
@@ -2261,11 +2280,13 @@ function! DeolEditorSettings() abort
     nmap <buffer> <C-q> <Esc>:call QuitDeolEditor()<CR>
     imap <buffer> <A-e> <Esc>:call QuitDeolEditor()<CR>
     nmap <buffer> <A-e> <Esc>:call QuitDeolEditor()<CR>
+
+    nnoremap <buffer>         <C-o> <Nop>
+    nnoremap <buffer>         <C-i> <Nop>
 endfunction
 
 
 " TODO: タブが削除されたら、その中にある deol もちゃんと消してあげる
-
 function! QuitDeolEditor() abort
     quit
     if exists('t:deol')
@@ -2287,14 +2308,15 @@ function! ShowDeol(tabnr, ...) abort
 
     if empty(l:deol)
         let l:cwd = expand('%:p')
-        call deol#start(printf('-cwd=%s -command=%s', l:cwd, l:command))
+        call deol#start(printf('-edit -cwd=%s -command=%s', l:cwd, l:command))
     elseif !bufexists(l:deol.bufnr)
         let l:cwd = expand('%:p')
-        call deol#start(printf('-cwd=%s -command=%s', l:cwd, l:command))
+        call deol#start(printf('-edit -cwd=%s -command=%s', l:cwd, l:command))
     else
         " 復活
         execute 'buffer ' . l:deol.bufnr
         normal! i
+        call deol#edit()
     endif
 endfunction
 
@@ -2335,12 +2357,12 @@ function! ToggleDeol(tabnr) abort
     if IsShowDeol(a:tabnr)
         call HideDeol(a:tabnr)
     else
-        call ShowDeol(a:tabnr, 'bash.exe')
+        call ShowDeol(a:tabnr)
     endif
 endfunction
 
 
-command! DeolOpen :<C-u>Deol bash<CR>
+command! DeolOpen :<C-u>Deol<CR>
 command! ToggleDeol call ToggleDeol(tabpagenr())
 nnoremap <A-t> :<C-u>ToggleDeol<CR>
 tnoremap <A-t> <C-\><C-n>:<C-u>ToggleDeol<CR>
