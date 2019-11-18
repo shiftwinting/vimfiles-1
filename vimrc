@@ -1027,9 +1027,8 @@ call add(s:fav_helps, ['filename-modifiers', ':p とか :h とか'])
 function! s:help_create_text_list(list) abort
     let help_items = []
     " 最大桁数を取得
-    let l:list = deepcopy(a:list)
-    let max_len = s:get_maxlen(map(a:list, 'v:val[0]'))
-    for [k, v] in l:list
+    let max_len = s:get_maxlen(map(deepcopy(a:list), 'v:val[0]'))
+    for [k, v] in a:list
         " 左揃えにする
         call add(help_items, printf('%-'.max_len.'s', k).' '.v)
     endfor
@@ -1043,7 +1042,7 @@ function! s:help_favorite_handler(winid, idx) abort "
         " ウィンドウ関数から取得
         let l:items = getwinvar(a:winid, 'items', [])
         " idx は 1 始まりのため -1 する
-        exec 'help '.l:items[a:idx-1]
+        exec 'help '.l:items[a:idx-1][0]
     endif
 endfunction
 
