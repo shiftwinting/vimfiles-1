@@ -2439,7 +2439,7 @@ function! TodoMappings() abort
 
     " 期限
     nmap     <silent><buffer> [Todo]p <Plug>TodotxtIncrementDueDateNormal
-    nmap     <silent><buffer> [Todo]P <Plug>TodotxtDecrementDueDateNormal
+    nmap     <silent><buffer> [Todo]n <Plug>TodotxtDecrementDueDateNormal
     nnoremap <silent><buffer> [Todo]d A due:<C-R>=strftime("%Y-%m-%d")<CR><Esc>0
 
     " 管理
