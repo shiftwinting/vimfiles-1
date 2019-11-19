@@ -2249,8 +2249,8 @@ let g:fruzzy#sortonempty = 0
 
 " XXX: 参考にする https://git.io/JeKIn
 
-" .\{-} : 最短一致 : (なんでもOK)
-let g:deol#prompt_pattern = '.\{-}>\|# \|\$$'
+" \%(\) : 部分正規表現として保存しない :help /\%(\)
+let g:deol#prompt_pattern = '.\{-}\%(#\|>\|$\)'
 
 " コマンドの履歴
 let g:deol#shell_history_path = expand('~/deol_history')
