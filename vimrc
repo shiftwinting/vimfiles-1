@@ -487,7 +487,7 @@ nnoremap <C-i> 
 
 " vimrc {{{
 nnoremap <Space>vs. :<C-u>source $MYVIMRC<CR>
-nnoremap <Space>v. :<C-u>tabedit $MYVIMRC<CR>
+nnoremap <Space>v. :<C-u> call tmg#DropOrTabedit($MYVIMRC)<CR>
 
 
 " 保存、終了 {{{
@@ -2435,24 +2435,5 @@ function! TodoMappings() abort
     nnoremap <silent><buffer> [Todo]g :<C-u>call todo#RemoveCompleted()<CR>
 endfunction
 
-function! s:find_todotxt(todotxt_path) abort
-    for l:buf in getbufinfo({'buflisted': 1})
-        if tmg#get_fullpath(l:buf.name) ==# a:todotxt_path &&
-        \   !empty(l:buf.windows)
-            return 1
-        endif
-    endfor
-    return 0
-endfunction
-
-function! TodoTxtOpen(path) abort
-    let l:path = tmg#get_fullpath(a:path)
-    if s:find_todotxt(l:path)
-        execute 'drop ' . l:path
-    else
-        execute 'tabe ' . l:path
-    endif
-endfunction
-
 nnoremap <Space>tt :<C-u>Todo<CR>
-command! Todo call TodoTxtOpen('~/memo/todo/todo.txt')
+command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
