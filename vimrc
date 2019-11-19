@@ -2254,7 +2254,10 @@ let g:fruzzy#sortonempty = 0
 " XXX: 参考にする https://git.io/JeKIn
 
 " \%(\) : 部分正規表現として保存しない :help /\%(\)
-let g:deol#prompt_pattern = '.\{-}\%(#\|>\|$\)'
+" [^(#|>|$)] => # > $ 以外
+" \%(>\|# \?\|\$\) -> > # $ のどれか
+let g:deol#prompt_pattern = '[^(#|>|$|\s)]\{-}\%(>\|# \?\|\$\)'
+" let g:deol#prompt_pattern = '.\{-}# '
 
 " コマンドの履歴
 let g:deol#shell_history_path = expand('~/deol_history')
@@ -2271,9 +2274,18 @@ function! DeolSettings() abort
     nmap     <buffer><silent> <A-e> <Plug>(deol_edit)
     nmap     <buffer><silent> <A-t> <Plug>(deol_quit)
 
+    " "\<Right>" じゃだめだった
+    nnoremap <buffer><silent><expr> I
+    \   'i' . repeat("<Right>", len(getline('.')))
+    nnoremap <buffer><silent><expr> A
+    \   'i' . repeat("<Left>", len(getline('.')))
+
     " 不要なマッピングを削除
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
+    nnoremap <buffer>         <C-e> <Nop>
+    nnoremap <buffer>         <CR>  <Nop>
+    nnoremap <buffer>         <C-z> <Nop>
 endfunction
 
 function! DeolEditorSettings() abort
@@ -2284,6 +2296,7 @@ function! DeolEditorSettings() abort
 
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
+    nnoremap <buffer>         <C-e> <Nop>
 
     setlocal winfixheight
 endfunction
