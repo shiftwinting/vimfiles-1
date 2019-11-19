@@ -1443,7 +1443,7 @@ let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
 
 " mapping
 " nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
-nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
+nnoremap <Space>fb :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
 nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 " nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
@@ -1912,7 +1912,7 @@ let g:lightline.active = {
 \}
 
 let g:lightline.inactive = {
-\   'left': [ [ 't_filename' ] ],
+\   'left': [ [ 't_inactive_mode', 't_filename' ] ],
 \   'right': [ [ 't_lineinfo' ],
 \              [ 't_percent' ] ]
 \}
@@ -1954,14 +1954,14 @@ let g:lightline.component_function = {
 
 function! LightlineMode() abort
     return &filetype ==# 'denite' ? 'Denite' :
+    \       &filetype ==# 'denite-filter' ? 'FILTER' :
     \       &filetype ==# 'defx' ? 'Defx' :
     \       lightline#mode()
 endfunction
 
 function! LightlineFilename() abort
     " 無名ファイルは %:t が '' となる
-    return &filetype ==# 'denite-filter' ? 
-    \           matchstr(denite#get_status('sources'), '^\w\+') :
+    return &filetype ==# 'denite-filter' ? '' :
     \       &filetype ==# 'denite' ? denite#get_status('sources') :
     \       &filetype =~# 'defx' ? '' :
     \       (expand('%:t') !=# '' ? expand('%:t') : 'No Name') .
@@ -1995,6 +1995,12 @@ endfunction
 function! LightlineLineinfo() abort
     return  VisibleRightComponent() ?
     \       line('.') . ':' . col('.') :
+    \       ''
+endfunction
+
+function! LightlineInactiveMode() abort
+    return &filetype ==# 'denite-filter' ? 'FILTER' :
+    \       &filetype ==# 'denite' ? 'Denite' :
     \       ''
 endfunction
 
@@ -2100,10 +2106,11 @@ let g:neopairs#enable = 1
 
 nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split<CR>
 " nnoremap <silent> <Space>fh :<C-u>Denite help -default-action=<CR>
-" nnoremap <silent> <Space>fj :<C-u>Denite buffer -default-action=split<Cr>
+" nnoremap <silent> <Space>fb :<C-u>Denite buffer -default-action=split<Cr>
 " nnoremap <silent> <Space>fl :<C-u>Denite line -auto-action=highlight -winheight=25<CR>
 " nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
-nnoremap <silent> <Space>fm :<C-u>Denite menu -start-filter=false<CR>
+nnoremap <silent> <Space>fm :<C-u>Denite menu -no-start-filter<CR>
+nnoremap <silent> <Space>fj :<C-u>Denite jump<CR>
 " nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
 " https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
 nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
