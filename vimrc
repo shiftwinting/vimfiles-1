@@ -62,7 +62,8 @@ Plug 'tpope/vim-endwise'
 Plug 'kana/vim-tabpagecd'
 Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
-Plug 'tomtom/ttodo_vim'
+Plug 'dbeniamine/todo.txt-vim'
+Plug 'tomtom/tcomment_vim'
 
 " ==============================================================================
 
@@ -137,10 +138,6 @@ Plug 'Shougo/neomru.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 
-" == tomtom
-Plug 'tomtom/tcomment_vim'
-Plug 'tomtom/ttodo_vim'
-Plug 'tomtom/tlib_vim'
 " ==============================================================================
 
 " == colorscheme
@@ -2232,19 +2229,19 @@ let g:fruzzy#sortonempty = 0
 
 
 " ==============================================================================
-" tomtom/ttodo_vim
-" todo.txt があるディレクトリ
-let g:ttodo#dirs = expand($XDG_CACHE_HOME.'/ttodo')
-
-if !isdirectory(g:ttodo#dirs)
-    call mkdir(g:ttodo#dirs)
-endif
-
-" default: '<LocalLeader>t'
-let g:ttodo#mapleader = '<LocalLeader>t'
-
-" todo.txt のファイル名
-" let g:ttodo#inbox = 'todo.txt'
+" " tomtom/ttodo_vim
+" " todo.txt があるディレクトリ
+" let g:ttodo#dirs = expand($XDG_CACHE_HOME.'/ttodo')
+"
+" if !isdirectory(g:ttodo#dirs)
+"     call mkdir(g:ttodo#dirs)
+" endif
+"
+" " default: '<LocalLeader>t'
+" let g:ttodo#mapleader = '<LocalLeader>t'
+"
+" " todo.txt のファイル名
+" " let g:ttodo#inbox = 'todo.txt'
 
 
 " ==============================================================================
@@ -2377,3 +2374,79 @@ let g:sonictemplate_vim_template_dir = [
 \   expand('~/vimfiles/work/template'),
 \]
 
+
+" ==============================================================================
+" dbeniamine/todo.txt-vim
+" [タスク管理メソッド todo.txt が面白そう - Qiita https://qiita.com/sta/items/0f72c9c956cf05df8141]
+" [todotxt/todo.txt: ‼️ A complete primer on the whys and hows of todo.txt. https://github.com/todotxt/todo.txt]
+" [dbeniamine/todo.txt-vim: Efficient Todo.txt management in vim https://github.com/dbeniamine/todo.txt-vim]
+
+" マッピングはここを見る
+" ~\ghq\github.com\tamago324\vimfiles\plugged\todo.txt-vim\ftplugin\todo.vim
+
+" done.txt の名前
+let g:TodoTxtForceDoneName='done.txt'
+" デフォルトのマッピングを OFF
+let g:Todo_txt_do_not_map = 1
+
+" @  コンテキスト(状況で管理するため)
+" due:yyyy-mm-dd 期限(due)
+
+augroup MyTodo
+    autocmd!
+    autocmd FileType todo setlocal omnifunc=todo#Complete
+    autocmd FileType todo call TodoMappings()
+augroup END
+
+function! TodoMappings() abort
+    nnoremap <buffer> [Todo]   <Nop>
+    nmap     <buffer> <Space>t [Todo]
+
+    nnoremap <silent><buffer> o o<C-R>=strftime("%Y-%m-%d")<CR> 
+    inoremap <silent><buffer> date<Tab> <C-R>=strftime("%Y-%m-%d")<CR>
+
+    imap     <silent><buffer> + +<C-X><C-O>
+    imap     <silent><buffer> @ @<C-X><C-O>
+
+    nmap     <silent><buffer> [Todo]x <Plug>DoToggleMarkAsDone
+
+    " " 日付を入れる
+    " noremap  <silent><buffer> [Todo]d :<C-u>call todo#PrependDate()<CR>
+
+    " 優先順位
+    noremap  <silent><buffer> [Todo]a :<C-u>call todo#PrioritizeAdd('A')<CR>
+    noremap  <silent><buffer> [Todo]b :<C-u>call todo#PrioritizeAdd('B')<CR>
+    noremap  <silent><buffer> [Todo]c :<C-u>call todo#PrioritizeAdd('C')<CR>
+    noremap  <silent><buffer> [Todo]j :<C-u>call todo#PrioritizeIncrease()<CR>
+    noremap  <silent><buffer> [Todo]k :<C-u>call todo#PrioritizeDecrease()<CR>
+
+    " 期限
+    nmap     <silent><buffer> [Todo]p <Plug>TodotxtIncrementDueDateNormal
+    nmap     <silent><buffer> [Todo]P <Plug>TodotxtDecrementDueDateNormal
+    nnoremap <silent><buffer> [Todo]d A due:<C-R>=strftime("%Y-%m-%d")<CR><Esc>0
+
+    " 管理
+    nnoremap <silent><buffer> [Todo]g :<C-u>call todo#RemoveCompleted()<CR>
+endfunction
+
+function! s:find_todotxt(todotxt_path) abort
+    for l:buf in getbufinfo({'buflisted': 1})
+        if tmg#get_fullpath(l:buf.name) ==# a:todotxt_path &&
+        \   !empty(l:buf.windows)
+            return 1
+        endif
+    endfor
+    return 0
+endfunction
+
+function! TodoTxtOpen(path) abort
+    let l:path = tmg#get_fullpath(a:path)
+    if s:find_todotxt(l:path)
+        execute 'drop ' . l:path
+    else
+        execute 'tabe ' . l:path
+    endif
+endfunction
+
+nnoremap <Space>tt :<C-u>Todo<CR>
+command! Todo call TodoTxtOpen('~/memo/todo/todo.txt')
