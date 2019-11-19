@@ -1439,9 +1439,9 @@ let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
 
 " mapping
 " nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
-" nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
+nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
-" nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
+nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 " nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
 
 nnoremap <Space>fl :<C-u>CtrlPLine %<CR>
@@ -2084,9 +2084,9 @@ let g:neopairs#enable = 1
 
 nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split<CR>
 " nnoremap <silent> <Space>fh :<C-u>Denite help -default-action=<CR>
-nnoremap <silent> <Space>fj :<C-u>Denite buffer -default-action=split<Cr>
+" nnoremap <silent> <Space>fj :<C-u>Denite buffer -default-action=split<Cr>
 " nnoremap <silent> <Space>fl :<C-u>Denite line -auto-action=highlight -winheight=25<CR>
-nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
+" nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
 nnoremap <silent> <Space>fm :<C-u>Denite menu -start-filter=false<CR>
 " nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
 " https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
