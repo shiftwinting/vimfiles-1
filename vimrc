@@ -1310,6 +1310,7 @@ let g:openbrowser_search_engines = {
 \   'duckduckgo': 'http://duckduckgo.com/?q={query}',
 \   'memo': 'https://scrapbox.io/tamago324-05149866/search/page?q={query}',
 \   'vim': 'https://scrapbox.io/vimemo/search/page?q={query}',
+\   'awesome': 'https://vimawesome.com/?q={query}'
 \}
 
 
@@ -1876,8 +1877,11 @@ call defx#custom#option('_', {
 
 " ==============================================================================
 " translate.vim
-xmap [tr <Plug>(VTranslate)
-xmap ]tr <Plug>(VTranslateBang)
+xmap     [tr <Plug>(VTranslate)
+xmap     ]tr <Plug>(VTranslateBang)
+" カーソル下の文字を翻訳
+nnoremap [tr :<C-u>Translate  <C-r><C-w><CR>
+nnoremap ]tr :<C-u>Translate! <C-r><C-w><CR>
 
 
 " ==============================================================================
@@ -2280,6 +2284,8 @@ function! DeolEditorSettings() abort
 
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
+
+    setlocal winfixheight
 endfunction
 
 
