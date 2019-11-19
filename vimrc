@@ -64,6 +64,9 @@ Plug 'mattn/gist-vim'
 Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-fugitive'
 
 " ==============================================================================
 
@@ -1901,7 +1904,8 @@ let g:lightline.tabline = {
 let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste' ],
 \             [ 'readonly', 't_filename' ],
-\             [ 'linter_errors', 'linter_warnings', 'linter_ok' ]],
+\             [ 'linter_errors', 'linter_warnings', 'linter_ok' ],
+\             [ 't_gitbranch' ]],
 \   'right': [ [ 't_lineinfo' ],
 \              [ 't_percent' ],
 \              [ 't_filetype', 't_fileencoding', 't_fileformat' ]]
@@ -1945,6 +1949,7 @@ let g:lightline.component_function = {
 \   't_percent': 'LightlinePercent',
 \   't_lineinfo': 'LightlineLineinfo',
 \   't_inactive_mode': 'LightlineInactiveMode',
+\   't_gitbranch': 'LightlineGitBranch',
 \}
 
 function! LightlineMode() abort
@@ -1993,13 +1998,20 @@ function! LightlineLineinfo() abort
     \       ''
 endfunction
 
+function! LightlineGitBranch() abort
+    return empty(fugitive#head()) ?
+    \   '' :
+    \   '[' . fugitive#head() . ']'
+endfunction
+
+
 " ==============================================================================
 " colorscheme
 function! DefineMyHighlishts() abort
     if g:colors_name =~# '^solarized8'
         hi IncSearch  gui=NONE guifg=fg guibg=#FFBF80
         hi Search     gui=NONE guifg=fg guibg=#FFFFA0
-        hi SignColumn gui=NONE guifg=fg guibg=#FCF0CF
+        " hi SignColumn gui=NONE guifg=fg guibg=#FCF0CF
 
         " カーソル行はアンダーラインのみ
         hi CursorLine gui=underline guifg=NONE guibg=NONE
@@ -2099,6 +2111,9 @@ nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
 nnoremap <silent> ; :<C-u>Denite command_history<CR>
 nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
 
+" menu
+nnoremap <silent> <Space>fmg :<C-u>Denite menu -input=gutter -no-start-filter<CR>
+
 " Denite の sources
 nnoremap <Space>fd :<C-u>Denite <C-l>
 
@@ -2196,6 +2211,23 @@ augroup END
 " call denite#custom#action('file', 'test',
 " \       {context -> execute('let g:foo = 1')})
 
+let s:denite_menus = {}
+
+let s:denite_menus.gutter = {
+\   'description': 'gutter commands',
+\}
+
+" 以下の3つがある
+" file_candidates       -> kind: file
+" command_candidates    -> kind: command
+" directory_candidates  -> kind: directory
+let s:denite_menus.gutter.command_candidates = [
+\   ['toggle',           'GitGutterToggle'],
+\   ['sign',             'GitGutterSignsToggle'],
+\   ['line_highlight',   'GitGutterLineHighlightsToggle'],
+\]
+
+call denite#custom#var('menu', 'menus', s:denite_menus)
 
 
 " ==============================================================================
@@ -2448,3 +2480,38 @@ endfunction
 
 nnoremap <Space>tt :<C-u>Todo<CR>
 command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
+
+
+" " ==============================================================================
+" airblade/vim-gitgutter
+
+let g:gitgutter_async = 1
+
+augroup MyGutter
+    autocmd!
+augroup END
+
+" 変更箇所へ移動
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
+
+" stage/unstage
+nmap ghs <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
+xmap ghs <Plug>(GitGutterStageHunk)
+
+" 変更範囲のテキストオブジェクト
+omap ic <Plug>(GitGutterTextObjectInnerPending)
+omap ac <Plug>(GitGutterTextObjectOuterPending)
+xmap ic <Plug>(GitGutterTextObjectInnerVisual)
+xmap ac <Plug>(GitGutterTextObjectOuterVisual)
+
+
+
+" ==============================================================================
+" tpope/vim-fugitive
+
+nnoremap gs :<C-u>Gstatus<CR>
+
+" Gstatus のウィンドウ内で実行できるマッピング
+" > , < diff の表示
