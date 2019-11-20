@@ -2551,7 +2551,15 @@ function! s:fugitive_my_settings() abort
     nnoremap <buffer>           s     <Nop>
 endfunction
 
+function! s:fugitive_init_buffer_if_empty() abort
+    if empty(getline('.'))
+        resize 3
+    endif
+    startinsert!
+endfunction
+
 augroup MyFugitive
     autocmd!
     autocmd FileType fugitive call s:fugitive_my_settings()
+    autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
 augroup END
