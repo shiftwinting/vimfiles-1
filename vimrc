@@ -2514,7 +2514,6 @@ nmap ghs <Plug>(GitGutterStageHunk)
 nmap ghu <Plug>(GitGutterUndoHunk)
 nmap ghp <Plug>(GitGutterPreviewHunk)
 nmap ght :<C-u>GitGutterSignsToggle<CR>
-nmap ghht :GitGutterLineHighlightsToggle<CR>
 
 " 変更範囲のテキストオブジェクト
 omap ic <Plug>(GitGutterTextObjectInnerPending)
@@ -2524,7 +2523,7 @@ xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
 function! DefineGutterHighlight() abort
     hi link GitGutterAdd            DiffAdd
-    hi link GitGutterChange         DiffChange
+    hi link GitGutterChange         DiffText
     hi link GitGutterDelte          DiffDelte
     hi link GitGutterChangeDelete   DiffDelte
 endfunction
