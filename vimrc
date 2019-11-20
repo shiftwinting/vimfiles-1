@@ -2247,19 +2247,8 @@ call denite#custom#action('command/history', 'edit_cmdlinewin',
 " menu
 let s:denite_menus = {}
 
-let s:denite_menus.gutter = {
-\   'description': 'gutter commands',
-\}
-
-" 以下の3つがある
-" file_candidates       -> kind: file
-" command_candidates    -> kind: command
-" directory_candidates  -> kind: directory
-let s:denite_menus.gutter.command_candidates = [
-\   ['toggle',           'GitGutterToggle'],
-\   ['sign',             'GitGutterSignsToggle'],
-\   ['line_highlight',   'GitGutterLineHighlightsToggle'],
-\]
+call s:denite_menus_add_gutter()
+" call s:denite_menus_add('gina')
 
 call denite#custom#var('menu', 'menus', s:denite_menus)
 
@@ -2558,6 +2547,25 @@ augroup MyGutterHighlight
     autocmd ColorScheme * :call DefineGutterHighlight()
 augroup END
 
+" denite menu add
+function! s:denite_menus_add_gutter() abort
+    let s:denite_menus.gutter = {
+    \   'description': 'gutter commands',
+    \}
+
+    " 以下の3つがある
+    " file_candidates       -> kind: file
+    " command_candidates    -> kind: command
+    " directory_candidates  -> kind: directory
+    let s:denite_menus.gutter.command_candidates = [
+    \   ['toggle',           'GitGutterToggle'],
+    \   ['sign',             'GitGutterSignsToggle'],
+    \   ['line_highlight',   'GitGutterLineHighlightsToggle'],
+    \]
+endfunction
+
+
+
 " ==============================================================================
 " tpope/vim-fugitive
 
@@ -2600,6 +2608,11 @@ let g:matchup_matchparen_enabled = 0
 
 " ==============================================================================
 " lambdalisue/gina.vim
+" TODO: status からの操作のマッピングを作成
+" TODO: gina#custom#xxx() を使って、カスタマイズ
+"   gina#custom#mapping#nmap() を使う?
+" fugitive と同じようにやりたい
+
 nnoremap <silent> <Space>gs :<C-u>Gina status -s --opener="botright split"<CR>
 
 " :Gina status -s
@@ -2610,3 +2623,10 @@ nnoremap <silent> <Space>gs :<C-u>Gina status -s --opener="botright split"<CR>
 
 " 以下を実行
 " git config --global credential.helper wincred
+
+
+" TODO: 理解する
+nnoremap <silent> <Space>gl :<C-u>Gina log 
+\   --graph --abbrev-commit --decorate --format=format:"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)" --all 
+\   --opener="botright split"<CR>
+
