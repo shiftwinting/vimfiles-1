@@ -2492,11 +2492,18 @@ command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
 " " ==============================================================================
 " airblade/vim-gitgutter
 
-let g:gitgutter_async = 1
+let g:gitgutter_enabled = 1
+" 非同期実行しない(保存時に実行する)
+let g:gitgutter_async = 0
+" OFF default mappings
+let g:gitgutter_map_keys = 0
 
 augroup MyGutter
     autocmd!
+    autocmd BufWritePost * GitGutter
 augroup END
+
+let g:my_gutter_enabled = 0
 
 " 変更箇所へ移動
 nmap ]c <Plug>(GitGutterNextHunk)
@@ -2505,7 +2512,9 @@ nmap [c <Plug>(GitGutterPrevHunk)
 " stage/unstage
 nmap ghs <Plug>(GitGutterStageHunk)
 nmap ghu <Plug>(GitGutterUndoHunk)
-xmap ghs <Plug>(GitGutterStageHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
+nmap ght :<C-u>GitGutterSignsToggle<CR>
+nmap ghht :GitGutterLineHighlightsToggle<CR>
 
 " 変更範囲のテキストオブジェクト
 omap ic <Plug>(GitGutterTextObjectInnerPending)
@@ -2513,12 +2522,22 @@ omap ac <Plug>(GitGutterTextObjectOuterPending)
 xmap ic <Plug>(GitGutterTextObjectInnerVisual)
 xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
-
-
 " ==============================================================================
 " tpope/vim-fugitive
 
-nnoremap gs :<C-u>Gstatus<CR>
+nnoremap <Space>gs :<C-u>Gstatus<CR>
 
 " Gstatus のウィンドウ内で実行できるマッピング
 " > , < diff の表示
+
+function! s:fugitive_my_settings() abort
+    nnoremap <buffer>           <C-q> <C-w>q
+    nnoremap <buffer>           q     <C-w>q
+    nnoremap <buffer><silent>   ?     :<C-u>help fugitive-maps<CR>
+    nnoremap <buffer>           s     <Nop>
+endfunction
+
+augroup MyFugitive
+    autocmd!
+    autocmd FileType fugitive call s:fugitive_my_settings()
+augroup END
