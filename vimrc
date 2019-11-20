@@ -48,16 +48,16 @@ Plug 'mattn/sonictemplate-vim', { 'on': 'Template' }
 Plug 'mechatroner/rainbow_csv', { 'for': 'csv' }
 Plug 'rhysd/clever-f.vim'
 " Plug 'ryanoasis/vim-devicons'
-Plug 'simeji/winresizer' , { 'on': 'WinResizerStartResize' }" ウィンドウ操作
+Plug 'simeji/winresizer' " ウィンドウ操作
 Plug 'skanehira/translate.vim', { 
 \   'on': ['Translate', 'VTranslate', 'VTranslateBang']
 \}
 " Plug 'skywind3000/asyncrun.vim'
-Plug 't9md/vim-quickhl', { 'on': '<Plug>quickhl-manual-this' }
-Plug 'thinca/vim-quickrun', { 'on': ['<Plug>quickrun', 'QuickRun'] }
+Plug 't9md/vim-quickhl', { 'on': '<Plug>(quickhl-manual-this)' }
+Plug 'thinca/vim-quickrun', { 'on': ['<Plug>(quickrun)', 'QuickRun'] }
 Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
-Plug 'tyru/open-browser.vim', { 'on': ['<Plug>openbrowser-smart-search', 'OpenBrowserSearch'] }
+Plug 'tyru/open-browser.vim', { 'on': ['<Plug>(openbrowser-smart-search)', 'OpenBrowserSearch'] }
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
 Plug 'previm/previm', { 'on': 'PrevimOpen' }
 Plug 'tpope/vim-endwise'
