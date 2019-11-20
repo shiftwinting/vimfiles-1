@@ -2014,7 +2014,7 @@ function! LightlineGitBranch() abort
     let l:has_hunk = len(gitgutter#hunk#hunks(bufnr())) > 0 ? '* ' : ''
     return empty(fugitive#head()) ?
     \   '' :
-    \   '[' . l:has_hunk . fugitive#head() . ']'
+    \   l:has_hunk . '[' . fugitive#head() . ']'
 endfunction
 
 
