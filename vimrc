@@ -1203,6 +1203,11 @@ endfunction
 " ------------------------------------------------------------------------------
 
 
+
+" ------------------------------------------------------------------------------
+" ghq
+command! -nargs=1 Ghq :term ++shell ++close ++rows=20 <args>
+
 " ==============================================================================
 " ******************************************************************************
 " plugins
@@ -2217,10 +2222,6 @@ augroup MyDeniteSettings
     autocmd FileType denite-filter  call s:denite_filter_my_settigns()
 augroup END
 
-
-" call denite#custom#action('file', 'test',
-" \       {context -> execute('let g:foo = 1')})
-
 let s:denite_menus = {}
 
 let s:denite_menus.gutter = {
@@ -2485,6 +2486,7 @@ function! TodoMappings() abort
     nnoremap <silent><buffer> [Todo]d A due:<C-R>=strftime("%Y-%m-%d")<CR><Esc>0
 
     " 管理
+    " 終わったタスクを done.txt に移動する
     nnoremap <silent><buffer> [Todo]g :<C-u>call todo#RemoveCompleted()<CR>
 endfunction
 
@@ -2495,9 +2497,8 @@ command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
 " " ==============================================================================
 " airblade/vim-gitgutter
 
+" 起動時に有効化
 let g:gitgutter_enabled = 1
-" 非同期実行しない(保存時に実行する)
-let g:gitgutter_async = 0
 " OFF default mappings
 let g:gitgutter_map_keys = 0
 
@@ -2526,7 +2527,7 @@ xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
 function! DefineGutterHighlight() abort
     hi link GitGutterAdd            DiffAdd
-    hi link GitGutterChange         DiffText
+    hi link GitGutterChange         DiffAdd
     hi link GitGutterDelte          DiffDelte
     hi link GitGutterChangeDelete   DiffDelte
 endfunction
