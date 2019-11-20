@@ -66,9 +66,7 @@ Plug 'mattn/gist-vim', { 'on': 'Gist' }
 Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-fugitive'
+Plug 'andymass/vim-matchup'
 
 " ==============================================================================
 
@@ -143,7 +141,14 @@ Plug 'Shougo/neomru.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 
-" ==============================================================================
+" == git
+Plug 'airblade/vim-gitgutter'
+" Plug 'tpope/vim-git'
+" Plug 'tpope/vim-fugitive'
+" Plug 'junegunn/gv.vim'
+Plug 'lambdalisue/gina.vim'
+
+" ------------------------------------------------------------------------------
 
 " == colorscheme
 Plug 'lifepillar/vim-solarized8'
@@ -332,8 +337,7 @@ autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 
 
-"
-" fold 折畳 {{{
+" fold 折畳
 function! MyFoldText() abort " {{{
     let marker_start = strpart(&foldmarker, 0, 3)
     let line = getline(v:foldstart)
@@ -625,8 +629,8 @@ function! CmdlineEnterSettings() abort
     inoremap <buffer> <CR>  <C-c><CR>
 
     " <C-c><C-e> でcmdline-win から抜ける
-    nnoremap <buffer> <C-o> <C-c><C-e><C-u>Denite command_history<CR>
-    inoremap <buffer> <C-o> <C-c><C-e><C-u>Denite command_history<CR>
+    nnoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
+    inoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
 
     " global options
     call s:save_global_options(
@@ -2012,10 +2016,10 @@ function! LightlineInactiveMode() abort
 endfunction
 
 function! LightlineGitBranch() abort
-    let l:has_hunk = len(gitgutter#hunk#hunks(bufnr())) > 0 ? '* ' : ''
-    return empty(fugitive#head()) ?
+    let l:has_hunk = len(gina#component#status#unstaged()) > 0 ? '* ' : ''
+    return empty(gina#component#repo#branch()) ?
     \   '' :
-    \   l:has_hunk . '[' . fugitive#head() . ']'
+    \   l:has_hunk . '[' . gina#component#repo#branch() . ']'
 endfunction
 
 
@@ -2526,8 +2530,6 @@ augroup MyGutter
     autocmd BufWritePost * GitGutter
 augroup END
 
-let g:my_gutter_enabled = 0
-
 " 変更箇所へ移動
 nmap ]c <Plug>(GitGutterNextHunk)
 nmap [c <Plug>(GitGutterPrevHunk)
@@ -2535,14 +2537,14 @@ nmap [c <Plug>(GitGutterPrevHunk)
 " stage/unstage
 nmap ghs <Plug>(GitGutterStageHunk)
 nmap ghu <Plug>(GitGutterUndoHunk)
-nmap ghp <Plug>(GitGutterPreviewHunk)
+" nmap ghp <Plug>(GitGutterPreviewHunk)
 nmap ght :<C-u>GitGutterSignsToggle<CR>
 
-" 変更範囲のテキストオブジェクト
-omap ic <Plug>(GitGutterTextObjectInnerPending)
-omap ac <Plug>(GitGutterTextObjectOuterPending)
-xmap ic <Plug>(GitGutterTextObjectInnerVisual)
-xmap ac <Plug>(GitGutterTextObjectOuterVisual)
+" " 変更範囲のテキストオブジェクト
+" omap ic <Plug>(GitGutterTextObjectInnerPending)
+" omap ac <Plug>(GitGutterTextObjectOuterPending)
+" xmap ic <Plug>(GitGutterTextObjectInnerVisual)
+" xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
 function! DefineGutterHighlight() abort
     hi link GitGutterAdd            DiffAdd
@@ -2559,7 +2561,7 @@ augroup END
 " ==============================================================================
 " tpope/vim-fugitive
 
-nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>
+" nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>
 
 " Gstatus のウィンドウ内で実行できるマッピング
 " > , < diff の表示
@@ -2585,3 +2587,26 @@ augroup MyFugitive
     autocmd FileType fugitive call s:fugitive_my_settings()
     autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
 augroup END
+
+" ==============================================================================
+" andymass/vim-matchup
+
+" ハイライトをなくす
+let g:matchup_matchparen_enabled = 0
+
+" ==============================================================================
+" junegunn/gv.vim
+" GV
+
+" ==============================================================================
+" lambdalisue/gina.vim
+nnoremap <silent> <Space>gs :<C-u>Gina status -s --opener="botright split"<CR>
+
+" :Gina status -s
+" 以下のような場合
+"  M gvimrc     => stage されていない箇所がある
+" M  vimrc      => stage されている箇所がある
+" ? でヘルプ
+
+" 以下を実行
+" git config --global credential.helper wincred
