@@ -2555,6 +2555,7 @@ function! s:fugitive_init_buffer_if_empty() abort
     if empty(getline('.'))
         resize 3
     endif
+    setlocal winfixheight
     startinsert!
 endfunction
 
