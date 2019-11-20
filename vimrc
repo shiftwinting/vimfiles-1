@@ -1996,7 +1996,7 @@ endfunction
 
 function! LightlineLineinfo() abort
     return  VisibleRightComponent() ?
-    \       line('.') . ':' . col('.') :
+    \       line('.') . ':' . printf('%-3d', col('.')) :
     \       ''
 endfunction
 
@@ -2007,9 +2007,10 @@ function! LightlineInactiveMode() abort
 endfunction
 
 function! LightlineGitBranch() abort
+    let l:has_hunk = len(gitgutter#hunk#hunks(bufnr())) > 0 ? '* ' : ''
     return empty(fugitive#head()) ?
     \   '' :
-    \   '[' . fugitive#head() . ']'
+    \   '[' . l:has_hunk . fugitive#head() . ']'
 endfunction
 
 
