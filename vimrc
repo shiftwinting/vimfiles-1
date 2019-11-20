@@ -35,32 +35,34 @@ Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
 Plug 'dhruvasagar/vim-table-mode'
-Plug 'glidenote/memolist.vim'
+Plug 'glidenote/memolist.vim', { 'on': ['MemoNew', 'MemoList'] }
 Plug 'jiangmiao/auto-pairs'
-Plug 'jremmen/vim-ripgrep'
+" Plug 'jremmen/vim-ripgrep'
 Plug 'kana/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags' " tags 生成
 Plug 'machakann/vim-highlightedyank'
-Plug 'majutsushi/tagbar'
+" Plug 'majutsushi/tagbar'
 Plug 'markonm/traces.vim' " :s の可視化
 Plug 'mattn/emmet-vim'
-Plug 'mattn/sonictemplate-vim'
-Plug 'mechatroner/rainbow_csv'
+Plug 'mattn/sonictemplate-vim', { 'on': 'Template' }
+Plug 'mechatroner/rainbow_csv', { 'for': 'csv' }
 Plug 'rhysd/clever-f.vim'
-Plug 'ryanoasis/vim-devicons'
-Plug 'simeji/winresizer' " ウィンドウ操作
-Plug 'skanehira/translate.vim'
-Plug 'skywind3000/asyncrun.vim'
-Plug 't9md/vim-quickhl'
-Plug 'thinca/vim-quickrun'
+" Plug 'ryanoasis/vim-devicons'
+Plug 'simeji/winresizer' , { 'on': 'WinResizerStartResize' }" ウィンドウ操作
+Plug 'skanehira/translate.vim', { 
+\   'on': ['Translate', 'VTranslate', 'VTranslateBang']
+\}
+" Plug 'skywind3000/asyncrun.vim'
+Plug 't9md/vim-quickhl', { 'on': 'quickhl-manual-this' }
+Plug 'thinca/vim-quickrun', { 'on': ['quickrun', 'QuickRun'] }
 Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
-Plug 'tyru/open-browser.vim'
-Plug 'itchyny/calendar.vim'
-Plug 'previm/previm'
+Plug 'tyru/open-browser.vim', { 'on': ['openbrowser-smart-search', 'OpenBrowserSearch'] }
+Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
+Plug 'previm/previm', { 'on': 'PrevimOpen' }
 Plug 'tpope/vim-endwise'
 Plug 'kana/vim-tabpagecd'
-Plug 'mattn/gist-vim'
+Plug 'mattn/gist-vim', { 'on': 'Gist' }
 Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
@@ -72,13 +74,13 @@ Plug 'tpope/vim-fugitive'
 
 " == python
 " Plug 'davidhalter/jedi-vim'     " from xxx<Space> import のために使っているけど、どうにかできないかな
-Plug 'ambv/black'
+Plug 'ambv/black', { 'for': 'python' }
 
 " == php
 Plug 'jwalton512/vim-blade'
 
 " == nim
-Plug 'zah/nim.vim'
+Plug 'zah/nim.vim', { 'for': 'nim' }
 
 " == frontend
 " https://www.davidosomething.com/blog/vim-for-javascript/
@@ -92,7 +94,7 @@ Plug 'othree/html5.vim'
 " Plug 'posva/vim-vue', { 'for': 'javascript' }
 
 " syntax
-Plug 'yuezk/vim-js'
+Plug 'yuezk/vim-js', { 'for': 'javascript' }
 " Plug 'maxmellon/vim-jsx-pretty'
 
 " == lsp
@@ -104,7 +106,7 @@ Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 
 " == complete vim
-Plug 'machakann/vim-Verdin'
+Plug 'machakann/vim-Verdin', { 'for': 'vim' }
 
 " " == textobj
 Plug 'kana/vim-textobj-user'
@@ -118,12 +120,12 @@ Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-ghq'
 Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'zeero/vim-ctrlp-help'
-Plug 'mattn/ctrlp-launcher'
+" Plug 'zeero/vim-ctrlp-help'
+" Plug 'mattn/ctrlp-launcher'
 
 " == dark power
 Plug 'Shougo/defx.nvim'
-Plug 'kristijanhusak/defx-icons'
+" Plug 'kristijanhusak/defx-icons'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'Shougo/echodoc.vim'
@@ -131,7 +133,7 @@ Plug 'Shougo/neopairs.vim'
 Plug 'Shougo/deol.nvim'
 
 " denite
-Plug 'Shougo/denite.nvim'
+Plug 'Shougo/denite.nvim', { 'on': 'Denite' }
 Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
