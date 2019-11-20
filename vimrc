@@ -2522,6 +2522,18 @@ omap ac <Plug>(GitGutterTextObjectOuterPending)
 xmap ic <Plug>(GitGutterTextObjectInnerVisual)
 xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
+function! DefineGutterHighlight() abort
+    hi link GitGutterAdd            DiffAdd
+    hi link GitGutterChange         DiffChange
+    hi link GitGutterDelte          DiffDelte
+    hi link GitGutterChangeDelete   DiffDelte
+endfunction
+
+augroup MyGutterHighlight
+    autocmd!
+    autocmd ColorScheme * :call DefineGutterHighlight()
+augroup END
+
 " ==============================================================================
 " tpope/vim-fugitive
 
