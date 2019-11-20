@@ -53,11 +53,11 @@ Plug 'skanehira/translate.vim', {
 \   'on': ['Translate', 'VTranslate', 'VTranslateBang']
 \}
 " Plug 'skywind3000/asyncrun.vim'
-Plug 't9md/vim-quickhl', { 'on': 'quickhl-manual-this' }
-Plug 'thinca/vim-quickrun', { 'on': ['quickrun', 'QuickRun'] }
+Plug 't9md/vim-quickhl', { 'on': '<Plug>quickhl-manual-this' }
+Plug 'thinca/vim-quickrun', { 'on': ['<Plug>quickrun', 'QuickRun'] }
 Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
-Plug 'tyru/open-browser.vim', { 'on': ['openbrowser-smart-search', 'OpenBrowserSearch'] }
+Plug 'tyru/open-browser.vim', { 'on': ['<Plug>openbrowser-smart-search', 'OpenBrowserSearch'] }
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
 Plug 'previm/previm', { 'on': 'PrevimOpen' }
 Plug 'tpope/vim-endwise'
@@ -133,7 +133,7 @@ Plug 'Shougo/neopairs.vim'
 Plug 'Shougo/deol.nvim'
 
 " denite
-Plug 'Shougo/denite.nvim', { 'on': 'Denite' }
+Plug 'Shougo/denite.nvim'
 Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
