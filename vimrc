@@ -184,6 +184,7 @@ set timeoutlen=480      " マッピングの待機時間
 set nrformats-=octal    " 07 で CTRL-A しても、010 にならないようにする
 set signcolumn=yes      " 常に表示
 set completeslash=slash " 補完時に使用する slash
+set nostartofline       " <C-v>で選択しているときに、上下移動しても、行頭に行かないようにする
 
 " menuone:  候補が1つでも表示
 " popup:    info を popup で表示
