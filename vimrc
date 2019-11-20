@@ -2187,6 +2187,8 @@ function! s:denite_my_settings() abort
     nnoremap <silent><buffer>       <Space>q <Nop>
     nnoremap <silent><buffer><expr> <C-i>    denite#do_map('do_action', 'vsplit')
     nnoremap <silent><buffer><expr> <C-s>    denite#do_map('do_action', 'split')
+
+    nnoremap <silent><buffer><expr> <A-e>    denite#do_map('do_action', 'edit_cmdlinewin')
 endfunction
 
 function! s:denite_filter_my_settigns() abort
@@ -2221,6 +2223,23 @@ augroup MyDeniteSettings
     autocmd FileType denite-filter  call s:denite_filter_my_settigns()
 augroup END
 
+
+" action
+function! s:denite_command_history_edit_cmdlinewin(context) abort
+    let l:ctx = a:context.targets[0]
+    if get(l:ctx, 'source_name', '') !=# 'command_history'
+        return
+    endif
+    " あたかも、ユーザーが入力したかのように動作する
+    let l:command = get(l:ctx, 'action__command', '')
+    call feedkeys('q:' . l:command , 'n')
+endfunction
+
+call denite#custom#action('command/history', 'edit_cmdlinewin',
+\       function('s:denite_command_history_edit_cmdlinewin'))
+
+
+" menu
 let s:denite_menus = {}
 
 let s:denite_menus.gutter = {
