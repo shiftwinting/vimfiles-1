@@ -482,7 +482,7 @@ nnoremap <Space>k O<ESC>j
 vnoremap <silent> . :normal! .<CR>
 
 " シンボリックリンクの先に移動する
-nnoremap cd :<C-u>exec 'lcd '.resolve(expand('%:p:h'))<CR>
+nnoremap <silent> cd :<C-u>exec 'lcd '.resolve(expand('%:p:h'))<CR>
 
 " 全行フォーマット
 nnoremap <Space>af ggVG=
@@ -491,8 +491,8 @@ nnoremap <Space>af ggVG=
 nnoremap <C-i> 
 
 " vimrc {{{
-nnoremap <Space>vs. :<C-u>source $MYVIMRC<CR>
-nnoremap <Space>v. :<C-u> call tmg#DropOrTabedit($MYVIMRC)<CR>
+nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR>:echo '$MYVIMRC loaded!'<CR>
+nnoremap <silent> <Space>v. :<C-u> call tmg#DropOrTabedit($MYVIMRC)<CR>
 
 
 " 保存、終了 {{{
@@ -521,8 +521,8 @@ nnoremap sL <C-w>L
 " カレントウィンドウを新規タブで開く
 nnoremap st <C-w>T
 " 新規ウィンドウ
-nnoremap sn :<C-u>new<CR>
-nnoremap sv :<C-u>vnew<CR>
+nnoremap <silent> sn :<C-u>new<CR>
+nnoremap <silent> sv :<C-u>vnew<CR>
 
 " <C-w>n,v 無効化 {{{
 
@@ -534,7 +534,7 @@ nnoremap <C-w>v <Nop>
 
 
 " 新規タブ
-nnoremap so :<C-u>tabedit<CR>
+nnoremap <silent> so :<C-u>tabedit<CR>
 
 function! NewTmpFile() abort " {{{
     let s:_ft = input('FileType: ', '', 'filetype')
@@ -544,7 +544,7 @@ function! NewTmpFile() abort " {{{
 endfunction
 
 " 一時ファイルの作成
-nnoremap sf :<C-u>call NewTmpFile()<CR>
+nnoremap <silent> sf :<C-u>call NewTmpFile()<CR>
 
 
 " 移動 {{{
@@ -771,8 +771,8 @@ nnoremap <C-R><C-d> v"hy:%s/\V\(<C-R>h\)//g<left><left>
 
 
 " diff {{{
-nnoremap          <Space>dt :<C-u>windo diffthis<CR>
-nnoremap          <Space>do :<C-u>windo diffoff<CR>
+nnoremap <silent> <Space>dt :<C-u>windo diffthis<CR>
+nnoremap <silent> <Space>do :<C-u>windo diffoff<CR>
 nnoremap <silent> <Space>dp :diffput<CR>
 vnoremap <silent> <Space>dp :diffput<CR>
 nnoremap <silent> <Space>dg :diffget<CR>
@@ -792,7 +792,6 @@ call MapToggleOption('<F3>', 'readonly')
 
 " help {{{
 
-" nnoremap <A-h> :<C-u>help 
 " helpをqで閉じる
 autocmd MyAutoCmd FileType help nnoremap <buffer> q <C-w>c
 
@@ -1610,7 +1609,7 @@ let g:lsp_diagnostics_enabled = 0
 " ==============================================================================
 " jremmen/vim-ripgrep 
 
-nnoremap <Space>rg :<C-u>Rg 
+" nnoremap <Space>rg :<C-u>Rg 
 " nnoremap <Space>fgr :<C-u>RgRoot 
 
 " let g:rg_format = ''
@@ -2490,7 +2489,7 @@ function! TodoMappings() abort
     nnoremap <silent><buffer> [Todo]g :<C-u>call todo#RemoveCompleted()<CR>
 endfunction
 
-nnoremap <Space>tt :<C-u>Todo<CR>
+nnoremap <silent> <Space>tt :<C-u>Todo<CR>
 command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
 
 
@@ -2540,7 +2539,7 @@ augroup END
 " ==============================================================================
 " tpope/vim-fugitive
 
-nnoremap <Space>gs :<C-u>Gstatus<CR>
+nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>
 
 " Gstatus のウィンドウ内で実行できるマッピング
 " > , < diff の表示
