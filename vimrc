@@ -2555,6 +2555,9 @@ function! s:fugitive_init_buffer_if_empty() abort
     resize 3
     setlocal winfixheight
     startinsert!
+
+    " mappings
+    nnoremap <buffer> <C-q> :<C-u>quit!<CR>
 endfunction
 
 augroup MyFugitive
