@@ -46,13 +46,13 @@ Plug 'machakann/vim-highlightedyank'
 " Plug 'majutsushi/tagbar'
 Plug 'markonm/traces.vim' " :s の可視化
 Plug 'mattn/emmet-vim'
-Plug 'mattn/sonictemplate-vim', { 'on': 'Template' }
+Plug 'mattn/sonictemplate-vim'
 Plug 'mechatroner/rainbow_csv', { 'for': 'csv' }
 Plug 'rhysd/clever-f.vim'
 " Plug 'ryanoasis/vim-devicons'
 Plug 'simeji/winresizer' " ウィンドウ操作
 Plug 'skanehira/translate.vim', { 
-\   'on': ['Translate', 'VTranslate', 'VTranslateBang']
+\   'on': ['Translate', '<Plug>(VTranslate)', '<Plug>(VTranslateBang)']
 \}
 " Plug 'skywind3000/asyncrun.vim'
 Plug 't9md/vim-quickhl', { 'on': '<Plug>(quickhl-manual-this)' }
@@ -1458,10 +1458,11 @@ let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
 
 " mapping
 " nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
-nnoremap <Space>fb :<C-u>CtrlPBuffer<CR>
+nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
 nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 " nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
+nnoremap <Space>fp :<C-u>CtrlPYankRound<CR>
 
 nnoremap <Space>fl :<C-u>CtrlPLine %<CR>
 " nnoremap <Space>fd :<C-u>CtrlPDir resolve(expnad('%:p:h'))<CR>
@@ -1920,10 +1921,12 @@ let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste' ],
 \             [ 'readonly', 't_filename' ],
 \             [ 'linter_errors', 'linter_warnings', 'linter_ok' ],
-\             [ 't_gitbranch' ]],
+\             [ 't_gitbranch' ],
+\   ],
 \   'right': [ [ 't_lineinfo' ],
 \              [ 't_percent' ],
-\              [ 't_filetype', 't_fileencoding', 't_fileformat' ]]
+\              [ 't_filetype', 't_fileencoding', 't_fileformat' ],
+\   ]
 \}
 
 let g:lightline.inactive = {
@@ -2126,7 +2129,7 @@ nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split
 " nnoremap <silent> <Space>fl :<C-u>Denite line -auto-action=highlight -winheight=25<CR>
 " nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
 " nnoremap <silent> <Space>fm :<C-u>Denite menu -no-start-filter<CR>
-nnoremap <silent> <Space>fj :<C-u>Denite jump<CR>
+" nnoremap <silent> <Space>fj :<C-u>Denite jump<CR>
 " nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
 " https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
 nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
