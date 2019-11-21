@@ -2613,7 +2613,7 @@ let g:matchup_matchparen_enabled = 0
 "   gina#custom#mapping#nmap() を使う?
 " fugitive と同じようにやりたい
 
-nnoremap <silent> <Space>gs :<C-u>Gina status -s --opener="botright split"<CR>
+nnoremap <silent> <Space>gs :<C-u>Gina status --opener="botright split"<CR>
 
 " :Gina status -s
 " 以下のような場合
