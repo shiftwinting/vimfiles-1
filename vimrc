@@ -142,7 +142,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 
 " == git
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 " Plug 'tpope/vim-git'
 " Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
@@ -2518,46 +2518,51 @@ nnoremap <silent> <Space>tt :<C-u>Todo<CR>
 command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
 
 
-" " " ==============================================================================
-" " airblade/vim-gitgutter
-"
-" " 起動時に有効化
-" let g:gitgutter_enabled = 1
-" " OFF default mappings
-" let g:gitgutter_map_keys = 0
-"
-" augroup MyGutter
-"     autocmd!
-"     autocmd BufWritePost * GitGutter
-" augroup END
-"
-" " 変更箇所へ移動
-" nmap ]c <Plug>(GitGutterNextHunk)
-" nmap [c <Plug>(GitGutterPrevHunk)
-"
-" " stage/unstage
-" nmap ghs <Plug>(GitGutterStageHunk)
-" nmap ghu <Plug>(GitGutterUndoHunk)
-" " nmap ghp <Plug>(GitGutterPreviewHunk)
-" nmap ght :<C-u>GitGutterSignsToggle<CR>
-"
-" " " 変更範囲のテキストオブジェクト
-" " omap ic <Plug>(GitGutterTextObjectInnerPending)
-" " omap ac <Plug>(GitGutterTextObjectOuterPending)
-" " xmap ic <Plug>(GitGutterTextObjectInnerVisual)
-" " xmap ac <Plug>(GitGutterTextObjectOuterVisual)
-"
-" function! DefineGutterHighlight() abort
-"     hi link GitGutterAdd            DiffAdd
-"     hi link GitGutterChange         DiffAdd
-"     hi link GitGutterDelte          DiffDelte
-"     hi link GitGutterChangeDelete   DiffDelte
-" endfunction
-"
-" augroup MyGutterHighlight
-"     autocmd!
-"     autocmd ColorScheme * :call DefineGutterHighlight()
-" augroup END
+" " ==============================================================================
+" airblade/vim-gitgutter
+
+" 起動時に有効化
+let g:gitgutter_enabled = 1
+" OFF default mappings
+let g:gitgutter_map_keys = 0
+
+augroup MyGutter
+    autocmd!
+    autocmd BufWritePost * GitGutter
+augroup END
+
+" plugin で定義済の autocmd を削除
+augroup gitgutter
+    autocmd!
+augroup END
+
+" 変更箇所へ移動
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
+
+" stage/unstage
+nmap ghs <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
+" nmap ghp <Plug>(GitGutterPreviewHunk)
+nmap ght :<C-u>GitGutterSignsToggle<CR>
+
+" " 変更範囲のテキストオブジェクト
+" omap ic <Plug>(GitGutterTextObjectInnerPending)
+" omap ac <Plug>(GitGutterTextObjectOuterPending)
+" xmap ic <Plug>(GitGutterTextObjectInnerVisual)
+" xmap ac <Plug>(GitGutterTextObjectOuterVisual)
+
+function! DefineGutterHighlight() abort
+    hi link GitGutterAdd            DiffAdd
+    hi link GitGutterChange         DiffAdd
+    hi link GitGutterDelte          DiffDelte
+    hi link GitGutterChangeDelete   DiffDelte
+endfunction
+
+augroup MyGutterHighlight
+    autocmd!
+    autocmd ColorScheme * :call DefineGutterHighlight()
+augroup END
 
 " " ==============================================================================
 " " tpope/vim-fugitive
