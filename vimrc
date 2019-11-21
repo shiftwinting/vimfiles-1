@@ -26,11 +26,13 @@ set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
 call plug#begin('~/vimfiles/plugged')
 
 Plug 'junegunn/vim-plug'
+Plug 'junegunn/vim-plug'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'vim-jp/syntax-vim-ex' " VimL のハイライト拡張
 
-Plug 'LeafCage/yankround.vim'
+" Plug 'LeafCage/yankround.vim'
+" Plug 'rcmdnk/yankround.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
@@ -66,7 +68,7 @@ Plug 'mattn/gist-vim', { 'on': 'Gist' }
 Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
-Plug 'andymass/vim-matchup'
+" Plug 'andymass/vim-matchup'
 
 " ==============================================================================
 
@@ -143,10 +145,10 @@ Plug 'maximbaz/lightline-ale'
 
 " == git
 Plug 'airblade/vim-gitgutter'
-" Plug 'tpope/vim-git'
-" Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-git'
+Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
-Plug 'lambdalisue/gina.vim'
+" Plug 'lambdalisue/gina.vim'
 
 " ------------------------------------------------------------------------------
 
@@ -155,6 +157,7 @@ Plug 'lifepillar/vim-solarized8'
 
 Plug '~/ghq/github.com/tamago324/gignores.vim'
 " Plug '~/ghq/github.com/tamago324/ale'
+Plug '~/ghq/github.com/rcmdnk/yankround.vim'
 
 call plug#end()
 
@@ -629,8 +632,8 @@ function! CmdlineEnterSettings() abort
     inoremap <buffer> <CR>  <C-c><CR>
 
     " <C-c><C-e> でcmdline-win から抜ける
-    nnoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
-    inoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
+    " nnoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
+    " inoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
 
     " global options
     call s:save_global_options(
@@ -1013,6 +1016,7 @@ let s:fav_helps = []
 call add(s:fav_helps, ['function-list', '関数一覧'])
 call add(s:fav_helps, ['user-commands', 'command の書き方'])
 call add(s:fav_helps, ['autocmd-events', 'autocmd 一覧'])
+call add(s:fav_helps, ['autocmd-events', 'options 一覧'])
 call add(s:fav_helps, ['E500', '<cword> とか <afile> とか'])
 call add(s:fav_helps, ['usr_41', 'Vim script 基本'])
 call add(s:fav_helps, ['pattern-overview', '正規表現'])
@@ -2016,10 +2020,10 @@ function! LightlineInactiveMode() abort
 endfunction
 
 function! LightlineGitBranch() abort
-    let l:has_hunk = len(gina#component#status#unstaged()) > 0 ? '* ' : ''
-    return empty(gina#component#repo#branch()) ?
+    let l:has_hunk = len(gitgutter#hunk#hunks(bufnr())) > 0 ? '* ' : ''
+    return empty(fugitive#head()) ?
     \   '' :
-    \   l:has_hunk . '[' . gina#component#repo#branch() . ']'
+    \   l:has_hunk . '[' . fugitive#head() . ']'
 endfunction
 
 
@@ -2121,17 +2125,17 @@ nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split
 " nnoremap <silent> <Space>fb :<C-u>Denite buffer -default-action=split<Cr>
 " nnoremap <silent> <Space>fl :<C-u>Denite line -auto-action=highlight -winheight=25<CR>
 " nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
-nnoremap <silent> <Space>fm :<C-u>Denite menu -no-start-filter<CR>
+" nnoremap <silent> <Space>fm :<C-u>Denite menu -no-start-filter<CR>
 nnoremap <silent> <Space>fj :<C-u>Denite jump<CR>
 " nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
 " https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
 nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
 " nnoremap <silent> <Space>fq :<C-u>Denite ghq -default-action=open<CR>
-nnoremap <silent> ; :<C-u>Denite command_history<CR>
+nnoremap <silent> <Space>fc :<C-u>Denite command_history<CR>
 nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
 
 " menu
-nnoremap <silent> <Space>fmg :<C-u>Denite menu -input=gutter -no-start-filter<CR>
+" nnoremap <silent> <Space>fmg :<C-u>Denite menu -input=gutter -no-start-filter<CR>
 
 " Denite の sources
 nnoremap <Space>fd :<C-u>Denite <C-l>
@@ -2246,6 +2250,22 @@ call denite#custom#action('command/history', 'edit_cmdlinewin',
 
 " menu
 let s:denite_menus = {}
+
+function! s:denite_menus_add_gutter() abort
+    let s:denite_menus.gutter = {
+    \   'description': 'gutter commands',
+    \}
+
+    " 以下の3つがある
+    " file_candidates       -> kind: file
+    " command_candidates    -> kind: command
+    " directory_candidates  -> kind: directory
+    let s:denite_menus.gutter.command_candidates = [
+    \   ['toggle',           'GitGutterToggle'],
+    \   ['sign',             'GitGutterSignsToggle'],
+    \   ['line_highlight',   'GitGutterLineHighlightsToggle'],
+    \]
+endfunction
 
 call s:denite_menus_add_gutter()
 " call s:denite_menus_add('gina')
@@ -2506,7 +2526,7 @@ nnoremap <silent> <Space>tt :<C-u>Todo<CR>
 command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
 
 
-" " ==============================================================================
+" ==============================================================================
 " airblade/vim-gitgutter
 
 " 起動時に有効化
@@ -2526,7 +2546,7 @@ nmap [c <Plug>(GitGutterPrevHunk)
 " stage/unstage
 nmap ghs <Plug>(GitGutterStageHunk)
 nmap ghu <Plug>(GitGutterUndoHunk)
-" nmap ghp <Plug>(GitGutterPreviewHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
 nmap ght :<C-u>GitGutterSignsToggle<CR>
 
 " " 変更範囲のテキストオブジェクト
@@ -2547,29 +2567,12 @@ augroup MyGutterHighlight
     autocmd ColorScheme * :call DefineGutterHighlight()
 augroup END
 
-" denite menu add
-function! s:denite_menus_add_gutter() abort
-    let s:denite_menus.gutter = {
-    \   'description': 'gutter commands',
-    \}
-
-    " 以下の3つがある
-    " file_candidates       -> kind: file
-    " command_candidates    -> kind: command
-    " directory_candidates  -> kind: directory
-    let s:denite_menus.gutter.command_candidates = [
-    \   ['toggle',           'GitGutterToggle'],
-    \   ['sign',             'GitGutterSignsToggle'],
-    \   ['line_highlight',   'GitGutterLineHighlightsToggle'],
-    \]
-endfunction
-
 
 
 " ==============================================================================
 " tpope/vim-fugitive
 
-" nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>
+nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>
 
 " Gstatus のウィンドウ内で実行できるマッピング
 " > , < diff の表示
@@ -2606,27 +2609,62 @@ let g:matchup_matchparen_enabled = 0
 " junegunn/gv.vim
 " GV
 
-" ==============================================================================
-" lambdalisue/gina.vim
-" TODO: status からの操作のマッピングを作成
-" TODO: gina#custom#xxx() を使って、カスタマイズ
-"   gina#custom#mapping#nmap() を使う?
-" fugitive と同じようにやりたい
-
-nnoremap <silent> <Space>gs :<C-u>Gina status --opener="botright split"<CR>
-
-" :Gina status -s
-" 以下のような場合
-"  M gvimrc     => stage されていない箇所がある
-" M  vimrc      => stage されている箇所がある
-" ? でヘルプ
-
-" 以下を実行
-" git config --global credential.helper wincred
-
-
-" TODO: 理解する
-nnoremap <silent> <Space>gl :<C-u>Gina log 
-\   --graph --abbrev-commit --decorate --format=format:"%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)" --all 
-\   --opener="botright split"<CR>
+" " ==============================================================================
+" " lambdalisue/gina.vim
+" " TODO: status からの操作のマッピングを作成
+" " TODO: gina#custom#xxx() を使って、カスタマイズ
+" "   gina#custom#mapping#nmap() を使う?
+" " fugitive と同じようにやりたい
+"
+" nnoremap <silent> <Space>gs :<C-u>Gina status --opener="botright split"<CR>
+"
+" " XXX: git の設定を以下のようにする
+" " let $EDITOR = '"C:/Vim/vim81/gvim.exe" --nofork -c "set fenc=utf-8" +1'
+" " let $EDITOR = '"C:/Vim/vim81/gvim.exe"'
+" " cc でコミットメッセージを入力
+" function! s:gina_commit_mysettings() abort
+"     setlocal winfixheight
+" endfunction
+"
+" " call gina#custom#command#option(
+" " \   'commit',
+" " \   '-v|--verbose'
+" " \)
+" call gina#custom#command#option(
+" \   'commit',
+" \   '--opener',
+" \   '3new'
+" \)
+"
+" " key mappigs
+" " cc
+" call gina#custom#mapping#nmap(
+" \   'status',
+" \   'cc', ':<C-u>Gina commit<CR>',
+" \   {'noremap': 1, 'silent': 1}
+" \)
+"
+" " ca
+" call gina#custom#mapping#nmap(
+" \   'status',
+" \   'ca', ':<C-u>Gina commit --amend<CR>',
+" \   {'noremap': 1, 'silent': 1}
+" \)
+"
+" augroup MyGina
+"     autocmd!
+"     autocmd FileType gina-commit call s:gina_commit_mysettings()
+" augroup END
+"
+" " :Gina status -s
+" " 以下のような場合
+" "  M gvimrc     => stage されていない箇所がある
+" " M  vimrc      => stage されている箇所がある
+" " ? でヘルプ
+"
+" " 以下を実行
+" " git config --global credential.helper wincred
+"
+"
+" nnoremap <silent> <Space>gl :<C-u>Gina log --opener="botright split"<CR>
 
