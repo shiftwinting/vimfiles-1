@@ -2323,7 +2323,6 @@ let g:fruzzy#sortonempty = 0
 " \%(\) : 部分正規表現として保存しない :help /\%(\)
 " \%(>\|# \?\|\$\) :  > # $ 
 let g:deol#prompt_pattern = '[^#>$ ]\{-}\%(>\|# \?\|\$\)'
-" let g:deol#prompt_pattern = '.\{-}# '
 
 " コマンドの履歴
 let g:deol#shell_history_path = expand('~/deol_history')
@@ -2341,9 +2340,9 @@ function! DeolSettings() abort
     nmap     <buffer><silent> <A-t> <Plug>(deol_quit)
 
     " "\<Right>" じゃだめだった
-    nnoremap <buffer><silent><expr> I
-    \   'i' . repeat("<Right>", len(getline('.')))
     nnoremap <buffer><silent><expr> A
+    \   'i' . repeat("<Right>", len(getline('.')))
+    nnoremap <buffer><silent><expr> I
     \   'i' . repeat("<Left>", len(getline('.')))
 
     " 不要なマッピングを削除
@@ -2351,6 +2350,7 @@ function! DeolSettings() abort
     nnoremap <buffer>         <C-i> <Nop>
     nnoremap <buffer>         <C-e> <Nop>
     nnoremap <buffer>         <C-z> <Nop>
+    nnoremap <buffer>         e     <Nop>
 endfunction
 
 function! DeolEditorSettings() abort
@@ -2593,20 +2593,3 @@ augroup END
 
 " ハイライトをなくす
 let g:matchup_matchparen_enabled = 0
-
-" ==============================================================================
-" junegunn/gv.vim
-" GV
-
-" " ==============================================================================
-" " lambdalisue/gina.vim
-" nnoremap <silent> <Space>gs :<C-u>Gina status -s --opener="botright split"<CR>
-"
-" " :Gina status -s
-" " 以下のような場合
-" "  M gvimrc     => stage されていない箇所がある
-" " M  vimrc      => stage されている箇所がある
-" " ? でヘルプ
-"
-" " 以下を実行
-" " git config --global credential.helper wincred
