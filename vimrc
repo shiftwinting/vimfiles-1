@@ -26,13 +26,11 @@ set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
 call plug#begin('~/vimfiles/plugged')
 
 Plug 'junegunn/vim-plug'
-Plug 'junegunn/vim-plug'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'vim-jp/syntax-vim-ex' " VimL のハイライト拡張
 
 " Plug 'LeafCage/yankround.vim'
-" Plug 'rcmdnk/yankround.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
@@ -55,7 +53,7 @@ Plug 'skanehira/translate.vim', {
 \   'on': ['Translate', '<Plug>(VTranslate)', '<Plug>(VTranslateBang)']
 \}
 " Plug 'skywind3000/asyncrun.vim'
-Plug 't9md/vim-quickhl', { 'on': '<Plug>(quickhl-manual-this)' }
+Plug 't9md/vim-quickhl'
 Plug 'thinca/vim-quickrun', { 'on': ['<Plug>(quickrun)', 'QuickRun'] }
 Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
@@ -68,7 +66,7 @@ Plug 'mattn/gist-vim', { 'on': 'Gist' }
 Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
-" Plug 'andymass/vim-matchup'
+Plug 'andymass/vim-matchup'
 
 " ==============================================================================
 
@@ -144,9 +142,9 @@ Plug 'itchyny/lightline.vim'
 Plug 'maximbaz/lightline-ale'
 
 " == git
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-git'
-Plug 'tpope/vim-fugitive'
+" Plug 'airblade/vim-gitgutter'
+" Plug 'tpope/vim-git'
+" Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
 " Plug 'lambdalisue/gina.vim'
 
@@ -157,7 +155,6 @@ Plug 'lifepillar/vim-solarized8'
 
 Plug '~/ghq/github.com/tamago324/gignores.vim'
 " Plug '~/ghq/github.com/tamago324/ale'
-Plug '~/ghq/github.com/rcmdnk/yankround.vim'
 
 call plug#end()
 
@@ -256,7 +253,7 @@ set wildmenu
 set wildmode=longest:full,list:full
 
 " cmdline から cmdline-window へ移動
-set cedit=\<C-l>
+set cedit=\<C-k>
 
 " listchars (不可視文字を表示する) " {{{
 set list
@@ -632,8 +629,8 @@ function! CmdlineEnterSettings() abort
     inoremap <buffer> <CR>  <C-c><CR>
 
     " <C-c><C-e> でcmdline-win から抜ける
-    " nnoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
-    " inoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
+    nnoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
+    inoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
 
     " global options
     call s:save_global_options(
@@ -1016,7 +1013,6 @@ let s:fav_helps = []
 call add(s:fav_helps, ['function-list', '関数一覧'])
 call add(s:fav_helps, ['user-commands', 'command の書き方'])
 call add(s:fav_helps, ['autocmd-events', 'autocmd 一覧'])
-call add(s:fav_helps, ['autocmd-events', 'options 一覧'])
 call add(s:fav_helps, ['E500', '<cword> とか <afile> とか'])
 call add(s:fav_helps, ['usr_41', 'Vim script 基本'])
 call add(s:fav_helps, ['pattern-overview', '正規表現'])
@@ -1462,7 +1458,6 @@ nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
 nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 " nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
-nnoremap <Space>fp :<C-u>CtrlPYankRound<CR>
 
 nnoremap <Space>fl :<C-u>CtrlPLine %<CR>
 " nnoremap <Space>fd :<C-u>CtrlPDir resolve(expnad('%:p:h'))<CR>
@@ -1494,7 +1489,7 @@ let g:ctrlp_prompt_mappings = {
     \ 'PrtHistory(1)':        ['<C-p>'],
     \ 'PrtExit()':            ['<Esc>', '<C-c>', '<C-q>'],
     \ 'PrtInsert("c")':       ['<C-o>'],
-    \ 'PrtInsert()':          ['<C-r>'],
+    \ 'PrtInsert()':          [],
     \ 'ToggleRegex()':        [],
     \ 'PrtSelectMove("t")':   [],
     \ 'PrtSelectMove("b")':   [],
@@ -1917,16 +1912,15 @@ let g:lightline.tabline = {
 \   'right': [ [] ],
 \}
 
+" \             [ 't_gitbranch' ]
 let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste' ],
 \             [ 'readonly', 't_filename' ],
 \             [ 'linter_errors', 'linter_warnings', 'linter_ok' ],
-\             [ 't_gitbranch' ],
 \   ],
 \   'right': [ [ 't_lineinfo' ],
 \              [ 't_percent' ],
-\              [ 't_filetype', 't_fileencoding', 't_fileformat' ],
-\   ]
+\              [ 't_filetype', 't_fileencoding', 't_fileformat' ]]
 \}
 
 let g:lightline.inactive = {
@@ -2023,10 +2017,10 @@ function! LightlineInactiveMode() abort
 endfunction
 
 function! LightlineGitBranch() abort
-    let l:has_hunk = len(gitgutter#hunk#hunks(bufnr())) > 0 ? '* ' : ''
-    return empty(fugitive#head()) ?
-    \   '' :
-    \   l:has_hunk . '[' . fugitive#head() . ']'
+    " let l:has_hunk = len(gina#component#status#unstaged()) > 0 ? '* ' : ''
+    " return empty(gina#component#repo#branch()) ?
+    " \   '' :
+    " \   l:has_hunk . '[' . gina#component#repo#branch() . ']'
 endfunction
 
 
@@ -2141,7 +2135,7 @@ nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
 " nnoremap <silent> <Space>fmg :<C-u>Denite menu -input=gutter -no-start-filter<CR>
 
 " Denite の sources
-nnoremap <Space>fd :<C-u>Denite <C-l>
+" nnoremap <Space>fd :<C-u>Denite <C-l>
 
 " " 再表示
 nnoremap <silent> <Space>f[ :<C-u>Denite -resume<CR>
@@ -2254,26 +2248,21 @@ call denite#custom#action('command/history', 'edit_cmdlinewin',
 " menu
 let s:denite_menus = {}
 
-function! s:denite_menus_add_gutter() abort
-    let s:denite_menus.gutter = {
-    \   'description': 'gutter commands',
-    \}
+" let s:denite_menus.gutter = {
+" \   'description': 'gutter commands',
+" \}
+"
+" " 以下の3つがある
+" " file_candidates       -> kind: file
+" " command_candidates    -> kind: command
+" " directory_candidates  -> kind: directory
+" let s:denite_menus.gutter.command_candidates = [
+" \   ['toggle',           'GitGutterToggle'],
+" \   ['sign',             'GitGutterSignsToggle'],
+" \   ['line_highlight',   'GitGutterLineHighlightsToggle'],
+" \]
 
-    " 以下の3つがある
-    " file_candidates       -> kind: file
-    " command_candidates    -> kind: command
-    " directory_candidates  -> kind: directory
-    let s:denite_menus.gutter.command_candidates = [
-    \   ['toggle',           'GitGutterToggle'],
-    \   ['sign',             'GitGutterSignsToggle'],
-    \   ['line_highlight',   'GitGutterLineHighlightsToggle'],
-    \]
-endfunction
-
-call s:denite_menus_add_gutter()
-" call s:denite_menus_add('gina')
-
-call denite#custom#var('menu', 'menus', s:denite_menus)
+" call denite#custom#var('menu', 'menus', s:denite_menus)
 
 
 " ==============================================================================
@@ -2529,78 +2518,76 @@ nnoremap <silent> <Space>tt :<C-u>Todo<CR>
 command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
 
 
-" ==============================================================================
-" airblade/vim-gitgutter
+" " " ==============================================================================
+" " airblade/vim-gitgutter
+"
+" " 起動時に有効化
+" let g:gitgutter_enabled = 1
+" " OFF default mappings
+" let g:gitgutter_map_keys = 0
+"
+" augroup MyGutter
+"     autocmd!
+"     autocmd BufWritePost * GitGutter
+" augroup END
+"
+" " 変更箇所へ移動
+" nmap ]c <Plug>(GitGutterNextHunk)
+" nmap [c <Plug>(GitGutterPrevHunk)
+"
+" " stage/unstage
+" nmap ghs <Plug>(GitGutterStageHunk)
+" nmap ghu <Plug>(GitGutterUndoHunk)
+" " nmap ghp <Plug>(GitGutterPreviewHunk)
+" nmap ght :<C-u>GitGutterSignsToggle<CR>
+"
+" " " 変更範囲のテキストオブジェクト
+" " omap ic <Plug>(GitGutterTextObjectInnerPending)
+" " omap ac <Plug>(GitGutterTextObjectOuterPending)
+" " xmap ic <Plug>(GitGutterTextObjectInnerVisual)
+" " xmap ac <Plug>(GitGutterTextObjectOuterVisual)
+"
+" function! DefineGutterHighlight() abort
+"     hi link GitGutterAdd            DiffAdd
+"     hi link GitGutterChange         DiffAdd
+"     hi link GitGutterDelte          DiffDelte
+"     hi link GitGutterChangeDelete   DiffDelte
+" endfunction
+"
+" augroup MyGutterHighlight
+"     autocmd!
+"     autocmd ColorScheme * :call DefineGutterHighlight()
+" augroup END
 
-" 起動時に有効化
-let g:gitgutter_enabled = 1
-" OFF default mappings
-let g:gitgutter_map_keys = 0
-
-augroup MyGutter
-    autocmd!
-    autocmd BufWritePost * GitGutter
-augroup END
-
-" 変更箇所へ移動
-nmap ]c <Plug>(GitGutterNextHunk)
-nmap [c <Plug>(GitGutterPrevHunk)
-
-" stage/unstage
-nmap ghs <Plug>(GitGutterStageHunk)
-nmap ghu <Plug>(GitGutterUndoHunk)
-nmap ghp <Plug>(GitGutterPreviewHunk)
-nmap ght :<C-u>GitGutterSignsToggle<CR>
-
-" " 変更範囲のテキストオブジェクト
-" omap ic <Plug>(GitGutterTextObjectInnerPending)
-" omap ac <Plug>(GitGutterTextObjectOuterPending)
-" xmap ic <Plug>(GitGutterTextObjectInnerVisual)
-" xmap ac <Plug>(GitGutterTextObjectOuterVisual)
-
-function! DefineGutterHighlight() abort
-    hi link GitGutterAdd            DiffAdd
-    hi link GitGutterChange         DiffAdd
-    hi link GitGutterDelte          DiffDelte
-    hi link GitGutterChangeDelete   DiffDelte
-endfunction
-
-augroup MyGutterHighlight
-    autocmd!
-    autocmd ColorScheme * :call DefineGutterHighlight()
-augroup END
-
-
-
-" ==============================================================================
-" tpope/vim-fugitive
-
-nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>
-
-" Gstatus のウィンドウ内で実行できるマッピング
-" > , < diff の表示
-
-function! s:fugitive_my_settings() abort
-    nnoremap <buffer>           <C-q> <C-w>q
-    nnoremap <buffer>           q     <C-w>q
-    nnoremap <buffer><silent>   ?     :<C-u>help fugitive-maps<CR>
-    nnoremap <buffer>           s     <Nop>
-endfunction
-
-function! s:fugitive_init_buffer_if_empty() abort
-    resize 3
-    setlocal winfixheight
-    startinsert!
-
-    " mappings
-    nnoremap <buffer> <C-q> :<C-u>quit!<CR>
-endfunction
-
-augroup MyFugitive
-    autocmd!
-    autocmd FileType fugitive call s:fugitive_my_settings()
-    autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
-augroup END
+" " ==============================================================================
+" " tpope/vim-fugitive
+"
+" " nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>
+"
+" " Gstatus のウィンドウ内で実行できるマッピング
+" " > , < diff の表示
+"
+" function! s:fugitive_my_settings() abort
+"     nnoremap <buffer>           <C-q> <C-w>q
+"     nnoremap <buffer>           q     <C-w>q
+"     nnoremap <buffer><silent>   ?     :<C-u>help fugitive-maps<CR>
+"     nnoremap <buffer>           s     <Nop>
+" endfunction
+"
+" function! s:fugitive_init_buffer_if_empty() abort
+"     resize 3
+"     setlocal winfixheight
+"     startinsert!
+"
+"     " mappings
+"     nnoremap <buffer> <C-q> :<C-u>quit!<CR>
+" endfunction
+"
+" augroup MyFugitive
+"     autocmd!
+"     autocmd FileType fugitive call s:fugitive_my_settings()
+"     autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
+" augroup END
 
 " ==============================================================================
 " andymass/vim-matchup
@@ -2614,50 +2601,7 @@ let g:matchup_matchparen_enabled = 0
 
 " " ==============================================================================
 " " lambdalisue/gina.vim
-" " TODO: status からの操作のマッピングを作成
-" " TODO: gina#custom#xxx() を使って、カスタマイズ
-" "   gina#custom#mapping#nmap() を使う?
-" " fugitive と同じようにやりたい
-"
-" nnoremap <silent> <Space>gs :<C-u>Gina status --opener="botright split"<CR>
-"
-" " XXX: git の設定を以下のようにする
-" " let $EDITOR = '"C:/Vim/vim81/gvim.exe" --nofork -c "set fenc=utf-8" +1'
-" " let $EDITOR = '"C:/Vim/vim81/gvim.exe"'
-" " cc でコミットメッセージを入力
-" function! s:gina_commit_mysettings() abort
-"     setlocal winfixheight
-" endfunction
-"
-" " call gina#custom#command#option(
-" " \   'commit',
-" " \   '-v|--verbose'
-" " \)
-" call gina#custom#command#option(
-" \   'commit',
-" \   '--opener',
-" \   '3new'
-" \)
-"
-" " key mappigs
-" " cc
-" call gina#custom#mapping#nmap(
-" \   'status',
-" \   'cc', ':<C-u>Gina commit<CR>',
-" \   {'noremap': 1, 'silent': 1}
-" \)
-"
-" " ca
-" call gina#custom#mapping#nmap(
-" \   'status',
-" \   'ca', ':<C-u>Gina commit --amend<CR>',
-" \   {'noremap': 1, 'silent': 1}
-" \)
-"
-" augroup MyGina
-"     autocmd!
-"     autocmd FileType gina-commit call s:gina_commit_mysettings()
-" augroup END
+" nnoremap <silent> <Space>gs :<C-u>Gina status -s --opener="botright split"<CR>
 "
 " " :Gina status -s
 " " 以下のような場合
@@ -2667,7 +2611,3 @@ let g:matchup_matchparen_enabled = 0
 "
 " " 以下を実行
 " " git config --global credential.helper wincred
-"
-"
-" nnoremap <silent> <Space>gl :<C-u>Gina log --opener="botright split"<CR>
-
