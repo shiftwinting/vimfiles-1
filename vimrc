@@ -41,7 +41,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'kana/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags' " tags 生成
 Plug 'machakann/vim-highlightedyank'
-" Plug 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 Plug 'markonm/traces.vim' " :s の可視化
 Plug 'mattn/emmet-vim'
 Plug 'mattn/sonictemplate-vim'
