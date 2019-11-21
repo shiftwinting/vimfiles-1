@@ -144,7 +144,7 @@ Plug 'maximbaz/lightline-ale'
 " == git
 Plug 'airblade/vim-gitgutter'
 " Plug 'tpope/vim-git'
-" Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
 " Plug 'lambdalisue/gina.vim'
 
@@ -335,6 +335,7 @@ autocmd MyAutoCmd FileType vim          setlocal sw=4 sts=4 ts=4 et
 autocmd MyAutoCmd FileType yaml         setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType vue          setlocal sw=2 sts=2 ts=2 et
 
 
 " fold 折畳
@@ -1706,6 +1707,7 @@ augroup END
 function! DefxTcdDown(ctx) abort
     if defx#is_directory()
         execute 'tcd '.a:ctx.targets[0]
+        call deol#cd(getcwd())
         call defx#call_action('open')
     endif
 endfunction
@@ -1713,6 +1715,7 @@ endfunction
 function! DefxTcdUp(ctx) abort
     call defx#call_action('cd', ['..'])
     execute 'tcd '.fnamemodify(a:ctx.cwd, ':p:h:h')
+    call deol#cd(getcwd())
 endfunction
 
 
@@ -1859,6 +1862,7 @@ endfunction
 function! DefxCurrentFileOpen() abort
     execute "Defx -no-toggle `expand('%:p:h')` -search=`expand('%:p')`"
     call defx#call_action('change_vim_cwd')
+    call deol#cd(getcwd())
 endfunction
 
 nnoremap <silent><C-e> :<C-u>Defx<CR>
@@ -1880,7 +1884,7 @@ let g:defx_session_file = expand('~/.defx_sessions')
 call defx#custom#option('_', {
 \   'split': 'vertical',
 \   'winwidth': 30,
-\   'direction': 'topleft',
+\   'direction': 'leftabove',
 \   'toggle': 1,
 \   'show_ignored_files': 0,
 \   'root_marker': '.. ',
@@ -2336,8 +2340,8 @@ augroup END
 
 function! DeolSettings() abort
     tmap     <buffer><silent> <A-e> <C-w>:call deol#edit()<CR>
-    nmap     <buffer><silent> <A-e> <Plug>(deol_edit)
-    nmap     <buffer><silent> <A-t> <Plug>(deol_quit)
+    nmap     <buffer><silent> <A-e> <Esc>:call HideDeol(tabpagenr())<CR>
+    nmap     <buffer><silent> <A-t> <Esc>:call HideDeol(tabpagenr())<CR>
 
     " "\<Right>" じゃだめだった
     nnoremap <buffer><silent><expr> A
@@ -2354,10 +2358,13 @@ function! DeolSettings() abort
 endfunction
 
 function! DeolEditorSettings() abort
-    imap <buffer> <C-q> <Esc>:call deol#kill_editor()<CR>
-    nmap <buffer> <C-q> <Esc>:call deol#kill_editor()<CR>
-    imap <buffer> <A-e> <Esc>:call deol#kill_editor()<CR>
-    nmap <buffer> <A-e> <Esc>:call deol#kill_editor()<CR>
+    imap <buffer><silent> <C-q> <Esc>:call DeolKillEditor()<CR>
+    imap <buffer><silent> <A-e> <Esc>:call DeolKillEditor()<CR>
+    nmap <buffer><silent> <C-q> :<C-u>call DeolKillEditor()<CR>
+    nmap <buffer><silent> <A-e> :<C-u>call DeolKillEditor()<CR>
+
+    imap <buffer><silent> <A-t> <Esc>:call HideDeol(tabpagenr())<CR>
+    nmap <buffer><silent> <A-t> :<C-u>call HideDeol(tabpagenr())<CR>
 
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
@@ -2368,6 +2375,17 @@ endfunction
 
 
 " TODO: タブが削除されたら、その中にある deol もちゃんと消してあげる
+
+function! DeolKillEditor() abort
+    let l:deol = gettabvar(tabpagenr(), 'deol', {})
+    if empty(l:deol)
+        " まだ、作られていない場合、終わり
+        return
+    endif
+
+    execute 'bdelete ' . l:deol.edit_bufnr
+    call win_gotoid(bufwinid(l:deol.bufnr))
+endfunction
 
 function! ShowDeol(tabnr, ...) abort
     let l:deol = gettabvar(a:tabnr, 'deol', {})
@@ -2381,16 +2399,16 @@ function! ShowDeol(tabnr, ...) abort
     botright 25new
     setlocal winfixheight
 
-    if empty(l:deol)
-        let l:cwd = expand('%:p')
-        call deol#start(printf('-edit -cwd=%s -command=%s', l:cwd, l:command))
-    elseif !bufexists(l:deol.bufnr)
-        let l:cwd = expand('%:p')
-        call deol#start(printf('-edit -cwd=%s -command=%s', l:cwd, l:command))
+    if empty(l:deol) || !bufexists(l:deol.bufnr)
+        call deol#start(printf('-edit -cwd=%s -command=%s', getcwd(), l:command))
     else
         " 復活
-        execute 'buffer ' . l:deol.bufnr
-        normal! i
+        try
+            " うまくできなかったため、エラーは無視する
+            execute 'buffer +normal!\ i ' . l:deol.bufnr
+        catch /.*/
+            " ignore
+        endtry
         call deol#edit()
     endif
 endfunction
@@ -2403,12 +2421,16 @@ function! HideDeol(tabnr) abort
         return
     endif
 
-    for l:bufnr in tabpagebuflist(a:tabnr)
-        if l:deol.bufnr ==# l:bufnr
-            execute 'hide'
-            break
-        endif
-    endfor
+    " リストが返されるため
+    if win_findbuf(l:deol.edit_bufnr) ==# [l:deol.edit_winid]
+        call deol#kill_editor()
+    endif
+
+    call win_gotoid(bufwinid(l:deol.bufnr))
+    if l:deol.bufnr ==# bufnr()
+        execute 'hide'
+    endif
+
 endfunction
 
 
@@ -2419,12 +2441,11 @@ function! IsShowDeol(tabnr) abort
         return 0
     endif
 
-    for l:bufnr in tabpagebuflist(a:tabnr)
-        if l:deol.bufnr ==# l:bufnr
-            return 1
-        endif
-    endfor
-    return 0
+    if empty(win_findbuf(l:deol.bufnr))
+        " バッファが表示されているウィンドウが見つからない
+        return 0
+    endif
+    return 1
 endfunction
 
 
@@ -2558,35 +2579,35 @@ augroup MyGutterHighlight
     autocmd ColorScheme * :call DefineGutterHighlight()
 augroup END
 
-" " ==============================================================================
-" " tpope/vim-fugitive
-"
-" " nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>
-"
-" " Gstatus のウィンドウ内で実行できるマッピング
-" " > , < diff の表示
-"
-" function! s:fugitive_my_settings() abort
-"     nnoremap <buffer>           <C-q> <C-w>q
-"     nnoremap <buffer>           q     <C-w>q
-"     nnoremap <buffer><silent>   ?     :<C-u>help fugitive-maps<CR>
-"     nnoremap <buffer>           s     <Nop>
-" endfunction
-"
-" function! s:fugitive_init_buffer_if_empty() abort
-"     resize 3
-"     setlocal winfixheight
-"     startinsert!
-"
-"     " mappings
-"     nnoremap <buffer> <C-q> :<C-u>quit!<CR>
-" endfunction
-"
-" augroup MyFugitive
-"     autocmd!
-"     autocmd FileType fugitive call s:fugitive_my_settings()
-"     autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
-" augroup END
+" ==============================================================================
+" tpope/vim-fugitive
+
+nnoremap <silent> gs :<C-u>Gstatus<CR>
+
+" Gstatus のウィンドウ内で実行できるマッピング
+" > , < diff の表示
+
+function! s:fugitive_my_settings() abort
+    nnoremap <buffer>           <C-q> <C-w>q
+    nnoremap <buffer>           q     <C-w>q
+    nnoremap <buffer><silent>   ?     :<C-u>help fugitive-maps<CR>
+    nnoremap <buffer>           s     <Nop>
+endfunction
+
+function! s:fugitive_init_buffer_if_empty() abort
+    resize 3
+    setlocal winfixheight
+    startinsert!
+
+    " mappings
+    nnoremap <buffer> <C-q> :<C-u>quit!<CR>
+endfunction
+
+augroup MyFugitive
+    autocmd!
+    autocmd FileType fugitive call s:fugitive_my_settings()
+    autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
+augroup END
 
 " ==============================================================================
 " andymass/vim-matchup
