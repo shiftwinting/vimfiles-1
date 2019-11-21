@@ -2354,10 +2354,10 @@ function! DeolSettings() abort
 endfunction
 
 function! DeolEditorSettings() abort
-    imap <buffer> <C-q> <Esc>:call QuitDeolEditor()<CR>
-    nmap <buffer> <C-q> <Esc>:call QuitDeolEditor()<CR>
-    imap <buffer> <A-e> <Esc>:call QuitDeolEditor()<CR>
-    nmap <buffer> <A-e> <Esc>:call QuitDeolEditor()<CR>
+    imap <buffer> <C-q> <Esc>:call deol#kill_editor()<CR>
+    nmap <buffer> <C-q> <Esc>:call deol#kill_editor()<CR>
+    imap <buffer> <A-e> <Esc>:call deol#kill_editor()<CR>
+    nmap <buffer> <A-e> <Esc>:call deol#kill_editor()<CR>
 
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
@@ -2368,12 +2368,6 @@ endfunction
 
 
 " TODO: タブが削除されたら、その中にある deol もちゃんと消してあげる
-function! QuitDeolEditor() abort
-    quit
-    if exists('t:deol')
-        call win_gotoid(bufwinid(t:deol.bufnr))
-    endif
-endfunction
 
 function! ShowDeol(tabnr, ...) abort
     let l:deol = gettabvar(a:tabnr, 'deol', {})
