@@ -1007,7 +1007,7 @@ endfunction
 
 " ------------------------------------------------------------------------------
 " よく使う help へのジャンプ 
-command! FavoriteHelps call <SID>favorite_helps()
+command! FavoriteHelps call FavoriteHelps()
 
 " 順序を保持するため、リスト
 let s:fav_helps = []
@@ -1021,10 +1021,10 @@ call add(s:fav_helps, ['pattern-overview', '正規表現'])
 call add(s:fav_helps, ['eval', 'Vim script [tips]'])
 call add(s:fav_helps, ['ex-cmd-index', '":"のコマンド'])
 call add(s:fav_helps, ['filename-modifiers', ':p とか :h とか'])
+call add(s:fav_helps, ['index', '各モードのマッピング'])
 " call add(s:fav_helps, ['doc-file-list', 'home'])
 " call add(s:fav_helps, ['functions', ''])
 " call add(s:fav_helps, ['help-summary', ''])
-" call add(s:fav_helps, ['index', '各モードのマッピング'])
 " call add(s:fav_helps, ['quickref', ''])
 
 " TODO: よくアクセスする順に変更したい
@@ -1054,7 +1054,7 @@ function! s:help_favorite_handler(winid, idx) abort "
 endfunction
 
 
-function! s:favorite_helps() abort " 
+function! FavoriteHelps() abort " 
     let l:winid = popup_menu(s:help_create_text_list(s:fav_helps), {
     \   'callback': function('s:help_favorite_handler'),
     \   'title': 'Favorite helps',
@@ -2725,3 +2725,12 @@ augroup MyPrettier
     autocmd BufEnter *.js,*.css,*.vue,*.html 
     \       nnoremap <buffer> <Space>bl :<C-u>PrettierAsync<CR>
 augroup END
+=======
+let g:matchup_matchparen_enabled = 0
+
+" ==============================================================================
+" machakann/vim-Verdin
+
+" 自動補完を有効
+let g:Verdin#autocomplete = 1
+>>>>>>> verdin での 自動補完を有効化
