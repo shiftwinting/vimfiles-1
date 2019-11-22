@@ -2131,6 +2131,8 @@ function! DefineMyHighlishts() abort
         " markdown
         hi link MarkdownError Normal
 
+        " ====================
+        " airblade/vim-gitgutter
         hi link GitGutterAdd            DiffAdd
         hi link GitGutterChange         DiffAdd
         hi link GitGutterDelte          DiffDelte
