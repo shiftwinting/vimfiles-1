@@ -270,16 +270,6 @@ set listchars+=precedes:«
 " 行末のスペース
 set listchars+=trail:\ 
 
-" ハイライトを定義
-function! MyHighlight() abort
-    highlight Tab guifg=#999999
-    highlight Eol guifg=#999999
-endfunction
-
-augroup MyHighlightListchars
-    autocmd!
-    autocmd ColorScheme * :call MyHighlight()
-augroup END
 
 augroup MyMatchAdd
     autocmd!
@@ -631,8 +621,8 @@ function! CmdlineEnterSettings() abort
     inoremap <buffer> <CR>  <C-c><CR>
 
     " <C-c><C-e> でcmdline-win から抜ける
-    nnoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
-    inoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
+    " nnoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
+    " inoremap <buffer> <A-e> <C-c><C-e><C-u>Denite command_history<CR>
 
     " global options
     call s:save_global_options(
@@ -1458,8 +1448,9 @@ let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
 " nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
 nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
-nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
+" nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 " nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
+nnoremap <Space>fc :<C-u>CtrlPCdnJs<CR>
 
 nnoremap <Space>fl :<C-u>CtrlPLine %<CR>
 " nnoremap <Space>fd :<C-u>CtrlPDir resolve(expnad('%:p:h'))<CR>
@@ -2098,6 +2089,9 @@ function! DefineMyHighlishts() abort
         " from shirotelin
         hi Todo       gui=bold guifg=#005F00 guibg=#afd7af
 
+        hi Tab guifg=#999999
+        hi Eol guifg=#999999
+
         " ====================
         " LeafCage/yankround.vim
         hi YankRoundRegion guibg=#FFEBCD
@@ -2120,6 +2114,11 @@ function! DefineMyHighlishts() abort
         " ====================
         " markdown
         hi link MarkdownError Normal
+
+        hi link GitGutterAdd            DiffAdd
+        hi link GitGutterChange         DiffAdd
+        hi link GitGutterDelte          DiffDelte
+        hi link GitGutterChangeDelete   DiffDelte
 
     endif
 endfunction
@@ -2616,18 +2615,6 @@ nmap ght :<C-u>GitGutterSignsToggle<CR>
 " omap ac <Plug>(GitGutterTextObjectOuterPending)
 " xmap ic <Plug>(GitGutterTextObjectInnerVisual)
 " xmap ac <Plug>(GitGutterTextObjectOuterVisual)
-
-function! DefineGutterHighlight() abort
-    hi link GitGutterAdd            DiffAdd
-    hi link GitGutterChange         DiffAdd
-    hi link GitGutterDelte          DiffDelte
-    hi link GitGutterChangeDelete   DiffDelte
-endfunction
-
-augroup MyGutterHighlight
-    autocmd!
-    autocmd ColorScheme * :call DefineGutterHighlight()
-augroup END
 
 " ==============================================================================
 " tpope/vim-fugitive
