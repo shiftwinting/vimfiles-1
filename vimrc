@@ -59,7 +59,7 @@ Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
 Plug 'tyru/open-browser.vim'
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
-Plug 'previm/previm', { 'on': 'PrevimOpen' }
+Plug 'previm/previm'
 Plug 'tpope/vim-endwise'
 Plug 'kana/vim-tabpagecd'
 Plug 'mattn/gist-vim', { 'on': 'Gist' }
@@ -67,7 +67,6 @@ Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
-Plug 'psliwka/vim-smoothie'  " C-d と C-u でスムーズに動かせるようにする
 
 " ==============================================================================
 
@@ -851,7 +850,7 @@ endfunction
 autocmd! MyAutoCmd FileType qf call QfSettings()
 
 " 挿入モードから抜けるときに IME をOFFにする
-inoremap <ESC> <ESC>:set iminsert=0<CR>
+inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
 " ==============================================================================
 " 便利なコマンドたち
@@ -1210,6 +1209,12 @@ endfunction
 " ------------------------------------------------------------------------------
 " ghq
 command! -nargs=1 Ghq :term ++shell ++close ++rows=20 ghq get <args>
+
+
+" ------------------------------------------------------------------------------
+" カレントバッファを開く
+command! ThisOpen call system('start ' . expand('%:p'))
+
 
 " ==============================================================================
 " ******************************************************************************
