@@ -90,6 +90,7 @@ Plug 'othree/html5.vim'
 " Plug 'jelera/vim-javascript-syntax', { 'for': ['javascript', 'javascript.jsx'] }
 " Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
 Plug 'posva/vim-vue', { 'for': 'javascript' }
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 
 " syntax
 Plug 'yuezk/vim-js', { 'for': 'javascript' }
@@ -2698,3 +2699,24 @@ augroup END
 let g:ctrlp_cdnjs_script_tag = '<script src="${url}"></script>'
 " https
 let g:ctrlp_cdnjs_scheme = 2
+
+
+" ==============================================================================
+" vim-prettier
+
+" yarn global add prettier
+
+" yarn のパスを追加
+if tmg#get_fullpath($PATH) !~# 'Yarn/bin'
+    if executable('yarn')
+        let $PATH = system('yarn global bin')[:-2] . ';' . $PATH
+    endif
+endif
+
+let g:prettier#exec_cmd_async = 1
+
+augroup MyPrettier
+    autocmd!
+    autocmd BufEnter *.js,*.css,*.vue,*.html 
+    \       nnoremap <buffer> <Space>bl :<C-u>PrettierAsync<CR>
+augroup END
