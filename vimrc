@@ -128,6 +128,7 @@ Plug 'FelikZ/ctrlp-py-matcher'
 " Plug 'zeero/vim-ctrlp-help'
 " Plug 'mattn/ctrlp-launcher'
 Plug 'pasela/ctrlp-cdnjs'
+Plug 'tacahiroy/ctrlp-funky'
 
 " == dark power
 Plug 'Shougo/defx.nvim'
@@ -278,6 +279,10 @@ set listchars+=precedes:«
 " 行末のスペース
 set listchars+=trail:\ 
 
+" 補完候補の最大表示数
+set pumheight=15
+
+" ハイライトを定義
 
 augroup MyMatchAdd
     autocmd!
@@ -482,9 +487,9 @@ inoremap <C-e> <END>
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 
-" 空行を作成する
-nnoremap <Space>j o<ESC>k
-nnoremap <Space>k O<ESC>j
+"" 空行を作成する
+" nnoremap <Space>j o<ESC>k
+" nnoremap <Space>k O<ESC>j
 
 vnoremap <silent> . :normal! .<CR>
 
@@ -1323,6 +1328,8 @@ let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 nnoremap <A-o><A-o> :<C-u>OpenBrowserSearch -duckduckgo 
+" 現在のファイルタイプで devdocs を開く
+nnoremap <A-o><A-d> :<C-u>execute 'OpenBrowserSearch -dev ' . &filetype<CR>
 nnoremap <A-o><A-n> :<C-u>OpenBrowserSearch -
 
 " 追加
@@ -1467,6 +1474,7 @@ nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
 " nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 " nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
 nnoremap <Space>fc :<C-u>CtrlPCdnJs<CR>
+nnoremap <Space>fo :<C-u>CtrlPFunky<CR>
 
 nnoremap <Space>fl :<C-u>CtrlPLine %<CR>
 " nnoremap <Space>fd :<C-u>CtrlPDir resolve(expnad('%:p:h'))<CR>
@@ -2435,13 +2443,33 @@ function! DeolEditorSettings() abort
 
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
-    nnoremap <buffer>         <C-e> <Nop>
 
     setlocal winfixheight
 endfunction
 
 
 " TODO: タブが削除されたら、その中にある deol もちゃんと消してあげる
+
+function! s:save_history(bufnr) abort
+    let l:history_path = expand(g:deol#shell_history_path)
+    " echomsg l:history_path
+    if !filereadable(l:history_path)
+        return
+    endif
+
+    let l:history = readfile(l:history_path)[-g:deol#shell_history_max :]
+    " echomsg l:history
+    let l:history =map(l:history,
+    \   'substitute(v:val, "^\\%(\\d\\+/\\)\\+[:[:digit:]; ]\\+\\|^[:[:digit:]; ]\\+", "", "g")')
+    " echomsg l:history
+
+    " 履歴にないものだけ追加したい
+    let l:lines = filter(getbufline(a:bufnr, 1, '$'), 
+    \       'index(l:history, v:val) ==# -1 && !empty(trim(v:val))')
+    " echomsg l:lines
+
+    call writefile(l:lines, l:history_path, 'a')
+endfunction
 
 function! DeolKillEditor() abort
     let l:deol = gettabvar(tabpagenr(), 'deol', {})
@@ -2450,6 +2478,8 @@ function! DeolKillEditor() abort
         return
     endif
 
+    " 履歴を追加
+    call s:save_history(l:deol.edit_bufnr)
     execute 'bdelete ' . l:deol.edit_bufnr
     call win_gotoid(bufwinid(l:deol.bufnr))
 endfunction
@@ -2491,6 +2521,7 @@ function! HideDeol(tabnr) abort
     " リストが返されるため
     if win_findbuf(l:deol.edit_bufnr) ==# [l:deol.edit_winid]
         call DeolKillEditor()
+        execute 'bdelete ' . l:deol.edit_bufnr
     endif
 
     call win_gotoid(bufwinid(l:deol.bufnr))
@@ -2527,9 +2558,8 @@ endfunction
 
 command! DeolOpen :<C-u>Deol<CR>
 command! ToggleDeol call ToggleDeol(tabpagenr())
-nnoremap <A-t> :<C-u>ToggleDeol<CR>
-tnoremap <A-t> <C-\><C-n>:<C-u>ToggleDeol<CR>
-
+nnoremap <silent><A-t> :<C-u>ToggleDeol<CR>
+tnoremap <silent><A-t> <C-\><C-n>:<C-u>ToggleDeol<CR>
 
 
 " ==============================================================================
@@ -2725,12 +2755,9 @@ augroup MyPrettier
     autocmd BufEnter *.js,*.css,*.vue,*.html 
     \       nnoremap <buffer> <Space>bl :<C-u>PrettierAsync<CR>
 augroup END
-=======
-let g:matchup_matchparen_enabled = 0
 
 " ==============================================================================
 " machakann/vim-Verdin
 
 " 自動補完を有効
 let g:Verdin#autocomplete = 1
->>>>>>> verdin での 自動補完を有効化
