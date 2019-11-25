@@ -120,6 +120,7 @@ Plug 'mattn/ctrlp-ghq'
 Plug 'FelikZ/ctrlp-py-matcher'
 " Plug 'zeero/vim-ctrlp-help'
 " Plug 'mattn/ctrlp-launcher'
+Plug 'pasela/ctrlp-cdnjs'
 
 " == dark power
 Plug 'Shougo/defx.nvim'
@@ -2663,3 +2664,8 @@ augroup END
 
 " ハイライトをなくす
 let g:matchup_matchparen_enabled = 0
+
+" insert するタグ
+let g:ctrlp_cdnjs_script_tag = '<script src="${url}"></script>'
+" https
+let g:ctrlp_cdnjs_scheme = 2
