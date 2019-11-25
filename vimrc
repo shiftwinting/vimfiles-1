@@ -2174,14 +2174,14 @@ nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split
 " nnoremap <silent> <Space>fh :<C-u>Denite help -default-action=<CR>
 " nnoremap <silent> <Space>fb :<C-u>Denite buffer -default-action=split<Cr>
 " nnoremap <silent> <Space>fl :<C-u>Denite line -auto-action=highlight -winheight=25<CR>
-" nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
+nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
 " nnoremap <silent> <Space>fm :<C-u>Denite menu -no-start-filter<CR>
 " nnoremap <silent> <Space>fj :<C-u>Denite jump<CR>
 " nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
 " https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
 nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
 " nnoremap <silent> <Space>fq :<C-u>Denite ghq -default-action=open<CR>
-nnoremap <silent> <Space>fc :<C-u>Denite command_history<CR>
+" nnoremap <silent> <Space>fc :<C-u>Denite command_history<CR>
 nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
 
 " menu
@@ -2472,7 +2472,7 @@ function! HideDeol(tabnr) abort
 
     " リストが返されるため
     if win_findbuf(l:deol.edit_bufnr) ==# [l:deol.edit_winid]
-        call deol#kill_editor()
+        call DeolKillEditor()
     endif
 
     call win_gotoid(bufwinid(l:deol.bufnr))
