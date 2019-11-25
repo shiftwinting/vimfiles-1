@@ -57,7 +57,7 @@ Plug 't9md/vim-quickhl'
 Plug 'thinca/vim-quickrun', { 'on': ['<Plug>(quickrun)', 'QuickRun'] }
 Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
-Plug 'tyru/open-browser.vim', { 'on': ['<Plug>(openbrowser-smart-search)', 'OpenBrowserSearch'] }
+Plug 'tyru/open-browser.vim'
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
 Plug 'previm/previm', { 'on': 'PrevimOpen' }
 Plug 'tpope/vim-endwise'
@@ -67,6 +67,7 @@ Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
+Plug 'psliwka/vim-smoothie'  " C-d と C-u でスムーズに動かせるようにする
 
 " ==============================================================================
 
@@ -89,7 +90,7 @@ Plug 'othree/html5.vim'
 " Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
 " Plug 'jelera/vim-javascript-syntax', { 'for': ['javascript', 'javascript.jsx'] }
 " Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
-" Plug 'posva/vim-vue', { 'for': 'javascript' }
+Plug 'posva/vim-vue', { 'for': 'javascript' }
 
 " syntax
 Plug 'yuezk/vim-js', { 'for': 'javascript' }
@@ -102,6 +103,11 @@ Plug 'thomasfaingnaert/vim-lsp-snippets'
 Plug 'thomasfaingnaert/vim-lsp-neosnippet'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+
+" == complete
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'yami-beta/asyncomplete-omni.vim'
 
 " == complete vim
 Plug 'machakann/vim-Verdin', { 'for': 'vim' }
@@ -196,6 +202,7 @@ set nostartofline       " <C-v>で選択しているときに、上下移動し�
 " popup:    info を popup で表示
 " noselect: 自動で候補を表示しない
 set completeopt=menuone,noselect,noinsert
+set pumheight=15
 
 set expandtab
 set tabstop=4
@@ -843,8 +850,8 @@ endfunction
 
 autocmd! MyAutoCmd FileType qf call QfSettings()
 
-
-
+" 挿入モードから抜けるときに IME をOFFにする
+inoremap <ESC> <ESC>:set iminsert=0<CR>
 
 " ==============================================================================
 " 便利なコマンドたち
@@ -2650,7 +2657,37 @@ augroup END
 " andymass/vim-matchup
 
 " ハイライトをなくす
-let g:matchup_matchparen_enabled = 0
+let g:matchup_matchparen_enabled = 1
+
+
+" ==============================================================================
+" prabirshrestha/asyncomplete.vim
+set shortmess+=c
+
+augroup MyLspVerdin
+    autocmd!
+    autocmd User asyncomplete_setup call asyncomplete#register_source(
+    \   asyncomplete#sources#Verdin#get_source_options({
+    \      'name': 'Verdin',
+    \      'whitelist': ['vim', 'help'],
+    \      'completor': function('asyncomplete#sources#Verdin#completor'),
+    \}))
+augroup END
+
+" call asyncomplete#register_source(
+" \   asyncomplete#sources#omni#get_source_options({
+" \       'name': 'omni',
+" \       'whitelist': ['*'],
+" \       'blacklist': ['c', 'cpp', 'html'],
+" \       'completor': function('asyncomplete#sources#omni#completor')
+" \   })
+" \)
+
+
+" ==============================================================================
+" psliwka/vim-smoothie
+
+" C-t でタグを挿入
 
 " insert するタグ
 let g:ctrlp_cdnjs_script_tag = '<script src="${url}"></script>'
