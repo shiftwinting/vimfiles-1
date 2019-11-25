@@ -90,7 +90,8 @@ Plug 'othree/html5.vim'
 " Plug 'jelera/vim-javascript-syntax', { 'for': ['javascript', 'javascript.jsx'] }
 " Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
 Plug 'posva/vim-vue', { 'for': 'javascript' }
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' } " Formatter
+Plug 'jason0x43/vim-js-indent'
 
 " syntax
 Plug 'yuezk/vim-js', { 'for': 'javascript' }
@@ -453,7 +454,9 @@ function! TerminalSettings() abort
 endfunction
 autocmd MyAutoCmd TerminalWinOpen * call TerminalSettings()
 
+iabbrev strint string
 
+" ==============================================================================
 " mapping {{{1
 
 noremap ZZ <Nop>
