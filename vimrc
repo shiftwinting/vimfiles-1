@@ -2740,7 +2740,7 @@ augroup MyAsyncompleteOmni
     \   asyncomplete#sources#omni#get_source_options({
     \       'name': 'omni',
     \       'whitelist': ['*'],
-    \       'blacklist': ['html', 'vim', 'help'],
+    \       'blacklist': ['html', 'vim', 'help', 'sql'],
     \       'completor': function('asyncomplete#sources#omni#completor')
     \   })
     \)
@@ -2764,7 +2764,7 @@ augroup MyAsyncompleteNecosyntax
     \   asyncomplete#sources#necosyntax#get_source_options({
     \       'name': 'necosyntax',
     \       'whitelist': ['*'],
-    \       'blacklist': ['vim', 'help'],
+    \       'blacklist': ['vim', 'help', 'sql', 'html'],
     \       'completor': function('asyncomplete#sources#necosyntax#completor'),
     \   })
     \)
