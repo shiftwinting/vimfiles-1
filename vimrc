@@ -58,6 +58,7 @@ Plug 'thinca/vim-quickrun', { 'on': ['<Plug>(quickrun)', 'QuickRun'] }
 Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
 Plug 'tyru/open-browser.vim'
+Plug 'tyru/open-browser-github.vim'
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
 Plug 'previm/previm'
 Plug 'tpope/vim-endwise'
