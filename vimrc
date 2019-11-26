@@ -2117,7 +2117,7 @@ function! DefineMyHighlishts() abort
     if g:colors_name =~# '^solarized8'
         hi IncSearch  gui=NONE guifg=fg guibg=#FFBF80
         hi Search     gui=NONE guifg=fg guibg=#FFFFA0
-        " hi SignColumn gui=NONE guifg=fg guibg=#FCF0CF
+        hi SignColumn gui=NONE guifg=fg guibg=#eee8d5
 
         " カーソル行はアンダーラインのみ
         hi CursorLine gui=underline guifg=NONE guibg=NONE
@@ -2168,7 +2168,7 @@ function! DefineMyHighlishts() abort
 endfunction
 augroup MyColorScheme
     autocmd!
-    autocmd ColorScheme * :call DefineMyHighlishts()
+    autocmd ColorScheme * call DefineMyHighlishts()
 augroup END
 
 " italic なくす
