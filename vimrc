@@ -68,6 +68,7 @@ Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
+Plug 'deton/jasegment.vim'
 
 " ==============================================================================
 
@@ -2820,3 +2821,28 @@ let g:user_emmet_settings = {
 " <C-y>, : 展開
 " <C-y>; : 展開 (ただのタグ)
 " v_<C-y>, : 選択範囲を指定の要素で囲む
+
+let g:ale_set_highlight_textprop = 1
+
+
+" ==============================================================================
+" deton/jasegment.vim
+
+" from https://github.com/orokasan/dotfiles/blob/e8874259e9e5c0feb693e113c17355b00cb04413/dein.toml#L35-L66
+
+" 2以下だと、Insert モードを抜けたときにはハイライトしない
+" 2以上だと、Insert モード抜けたらハイライトする
+let g:jasegment#highlight = 1
+
+" 小文字でも移動できるようにする
+nmap <silent> e <Plug>JaSegmentMoveNE
+nmap <silent> w <Plug>JaSegmentMoveNW
+nmap <silent> b <Plug>JaSegmentMoveNB
+omap <silent> e <Plug>JaSegmentMoveOE
+omap <silent> w <Plug>JaSegmentMoveOW
+omap <silent> b <Plug>JaSegmentMoveOB
+xmap <silent> e <Plug>JaSegmentMoveVE
+xmap <silent> w <Plug>JaSegmentMoveVW
+xmap <silent> b <Plug>JaSegmentMoveVB
+
+" TODO: ハイライトの色はどうやって設定するのか
