@@ -2164,6 +2164,10 @@ function! DefineMyHighlishts() abort
         hi link GitGutterDelte          DiffDelte
         hi link GitGutterChangeDelete   DiffDelte
 
+        " ====================
+        " matchup
+        hi MatchParen   gui=undercurl,bold guifg=fg guibg=#FFE8E0
+
     endif
 endfunction
 augroup MyColorScheme
@@ -2498,7 +2502,7 @@ function! DeolKillEditor() abort
 
     " 履歴を追加
     call s:save_history(l:deol.edit_bufnr)
-    execute 'bdelete ' . l:deol.edit_bufnr
+    execute 'bdelete! ' . l:deol.edit_bufnr
     call win_gotoid(bufwinid(l:deol.bufnr))
 endfunction
 
@@ -2539,7 +2543,6 @@ function! HideDeol(tabnr) abort
     " リストが返されるため
     if win_findbuf(l:deol.edit_bufnr) ==# [l:deol.edit_winid]
         call DeolKillEditor()
-        execute 'bdelete ' . l:deol.edit_bufnr
     endif
 
     call win_gotoid(bufwinid(l:deol.bufnr))
