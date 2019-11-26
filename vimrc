@@ -1225,6 +1225,21 @@ command! -nargs=1 Ghq :term ++shell ++close ++rows=20 ghq get <args>
 command! ThisOpen call system('start ' . expand('%:p'))
 
 
+" ------------------------------------------------------------------------------
+" カレントバッファのファイル名を変更
+function! RenameCurBuffer() abort
+    let l:name = input('Rename: ')
+    if empty(l:name)
+        return
+    endif
+
+    let l:fullpath = tmg#get_fullpath(expand('%:p:h')) . '/' . l:name
+    call rename(expand('%:p'), l:fullpath)
+    execute 'edit! ' . l:fullpath
+endfunction
+
+command! RenameCurBuffer call RenameCurBuffer()
+
 " ==============================================================================
 " ******************************************************************************
 " plugins
@@ -2715,14 +2730,14 @@ augroup MyLspVerdin
     \}))
 augroup END
 
-" call asyncomplete#register_source(
-" \   asyncomplete#sources#omni#get_source_options({
-" \       'name': 'omni',
-" \       'whitelist': ['*'],
-" \       'blacklist': ['c', 'cpp', 'html'],
-" \       'completor': function('asyncomplete#sources#omni#completor')
-" \   })
-" \)
+call asyncomplete#register_source(
+\   asyncomplete#sources#omni#get_source_options({
+\       'name': 'omni',
+\       'whitelist': ['*'],
+\       'blacklist': ['html'],
+\       'completor': function('asyncomplete#sources#omni#completor')
+\   })
+\)
 
 
 " ==============================================================================
@@ -2759,8 +2774,6 @@ augroup END
 " ==============================================================================
 " machakann/vim-Verdin
 
-" 自動補完を有効
-let g:Verdin#autocomplete = 1
 " ==============================================================================
 " mattn/emmet-vim
 let g:user_emmet_settings = {
