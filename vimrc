@@ -109,6 +109,9 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'yami-beta/asyncomplete-omni.vim'
+" Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
+Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+Plug 'Shougo/neco-syntax'
 
 " == complete vim
 Plug 'machakann/vim-Verdin', { 'for': 'vim' }
@@ -2720,7 +2723,7 @@ let g:matchup_matchparen_enabled = 1
 " prabirshrestha/asyncomplete.vim
 set shortmess+=c
 
-augroup MyLspVerdin
+augroup MyAsyncompleteVerdin
     autocmd!
     autocmd User asyncomplete_setup call asyncomplete#register_source(
     \   asyncomplete#sources#Verdin#get_source_options({
@@ -2730,15 +2733,42 @@ augroup MyLspVerdin
     \}))
 augroup END
 
-call asyncomplete#register_source(
-\   asyncomplete#sources#omni#get_source_options({
-\       'name': 'omni',
-\       'whitelist': ['*'],
-\       'blacklist': ['html'],
-\       'completor': function('asyncomplete#sources#omni#completor')
-\   })
-\)
 
+augroup MyAsyncompleteOmni
+    autocmd!
+    autocmd User asyncomplete_setup call asyncomplete#register_source(
+    \   asyncomplete#sources#omni#get_source_options({
+    \       'name': 'omni',
+    \       'whitelist': ['*'],
+    \       'blacklist': ['html', 'vim', 'help'],
+    \       'completor': function('asyncomplete#sources#omni#completor')
+    \   })
+    \)
+augroup END
+
+
+" augroup MyAsyncompleteNeosnippet
+"     autocmd!
+"     autocmd User asyncomplete_setup call asyncomplete#register_source(
+"     \   asyncomplete#sources#neosnippet#get_source_options({
+"     \       'name': 'neosnippet',
+"     \       'whitelist': ['*'],
+"     \       'completor': function('asyncomplete#sources#neosnippet#completor'),
+"     \   })
+"     \)
+" augroup END
+
+augroup MyAsyncompleteNecosyntax
+    autocmd!
+    autocmd User asyncomplete_setup call asyncomplete#register_source(
+    \   asyncomplete#sources#necosyntax#get_source_options({
+    \       'name': 'necosyntax',
+    \       'whitelist': ['*'],
+    \       'blacklist': ['vim', 'help'],
+    \       'completor': function('asyncomplete#sources#necosyntax#completor'),
+    \   })
+    \)
+augroup END
 
 " ==============================================================================
 " psliwka/vim-smoothie
