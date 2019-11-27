@@ -2723,6 +2723,13 @@ augroup END
 " ハイライトをなくす
 let g:matchup_matchparen_enabled = 1
 
+" Insertモードになったら、ハイライトを消したい
+augroup MyMatchup
+    autocmd!
+    autocmd InsertEnter * NoMatchParen
+    autocmd InsertLeave * DoMatchParen
+augroup END
+
 
 " ==============================================================================
 " prabirshrestha/asyncomplete.vim
