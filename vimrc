@@ -869,6 +869,9 @@ autocmd! MyAutoCmd FileType qf call QfSettings()
 " 挿入モードから抜けるときに IME をOFFにする
 inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
+" from 'orokasan/dotfiles'
+nmap <Tab> %
+
 " ==============================================================================
 " 便利なコマンドたち
 
