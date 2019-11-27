@@ -162,6 +162,9 @@ Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
 " Plug 'lambdalisue/gina.vim'
 
+" == skk (Simple Kana to Kanji conversion program)
+Plug 'tyru/eskk.vim'
+Plug 'tyru/skkdict.vim' " syntax highlight
 " ------------------------------------------------------------------------------
 
 " == colorscheme
@@ -2003,7 +2006,7 @@ let g:lightline.tabline = {
 
 " \             [ 't_gitbranch' ]
 let g:lightline.active = {
-\   'left': [ [ 't_mode', 'paste' ],
+\   'left': [ [ 't_mode', 'paste' , 't_eskk_mode'],
 \             [ 'readonly', 't_filename' ],
 \             [ 'linter_errors', 'linter_warnings', 'linter_ok' ],
 \   ],
@@ -2051,6 +2054,7 @@ let g:lightline.component_function = {
 \   't_lineinfo': 'LightlineLineinfo',
 \   't_inactive_mode': 'LightlineInactiveMode',
 \   't_gitbranch': 'LightlineGitBranch',
+\   't_eskk_mode': 'LightlineSKKMode',
 \}
 
 function! LightlineMode() abort
@@ -2110,6 +2114,12 @@ function! LightlineGitBranch() abort
     " return empty(gina#component#repo#branch()) ?
     " \   '' :
     " \   l:has_hunk . '[' . gina#component#repo#branch() . ']'
+endfunction
+
+function! LightlineSKKMode() abort
+    return eskk#is_enabled() ?
+    \   eskk#get_mode() :
+    \   ''
 endfunction
 
 
@@ -2863,3 +2873,24 @@ xnoremap W w
 xnoremap B b
 
 " TODO: ハイライトの色はどうやって設定するのか
+
+" ==============================================================================
+" tyru/eskk.vim
+
+let g:eskk#directory = '~/.eskk'
+
+" 参考になりそう
+" https://github.com/dohq/dotfiles/blob/5ad6303e285753ee9f8c78960131492c0a77debe/.vimrc#L407-L441
+" https://github.com/orokasan/dotfiles/blob/e8874259e9e5c0feb693e113c17355b00cb04413/dein_lazy.toml#L769-L912
+let g:eskk#dictionary = {
+\   'path': '~/vimfiles/skk/.skk-jisyo',
+\   'sorted': 0,
+\   'encoding': 'utf-8',
+\}
+
+" .skk_dictionary 以下に SKK-JISYO.L.gz を解凍したものを配置
+let g:eskk#large_dictionary = {
+\   'path': '~/vimfiles/skk/SKK-JISYO.L',
+\   'sorted': 1,
+\   'encoding': 'euc-jp',
+\}
