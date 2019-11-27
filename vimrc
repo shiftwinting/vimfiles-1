@@ -2839,17 +2839,27 @@ let g:ale_set_highlight_textprop = 1
 
 " 2以下だと、Insert モードを抜けたときにはハイライトしない
 " 2以上だと、Insert モード抜けたらハイライトする
-" let g:jasegment#highlight = 1
+let g:jasegment#highlight = 0
 
-" " 小文字でも移動できるようにする
-" nmap <silent> e <Plug>JaSegmentMoveNE
-" nmap <silent> w <Plug>JaSegmentMoveNW
-" nmap <silent> b <Plug>JaSegmentMoveNB
-" omap <silent> e <Plug>JaSegmentMoveOE
-" omap <silent> w <Plug>JaSegmentMoveOW
-" omap <silent> b <Plug>JaSegmentMoveOB
-" xmap <silent> e <Plug>JaSegmentMoveVE
-" xmap <silent> w <Plug>JaSegmentMoveVW
-" xmap <silent> b <Plug>JaSegmentMoveVB
+" 大文字と小文字を逆にする
+nmap <silent> e <Plug>JaSegmentMoveNE
+nmap <silent> w <Plug>JaSegmentMoveNW
+nmap <silent> b <Plug>JaSegmentMoveNB
+omap <silent> e <Plug>JaSegmentMoveOE
+omap <silent> w <Plug>JaSegmentMoveOW
+omap <silent> b <Plug>JaSegmentMoveOB
+xmap <silent> e <Plug>JaSegmentMoveVE
+xmap <silent> w <Plug>JaSegmentMoveVW
+xmap <silent> b <Plug>JaSegmentMoveVB
+
+nnoremap E e
+nnoremap W w
+nnoremap B b
+onoremap E e
+onoremap W w
+onoremap B b
+xnoremap E e
+xnoremap W w
+xnoremap B b
 
 " TODO: ハイライトの色はどうやって設定するのか
