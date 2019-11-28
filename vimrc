@@ -2181,7 +2181,7 @@ function! DefineMyHighlishts() abort
 
         " ====================
         " matchup
-        hi MatchParen   gui=undercurl,bold guifg=fg guibg=#FFE8E0
+        hi MatchParen   gui=NONE guifg=fg guibg=#fff0e6
 
     endif
 endfunction
