@@ -2936,6 +2936,8 @@ augroup MyESKK
     autocmd InsertEnter * call eskk#disable()
     " eskk が ON/OFF になった時、ポップアップを表示
     autocmd User eskk-enable-post call s:eskk_mode_popup()
-    autocmd User eskk-disable-post call s:eskk_mode_popup()
+    autocmd User eskk-enable-post setlocal cursorline
+    " autocmd User eskk-disable-post call s:eskk_mode_popup()
+    autocmd User eskk-disable-post setlocal nocursorline
     autocmd InsertEnter * call s:eskk_mode_popup()
 augroup END
