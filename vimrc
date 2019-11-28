@@ -2660,6 +2660,8 @@ function! TodoMappings() abort
     " 管理
     " 終わったタスクを done.txt に移動する
     nnoremap <silent><buffer> [Todo]g :<C-u>call todo#RemoveCompleted()<CR>
+    " キャンセル
+    nmap     <silent><buffer> [Todo]b <Plug>DoCancel
 endfunction
 
 nnoremap <silent> <Space>tt :<C-u>Todo<CR>
