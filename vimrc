@@ -68,7 +68,7 @@ Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
-Plug 'deton/jasegment.vim'
+" Plug 'deton/jasegment.vim'
 
 " ==============================================================================
 
@@ -866,8 +866,9 @@ endfunction
 
 autocmd! MyAutoCmd FileType qf call QfSettings()
 
-" 挿入モードから抜けるときに IME をOFFにする
-inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+" eskk.vim を使うためいらない
+" " 挿入モードから抜けるときに IME をOFFにする
+" inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
 " from 'orokasan/dotfiles'
 nmap <Tab> %
@@ -1250,6 +1251,11 @@ function! RenameCurBuffer() abort
 endfunction
 
 command! RenameCurBuffer call RenameCurBuffer()
+
+" ------------------------------------------------------------------------------
+command! MemoOpen call tmg#DropOrTabedit(expand('~/tmp_memo'))
+nnoremap <Space>tm :<C-u>MemoOpen<CR>
+
 
 " ==============================================================================
 " ******************************************************************************
@@ -2009,7 +2015,7 @@ let g:lightline.tabline = {
 
 " \             [ 't_gitbranch' ]
 let g:lightline.active = {
-\   'left': [ [ 't_mode', 'paste' , 't_eskk_mode'],
+\   'left': [ [ 't_mode', 'paste'],
 \             [ 'readonly', 't_filename' ],
 \             [ 'linter_errors', 'linter_warnings', 'linter_ok' ],
 \   ],
@@ -2117,12 +2123,6 @@ function! LightlineGitBranch() abort
     " return empty(gina#component#repo#branch()) ?
     " \   '' :
     " \   l:has_hunk . '[' . gina#component#repo#branch() . ']'
-endfunction
-
-function! LightlineSKKMode() abort
-    return eskk#is_enabled() ?
-    \   eskk#get_mode() :
-    \   ''
 endfunction
 
 
@@ -2812,7 +2812,7 @@ let g:ctrlp_cdnjs_scheme = 2
 " yarn global add prettier
 
 " yarn のパスを追加
-if tmg#get_fullpath($PATH) !~# 'Yarn/bin'
+if $PATH !~# 'Yarn/bin'
     if executable('yarn')
         let $PATH = system('yarn global bin')[:-2] . ';' . $PATH
     endif
@@ -2845,40 +2845,53 @@ let g:user_emmet_settings = {
 let g:ale_set_highlight_textprop = 1
 
 
-" ==============================================================================
-" deton/jasegment.vim
-
-" from https://github.com/orokasan/dotfiles/blob/e8874259e9e5c0feb693e113c17355b00cb04413/dein.toml#L35-L66
-
-" 2以下だと、Insert モードを抜けたときにはハイライトしない
-" 2以上だと、Insert モード抜けたらハイライトする
-let g:jasegment#highlight = 0
-
-" 大文字と小文字を逆にする
-nmap <silent> e <Plug>JaSegmentMoveNE
-nmap <silent> w <Plug>JaSegmentMoveNW
-nmap <silent> b <Plug>JaSegmentMoveNB
-omap <silent> e <Plug>JaSegmentMoveOE
-omap <silent> w <Plug>JaSegmentMoveOW
-omap <silent> b <Plug>JaSegmentMoveOB
-xmap <silent> e <Plug>JaSegmentMoveVE
-xmap <silent> w <Plug>JaSegmentMoveVW
-xmap <silent> b <Plug>JaSegmentMoveVB
-
-nnoremap E e
-nnoremap W w
-nnoremap B b
-onoremap E e
-onoremap W w
-onoremap B b
-xnoremap E e
-xnoremap W w
-xnoremap B b
-
-" TODO: ハイライトの色はどうやって設定するのか
+" " ==============================================================================
+" " deton/jasegment.vim
+"
+" " from https://github.com/orokasan/dotfiles/blob/e8874259e9e5c0feb693e113c17355b00cb04413/dein.toml#L35-L66
+"
+" " 2以下だと、Insert モードを抜けたときにはハイライトしない
+" " 2以上だと、Insert モード抜けたらハイライトする
+" let g:jasegment#highlight = 0
+"
+" " 大文字と小文字を逆にする
+" nmap <silent> e <Plug>JaSegmentMoveNE
+" nmap <silent> w <Plug>JaSegmentMoveNW
+" nmap <silent> b <Plug>JaSegmentMoveNB
+" omap <silent> e <Plug>JaSegmentMoveOE
+" omap <silent> w <Plug>JaSegmentMoveOW
+" omap <silent> b <Plug>JaSegmentMoveOB
+" xmap <silent> e <Plug>JaSegmentMoveVE
+" xmap <silent> w <Plug>JaSegmentMoveVW
+" xmap <silent> b <Plug>JaSegmentMoveVB
+"
+" nnoremap E e
+" nnoremap W w
+" nnoremap B b
+" onoremap E e
+" onoremap W w
+" onoremap B b
+" xnoremap E e
+" xnoremap W w
+" xnoremap B b
+"
+" " TODO: ハイライトの色はどうやって設定するのか
 
 " ==============================================================================
 " tyru/eskk.vim
+" mapping は ~\ghq\github.com\tyru\eskk.vim\autoload\eskk.vim 1517 を参考にする
+" s:eskk_mappings に対応する関数が実行される
+
+" ひらがなモード
+"   l  英数字モードへ移行
+" ASCIIモード
+"   <C-j> ひらがなモードへ移行
+" 変換モード
+"   q     カタカナへ変換
+"   <C-j> 確定
+"   <C-g> キャンセル
+
+" XXX： abbrev ってなんだろう
 
 let g:eskk#directory = '~/.eskk'
 
@@ -2886,14 +2899,43 @@ let g:eskk#directory = '~/.eskk'
 " https://github.com/dohq/dotfiles/blob/5ad6303e285753ee9f8c78960131492c0a77debe/.vimrc#L407-L441
 " https://github.com/orokasan/dotfiles/blob/e8874259e9e5c0feb693e113c17355b00cb04413/dein_lazy.toml#L769-L912
 let g:eskk#dictionary = {
-\   'path': '~/vimfiles/skk/.skk-jisyo',
+\   'path': '~/.eskk/.skk-jisyo',
 \   'sorted': 0,
 \   'encoding': 'utf-8',
 \}
 
 " .skk_dictionary 以下に SKK-JISYO.L.gz を解凍したものを配置
 let g:eskk#large_dictionary = {
-\   'path': '~/vimfiles/skk/SKK-JISYO.L',
+\   'path': '~/.eskk/SKK-JISYO.L',
 \   'sorted': 1,
 \   'encoding': 'euc-jp',
 \}
+
+" XXX： シングルクオートが囲まれないため、デフォルトでは eskk を使用しないようにする(日本語入力の時のみ使用する)
+" let g:eskk#initial_mode = 'ascii'
+
+function! s:eskk_mode_popup() abort
+    if eskk#is_enabled()
+        let l:mode = g:eskk#statusline_mode_strings[eskk#get_mode()]
+    else
+        let l:mode = 'aA'
+    endif
+
+    call popup_create(l:mode, {
+    \   'pos': 'topleft',
+    \   'line': 'cursor+1',
+    \   'col': 'cursor',
+    \   'moved': 'any',
+    \   'time': 500,
+    \})
+endfunction
+
+augroup MyESKK
+    autocmd!
+    " autocmd CmdwinEnter * call eskk#disable()
+    autocmd InsertEnter * call eskk#disable()
+    " eskk が ON/OFF になった時、ポップアップを表示
+    autocmd User eskk-enable-post call s:eskk_mode_popup()
+    autocmd User eskk-disable-post call s:eskk_mode_popup()
+    autocmd InsertEnter * call s:eskk_mode_popup()
+augroup END
