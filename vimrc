@@ -2881,6 +2881,10 @@ let g:ale_set_highlight_textprop = 1
 
 " ==============================================================================
 " tyru/eskk.vim
+
+" eskk.vim も同じような構造になっているのかな
+" [skk.vimの構造について - Humanity http://tyru.hatenablog.com/entry/20100201/skk_vim]
+
 " mapping は ~\ghq\github.com\tyru\eskk.vim\autoload\eskk.vim 1517 を参考にする
 " s:eskk_mappings に対応する関数が実行される
 
@@ -2894,6 +2898,22 @@ let g:ale_set_highlight_textprop = 1
 "   <C-g> キャンセル
 
 " XXX： abbrev ってなんだろう
+" [Vimにおける日本語入力環境に関する考察 - Humanity
+" http://tyru.hatenablog.com/entry/20101214/vim_de_skk]
+" test と入力した時の挙動
+" skk => てt
+" msime => てst
+let g:eskk#rom_input_style = 'msime'
+
+
+" [Emacs 用 skk の設定 - 落穂拾い https://blog.goo.ne.jp/gleaning/e/cd6b046947827c32f2487502388a1a4c]
+" [Emacsのddskkで辞書をGoogle IMEにする - ★データ解析備忘録★ https://y-mattu.hatenablog.com/entry/2016/09/25/021937]
+
+" 未確定時でEnterを押しても確定にしない
+let g:eskk#egg_like_newline = 1
+
+let g:eskk#start_completion_length = 2
+let g:eskk#tab_select_completion = 1
 
 let g:eskk#directory = '~/.eskk'
 
