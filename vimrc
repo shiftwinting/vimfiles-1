@@ -1504,7 +1504,7 @@ let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
 nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
 " nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
-" nnoremap <Space>fm :<C-u>CtrlPMRUFiles<CR>
+nnoremap <Space>fk :<C-u>CtrlPMRUFiles<CR>
 nnoremap <Space>fc :<C-u>CtrlPCdnJs<CR>
 nnoremap <Space>fo :<C-u>CtrlPFunky<CR>
 
@@ -2237,7 +2237,7 @@ nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split
 " nnoremap <silent> <Space>fh :<C-u>Denite help -default-action=<CR>
 " nnoremap <silent> <Space>fb :<C-u>Denite buffer -default-action=split<Cr>
 " nnoremap <silent> <Space>fl :<C-u>Denite line -auto-action=highlight -winheight=25<CR>
-nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
+" nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
 " nnoremap <silent> <Space>fm :<C-u>Denite menu -no-start-filter<CR>
 " nnoremap <silent> <Space>fj :<C-u>Denite jump<CR>
 " nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
