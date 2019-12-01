@@ -30,7 +30,7 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'vim-jp/syntax-vim-ex' " VimL のハイライト拡張
 
-" Plug 'LeafCage/yankround.vim'
+Plug 'Konfekt/yankround.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
@@ -116,7 +116,7 @@ Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
 Plug 'Shougo/neco-syntax'
 
 " == complete vim
-Plug 'machakann/vim-Verdin', { 'for': 'vim' }
+Plug 'machakann/vim-Verdin'
 
 " " == textobj
 Plug 'kana/vim-textobj-user'
@@ -290,8 +290,6 @@ set listchars+=trail:\
 " 補完候補の最大表示数
 set pumheight=15
 
-" ハイライトを定義
-
 augroup MyMatchAdd
     autocmd!
     autocmd VimEnter,WinEnter * call matchadd('Tab', '\t')
@@ -395,7 +393,7 @@ endif
 
 
 
-autocmd MyAutoCmd BufRead,BufWinEnter * setlocal nonumber
+" autocmd MyAutoCmd BufRead,BufWinEnter * setlocal nonumber
 
 " omnifunc
 " https://github.com/vim/vim/tree/master/runtime/autoload
@@ -868,10 +866,10 @@ autocmd! MyAutoCmd FileType qf call QfSettings()
 
 " eskk.vim を使うためいらない
 " " 挿入モードから抜けるときに IME をOFFにする
-" inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
-" from 'orokasan/dotfiles'
-nmap <Tab> %
+nmap 5 %
+vmap 5 %
 
 " ==============================================================================
 " 便利なコマンドたち
@@ -1360,9 +1358,13 @@ let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 nnoremap <A-o><A-o> :<C-u>OpenBrowserSearch -duckduckgo 
-" 現在のファイルタイプで devdocs を開く
+vnoremap <A-o><A-o> :<C-u>call openbrowser#search(tmg#getwords_last_visual(), 'duckduckgo')<CR>
+
 nnoremap <A-o><A-d> :<C-u>execute 'OpenBrowserSearch -dev ' . &filetype<CR>
 nnoremap <A-o><A-n> :<C-u>OpenBrowserSearch -
+
+nnoremap <A-o><A-g> :<C-u>OpenBrowserSearch -gh 
+vnoremap <A-o><A-g> :<C-u>call openbrowser#search(tmg#getwords_last_visual(), 'gh')<CR>
 
 " 追加
 let g:openbrowser_search_engines = {
@@ -1386,42 +1388,6 @@ let g:black_linelength = 99
 " simeji/winresizer 
 
 let g:winresizer_start_key='ss'
-
-
-" ==============================================================================
-" davidhalter/jedi-vim 
-
-" GitHub の Readme も参考になる
-" https://github.com/davidhalter/jedi-vim
-
-" augroup MyAutoCmdJedi
-"     autocmd!
-"     autocmd FileType python setlocal omnifunc=jedi#completions
-"     " プレビューウィンドウの表示をしない
-"     " autocmd FileType python setlocal completeopt-=preview
-"     " https://github.com/davidhalter/jedi-vim/issues/217#issuecomment-163916534
-"     " autocmd FileType python call jedi#configure_call_signatures()
-" augroup END
-
-" " completeopt の自動設定をしない
-" let g:jedi#auto_vim_configuration = 0
-" " jedi の補完を OFF (vim-lsp で行うため)
-" let g:jedi#completions_enabled = 0
-" " from xxx<Space>import とする
-" let g:jedi#smart_auto_mappings = 1
-
-" " jedi のデフォルト設定
-" let g:jedi#auto_initialization = 1
-" " signature をコマンドラインに表示
-" let g:jedi#show_call_signatures = '2'
-
-" mapping
-" let g:jedi#goto_command             = '<Space>d'
-" let g:jedi#goto_assignments_command = '<Space>g'
-" let g:jedi#documentation_command    = 'K'
-" let g:jedi#usages_command           = '<Space>n'
-" let g:jedi#rename_command           = '<Space>r'
-" let g:jedi#goto_definitions_command = ''
 
 
 " ==============================================================================
@@ -1474,6 +1440,7 @@ nmap <silent> <A-k> <Plug>(ale_previous_wrap_error)
 nmap <silent> <A-u> <Plug>(ale_next_wrap_warning)
 nmap <silent> <A-i> <Plug>(ale_previous_wrap_warning)
 
+let g:ale_set_highlight_textprop = 1
 
 " ==============================================================================
 " Shougo/neosnippet.vim 
@@ -1539,7 +1506,7 @@ let g:ctrlp_prompt_mappings = {
     \ 'PrtExit()':            ['<Esc>', '<C-c>', '<C-q>'],
     \ 'PrtInsert("c")':       ['<C-o>'],
     \ 'PrtInsert()':          [],
-    \ 'ToggleRegex()':        [],
+    \ 'ToggleRegex()':        ['<C-r>'],
     \ 'PrtSelectMove("t")':   [],
     \ 'PrtSelectMove("b")':   [],
     \ 'ToggleFocus()':        [],
@@ -1727,18 +1694,7 @@ let g:lsp_diagnostics_enabled = 0
 " endfunction
 "
 " autocmd MyAutoCmd Filetype javascript,javascript.jsx call s:javascript_libraries_syntax()
-"
-" 
-" " ==============================================================================
-" " liuchengxu/clap 
-"
-" " nnoremap <Space>fl :<C-u>Clap blines<CR>
-" " nnoremap <Space>fj :<C-u>Clap buffers<CR>
-" nnoremap <Space>fh :<C-u>Clap help<CR>
-" nnoremap <Space>f; :<C-u>Clap command_history<CR>
-" " nnoremap <Space>ff :<C-u>Clap files<CR>
-"
-" 
+
 
 " " ==============================================================================
 " " mattn/efm-langserver 
@@ -1756,20 +1712,19 @@ let g:lsp_diagnostics_enabled = 0
 autocmd MyAutoCmd FileType vue syntax sync fromstart
 
 
-" " ==============================================================================
-" " LeafCage/yankround.vim 
-"
-" nmap p      <Plug>(yankround-p)
-" xmap p      <Plug>(yankround-p)
-" nmap P      <Plug>(yankround-P)
+" ==============================================================================
+" LeafCage/yankround.vim 
+
+nmap p      <Plug>(yankround-p)
+xmap p      <Plug>(yankround-p)
+nmap P      <Plug>(yankround-P)
 " nmap gp     <Plug>(yankround-gp)
 " xmap gp     <Plug>(yankround-gp)
 " nmap gP     <Plug>(yankround-gP)
-" nmap <C-p>  <Plug>(yankround-prev)
-" nmap <C-n>  <Plug>(yankround-next)
-"
-" let g:yankround_use_region_hl = 1
+nmap <C-p>  <Plug>(yankround-prev)
+nmap <C-n>  <Plug>(yankround-next)
 
+let g:yankround_use_region_hl = 1
 
 " ==============================================================================
 " kana/vim-textobj-user 
@@ -1879,6 +1834,10 @@ function! s:defx_my_settings() abort
     nnoremap <silent><buffer><expr> R
     \ defx#do_action('redraw')
 
+    " 再帰で開く
+    nnoremap <silent><buffer><expr> O
+    \ defx#do_action('open_tree_recursive')
+
     " システムで設定しているプログラムで実行する
     nnoremap <silent><buffer><expr> x
     \ defx#do_action('execute_system')
@@ -1894,34 +1853,17 @@ function! s:defx_my_settings() abort
     " nnoremap <silent><buffer><expr> d
     " \ defx#do_action('remove_trash')
 
-    " " directory 作成
-    " nnoremap <silent><buffer><expr> K
-    " \ defx#do_action('new_directory')
-    " nnoremap <silent><buffer><expr> q
-    " \ defx#do_action('quit')
     " " ファイルパスのコピー
     " nnoremap <silent><buffer><expr> yy
     " \ defx#do_action('yank_path')
-    " " 再帰で開く
-    " nnoremap <silent><buffer><expr> O
-    " \ defx#do_action('open_tree_recursive')
     " nnoremap <silent><buffer><expr> ~
     " \ defx#do_action('cd')
     " nnoremap <silent><buffer><expr> \
     " \ defx#do_action('cd', getcwd())
-    " " バッファの再描画
-    " nnoremap <silent><buffer><expr> <C-l>
     " nnoremap <silent><buffer><expr> !
     " \ defx#do_action('execute_command')
     " nnoremap <silent><buffer><expr> M
     " \ defx#do_action('new_multiple_files')
-    " nnoremap <silent><buffer><expr> C
-    " \ defx#do_action('toggle_columns', 'mark:filename:type:size:time')
-    " nnoremap <silent><buffer><expr> S
-    " \ defx#do_action('toggle_sort', 'Time')
-    " " ignoreするファイルの状態をトグルする
-    " nnoremap <silent><buffer><expr> >
-    " \ defx#do_action('toggle_ignored_files')
     " " １つ前のアクションを実行
     " nnoremap <silent><buffer><expr> .
     " \ defx#do_action('repeat')
@@ -1938,15 +1880,6 @@ function! s:defx_my_settings() abort
     " プレビューウィンドウで表示
     " nnoremap <silent><buffer><expr> P
     " \ defx#do_action('open', 'pedit')
-    " nnoremap <silent><buffer><expr> se
-    " \ defx#do_action('save_session')
-    " nnoremap <silent><buffer><expr> sl
-    " \ defx#do_action('load_session')
-
-    " nnoremap <silent><buffer><expr> j
-    " \ line('.') == line('$') ? 'gg' : 'j'
-    " nnoremap <silent><buffer><expr> k
-    " \ line('.') == 1 ? 'G' : 'k'
 
     command! -buffer BAdd call defx#call_action('add_session')
     command! -buffer BookmarkList call DefxSessions(g:defx_session_file)
@@ -2416,22 +2349,6 @@ let g:fruzzy#sortonempty = 0
 
 
 " ==============================================================================
-" " tomtom/ttodo_vim
-" " todo.txt があるディレクトリ
-" let g:ttodo#dirs = expand($XDG_CACHE_HOME.'/ttodo')
-"
-" if !isdirectory(g:ttodo#dirs)
-"     call mkdir(g:ttodo#dirs)
-" endif
-"
-" " default: '<LocalLeader>t'
-" let g:ttodo#mapleader = '<LocalLeader>t'
-"
-" " todo.txt のファイル名
-" " let g:ttodo#inbox = 'todo.txt'
-
-
-" ==============================================================================
 " Shougo/deol.nvim
 
 " XXX: 参考にする https://git.io/JeKIn
@@ -2489,21 +2406,17 @@ endfunction
 
 function! s:save_history(bufnr) abort
     let l:history_path = expand(g:deol#shell_history_path)
-    " echomsg l:history_path
     if !filereadable(l:history_path)
         return
     endif
 
     let l:history = readfile(l:history_path)[-g:deol#shell_history_max :]
-    " echomsg l:history
     let l:history =map(l:history,
     \   'substitute(v:val, "^\\%(\\d\\+/\\)\\+[:[:digit:]; ]\\+\\|^[:[:digit:]; ]\\+", "", "g")')
-    " echomsg l:history
 
-    " 履歴にないものだけ追加したい
+    " XXX: 履歴にないものだけ追加したい
     let l:lines = filter(getbufline(a:bufnr, 1, '$'), 
     \       'index(l:history, v:val) ==# -1 && !empty(trim(v:val))')
-    " echomsg l:lines
 
     call writefile(l:lines, l:history_path, 'a')
 endfunction
@@ -2693,14 +2606,7 @@ nmap [c <Plug>(GitGutterPrevHunk)
 " stage/unstage
 nmap ghs <Plug>(GitGutterStageHunk)
 nmap ghu <Plug>(GitGutterUndoHunk)
-" nmap ghp <Plug>(GitGutterPreviewHunk)
 nmap ght :<C-u>GitGutterSignsToggle<CR>
-
-" " 変更範囲のテキストオブジェクト
-" omap ic <Plug>(GitGutterTextObjectInnerPending)
-" omap ac <Plug>(GitGutterTextObjectOuterPending)
-" xmap ic <Plug>(GitGutterTextObjectInnerVisual)
-" xmap ac <Plug>(GitGutterTextObjectOuterVisual)
 
 " ==============================================================================
 " tpope/vim-fugitive
@@ -2738,7 +2644,7 @@ augroup END
 " ハイライトをなくす
 let g:matchup_matchparen_enabled = 1
 
-" Insertモードになったら、ハイライトを消したい
+" Insertモードになったら、ハイライトを消す
 augroup MyMatchup
     autocmd!
     autocmd InsertEnter * NoMatchParen
@@ -2767,7 +2673,7 @@ augroup MyAsyncompleteOmni
     \   asyncomplete#sources#omni#get_source_options({
     \       'name': 'omni',
     \       'whitelist': ['*'],
-    \       'blacklist': ['html', 'vim', 'help', 'sql'],
+    \       'blacklist': ['help', 'sql'],
     \       'completor': function('asyncomplete#sources#omni#completor')
     \   })
     \)
@@ -2798,7 +2704,7 @@ augroup END
 " augroup END
 
 " ==============================================================================
-" psliwka/vim-smoothie
+" pasela/ctrlp-cdnjs
 
 " C-t でタグを挿入
 
@@ -2831,6 +2737,7 @@ augroup END
 " ==============================================================================
 " machakann/vim-Verdin
 
+
 " ==============================================================================
 " mattn/emmet-vim
 let g:user_emmet_settings = {
@@ -2843,8 +2750,6 @@ let g:user_emmet_settings = {
 " <C-y>, : 展開
 " <C-y>; : 展開 (ただのタグ)
 " v_<C-y>, : 選択範囲を指定の要素で囲む
-
-let g:ale_set_highlight_textprop = 1
 
 
 " " ==============================================================================
@@ -2956,10 +2861,10 @@ augroup MyESKK
     autocmd!
     " autocmd CmdwinEnter * call eskk#disable()
     autocmd InsertEnter * call eskk#disable()
-    " eskk が ON/OFF になった時、ポップアップを表示
-    autocmd User eskk-enable-post call s:eskk_mode_popup()
-    autocmd User eskk-enable-post setlocal cursorline
+    " " eskk が ON/OFF になった時、ポップアップを表示
+    " autocmd User eskk-enable-post call s:eskk_mode_popup()
     " autocmd User eskk-disable-post call s:eskk_mode_popup()
+    " autocmd InsertEnter * call s:eskk_mode_popup()
+    autocmd User eskk-enable-post setlocal cursorline
     autocmd User eskk-disable-post setlocal nocursorline
-    autocmd InsertEnter * call s:eskk_mode_popup()
 augroup END
