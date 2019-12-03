@@ -69,6 +69,7 @@ Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
 " Plug 'deton/jasegment.vim'
+Plug 'rbtnn/vim-coloredit'
 
 " ==============================================================================
 
@@ -162,9 +163,9 @@ Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
 " Plug 'lambdalisue/gina.vim'
 
-" == skk (Simple Kana to Kanji conversion program)
-Plug 'tyru/eskk.vim'
-Plug 'tyru/skkdict.vim' " syntax highlight
+" " == skk (Simple Kana to Kanji conversion program)
+" Plug 'tyru/eskk.vim'
+" Plug 'tyru/skkdict.vim' " syntax highlight
 " ------------------------------------------------------------------------------
 
 " == colorscheme
@@ -1292,7 +1293,7 @@ nmap <Space>rr <Plug>(quickrun)
 
 let g:memolist_path = '~/memo'
 
-map <Space>mn  :<C-u>MemoNew<CR>
+nnoremap <Space>mn  :<C-u>MemoNew<CR>
 " map <Space>ml  :<C-u>MemoList<CR>
 " map <Space>mg  :<C-u>MemoGrep<CR>
 
@@ -2082,13 +2083,16 @@ function! DefineMyHighlishts() abort
         hi Tab guifg=#999999
         hi Eol guifg=#999999
 
+        " HTML のリンク
+        hi Underlined gui=underline guifg=#0896d4 guibg=bg
+
         " ====================
         " LeafCage/yankround.vim
         hi YankRoundRegion guibg=#FFEBCD
 
         " ====================
         " machakann/vim-highlightedyank
-        hi HighlightedyankRegion guibg=bg guifg=#FFD688 gui=reverse
+        hi HighlightedyankRegion guibg=bg guifg=#ffd6b0 gui=reverse
 
         " ====================
         " zah/nim.vim
@@ -2560,8 +2564,8 @@ function! TodoMappings() abort
 
     " 優先順位
     noremap  <silent><buffer> [Todo]a :<C-u>call todo#PrioritizeAdd('A')<CR>
-    noremap  <silent><buffer> [Todo]b :<C-u>call todo#PrioritizeAdd('B')<CR>
-    noremap  <silent><buffer> [Todo]c :<C-u>call todo#PrioritizeAdd('C')<CR>
+    " noremap  <silent><buffer> [Todo]b :<C-u>call todo#PrioritizeAdd('B')<CR>
+    " noremap  <silent><buffer> [Todo]c :<C-u>call todo#PrioritizeAdd('C')<CR>
     noremap  <silent><buffer> [Todo]j :<C-u>call todo#PrioritizeIncrease()<CR>
     noremap  <silent><buffer> [Todo]k :<C-u>call todo#PrioritizeDecrease()<CR>
 
@@ -2570,11 +2574,10 @@ function! TodoMappings() abort
     nmap     <silent><buffer> [Todo]n <Plug>TodotxtDecrementDueDateNormal
     nnoremap <silent><buffer> [Todo]d A due:<C-R>=strftime("%Y-%m-%d")<CR><Esc>0
 
-    " 管理
-    " 終わったタスクを done.txt に移動する
-    nnoremap <silent><buffer> [Todo]g :<C-u>call todo#RemoveCompleted()<CR>
-    " キャンセル
-    nmap     <silent><buffer> [Todo]b <Plug>DoCancel
+    " Done
+    nnoremap <silent><buffer> [Todo]d :<C-u>call todo#RemoveCompleted()<CR>
+    " Cancel
+    nmap     <silent><buffer> [Todo]c <Plug>DoCancel
 endfunction
 
 nnoremap <silent> <Space>tt :<C-u>Todo<CR>
@@ -2784,87 +2787,87 @@ let g:user_emmet_settings = {
 "
 " " TODO: ハイライトの色はどうやって設定するのか
 
-" ==============================================================================
-" tyru/eskk.vim
-
-" eskk.vim も同じような構造になっているのかな
-" [skk.vimの構造について - Humanity http://tyru.hatenablog.com/entry/20100201/skk_vim]
-
-" mapping は ~\ghq\github.com\tyru\eskk.vim\autoload\eskk.vim 1517 を参考にする
-" s:eskk_mappings に対応する関数が実行される
-
-" ひらがなモード
-"   l  英数字モードへ移行
-" ASCIIモード
-"   <C-j> ひらがなモードへ移行
-" 変換モード
-"   q     カタカナへ変換
-"   <C-j> 確定
-"   <C-g> キャンセル
-
-" XXX： abbrev ってなんだろう
-" [Vimにおける日本語入力環境に関する考察 - Humanity
-" http://tyru.hatenablog.com/entry/20101214/vim_de_skk]
-" test と入力した時の挙動
-" skk => てt
-" msime => てst
-let g:eskk#rom_input_style = 'msime'
-
-
-" [Emacs 用 skk の設定 - 落穂拾い https://blog.goo.ne.jp/gleaning/e/cd6b046947827c32f2487502388a1a4c]
-" [Emacsのddskkで辞書をGoogle IMEにする - ★データ解析備忘録★ https://y-mattu.hatenablog.com/entry/2016/09/25/021937]
-
-" 未確定時でEnterを押しても確定にしない
-let g:eskk#egg_like_newline = 1
-
-let g:eskk#start_completion_length = 2
-let g:eskk#tab_select_completion = 1
-
-let g:eskk#directory = '~/.eskk'
-
-" 参考になりそう
-" https://github.com/dohq/dotfiles/blob/5ad6303e285753ee9f8c78960131492c0a77debe/.vimrc#L407-L441
-" https://github.com/orokasan/dotfiles/blob/e8874259e9e5c0feb693e113c17355b00cb04413/dein_lazy.toml#L769-L912
-let g:eskk#dictionary = {
-\   'path': '~/.eskk/.skk-jisyo',
-\   'sorted': 0,
-\   'encoding': 'utf-8',
-\}
-
-" .skk_dictionary 以下に SKK-JISYO.L.gz を解凍したものを配置
-let g:eskk#large_dictionary = {
-\   'path': '~/.eskk/SKK-JISYO.L',
-\   'sorted': 1,
-\   'encoding': 'euc-jp',
-\}
-
-" XXX： シングルクオートが囲まれないため、デフォルトでは eskk を使用しないようにする(日本語入力の時のみ使用する)
-" let g:eskk#initial_mode = 'ascii'
-
-function! s:eskk_mode_popup() abort
-    if eskk#is_enabled()
-        let l:mode = g:eskk#statusline_mode_strings[eskk#get_mode()]
-    else
-        let l:mode = 'aA'
-    endif
-
-    call popup_create(l:mode, {
-    \   'pos': 'topleft',
-    \   'line': 'cursor+1',
-    \   'col': 'cursor',
-    \   'moved': 'any',
-    \   'time': 500,
-    \})
-endfunction
-
-augroup MyESKK
-    autocmd!
-    " autocmd CmdwinEnter * call eskk#disable()
-    autocmd InsertEnter * call eskk#disable()
-    " " eskk が ON/OFF になった時、ポップアップを表示
-    " autocmd User eskk-enable-post call s:eskk_mode_popup()
-    " autocmd User eskk-disable-post call s:eskk_mode_popup()
-    " autocmd InsertEnter * call s:eskk_mode_popup()
-    autocmd User eskk-enable-post setlocal cursorline
-    autocmd User eskk-disable-post setlocal nocursorline
-augroup END
+" " ==============================================================================
+" " tyru/eskk.vim
+"
+" " eskk.vim も同じような構造になっているのかな
+" " [skk.vimの構造について - Humanity http://tyru.hatenablog.com/entry/20100201/skk_vim]
+"
+" " mapping は ~\ghq\github.com\tyru\eskk.vim\autoload\eskk.vim 1517 を参考にする
+" " s:eskk_mappings に対応する関数が実行される
+"
+" " ひらがなモード
+" "   l  英数字モードへ移行
+" " ASCIIモード
+" "   <C-j> ひらがなモードへ移行
+" " 変換モード
+" "   q     カタカナへ変換
+" "   <C-j> 確定
+" "   <C-g> キャンセル
+"
+" " XXX： abbrev ってなんだろう
+" " [Vimにおける日本語入力環境に関する考察 - Humanity
+" " http://tyru.hatenablog.com/entry/20101214/vim_de_skk]
+" " test と入力した時の挙動
+" " skk => てt
+" " msime => てst
+" let g:eskk#rom_input_style = 'msime'
+"
+"
+" " [Emacs 用 skk の設定 - 落穂拾い https://blog.goo.ne.jp/gleaning/e/cd6b046947827c32f2487502388a1a4c]
+" " [Emacsのddskkで辞書をGoogle IMEにする - ★データ解析備忘録★ https://y-mattu.hatenablog.com/entry/2016/09/25/021937]
+"
+" " 未確定時でEnterを押しても確定にしない
+" let g:eskk#egg_like_newline = 1
+"
+" let g:eskk#start_completion_length = 2
+" let g:eskk#tab_select_completion = 1
+"
+" let g:eskk#directory = '~/.eskk'
+"
+" " 参考になりそう
+" " https://github.com/dohq/dotfiles/blob/5ad6303e285753ee9f8c78960131492c0a77debe/.vimrc#L407-L441
+" " https://github.com/orokasan/dotfiles/blob/e8874259e9e5c0feb693e113c17355b00cb04413/dein_lazy.toml#L769-L912
+" let g:eskk#dictionary = {
+" \   'path': '~/.eskk/.skk-jisyo',
+" \   'sorted': 0,
+" \   'encoding': 'utf-8',
+" \}
+"
+" " .skk_dictionary 以下に SKK-JISYO.L.gz を解凍したものを配置
+" let g:eskk#large_dictionary = {
+" \   'path': '~/.eskk/SKK-JISYO.L',
+" \   'sorted': 1,
+" \   'encoding': 'euc-jp',
+" \}
+"
+" " XXX： シングルクオートが囲まれないため、デフォルトでは eskk を使用しないようにする(日本語入力の時のみ使用する)
+" " let g:eskk#initial_mode = 'ascii'
+"
+" function! s:eskk_mode_popup() abort
+"     if eskk#is_enabled()
+"         let l:mode = g:eskk#statusline_mode_strings[eskk#get_mode()]
+"     else
+"         let l:mode = 'aA'
+"     endif
+"
+"     call popup_create(l:mode, {
+"     \   'pos': 'topleft',
+"     \   'line': 'cursor+1',
+"     \   'col': 'cursor',
+"     \   'moved': 'any',
+"     \   'time': 500,
+"     \})
+" endfunction
+"
+" augroup MyESKK
+"     autocmd!
+"     " autocmd CmdwinEnter * call eskk#disable()
+"     autocmd InsertEnter * call eskk#disable()
+"     " " eskk が ON/OFF になった時、ポップアップを表示
+"     " autocmd User eskk-enable-post call s:eskk_mode_popup()
+"     " autocmd User eskk-disable-post call s:eskk_mode_popup()
+"     " autocmd InsertEnter * call s:eskk_mode_popup()
+"     autocmd User eskk-enable-post setlocal cursorline
+"     autocmd User eskk-disable-post setlocal nocursorline
+" augroup END
