@@ -3,16 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <title>Getting Start Vue.js</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.js"></script>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">{{ msg }}</div>
 
     <script>
-      new Vue({
-        template: '<p>{{ msg }}</p>',
+      var vm = new Vue({
+        el: '#app',
         data: {msg: 'hello world'},
-      }).$mount('#app');
+      });
     </script>
   </body>
 </html>
