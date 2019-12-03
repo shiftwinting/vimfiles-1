@@ -1,4 +1,4 @@
-" Encoding {{{
+" Encoding
 
 set encoding=utf-8
 scriptencoding utf-8
@@ -20,20 +20,19 @@ set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
 " scriptencoding utf-8
 
 
-" Plug {{{
+" Plug
 
 " ダウンロード先ディレクトリを指定
 call plug#begin('~/vimfiles/plugged')
 
 Plug 'junegunn/vim-plug'
 Plug 'vim-jp/vimdoc-ja'
-Plug 'vim-jp/vital.vim'
 Plug 'vim-jp/syntax-vim-ex' " VimL のハイライト拡張
 
 Plug 'Konfekt/yankround.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'glidenote/memolist.vim', { 'on': ['MemoNew', 'MemoList'] }
 Plug 'jiangmiao/auto-pairs'
@@ -47,19 +46,16 @@ Plug 'mattn/emmet-vim'
 Plug 'mattn/sonictemplate-vim'
 Plug 'mechatroner/rainbow_csv', { 'for': 'csv' }
 Plug 'rhysd/clever-f.vim'
-" Plug 'ryanoasis/vim-devicons'
 Plug 'simeji/winresizer' " ウィンドウ操作
 Plug 'skanehira/translate.vim', { 
 \   'on': ['Translate', '<Plug>(VTranslate)', '<Plug>(VTranslateBang)']
 \}
-" Plug 'skywind3000/asyncrun.vim'
 Plug 't9md/vim-quickhl'
 Plug 'thinca/vim-quickrun', { 'on': ['<Plug>(quickrun)', 'QuickRun'] }
 Plug 'tpope/vim-surround'
 Plug 'tyru/capture.vim' " Exコマンドをバッファへ出力
 Plug 'tyru/open-browser.vim'
 Plug 'tyru/open-browser-github.vim'
-Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
 Plug 'previm/previm'
 Plug 'tpope/vim-endwise'
 Plug 'kana/vim-tabpagecd'
@@ -68,13 +64,11 @@ Plug 'mattn/webapi-vim'
 Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
-" Plug 'deton/jasegment.vim'
 Plug 'rbtnn/vim-coloredit'
 
 " ==============================================================================
 
 " == python
-" Plug 'davidhalter/jedi-vim'     " from xxx<Space> import のために使っているけど、どうにかできないかな
 Plug 'ambv/black', { 'for': 'python' }
 
 " == php
@@ -84,21 +78,13 @@ Plug 'jwalton512/vim-blade'
 Plug 'zah/nim.vim', { 'for': 'nim' }
 
 " == frontend
-" https://www.davidosomething.com/blog/vim-for-javascript/
-" Plug 'ternjs/tern_for_vim', { 'for': ['javascript', 'javascript.jsx'], 'do': 'npm install' }
-" Plug 'MaxMEllon/vim-jsx-pretty', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
-" Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
 Plug 'othree/html5.vim'
-" Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'jelera/vim-javascript-syntax', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx', 'html', 'vue'] }
 Plug 'posva/vim-vue', { 'for': 'javascript' }
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' } " Formatter
 Plug 'jason0x43/vim-js-indent'
 
 " syntax
 Plug 'yuezk/vim-js', { 'for': 'javascript' }
-" Plug 'maxmellon/vim-jsx-pretty'
 
 " == lsp
 Plug 'prabirshrestha/vim-lsp'
@@ -112,7 +98,6 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'yami-beta/asyncomplete-omni.vim'
-" Plug 'prabirshrestha/asyncomplete-neosnippet.vim'
 Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
 Plug 'Shougo/neco-syntax'
 
@@ -122,27 +107,19 @@ Plug 'machakann/vim-Verdin'
 " " == textobj
 Plug 'kana/vim-textobj-user'
 Plug 'osyo-manga/vim-textobj-multiblock'
-" Plug 'kana/vim-textobj-entire'
-" Plug 'kana/vim-textobj-line'
-" Plug 'coderifous/textobj-word-column.vim'
-" Plug 'kana/vim-textobj-fold'
 
 " == ctrlp
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-ghq'
 Plug 'FelikZ/ctrlp-py-matcher'
-" Plug 'zeero/vim-ctrlp-help'
-" Plug 'mattn/ctrlp-launcher'
 Plug 'pasela/ctrlp-cdnjs'
-Plug 'tacahiroy/ctrlp-funky'
 
 " == dark power
 Plug 'Shougo/defx.nvim'
-" Plug 'kristijanhusak/defx-icons'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'Shougo/echodoc.vim'
-Plug 'Shougo/neopairs.vim'
+" Plug 'Shougo/neopairs.vim'
 Plug 'Shougo/deol.nvim'
 
 " denite
@@ -150,7 +127,6 @@ Plug 'Shougo/denite.nvim'
 Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/neomru.vim'
-" Plug 'Jagua/vim-denite-ghq'
 
 " == lightline
 Plug 'itchyny/lightline.vim'
@@ -158,27 +134,21 @@ Plug 'maximbaz/lightline-ale'
 
 " == git
 Plug 'airblade/vim-gitgutter'
-" Plug 'tpope/vim-git'
 Plug 'tpope/vim-fugitive'
-" Plug 'junegunn/gv.vim'
-" Plug 'lambdalisue/gina.vim'
 
-" " == skk (Simple Kana to Kanji conversion program)
-" Plug 'tyru/eskk.vim'
-" Plug 'tyru/skkdict.vim' " syntax highlight
 " ------------------------------------------------------------------------------
 
 " == colorscheme
 Plug 'lifepillar/vim-solarized8'
 
 Plug '~/ghq/github.com/tamago324/gignores.vim'
-" Plug '~/ghq/github.com/tamago324/ale'
+Plug '~/ghq/github.com/tamago324/ale'
 
 call plug#end()
 
 
 
-" options {{{1
+" options
 
 augroup MyAutoCmd
     autocmd!
@@ -274,7 +244,7 @@ set wildmode=longest:full,list:full
 " cmdline から cmdline-window へ移動
 set cedit=\<C-k>
 
-" listchars (不可視文字を表示する) " {{{
+" listchars (不可視文字を表示する) "
 set list
 set listchars=
 " 改行記号
@@ -306,7 +276,7 @@ augroup END
 " indent-heuristic: 内部 diff のインデントヒューリスティック？を使う
 set diffopt=internal,filler,algorithm:histogram,indent-heuristic
 
-" undo {{{
+" undo
 
 " ファイル閉じても、undoできるようにする
 if has('persistent_undo')
@@ -324,7 +294,7 @@ endif
 
 
 
-" filetype ごとの <Tab> 設定 {{{
+" filetype ごとの <Tab> 設定
 
 "   expandtab   タブ入力を複数の空白入力に置き換える
 "   tabstop     実際に挿入されるスペースの数
@@ -348,9 +318,15 @@ autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType vue          setlocal sw=2 sts=2 ts=2 et
 
+" 拡張子をもとにファイルタイプを設定
+
+autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini
+autocmd MyAutoCmd BufRead,BufWinEnter *.csv set filetype=csv
+autocmd MyAutoCmd BufRead,BufWinEnter *.jsx set filetype=javascript.jsx
+
 
 " fold 折畳
-function! MyFoldText() abort " {{{
+function! MyFoldText() abort "
     let marker_start = strpart(&foldmarker, 0, 3)
     let line = getline(v:foldstart)
     let lcnt = v:foldend - v:foldstart
@@ -365,22 +341,10 @@ function! MyFoldText() abort " {{{
     return l:foldtext
 endfunction
 
-
-
 set foldtext=MyFoldText()
-" autocmd MyAutoCmd FileType vim setlocal foldmethod=marker
 
 
-
-" 拡張子をもとにファイルタイプを設定 {{{
-
-autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini
-autocmd MyAutoCmd BufRead,BufWinEnter *.csv set filetype=csv
-autocmd MyAutoCmd BufRead,BufWinEnter *.jsx set filetype=javascript.jsx
-
-
-
-" from kaoriya's vimrc {{{
+" from kaoriya's vimrc
 
 " マルチバイト文字の間でも改行できるようにする(autoindentが有効の場合いる)
 set formatoptions+=m
@@ -393,50 +357,12 @@ if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
 endif
 
 
-
-" autocmd MyAutoCmd BufRead,BufWinEnter * setlocal nonumber
-
 " omnifunc
 " https://github.com/vim/vim/tree/master/runtime/autoload
 autocmd MyAutoCmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-"
-" terminal settigns 
-" 0  black
-" 1  dark red
-" 2  dark green
-" 3  brown
-" 4  dark blue
-" 6  dark magenta
-" 7  dark cyan
-" 8  light grey
-" 9  dark grey
-" 10 red
-" 11 green
-" 12 yellow
-" 13 blue
-" 14 magenta
-" 15 cyan
-" 16 white
 
 " https://github.com/shanselman/cmd-colors-solarized
-" Black	    #002b36
-" DarkRed	    #cb4b16
-" DarkGreen	#586e75
-" DarkYellow	#657b83
-" DarkBlue	#839496
-" DarkMagenta	#6c71c4
-" DarkCyan	#93a1a1
-" Gray	    #eee8d5
-" DarkGray	#073642
-" Red	        #dc322f
-" Green	    #859900
-" Yellow	    #b58900
-" Blue	    #268bd2
-" Magenta	    #d33682
-" Cyan	    #2aa198
-" White	    #fdf6e3
 
-" https://qiita.com/yami_beta/items/97480d5e88f0d867176b
 let g:terminal_ansi_colors = [
 \   '#002b36',
 \   '#cb4b16',
@@ -469,7 +395,7 @@ autocmd MyAutoCmd TerminalWinOpen * call TerminalSettings()
 iabbrev strint string
 
 " ==============================================================================
-" mapping {{{1
+" mapping
 
 noremap ZZ <Nop>
 noremap ZQ <Nop>
@@ -509,12 +435,12 @@ nnoremap <Space>af ggVG=
 " 前にいたバッファを表示. めっちゃ好きこれ
 nnoremap <C-i> 
 
-" vimrc {{{
+" vimrc
 nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR>:echo '$MYVIMRC loaded!'<CR>
 nnoremap <silent> <Space>v. :<C-u> call tmg#DropOrTabedit($MYVIMRC)<CR>
 
 
-" 保存、終了 {{{
+" 保存、終了
 " 変更があったときのみ、保存される
 nnoremap <silent> <Space>w :<C-u>update<CR>
 nnoremap <silent> <Space>W :<C-u>update!<CR>
@@ -522,7 +448,7 @@ nnoremap <silent> <Space>q :<C-u>quit<CR>
 nnoremap <silent> <Space>Q :<C-u>quit!<CR>
 
 
-" window ウィンドウ操作 {{{
+" window ウィンドウ操作
 " s の無効化
 nnoremap s <Nop>
 vnoremap s <Nop>
@@ -543,7 +469,7 @@ nnoremap st <C-w>T
 nnoremap <silent> sn :<C-u>new<CR>
 nnoremap <silent> sv :<C-u>vnew<CR>
 
-" <C-w>n,v 無効化 {{{
+" <C-w>n,v 無効化
 
 nnoremap <C-w><C-n> <Nop>
 nnoremap <C-w>n <Nop>
@@ -555,7 +481,7 @@ nnoremap <C-w>v <Nop>
 " 新規タブ
 nnoremap <silent> so :<C-u>tabedit<CR>
 
-function! NewTmpFile() abort " {{{
+function! NewTmpFile() abort "
     let s:_ft = input('FileType: ', '', 'filetype')
     let s:tmp = tempname()
     exec 'new '.s:tmp
@@ -566,7 +492,7 @@ endfunction
 nnoremap <silent> sf :<C-u>call NewTmpFile()<CR>
 
 
-" 移動 {{{
+" 移動
 
 " 見た目通りに移動
 nnoremap j gj
@@ -588,7 +514,7 @@ nnoremap G Gzz
 vnoremap <Space>l $h
 
 
-" cmdline コマンドライン {{{
+" cmdline コマンドライン
 cnoremap <C-a> <Home>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
@@ -614,7 +540,7 @@ function! s:restore_global_options() abort
     endfor
 endfunction
 
-" cmdline-window コマンドラインウィンドウ {{{
+" cmdline-window コマンドラインウィンドウ
 function! CmdlineEnterSettings() abort
     " いらない
     nnoremap <buffer> <C-l> <Nop>
@@ -675,7 +601,7 @@ nnoremap : q:
 
 
 
-" yank コピー {{{
+" yank コピー
 
 " カーソルから行末までコピー
 nnoremap Y y$
@@ -685,7 +611,7 @@ nnoremap <Space>ay :<C-u>%y<CR>
 
 
 
-" paste 貼り付け {{{
+" paste 貼り付け
 
 " 最後にコピーしたテキストを貼り付ける
 " 選択し、貼り付けると、 "* が更新されてしまうため
@@ -694,14 +620,14 @@ vnoremap <Space>p "0p
 
 
 
-" delete 削除 {{{
+" delete 削除
 
 " 1文字削除の場合、無名レジスタを汚さないようにする
 nnoremap x "_x
 
 
 
-" マクロ {{{
+" マクロ
 
 " Q でマクロを再実行
 nnoremap Q @@
@@ -710,7 +636,7 @@ nnoremap Q @@
 vnoremap <silent> @q :normal! @q<CR>
 
 
-" タブ {{{
+" タブ
 
 nnoremap tg <Nop>
 nnoremap gt <Nop>
@@ -719,7 +645,7 @@ nnoremap <C-h> gT
 
 
 
-" set filetype {{{
+" set filetype
 function! s:set_filetype(ft) abort
     exec 'set ft='.a:ft
 endfunction
@@ -727,7 +653,7 @@ command! -nargs=1 -complete=filetype FileType call s:set_filetype(<f-args>)
 nnoremap <Space>ft :<C-u>FileType 
 
 
-" terminal {{{
+" terminal
 " prefix
 set termwinkey=<C-w>
 
@@ -739,7 +665,7 @@ tnoremap <Esc> <C-\><C-n>
 
 
 
-" search 検索 {{{
+" search 検索
 
 " ハイライトを消去
 nnoremap <silent> <Esc><Esc> :noh<CR>
@@ -773,7 +699,7 @@ vnoremap <Space>/ "hy/\V<C-R>h<CR>
 nnoremap <silent> * :<C-u>let @/ = '\<' . expand('<cword>') . '\>'<cr>b<bs>/<cr>
 
 
-" substitute replace 置換 {{{
+" substitute replace 置換
 
 nnoremap s/ :<C-u>%s///g<Left><Left>
 vnoremap <Space>s/ :s///g<Left><Left>
@@ -789,7 +715,7 @@ nnoremap <C-R><C-d> v"hy:%s/\V\(<C-R>h\)//g<left><left>
 
 
 
-" diff {{{
+" diff
 nnoremap <silent> <Space>dt :<C-u>windo diffthis<CR>
 nnoremap <silent> <Space>do :<C-u>windo diffoff<CR>
 nnoremap <silent> <Space>dp :diffput<CR>
@@ -800,7 +726,7 @@ vnoremap <silent> <Space>dg :diffget<CR>
 " nnoremap <Space>du diffupdate
 
 
-" toggle option {{{
+" toggle option
 function! MapToggleOption(key, opt) abort
     exec 'nnoremap <silent> '.a:key.' :<C-u>setlocal '.a:opt.'!<CR> :echo "toggle '.a:opt.'"<CR>'
 endfunction
@@ -809,7 +735,7 @@ call MapToggleOption('<F2>', 'wrap')
 call MapToggleOption('<F3>', 'readonly')
 
 
-" help {{{
+" help
 
 " helpをqで閉じる
 autocmd MyAutoCmd FileType help nnoremap <buffer> q <C-w>c
@@ -823,9 +749,10 @@ nnoremap <A-h> :<C-u>h
 vnoremap K <Nop>
 
 
-" commands {{{1
+" ==============================================================================
+" commands
 
-" terminal {{{
+" terminal
 
 function! TermStartClose(...) abort
     exec 'botright term ++close ++rows=30' join(a:000)
@@ -1686,28 +1613,6 @@ let g:lsp_diagnostics_enabled = 0
 " let g:rg_format = ''
 
 
-" " ==============================================================================
-" " othree/javascript-libraries-syntax.vim 
-"
-" function! s:javascript_libraries_syntax() abort
-"     let g:use_javascript_libs = 'vue'
-"     let b:javascript_lib_use_vue = 1
-" endfunction
-"
-" autocmd MyAutoCmd Filetype javascript,javascript.jsx call s:javascript_libraries_syntax()
-
-
-" " ==============================================================================
-" " mattn/efm-langserver 
-"
-" " sign
-" let g:lsp_signs_error = {'text': g:tamago324_sign_error}
-" let g:lsp_signs_warning = {'text': g:tamago324_sign_warn}
-"
-" " カーソル下の lint 結果を表示
-" let g:lsp_diagnostics_echo_cursor = 1
-"
-
 " ==============================================================================
 " posva/vim-vue 
 autocmd MyAutoCmd FileType vue syntax sync fromstart
@@ -1719,9 +1624,6 @@ autocmd MyAutoCmd FileType vue syntax sync fromstart
 nmap p      <Plug>(yankround-p)
 xmap p      <Plug>(yankround-p)
 nmap P      <Plug>(yankround-P)
-" nmap gp     <Plug>(yankround-gp)
-" xmap gp     <Plug>(yankround-gp)
-" nmap gP     <Plug>(yankround-gP)
 nmap <C-p>  <Plug>(yankround-prev)
 nmap <C-n>  <Plug>(yankround-next)
 
@@ -1742,11 +1644,6 @@ xmap ib <Plug>(textobj-multiblock-i)
 
 " なんとなくちょうどいい
 let g:highlightedyank_highlight_duration = 70
-
-
-" ==============================================================================
-" ctrlp-lanchear
-" let g:ctrlp_launcher_file = '~/vimfiles/rc/plugins/ctrlp-launcher'
 
 
 " ==============================================================================
@@ -1849,42 +1746,8 @@ function! s:defx_my_settings() abort
     nnoremap <silent><buffer> B
     \ :<C-u>BookmarkList<CR>
 
-    " " trashboxに入れる(削除)、https://pypi.org/project/Send2Trash/ を使う
-    " " pip install send2trash
-    " nnoremap <silent><buffer><expr> d
-    " \ defx#do_action('remove_trash')
-
-    " " ファイルパスのコピー
-    " nnoremap <silent><buffer><expr> yy
-    " \ defx#do_action('yank_path')
-    " nnoremap <silent><buffer><expr> ~
-    " \ defx#do_action('cd')
-    " nnoremap <silent><buffer><expr> \
-    " \ defx#do_action('cd', getcwd())
-    " nnoremap <silent><buffer><expr> !
-    " \ defx#do_action('execute_command')
-    " nnoremap <silent><buffer><expr> M
-    " \ defx#do_action('new_multiple_files')
-    " " １つ前のアクションを実行
-    " nnoremap <silent><buffer><expr> .
-    " \ defx#do_action('repeat')
-    " nnoremap <silent><buffer><expr> <Space>
-    " \ defx#do_action('toggle_select') . 'j'
-    " nnoremap <silent><buffer><expr> *
-    " \ defx#do_action('toggle_select_all')
-    " " ファイル名表示
-    " nnoremap <silent><buffer><expr> <C-g>
-    " \ defx#do_action('print')
-    " nnoremap <silent><buffer><expr> <Tab> winnr('$') != 1 ?
-    " \ ':<C-u>wincmd w<CR>' :
-    " \ ':<C-u>Defx -buffer-name=temp -split=vertical<CR>'
-    " プレビューウィンドウで表示
-    " nnoremap <silent><buffer><expr> P
-    " \ defx#do_action('open', 'pedit')
-
     command! -buffer BAdd call defx#call_action('add_session')
     command! -buffer BookmarkList call DefxSessions(g:defx_session_file)
-    " nnoremap <silent><buffer> B :<C-u>Denite defx/session<CR>
 
     nnoremap <buffer> <C-k> <Nop>
     nnoremap <buffer> <C-j> <Nop>
@@ -2157,14 +2020,9 @@ augroup MyAutoCmdCalendar
 augroup END
 
 
-" ==============================================================================
-" neopairs
-let g:neopairs#enable = 1
-
-
-" ==============================================================================
-" previm
-
+" " ==============================================================================
+" " neopairs
+" let g:neopairs#enable = 1
 
 
 " ==============================================================================
@@ -2186,9 +2044,6 @@ nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
 
 " menu
 " nnoremap <silent> <Space>fmg :<C-u>Denite menu -input=gutter -no-start-filter<CR>
-
-" Denite の sources
-" nnoremap <Space>fd :<C-u>Denite <C-l>
 
 " " 再表示
 nnoremap <silent> <Space>f[ :<C-u>Denite -resume<CR>
@@ -2309,11 +2164,6 @@ let s:denite_menus = {}
 " " file_candidates       -> kind: file
 " " command_candidates    -> kind: command
 " " directory_candidates  -> kind: directory
-" let s:denite_menus.gutter.command_candidates = [
-" \   ['toggle',           'GitGutterToggle'],
-" \   ['sign',             'GitGutterSignsToggle'],
-" \   ['line_highlight',   'GitGutterLineHighlightsToggle'],
-" \]
 
 " call denite#custom#var('menu', 'menus', s:denite_menus)
 
@@ -2559,13 +2409,8 @@ function! TodoMappings() abort
 
     nmap     <silent><buffer> [Todo]x <Plug>DoToggleMarkAsDone
 
-    " " 日付を入れる
-    " noremap  <silent><buffer> [Todo]d :<C-u>call todo#PrependDate()<CR>
-
     " 優先順位
     noremap  <silent><buffer> [Todo]a :<C-u>call todo#PrioritizeAdd('A')<CR>
-    " noremap  <silent><buffer> [Todo]b :<C-u>call todo#PrioritizeAdd('B')<CR>
-    " noremap  <silent><buffer> [Todo]c :<C-u>call todo#PrioritizeAdd('C')<CR>
     noremap  <silent><buffer> [Todo]j :<C-u>call todo#PrioritizeIncrease()<CR>
     noremap  <silent><buffer> [Todo]k :<C-u>call todo#PrioritizeDecrease()<CR>
 
@@ -2737,9 +2582,6 @@ augroup MyPrettier
     \       nnoremap <buffer> <Space>bl :<C-u>PrettierAsync<CR>
 augroup END
 
-" ==============================================================================
-" machakann/vim-Verdin
-
 
 " ==============================================================================
 " mattn/emmet-vim
@@ -2753,121 +2595,3 @@ let g:user_emmet_settings = {
 " <C-y>, : 展開
 " <C-y>; : 展開 (ただのタグ)
 " v_<C-y>, : 選択範囲を指定の要素で囲む
-
-
-" " ==============================================================================
-" " deton/jasegment.vim
-"
-" " from https://github.com/orokasan/dotfiles/blob/e8874259e9e5c0feb693e113c17355b00cb04413/dein.toml#L35-L66
-"
-" " 2以下だと、Insert モードを抜けたときにはハイライトしない
-" " 2以上だと、Insert モード抜けたらハイライトする
-" let g:jasegment#highlight = 0
-"
-" " 大文字と小文字を逆にする
-" nmap <silent> e <Plug>JaSegmentMoveNE
-" nmap <silent> w <Plug>JaSegmentMoveNW
-" nmap <silent> b <Plug>JaSegmentMoveNB
-" omap <silent> e <Plug>JaSegmentMoveOE
-" omap <silent> w <Plug>JaSegmentMoveOW
-" omap <silent> b <Plug>JaSegmentMoveOB
-" xmap <silent> e <Plug>JaSegmentMoveVE
-" xmap <silent> w <Plug>JaSegmentMoveVW
-" xmap <silent> b <Plug>JaSegmentMoveVB
-"
-" nnoremap E e
-" nnoremap W w
-" nnoremap B b
-" onoremap E e
-" onoremap W w
-" onoremap B b
-" xnoremap E e
-" xnoremap W w
-" xnoremap B b
-"
-" " TODO: ハイライトの色はどうやって設定するのか
-
-" " ==============================================================================
-" " tyru/eskk.vim
-"
-" " eskk.vim も同じような構造になっているのかな
-" " [skk.vimの構造について - Humanity http://tyru.hatenablog.com/entry/20100201/skk_vim]
-"
-" " mapping は ~\ghq\github.com\tyru\eskk.vim\autoload\eskk.vim 1517 を参考にする
-" " s:eskk_mappings に対応する関数が実行される
-"
-" " ひらがなモード
-" "   l  英数字モードへ移行
-" " ASCIIモード
-" "   <C-j> ひらがなモードへ移行
-" " 変換モード
-" "   q     カタカナへ変換
-" "   <C-j> 確定
-" "   <C-g> キャンセル
-"
-" " XXX： abbrev ってなんだろう
-" " [Vimにおける日本語入力環境に関する考察 - Humanity
-" " http://tyru.hatenablog.com/entry/20101214/vim_de_skk]
-" " test と入力した時の挙動
-" " skk => てt
-" " msime => てst
-" let g:eskk#rom_input_style = 'msime'
-"
-"
-" " [Emacs 用 skk の設定 - 落穂拾い https://blog.goo.ne.jp/gleaning/e/cd6b046947827c32f2487502388a1a4c]
-" " [Emacsのddskkで辞書をGoogle IMEにする - ★データ解析備忘録★ https://y-mattu.hatenablog.com/entry/2016/09/25/021937]
-"
-" " 未確定時でEnterを押しても確定にしない
-" let g:eskk#egg_like_newline = 1
-"
-" let g:eskk#start_completion_length = 2
-" let g:eskk#tab_select_completion = 1
-"
-" let g:eskk#directory = '~/.eskk'
-"
-" " 参考になりそう
-" " https://github.com/dohq/dotfiles/blob/5ad6303e285753ee9f8c78960131492c0a77debe/.vimrc#L407-L441
-" " https://github.com/orokasan/dotfiles/blob/e8874259e9e5c0feb693e113c17355b00cb04413/dein_lazy.toml#L769-L912
-" let g:eskk#dictionary = {
-" \   'path': '~/.eskk/.skk-jisyo',
-" \   'sorted': 0,
-" \   'encoding': 'utf-8',
-" \}
-"
-" " .skk_dictionary 以下に SKK-JISYO.L.gz を解凍したものを配置
-" let g:eskk#large_dictionary = {
-" \   'path': '~/.eskk/SKK-JISYO.L',
-" \   'sorted': 1,
-" \   'encoding': 'euc-jp',
-" \}
-"
-" " XXX： シングルクオートが囲まれないため、デフォルトでは eskk を使用しないようにする(日本語入力の時のみ使用する)
-" " let g:eskk#initial_mode = 'ascii'
-"
-" function! s:eskk_mode_popup() abort
-"     if eskk#is_enabled()
-"         let l:mode = g:eskk#statusline_mode_strings[eskk#get_mode()]
-"     else
-"         let l:mode = 'aA'
-"     endif
-"
-"     call popup_create(l:mode, {
-"     \   'pos': 'topleft',
-"     \   'line': 'cursor+1',
-"     \   'col': 'cursor',
-"     \   'moved': 'any',
-"     \   'time': 500,
-"     \})
-" endfunction
-"
-" augroup MyESKK
-"     autocmd!
-"     " autocmd CmdwinEnter * call eskk#disable()
-"     autocmd InsertEnter * call eskk#disable()
-"     " " eskk が ON/OFF になった時、ポップアップを表示
-"     " autocmd User eskk-enable-post call s:eskk_mode_popup()
-"     " autocmd User eskk-disable-post call s:eskk_mode_popup()
-"     " autocmd InsertEnter * call s:eskk_mode_popup()
-"     autocmd User eskk-enable-post setlocal cursorline
-"     autocmd User eskk-disable-post setlocal nocursorline
-" augroup END
