@@ -108,6 +108,10 @@ Plug 'machakann/vim-Verdin'
 Plug 'kana/vim-textobj-user'
 Plug 'osyo-manga/vim-textobj-multiblock'
 
+" == operator
+Plug 'kana/vim-operator-user'
+Plug 'kana/vim-operator-replace'
+
 " == ctrlp
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mattn/ctrlp-ghq'
@@ -178,6 +182,7 @@ set nrformats-=octal    " 07 で CTRL-A しても、010 にならないように
 set signcolumn=yes      " 常に表示
 set completeslash=slash " 補完時に使用する slash
 set nostartofline       " <C-v>で選択しているときに、上下移動しても、行頭に行かないようにする
+set autoread            " Vim の外でファイルを変更した時、自動で読み込む
 
 " menuone:  候補が1つでも表示
 " popup:    info を popup で表示
@@ -1012,7 +1017,8 @@ function! s:packget(url, ...) abort
 
     let l:cmd = 'git clone ' . s:fix_url(a:url) . ' '  . l:dst
 
-    execute 'botright term ++rows=15 '.l:cmd
+    execute 'botright term ++rows=12 '.l:cmd
+    nnoremap <buffer> q <C-w>q
 endfunction
 
 " これやっても意味ない？
@@ -1523,6 +1529,13 @@ omap ab <Plug>(textobj-multiblock-a)
 omap ib <Plug>(textobj-multiblock-i)
 xmap ab <Plug>(textobj-multiblock-a)
 xmap ib <Plug>(textobj-multiblock-i)
+
+
+" ==============================================================================
+" kana/vim-operator-user
+
+" replace
+map R <Plug>(operator-replace)
 
 
 " ==============================================================================
@@ -2384,7 +2397,6 @@ augroup MyMatchup
     autocmd InsertEnter * NoMatchParen
     autocmd InsertLeave * DoMatchParen
 augroup END
-
 
 " ==============================================================================
 " prabirshrestha/asyncomplete.vim
