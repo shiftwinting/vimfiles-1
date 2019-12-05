@@ -267,7 +267,6 @@ augroup MyMatchAdd
     autocmd VimEnter,WinEnter * call matchadd('Eol', '$')
 augroup END
 
-
 " diff の設定
 " https://qiita.com/takaakikasai/items/3d4f8a4867364a46dfa3
 " internal: 内部diffライブラリを設定する
@@ -275,8 +274,6 @@ augroup END
 " algorithm:histogram: histogram差分アルゴリズム を使用する
 " indent-heuristic: 内部 diff のインデントヒューリスティック？を使う
 set diffopt=internal,filler,algorithm:histogram,indent-heuristic
-
-" undo
 
 " ファイル閉じても、undoできるようにする
 if has('persistent_undo')
@@ -291,10 +288,6 @@ if has('persistent_undo')
         autocmd BufReadPre ~/* setlocal undofile
     augroup END
 endif
-
-
-
-" filetype ごとの <Tab> 設定
 
 "   expandtab   タブ入力を複数の空白入力に置き換える
 "   tabstop     実際に挿入されるスペースの数
@@ -319,11 +312,9 @@ autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType vue          setlocal sw=2 sts=2 ts=2 et
 
 " 拡張子をもとにファイルタイプを設定
-
 autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini
 autocmd MyAutoCmd BufRead,BufWinEnter *.csv set filetype=csv
 autocmd MyAutoCmd BufRead,BufWinEnter *.jsx set filetype=javascript.jsx
-
 
 " fold 折畳
 function! MyFoldText() abort "
@@ -343,9 +334,7 @@ endfunction
 
 set foldtext=MyFoldText()
 
-
 " from kaoriya's vimrc
-
 " マルチバイト文字の間でも改行できるようにする(autoindentが有効の場合いる)
 set formatoptions+=m
 " マルチバイト文字の間で行連結した時、空白を入れない
@@ -355,7 +344,6 @@ set formatoptions+=M
 if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
     let $PATH = $VIM . ';' . $PATH
 endif
-
 
 " omnifunc
 " https://github.com/vim/vim/tree/master/runtime/autoload
@@ -420,17 +408,10 @@ inoremap <C-e> <END>
 inoremap <C-f> <Right>
 inoremap <C-b> <Left>
 
-"" 空行を作成する
-" nnoremap <Space>j o<ESC>k
-" nnoremap <Space>k O<ESC>j
-
 vnoremap <silent> . :normal! .<CR>
 
 " シンボリックリンクの先に移動する
 nnoremap <silent> cd :<C-u>exec 'lcd '.resolve(expand('%:p:h'))<CR>
-
-" 全行フォーマット
-nnoremap <Space>af ggVG=
 
 " 前にいたバッファを表示. めっちゃ好きこれ
 nnoremap <C-i> 
@@ -439,14 +420,12 @@ nnoremap <C-i> 
 nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR>:echo '$MYVIMRC loaded!'<CR>
 nnoremap <silent> <Space>v. :<C-u> call tmg#DropOrTabedit($MYVIMRC)<CR>
 
-
 " 保存、終了
 " 変更があったときのみ、保存される
 nnoremap <silent> <Space>w :<C-u>update<CR>
 nnoremap <silent> <Space>W :<C-u>update!<CR>
 nnoremap <silent> <Space>q :<C-u>quit<CR>
 nnoremap <silent> <Space>Q :<C-u>quit!<CR>
-
 
 " window ウィンドウ操作
 " s の無効化
@@ -470,13 +449,10 @@ nnoremap <silent> sn :<C-u>new<CR>
 nnoremap <silent> sv :<C-u>vnew<CR>
 
 " <C-w>n,v 無効化
-
 nnoremap <C-w><C-n> <Nop>
 nnoremap <C-w>n <Nop>
 nnoremap <C-w><C-v> <Nop>
 nnoremap <C-w>v <Nop>
-
-
 
 " 新規タブ
 nnoremap <silent> so :<C-u>tabedit<CR>
@@ -491,12 +467,13 @@ endfunction
 " 一時ファイルの作成
 nnoremap <silent> sf :<C-u>call NewTmpFile()<CR>
 
-
-" 移動
-
 " 見た目通りに移動
 nnoremap j gj
 nnoremap k gk
+
+nnoremap <Space>h ^
+nnoremap <Space>l $
+vnoremap <Space>l $h
 
 " 上下の空白に移動
 " https://twitter.com/Linda_pp/status/1108692192837533696
@@ -505,24 +482,15 @@ nnoremap <C-k> {
 vnoremap <C-j> }
 vnoremap <C-k> {
 
-" 行頭、行末
-noremap <Space>h ^
-noremap <Space>l $
-
 nnoremap G Gzz
-
-vnoremap <Space>l $h
-
 
 " cmdline コマンドライン
 cnoremap <C-a> <Home>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
 cnoremap <C-d> <Del>
-
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-
 
 function! s:save_global_options(...) abort
     let s:save_opts = {}
@@ -546,11 +514,11 @@ function! CmdlineEnterSettings() abort
     nnoremap <buffer> <C-l> <Nop>
     nnoremap <buffer> <C-i> <Nop>
 
-    " <C-p> 行補完
-    inoremap <buffer> <expr> <C-p> 
-    \ col('.') == 1 ?
-    \ '<Esc>k' :
-    \ '<C-x><C-l>'
+    " " <C-p> 行補完
+    " inoremap <buffer> <expr> <C-p> 
+    " \ col('.') == 1 ?
+    " \ '<Esc>k' :
+    " \ '<C-x><C-l>'
 
     " 移動
     inoremap <buffer> <C-j> <Esc>j
@@ -599,51 +567,33 @@ autocmd MyAutoCmd CmdwinLeave * call CmdlineLeaveSettings()
 " すぐに cmdline-window に入る
 nnoremap : q:
 
-
-
 " yank コピー
-
 " カーソルから行末までコピー
 nnoremap Y y$
-
 " 全行コピー
 nnoremap <Space>ay :<C-u>%y<CR>
 
-
-
 " paste 貼り付け
-
 " 最後にコピーしたテキストを貼り付ける
 " 選択し、貼り付けると、 "* が更新されてしまうため
 nnoremap <Space>p "0p
 vnoremap <Space>p "0p
 
-
-
 " delete 削除
-
 " 1文字削除の場合、無名レジスタを汚さないようにする
 nnoremap x "_x
 
-
-
 " マクロ
-
 " Q でマクロを再実行
 nnoremap Q @@
-
 " 選択範囲で マクロ繰り返し
 vnoremap <silent> @q :normal! @q<CR>
 
-
 " タブ
-
 nnoremap tg <Nop>
 nnoremap gt <Nop>
 nnoremap <C-l> gt
 nnoremap <C-h> gT
-
-
 
 " set filetype
 function! s:set_filetype(ft) abort
@@ -651,7 +601,6 @@ function! s:set_filetype(ft) abort
 endfunction
 command! -nargs=1 -complete=filetype FileType call s:set_filetype(<f-args>)
 nnoremap <Space>ft :<C-u>FileType 
-
 
 " terminal
 " prefix
@@ -663,22 +612,12 @@ execute 'tnoremap ' . '&termwinkey' . 'p <Nop>'
 " C-[ でTerminal Job モードへ移行
 tnoremap <Esc> <C-\><C-n>
 
-
-
 " search 検索
-
-" ハイライトを消去
 nnoremap <silent> <Esc><Esc> :noh<CR>
-
 " / => \/ とする
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
-
 " :help magic を参照
 nnoremap / /\v
-vnoremap / /\v
-
-" " @*(クリップボード)に入っている文字列で検索
-" nnoremap <Space>/ /<C-R>*<CR>
 
 " 選択範囲内の検索
 " 選択しているところで、一旦抜けて(<Esc>)、/%Vで(gvで直前に選択した範囲を検索している)
@@ -698,9 +637,7 @@ vnoremap <Space>/ "hy/\V<C-R>h<CR>
 " 検索結果レジスタに入っている文字で検索する(/だけだと、@/の値が参照されるため)
 nnoremap <silent> * :<C-u>let @/ = '\<' . expand('<cword>') . '\>'<cr>b<bs>/<cr>
 
-
 " substitute replace 置換
-
 nnoremap s/ :<C-u>%s///g<Left><Left>
 vnoremap <Space>s/ :s///g<Left><Left>
 
@@ -713,8 +650,6 @@ vnoremap <C-R>      "hy:%s/\v(<C-R>h)//g<left><left>
 vnoremap <C-R><C-d> "hy:%s/\V\(<C-R>h\)//g<left><left>
 nnoremap <C-R><C-d> v"hy:%s/\V\(<C-R>h\)//g<left><left>
 
-
-
 " diff
 nnoremap <silent> <Space>dt :<C-u>windo diffthis<CR>
 nnoremap <silent> <Space>do :<C-u>windo diffoff<CR>
@@ -722,9 +657,6 @@ nnoremap <silent> <Space>dp :diffput<CR>
 vnoremap <silent> <Space>dp :diffput<CR>
 nnoremap <silent> <Space>dg :diffget<CR>
 vnoremap <silent> <Space>dg :diffget<CR>
-" 更新
-" nnoremap <Space>du diffupdate
-
 
 " toggle option
 function! MapToggleOption(key, opt) abort
@@ -734,49 +666,26 @@ endfunction
 call MapToggleOption('<F2>', 'wrap')
 call MapToggleOption('<F3>', 'readonly')
 
-
 " help
-
 " helpをqで閉じる
 autocmd MyAutoCmd FileType help nnoremap <buffer> q <C-w>c
-
 " 選択している文字列をhelpで引く
 vnoremap <A-h> "hy:help <C-R>h<CR>
-
 nnoremap <A-h> :<C-u>h 
-
-" 無効化
 vnoremap K <Nop>
-
-
-" ==============================================================================
-" commands
-
-" terminal
-
-function! TermStartClose(...) abort
-    exec 'botright term ++close ++rows=30' join(a:000)
-endfunction
-
-command! -nargs=* Term call TermStartClose(<f-args>)
-if has('win32')
-    command! -nargs=* Cmd call TermStartClose(<f-args>)
-endif
-
-" bash.exeの起動
-command! Bash call TermStartClose('bash.exe')
-
-" nyagos
-if !executable('nyagos')
-    let $PATH = $PATH.';'.expand('~/app/nyagos')
-endif
-command! Nyagos call TermStartClose('nyagos.exe')
 
 " クリップボード貼り付け
 inoremap <C-r><C-r> <C-r>*
 cnoremap <C-r><C-r> <C-r>*
 
+" " 挿入モードから抜けるときに IME をOFFにする
+inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
+" 対応するカッコの移動
+nmap 5 %
+vmap 5 %
+
+" terminal
 " quickfix
 function! QfSettings() abort
     nnoremap <buffer>         p         <CR>zz<C-w>p
@@ -791,13 +700,6 @@ function! QfSettings() abort
 endfunction
 
 autocmd! MyAutoCmd FileType qf call QfSettings()
-
-" eskk.vim を使うためいらない
-" " 挿入モードから抜けるときに IME をOFFにする
-inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
-
-nmap 5 %
-vmap 5 %
 
 " ==============================================================================
 " 便利なコマンドたち
@@ -837,21 +739,21 @@ command! FnamemodsPopup call s:yank_fnamemods_popup()
 
 let s:modifiers = []
 
-" %s がファイルパスに置き換わる
-let s:fmod_fmts = {
-\   'mods': [
-\      ':p:h',
-\      ':p:~',
-\      ':p',
-\      ':p:r',
-\      ':t:r',
-\      ':p:t',
-\      ':e',
-\   ],
-\   'cmds': [
-\       ['wslpath', 'wsl wslpath -a "%s"'],
-\   ]
-\}
+" " %s がファイルパスに置き換わる
+" let s:fmod_fmts = {
+" \   'mods': [
+" \      ':p:h',
+" \      ':p:~',
+" \      ':p',
+" \      ':p:r',
+" \      ':t:r',
+" \      ':p:t',
+" \      ':e',
+" \   ],
+" \   'cmds': [
+" \       ['wslpath', 'wsl wslpath -a "%s"'],
+" \   ]
+" \}
 
 
 " 形式を設定
@@ -900,7 +802,6 @@ function! s:yank_fnamemods_popup() abort "
     let popctx.id = popup_menu(disp_list, opts)
 
 endfunction
-"}}}
 
 function! s:fnmods_handler(popctx, winid, idx) abort " 
     " キャンセル時、-1が渡されるため
@@ -945,8 +846,6 @@ function! s:create_fnmods_list(fullpath, fnmods) abort "
     return fnmods_list
 endfunction
 " ------------------------------------------------------------------------------
-
-
 
 " ------------------------------------------------------------------------------
 " よく使う help へのジャンプ 
@@ -1008,8 +907,6 @@ function! FavoriteHelps() abort "
 endfunction
 " ------------------------------------------------------------------------------
 
-
-
 " ------------------------------------------------------------------------------
 " カーソル下の highlight 情報を取得 (name のみ) 
 command! SyntaxInfo call GetSynInfo()
@@ -1044,8 +941,6 @@ function! GetSynInfo() abort
     echo 'name: ' . linked_syn.name
 endfunction
 " ------------------------------------------------------------------------------
-
-
 
 " ------------------------------------------------------------------------------
 " packages 機能
@@ -1139,8 +1034,6 @@ endfunction
 " command! -nargs=1 PackHelp -complete=customlist,func call s:packhelp(<f-args>)
 " ------------------------------------------------------------------------------
 
-
-
 " ------------------------------------------------------------------------------
 " fileformat を変換
 " https://qiita.com/gillax/items/3dad7318662d29b3f6d1
@@ -1151,18 +1044,12 @@ function! FFDosUnix() abort
 endfunction
 " ------------------------------------------------------------------------------
 
-
-
 " ------------------------------------------------------------------------------
 " ghq
 command! -nargs=1 Ghq :term ++shell ++close ++rows=20 ghq get <args>
-
-
 " ------------------------------------------------------------------------------
 " カレントバッファを開く
 command! ThisOpen call system('start ' . expand('%:p'))
-
-
 " ------------------------------------------------------------------------------
 " カレントバッファのファイル名を変更
 function! RenameCurBuffer() abort
@@ -1177,7 +1064,6 @@ function! RenameCurBuffer() abort
 endfunction
 
 command! RenameCurBuffer call RenameCurBuffer()
-
 " ------------------------------------------------------------------------------
 command! MemoOpen call tmg#DropOrTabedit(expand('~/tmp_memo'))
 nnoremap <Space>tm :<C-u>MemoOpen<CR>
