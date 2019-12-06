@@ -1849,7 +1849,7 @@ function! DefineMyHighlishts() abort
         hi Eol guifg=#999999
 
         " HTML のリンク
-        hi Underlined gui=underline guifg=#0896d4 guibg=bg
+        hi htmlLink gui=underline guifg=#0896d4 guibg=bg
 
         " ====================
         " LeafCage/yankround.vim
