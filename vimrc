@@ -29,7 +29,7 @@ Plug 'junegunn/vim-plug'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/syntax-vim-ex' " VimL のハイライト拡張
 
-Plug 'Konfekt/yankround.vim'
+" Plug 'Konfekt/yankround.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
 " Plug 'dense-analysis/ale'
@@ -65,6 +65,7 @@ Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
 Plug 'rbtnn/vim-coloredit'
+Plug 'svermeulen/vim-yoink'
 
 " ==============================================================================
 
@@ -586,7 +587,8 @@ vnoremap <Space>p "0p
 
 " delete 削除
 " 1文字削除の場合、無名レジスタを汚さないようにする
-nnoremap x "_x
+" svermeulen/vim-cutlass を使うため、いらない
+" nnoremap x "_x
 
 " マクロ
 " Q でマクロを再実行
@@ -1511,15 +1513,15 @@ autocmd MyAutoCmd FileType vue syntax sync fromstart
 
 
 " ==============================================================================
-" LeafCage/yankround.vim 
-
-nmap p      <Plug>(yankround-p)
-xmap p      <Plug>(yankround-p)
-nmap P      <Plug>(yankround-P)
-nmap <C-p>  <Plug>(yankround-prev)
-nmap <C-n>  <Plug>(yankround-next)
-
-let g:yankround_use_region_hl = 1
+" " LeafCage/yankround.vim 
+"
+" nmap p      <Plug>(yankround-p)
+" xmap p      <Plug>(yankround-p)
+" nmap P      <Plug>(yankround-P)
+" nmap <C-p>  <Plug>(yankround-prev)
+" nmap <C-n>  <Plug>(yankround-next)
+"
+" let g:yankround_use_region_hl = 1
 
 " ==============================================================================
 " kana/vim-textobj-user 
@@ -1850,7 +1852,7 @@ function! DefineMyHighlishts() abort
 
         " ====================
         " LeafCage/yankround.vim
-        hi YankRoundRegion guibg=#FFEBCD
+        " hi YankRoundRegion guibg=#FFEBCD
 
         " ====================
         " machakann/vim-highlightedyank
@@ -2493,3 +2495,16 @@ let g:user_emmet_settings = {
 " <C-y>, : 展開
 " <C-y>; : 展開 (ただのタグ)
 " v_<C-y>, : 選択範囲を指定の要素で囲む
+
+" ==============================================================================
+" svermeulen/vim-yoink
+nmap <c-n> <Plug>(YoinkPostPasteSwapBack)
+nmap <c-p> <Plug>(YoinkPostPasteSwapForward)
+nmap p     <Plug>(YoinkPaste_p)
+nmap P     <Plug>(YoinkPaste_P)
+
+" d x y で履歴に追加する
+let g:yoinkIncludeDeleteOperations = 1
+
+" ペーストした後、カーソルを移動させる
+let g:yoinkMoveCursorToEndOfPaste = 1
