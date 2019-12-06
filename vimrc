@@ -66,6 +66,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
 Plug 'rbtnn/vim-coloredit'
 Plug 'svermeulen/vim-yoink'
+Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
 
 " ==============================================================================
 
@@ -2508,3 +2509,12 @@ let g:yoinkIncludeDeleteOperations = 1
 
 " ペーストした後、カーソルを移動させる
 let g:yoinkMoveCursorToEndOfPaste = 1
+
+" ==============================================================================
+" svermeulen/vim-cutlass
+
+" move の m
+nnoremap m d
+xnoremap m d
+nnoremap mm dd
+nnoremap M D
