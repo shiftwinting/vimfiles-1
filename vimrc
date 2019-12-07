@@ -714,6 +714,11 @@ endfunction
 
 autocmd! MyAutoCmd FileType qf call QfSettings()
 
+" Vim SHort TIps Advent Calendar 2019
+" https://twitter.com/mattn_jp/status/1202603537521401856
+vnoremap < <gv
+vnoremap > >gv
+
 " ==============================================================================
 " 便利なコマンドたち
 
