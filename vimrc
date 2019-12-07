@@ -609,10 +609,7 @@ nnoremap <C-l> gt
 nnoremap <C-h> gT
 
 " set filetype
-function! s:set_filetype(ft) abort
-    exec 'set ft='.a:ft
-endfunction
-command! -nargs=1 -complete=filetype FileType call s:set_filetype(<f-args>)
+command! -nargs=1 -complete=filetype FileType exec 'set ft=<args>'
 nnoremap <Space>ft :<C-u>FileType 
 
 " terminal
