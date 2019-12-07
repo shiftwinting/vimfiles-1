@@ -455,6 +455,11 @@ nnoremap st <C-w>T
 nnoremap <silent> sn :<C-u>new<CR>
 nnoremap <silent> sv :<C-u>vnew<CR>
 
+" カレントウィンドウの縦を最大にする
+nnoremap sm <C-w>_
+" すべてのウィンドウの高さを均等にする
+nnoremap sM <C-w>=
+
 " <C-w>n,v 無効化
 nnoremap <C-w><C-n> <Nop>
 nnoremap <C-w>n <Nop>
