@@ -27,6 +27,7 @@ call plug#begin('~/vimfiles/plugged')
 
 Plug 'junegunn/vim-plug'
 Plug 'vim-jp/vimdoc-ja'
+Plug 'vim-jp/vital.vim'
 Plug 'vim-jp/syntax-vim-ex' " VimL のハイライト拡張
 
 " Plug 'Konfekt/yankround.vim'
@@ -1099,6 +1100,24 @@ command! RenameCurBuffer call RenameCurBuffer()
 command! MemoOpen call tmg#DropOrTabedit(expand('~/tmp_memo'))
 nnoremap <Space>tm :<C-u>MemoOpen<CR>
 
+" ------------------------------------------------------------------------------
+" bitly で URL 短縮
+
+let bitly#use_default_token = 1
+
+function! ShortenUrl(long_url) abort
+    let l:short_url = bitly#shorten_url(a:long_url)
+    if l:short_url ==# ''
+        return
+    endif
+    let @* = l:short_url
+    echomsg '[bitly.vim] Shorten url yank'
+endfunction
+
+command! -nargs=1 BitlyShortenUrl call ShortenUrl(<f-args>)
+
+" ------------------------------------------------------------------------------
+" TODO: tabstop のくるくる
 
 " ==============================================================================
 " ******************************************************************************
