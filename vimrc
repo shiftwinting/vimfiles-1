@@ -578,8 +578,7 @@ endfunction
 function! CmdlineRemoveLinesExec() abort
     " いらないものを消す
     g/\v^wq?!?/d
-    g/\v^q!?/d
-    g/\v^aq!?/d
+    g/\v^qa?!?/d
 
     normal! G
 endfunction
@@ -2524,10 +2523,10 @@ let g:user_emmet_settings = {
 
 " ==============================================================================
 " svermeulen/vim-yoink
-nmap <c-n> <Plug>(YoinkPostPasteSwapBack)
-nmap <c-p> <Plug>(YoinkPostPasteSwapForward)
-nmap p     <Plug>(YoinkPaste_p)
-nmap P     <Plug>(YoinkPaste_P)
+nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+nmap p     <plug>(YoinkPaste_p)
+nmap P     <plug>(YoinkPaste_P)
 
 " d x y で履歴に追加する
 let g:yoinkIncludeDeleteOperations = 1
