@@ -36,7 +36,7 @@ Plug 'ap/vim-css-color'
 " Plug 'dense-analysis/ale'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'glidenote/memolist.vim', { 'on': ['MemoNew', 'MemoList'] }
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 " Plug 'jremmen/vim-ripgrep'
 Plug 'kana/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags' " tags 生成
@@ -68,8 +68,9 @@ Plug 'andymass/vim-matchup'
 Plug 'rbtnn/vim-coloredit'
 Plug 'svermeulen/vim-yoink'
 Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
-
-" ==============================================================================
+Plug 'tweekmonster/helpful.vim'
+Plug 'tmsvg/pear-tree'
+Plug 'thinca/vim-visualstar'
 
 " == python
 Plug 'ambv/black', { 'for': 'python' }
@@ -485,6 +486,7 @@ nnoremap j gj
 nnoremap k gk
 
 nnoremap <Space>h ^
+vnoremap <Space>h ^
 nnoremap <Space>l $
 vnoremap <Space>l $h
 
@@ -1924,7 +1926,13 @@ function! DefineMyHighlishts() abort
 
         " ====================
         " matchup
-        hi MatchParen   gui=bold guifg=fg guibg=#fff0e6
+        " hi MatchParen   gui=bold guifg=fg guibg=#fff0e6
+        hi MatchParen   gui=underline guifg=fg guibg=bg
+
+        " ====================
+        " echodoc
+        " from shirotelin
+        hi link EchodocPopup Pmenu
 
     endif
 endfunction
@@ -2561,3 +2569,20 @@ nnoremap m d
 xnoremap m d
 nnoremap mm dd
 nnoremap M D
+
+" ==============================================================================
+" tmsvg/pear-tree
+" いい感じにカッコを補完できるようにする
+" 開き
+let g:pear_tree_smart_openers = 1
+" 閉じ
+let g:pear_tree_smart_closers = 1
+
+" いい感じにカッコを消せるようにする
+let g:pear_tree_smart_backspace = 1
+
+" ==============================================================================
+" thinca/vim-visualstar
+
+" 今の位置に留まる
+map * <Plug>(visualstar-*)N

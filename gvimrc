@@ -17,7 +17,7 @@ set guioptions-=e
 set guioptions-=T
 
 " 右のスクロールバーを非表示にする
-set guioptions-=r
+" set guioptions-=r
 
 " 左のスクロールバーを非表示にする
 set guioptions-=L
