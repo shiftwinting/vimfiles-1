@@ -573,8 +573,24 @@ function! CmdlineLeaveSettings() abort
     call s:restore_global_options()
 endfunction
 
-autocmd MyAutoCmd CmdwinEnter * call CmdlineEnterSettings()
-autocmd MyAutoCmd CmdwinLeave * call CmdlineLeaveSettings()
+" 明日から使える Command-line window テクニック @monaqa
+" https://bit.ly/2qybcv3
+function! CmdlineRemoveLinesExec() abort
+    " いらないものを消す
+    g/\v^wq?!?/d
+    g/\v^q!?/d
+    g/\v^aq!?/d
+
+    normal! G
+endfunction
+
+augroup MyCmdWinSettings
+    autocmd!
+    autocmd CmdwinEnter * call CmdlineEnterSettings()
+    autocmd CmdwinLeave * call CmdlineLeaveSettings()
+
+    autocmd CmdwinEnter : call CmdlineRemoveLinesExec()
+augroup END
 
 " すぐに cmdline-window に入る
 nnoremap : q:
