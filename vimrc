@@ -97,6 +97,7 @@ Plug 'thomasfaingnaert/vim-lsp-snippets'
 Plug 'thomasfaingnaert/vim-lsp-neosnippet'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+Plug 'honza/vim-snippets'
 
 " == complete
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -1327,7 +1328,6 @@ endif
 " 自分の snippets
 let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
 
-" }}}
 
 " ==============================================================================
 " ctrlpvim/ctrlp.vim 
@@ -2550,12 +2550,13 @@ let g:user_emmet_settings = {
 
 " ==============================================================================
 " svermeulen/vim-yoink
-nmap <c-n> <plug>(YoinkPostPasteSwapBack)
-nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+nmap <C-p> <plug>(YoinkPostPasteSwapBack)
+nmap <C-n> <plug>(YoinkPostPasteSwapForward)
 nmap p     <plug>(YoinkPaste_p)
 nmap P     <plug>(YoinkPaste_P)
 
 " d x y で履歴に追加する
+" XXX: これ動作してる...？
 let g:yoinkIncludeDeleteOperations = 1
 
 " ペーストした後、カーソルを移動させる
@@ -2580,6 +2581,9 @@ let g:pear_tree_smart_closers = 1
 
 " いい感じにカッコを消せるようにする
 let g:pear_tree_smart_backspace = 1
+
+" <C-h> でもカッコを消せるようにする
+imap <C-h> <Plug>(PearTreeBackspace)
 
 " ==============================================================================
 " thinca/vim-visualstar
