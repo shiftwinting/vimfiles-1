@@ -2209,7 +2209,29 @@ function! DeolEditorSettings() abort
 endfunction
 
 
-" TODO: タブが削除されたら、その中にある deol もちゃんと消してあげる
+" タブが閉じられたとき、TabLeave -> TabClosed の順で実行される
+" TabLeave  : g:last_tab に保存しておく
+" TabClosed : g:last_tab の t:deol を削除
+
+augroup MyDeolTabClosed
+    autocmd!
+    autocmd TabLeave * let g:last_tab_deol = gettabvar(tabpagenr(), 'deol', {})
+    autocmd TabClosed * call DeolTabClosed()
+augroup END
+
+function! DeolTabClosed() abort
+    if !exists('g:last_tab_deol') || empty(g:last_tab_deol)
+        return
+    endif
+
+    " XXX: kill で終了するようにしているため、少し危なっかしいかも？
+    call term_setkill(g:last_tab_deol.bufnr, 'kill')
+
+    execute 'bdelete! ' . g:last_tab_deol.bufnr
+    execute 'bdelete! ' . g:last_tab_deol.edit_bufnr
+
+    unlet g:last_tab_deol
+endfunction
 
 function! s:save_history(bufnr) abort
     let l:history_path = expand(g:deol#shell_history_path)
@@ -2218,8 +2240,8 @@ function! s:save_history(bufnr) abort
     endif
 
     let l:history = readfile(l:history_path)[-g:deol#shell_history_max :]
-    let l:history =map(l:history,
-    \   'substitute(v:val, "^\\%(\\d\\+/\\)\\+[:[:digit:]; ]\\+\\|^[:[:digit:]; ]\\+", "", "g")')
+    " let l:history = map(l:history,
+    " \   'substitute(v:val, "^\\%(\\d\\+/\\)\\+[:[:digit:]; ]\\+\\|^[:[:digit:]; ]\\+", "", "g")')
 
     " XXX: 履歴にないものだけ追加したい
     let l:lines = filter(getbufline(a:bufnr, 1, '$'), 
