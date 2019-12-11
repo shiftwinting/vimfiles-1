@@ -2205,6 +2205,9 @@ function! DeolEditorSettings() abort
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
 
+    " CR のマッピングを上書きしないようにする
+    let b:pear_tree_map_special_keys = 0
+
     setlocal winfixheight
 endfunction
 
