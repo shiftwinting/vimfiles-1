@@ -201,7 +201,9 @@ set shiftwidth=4
 set softtabstop=4
 
 " syntax highlight
-" TODO: syntax enable と syntax on の違いを理解する
+" syntax enable と syntax on の違いを理解する (:help :syntax-on)
+" on: 既存の色の設定を上書きする
+" enable: まだ、設定されていない色の設定のみ適用する
 syntax enable
 
 " plugin ファイルタイプ別プラグインを有効化
