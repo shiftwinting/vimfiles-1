@@ -2359,6 +2359,8 @@ let g:sonictemplate_vim_template_dir = [
 \   expand('~/vimfiles/work/template'),
 \]
 
+nnoremap <Space>;t :<C-u>Template 
+
 
 " ==============================================================================
 " dbeniamine/todo.txt-vim
