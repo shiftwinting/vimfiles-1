@@ -2230,8 +2230,14 @@ function! DeolTabClosed() abort
     " XXX: kill で終了するようにしているため、少し危なっかしいかも？
     call term_setkill(g:last_tab_deol.bufnr, 'kill')
 
-    execute 'bdelete! ' . g:last_tab_deol.bufnr
-    execute 'bdelete! ' . g:last_tab_deol.edit_bufnr
+    if bufexists(g:last_tab_deol.bufnr)
+        echomsg g:last_tab_deol.bufnr
+        execute 'bdelete! ' . g:last_tab_deol.bufnr
+    endif
+    " if bufexists(g:last_tab_deol.edit_bufnr)
+    "     echomsg g:last_tab_deol.edit_bufnr
+    "     execute 'bdelete! ' . g:last_tab_deol.edit_bufnr
+    " endif
 
     unlet g:last_tab_deol
 endfunction
