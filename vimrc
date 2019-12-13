@@ -70,7 +70,8 @@ Plug 'svermeulen/vim-yoink'
 Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
 Plug 'tweekmonster/helpful.vim'
 Plug 'tmsvg/pear-tree'
-Plug 'thinca/vim-visualstar'
+" Plug 'thinca/vim-visualstar'
+Plug 'haya14busa/vim-asterisk'
 
 " == python
 Plug 'ambv/black', { 'for': 'python' }
@@ -2620,8 +2621,20 @@ let g:pear_tree_smart_backspace = 1
 " <C-h> でもカッコを消せるようにする
 imap <C-h> <Plug>(PearTreeBackspace)
 
-" ==============================================================================
-" thinca/vim-visualstar
+" " ==============================================================================
+" " thinca/vim-visualstar
+"
+" " 今の位置に留まる
+" map * <Plug>(visualstar-*)N
 
-" 今の位置に留まる
-map * <Plug>(visualstar-*)N
+" ==============================================================================
+" haya14busa/vim-asterisk
+" from thinca/config
+noremap <silent> <Plug>(vimrc-searchafter) zz
+map * <Plug>(asterisk-z*)<Plug>(vimrc-searchafter)
+map # <Plug>(asterisk-z#)<Plug>(vimrc-searchafter)
+map g* <Plug>(asterisk-gz*)<Plug>(vimrc-searchafter)
+map g# <Plug>(asterisk-gz#)<Plug>(vimrc-searchafter)
+let g:asterisk#keeppos = 1
+
+
