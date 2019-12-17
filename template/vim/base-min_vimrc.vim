@@ -19,3 +19,6 @@ set nowritebackup
 " no swap
 set noswapfile
 set updatecount=0
+
+nnoremap <silent> <Space>q :<C-u>quit<CR>
+nnoremap <silent> <Space>Q :<C-u>quit!<CR>
