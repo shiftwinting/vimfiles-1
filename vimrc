@@ -3,11 +3,6 @@
 set encoding=utf-8
 scriptencoding utf-8
 
-" 変更可能なら、設定(エラーになるため)
-if &modifiable
-    set fileencoding=utf-8
-endif
-
 " " 改行コードの設定
 set fileformats=unix,dos,mac
 
@@ -100,11 +95,11 @@ Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
 
-" == complete
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'yami-beta/asyncomplete-omni.vim'
-Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+" " == complete
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" Plug 'yami-beta/asyncomplete-omni.vim'
+" Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
 Plug 'Shougo/neco-syntax'
 
 " == complete vim
@@ -170,7 +165,7 @@ let $XDG_CACHE_HOME = $LOCALAPPDATA
 "set shellslash
 
 set autoindent          " 改行時に前の行のインデントを維持する
-set smartindent         " 改行時に入力された行の末尾に合わせて次の行のインデントを増減
+" set smartindent         " 改行時に入力された行の末尾に合わせて次の行のインデントを増減
 set shiftround          " インデント幅を必ず shiftwidth の倍数にする
 set hlsearch            " 検索文字列をハイライトする
 set incsearch           " 文字を入力されるたびに検索を実行する
@@ -395,6 +390,20 @@ autocmd MyAutoCmd TerminalWinOpen * call TerminalSettings()
 
 iabbrev strint string
 
+" from https://twitter.com/hrsh7th/status/1206597079134437378
+let $MYVIMRC = resolve($MYVIMRC)
+
+" <script type="text/x-template"> のハイライトを正しくする
+" https://github.com/yuezk/vim-js/issues/1
+augroup MyHtmlXTemplate
+    au!
+    " XXX: matchgroup が理解できない...
+    "       matchgroup で指定したハイライトは、start ~ end の間では使わないようにする?
+    " start ~ end の間で @htmlTop を入れられるよー
+    autocmd FileType html syn region htmlTemplate matchgroup=htmlScriptTag
+    \       start=+<script\s*type="text/x-template"\_[^>]*>+ keepend end=+</script\_[^>]*>+ contains=@htmlTop
+augroup END
+
 " ==============================================================================
 " mapping
 
@@ -584,10 +593,10 @@ endfunction
 " https://bit.ly/2qybcv3
 function! CmdlineRemoveLinesExec() abort
     " いらないものを消す
-    g/\v^wq?!?/d
-    g/\v^qa?!?/d
+    silent g/\v^wq?!?/d
+    silent g/\v^qa?!?/d
 
-    normal! G
+    silent normal! G
 endfunction
 
 augroup MyCmdWinSettings
@@ -751,7 +760,7 @@ if executable('js-sqlformat')
 endif
 
 if executable('jq')
-    command -range=% Jq <line1>,<line2>!jq
+    command! -range=% Jq <line1>,<line2>!jq
 endif
 
 
@@ -1407,10 +1416,10 @@ let g:ctrlp_match_window = 'order:tbb,max:20,results:200'
 " <CR> で実行するコマンド
 let ctrlp_ghq_default_action = 'tabe | Defx'
 
-" .git を上の方へ探したいな...
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
-" 非同期で実行
 let g:ctrlp_user_command_async = 1
+if executable('rg')
+  let g:ctrlp_user_command = 'rg --files -F --color never --hidden --follow --glob "!.git/*" %s'
+endif
 
 " 除くディレクトリ
 " let g:ctrlp_custom_ignore = '\v[\/](.venv|.git|.mypy_cache|.pytest_cache|.*.egg-info)$'
@@ -1996,7 +2005,7 @@ nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split
 nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
 " nnoremap <silent> <Space>fq :<C-u>Denite ghq -default-action=open<CR>
 " nnoremap <silent> <Space>fc :<C-u>Denite command_history<CR>
-nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
+" nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
 
 " menu
 " nnoremap <silent> <Space>fmg :<C-u>Denite menu -input=gutter -no-start-filter<CR>
@@ -2218,6 +2227,8 @@ endfunction
 " タブが閉じられたとき、TabLeave -> TabClosed の順で実行される
 " TabLeave  : g:last_tab に保存しておく
 " TabClosed : g:last_tab の t:deol を削除
+
+" TODO: 最後のタブだった場合、どうするか
 
 augroup MyDeolTabClosed
     autocmd!
@@ -2488,56 +2499,56 @@ augroup MyMatchup
     autocmd InsertLeave * DoMatchParen
 augroup END
 
-" ==============================================================================
-" prabirshrestha/asyncomplete.vim
-set shortmess+=c
-
-augroup MyAsyncompleteVerdin
-    autocmd!
-    autocmd User asyncomplete_setup call asyncomplete#register_source(
-    \   asyncomplete#sources#Verdin#get_source_options({
-    \      'name': 'Verdin',
-    \      'whitelist': ['vim', 'help'],
-    \      'completor': function('asyncomplete#sources#Verdin#completor'),
-    \}))
-augroup END
-
-
-augroup MyAsyncompleteOmni
-    autocmd!
-    autocmd User asyncomplete_setup call asyncomplete#register_source(
-    \   asyncomplete#sources#omni#get_source_options({
-    \       'name': 'omni',
-    \       'whitelist': ['*'],
-    \       'blacklist': ['help', 'sql'],
-    \       'completor': function('asyncomplete#sources#omni#completor')
-    \   })
-    \)
-augroup END
-
-
-" augroup MyAsyncompleteNeosnippet
+" " ==============================================================================
+" " prabirshrestha/asyncomplete.vim
+" set shortmess+=c
+"
+" augroup MyAsyncompleteVerdin
 "     autocmd!
 "     autocmd User asyncomplete_setup call asyncomplete#register_source(
-"     \   asyncomplete#sources#neosnippet#get_source_options({
-"     \       'name': 'neosnippet',
+"     \   asyncomplete#sources#Verdin#get_source_options({
+"     \      'name': 'Verdin',
+"     \      'whitelist': ['vim', 'help'],
+"     \      'completor': function('asyncomplete#sources#Verdin#completor'),
+"     \}))
+" augroup END
+"
+"
+" augroup MyAsyncompleteOmni
+"     autocmd!
+"     autocmd User asyncomplete_setup call asyncomplete#register_source(
+"     \   asyncomplete#sources#omni#get_source_options({
+"     \       'name': 'omni',
 "     \       'whitelist': ['*'],
-"     \       'completor': function('asyncomplete#sources#neosnippet#completor'),
+"     \       'blacklist': ['help', 'sql'],
+"     \       'completor': function('asyncomplete#sources#omni#completor')
 "     \   })
 "     \)
 " augroup END
-
-" augroup MyAsyncompleteNecosyntax
-"     autocmd!
-"     autocmd User asyncomplete_setup call asyncomplete#register_source(
-"     \   asyncomplete#sources#necosyntax#get_source_options({
-"     \       'name': 'necosyntax',
-"     \       'whitelist': ['python'],
-"     \       'blacklist': ['vim', 'help', 'sql', 'html'],
-"     \       'completor': function('asyncomplete#sources#necosyntax#completor'),
-"     \   })
-"     \)
-" augroup END
+"
+"
+" " augroup MyAsyncompleteNeosnippet
+" "     autocmd!
+" "     autocmd User asyncomplete_setup call asyncomplete#register_source(
+" "     \   asyncomplete#sources#neosnippet#get_source_options({
+" "     \       'name': 'neosnippet',
+" "     \       'whitelist': ['*'],
+" "     \       'completor': function('asyncomplete#sources#neosnippet#completor'),
+" "     \   })
+" "     \)
+" " augroup END
+"
+" " augroup MyAsyncompleteNecosyntax
+" "     autocmd!
+" "     autocmd User asyncomplete_setup call asyncomplete#register_source(
+" "     \   asyncomplete#sources#necosyntax#get_source_options({
+" "     \       'name': 'necosyntax',
+" "     \       'whitelist': ['python'],
+" "     \       'blacklist': ['vim', 'help', 'sql', 'html'],
+" "     \       'completor': function('asyncomplete#sources#necosyntax#completor'),
+" "     \   })
+" "     \)
+" " augroup END
 
 " ==============================================================================
 " pasela/ctrlp-cdnjs
@@ -2629,12 +2640,11 @@ imap <C-h> <Plug>(PearTreeBackspace)
 
 " ==============================================================================
 " haya14busa/vim-asterisk
-" from thinca/config
-noremap <silent> <Plug>(vimrc-searchafter) zz
-map * <Plug>(asterisk-z*)<Plug>(vimrc-searchafter)
-map # <Plug>(asterisk-z#)<Plug>(vimrc-searchafter)
-map g* <Plug>(asterisk-gz*)<Plug>(vimrc-searchafter)
-map g# <Plug>(asterisk-gz#)<Plug>(vimrc-searchafter)
+map * <Plug>(asterisk-gz*)
+map # <Plug>(asterisk-z#)
+map g* <Plug>(asterisk-z*)
+map g# <Plug>(asterisk-z#)
+
 let g:asterisk#keeppos = 1
 
 
