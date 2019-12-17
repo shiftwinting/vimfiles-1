@@ -2632,6 +2632,10 @@ let g:pear_tree_smart_backspace = 1
 " <C-h> でもカッコを消せるようにする
 imap <C-h> <Plug>(PearTreeBackspace)
 
+" repeatable にしない
+" {|} で改行しても、 } を消さない (emmet.vim との相性が悪いため)
+let g:pear_tree_repeatable_expand = 0
+
 " " ==============================================================================
 " " thinca/vim-visualstar
 "
