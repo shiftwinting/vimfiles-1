@@ -747,6 +747,25 @@ autocmd! MyAutoCmd FileType qf call QfSettings()
 vnoremap < <gv
 vnoremap > >gv
 
+
+" tyru さんのマッピング
+" https://github.com/tyru/config/blob/master/home/volt/rc/vimrc-only/vimrc.vim#L618
+imap <C-l> [Complete]
+inoremap [Complete] <C-l>
+inoremap [Complete]<C-l> <C-x><C-l>
+inoremap [Complete]<C-n> <C-x><C-n>
+inoremap [Complete]<C-k> <C-x><C-k>
+inoremap [Complete]<C-t> <C-x><C-t>
+inoremap [Complete]<C-i> <C-x><C-i>
+inoremap [Complete]<C-]> <C-x><C-]>
+inoremap [Complete]<C-f> <C-x><C-f>
+inoremap [Complete]<C-d> <C-x><C-d>
+inoremap [Complete]<C-v> <C-x><C-v>
+inoremap [Complete]<C-u> <C-x><C-u>
+inoremap [Complete]<C-o> <C-x><C-o>
+inoremap [Complete]<C-s> <C-x><C-s>
+inoremap [Complete]<C-p> <C-x><C-p>
+
 " ==============================================================================
 " 便利なコマンドたち
 
@@ -1325,11 +1344,11 @@ let g:ale_set_highlight_textprop = 1
 " Shougo/neosnippet.vim 
 
 " C-L でsunippet を選択開始
-imap <C-l> <Plug>(neosnippet_expand_or_jump)
-smap <C-l> <Plug>(neosnippet_expand_or_jump)
+imap <C-j> <Plug>(neosnippet_expand_or_jump)
+smap <C-j> <Plug>(neosnippet_expand_or_jump)
 
 " C-L で次の項目に移動
-xmap <C-l> <Plug>(neosnippet_expand_target)
+xmap <C-j> <Plug>(neosnippet_expand_target)
 
 " TODO: 理解する
 " 非表示文字をどうするか？
