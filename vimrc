@@ -560,8 +560,8 @@ function! CmdlineEnterSettings() abort
     nnoremap <buffer> <C-q> :<C-u>quit<CR>
 
     " cmdline に持っていく
-    inoremap <buffer> <C-l> <C-c>
-    nnoremap <buffer> <C-l> <C-c>
+    " inoremap <buffer> <C-j> <C-c>
+    " nnoremap <buffer> <C-j> <C-c>
     inoremap <buffer> <CR>  <C-c><CR>
 
     " <C-c><C-e> でcmdline-win から抜ける
