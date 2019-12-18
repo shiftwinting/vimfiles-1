@@ -67,6 +67,7 @@ Plug 'tweekmonster/helpful.vim'
 Plug 'tmsvg/pear-tree'
 " Plug 'thinca/vim-visualstar'
 Plug 'haya14busa/vim-asterisk'
+Plug 'Yggdroot/LeaderF'
 
 " == python
 Plug 'ambv/black', { 'for': 'python' }
@@ -2671,3 +2672,104 @@ map g# <Plug>(asterisk-z#)
 let g:asterisk#keeppos = 1
 
 
+" ==============================================================================
+" mattn/vim-lsp-settings
+
+" ==============================================================================
+" Yggdroot/LeaderF
+
+
+nnoremap <Space>ff :<C-u>LeaderfFile<CR>
+nnoremap <Space>fl :<C-u>LeaderfLine<CR>
+
+" デフォルト
+" let g:Lf_DefaultMode = 'Fuzzy'
+
+" カーソルの点滅をなくす
+let g:Lf_CursorBlink = 0
+
+" ステータスラインのカラースキーム
+" TODO: solarized がない！！
+let g:Lf_StlColorscheme = ''
+
+" g:Lf_StlPalette でステータスラインの色の設定ができる
+" stlName
+" stlCategory
+" stlNameOnlyMode
+" stlFullPathMode
+" stlFuzzyMode
+" stlRegexMode
+" stlCwd
+" stlBlank
+" stlLineInfo
+" stlTotal
+
+" 検索に使う外部ツール
+let g:Lf_DefaultExternalTool = 'rg'
+
+" カレントバッファの名前を結果に表示しない
+let g:Lf_IgnoreCurrentBufferName = 1
+
+" XXX: キャンセルしたら、位置を戻すようにしてほしい...
+
+" " プレビューを表示
+" let g:Lf_PreviewInPopup = 1
+"
+" let g:Lf_PreviewResult = {
+" \   'File': 0,
+" \   'Buffer': 0,
+" \   'Mru': 0,
+" \   'Tag': 0,
+" \   'BufTag': 1,
+" \   'Function': 1,
+" \   'Line': 1,
+" \   'Colorscheme': 0,
+" \   'Rg': 0,
+" \   'Gtags': 0
+" \}
+
+let g:Lf_WindowPosition = 'popup'
+
+" ポップアップのカラースキーマ
+" let g:Lf_PopupColorscheme = 'default'
+" XXX: solarized がない！！
+
+" let g:Lf_PopupPalette = {}
+
+" ---------------
+" キーマッピング
+
+" <C-r> : 検索切り替え: fuzzy / regex 
+" <C-f> : 検索切り替え: fullpath / name only
+" <Tab> : モード切替: Normal / Insert
+" <C-v> : クリップボードから貼り付け
+" <C-u> : <C-u>
+" <C-j> <C-k> : 上下移動
+" <Up> <Down> : 履歴操作
+" <CR>  : 開く
+" <C-x> : horizonal split で開く
+" <C-]> : vertical split で開く
+" <C-t> : タブ で開く
+" <F5>  : キャッシュ更新
+" <C-s> : 複数ファイル選択
+" <C-a> : 全ファイル選択
+" <C-l> : 全ファイル選択の解除
+" <BS>  : 前の文字削除
+" <Del> : 後ろの文字削除
+" <Home> : 先頭へカーソル移動
+" <End>  : 末尾にカーソル移動
+" <Left> : 左にカーソル移動
+" <Right> : 右にカーソル移動
+" <C-p> : プレビュー表示
+
+" XXX: なにこれ、マッピングをカスタマイズじゃないの？
+let g:Lf_CommandMap = {
+\   '<C-a>': ['<Home>'],
+\   '<C-e>': ['<End>'],
+\   '<C-f>': ['<Right>'],
+\   '<C-b>': ['<Left>'],
+\   '<C-h>': ['<BS>'],
+\   '<C-d>': ['<Del>'],
+\   '<C-p>': ['<Up>'],
+\   '<C-n>': ['<Down>'],
+\}
