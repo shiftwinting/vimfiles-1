@@ -1349,7 +1349,7 @@ imap <C-j> <Plug>(neosnippet_expand_or_jump)
 smap <C-j> <Plug>(neosnippet_expand_or_jump)
 
 " C-L で次の項目に移動
-xmap <C-j> <Plug>(neosnippet_expand_target)
+" xmap <C-j> <Plug>(neosnippet_expand_target)
 
 " TODO: 理解する
 " 非表示文字をどうするか？
@@ -2010,147 +2010,147 @@ augroup END
 " let g:neopairs#enable = 1
 
 
-" ==============================================================================
-" Shougo/denite.nvim
-
-nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split<CR>
-" nnoremap <silent> <Space>fh :<C-u>Denite help -default-action=<CR>
-" nnoremap <silent> <Space>fb :<C-u>Denite buffer -default-action=split<Cr>
-" nnoremap <silent> <Space>fl :<C-u>Denite line -auto-action=highlight -winheight=25<CR>
-" nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
-" nnoremap <silent> <Space>fm :<C-u>Denite menu -no-start-filter<CR>
-" nnoremap <silent> <Space>fj :<C-u>Denite jump<CR>
-" nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
-" https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
-nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
-" nnoremap <silent> <Space>fq :<C-u>Denite ghq -default-action=open<CR>
-" nnoremap <silent> <Space>fc :<C-u>Denite command_history<CR>
-" nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
-
-" menu
-" nnoremap <silent> <Space>fmg :<C-u>Denite menu -input=gutter -no-start-filter<CR>
-
-" " 再表示
-nnoremap <silent> <Space>f[ :<C-u>Denite -resume<CR>
-
-
-call denite#custom#option('_', {
-\   'prompt': '>',
-\   'source_names': 1,
-\   'vertical_preview': 1,
-\   'direction': 'botright',
-\   'start_filter': 1,
-\   'winheight': 20,
-\   'matchers': 'matcher/fruzzy',
-\   'auto_resize': 1,
-\   'winminheight': 1,
-\   'filter-updatetime': 10,
-\   'statusline': 0,
-\})
-
-
-" rg の設定
-if executable('rg')
-  call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
-  call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
-  call denite#custom#var('grep', 'recursive_opts', [])
-  call denite#custom#var('grep', 'final_opts', [])
-  call denite#custom#var('grep', 'separator', ['--'])
-  call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--no-heading'])
-endif
-
-" buffer
-" timestamp を非表示
-call denite#custom#var('buffer', 'date_format', '')
-
-" mru
-" 以下のような表示となる
-" pwd:  ~\src\
-" もと: ~\src\python\sample\main.py
-" 結果:       python\sample\main.py
-let g:neomru#filename_format = ':~:.'
-let g:neomru#file_mru_limit = 500 " default is 1000
-let g:neomru#directory_mru_limit = 500 " default is 1000
-
-function! s:denite_my_settings() abort
-    nnoremap <silent><buffer><expr> <CR>     denite#do_map('do_action')
-    nnoremap <silent><buffer><expr> d        denite#do_map('do_action', 'delete')
-    nnoremap <silent><buffer><expr> p        denite#do_map('do_action', 'preview')
-    nnoremap <silent><buffer><expr> <C-c>    denite#do_map('quit')
-    nnoremap <silent><buffer><expr> <C-q>    denite#do_map('quit')
-    nnoremap <silent><buffer><expr> i        denite#do_map('open_filter_buffer')
-    nnoremap <silent><buffer><expr> I        denite#do_map('open_filter_buffer')
-    nnoremap <silent><buffer>       <C-j>    j
-    nnoremap <silent><buffer>       <C-k>    k
-    nnoremap <silent><buffer><expr> <C-o>    denite#do_map('choose_action')
-    nnoremap <silent><buffer>       <Space>q <Nop>
-    nnoremap <silent><buffer><expr> <C-i>    denite#do_map('do_action', 'vsplit')
-    nnoremap <silent><buffer><expr> <C-s>    denite#do_map('do_action', 'split')
-
-    nnoremap <silent><buffer><expr> <A-e>    denite#do_map('do_action', 'edit_cmdlinewin')
-endfunction
-
-function! s:denite_filter_my_settigns() abort
-    nnoremap <silent><buffer>       <Space>q <Nop>
-    inoremap <silent><buffer><expr> <C-q>
-    \   denite#do_map('quit')
-    inoremap <silent><buffer><expr> <C-c>
-    \   denite#do_map('quit')
-    nnoremap <silent><buffer><expr> <C-q>
-    \   denite#do_map('quit')
-    nnoremap <silent><buffer><expr> <C-c>
-    \   denite#do_map('quit')
-
-    " <C-w>p で最後にいたウィンドウに移動できる
-    inoremap <silent><buffer> <C-k>
-    \   <Esc><C-w>p
-    inoremap <silent><buffer> <C-j>
-    \   <Esc><C-w>p:call cursor(line('.')+1,0)<CR>
-
-    nnoremap <silent><buffer><expr> <C-l>
-    \   denite#do_map('toggle_matchers', 'matcher/regexp')
-    inoremap <silent><buffer><expr> <C-l>
-    \   denite#do_map('toggle_matchers', 'matcher/regexp')
-
-    nnoremap <silent><buffer><expr> <C-i>
-    \   denite#do_map('nop')
-endfunction
-
-augroup MyDeniteSettings
-    autocmd!
-    autocmd FileType denite         call s:denite_my_settings()
-    autocmd FileType denite-filter  call s:denite_filter_my_settigns()
-augroup END
-
-
-" action
-function! s:denite_command_history_edit_cmdlinewin(context) abort
-    let l:ctx = a:context.targets[0]
-    if get(l:ctx, 'source_name', '') !=# 'command_history'
-        return
-    endif
-    " あたかも、ユーザーが入力したかのように動作する
-    let l:command = get(l:ctx, 'action__command', '')
-    call feedkeys('q:' . l:command , 'n')
-endfunction
-
-call denite#custom#action('command/history', 'edit_cmdlinewin',
-\       function('s:denite_command_history_edit_cmdlinewin'))
-
-
-" menu
-let s:denite_menus = {}
-
-" let s:denite_menus.gutter = {
-" \   'description': 'gutter commands',
-" \}
+" " ==============================================================================
+" " Shougo/denite.nvim
 "
-" " 以下の3つがある
-" " file_candidates       -> kind: file
-" " command_candidates    -> kind: command
-" " directory_candidates  -> kind: directory
-
-" call denite#custom#var('menu', 'menus', s:denite_menus)
+" " nnoremap <silent> <Space>ff :<C-u>DeniteBufferDir file/rec -default-action=split<CR>
+" " nnoremap <silent> <Space>fh :<C-u>Denite help -default-action=<CR>
+" " nnoremap <silent> <Space>fb :<C-u>Denite buffer -default-action=split<Cr>
+" " nnoremap <silent> <Space>fl :<C-u>Denite line -auto-action=highlight -winheight=25<CR>
+" " nnoremap <silent> <Space>fk :<C-u>Denite file_mru -default-action=split<CR>
+" " nnoremap <silent> <Space>fm :<C-u>Denite menu -no-start-filter<CR>
+" " nnoremap <silent> <Space>fj :<C-u>Denite jump<CR>
+" " nnoremap <silent> <Space>fg :<C-u>Denite unite:giti<CR>
+" " https://github.com/raghur/vimfiles/blob/1a6720126308f96acf31384965c10c1ce5783a6e/vimrc#L492-L493
+" " nnoremap <silent> <Space>fg :<C-u>Denite grep:::!<CR>
+" " nnoremap <silent> <Space>fq :<C-u>Denite ghq -default-action=open<CR>
+" " nnoremap <silent> <Space>fc :<C-u>Denite command_history<CR>
+" " nnoremap <silent> <Space>fs :<C-u>Denite unite:sonictemplate<CR>
+"
+" " menu
+" " nnoremap <silent> <Space>fmg :<C-u>Denite menu -input=gutter -no-start-filter<CR>
+"
+" " " 再表示
+" nnoremap <silent> <Space>f[ :<C-u>Denite -resume<CR>
+"
+"
+" call denite#custom#option('_', {
+" \   'prompt': '>',
+" \   'source_names': 1,
+" \   'vertical_preview': 1,
+" \   'direction': 'botright',
+" \   'start_filter': 1,
+" \   'winheight': 20,
+" \   'matchers': 'matcher/fruzzy',
+" \   'auto_resize': 1,
+" \   'winminheight': 1,
+" \   'filter-updatetime': 10,
+" \   'statusline': 0,
+" \})
+"
+"
+" " rg の設定
+" if executable('rg')
+"   call denite#custom#var('file/rec', 'command', ['rg', '--files', '--glob', '!.git'])
+"   call denite#custom#var('grep', 'command', ['rg', '--threads', '1'])
+"   call denite#custom#var('grep', 'recursive_opts', [])
+"   call denite#custom#var('grep', 'final_opts', [])
+"   call denite#custom#var('grep', 'separator', ['--'])
+"   call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep', '--no-heading'])
+" endif
+"
+" " buffer
+" " timestamp を非表示
+" call denite#custom#var('buffer', 'date_format', '')
+"
+" " mru
+" " 以下のような表示となる
+" " pwd:  ~\src\
+" " もと: ~\src\python\sample\main.py
+" " 結果:       python\sample\main.py
+" let g:neomru#filename_format = ':~:.'
+" let g:neomru#file_mru_limit = 500 " default is 1000
+" let g:neomru#directory_mru_limit = 500 " default is 1000
+"
+" function! s:denite_my_settings() abort
+"     nnoremap <silent><buffer><expr> <CR>     denite#do_map('do_action')
+"     nnoremap <silent><buffer><expr> d        denite#do_map('do_action', 'delete')
+"     nnoremap <silent><buffer><expr> p        denite#do_map('do_action', 'preview')
+"     nnoremap <silent><buffer><expr> <C-c>    denite#do_map('quit')
+"     nnoremap <silent><buffer><expr> <C-q>    denite#do_map('quit')
+"     nnoremap <silent><buffer><expr> i        denite#do_map('open_filter_buffer')
+"     nnoremap <silent><buffer><expr> I        denite#do_map('open_filter_buffer')
+"     nnoremap <silent><buffer>       <C-j>    j
+"     nnoremap <silent><buffer>       <C-k>    k
+"     nnoremap <silent><buffer><expr> <C-o>    denite#do_map('choose_action')
+"     nnoremap <silent><buffer>       <Space>q <Nop>
+"     nnoremap <silent><buffer><expr> <C-i>    denite#do_map('do_action', 'vsplit')
+"     nnoremap <silent><buffer><expr> <C-s>    denite#do_map('do_action', 'split')
+"
+"     nnoremap <silent><buffer><expr> <A-e>    denite#do_map('do_action', 'edit_cmdlinewin')
+" endfunction
+"
+" function! s:denite_filter_my_settigns() abort
+"     nnoremap <silent><buffer>       <Space>q <Nop>
+"     inoremap <silent><buffer><expr> <C-q>
+"     \   denite#do_map('quit')
+"     inoremap <silent><buffer><expr> <C-c>
+"     \   denite#do_map('quit')
+"     nnoremap <silent><buffer><expr> <C-q>
+"     \   denite#do_map('quit')
+"     nnoremap <silent><buffer><expr> <C-c>
+"     \   denite#do_map('quit')
+"
+"     " <C-w>p で最後にいたウィンドウに移動できる
+"     inoremap <silent><buffer> <C-k>
+"     \   <Esc><C-w>p
+"     inoremap <silent><buffer> <C-j>
+"     \   <Esc><C-w>p:call cursor(line('.')+1,0)<CR>
+"
+"     nnoremap <silent><buffer><expr> <C-l>
+"     \   denite#do_map('toggle_matchers', 'matcher/regexp')
+"     inoremap <silent><buffer><expr> <C-l>
+"     \   denite#do_map('toggle_matchers', 'matcher/regexp')
+"
+"     nnoremap <silent><buffer><expr> <C-i>
+"     \   denite#do_map('nop')
+" endfunction
+"
+" augroup MyDeniteSettings
+"     autocmd!
+"     autocmd FileType denite         call s:denite_my_settings()
+"     autocmd FileType denite-filter  call s:denite_filter_my_settigns()
+" augroup END
+"
+"
+" " action
+" function! s:denite_command_history_edit_cmdlinewin(context) abort
+"     let l:ctx = a:context.targets[0]
+"     if get(l:ctx, 'source_name', '') !=# 'command_history'
+"         return
+"     endif
+"     " あたかも、ユーザーが入力したかのように動作する
+"     let l:command = get(l:ctx, 'action__command', '')
+"     call feedkeys('q:' . l:command , 'n')
+" endfunction
+"
+" call denite#custom#action('command/history', 'edit_cmdlinewin',
+" \       function('s:denite_command_history_edit_cmdlinewin'))
+"
+"
+" " menu
+" let s:denite_menus = {}
+"
+" " let s:denite_menus.gutter = {
+" " \   'description': 'gutter commands',
+" " \}
+" "
+" " " 以下の3つがある
+" " " file_candidates       -> kind: file
+" " " command_candidates    -> kind: command
+" " " directory_candidates  -> kind: directory
+"
+" " call denite#custom#var('menu', 'menus', s:denite_menus)
 
 
 " ==============================================================================
@@ -2681,6 +2681,8 @@ let g:asterisk#keeppos = 1
 
 nnoremap <Space>ff :<C-u>LeaderfFile<CR>
 nnoremap <Space>fl :<C-u>LeaderfLine<CR>
+nnoremap <Space>fh :<C-u>LeaderfHelp<CR>
+nmap <Space>fg <Plug>LeaderfRgPrompt
 
 " デフォルト
 " let g:Lf_DefaultMode = 'Fuzzy'
@@ -2762,14 +2764,10 @@ let g:Lf_WindowPosition = 'popup'
 " <Right> : 右にカーソル移動
 " <C-p> : プレビュー表示
 
-" XXX: なにこれ、マッピングをカスタマイズじゃないの？
+" ~/vimfiles/plugged/LeaderF/autoload/leaderf/python/leaderf/cli.py を見てね
+" value を key として認識させる
 let g:Lf_CommandMap = {
-\   '<C-a>': ['<Home>'],
-\   '<C-e>': ['<End>'],
-\   '<C-f>': ['<Right>'],
-\   '<C-b>': ['<Left>'],
-\   '<C-h>': ['<BS>'],
-\   '<C-d>': ['<Del>'],
-\   '<C-p>': ['<Up>'],
-\   '<C-n>': ['<Down>'],
+\   '<Up>': ['<C-p>'],
+\   '<Down>': ['<C-n>'],
+\   '<Down>': ['<C-n>'],
 \}
