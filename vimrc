@@ -1366,14 +1366,14 @@ let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
 
 " mapping
 " nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
-nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
+" nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
 nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
 " nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 nnoremap <Space>fk :<C-u>CtrlPMRUFiles<CR>
 nnoremap <Space>fc :<C-u>CtrlPCdnJs<CR>
-nnoremap <Space>fo :<C-u>CtrlPFunky<CR>
+" nnoremap <Space>fo :<C-u>CtrlPFunky<CR>
 
-nnoremap <Space>fl :<C-u>CtrlPLine %<CR>
+" nnoremap <Space>fl :<C-u>CtrlPLine %<CR>
 " nnoremap <Space>fd :<C-u>CtrlPDir resolve(expnad('%:p:h'))<CR>
 
 nnoremap <Space>ml :<C-u>CtrlP ~/memo<CR>
@@ -1762,7 +1762,6 @@ call defx#custom#option('_', {
 \   'session_file': g:defx_session_file,
 \   'columns': 'indent:icon:filename:type',
 \})
-
 
 " ==============================================================================
 " translate.vim
@@ -2619,8 +2618,6 @@ let g:user_emmet_settings = {
 " svermeulen/vim-yoink
 nmap <C-p> <plug>(YoinkPostPasteSwapBack)
 nmap <C-n> <plug>(YoinkPostPasteSwapForward)
-nmap p     <plug>(YoinkPaste_p)
-nmap P     <plug>(YoinkPaste_P)
 
 " d x y で履歴に追加する
 " XXX: これ動作してる...？
@@ -2677,15 +2674,20 @@ let g:asterisk#keeppos = 1
 
 " ==============================================================================
 " Yggdroot/LeaderF
-
-
 nnoremap <Space>ff :<C-u>LeaderfFile<CR>
 nnoremap <Space>fl :<C-u>LeaderfLine<CR>
 nnoremap <Space>fh :<C-u>LeaderfHelp<CR>
-nmap <Space>fg <Plug>LeaderfRgPrompt
+nnoremap <Space>fj :<C-u>LeaderfBuffer<CR>
+nnoremap <Space>fk :<C-u>LeaderfMru<CR>
+
+function! MyLeaderfRgPrompt() abort
+    let l:pattern = input('LeaderfRg: ')
+    execute 'Leaderf rg -e '.l:pattern
+endfunction
+nnoremap <Space>fg :<C-u>call MyLeaderfRgPrompt()<CR>
 
 " デフォルト
-" let g:Lf_DefaultMode = 'Fuzzy'
+let g:Lf_DefaultMode = 'NameOnly'
 
 " カーソルの点滅をなくす
 let g:Lf_CursorBlink = 0
@@ -2713,9 +2715,6 @@ let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_IgnoreCurrentBufferName = 1
 
 " XXX: キャンセルしたら、位置を戻すようにしてほしい...
-
-" " プレビューを表示
-" let g:Lf_PreviewInPopup = 1
 "
 " let g:Lf_PreviewResult = {
 " \   'File': 0,
@@ -2756,7 +2755,7 @@ let g:Lf_WindowPosition = 'popup'
 " <C-s> : 複数ファイル選択
 " <C-a> : 全ファイル選択
 " <C-l> : 全ファイル選択の解除
-" <BS>  : 前の文字削除
+" <BS>, <C-h>  : 前の文字削除
 " <Del> : 後ろの文字削除
 " <Home> : 先頭へカーソル移動
 " <End>  : 末尾にカーソル移動
@@ -2769,4 +2768,28 @@ let g:Lf_WindowPosition = 'popup'
 let g:Lf_CommandMap = {
 \   '<Up>': ['<C-p>'],
 \   '<Down>': ['<C-n>'],
+\   '<C-p>': ['<C-o>'],
+\}
+
+" プレビューをポップアップで行う
+let g:Lf_PreviewInPopup = 1
+
+let g:Lf_StlSeparator = {
+\   'left': "\ue0b0",
+\   'right': "\ue0b2",
+\}
+
+" 検索結果は下線のみ
+let g:Lf_PopupPalette = {
+\   'light': {
+\       'Lf_hl_cursorline': {
+\           'gui': 'underline',
+\           'font': 'NONE',
+\           'guifg': 'NONE',
+\           'guibg': 'NONE',
+\           'cterm': 'NONE',
+\           'ctermfg': 'NONE',
+\           'ctermbg': 'NONE'
+\       }
+\   }
 \}
