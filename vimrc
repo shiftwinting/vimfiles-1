@@ -2769,5 +2769,4 @@ let g:Lf_WindowPosition = 'popup'
 let g:Lf_CommandMap = {
 \   '<Up>': ['<C-p>'],
 \   '<Down>': ['<C-n>'],
-\   '<Down>': ['<C-n>'],
 \}
