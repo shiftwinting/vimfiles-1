@@ -61,8 +61,8 @@ Plug 'dbeniamine/todo.txt-vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
 Plug 'rbtnn/vim-coloredit'
-Plug 'svermeulen/vim-yoink'
-Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
+" Plug 'svermeulen/vim-yoink'
+" Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
 Plug 'tweekmonster/helpful.vim'
 Plug 'tmsvg/pear-tree'
 " Plug 'thinca/vim-visualstar'
@@ -626,7 +626,7 @@ vnoremap <Space>p "0p
 " delete 削除
 " 1文字削除の場合、無名レジスタを汚さないようにする
 " svermeulen/vim-cutlass を使うため、いらない
-" nnoremap x "_x
+nnoremap x "_x
 
 " マクロ
 " Q でマクロを再実行
@@ -2615,26 +2615,26 @@ let g:user_emmet_settings = {
 " v_<C-y>, : 選択範囲を指定の要素で囲む
 
 " ==============================================================================
-" svermeulen/vim-yoink
-nmap <C-p> <plug>(YoinkPostPasteSwapBack)
-nmap <C-n> <plug>(YoinkPostPasteSwapForward)
-
-" d x y で履歴に追加する
-" XXX: これ動作してる...？
-let g:yoinkIncludeDeleteOperations = 1
-
-" ペーストした後、カーソルを移動させる
-let g:yoinkMoveCursorToEndOfPaste = 1
+" " svermeulen/vim-yoink
+" nmap <C-p> <plug>(YoinkPostPasteSwapBack)
+" nmap <C-n> <plug>(YoinkPostPasteSwapForward)
+"
+" " d x y で履歴に追加する
+" " XXX: これ動作してる...？
+" let g:yoinkIncludeDeleteOperations = 1
+"
+" " ペーストした後、カーソルを移動させる
+" let g:yoinkMoveCursorToEndOfPaste = 1
 
 " ==============================================================================
-" svermeulen/vim-cutlass
-
-" move の m
-nnoremap m d
-xnoremap m d
-nnoremap mm dd
-nnoremap M D
-
+" " svermeulen/vim-cutlass
+"
+" " move の m
+" nnoremap m d
+" xnoremap m d
+" nnoremap mm dd
+" nnoremap M D
+"
 " ==============================================================================
 " tmsvg/pear-tree
 " いい感じにカッコを補完できるようにする
