@@ -68,6 +68,8 @@ Plug 'tmsvg/pear-tree'
 " Plug 'thinca/vim-visualstar'
 Plug 'haya14busa/vim-asterisk'
 Plug 'Yggdroot/LeaderF'
+Plug 'svermeulen/vim-yoink'
+Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
 
 " == python
 Plug 'ambv/black', { 'for': 'python' }
@@ -594,8 +596,8 @@ endfunction
 " https://bit.ly/2qybcv3
 function! CmdlineRemoveLinesExec() abort
     " いらないものを消す
-    silent g/\v^wq?!?/d
-    silent g/\v^qa?!?/d
+    silent g/\v^wq?!?/"dd
+    silent g/\v^qa?!?/"dd
 
     silent normal! G
 endfunction
@@ -626,7 +628,7 @@ vnoremap <Space>p "0p
 " delete 削除
 " 1文字削除の場合、無名レジスタを汚さないようにする
 " svermeulen/vim-cutlass を使うため、いらない
-nnoremap x "_x
+" nnoremap x "_x
 
 " マクロ
 " Q でマクロを再実行
@@ -2615,26 +2617,28 @@ let g:user_emmet_settings = {
 " v_<C-y>, : 選択範囲を指定の要素で囲む
 
 " ==============================================================================
-" " svermeulen/vim-yoink
-" nmap <C-p> <plug>(YoinkPostPasteSwapBack)
-" nmap <C-n> <plug>(YoinkPostPasteSwapForward)
-"
-" " d x y で履歴に追加する
-" " XXX: これ動作してる...？
-" let g:yoinkIncludeDeleteOperations = 1
-"
-" " ペーストした後、カーソルを移動させる
-" let g:yoinkMoveCursorToEndOfPaste = 1
+" svermeulen/vim-yoink
+nmap <C-p> <plug>(YoinkPostPasteSwapBack)
+nmap <C-n> <plug>(YoinkPostPasteSwapForward)
+nmap p     <plug>(YoinkPaste_p)
+nmap P     <plug>(YoinkPaste_P)
+
+" d x y で履歴に追加する
+" XXX: これ動作してる...？
+let g:yoinkIncludeDeleteOperations = 1
+
+" ペーストした後、カーソルを移動させる
+let g:yoinkMoveCursorToEndOfPaste = 1
 
 " ==============================================================================
-" " svermeulen/vim-cutlass
-"
-" " move の m
-" nnoremap m d
-" xnoremap m d
-" nnoremap mm dd
-" nnoremap M D
-"
+" svermeulen/vim-cutlass
+
+" move の m
+nnoremap m d
+xnoremap m d
+nnoremap mm dd
+nnoremap M D
+
 " ==============================================================================
 " tmsvg/pear-tree
 " いい感じにカッコを補完できるようにする
