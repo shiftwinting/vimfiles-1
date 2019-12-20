@@ -2684,6 +2684,10 @@ nnoremap <Space>fl :<C-u>LeaderfLine<CR>
 nnoremap <Space>fh :<C-u>LeaderfHelp<CR>
 nnoremap <Space>fj :<C-u>LeaderfBuffer<CR>
 nnoremap <Space>fk :<C-u>LeaderfMru<CR>
+nnoremap <Space>f; :<C-u>LeaderfHistoryCmd<CR>
+nnoremap <silent> <Space>fr :<C-u>Leaderf rg --recall<CR>
+nnoremap <silent> <Space>fp :<C-u>Leaderf rg --previous<CR>
+nnoremap <silent> <Space>fn :<C-u>Leaderf rg --next<CR>
 
 function! MyLeaderfRgPrompt() abort
     let l:pattern = input('LeaderfRg: ')
