@@ -70,6 +70,7 @@ Plug 'haya14busa/vim-asterisk'
 Plug 'Yggdroot/LeaderF'
 Plug 'svermeulen/vim-yoink'
 Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
+Plug 'tamago324/gignores.vim'
 
 " == python
 Plug 'ambv/black', { 'for': 'python' }
@@ -144,12 +145,11 @@ Plug 'maximbaz/lightline-ale'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
-" ------------------------------------------------------------------------------
-
 " == colorscheme
 Plug 'lifepillar/vim-solarized8'
 
-Plug '~/ghq/github.com/tamago324/gignores.vim'
+" ------------------------------------------------------------------------------
+
 Plug '~/ghq/github.com/tamago324/ale'
 
 call plug#end()
@@ -175,7 +175,7 @@ set incsearch           " 文字を入力されるたびに検索を実行する
 set scrolloff=5         " 5行開けてスクロールできるようにする
 set visualbell t_vb=    " ビープ音すべてを無効にする
 set noerrorbells        " エラーメッセージの表示時にビープ音を鳴らさない
-set history=300         " 検索、置換、コマンド... の履歴を300にする(default: 50)
+set history=1000         " 検索、置換、コマンド... の履歴を300にする(default: 50)
 set showtabline=2       " 常にタブを表示
 set ignorecase          " 大文字小文字を区別しない
 set smartcase           " 大文字が入らない限り、大文字小文字は区別しない
@@ -597,8 +597,8 @@ endfunction
 " https://bit.ly/2qybcv3
 function! CmdlineRemoveLinesExec() abort
     " いらないものを消す
-    silent g/\v^wq?!?/"dd
-    silent g/\v^qa?!?/"dd
+    silent g/\v^wq?!?/"_d
+    silent g/\v^qa?!?/"_d
 
     silent normal! G
 endfunction
@@ -769,6 +769,8 @@ inoremap [Complete]<C-u> <C-x><C-u>
 inoremap [Complete]<C-o> <C-x><C-o>
 inoremap [Complete]<C-s> <C-x><C-s>
 inoremap [Complete]<C-p> <C-x><C-p>
+
+inoremap <BS> <Nop>
 
 " ==============================================================================
 " 便利なコマンドたち
@@ -2773,11 +2775,13 @@ let g:Lf_WindowPosition = 'popup'
 " <C-p> : プレビュー表示
 
 " ~/vimfiles/plugged/LeaderF/autoload/leaderf/python/leaderf/cli.py を見てね
-" value を key として認識させる
+" key <- value (value を key として解釈させる)
 let g:Lf_CommandMap = {
-\   '<Up>': ['<C-p>'],
-\   '<Down>': ['<C-n>'],
-\   '<C-p>': ['<C-o>'],
+\   '<Up>':     ['<C-p>'],
+\   '<Down>':   ['<C-n>'],
+\   '<C-v>':    ['<C-o>'],
+\   '<C-x>':    ['<C-s>'],
+\   '<C-]>':    ['<C-v>'],
 \}
 
 " プレビューをポップアップで行う
@@ -2801,4 +2805,9 @@ let g:Lf_PopupPalette = {
 \           'ctermbg': 'NONE'
 \       }
 \   }
+\}
+
+let g:Lf_HistoryExclude = {
+\   'cmd':  ['^wq?!?', '^qa?!?', '^.\s*$'],
+\   'search':  ['']
 \}
