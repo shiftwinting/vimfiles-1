@@ -1493,7 +1493,7 @@ if executable('pyls')
             \ 'cmd': {server_info->[&shell, &shellcmdflag, 'pyls']},
             \ 'whitelist': ['python'],
             \ })
-        autocmd FileType nim call s:configure_lsp()
+        autocmd FileType python call s:configure_lsp()
     augroup END
 endif
 
