@@ -2681,12 +2681,12 @@ let g:asterisk#keeppos = 1
 
 " ==============================================================================
 " Yggdroot/LeaderF
-nnoremap <Space>ff :<C-u>LeaderfFile<CR>
-nnoremap <Space>fl :<C-u>LeaderfLine<CR>
-nnoremap <Space>fh :<C-u>LeaderfHelp<CR>
-nnoremap <Space>fj :<C-u>LeaderfBuffer<CR>
-nnoremap <Space>fk :<C-u>LeaderfMru<CR>
-nnoremap <Space>f; :<C-u>LeaderfHistoryCmd<CR>
+nnoremap <Space>ff          :<C-u>LeaderfFile<CR>
+nnoremap <Space>fl          :<C-u>LeaderfLine<CR>
+nnoremap <Space>fh          :<C-u>LeaderfHelp<CR>
+nnoremap <Space>fj          :<C-u>LeaderfBuffer<CR>
+nnoremap <Space>fk          :<C-u>LeaderfMru<CR>
+nnoremap ;                  :<C-u>LeaderfHistoryCmd<CR>
 nnoremap <silent> <Space>fr :<C-u>Leaderf rg --recall<CR>
 nnoremap <silent> <Space>fp :<C-u>Leaderf rg --previous<CR>
 nnoremap <silent> <Space>fn :<C-u>Leaderf rg --next<CR>
@@ -2782,6 +2782,7 @@ let g:Lf_CommandMap = {
 \   '<C-v>':    ['<C-o>'],
 \   '<C-x>':    ['<C-s>'],
 \   '<C-]>':    ['<C-v>'],
+\   '<Esc>':    ['<C-q>'],
 \}
 
 " プレビューをポップアップで行う
@@ -2808,6 +2809,10 @@ let g:Lf_PopupPalette = {
 \}
 
 let g:Lf_HistoryExclude = {
-\   'cmd':  ['^wq?!?', '^qa?!?', '^.\s*$'],
+\   'cmd':  ['^wq?!?', '^qa?!?', '^.\s*$', '^\d+$'],
 \   'search':  ['']
 \}
+
+let g:Lf_WildIgnore = {}
+let g:Lf_MruWildIgnore = {}
+
