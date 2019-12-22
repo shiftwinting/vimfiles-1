@@ -352,6 +352,10 @@ set formatoptions+=m
 " マルチバイト文字の間で行連結した時、空白を入れない
 set formatoptions+=M
 
+" from #vimtips_ac https://twitter.com/Takutakku/status/1207676964225597441
+" 結合時、コメントを削除する
+set formatoptions+=j
+
 " $PATH に $VIM が入っていない場合、先頭に追加する
 if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
     let $PATH = $VIM . ';' . $PATH
@@ -597,9 +601,16 @@ endfunction
 " https://bit.ly/2qybcv3
 function! CmdlineRemoveLinesExec() abort
     " いらないものを消す
-    silent g/\v^wq?!?/"_d
-    silent g/\v^qa?!?/"_d
+    let l:patterns = [
+    \   '\v^wq?!?',
+    \   '\v^qa?!?',
+    \]
 
+    for l:pattern in l:patterns
+        call execute('g/'.l:pattern.'/"_d', 'silent')
+    endfor
+
+    " 一番下に移動
     silent normal! G
 endfunction
 
