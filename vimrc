@@ -2810,8 +2810,8 @@ let g:Lf_PopupPalette = {
 \       'Lf_hl_cursorline': {
 \           'gui': 'underline',
 \           'font': 'NONE',
-\           'guifg': 'NONE',
-\           'guibg': 'NONE',
+\           'guifg': '#4d4d4d',
+\           'guibg': '#fafbff',
 \           'cterm': 'NONE',
 \           'ctermfg': 'NONE',
 \           'ctermbg': 'NONE'
