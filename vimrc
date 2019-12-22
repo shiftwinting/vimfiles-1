@@ -131,11 +131,11 @@ Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/neopairs.vim'
 Plug 'Shougo/deol.nvim'
 
-" denite
-Plug 'Shougo/denite.nvim'
-Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/neomru.vim'
+" " denite
+" Plug 'Shougo/denite.nvim'
+" Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
+" Plug 'Shougo/unite.vim'
+" Plug 'Shougo/neomru.vim'
 
 " == lightline
 Plug 'itchyny/lightline.vim'
