@@ -130,6 +130,7 @@ Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/neopairs.vim'
 Plug 'Shougo/deol.nvim'
+Plug 'Shougo/context_filetype.vim'
 
 " " denite
 " Plug 'Shougo/denite.nvim'
