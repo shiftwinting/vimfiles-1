@@ -2872,5 +2872,15 @@ function! VaffleCurrentFileOpen() abort
     call deol#cd(getcwd())
 endfunction
 
-nnoremap <silent><C-e> :<C-u>leftabove vnew<CR>\|:<C-u>Vaffle<CR>
+function! VaffleOpen() abort
+    " 空なら、そのバッファで開く
+    if line('$') == 1 && getline(1) ==# ''
+        Vaffle
+    else
+        leftabove vnew
+        Vaffle
+    endif
+endfunction
+
+nnoremap <silent><C-e> :<C-u>call VaffleOpen()<CR>
 nnoremap <silent><Space>cdn :<C-u>call VaffleCurrentFileOpen()<CR>
