@@ -766,6 +766,10 @@ inoremap [Complete]<C-p> <C-x><C-p>
 
 inoremap <BS> <Nop>
 
+" from https://twitter.com/mo_naqa/status/1209449648751968256
+nnoremap q qq<Esc>
+nnoremap Q q
+
 " ==============================================================================
 " 便利なコマンドたち
 
@@ -2446,7 +2450,9 @@ let g:Lf_HistoryExclude = {
 \   'search':  []
 \}
 
-let g:Lf_WildIgnore = {}
+let g:Lf_WildIgnore = {
+\   'dir': ['.mypy_cache/*']
+\}
 let g:Lf_MruWildIgnore = {}
 
 
@@ -2460,6 +2466,7 @@ function! s:my_vaffle_settings() abort
     nmap <buffer> I         <Plug>(vaffle-toggle-hidden)
     nmap <buffer> <Space>   <Plug>(vaffle-toggle-hidden)
     nmap <buffer> <CR>      <Plug>(vaffle-open-selected)|
+    nmap <buffer> o         <Plug>(vaffle-open-selected)|
     nmap <buffer> m         <Plug>(vaffle-move-selected)
     " nmap <buffer> d         <Plug>(vaffle-delete-selected)
     nmap <buffer> r         <Plug>(vaffle-rename-selected)
