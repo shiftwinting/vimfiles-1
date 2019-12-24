@@ -256,6 +256,9 @@ set listchars+=trail:\
 
 " 補完候補の最大表示数
 set pumheight=15
+" 補完のメッセージを表示しない
+set shortmess+=c
+
 
 augroup MyMatchAdd
     autocmd!
