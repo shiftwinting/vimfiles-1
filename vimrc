@@ -1847,7 +1847,7 @@ let g:lightline#ale#indicator_ok = nr2char('0xf00c')        " 
 
 function! VisibleRightComponent() abort
     return winwidth('.') > 70 &&
-    \       &filetype !~# '\v^denite|^defx|deol|zsh'
+    \       &filetype !~# '\v^denite|^defx|deol|zsh|vaffle'
 endfunction
 
 let g:lightline.component_function = {
@@ -2227,6 +2227,7 @@ augroup MyDeol
     autocmd Filetype deol call DeolSettings()
     " expand('<afile>') とする
     autocmd BufWinEnter * if expand('<afile>') ==# 'deol-edit' | call DeolEditorSettings() | endif
+    autocmd DirChanged * if !empty(gettabvar(tabpagenr(), 'deol', {})) | call deol#cd(expand('<afile>')) | endif
 augroup END
 
 function! DeolSettings() abort
