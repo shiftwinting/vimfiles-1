@@ -71,6 +71,7 @@ Plug 'Yggdroot/LeaderF'
 Plug 'svermeulen/vim-yoink'
 Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
 Plug 'tamago324/gignores.vim'
+Plug 'cocopon/vaffle.vim'
 
 " == python
 Plug 'ambv/black', { 'for': 'python' }
@@ -124,9 +125,9 @@ Plug 'FelikZ/ctrlp-py-matcher'
 Plug 'pasela/ctrlp-cdnjs'
 
 " == dark power
-Plug 'Shougo/defx.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'Shougo/defx.nvim'
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
 Plug 'Shougo/echodoc.vim'
 " Plug 'Shougo/neopairs.vim'
 Plug 'Shougo/deol.nvim'
@@ -1451,7 +1452,7 @@ let g:ctrlp_match_window = 'order:tbb,max:20,results:200'
 
 " ctrlp-ghq 
 " <CR> で実行するコマンド
-let ctrlp_ghq_default_action = 'tabe | Defx'
+let ctrlp_ghq_default_action = 'tabe | Vaffle'
 
 let g:ctrlp_user_command_async = 1
 if executable('rg')
@@ -1640,145 +1641,145 @@ map R <Plug>(operator-replace)
 let g:highlightedyank_highlight_duration = 70
 
 
-" ==============================================================================
-" defx
-
-augroup MyDefx
-    autocmd!
-    autocmd FileType defx call s:defx_my_settings()
-augroup END
-
-function! DefxTcdDown(ctx) abort
-    if defx#is_directory()
-        execute 'tcd '.a:ctx.targets[0]
-        call deol#cd(getcwd())
-        call defx#call_action('open')
-    endif
-endfunction
-
-function! DefxTcdUp(ctx) abort
-    call defx#call_action('cd', ['..'])
-    execute 'tcd '.fnamemodify(a:ctx.cwd, ':p:h:h')
-    call deol#cd(getcwd())
-endfunction
-
-
-function! s:defx_my_settings() abort
-
-    setlocal cursorline
-    setlocal statusline=\ 
-
-    " file 作成
-    nnoremap <silent><buffer><expr> N
-    \ defx#do_action('new_file')
-
-    " copy
-    nnoremap <silent><buffer><expr> c
-    \ defx#do_action('copy')
-
-    " move
-    nnoremap <silent><buffer><expr> m
-    \ defx#do_action('move')
-
-    " paste
-    nnoremap <silent><buffer><expr> p
-    \ defx#do_action('paste')
-
-    " rename
-    nnoremap <silent><buffer><expr> r
-    \ defx#do_action('rename')
-
-    nnoremap <silent><buffer><expr> <CR>
-    \ defx#do_action('drop')
-
-    " 階層を下に移動
-    nnoremap <silent><buffer><expr> l
-    \ defx#do_action('call', 'DefxTcdDown')
-
-    " 階層を上に移動
-    nnoremap <silent><buffer><expr> u
-    \ defx#do_action('call', 'DefxTcdUp')
-
-    " treeの開閉
-    nnoremap <silent><buffer><expr> o
-    \ defx#is_directory() ?
-    \ defx#do_action('open_or_close_tree') :
-    \ defx#do_action('drop')
-
-    " 垂直分割で開く
-    nnoremap <silent><buffer><expr> <C-i>
-    \ defx#do_action('drop', 'vsplit')
-
-    " 分割で開く
-    nnoremap <silent><buffer><expr> <C-s>
-    \ defx#do_action('drop', 'split')
-
-    " タブで開く
-    nnoremap <silent><buffer><expr> t
-    \ defx#do_action('open', 'tabnew')
-
-    nnoremap <silent><buffer><expr> cd
-    \ defx#do_action('change_vim_cwd')
-
-    nnoremap <silent><buffer><expr> I
-    \ defx#do_action('toggle_ignored_files')
-
-    nnoremap <silent><buffer><expr> R
-    \ defx#do_action('redraw')
-
-    " 再帰で開く
-    nnoremap <silent><buffer><expr> O
-    \ defx#do_action('open_tree_recursive')
-
-    " システムで設定しているプログラムで実行する
-    nnoremap <silent><buffer><expr> x
-    \ defx#do_action('execute_system')
-
-    nnoremap <silent><buffer> H
-    \ :<C-u>HereOpen<CR>
-
-    nnoremap <silent><buffer> B
-    \ :<C-u>BookmarkList<CR>
-
-    command! -buffer BAdd call defx#call_action('add_session')
-    command! -buffer BookmarkList call DefxSessions(g:defx_session_file)
-
-    nnoremap <buffer> <C-k> <Nop>
-    nnoremap <buffer> <C-j> <Nop>
-endfunction
-
-function! DefxCurrentFileOpen() abort
-    execute "Defx -no-toggle `expand('%:p:h')` -search=`expand('%:p')`"
-    call defx#call_action('change_vim_cwd')
-    call deol#cd(getcwd())
-endfunction
-
-nnoremap <silent><C-e> :<C-u>Defx<CR>
-nnoremap <silent><Space>cdn :<C-u>call DefxCurrentFileOpen()<CR>
-
-" DefxSessions
-execute 'source '.expand('~/vimfiles/rc/plugins/defx_sessions.vim')
-
-" icon を変える
-call defx#custom#column('icon', {
-\   'directory_icon': "\uf44a",
-\   'opened_icon': "\uf44b",
-\   'root_icon': ' ',
-\})
-
-let g:defx_session_file = expand('~/.defx_sessions')
-
-" 共通のオプション
-call defx#custom#option('_', {
-\   'split': 'vertical',
-\   'winwidth': 30,
-\   'direction': 'leftabove',
-\   'toggle': 1,
-\   'show_ignored_files': 0,
-\   'root_marker': '.. ',
-\   'session_file': g:defx_session_file,
-\   'columns': 'indent:icon:filename:type',
-\})
+" " ==============================================================================
+" " defx
+"
+" augroup MyDefx
+"     autocmd!
+"     autocmd FileType defx call s:defx_my_settings()
+" augroup END
+"
+" function! DefxTcdDown(ctx) abort
+"     if defx#is_directory()
+"         execute 'tcd '.a:ctx.targets[0]
+"         call deol#cd(getcwd())
+"         call defx#call_action('open')
+"     endif
+" endfunction
+"
+" function! DefxTcdUp(ctx) abort
+"     call defx#call_action('cd', ['..'])
+"     execute 'tcd '.fnamemodify(a:ctx.cwd, ':p:h:h')
+"     call deol#cd(getcwd())
+" endfunction
+"
+"
+" function! s:defx_my_settings() abort
+"
+"     setlocal cursorline
+"     setlocal statusline=\ 
+"
+"     " file 作成
+"     nnoremap <silent><buffer><expr> N
+"     \ defx#do_action('new_file')
+"
+"     " copy
+"     nnoremap <silent><buffer><expr> c
+"     \ defx#do_action('copy')
+"
+"     " move
+"     nnoremap <silent><buffer><expr> m
+"     \ defx#do_action('move')
+"
+"     " paste
+"     nnoremap <silent><buffer><expr> p
+"     \ defx#do_action('paste')
+"
+"     " rename
+"     nnoremap <silent><buffer><expr> r
+"     \ defx#do_action('rename')
+"
+"     nnoremap <silent><buffer><expr> <CR>
+"     \ defx#do_action('drop')
+"
+"     " 階層を下に移動
+"     nnoremap <silent><buffer><expr> l
+"     \ defx#do_action('call', 'DefxTcdDown')
+"
+"     " 階層を上に移動
+"     nnoremap <silent><buffer><expr> u
+"     \ defx#do_action('call', 'DefxTcdUp')
+"
+"     " treeの開閉
+"     nnoremap <silent><buffer><expr> o
+"     \ defx#is_directory() ?
+"     \ defx#do_action('open_or_close_tree') :
+"     \ defx#do_action('drop')
+"
+"     " 垂直分割で開く
+"     nnoremap <silent><buffer><expr> <C-i>
+"     \ defx#do_action('drop', 'vsplit')
+"
+"     " 分割で開く
+"     nnoremap <silent><buffer><expr> <C-s>
+"     \ defx#do_action('drop', 'split')
+"
+"     " タブで開く
+"     nnoremap <silent><buffer><expr> t
+"     \ defx#do_action('open', 'tabnew')
+"
+"     nnoremap <silent><buffer><expr> cd
+"     \ defx#do_action('change_vim_cwd')
+"
+"     nnoremap <silent><buffer><expr> I
+"     \ defx#do_action('toggle_ignored_files')
+"
+"     nnoremap <silent><buffer><expr> R
+"     \ defx#do_action('redraw')
+"
+"     " 再帰で開く
+"     nnoremap <silent><buffer><expr> O
+"     \ defx#do_action('open_tree_recursive')
+"
+"     " システムで設定しているプログラムで実行する
+"     nnoremap <silent><buffer><expr> x
+"     \ defx#do_action('execute_system')
+"
+"     nnoremap <silent><buffer> H
+"     \ :<C-u>HereOpen<CR>
+"
+"     nnoremap <silent><buffer> B
+"     \ :<C-u>BookmarkList<CR>
+"
+"     command! -buffer BAdd call defx#call_action('add_session')
+"     command! -buffer BookmarkList call DefxSessions(g:defx_session_file)
+"
+"     nnoremap <buffer> <C-k> <Nop>
+"     nnoremap <buffer> <C-j> <Nop>
+" endfunction
+"
+" function! DefxCurrentFileOpen() abort
+"     execute "Defx -no-toggle `expand('%:p:h')` -search=`expand('%:p')`"
+"     call defx#call_action('change_vim_cwd')
+"     call deol#cd(getcwd())
+" endfunction
+"
+" nnoremap <silent><C-e> :<C-u>Defx<CR>
+" nnoremap <silent><Space>cdn :<C-u>call DefxCurrentFileOpen()<CR>
+"
+" " DefxSessions
+" execute 'source '.expand('~/vimfiles/rc/plugins/defx_sessions.vim')
+"
+" " icon を変える
+" call defx#custom#column('icon', {
+" \   'directory_icon': "\uf44a",
+" \   'opened_icon': "\uf44b",
+" \   'root_icon': ' ',
+" \})
+"
+" let g:defx_session_file = expand('~/.defx_sessions')
+"
+" " 共通のオプション
+" call defx#custom#option('_', {
+" \   'split': 'vertical',
+" \   'winwidth': 30,
+" \   'direction': 'leftabove',
+" \   'toggle': 1,
+" \   'show_ignored_files': 0,
+" \   'root_marker': '.. ',
+" \   'session_file': g:defx_session_file,
+" \   'columns': 'indent:icon:filename:type',
+" \})
 
 " ==============================================================================
 " translate.vim
@@ -2828,3 +2829,42 @@ let g:Lf_HistoryExclude = {
 let g:Lf_WildIgnore = {}
 let g:Lf_MruWildIgnore = {}
 
+
+" ==============================================================================
+" cocopon/vaffle.vim
+
+function! s:my_vaffle_settings() abort
+    nmap <buffer> u         <Plug>(vaffle-open-parent)
+    nmap <buffer> l         <Plug>(vaffle-open-current)
+    nmap <buffer> t         <Plug>(vaffle-open-current-tab)
+    nmap <buffer> I         <Plug>(vaffle-toggle-hidden)
+    nmap <buffer> <Space>   <Plug>(vaffle-toggle-hidden)
+    nmap <buffer> <CR>      <Plug>(vaffle-open-selected)|
+    nmap <buffer> m         <Plug>(vaffle-move-selected)
+    " nmap <buffer> d         <Plug>(vaffle-delete-selected)
+    nmap <buffer> r         <Plug>(vaffle-rename-selected)
+    nmap <buffer> R         <Plug>(vaffle-refresh)
+    nmap <buffer> <C-s>     <Plug>(vaffle-open-selected-split)
+    nmap <buffer> <C-v>     <Plug>(vaffle-open-selected-vsplit)
+    nmap <buffer> cd        <Plug>(vaffle-chdir-here)
+    nmap <buffer> N         <Plug>(vaffle-new-file)
+    nmap <buffer> ~         <Plug>(vaffle-open-home)
+    nmap <buffer> <C-e>     <Plug>(vaffle-quit)
+    nmap <buffer> K         <Plug>(vaffle-mkdir)
+endfunction
+
+augroup MyVaffle
+    autocmd!
+    autocmd FileType vaffle call s:my_vaffle_settings()
+augroup END
+
+let g:vaffle_use_default_mappings = 0
+let g:vaffle_auto_cd = 1
+
+function! VaffleCurrentFileOpen() abort
+    execute 'leftabove vnew | Vaffle '.expand('%:p')
+    call deol#cd(getcwd())
+endfunction
+
+nnoremap <silent><C-e> :<C-u>leftabove vnew<CR>\|:<C-u>Vaffle<CR>
+nnoremap <silent><Space>cdn :<C-u>call VaffleCurrentFileOpen()<CR>
