@@ -113,6 +113,8 @@ Plug 'machakann/vim-Verdin'
 " " == textobj
 Plug 'kana/vim-textobj-user'
 Plug 'osyo-manga/vim-textobj-multiblock'
+Plug 'kana/vim-textobj-function'
+Plug 'haya14busa/vim-textobj-function-syntax'
 
 " == operator
 Plug 'kana/vim-operator-user'
@@ -1625,6 +1627,10 @@ omap ab <Plug>(textobj-multiblock-a)
 omap ib <Plug>(textobj-multiblock-i)
 xmap ab <Plug>(textobj-multiblock-a)
 xmap ib <Plug>(textobj-multiblock-i)
+
+" f
+omap af <Plug>(textobj-function-A)
+omap if <Plug>(textobj-function-I)
 
 
 " ==============================================================================
