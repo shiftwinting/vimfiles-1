@@ -2443,7 +2443,7 @@ let g:Lf_PopupPalette = {
 
 let g:Lf_HistoryExclude = {
 \   'cmd':  ['^wq?!?', '^qa?!?', '^.\s*$', '^\d+$'],
-\   'search':  ['']
+\   'search':  []
 \}
 
 let g:Lf_WildIgnore = {}
