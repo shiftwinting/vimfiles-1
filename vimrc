@@ -606,7 +606,7 @@ augroup MyCmdWinSettings
 augroup END
 
 " すぐに cmdline-window に入る
-nnoremap : q:
+" nnoremap : q:
 
 " yank コピー
 " カーソルから行末までコピー
