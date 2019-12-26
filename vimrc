@@ -61,7 +61,6 @@ Plug 'rbtnn/vim-coloredit'
 Plug 'tweekmonster/helpful.vim'
 Plug 'tmsvg/pear-tree'
 Plug 'haya14busa/vim-asterisk'
-Plug 'Yggdroot/LeaderF'
 Plug 'svermeulen/vim-yoink'
 Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
 Plug 'tamago324/gignores.vim'
@@ -131,6 +130,10 @@ Plug 'tpope/vim-fugitive'
 
 " == colorscheme
 Plug 'lifepillar/vim-solarized8'
+
+" == LeaderF
+Plug 'youran0715/LeaderF-Cmdpalette'
+Plug 'Yggdroot/LeaderF'
 
 " ------------------------------------------------------------------------------
 
@@ -2324,9 +2327,10 @@ nnoremap <Space>fh          :<C-u>LeaderfHelp<CR>
 nnoremap <Space>fj          :<C-u>LeaderfBuffer<CR>
 nnoremap <Space>fk          :<C-u>LeaderfMru<CR>
 nnoremap ;                  :<C-u>LeaderfHistoryCmd<CR>
+nnoremap <Space>fp          :<C-u>LeaderfCmdpalette<CR>
 nnoremap <silent> <Space>fr :<C-u>Leaderf rg --recall<CR>
-nnoremap <silent> <Space>fp :<C-u>Leaderf rg --previous<CR>
-nnoremap <silent> <Space>fn :<C-u>Leaderf rg --next<CR>
+nnoremap <silent> <C-p>     :<C-u>Leaderf rg --previous<CR>
+nnoremap <silent> <C-n>     :<C-u>Leaderf rg --next<CR>
 
 function! MyLeaderfRgPrompt() abort
     let l:pattern = input('LeaderfRg: ')
@@ -2420,7 +2424,9 @@ let g:Lf_CommandMap = {
 \   '<C-x>':    ['<C-s>'],
 \   '<C-]>':    ['<C-v>'],
 \   '<Esc>':    ['<C-q>'],
+\   '<C-o>':    ['<C-e>'],
 \}
+" \   '<C-p>':    ['<A-k>'],
 
 " プレビューをポップアップで行う
 let g:Lf_PreviewInPopup = 1
