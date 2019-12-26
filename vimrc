@@ -132,7 +132,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'lifepillar/vim-solarized8'
 
 " == LeaderF
-Plug 'youran0715/LeaderF-Cmdpalette'
 Plug 'Yggdroot/LeaderF'
 
 " ------------------------------------------------------------------------------
@@ -2321,16 +2320,15 @@ let g:asterisk#keeppos = 1
 
 " ==============================================================================
 " Yggdroot/LeaderF
-nnoremap <Space>ff          :<C-u>LeaderfFile<CR>
-nnoremap <Space>fl          :<C-u>LeaderfLine<CR>
-nnoremap <Space>fh          :<C-u>LeaderfHelp<CR>
-nnoremap <Space>fj          :<C-u>LeaderfBuffer<CR>
-nnoremap <Space>fk          :<C-u>LeaderfMru<CR>
-nnoremap ;                  :<C-u>LeaderfHistoryCmd<CR>
-nnoremap <Space>fp          :<C-u>LeaderfCmdpalette<CR>
+nnoremap <silent> <Space>ff :<C-u>LeaderfFile<CR>
+nnoremap <silent> <Space>fl :<C-u>LeaderfLine<CR>
+nnoremap <silent> <Space>fh :<C-u>LeaderfHelp<CR>
+nnoremap <silent> <Space>fj :<C-u>LeaderfBuffer<CR>
+nnoremap <silent> <Space>fk :<C-u>LeaderfMru<CR>
+nnoremap <silent> ;         :<C-u>LeaderfHistoryCmd<CR>
 nnoremap <silent> <Space>fr :<C-u>Leaderf rg --recall<CR>
-nnoremap <silent> <C-p>     :<C-u>Leaderf rg --previous<CR>
-nnoremap <silent> <C-n>     :<C-u>Leaderf rg --next<CR>
+nnoremap <silent> 9         :<C-u>Leaderf rg --previous<CR>
+nnoremap <silent> 0         :<C-u>Leaderf rg --next<CR>
 
 function! MyLeaderfRgPrompt() abort
     let l:pattern = input('LeaderfRg: ')
