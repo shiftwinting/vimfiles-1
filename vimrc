@@ -27,7 +27,7 @@ Plug 'vim-jp/syntax-vim-ex' " VimL のハイライト拡張
 
 Plug 'Yggdroot/indentLine'
 Plug 'ap/vim-css-color'
-" Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'glidenote/memolist.vim', { 'on': ['MemoNew', 'MemoList'] }
 Plug 'kana/vim-repeat'
@@ -59,11 +59,11 @@ Plug 'tomtom/tcomment_vim'
 Plug 'andymass/vim-matchup'
 Plug 'rbtnn/vim-coloredit'
 Plug 'tweekmonster/helpful.vim'
-Plug 'tmsvg/pear-tree'
+Plug 'jiangmiao/auto-pairs'
 Plug 'haya14busa/vim-asterisk'
 Plug 'svermeulen/vim-yoink'
 Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
-Plug 'tamago324/gignores.vim'
+" Plug 'tamago324/gignores.vim'
 Plug 'cocopon/vaffle.vim'
 
 " == python
@@ -136,7 +136,9 @@ Plug 'Yggdroot/LeaderF'
 
 " ------------------------------------------------------------------------------
 
-Plug '~/ghq/github.com/tamago324/ale'
+" Plug '~/ghq/github.com/tamago324/ale'
+Plug '~/ghq/github.com/tamago324/LeaderF'
+Plug '~/ghq/github.com/tamago324/LeaderF-filetype'
 
 call plug#end()
 
@@ -161,7 +163,7 @@ set incsearch           " 文字を入力されるたびに検索を実行する
 set scrolloff=5         " 5行開けてスクロールできるようにする
 set visualbell t_vb=    " ビープ音すべてを無効にする
 set noerrorbells        " エラーメッセージの表示時にビープ音を鳴らさない
-set history=1000         " 検索、置換、コマンド... の履歴を300にする(default: 50)
+set history=3000         " 検索、置換、コマンド... の履歴を300にする(default: 50)
 set showtabline=2       " 常にタブを表示
 set ignorecase          " 大文字小文字を区別しない
 set smartcase           " 大文字が入らない限り、大文字小文字は区別しない
@@ -639,9 +641,9 @@ nnoremap gt <Nop>
 nnoremap <C-l> gt
 nnoremap <C-h> gT
 
-" set filetype
-command! -nargs=1 -complete=filetype FileType exec 'set ft=<args>'
-nnoremap <Space>ft :<C-u>FileType 
+" " set filetype
+" command! -nargs=1 -complete=filetype FileType exec 'set ft=<args>'
+" nnoremap <Space>ft :<C-u>FileType 
 
 " terminal
 " prefix
@@ -1261,6 +1263,13 @@ let g:netrw_nogx = 1
 
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
+
+" o : duckduckgo
+" d : devdocs.io
+" n : なし
+" g : github
+" m : memo
+
 nnoremap <A-o><A-o> :<C-u>OpenBrowserSearch -duckduckgo 
 vnoremap <A-o><A-o> :<C-u>call openbrowser#search(tmg#getwords_last_visual(), 'duckduckgo')<CR>
 
@@ -1269,6 +1278,8 @@ nnoremap <A-o><A-n> :<C-u>OpenBrowserSearch -
 
 nnoremap <A-o><A-g> :<C-u>OpenBrowserSearch -gh 
 vnoremap <A-o><A-g> :<C-u>call openbrowser#search(tmg#getwords_last_visual(), 'gh')<CR>
+
+nnoremap <A-o><A-m> :<C-u>OpenBrowserSearch -memo 
 
 " 追加
 let g:openbrowser_search_engines = {
@@ -1566,8 +1577,7 @@ function! s:configure_lsp() abort
     setlocal omnifunc=lsp#complete
 
     nnoremap <buffer><silent> <C-]> :<C-u>LspDefinition<CR>
-    nnoremap <buffer><silent> gd    :<C-u>LspDefinition<CR>
-    nnoremap <buffer><silent> gu    :<C-u>LspReferences<CR>
+    nnoremap <buffer><silent> gr    :<C-u>LspReferences<CR>
     nnoremap <buffer><silent> K     :<C-u>LspHover<CR>
 
     " nnoremap <buffer> gj    :<C-u>LspNextError<CR>
@@ -1662,6 +1672,15 @@ let g:lightline.component_type = {
 \   'linter_warnings': 'warning',
 \   'linter_errors': 'error',
 \   'linter_ok': 'left',
+\}
+
+let g:lightline.separator = {
+\   'left': '',
+\   'right': ''
+\}
+let g:lightline.subseparator = {
+\   'left': '',
+\   'right': ''
 \}
 
 let g:lightline#ale#indicator_warnings = nr2char('0xf071')  " 
@@ -1825,7 +1844,6 @@ let g:solarized_italics = 0
 
 colorscheme solarized8
 set background=light
-
 
 " ==============================================================================
 " echodoc
@@ -2162,8 +2180,8 @@ augroup gitgutter
 augroup END
 
 " 変更箇所へ移動
-nmap ]c <Plug>(GitGutterNextHunk)
-nmap [c <Plug>(GitGutterPrevHunk)
+" nmap ]c <Plug>(GitGutterNextHunk)
+" nmap [c <Plug>(GitGutterPrevHunk)
 
 " stage/unstage
 nmap ghs <Plug>(GitGutterStageHunk)
@@ -2281,23 +2299,23 @@ xnoremap m d
 nnoremap mm dd
 nnoremap M D
 
-" ==============================================================================
-" tmsvg/pear-tree
-" いい感じにカッコを補完できるようにする
-" 開き
-let g:pear_tree_smart_openers = 1
-" 閉じ
-let g:pear_tree_smart_closers = 1
-
-" いい感じにカッコを消せるようにする
-let g:pear_tree_smart_backspace = 1
-
-" <C-h> でもカッコを消せるようにする
-imap <C-h> <Plug>(PearTreeBackspace)
-
-" repeatable にしない
-" {|} で改行しても、 } を消さない (emmet.vim との相性が悪いため)
-let g:pear_tree_repeatable_expand = 0
+" " ==============================================================================
+" " tmsvg/pear-tree
+" " いい感じにカッコを補完できるようにする
+" " 開き
+" let g:pear_tree_smart_openers = 1
+" " 閉じ
+" let g:pear_tree_smart_closers = 1
+"
+" " いい感じにカッコを消せるようにする
+" let g:pear_tree_smart_backspace = 1
+"
+" " <C-h> でもカッコを消せるようにする
+" imap <C-h> <Plug>(PearTreeBackspace)
+"
+" " repeatable にしない
+" " {|} で改行しても、 } を消さない (emmet.vim との相性が悪いため)
+" let g:pear_tree_repeatable_expand = 0
 
 " " ==============================================================================
 " " thinca/vim-visualstar
@@ -2329,6 +2347,7 @@ nnoremap <silent> ;         :<C-u>LeaderfHistoryCmd<CR>
 nnoremap <silent> <Space>fr :<C-u>Leaderf rg --recall<CR>
 nnoremap <silent> 9         :<C-u>Leaderf rg --previous<CR>
 nnoremap <silent> 0         :<C-u>Leaderf rg --next<CR>
+nnoremap <silent> <Space>ft :<C-u>LeaderfFiletype<CR>
 
 function! MyLeaderfRgPrompt() abort
     let l:pattern = input('LeaderfRg: ')
@@ -2459,16 +2478,23 @@ let g:Lf_WildIgnore = {
 \}
 let g:Lf_MruWildIgnore = {}
 
+" c: 基本的にカレントディレクトリ
+" A: もし、上に RootMaker があれば、そのディレクトリから検索
+let g:Lf_WorkingDirectoryMode = 'Ac'
+
+" 履歴を3000
+let g:Lf_HistoryNumber = 3000
+
 
 " ==============================================================================
 " cocopon/vaffle.vim
 
 function! s:my_vaffle_settings() abort
     nmap <buffer> u         <Plug>(vaffle-open-parent)
+    nmap <buffer> h         <Plug>(vaffle-open-parent)
     nmap <buffer> l         <Plug>(vaffle-open-current)
     nmap <buffer> t         <Plug>(vaffle-open-current-tab)
     nmap <buffer> I         <Plug>(vaffle-toggle-hidden)
-    nmap <buffer> <Space>   <Plug>(vaffle-toggle-hidden)
     nmap <buffer> <CR>      <Plug>(vaffle-open-selected)|
     nmap <buffer> o         <Plug>(vaffle-open-selected)|
     nmap <buffer> m         <Plug>(vaffle-move-selected)
@@ -2481,6 +2507,7 @@ function! s:my_vaffle_settings() abort
     nmap <buffer> N         <Plug>(vaffle-new-file)
     nmap <buffer> ~         <Plug>(vaffle-open-home)
     nmap <buffer> q         <Plug>(vaffle-quit)
+    nmap <buffer> <C-e>     <Plug>(vaffle-quit)
     nmap <buffer> K         <Plug>(vaffle-mkdir)
 endfunction
 
@@ -2492,20 +2519,4 @@ augroup END
 let g:vaffle_use_default_mappings = 0
 let g:vaffle_auto_cd = 1
 
-function! VaffleCurrentFileOpen() abort
-    execute 'leftabove vnew | Vaffle '.expand('%:p')
-    call deol#cd(getcwd())
-endfunction
-
-function! VaffleOpen() abort
-    " 空なら、そのバッファで開く
-    if line('$') == 1 && getline(1) ==# ''
-        Vaffle
-    else
-        leftabove vnew
-        Vaffle
-    endif
-endfunction
-
-nnoremap <silent><C-e> :<C-u>call VaffleOpen()<CR>
-nnoremap <silent><Space>cdn :<C-u>call VaffleCurrentFileOpen()<CR>
+nnoremap <silent><C-e> :<C-u>Vaffle<CR>
