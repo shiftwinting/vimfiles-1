@@ -59,6 +59,9 @@ nnoremap sL <C-w>L
 
 " カレントウィンドウを新規タブで開く
 nnoremap st <C-w>T
+" カレントウィンドウを複製し、タブで開く
+nnoremap sT <C-w>s<C-w>T
+
 " 新規ウィンドウ
 nnoremap <silent> sn :<C-u>new<CR>
 nnoremap <silent> sv :<C-u>vnew<CR>
@@ -197,6 +200,9 @@ inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 " 対応するカッコの移動
 nmap 5 %
 vmap 5 %
+
+" 置換を再実行
+nmap 7 &
 
 " tyru さんのマッピング
 " https://github.com/tyru/config/blob/master/home/volt/rc/vimrc-only/vimrc.vim#L618
