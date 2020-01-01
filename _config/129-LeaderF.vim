@@ -4,22 +4,20 @@ if empty(globpath(&rtp, 'autoload/leaderf.vim'))
     finish
 endif
 
-nnoremap <silent> <Space>ff :<C-u>LeaderfFile<CR>
-nnoremap <silent> <Space>fl :<C-u>LeaderfLine<CR>
-nnoremap <silent> <Space>fh :<C-u>LeaderfHelp<CR>
-nnoremap <silent> <Space>fj :<C-u>LeaderfBuffer<CR>
-nnoremap <silent> <Space>fk :<C-u>LeaderfMru<CR>
-nnoremap <silent> ;         :<C-u>LeaderfHistoryCmd<CR>
-nnoremap <silent> <Space>fr :<C-u>Leaderf rg --recall<CR>
-nnoremap <silent> 9         :<C-u>Leaderf rg --previous<CR>
-nnoremap <silent> 0         :<C-u>Leaderf rg --next<CR>
-nnoremap <silent> <Space>ft :<C-u>LeaderfFiletype<CR>
-
-function! MyLeaderfRgPrompt() abort
-    let l:pattern = input('LeaderfRg: ')
-    execute 'Leaderf rg -e '.l:pattern
-endfunction
-nnoremap <Space>fg :<C-u>call MyLeaderfRgPrompt()<CR>
+" ! をつけるとノーマルモードから始まる
+nnoremap <silent> <Space>ff :<C-u>Leaderf file          --popup<CR>
+nnoremap <silent> <Space>fl :<C-u>Leaderf line          --popup<CR>
+nnoremap <silent> <Space>fh :<C-u>Leaderf help          --popup<CR>
+nnoremap <silent> <Space>fj :<C-u>Leaderf buffer        --popup<CR>
+nnoremap <silent> <Space>fk :<C-u>Leaderf mru           --popup<CR>
+nnoremap <silent> ;         :<C-u>Leaderf cmdHistory    --popup<CR>
+nnoremap <silent> <Space>fg :<C-u>LeaderfRgInteractive! --popup<CR>
+nnoremap <silent> <Space>fr :<C-u>Leaderf rg!           --recall<CR>
+nnoremap <silent> 9         :<C-u>Leaderf rg            --previous<CR>
+nnoremap <silent> 0         :<C-u>Leaderf rg            --next<CR>
+nnoremap <silent> <Space>ft :<C-u>Leaderf filetype      --popup<CR>
+" yoink.vim 側で定義している
+" nnoremap <silent> <C-p>     :<C-u>Leaderf command       --popup<CR>
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'
@@ -31,18 +29,6 @@ let g:Lf_CursorBlink = 0
 " TODO: solarized がない！！
 let g:Lf_StlColorscheme = ''
 
-" g:Lf_StlPalette でステータスラインの色の設定ができる
-" stlName
-" stlCategory
-" stlNameOnlyMode
-" stlFullPathMode
-" stlFuzzyMode
-" stlRegexMode
-" stlCwd
-" stlBlank
-" stlLineInfo
-" stlTotal
-
 " 検索に使う外部ツール
 let g:Lf_DefaultExternalTool = 'rg'
 
@@ -50,27 +36,8 @@ let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_IgnoreCurrentBufferName = 1
 
 " XXX: キャンセルしたら、位置を戻すようにしてほしい...
-"
-" let g:Lf_PreviewResult = {
-" \   'File': 0,
-" \   'Buffer': 0,
-" \   'Mru': 0,
-" \   'Tag': 0,
-" \   'BufTag': 1,
-" \   'Function': 1,
-" \   'Line': 1,
-" \   'Colorscheme': 0,
-" \   'Rg': 0,
-" \   'Gtags': 0
-" \}
 
-let g:Lf_WindowPosition = 'popup'
-
-" ポップアップのカラースキーマ
-" let g:Lf_PopupColorscheme = 'default'
-" XXX: solarized がない！！
-
-" let g:Lf_PopupPalette = {}
+" let g:Lf_WindowPosition = 'popup'
 
 " ---------------
 " キーマッピング
@@ -98,6 +65,9 @@ let g:Lf_WindowPosition = 'popup'
 " <Right> : 右にカーソル移動
 " <C-p> : プレビュー表示
 
+" cmdHistory/searchHistory/command
+" <C-o> : 編集
+
 " ~/vimfiles/plugged/LeaderF/autoload/leaderf/python/leaderf/cli.py を見てね
 " key <- value (value を key として解釈させる)
 let g:Lf_CommandMap = {
@@ -106,10 +76,10 @@ let g:Lf_CommandMap = {
 \   '<C-v>':    ['<C-o>'],
 \   '<C-x>':    ['<C-s>'],
 \   '<C-]>':    ['<C-v>'],
-\   '<Esc>':    ['<C-q>'],
+\   '<C-p>':    ['<C-q>'],
 \   '<C-o>':    ['<C-e>'],
+\   '<Del>':    ['<C-d>'],
 \}
-" \   '<C-p>':    ['<A-k>'],
 
 " プレビューをポップアップで行う
 let g:Lf_PreviewInPopup = 1
@@ -143,6 +113,7 @@ let g:Lf_WildIgnore = {
 \   'dir': ['.mypy_cache/*'],
 \   'file': ['tags']
 \}
+
 let g:Lf_MruWildIgnore = {}
 
 " c: 基本的にカレントディレクトリ
@@ -151,5 +122,3 @@ let g:Lf_WorkingDirectoryMode = 'Ac'
 
 " 履歴を3000
 let g:Lf_HistoryNumber = 3000
-
-
