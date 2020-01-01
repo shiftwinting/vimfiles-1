@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/open-browser.vim'))
+if empty(globpath(&rtp, 'autoload/openbrowser.vim'))
     finish
 endif
 
