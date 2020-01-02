@@ -45,12 +45,12 @@ let g:lightline.component_type = {
 \}
 
 let g:lightline.separator = {
-\   'left': '',
-\   'right': ''
+\   'left': '󾂰',
+\   'right': '󾂲'
 \}
 let g:lightline.subseparator = {
-\   'left': '',
-\   'right': ''
+\   'left': '󾂱',
+\   'right': '󾂳'
 \}
 
 let g:lightline#ale#indicator_warnings = nr2char('0xf071')  " 
