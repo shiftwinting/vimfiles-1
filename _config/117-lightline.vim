@@ -17,6 +17,7 @@ let g:lightline.tabline = {
 let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste'],
 \             [ 'readonly', 't_filename' ],
+\             [ 't_gitbranch' ],
 \             [ 'linter_errors', 'linter_warnings', 'linter_ok' ],
 \   ],
 \   'right': [ [ 't_lineinfo' ],
@@ -128,9 +129,6 @@ function! LightlineInactiveMode() abort
 endfunction
 
 function! LightlineGitBranch() abort
-    " let l:has_hunk = len(gina#component#status#unstaged()) > 0 ? '* ' : ''
-    " return empty(gina#component#repo#branch()) ?
-    " \   '' :
-    " \   l:has_hunk . '[' . gina#component#repo#branch() . ']'
+    return exists('*FugitiveHead') && !empty(FugitiveHead())  ? ''.FugitiveHead() : ''
 endfunction
 
