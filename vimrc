@@ -1,5 +1,3 @@
-" Encoding
-
 set encoding=utf-8
 scriptencoding utf-8
 
@@ -8,6 +6,23 @@ set fileformats=unix,dos,mac
 
 " https://github.com/vim-jp/issues/issues/1186
 set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
+
+" デフォルトのプラグインをOFF
+let g:loaded_gzip              = 1
+let g:loaded_tar               = 1
+let g:loaded_tarPlugin         = 1
+let g:loaded_zip               = 1
+let g:loaded_zipPlugin         = 1
+let g:loaded_rrhelper          = 1
+let g:loaded_2html_plugin      = 1
+let g:loaded_vimball           = 1
+let g:loaded_vimballPlugin     = 1
+let g:loaded_getscript         = 1
+let g:loaded_getscriptPlugin   = 1
+let g:loaded_netrw             = 1
+let g:loaded_netrwPlugin       = 1
+let g:loaded_netrwSettings     = 1
+let g:loaded_netrwFileHandlers = 1
 
 " " 内部エンコーディング
 " set encoding=utf-8
@@ -60,11 +75,10 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'haya14busa/vim-asterisk'
 Plug 'svermeulen/vim-yoink'
 Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
-" Plug 'tamago324/gignores.vim'
 Plug 'cocopon/vaffle.vim'
 
 " == python
-Plug 'ambv/black'
+" Plug 'ambv/black'
 
 " == php
 Plug 'jwalton512/vim-blade'
@@ -138,7 +152,6 @@ Plug 'Yggdroot/LeaderF'
 
 call plug#end()
 
-
 if has('win32')
     let $XDG_CACHE_HOME = $LOCALAPPDATA
 endif
@@ -148,10 +161,10 @@ if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
     let $PATH = $VIM . ';' . $PATH
 endif
 
-" yarn のパスを追加
+" " yarn のパスを追加
 if $PATH !~# 'Yarn/bin'
-    if executable('yarn')
-        let $PATH = system('yarn global bin')[:-2] . ';' . $PATH
+    if has('win32')
+        let $PATH = expand('$LOCALAPPDATA'.'Yarn/bin').';' . $PATH
     endif
 endif
 
