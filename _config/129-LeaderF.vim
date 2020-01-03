@@ -10,12 +10,13 @@ nnoremap <silent> <Space>fl :<C-u>Leaderf line          --popup<CR>
 nnoremap <silent> <Space>fh :<C-u>Leaderf help          --popup<CR>
 nnoremap <silent> <Space>fj :<C-u>Leaderf buffer        --popup<CR>
 nnoremap <silent> <Space>fk :<C-u>Leaderf mru           --popup<CR>
-nnoremap <silent> ;         :<C-u>Leaderf cmdHistory    --popup<CR>
-nnoremap <silent> <Space>fg :<C-u>LeaderfRgInteractive! --popup<CR>
-nnoremap <silent> <Space>fr :<C-u>Leaderf rg!           --recall<CR>
+nnoremap <silent> <Space>f; :<C-u>Leaderf cmdHistory    --popup<CR>
+nnoremap          <Space>fg :<C-u>Leaderf! --popup rg -e ""<Left>
+nnoremap <silent> <Space>fr :<C-u>Leaderf! rg           --recall<CR>
 nnoremap <silent> 9         :<C-u>Leaderf rg            --previous<CR>
 nnoremap <silent> 0         :<C-u>Leaderf rg            --next<CR>
 nnoremap <silent> <Space>ft :<C-u>Leaderf filetype      --popup<CR>
+nnoremap <silent> <Space>fs :<C-u>Leaderf file ~/src    --popup<CR>
 " yoink.vim 側で定義している
 " nnoremap <silent> <C-p>     :<C-u>Leaderf command       --popup<CR>
 
@@ -105,7 +106,7 @@ let g:Lf_PopupPalette = {
 \}
 
 let g:Lf_HistoryExclude = {
-\   'cmd':  ['^wq?!?', '^qa?!?', '^.\s*$', '^\d+$'],
+\   'cmd':  ['^wq?!?$', '^qa?!?$', '^.\s*$', '^\d+$'],
 \   'search':  []
 \}
 
@@ -122,3 +123,12 @@ let g:Lf_WorkingDirectoryMode = 'Ac'
 
 " 履歴を3000
 let g:Lf_HistoryNumber = 3000
+
+" Leaderf rg --help
+" --glob は .gitignore のような書き方
+let g:Lf_RgConfig = [
+\   '--smart-case',
+\   '--glob=!.mypy_cache/*',
+\   '--glob=!.node_modules/*',
+\   '--glob=!tags',
+\]
