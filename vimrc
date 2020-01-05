@@ -144,6 +144,7 @@ Plug 'lifepillar/vim-solarized8'
 
 " == LeaderF
 Plug 'Yggdroot/LeaderF'
+Plug 'tamago324/LeaderF-ghq'
 
 " ------------------------------------------------------------------------------
 
@@ -164,7 +165,7 @@ endif
 " " yarn のパスを追加
 if $PATH !~# 'Yarn/bin'
     if has('win32')
-        let $PATH = expand('$LOCALAPPDATA'.'Yarn/bin').';' . $PATH
+        let $PATH = expand($LOCALAPPDATA.'/Yarn/bin').';' . $PATH
     endif
 endif
 
