@@ -17,8 +17,8 @@ let g:lightline.tabline = {
 let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste'],
 \             [ 'readonly', 't_filename' ],
-\             [ 't_gitbranch' ],
 \             [ 'linter_errors', 'linter_warnings', 'linter_ok' ],
+\             [ 't_gitbranch' ],
 \   ],
 \   'right': [ [ 't_lineinfo' ],
 \              [ 't_percent' ],
