@@ -363,6 +363,7 @@ command! -nargs=1 BitlyShortenUrl call ShortenUrl(<f-args>)
 " ------------------------------------------------------------------------------
 
 " ------------------------------------------------------------------------------
-" Ghq
-command! -nargs=1 Ghq execute 'terminal ghq get <q-args>'
+" ghq
+command! -nargs=1 GhqGet    execute 'terminal ghq get <q-args>'
+command! -nargs=1 GhqCreate execute 'terminal ghq create <q-args>'
 " ------------------------------------------------------------------------------
