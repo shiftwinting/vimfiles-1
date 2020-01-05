@@ -7,7 +7,7 @@ endif
 " mapping
 " nnoremap <Space>ff :<C-u>CtrlPCurFile<CR>
 " nnoremap <Space>fj :<C-u>CtrlPBuffer<CR>
-nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
+" nnoremap <Space>fq :<C-u>CtrlPGhq<CR>
 " nnoremap <Space>fk :<C-u>CtrlPMixed<CR>
 " nnoremap <Space>fk :<C-u>CtrlPMRUFiles<CR>
 nnoremap <Space>fc :<C-u>CtrlPCdnJs<CR>
@@ -110,3 +110,7 @@ let g:ctrlp_map = ''
 
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
+
+augroup CtrlPMRUF
+    autocmd!
+augroup END
