@@ -145,6 +145,7 @@ Plug 'lifepillar/vim-solarized8'
 " == LeaderF
 Plug 'Yggdroot/LeaderF'
 Plug 'tamago324/LeaderF-ghq'
+Plug 'tamago324/LeaderF-cdnjs'
 
 " ------------------------------------------------------------------------------
 
