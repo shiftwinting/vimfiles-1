@@ -120,12 +120,6 @@ Plug 'haya14busa/vim-textobj-function-syntax'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-operator-replace'
 
-" == ctrlp
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mattn/ctrlp-ghq'
-Plug 'FelikZ/ctrlp-py-matcher'
-Plug 'pasela/ctrlp-cdnjs'
-
 " == dark power
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/deol.nvim'
