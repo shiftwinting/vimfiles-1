@@ -3,7 +3,7 @@ scriptencoding utf-8
 nnoremap <Space>;h :<C-u>FavoriteHelps<CR>
 nnoremap <Space>;f :<C-u>FnamemodsPopup<CR>
 
-command! HereOpen call execute('!start %:p:h', "silent")
+command! HereOpen call execute('!start '.getcwd(), "silent")
 
 if executable('js-sqlformat')
   command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
