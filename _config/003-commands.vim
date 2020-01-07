@@ -364,6 +364,6 @@ command! -nargs=1 BitlyShortenUrl call ShortenUrl(<f-args>)
 
 " ------------------------------------------------------------------------------
 " ghq
-command! -nargs=1 GhqGet    execute 'terminal ghq get <q-args>'
-command! -nargs=1 GhqCreate execute 'terminal ghq create <q-args>'
+command! -nargs=1 GhqGet    execute 'belowright terminal ghq get <q-args>'
+command! -nargs=1 GhqCreate execute 'belowright terminal ghq create <q-args>'
 " ------------------------------------------------------------------------------
