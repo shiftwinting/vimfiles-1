@@ -27,6 +27,8 @@ vnoremap <A-o><A-g> :<C-u>call openbrowser#search(tmg#getwords_last_visual(), 'g
 
 nnoremap <A-o><A-m> :<C-u>OpenBrowserSearch -memo 
 
+command! OpenConfig call openbrowser#open('https://gist.github.com/tamago324/70b98ae1093ed8775587f0d300e3af6c')
+
 " 追加
 let g:openbrowser_search_engines = {
 \   'dev': 'http://devdocs.io/#q={query}',
