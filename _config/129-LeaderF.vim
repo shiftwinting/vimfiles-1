@@ -19,7 +19,7 @@ nnoremap <silent> <Space>ft :<C-u>Leaderf filetype      --popup<CR>
 " yoink.vim 側で定義している
 " nnoremap <silent> <C-p>     :<C-u>Leaderf command       --popup<CR>
 nnoremap <silent> <Space>ml :<C-u>Leaderf file ~/memo   --popup<CR>
-nnoremap <silent> <C-p>     :<C-u>Leaderf command       --popup<CR>
+nnoremap <silent> <C-p>     :<C-u>Leaderf command       --popup --run-immediately<CR>
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'
