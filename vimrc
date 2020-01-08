@@ -140,6 +140,7 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'Yggdroot/LeaderF'
 Plug 'tamago324/LeaderF-ghq'
 Plug 'tamago324/LeaderF-cdnjs'
+Plug 'tamago324/LeaderF-bookmark'
 
 " ------------------------------------------------------------------------------
 
