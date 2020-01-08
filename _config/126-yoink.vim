@@ -4,10 +4,10 @@ if empty(globpath(&rtp, 'autoload/yoink.vim'))
     finish
 endif
 
-nmap <silent> <expr> <C-p> yoink#isSwapping()
-\       ? '<plug>(YoinkPostPasteSwapBack)'
-\       : ':<C-u>Leaderf command --popup --run-immediately<CR>'
-nmap <C-n> <plug>(YoinkPostPasteSwapForward)
+" nmap <silent> <expr> <C-p> yoink#isSwapping()
+" \       ? '<plug>(YoinkPostPasteSwapBack)'
+" \       : ':<C-u>Leaderf command --popup --run-immediately<CR>'
+" nmap <C-n> <plug>(YoinkPostPasteSwapForward)
 nmap p     <plug>(YoinkPaste_p)
 nmap P     <plug>(YoinkPaste_P)
 
