@@ -367,3 +367,49 @@ command! -nargs=1 BitlyShortenUrl call ShortenUrl(<f-args>)
 command! -nargs=1 GhqGet    execute 'belowright terminal ghq get <q-args>'
 command! -nargs=1 GhqCreate execute 'belowright terminal ghq create <q-args>'
 " ------------------------------------------------------------------------------
+
+" ------------------------------------------------------------------------------
+" git
+
+" from skanehira/dotfiles http://bit.ly/36CWoez
+" opts:
+" {
+"     cmd: git のコマンド
+"     args: git のコマンドの引数
+"     window_way: ウィンドウの分割方向 (e.g. 'bo')
+" }
+function! s:git_exec(opts) abort
+    let l:cur_winid = win_getid()
+    let l:cmd = printf('git %s %s', a:opts.cmd, join(a:opts.args, ' '))
+    execute printf('%s term ++rows=10 %s', a:opts.window_way, l:cmd)
+    nnoremap <buffer> <silent> q :bw!<CR>
+    call win_gotoid(l:cur_winid)
+endfunction
+
+" git push
+function! s:git_push(...) abort
+    let l:opts = {
+    \   'cmd': 'push',
+    \   'args': a:000,
+    \   'window_way': 'botright',
+    \}
+    call s:git_exec(l:opts)
+endfunction
+
+" git pull
+function! s:git_pull() abort
+    let l:opts = {
+    \   'cmd': 'pull',
+    \   'args': [],
+    \   'window_way': 'botright',
+    \}
+    call s:git_exec(l:opts)
+endfunction
+
+" git checkout
+command! -nargs=* Gitpush call s:git_push(<f-args>)
+command! Gitpull call s:git_pull()
+
+call tmg#delcommand('Gpush')
+call tmg#delcommand('Gpull')
+" ------------------------------------------------------------------------------

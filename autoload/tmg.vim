@@ -46,3 +46,10 @@ function! tmg#getwords_last_visual() abort
 
     return l:result
 endfunction
+
+" コマンドがないと怒られるため
+function! tmg#delcommand(cmd) abort
+    if exists(':'.a:cmd) ==# 2
+        execute 'delcommand '.a:cmd
+    endif
+endfunction
