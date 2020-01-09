@@ -28,4 +28,4 @@ let g:Lf_Extensions.packadd = {
 \   'accept': 'LfExt_packadd_accept',
 \}
 
-command! LeaderfPackAdd :<C-u>Leaderf packadd --popup<CR>
+command! LeaderfPackAdd Leaderf packadd --popup
