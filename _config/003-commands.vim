@@ -24,8 +24,6 @@ function! s:get_maxlen(list) abort "
     return maxlen
 endfunction
 
-
-
 " ------------------------------------------------------------------------------
 " カレントファイルのパスをいろんな形式で yank
 command! FnamemodsPopup call s:yank_fnamemods_popup()
@@ -224,38 +222,12 @@ endfunction
 " ------------------------------------------------------------------------------
 " packages 機能
 command! -nargs=+ PackGet call s:packget(<f-args>)
-command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
+" command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
 command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
 
 " 末尾の '/' を取り除くため、 :p:h とする
 let s:pack_base_dir = tr(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'), "\\", '/')
 let s:sep = has('win32') ? "\\" : '/'
-
-function! s:packadd(plugin_name) abort
-    if index(s:packages(), a:plugin_name) ==# -1
-        " echomsg に ErrorMsg ハイライトをつける
-        echohl ErrorMsg
-        echomsg 'Not found plugin. '.a:plugin_name
-        echohl None
-        return
-    endif
-    execute 'packadd '.a:plugin_name
-endfunction
-
-function! s:packages() abort
-    let l:result = []
-    for path in split(globpath(&packpath, '/pack/*/opt/*'))
-        if isdirectory(path)
-            let dirname = path[strridx(path, s:sep)+1:]
-            call add(l:result, dirname)
-        endif
-    endfor
-    return l:result
-endfunction
-
-function! s:packget_cb(job, status) abort
-    echomsg job_status(a:job)
-endfunction
 
 function! s:add_end_slash(path) abort
     if a:path =~# '/$'
@@ -291,7 +263,7 @@ function! s:packget(url, ...) abort
 
     let l:cmd = 'git clone ' . s:fix_url(a:url) . ' '  . l:dst
 
-    execute 'botright term ++rows=12 '.l:cmd
+    execute 'botright term ++rows=10 '.l:cmd
     nnoremap <buffer> q <C-w>q
 endfunction
 
