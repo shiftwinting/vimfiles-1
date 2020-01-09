@@ -11,7 +11,7 @@ nnoremap <silent> <Space>fh :<C-u>Leaderf help          --popup<CR>
 nnoremap <silent> <Space>fj :<C-u>Leaderf buffer        --popup<CR>
 nnoremap <silent> <Space>fk :<C-u>Leaderf mru           --popup<CR>
 nnoremap <silent> <Space>f; :<C-u>Leaderf cmdHistory    --popup<CR>
-nnoremap          <Space>fg :<C-u>Leaderf! --popup rg -e ""<Left>
+nnoremap          <Space>fg :<C-u>Leaderf! rg -e ""<Left>
 nnoremap <silent> <Space>fr :<C-u>Leaderf! rg           --recall<CR>
 nnoremap <silent> 9         :<C-u>Leaderf rg            --previous<CR>
 nnoremap <silent> 0         :<C-u>Leaderf rg            --next<CR>
