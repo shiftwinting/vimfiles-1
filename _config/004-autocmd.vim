@@ -159,3 +159,13 @@ function! QfSettings() abort
 endfunction
 
 autocmd! MyAutoCmd FileType qf call QfSettings()
+
+" カーソルラインの位置を保存する
+" from skanehira/dotfiles (http://bit.ly/2N82age)
+augroup cursorlineRestore
+    autocmd!
+    autocmd BufReadPost *
+                \ if line("'\"") > 0 && line("'\"") <= line("$") |
+                \   exe "normal! g'\"" |
+                \ endif
+augroup END
