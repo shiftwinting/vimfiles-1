@@ -49,7 +49,7 @@ function! LfExt_openbrowser_source(args) abort
     let l:bookmarks =
     \       extend(copy(g:openbrowser_search_engines), l:openbrowser_bookmarks)
     let l:max_name_len =
-    \       max(map(keys(l:openbrowser_bookmarks),'strdisplaywidth(v:val)'))
+    \       max(map(keys(l:bookmarks),'strdisplaywidth(v:val)'))
 
     let l:lines = []
     for [l:name, l:url] in items(l:bookmarks)
@@ -66,8 +66,11 @@ function! LfExt_openbrowser_accept(line, args) abort
     let l:url = s:openbrowser_get_digest(a:line, 2)
 
     " {query} が url に入っていたら、engine を入れる
-    let l:engine = l:url =~# '{query}' ? printf('-%s ', l:name) : ' '
-    call feedkeys(printf(':OpenBrowserSmartSearch %s', l:engine), 'n')
+    if l:url =~# '{query}'
+        call feedkeys(printf(':OpenBrowserSmartSearch -%s ', l:name), 'n')
+    else
+        call openbrowser#open(l:url)
+    endif
 endfunction
 
 " モードごとにマッチさせる文字列を返す
@@ -106,6 +109,8 @@ function! LfExt_openbrowser_get_digest(line, mode) abort
     return [s:openbrowser_get_digest(a:line, a:mode),
     \       s:openbrowser_get_digest_start_pos(a:line, a:mode)]
 endfunction
+
+" TODO: popup の場合のハイライトはどうやるの？
 
 " ============================================================================
 
