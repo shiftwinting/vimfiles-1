@@ -247,9 +247,12 @@ endfunction
 function! s:packget(url, ...) abort
     let l:base = s:add_end_slash(s:pack_base_dir)
 
+    " 改行文字と空白を取り除く
+    let l:url = substitute(a:url, '\v(|\s+)', '', 'g')
+
     " 引数指定されていたら、その名前のディレクトリに作成する
     let l:plug_name = a:0 ==# 0 ?
-    \   fnamemodify(a:url, ':t:r') :
+    \   fnamemodify(l:url, ':t:r') :
     \   a:1
 
     let l:dst = l:base . l:plug_name
@@ -261,7 +264,8 @@ function! s:packget(url, ...) abort
         return
     endif
 
-    let l:cmd = 'git clone ' . s:fix_url(a:url) . ' '  . l:dst
+    let l:cmd = 'git clone ' . s:fix_url(l:url) . ' '  . l:dst
+    echomsg l:cmd
 
     execute 'botright term ++rows=10 '.l:cmd
     nnoremap <buffer> q <C-w>q
