@@ -1,19 +1,17 @@
 <template>
-  <div></div>
+  <div>
+    {{_cursor_}}
+  </div>
 </template>
 
 <script>
 export default {
-  name: '',
+  name: '{{_name_}}',
   props: {
-    '': {
-      type:
+    msg: {
+      type: String
     }
   },
-  data: {
-    return {
-    }
-  }
 }
 </script>
 
