@@ -14,9 +14,11 @@ vmap gx <Plug>(openbrowser-smart-search)
 
 " d : devdocs.io
 " g : github
+" j : 
 
 nnoremap <A-o><A-d> :<C-u>execute 'OpenBrowserSearch -devdocs ' . &filetype<CR>
 nnoremap <A-o><A-g> :<C-u>OpenBrowserSmartSearch -github 
+nnoremap <A-o><A-n> :<C-u>OpenBrowserSmartSearch 
 
 " 追加
 let g:openbrowser_search_engines = {
@@ -33,4 +35,5 @@ let g:openbrowser_bookmarks = {
 \   'vue.js': 'https://jp.vuejs.org/v2/api/',
 \   'bulma': 'https://bulma.io/documentation/',
 \   'myconfig': 'https://gist.github.com/tamago324/70b98ae1093ed8775587f0d300e3af6c',
+\   'thismonth': 'https://scrapbox.io/tamago324-05149866/2020%2F1',
 \}
