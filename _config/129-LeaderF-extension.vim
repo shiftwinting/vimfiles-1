@@ -129,7 +129,7 @@ if !empty(globpath(&rtp, 'autoload/sonictemplate.vim'))
     \}
 
     command! LeaderfSonictemplate Leaderf sonictemplate
-    nnoremap <silent> <Space>fi :<C-u>Leaderf sonictemplate --popup<CR>
+    nnoremap <silent> <Space>;t :<C-u>Leaderf sonictemplate --popup<CR>
 endif
 
 if !empty(globpath(&rtp, 'autoload/openbrowser.vim'))
