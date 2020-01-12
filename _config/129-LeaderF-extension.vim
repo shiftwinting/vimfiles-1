@@ -36,6 +36,24 @@ function! LfExt_sonictemplate_accept(line, args) abort
 endfunction
 " ============================================================================
 
+" ============================================================================
+" git checkout
+function! LfExt_git_checkout_source(args) abort
+    let l:source = filter(systemlist('git branch'), 'v:val[0] !=# "*"')
+    if empty(source)
+        echohl ErrorMsg
+        echo 'no other branch'
+        echohl None
+        return []
+    endif
+    return l:source
+endfunction
+
+function! LfExt_git_checkout_accept(line, args) abort
+    call system('git checkout ' . a:line)
+endfunction
+" ============================================================================
+
 let g:Lf_Extensions = {}
 
 let g:Lf_Extensions.packadd = {
@@ -53,3 +71,9 @@ if !empty(globpath(&rtp, 'autoload/sonictemplate.vim'))
     command! LeaderfSonictemplate Leaderf sonictemplate
     nnoremap <silent> <Space>;t :<C-u>Leaderf sonictemplate --popup<CR>
 endif
+
+let g:Lf_Extensions.git_checkout = {
+\   'source': 'LfExt_git_checkout_source',
+\   'accept': 'LfExt_git_checkout_accept',
+\}
+command! LeaderfGitCheckout Leaderf git_checkout --popup
