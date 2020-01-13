@@ -19,6 +19,7 @@ vmap gx <Plug>(openbrowser-smart-search)
 nnoremap <A-o><A-d> :<C-u>execute 'OpenBrowserSearch -devdocs ' . &filetype<CR>
 nnoremap <A-o><A-g> :<C-u>OpenBrowserSmartSearch -github 
 nnoremap <A-o><A-n> :<C-u>OpenBrowserSmartSearch 
+nnoremap <A-o><A-m> :<C-u>OpenBrowserSmartSearch https://scrapbox.io/tamago324-05149866<CR>
 
 " 追加
 let g:openbrowser_search_engines = {
@@ -27,13 +28,4 @@ let g:openbrowser_search_engines = {
 \   'vimawesome': 'https://vimawesome.com/?q={query}',
 \   'duckduckgo': 'http://duckduckgo.com/?q={query}',
 \   'memo': 'https://scrapbox.io/tamago324-05149866/search/page?q={query}',
-\}
-
-" name: url の dict
-" LeaderfOpenBrowser で表示できる
-let g:openbrowser_bookmarks = {
-\   'vue.js': 'https://jp.vuejs.org/v2/api/',
-\   'bulma': 'https://bulma.io/documentation/',
-\   'myconfig': 'https://gist.github.com/tamago324/70b98ae1093ed8775587f0d300e3af6c',
-\   'thismonth': 'https://scrapbox.io/tamago324-05149866/2020%2F1',
 \}
