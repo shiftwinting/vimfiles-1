@@ -383,7 +383,10 @@ function! s:git_pull() abort
 endfunction
 
 " git checkout
-command! -nargs=* Gpush call s:git_push(<f-args>)
-command! Gpull call s:git_pull()
-command! Gcheckout Leaderf git_checkout --popup
+command! -nargs=* Gitpush call s:git_push(<f-args>)
+command! Gitpull call s:git_pull()
+command! Gitcheckout Leaderf git_checkout --popup
+
+call tmg#delcommand('Gpush')
+call tmg#delcommand('Gpull')
 " ------------------------------------------------------------------------------
