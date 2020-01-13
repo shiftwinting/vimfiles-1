@@ -9,7 +9,8 @@ export default {
   name: '{{_name_}}',
   props: {
     msg: {
-      type: String
+      type: String,
+      required: true,
     }
   },
 }
