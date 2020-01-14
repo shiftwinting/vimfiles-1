@@ -24,6 +24,10 @@ function! s:get_maxlen(list) abort "
     return maxlen
 endfunction
 
+function! s:github_fix_param(param) abort
+    return substitute(a:param, '\v(|\s+)', '', 'g')
+endfunction
+
 " ------------------------------------------------------------------------------
 " カレントファイルのパスをいろんな形式で yank
 command! FnamemodsPopup call s:yank_fnamemods_popup()
@@ -248,7 +252,7 @@ function! s:packget(url, ...) abort
     let l:base = s:add_end_slash(s:pack_base_dir)
 
     " 改行文字と空白を取り除く
-    let l:url = substitute(a:url, '\v(|\s+)', '', 'g')
+    let l:url = s:github_fix_param(a:url)
 
     " 引数指定されていたら、その名前のディレクトリに作成する
     let l:plug_name = a:0 ==# 0 ?
@@ -340,7 +344,7 @@ command! -nargs=1 BitlyShortenUrl call ShortenUrl(<f-args>)
 
 " ------------------------------------------------------------------------------
 " ghq
-command! -nargs=1 GhqGet    execute 'belowright terminal ghq get <q-args>'
+command! -nargs=1 GhqGet    execute 'belowright terminal ghq get '.<SID>github_fix_param(<f-args>)
 command! -nargs=1 GhqCreate execute 'belowright terminal ghq create <q-args>'
 " ------------------------------------------------------------------------------
 
