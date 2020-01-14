@@ -88,9 +88,10 @@ Plug 'zah/nim.vim'
 
 " == frontend
 Plug 'othree/html5.vim'
-Plug 'posva/vim-vue'
+" Plug 'posva/vim-vue'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' } " Formatter
 Plug 'jason0x43/vim-js-indent'
+Plug 'leafOfTree/vim-vue-plugin'
 
 " syntax
 Plug 'yuezk/vim-js'
