@@ -104,6 +104,7 @@ Plug 'thomasfaingnaert/vim-lsp-neosnippet'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
+Plug 'mattn/vim-lsp-settings'
 
 " " == complete
 Plug 'Shougo/neco-syntax'

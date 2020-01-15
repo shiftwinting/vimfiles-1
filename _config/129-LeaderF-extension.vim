@@ -54,6 +54,23 @@ function! LfExt_git_checkout_accept(line, args) abort
 endfunction
 " ============================================================================
 
+" ============================================================================
+" lsp
+function! LfExt_lsp_source(args) abort
+    return [
+    \   'LspHover',
+    \   'LspRename',
+    \   'LspDefinition',
+    \   'LspReferences',
+    \   'LspCodeAction'
+    \]
+endfunction
+
+function! LfExt_lsp_accept(line, args) abort
+    execute a:line
+endfunction
+" ============================================================================
+
 let g:Lf_Extensions = {}
 
 let g:Lf_Extensions.packadd = {
@@ -77,3 +94,12 @@ let g:Lf_Extensions.git_checkout = {
 \   'accept': 'LfExt_git_checkout_accept',
 \}
 command! LeaderfGitCheckout Leaderf git_checkout --popup
+
+if !empty(globpath(&rtp, 'autoload/lsp.vim'))
+    let g:Lf_Extensions.lsp = {
+    \   'source': 'LfExt_lsp_source',
+    \   'accept': 'LfExt_lsp_accept',
+    \}
+    command! LeaderfLsp Leaderf lsp
+    nnoremap <silent> <Space>fi :<C-u> Leaderf lsp --popup<CR>
+endif

@@ -11,19 +11,19 @@ let g:lsp_log_file = expand('~/vim-lsp.log')
 " from https://gist.github.com/mattn/3c65639710016d662701bb2526ecba55
 " mattn さんの lsp の設定
 
-if executable('pyls')
-    " pip install python-language-server
-    augroup MyLspPython
-        autocmd!
-        autocmd User lsp_setup call lsp#register_server({
-            \ 'name': 'pyls',
-            \ 'cmd': {server_info->[&shell, &shellcmdflag, 'pyls']},
-            \ 'whitelist': ['python'],
-            \ })
-        autocmd FileType python call s:configure_lsp()
-    augroup END
-endif
-
+" if executable('pyls')
+"     " pip install python-language-server
+"     augroup MyLspPython
+"         autocmd!
+"         autocmd User lsp_setup call lsp#register_server({
+"             \ 'name': 'pyls',
+"             \ 'cmd': {server_info->[&shell, &shellcmdflag, 'pyls']},
+"             \ 'whitelist': ['python'],
+"             \ })
+"         autocmd FileType python call s:configure_lsp()
+"     augroup END
+" endif
+"
 
 if executable('nimlsp')
     augroup MyLspNim
@@ -51,18 +51,18 @@ if executable('typescript-language-server')
     augroup END
 endif
 
-if executable('html-languageserver')
-    " pip install python-language-server
-    augroup MyLspHTML
-        au!
-        autocmd User lsp_setup call lsp#register_server({
-        \   'name': 'html-languageserver',
-        \   'cmd': {server_info->[&shell, &shellcmdflag, 'html-languageserver --stdio']},
-        \   'whitelist': ['html'],
-        \})
-        autocmd FileType html call s:configure_lsp()
-    augroup END
-endif
+" if executable('html-languageserver')
+"     " pip install python-language-server
+"     augroup MyLspHTML
+"         au!
+"         autocmd User lsp_setup call lsp#register_server({
+"         \   'name': 'html-languageserver',
+"         \   'cmd': {server_info->[&shell, &shellcmdflag, 'html-languageserver --stdio']},
+"         \   'whitelist': ['html'],
+"         \})
+"         autocmd FileType html call s:configure_lsp()
+"     augroup END
+" endif
 
 " " from https://gist.github.com/yaegassy/57e50125e9c6488581c4b8fe608ce194
 " if executable('vls')
@@ -91,15 +91,20 @@ function! s:configure_lsp() abort
     setlocal omnifunc=lsp#complete
 
     nnoremap <buffer><silent> <C-]> :<C-u>LspDefinition<CR>
-    nnoremap <buffer><silent> gr    :<C-u>LspReferences<CR>
+    nnoremap <buffer><silent> <Space>;r    :<C-u>LspReferences<CR>
     nnoremap <buffer><silent> K     :<C-u>LspHover<CR>
 
-    " nnoremap <buffer> gj    :<C-u>LspNextError<CR>
-    " nnoremap <buffer> gk    :<C-u>LspPreviousError<CR>
-    nnoremap <buffer><silent> gh    :<C-u>LspCodeAction<CR>
+    nnoremap <buffer> gj    :<C-u>LspNextError<CR>
+    nnoremap <buffer> gk    :<C-u>LspPreviousError<CR>
+    nnoremap <buffer><silent> <Space>;a    :<C-u>LspCodeAction<CR>
 
 endfunction
 "" sign の表示を無効化 ( mint で行うため )
 let g:lsp_diagnostics_enabled = 0
 
+let g:lsp_settings_servers_dir = expand("~/lsp_server")
 
+augroup MyLspSettings
+    autocmd!
+    autocmd FileType html,python,vim call s:configure_lsp()
+augroup END
