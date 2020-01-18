@@ -95,6 +95,7 @@ Plug 'leafOfTree/vim-vue-plugin'
 
 " syntax
 Plug 'yuezk/vim-js'
+Plug 'delphinus/vim-firestore'
 
 " == lsp
 Plug 'prabirshrestha/vim-lsp'
