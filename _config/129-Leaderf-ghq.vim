@@ -6,4 +6,4 @@ endif
 
 let g:Lf_GhqAcceptSelectionCmd = 'tabe | Vaffle'
 
-nnoremap <silent> <Space>fq :<C-u>Leaderf ghq --popup<CR>
+nnoremap <silent> <Space>fq :<C-u>Leaderf ghq<CR>

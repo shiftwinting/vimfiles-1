@@ -4,7 +4,7 @@ if empty(globpath(&rtp, 'autoload/leaderf/OpenBrowser.vim'))
     finish
 endif
 
-nnoremap <silent> <A-o><A-o> :<C-u>Leaderf openbrowser --popup<CR>
+nnoremap <silent> <Space>fo :<C-u>Leaderf openbrowser<CR>
 
 " name: url の dict
 " LeaderfOpenBrowser で表示できる
