@@ -28,21 +28,63 @@ let g:Lf_DefaultMode = 'NameOnly'
 let g:Lf_CursorBlink = 0
 
 " ステータスラインのカラースキーム
-" TODO: solarized がない！！
-let g:Lf_StlColorscheme = 'popup'
+let g:Lf_StlColorscheme = 'default'
 
 " 検索に使う外部ツール
 let g:Lf_DefaultExternalTool = 'rg'
 
-" カレントバッファの名前を結果に表示しない
+" カレントバッファの名前を結果に表示しない (Leaderf file のみに有効)
 let g:Lf_IgnoreCurrentBufferName = 1
 
-" XXX: キャンセルしたら、位置を戻すようにしてほしい...
+" プレビューをポップアップで行う
+let g:Lf_PreviewInPopup = 1
 
-" let g:Lf_WindowPosition = 'popup'
+let g:Lf_MruMaxFiles = 1000
 
-" ---------------
-" キーマッピング
+" ヘルプを非表示
+let g:Lf_HideHelp = 0
+
+" c: 基本的にカレントディレクトリ
+" A: もし、上に RootMaker があれば、そのディレクトリから検索
+let g:Lf_WorkingDirectoryMode = 'Ac'
+
+" 履歴を3000
+let g:Lf_HistoryNumber = 3000
+
+let g:Lf_StlSeparator = {
+\   'left': "\ue0b0",
+\   'right': "\ue0b2",
+\}
+
+let g:Lf_HistoryExclude = {
+\   'cmd':  ['^wq?!?$', '^qa?!?$', '^.\s*$', '^\d+$'],
+\   'search':  []
+\}
+
+let g:Lf_WildIgnore = {
+\   'dir': ['.mypy_cache/*', 'node_modules/*'],
+\   'file': ['tags']
+\}
+
+let g:Lf_MruWildIgnore = {}
+
+" Leaderf rg --help
+" --glob は .gitignore のような書き方
+let g:Lf_RgConfig = [
+\   '--smart-case',
+\   '--glob=!.mypy_cache/*',
+\   '--glob=!.node_modules/*',
+\   '--glob=!tags',
+\]
+
+function! DefineMyLeaderFHighlishts() abort
+    hi Lf_hl_cursorline  gui=underline guifg=fg guibg=bg
+endfunction
+
+augroup MyLeaderFHighlight
+    autocmd!
+    autocmd ColorScheme * call DefineMyLeaderFHighlishts()
+augroup END
 
 " <C-r> : 検索切り替え: fuzzy / regex 
 " <C-f> : 検索切り替え: fullpath / name only
@@ -81,14 +123,6 @@ let g:Lf_CommandMap = {
 \   '<C-p>':    ['<C-q>'],
 \   '<C-o>':    ['<C-e>'],
 \   '<Del>':    ['<C-d>'],
-\}
-
-" プレビューをポップアップで行う
-let g:Lf_PreviewInPopup = 1
-
-let g:Lf_StlSeparator = {
-\   'left': "\ue0b0",
-\   'right': "\ue0b2",
 \}
 
 let g:Lf_StlPalette = {
@@ -199,39 +233,3 @@ let g:Lf_PopupPalette = {
 \   }
 \}
 
-let g:Lf_HistoryExclude = {
-\   'cmd':  ['^wq?!?$', '^qa?!?$', '^.\s*$', '^\d+$'],
-\   'search':  []
-\}
-
-let g:Lf_WildIgnore = {
-\   'dir': ['.mypy_cache/*', 'node_modules/*'],
-\   'file': ['tags']
-\}
-
-let g:Lf_MruWildIgnore = {}
-
-" c: 基本的にカレントディレクトリ
-" A: もし、上に RootMaker があれば、そのディレクトリから検索
-let g:Lf_WorkingDirectoryMode = 'Ac'
-
-" 履歴を3000
-let g:Lf_HistoryNumber = 3000
-
-" Leaderf rg --help
-" --glob は .gitignore のような書き方
-let g:Lf_RgConfig = [
-\   '--smart-case',
-\   '--glob=!.mypy_cache/*',
-\   '--glob=!.node_modules/*',
-\   '--glob=!tags',
-\]
-
-function! DefineMyLeaderFHighlishts() abort
-    hi Lf_hl_cursorline  gui=underline guifg=fg guibg=bg
-endfunction
-
-augroup MyLeaderFHighlight
-    autocmd!
-    autocmd ColorScheme * call DefineMyLeaderFHighlishts()
-augroup END
