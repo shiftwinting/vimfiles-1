@@ -98,14 +98,14 @@ Plug 'yuezk/vim-js'
 Plug 'delphinus/vim-firestore'
 
 " == lsp
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/async.vim'
-Plug 'thomasfaingnaert/vim-lsp-snippets'
-Plug 'thomasfaingnaert/vim-lsp-neosnippet'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'prabirshrestha/async.vim'
+" Plug 'thomasfaingnaert/vim-lsp-snippets'
+" Plug 'thomasfaingnaert/vim-lsp-neosnippet'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
-Plug 'mattn/vim-lsp-settings'
+" Plug 'mattn/vim-lsp-settings'
 
 " " == complete
 Plug 'Shougo/neco-syntax'
@@ -145,6 +145,11 @@ Plug 'tamago324/LeaderF-ghq'
 Plug 'tamago324/LeaderF-cdnjs'
 Plug 'tamago324/LeaderF-bookmark'
 Plug 'tamago324/LeaderF-openbrowser'
+
+" coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'Shougo/neco-vim'
+Plug 'neoclide/coc-neco'
 
 " ------------------------------------------------------------------------------
 
