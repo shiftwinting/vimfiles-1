@@ -140,7 +140,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'lifepillar/vim-solarized8'
 
 " == LeaderF
-Plug 'Yggdroot/LeaderF'
+Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
 Plug 'tamago324/LeaderF-ghq'
 Plug 'tamago324/LeaderF-cdnjs'
 Plug 'tamago324/LeaderF-bookmark'
