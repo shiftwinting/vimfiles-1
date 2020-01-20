@@ -11,7 +11,7 @@ inoremap <C-h> <Nop>
 inoremap <C-h> <C-g>u<C-h>
 inoremap <BS> <C-g>u<BS>
 inoremap <Del> <C-g>u<Del>
-inoremap <C-d> <C-g>u<Del>
+" inoremap <C-d> <C-g>u<Del>
 inoremap <C-w> <C-g>u<C-w>
 inoremap <C-u> <C-g>u<C-u>
 
