@@ -37,10 +37,9 @@ let g:vaffle_auto_cd = 1
 function! OpenVaffle() abort
     let l:curfile = expand('%:p:t')
     execute 'Vaffle'
-    if len(l:curfile) == 0
-        return
+    if len(l:curfile) != 0
+        call search(printf('\<%s\>', l:curfile))
     endif
-    call search(printf('\<%s\>', l:curfile))
 endfunction
 
 " nnoremap <silent><C-e> :<C-u>Vaffle<CR>
