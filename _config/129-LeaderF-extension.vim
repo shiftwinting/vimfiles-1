@@ -77,7 +77,7 @@ let g:Lf_Extensions.packadd = {
 \   'source': 'LfExt_packadd_source',
 \   'accept': 'LfExt_packadd_accept',
 \}
-command! LeaderfPackAdd Leaderf packadd --popup
+command! LeaderfPackAdd Leaderf packadd
 
 if !empty(globpath(&rtp, 'autoload/sonictemplate.vim'))
     let g:Lf_Extensions.sonictemplate = {
@@ -86,7 +86,7 @@ if !empty(globpath(&rtp, 'autoload/sonictemplate.vim'))
     \}
 
     command! LeaderfSonictemplate Leaderf sonictemplate
-    nnoremap <silent> <Space>;t :<C-u>Leaderf sonictemplate --popup<CR>
+    nnoremap <silent> <Space>;t :<C-u>Leaderf sonictemplate<CR>
 endif
 
 let g:Lf_Extensions.git_checkout = {

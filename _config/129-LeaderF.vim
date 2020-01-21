@@ -9,7 +9,7 @@ nnoremap <silent> <Space>ff         :<C-u>Leaderf file<CR>
 nnoremap <silent> <Space>fl         :<C-u>Leaderf line<CR>
 nnoremap <silent> <Space>fh         :<C-u>Leaderf help<CR>
 nnoremap <silent> <Space>fj         :<C-u>Leaderf buffer<CR>
-nnoremap <silent> <Space>fm         :<C-u>Leaderf mru<CR>
+nnoremap <silent> <Space>fk         :<C-u>Leaderf mru<CR>
 nnoremap <silent> <Space>f;         :<C-u>Leaderf cmdHistory<CR>
 nnoremap          <Space>fg         :<C-u>Leaderf! rg -e ""<Left>
 nnoremap <silent> <Space>fr         :<C-u>Leaderf! rg --recall<CR>
@@ -19,7 +19,7 @@ nnoremap <silent> <Space>ft         :<C-u>Leaderf filetype<CR>
 " yoink.vim 側で定義している
 " nnoremap <silent> <C-p>     :<C-u>Leaderf command       --popup<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf file ~/memo<CR>
-nnoremap <silent> <Space><Space>    :<C-u>Leaderf command<CR>
+nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'
