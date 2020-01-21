@@ -34,4 +34,14 @@ augroup END
 let g:vaffle_use_default_mappings = 0
 let g:vaffle_auto_cd = 1
 
-nnoremap <silent><C-e> :<C-u>Vaffle<CR>
+function! OpenVaffle() abort
+    let l:curfile = expand('%:p:t')
+    execute 'Vaffle'
+    if len(l:curfile) == 0
+        return
+    endif
+    call search(printf('\<%s\>', l:curfile))
+endfunction
+
+" nnoremap <silent><C-e> :<C-u>Vaffle<CR>
+nnoremap <silent><C-e> :<C-u>call OpenVaffle()<CR>
