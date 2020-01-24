@@ -20,10 +20,12 @@ augroup gitgutter
 augroup END
 
 " 変更箇所へ移動
-" nmap ]c <Plug>(GitGutterNextHunk)
-" nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
 
 " stage/unstage
 nmap ghs <Plug>(GitGutterStageHunk)
 nmap ghu <Plug>(GitGutterUndoHunk)
 nmap ght :<C-u>GitGutterSignsToggle<CR>
+nmap ghf :<C-u>GitGutterFold<CR>
+nmap ghp :<C-u>GitGutterPreviewHunk<CR>
