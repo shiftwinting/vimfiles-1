@@ -73,9 +73,10 @@ Plug 'rbtnn/vim-coloredit'
 Plug 'tweekmonster/helpful.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'haya14busa/vim-asterisk'
-Plug 'svermeulen/vim-yoink'
+" Plug 'svermeulen/vim-yoink'
 Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
 Plug 'cocopon/vaffle.vim'
+Plug 'rcmdnk/yankround.vim'
 
 " == python
 " Plug 'ambv/black'
