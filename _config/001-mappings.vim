@@ -222,3 +222,5 @@ inoremap [Complete]<C-o> <C-x><C-o>
 inoremap [Complete]<C-s> <C-x><C-s>
 inoremap [Complete]<C-p> <C-x><C-p>
 
+" 置換
+nnoremap <Space>s<Space> :s///g<Left><Left>
