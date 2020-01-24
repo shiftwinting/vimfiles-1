@@ -182,3 +182,5 @@ set termwinkey=<C-w>
 
 set noshowmode
 set laststatus=2
+
+execute 'set viewdir='.expand("~/_vimview")
