@@ -125,13 +125,13 @@ Plug 'kana/vim-operator-user'
 Plug 'kana/vim-operator-replace'
 
 " == dark power
-Plug 'Shougo/echodoc.vim'
+" Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/deol.nvim'
 Plug 'Shougo/context_filetype.vim'
 
 " == lightline
 Plug 'itchyny/lightline.vim'
-Plug 'maximbaz/lightline-ale'
+" Plug 'maximbaz/lightline-ale'
 
 " == git
 Plug 'airblade/vim-gitgutter'
@@ -151,6 +151,7 @@ Plug 'tamago324/LeaderF-openbrowser'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Shougo/neco-vim'
 Plug 'neoclide/coc-neco'
+Plug 'josa42/vim-lightline-coc'
 
 " ------------------------------------------------------------------------------
 

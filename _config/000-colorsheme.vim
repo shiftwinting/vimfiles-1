@@ -26,7 +26,7 @@ function! DefineMyHighlishts() abort
 
         " ====================
         " LeafCage/yankround.vim
-        " hi YankRoundRegion guibg=#FFEBCD
+        hi YankRoundRegion guibg=#FFEBCD
 
         " ====================
         " machakann/vim-highlightedyank
@@ -63,6 +63,11 @@ function! DefineMyHighlishts() abort
         " echodoc
         " from shirotelin
         hi link EchodocPopup Pmenu
+
+        " ====================
+        " coc.nvim
+        hi CocWarningSign gui=bold      guifg=#00AD00 guibg=#D7FFD7
+        hi CocErrorSign   gui=bold      guifg=#AF0000 guibg=#FFE6FF
 
     endif
 endfunction

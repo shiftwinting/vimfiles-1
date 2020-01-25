@@ -170,3 +170,6 @@ augroup cursorlineRestore
                 \   exe "normal! g'\"" |
                 \ endif
 augroup END
+
+" // をコメントとする
+autocmd FileType json syntax match Comment +\/\/.\+$+

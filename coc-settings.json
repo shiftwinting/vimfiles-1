@@ -1,0 +1,70 @@
+{
+  "signature.target": "float",
+
+  "diagnostic.warningSign": "==",
+
+  "suggest.minTriggerInputLength": 2,
+  "suggest.echodocSupport": true,
+  "suggest.completionItemKindLabels": {
+    "keyword": "\uf1de",
+    "variable": "\ue79b",
+    "value": "\uf89f",
+    "operator": "\u03a8",
+    "function": "\u0192",
+    "reference": "\ufa46",
+    "constant": "\uf8fe",
+    "method": "\uf09a",
+    "struct": "\ufb44",
+    "class": "\uf0e8",
+    "interface": "\uf417",
+    "text": "\ue612",
+    "enum": "\uf435",
+    "enumMember": "\uf02b",
+    "module": "\uf40d",
+    "color": "\ue22b",
+    "property": "\ue624",
+    "field": "\uf9be",
+    "unit": "\uf475",
+    "event": "\ufacd",
+    "file": "\uf723",
+    "folder": "\uf114",
+    "snippet": "\ue60b",
+    "typeParameter": "\uf728",
+    "default": "\uf29c"
+  },
+
+  // =================================
+  // Python
+  // 補完したときに () を自動で入れる
+  "python.autoComplete.addBrackets": true,
+
+  // black
+  "python.formatting.provider": "black",
+  "python.formatting.blackArgs": ["--line-length=99"],
+
+  "python.linting.enabled": true,
+  // 保存時に Linter を実行
+  "python.linting.lintOnSave": true,
+
+  // flake8
+  "python.linting.flake8Enabled": true,
+  "python.linting.flake8Args": [
+    "--max-line-length=99",
+    "--ignore=E121,E123,E126,E226,E24,E704,W503,W504,F405,W191,E101,F403,E501,E265"
+  ],
+
+  // mypy
+  "python.linting.mypyEnabled": true,
+  "python.linting.mypyArgs": [
+    "--ignore-missing-imports",
+    "--follow-imports=skip",
+    "--namespace-packages",
+    "--show-column-numbers"
+  ],
+  // =================================
+
+  "coc.source.neosnippet.priority": 300,
+  "coc.source.neosnippet.disableSyntaxes":["comment", "string"],
+
+  "coc.source.syntax.disableSyntaxes":["comment", "string"]
+}
