@@ -136,6 +136,7 @@ Plug 'itchyny/lightline.vim'
 " == git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+\   | Plug 'junegunn/gv.vim'    " log をみやすくする
 
 " == colorscheme
 Plug 'lifepillar/vim-solarized8'
