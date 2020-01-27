@@ -77,7 +77,7 @@ let g:Lf_Extensions.packadd = {
 \   'source': 'LfExt_packadd_source',
 \   'accept': 'LfExt_packadd_accept',
 \}
-command! LeaderfPackAdd Leaderf packadd
+command! Tpackadd Leaderf packadd
 
 if !empty(globpath(&rtp, 'autoload/sonictemplate.vim'))
     let g:Lf_Extensions.sonictemplate = {
