@@ -173,3 +173,8 @@ augroup END
 
 " // をコメントとする
 autocmd FileType json syntax match Comment +\/\/.\+$+
+
+augroup MyVagrant
+    autocmd!
+    autocmd BufRead,BufNewFile Vagrantfile set ft=ruby
+augroup END
