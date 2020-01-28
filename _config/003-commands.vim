@@ -262,17 +262,13 @@ function! s:packget(url, ...) abort
     let l:dst = l:base . l:plug_name
 
     if isdirectory(l:dst)
-        echohl ErrorMsg
-        echomsg "Already exists. '".l:plug_name."'"
+        echohl WarningMsg
+        echomsg " Already exists. '".l:plug_name."'"
         echohl None
         return
     endif
 
-    let l:cmd = 'git clone ' . s:fix_url(l:url) . ' '  . l:dst
-    echomsg l:cmd
-
-    execute 'botright term ++rows=10 '.l:cmd
-    nnoremap <buffer> q <C-w>q
+    call tmg#term_exec('git', {'cmd': 'clone', 'args': [s:fix_url(l:url), l:dst]})
 endfunction
 
 " これやっても意味ない？
