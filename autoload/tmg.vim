@@ -77,3 +77,29 @@ function! tmg#popup_notification_botright(messages, ...) abort
     \}
     call popup_create(a:messages, extend(l:opt, l:arg_opt))
 endfunction
+
+" from skanehira/dotfiles http://bit.ly/36CWoez
+" opts:
+" {
+"     cmd: cmd の a:cmd サブコマンド のコマンド
+"     args: cmd のコマンドの引数
+"     window_way: ウィンドウの分割方向 (e.g. 'bo')
+" }
+function! tmg#term_exec(cmd, opts) abort
+    let l:cur_winid = win_getid()
+    let l:default_opts = {
+    \   'cmd': '',
+    \   'args': [],
+    \   'window_way': 'botright',
+    \}
+    let l:opts = extend(l:default_opts, a:opts)
+
+    let l:cmd = printf('%s %s %s', a:cmd , l:opts.cmd, join(l:opts.args, ' '))
+    execute printf('%s term ++rows=10 %s', l:opts.window_way, l:cmd)
+
+    " マッピング
+    nnoremap <buffer> <silent> q :bw!<CR>
+
+    " 元のウィンドウに戻る
+    call win_gotoid(l:cur_winid)
+endfunction
