@@ -11,7 +11,7 @@ nnoremap <silent> <Space>fh         :<C-u>Leaderf help<CR>
 nnoremap <silent> <Space>fj         :<C-u>Leaderf buffer<CR>
 nnoremap <silent> <Space>fk         :<C-u>Leaderf mru<CR>
 nnoremap <silent> <Space>f;         :<C-u>Leaderf cmdHistory<CR>
-nnoremap          <Space>fg         :<C-u>Leaderf! rg -e ""<Left>
+nnoremap          <Space>fg         :<C-u>Leaderf! rg --stayOpen -e ""<Left>
 nnoremap <silent> <Space>fr         :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> 9                 :<C-u>Leaderf rg --previous<CR>
 nnoremap <silent> 0                 :<C-u>Leaderf rg --next<CR>
@@ -19,6 +19,7 @@ nnoremap <silent> <Space>ft         :<C-u>Leaderf filetype<CR>
 " yoink.vim 側で定義している
 " nnoremap <silent> <C-p>     :<C-u>Leaderf command       --popup<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf file ~/memo<CR>
+nnoremap          <Space>mg         :<C-u><C-r>=printf('Leaderf! rg %s -e ""', expand(g:memolist_path))<CR><Left>
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
 
 " デフォルト
@@ -51,6 +52,11 @@ let g:Lf_WorkingDirectoryMode = 'Ac'
 " 履歴を3000
 let g:Lf_HistoryNumber = 3000
 
+" 自動で高さを変更
+let g:Lf_AutoResize = 1
+
+let g:Lf_WindowHeight = 0.3
+
 let g:Lf_StlSeparator = {
 \   'left': "\ue0b0",
 \   'right': "\ue0b2",
@@ -72,7 +78,7 @@ let g:Lf_MruWildIgnore = {}
 " --glob は .gitignore のような書き方
 let g:Lf_RgConfig = [
 \   '--smart-case',
-\   '--glob=!.mypy_cache/*',
+\   '--glob=!*/.mypy_cache/*',
 \   '--glob=!.node_modules/*',
 \   '--glob=!tags',
 \]
