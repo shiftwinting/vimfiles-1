@@ -62,7 +62,7 @@ let g:Lf_HistoryExclude = {
 \}
 
 let g:Lf_WildIgnore = {
-\   'dir': ['.mypy_cache/*', 'node_modules/*'],
+\   'dir': ['**/.mypy_cache/*', 'node_modules/*', '*.pyc'],
 \   'file': ['tags']
 \}
 
