@@ -53,5 +53,5 @@ function! TodoMappings() abort
     nmap     <silent><buffer> [Todo]c <Plug>DoCancel
 endfunction
 
-nnoremap <silent> <Space>tt :<C-u>Todo<CR>
+nnoremap <silent> <Space>td :<C-u>Todo<CR>
 command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
