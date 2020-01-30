@@ -43,7 +43,7 @@ let g:Lf_PreviewInPopup = 1
 let g:Lf_MruMaxFiles = 1000
 
 " ヘルプを非表示
-let g:Lf_HideHelp = 0
+let g:Lf_HideHelp = 1
 
 " c: 基本的にカレントディレクトリ
 " A: もし、上に RootMaker があれば、そのディレクトリから検索
@@ -52,10 +52,9 @@ let g:Lf_WorkingDirectoryMode = 'Ac'
 " 履歴を3000
 let g:Lf_HistoryNumber = 3000
 
-" 自動で高さを変更
-let g:Lf_AutoResize = 1
+let g:Lf_ReverseOrder = 1
 
-let g:Lf_WindowHeight = 0.3
+let g:Lf_WindowHeight = 0.5
 
 let g:Lf_StlSeparator = {
 \   'left': "\ue0b0",
