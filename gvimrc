@@ -43,3 +43,6 @@ set guicursor=a:blinkon0
 " 起動時のサイズ指定
 set columns=180
 set lines=999
+
+" タイトルを非表示
+set notitle
