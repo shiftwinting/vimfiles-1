@@ -21,6 +21,7 @@ nnoremap <silent> <Space>ft         :<C-u>Leaderf filetype<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf file ~/memo<CR>
 nnoremap          <Space>mg         :<C-u><C-r>=printf('Leaderf! rg %s -e ""', expand(g:memolist_path))<CR><Left>
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
+nnoremap <silent> <Space>fd         :<C-u>Leaderf filer<CR>
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'
