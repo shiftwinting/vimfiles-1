@@ -18,3 +18,9 @@ if !empty(globpath(&rtp, 'autoload/textobj/function.vim'))
     omap if <Plug>(textobj-function-I)
 endif
 
+if !empty(globpath(&rtp, 'autoload/textobj/line.vim'))
+    " l
+    omap al <Plug>(textobj-line-A)
+    omap il <Plug>(textobj-line-I)
+endif
+

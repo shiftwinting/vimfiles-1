@@ -119,6 +119,7 @@ Plug 'kana/vim-textobj-user'
 Plug 'osyo-manga/vim-textobj-multiblock'
 Plug 'kana/vim-textobj-function'
 Plug 'haya14busa/vim-textobj-function-syntax'
+Plug 'kana/vim-textobj-line'
 
 " == operator
 Plug 'kana/vim-operator-user'
