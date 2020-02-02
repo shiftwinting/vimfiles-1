@@ -18,7 +18,7 @@ vmap gx <Plug>(openbrowser-smart-search)
 
 nnoremap <A-o><A-d> :<C-u>execute 'OpenBrowserSearch -devdocs ' . &filetype<CR>
 nnoremap <A-o><A-g> :<C-u>OpenBrowserSmartSearch -github 
-nnoremap <A-o><A-n> :<C-u>OpenBrowserSmartSearch 
+nnoremap <A-o><A-o> :<C-u>OpenBrowserSmartSearch 
 nnoremap <A-o><A-m> :<C-u>OpenBrowserSmartSearch https://scrapbox.io/tamago324-05149866<CR>
 
 " 追加

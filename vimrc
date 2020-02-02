@@ -149,6 +149,7 @@ Plug 'tamago324/LeaderF-ghq'
 Plug 'tamago324/LeaderF-cdnjs'
 Plug 'tamago324/LeaderF-bookmark'
 Plug 'tamago324/LeaderF-openbrowser'
+Plug 'tamago324/LeaderF-filer'
 
 " coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
