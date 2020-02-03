@@ -43,4 +43,4 @@ function! OpenVaffle() abort
 endfunction
 
 " nnoremap <silent><C-e> :<C-u>Vaffle<CR>
-nnoremap <silent><C-e> :<C-u>call OpenVaffle()<CR>
+" nnoremap <silent><C-e> :<C-u>call OpenVaffle()<CR>

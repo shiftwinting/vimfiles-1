@@ -21,7 +21,7 @@ nnoremap <silent> <Space>ft         :<C-u>Leaderf filetype<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf file ~/memo<CR>
 nnoremap          <Space>mg         :<C-u><C-r>=printf('Leaderf! rg %s -e ""', expand(g:memolist_path))<CR><Left>
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
-nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
+nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf! filer %s', expand('%:p:h'))<CR><CR>
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'
@@ -91,6 +91,8 @@ augroup MyLeaderFHighlight
     autocmd!
     autocmd ColorScheme * call DefineMyLeaderFHighlishts()
 augroup END
+
+let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
 
 " <C-r> : 検索切り替え: fuzzy / regex 
 " <C-f> : 検索切り替え: fullpath / name only
