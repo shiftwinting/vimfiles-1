@@ -10,3 +10,5 @@ let g:Lf_NormalMap.Filer = [
 \   ['<C-Q>', ':exec g:Lf_py "filerExplManager.quit()"<CR>'],
 \   ['i',     ':exec g:Lf_py "filerExplManager.input()"<CR>'],
 \]
+
+let g:Lf_FilerShowDevIcons = 1

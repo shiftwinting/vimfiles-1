@@ -151,6 +151,7 @@ Plug 'tamago324/LeaderF-cdnjs'
 Plug 'tamago324/LeaderF-bookmark'
 Plug 'tamago324/LeaderF-openbrowser'
 Plug 'tamago324/LeaderF-filer'
+\   | Plug 'ryanoasis/vim-devicons'
 
 " coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
