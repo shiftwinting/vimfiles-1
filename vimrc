@@ -97,6 +97,7 @@ Plug 'leafOfTree/vim-vue-plugin'
 " syntax
 Plug 'yuezk/vim-js'
 Plug 'delphinus/vim-firestore'
+Plug 'k-takata/vim-dosbatch-indent'
 
 " == lsp
 " Plug 'prabirshrestha/vim-lsp'
