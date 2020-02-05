@@ -77,6 +77,7 @@ Plug 'haya14busa/vim-asterisk'
 Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレジスタに入れる
 Plug 'cocopon/vaffle.vim'
 Plug 'rcmdnk/yankround.vim'
+Plug 'rbtnn/vim-mrw'
 
 " == python
 " Plug 'ambv/black'
@@ -140,6 +141,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 \   | Plug 'junegunn/gv.vim'    " log をみやすくする
 Plug 'gisphm/vim-gitignore'     " gitignore の highlight/snippets
+Plug 'APZelos/blamer.nvim'
 
 " == colorscheme
 Plug 'lifepillar/vim-solarized8'
