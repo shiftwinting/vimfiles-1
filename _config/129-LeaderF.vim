@@ -11,17 +11,17 @@ nnoremap <silent> <Space>fh         :<C-u>Leaderf help<CR>
 nnoremap <silent> <Space>fj         :<C-u>Leaderf buffer<CR>
 nnoremap <silent> <Space>fk         :<C-u>Leaderf mru<CR>
 nnoremap <silent> <Space>f;         :<C-u>Leaderf cmdHistory<CR>
-nnoremap          <Space>fg         :<C-u>Leaderf! rg --stayOpen -e ""<Left>
+nnoremap          <Space>fg         :<C-u>Leaderf! rg -e ""<Left>
 nnoremap <silent> <Space>fr         :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> 9                 :<C-u>Leaderf rg --previous<CR>
 nnoremap <silent> 0                 :<C-u>Leaderf rg --next<CR>
 nnoremap <silent> <Space>ft         :<C-u>Leaderf filetype<CR>
 " yoink.vim 側で定義している
 " nnoremap <silent> <C-p>     :<C-u>Leaderf command       --popup<CR>
-nnoremap <silent> <Space>ml         :<C-u>Leaderf file ~/memo<CR>
+nnoremap <silent> <Space>ml         :<C-u>Leaderf! filer ~/memo<CR>
 nnoremap          <Space>mg         :<C-u><C-r>=printf('Leaderf! rg %s -e ""', expand(g:memolist_path))<CR><Left>
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
-nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf! filer %s', expand('%:p:h'))<CR><CR>
+nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf! filer %s', getcwd())<CR><CR>
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'
