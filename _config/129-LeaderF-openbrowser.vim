@@ -16,4 +16,5 @@ let g:Lf_openbrowser_bookmarks = {
 \   'localhost': 'localhost:8080',
 \   'buefy': 'https://buefy.org/documentation',
 \   'jsprimer': 'https://jsprimer.net/',
+\   'netlify': 'https://www.netlify.com',
 \}
