@@ -17,7 +17,7 @@ let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste'],
 \             [ 'readonly', 't_filename' ],
 \             [ 'coc_errors', 'coc_warnings', 'coc_ok'],
-\             [ 't_gitbranch' ],
+\             [ 't_gitbranch', 't_gitfetch' ],
 \   ],
 \   'right': [ [ 't_lineinfo' ],
 \              [ 't_percent' ],
@@ -35,8 +35,8 @@ let g:lightline.separator = {
 \   'right': '󾂲'
 \}
 let g:lightline.subseparator = {
-\   'left': '󾂱',
-\   'right': '󾂳'
+\   'left': '',
+\   'right': ''
 \}
 
 let g:lightline#coc#indicator_warnings = nr2char('0xf071')  " 
@@ -61,6 +61,7 @@ let g:lightline.component_function = {
 \   't_inactive_mode': 'LightlineInactiveMode',
 \   't_gitbranch': 'LightlineGitBranch',
 \   't_eskk_mode': 'LightlineSKKMode',
+\   't_gitfetch': 'gitstatus#fetch_status'
 \}
 
 function! LightlineMode() abort
