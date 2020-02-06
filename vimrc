@@ -78,6 +78,7 @@ Plug 'svermeulen/vim-cutlass'   " 削除系はすべてブラックホールレ�
 Plug 'cocopon/vaffle.vim'
 Plug 'rcmdnk/yankround.vim'
 Plug 'rbtnn/vim-mrw'
+Plug 'simnalamburt/vim-mundo'   " undotree の可視化
 
 " == python
 " Plug 'ambv/black'
