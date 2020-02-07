@@ -45,8 +45,13 @@ function! s:on_fetch_status(data) abort
 
     let l:ret_list = []
     for l:item in l:fetch_info
-        let l:type = split(l:item, ' ')[0]
-        let l:cnt = split(l:item, ' ')[1]
+        let l:splited = split(l:item, ' ')
+
+        if len(l:splited) != 2
+            continue
+        endif
+        let l:type = l:splited[0]
+        let l:cnt = l:splited[1]
 
         if l:type ==# 'ahead'
             let l:val = '󿗶' . l:cnt
