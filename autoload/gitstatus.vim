@@ -62,7 +62,11 @@ function! s:on_fetch_status(data) abort
         call add(l:ret_list, l:val)
     endfor
 
-    let s:git_fetch_status = join(l:ret_list, ' ')
+    if len(l:ret_list) == 0
+        let s:git_fetch_status = '󿧧'
+    else
+        let s:git_fetch_status = join(l:ret_list, ' ')
+    endif
 endfunction
 
 function! gitstatus#fetch_job_start() abort
