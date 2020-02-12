@@ -192,7 +192,7 @@ vnoremap K <Nop>
 
 " クリップボード貼り付け
 inoremap <C-r><C-r> <C-r>*
-cnoremap <C-r><C-r> <C-r>*
+cnoremap <C-o> <C-r>*
 
 " " 挿入モードから抜けるときに IME をOFFにする
 inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>

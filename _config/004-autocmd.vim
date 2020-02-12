@@ -33,6 +33,7 @@ autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType vue          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType firestore    setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType java         setlocal sw=4 sts=4 ts=4 noexpandtab
 
 " 拡張子をもとにファイルタイプを設定
 autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini

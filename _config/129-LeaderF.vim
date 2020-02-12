@@ -16,8 +16,6 @@ nnoremap <silent> <Space>fr         :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> 9                 :<C-u>Leaderf rg --previous<CR>
 nnoremap <silent> 0                 :<C-u>Leaderf rg --next<CR>
 nnoremap <silent> <Space>ft         :<C-u>Leaderf filetype<CR>
-" yoink.vim 側で定義している
-" nnoremap <silent> <C-p>     :<C-u>Leaderf command       --popup<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf! filer ~/memo<CR>
 nnoremap          <Space>mg         :<C-u><C-r>=printf('Leaderf! rg %s -e ""', expand(g:memolist_path))<CR><Left>
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
@@ -41,6 +39,9 @@ let g:Lf_IgnoreCurrentBufferName = 1
 
 " プレビューをポップアップで行う
 let g:Lf_PreviewInPopup = 1
+let g:Lf_PreviewHorizontalPosition = 'cursor'
+" 横幅
+let g:Lf_PreviewPopupWidth = 9999
 
 let g:Lf_MruMaxFiles = 1000
 
@@ -249,7 +250,7 @@ let g:Lf_PreviewResult = {
 \   'Tag': 0,
 \   'BufTag': 0,
 \   'Function': 0,
-\   'Line': 0,
+\   'Line': 1,
 \   'Colorscheme': 0,
 \   'Rg': 0,
 \   'Gtags': 0
