@@ -19,7 +19,7 @@ nnoremap <silent> <Space>ft         :<C-u>Leaderf filetype<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf! filer ~/memo<CR>
 nnoremap          <Space>mg         :<C-u><C-r>=printf('Leaderf! rg %s -e ""', expand(g:memolist_path))<CR><Left>
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
-nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', getcwd())<CR><CR>
+nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
 nnoremap <silent> <Space>fi         :<C-u>Leaderf function<CR>
 
 " デフォルト
