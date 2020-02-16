@@ -11,7 +11,8 @@ nnoremap <silent> <Space>fh         :<C-u>Leaderf help<CR>
 nnoremap <silent> <Space>fj         :<C-u>Leaderf buffer<CR>
 nnoremap <silent> <Space>fk         :<C-u>Leaderf mru<CR>
 nnoremap <silent> <Space>f;         :<C-u>Leaderf cmdHistory<CR>
-nnoremap          <Space>fg         :<C-u>Leaderf! rg -e ""<Left>
+" --match-path でパスにもマッチさせられる
+nnoremap          <Space>fg         :<C-u>Leaderf! rg --match-path -e ""<Left>
 nnoremap <silent> <Space>fr         :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> 9                 :<C-u>Leaderf rg --previous<CR>
 nnoremap <silent> 0                 :<C-u>Leaderf rg --next<CR>
@@ -39,7 +40,7 @@ let g:Lf_IgnoreCurrentBufferName = 1
 
 " プレビューをポップアップで行う
 let g:Lf_PreviewInPopup = 1
-let g:Lf_PreviewHorizontalPosition = 'cursor'
+let g:Lf_PreviewHorizontalPosition = 'right'
 " 横幅
 let g:Lf_PreviewPopupWidth = 9999
 

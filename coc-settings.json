@@ -9,8 +9,8 @@
     "keyword": "\uf1de",
     "variable": "\ue79b",
     "value": "\uf89f",
-    "operator": "\u03a8",
-    "function": "\u0192",
+    "operator": "\uf915",
+    "function": "\uf794",
     "reference": "\ufa46",
     "constant": "\uf8fe",
     "method": "\uf09a",
@@ -45,6 +45,8 @@
   "python.linting.enabled": true,
   // 保存時に Linter を実行
   "python.linting.lintOnSave": true,
+
+  "python.linting.pylintEnabled": false,
 
   // flake8
   "python.linting.flake8Enabled": true,

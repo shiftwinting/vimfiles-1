@@ -1,0 +1,11 @@
+snippet     lfecho
+abbr        lfCmd("echomsg ...")
+alias       echo
+    lfCmd("echomsg '{}'".format(${1}))
+
+snippet     writefile
+abbr        filewrite,file
+    from pathlib import Path
+    p = Path(r'~/tmp/leaderf.log')
+    with p.open('w', encoding='utf-8') as f:
+        f.writelines('hello')
