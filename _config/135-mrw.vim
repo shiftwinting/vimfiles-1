@@ -4,4 +4,4 @@ if empty(globpath(&rtp, 'autoload/mrw.vim'))
     finish
 endif
 
-nnoremap <silent> <Space>fm :<C-u>MRW<CR>
+" nnoremap <silent> <Space>fm :<C-u>MRW<CR>

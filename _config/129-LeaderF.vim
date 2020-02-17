@@ -24,6 +24,7 @@ nnoremap <silent> [Leaderf]q        :<C-u>Leaderf ghq<CR>
 nnoremap <silent> [Leaderf]r        :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> [Leaderf]t        :<C-u>Leaderf filetype<CR>
 nnoremap <silent> [Leaderf]w        :<C-u>Leaderf window<CR>
+nnoremap <silent> [Leaderf]m        :<C-u>Leaderf mrw<CR>
 
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
 nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>

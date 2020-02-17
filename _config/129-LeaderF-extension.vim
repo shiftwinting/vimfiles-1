@@ -43,6 +43,17 @@ function! LfExt_git_checkout_accept(line, args) abort
 endfunction
 " ============================================================================
 
+" ============================================================================
+" mrw
+function! LfExt_mrw_source(args) abort
+    return mrw#read_cachefile(expand('%'))
+endfunction
+
+function! LfExt_mew_accept(line, args) abort
+    exec 'drop ' . a:line
+endfunction
+" ============================================================================
+
 let g:Lf_Extensions = {}
 
 let g:Lf_Extensions.packadd = {
@@ -56,3 +67,8 @@ let g:Lf_Extensions.git_checkout = {
 \   'accept': 'LfExt_git_checkout_accept',
 \}
 command! LfGitCheckout Leaderf git_checkout --popup
+
+let g:Lf_Extensions.mrw = {
+\   'source': 'LfExt_mrw_source',
+\   'accept': 'LfExt_mrw_accept',
+\}
