@@ -4,24 +4,33 @@ if empty(globpath(&rtp, 'autoload/leaderf.vim'))
     finish
 endif
 
+nnoremap [Leaderf] <Nop>
+nmap     <Space>f [Leaderf]
+
 " ! をつけるとノーマルモードから始まる
-nnoremap <silent> <Space>ff         :<C-u>Leaderf file<CR>
-nnoremap <silent> <Space>fl         :<C-u>Leaderf line<CR>
-nnoremap <silent> <Space>fh         :<C-u>Leaderf help<CR>
-nnoremap <silent> <Space>fj         :<C-u>Leaderf buffer<CR>
-nnoremap <silent> <Space>fk         :<C-u>Leaderf mru<CR>
-nnoremap <silent> <Space>f;         :<C-u>Leaderf cmdHistory<CR>
-" --match-path でパスにもマッチさせられる
-nnoremap          <Space>fg         :<C-u>Leaderf! rg --match-path -e ""<Left>
-nnoremap <silent> <Space>fr         :<C-u>Leaderf! rg --recall<CR>
-nnoremap <silent> 9                 :<C-u>Leaderf rg --previous<CR>
+" nnoremap <silent> [Leaderf]l       :<C-u>Leaderf line --popup<CR>
+nnoremap          [Leaderf]g        :<C-u>Leaderf! rg --match-path -e ""<Left>
 nnoremap <silent> 0                 :<C-u>Leaderf rg --next<CR>
-nnoremap <silent> <Space>ft         :<C-u>Leaderf filetype<CR>
-nnoremap <silent> <Space>ml         :<C-u>Leaderf! filer ~/memo<CR>
-nnoremap          <Space>mg         :<C-u><C-r>=printf('Leaderf! rg %s -e ""', expand(g:memolist_path))<CR><Left>
+nnoremap <silent> 9                 :<C-u>Leaderf rg --previous<CR>
+nnoremap <silent> [Leaderf];        :<C-u>Leaderf cmdHistory<CR>
+nnoremap <silent> [Leaderf]c        :<C-u>Leaderf cdnjs<CR>
+nnoremap <silent> [Leaderf]f        :<C-u>Leaderf file<CR>
+nnoremap <silent> [Leaderf]h        :<C-u>Leaderf help<CR>
+nnoremap <silent> [Leaderf]i        :<C-u>Leaderf function<CR>
+nnoremap <silent> [Leaderf]j        :<C-u>Leaderf buffer<CR>
+nnoremap <silent> [Leaderf]k        :<C-u>Leaderf mru<CR>
+nnoremap <silent> [Leaderf]o        :<C-u>Leaderf openbrowser<CR>
+nnoremap <silent> [Leaderf]q        :<C-u>Leaderf ghq<CR>
+nnoremap <silent> [Leaderf]r        :<C-u>Leaderf! rg --recall<CR>
+nnoremap <silent> [Leaderf]t        :<C-u>Leaderf filetype<CR>
+nnoremap <silent> [Leaderf]w        :<C-u>Leaderf window<CR>
+
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
 nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
-nnoremap <silent> <Space>fi         :<C-u>Leaderf function<CR>
+nnoremap <silent> <Space>;t         :<C-u>LfUnite sonictemplate<CR>
+
+nnoremap <silent> <Space>ml         :<C-u>Leaderf! filer ~/memo<CR>
+nnoremap          <Space>mg         :<C-u><C-r>=printf('Leaderf! rg %s -e ""', expand(g:memolist_path))<CR><Left>
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'

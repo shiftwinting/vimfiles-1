@@ -19,5 +19,3 @@ endif
 
 " 自分の snippets
 let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
-
-

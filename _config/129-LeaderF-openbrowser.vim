@@ -4,7 +4,7 @@ if empty(globpath(&rtp, 'autoload/leaderf/OpenBrowser.vim'))
     finish
 endif
 
-nnoremap <silent> <Space>fo :<C-u>Leaderf openbrowser<CR>
+" nnoremap <silent> <Space>fo :<C-u>Leaderf openbrowser<CR>
 
 " name: url の dict
 " LeaderfOpenBrowser で表示できる
@@ -17,4 +17,6 @@ let g:Lf_openbrowser_bookmarks = {
 \   'buefy': 'https://buefy.org/documentation',
 \   'jsprimer': 'https://jsprimer.net/',
 \   'netlify': 'https://www.netlify.com',
+\   'git commit messages': 'https://github.com/azu/awesome-commit-english',
+\   'flexbox30': 'https://github.com/samanthaming/Flexbox30',
 \}

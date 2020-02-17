@@ -26,17 +26,6 @@ endfunction
 " ============================================================================
 
 " ============================================================================
-" sonictemplate
-function! LfExt_sonictemplate_source(args) abort
-    return sonictemplate#complete('', '', '')
-endfunction
-
-function! LfExt_sonictemplate_accept(line, args) abort
-    execute 'Template '.a:line
-endfunction
-" ============================================================================
-
-" ============================================================================
 " git checkout
 function! LfExt_git_checkout_source(args) abort
     let l:source = filter(systemlist('git branch'), 'v:val[0] !=# "*"')
@@ -54,23 +43,6 @@ function! LfExt_git_checkout_accept(line, args) abort
 endfunction
 " ============================================================================
 
-" ============================================================================
-" lsp
-function! LfExt_lsp_source(args) abort
-    return [
-    \   'LspHover',
-    \   'LspRename',
-    \   'LspDefinition',
-    \   'LspReferences',
-    \   'LspCodeAction'
-    \]
-endfunction
-
-function! LfExt_lsp_accept(line, args) abort
-    execute a:line
-endfunction
-" ============================================================================
-
 let g:Lf_Extensions = {}
 
 let g:Lf_Extensions.packadd = {
@@ -79,27 +51,8 @@ let g:Lf_Extensions.packadd = {
 \}
 command! Tpackadd Leaderf packadd
 
-if !empty(globpath(&rtp, 'autoload/sonictemplate.vim'))
-    let g:Lf_Extensions.sonictemplate = {
-    \   'source': 'LfExt_sonictemplate_source',
-    \   'accept': 'LfExt_sonictemplate_accept',
-    \}
-
-    command! LeaderfSonictemplate Leaderf sonictemplate
-    nnoremap <silent> <Space>;t :<C-u>Leaderf sonictemplate<CR>
-endif
-
 let g:Lf_Extensions.git_checkout = {
 \   'source': 'LfExt_git_checkout_source',
 \   'accept': 'LfExt_git_checkout_accept',
 \}
-command! LeaderfGitCheckout Leaderf git_checkout --popup
-
-if !empty(globpath(&rtp, 'autoload/lsp.vim'))
-    let g:Lf_Extensions.lsp = {
-    \   'source': 'LfExt_lsp_source',
-    \   'accept': 'LfExt_lsp_accept',
-    \}
-    command! LeaderfLsp Leaderf lsp
-    nnoremap <silent> <Space>fi :<C-u> Leaderf lsp --popup<CR>
-endif
+command! LfGitCheckout Leaderf git_checkout --popup

@@ -12,6 +12,7 @@ let g:ale_linters = {
 \   'nim': [
 \     'nimcheck'
 \   ],
+\   'python': []
 \}
     " \ 'python': [
     " \   'flake8', 'mypy'

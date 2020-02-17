@@ -155,6 +155,10 @@ Plug 'tamago324/LeaderF-bookmark'
 Plug 'tamago324/LeaderF-openbrowser'
 Plug 'tamago324/LeaderF-filer'
 \   | Plug 'ryanoasis/vim-devicons'
+Plug 'tamago324/LeaderF-unite'
+\   | Plug 'Shougo/unite.vim'
+\   | Plug 'thinca/vim-ref'
+\   | Plug 'Shougo/unite-outline'
 
 " coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
