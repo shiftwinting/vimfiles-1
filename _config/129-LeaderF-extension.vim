@@ -46,7 +46,28 @@ endfunction
 " ============================================================================
 " mrw
 function! LfExt_mrw_source(args) abort
-    return mrw#read_cachefile(expand('%'))
+    let l:files = mrw#read_cachefile(expand('%'))
+    let l:result = []
+    " from mrw.vim
+    let l:max_filename_len = max(map(copy(l:files), {i,x -> strdisplaywidth(fnamemodify(x, ':p:t'))}) + [0])
+    for l:file in l:files
+        let l:name = fnamemodify(l:file, ':p:t')
+        let l:space = l:max_filename_len - strdisplaywidth(l:name)
+        call add(l:result, printf('%s%s "%s"', l:name, repeat(' ', l:space), fnamemodify(l:file, ':p:h')))
+    endfor
+    return l:result
+endfunction
+
+function! LfExt_mrw_get_digest(line, mode) abort
+    if a:mode ==# 0
+        return [a:line, 0]
+    elseif a:mode ==# 1
+        let l:end = stridx(a:line, ' ')
+        return [a:line[:l:end-1], 0]
+    else
+        let l:start = stridx(a:line, ' "')
+        return [a:line[l:start+2: -1], strlen(a:line) - 1]
+    endif
 endfunction
 
 function! LfExt_mew_accept(line, args) abort
@@ -71,4 +92,6 @@ command! LfGitCheckout Leaderf git_checkout --popup
 let g:Lf_Extensions.mrw = {
 \   'source': 'LfExt_mrw_source',
 \   'accept': 'LfExt_mrw_accept',
+\   'get_digest': 'LfExt_mrw_get_digest',
+\   'supports_name_only': 1,
 \}
