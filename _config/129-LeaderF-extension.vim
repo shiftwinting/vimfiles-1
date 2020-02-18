@@ -70,8 +70,11 @@ function! LfExt_mrw_get_digest(line, mode) abort
     endif
 endfunction
 
-function! LfExt_mew_accept(line, args) abort
-    exec 'drop ' . a:line
+function! LfExt_mrw_accept(line, args) abort
+    let l:path = LfExt_mrw_get_digest(a:line, 2)[0][:-2]
+    \           . '/'
+    \           . LfExt_mrw_get_digest(a:line, 1)[0]
+    exec 'drop ' . l:path
 endfunction
 " ============================================================================
 

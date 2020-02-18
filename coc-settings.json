@@ -55,6 +55,8 @@
     "--ignore=E121,E123,E126,E226,E24,E704,W503,W504,F405,W191,E101,F403,E501,E265"
   ],
 
+  "python.linting.pylintEnabled": false,
+
   // mypy
   "python.linting.mypyEnabled": true,
   "python.linting.mypyArgs": [
