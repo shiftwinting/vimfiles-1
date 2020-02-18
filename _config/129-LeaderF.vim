@@ -52,7 +52,9 @@ let g:Lf_IgnoreCurrentBufferName = 1
 
 " プレビューをポップアップで行う
 let g:Lf_PreviewInPopup = 1
-let g:Lf_PreviewHorizontalPosition = 'right'
+let g:Lf_PreviewHorizontalPosition = 'top'
+let g:Lf_PreviewPopupHeight = 30
+
 " 横幅
 let g:Lf_PreviewPopupWidth = 9999
 
@@ -70,7 +72,7 @@ let g:Lf_HistoryNumber = 3000
 
 let g:Lf_ReverseOrder = 1
 
-let g:Lf_WindowHeight = 0.5
+let g:Lf_WindowHeight = 0.3
 
 let g:Lf_StlSeparator = {
 \   'left': "\ue0b0",

@@ -29,6 +29,9 @@ let g:Lf_FilerNormalMap = {
 \   '<C-v>':         'accept_vertical',
 \   '<C-t>':         'accept_tab',
 \   '<Esc>':         'close_preview_popup',
+\   's':             'add_selections',
+\   '<C-a>':         'select_all',
+\   '<F3>':          'clear_selections',
 \}
 
 let g:Lf_FilerUseDefaultInsertMap = 0
