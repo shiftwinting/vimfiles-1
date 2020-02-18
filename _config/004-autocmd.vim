@@ -106,6 +106,7 @@ function! CmdlineEnterSettings() abort
     \)
     " insertモード開始位置より左を削除できるようにする
     set backspace=start
+
     set completeopt=menu
 
     " local options
@@ -113,7 +114,7 @@ function! CmdlineEnterSettings() abort
     setlocal nonumber
 
     " insertモードで開始
-    startinsert!
+    " startinsert!
 endfunction
 
 function! CmdlineLeaveSettings() abort
@@ -135,12 +136,18 @@ function! CmdlineRemoveLinesExec() abort
 
     " 一番下に移動
     silent normal! G
+    call cursor(line('.'), s:cmdline_cursor_pos)
+endfunction
+
+function! CmdlineSaveCursorPos() abort
+    let s:cmdline_cursor_pos = getcmdpos()
 endfunction
 
 augroup MyCmdWinSettings
     autocmd!
     autocmd CmdwinEnter * call CmdlineEnterSettings()
     autocmd CmdwinLeave * call CmdlineLeaveSettings()
+    autocmd CmdlineChanged * call CmdlineSaveCursorPos()
     autocmd CmdwinEnter : call CmdlineRemoveLinesExec()
 augroup END
 
