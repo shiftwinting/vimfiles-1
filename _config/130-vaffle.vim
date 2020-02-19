@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/vaffle.vim'))
-    finish
-endif
-
 function! s:my_vaffle_settings() abort
     nmap <buffer> u         <Plug>(vaffle-open-parent)
     nmap <buffer> h         <Plug>(vaffle-open-parent)

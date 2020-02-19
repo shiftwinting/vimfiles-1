@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/emmet.vim'))
-    finish
-endif
-
 " mattn/emmet-vim
 let g:user_emmet_settings = {
 \   'variables': {

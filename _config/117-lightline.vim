@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/quickrun.vim'))
-    finish
-endif
-
 let g:lightline = {}
 
 let g:lightline.colorscheme = 'solarized'
@@ -43,7 +39,7 @@ let g:lightline#coc#indicator_warnings = nr2char('0xf071')  " 
 let g:lightline#coc#indicator_errors = nr2char('0xffb8a')   " 󿮊
 let g:lightline#coc#indicator_ok = nr2char('0xf00c')        " 
 
-call lightline#coc#register()
+" call lightline#coc#register()
 
 function! VisibleRightComponent() abort
     return winwidth('.') > 70 &&

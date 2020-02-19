@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/leaderf/OpenBrowser.vim'))
-    finish
-endif
-
 " nnoremap <silent> <Space>fo :<C-u>Leaderf openbrowser<CR>
 
 " name: url の dict

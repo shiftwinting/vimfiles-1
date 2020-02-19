@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/quickrun.vim'))
-    finish
-endif
-
 let g:quickrun_config = {}
 
 " Windows の場合、コマンドの出力は cp932 のため

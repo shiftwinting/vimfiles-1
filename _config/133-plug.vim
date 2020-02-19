@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'plug.vim'))
-    finish
-endif
-
 function! s:close_if_done(cmd, timer) abort
     let l:done = v:false
     for l:line in getbufline(s:term_bufnr, 1, '$')

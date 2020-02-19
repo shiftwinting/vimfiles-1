@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/tablemode.vim'))
-    finish
-endif
-
 " https://7me.oji.0j0.jp/2018/vim-table-mode-memo.html
 
 " let g:table_mode_map_prefix = '<Space>t'

@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/yoink.vim'))
-    finish
-endif
-
 " nmap <silent> <expr> <C-p> yoink#isSwapping()
 " \       ? '<plug>(YoinkPostPasteSwapBack)'
 " \       : ':<C-u>Leaderf command --popup --run-immediately<CR>'

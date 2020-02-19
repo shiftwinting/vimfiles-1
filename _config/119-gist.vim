@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/gist.vim'))
-    finish
-endif
-
 " 設定方法
 " Settings > Developper settingss > Personal access tokens でトークンを作って
 " ~/.gist-vim に以下のように保存する

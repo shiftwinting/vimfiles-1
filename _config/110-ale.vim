@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/ale.vim'))
-    finish
-endif
-
 " Linterのみのためにaleを使用する
 let g:ale_linters = {
 \   'vim': [

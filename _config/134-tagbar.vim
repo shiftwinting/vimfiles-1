@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/tagbar.vim'))
-    finish
-endif
-
 nnoremap <Space>to :<C-u>TagbarOpenAutoClose<CR>
 
 " 開いたら、自動でフォーカスを移す

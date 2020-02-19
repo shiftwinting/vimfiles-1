@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/deol.vim'))
-    finish
-endif
-
 " XXX: 参考にする https://git.io/JeKIn
 
 " \%(\) : 部分正規表現として保存しない :help /\%(\)

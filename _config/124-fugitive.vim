@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/fugitive.vim'))
-    finish
-endif
-
 " タブで開く
 nnoremap <silent> gs :<C-u>Gstatus<CR>\|:wincmd T<CR>
 

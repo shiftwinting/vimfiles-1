@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/matchup.vim'))
-    finish
-endif
-
 " ハイライトを少し遅らせる (hjkl の移動がスムーズになる？)
 let g:matchup_matchparen_deferred = 1
 

@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/openbrowser.vim'))
-    finish
-endif
-
 " netrw の gx のマッピングをさせない
 let g:netrw_nogx = 1
 

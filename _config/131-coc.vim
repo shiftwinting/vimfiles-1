@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/coc.vim'))
-    finish
-endif
-
 " 移動 (go)
 nmap <silent> gd <Plug>(coc-definition)
 " nmap <silent> gy <Plug>(coc-type-definition)
@@ -23,4 +19,4 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nnoremap <Space>bl :<C-u>call CocAction('format')<CR>
 
 " カーソル下の単語をハイライトする
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')

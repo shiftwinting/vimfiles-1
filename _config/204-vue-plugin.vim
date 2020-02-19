@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/vue.vim'))
-    finish
-endif
-
 " https://vuejsexamples.com/vim-syntax-and-indent-plugin-for-vue-files/
 
 " すべての syntax file を追加する

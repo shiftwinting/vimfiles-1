@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/leaderf.vim'))
-    finish
-endif
-
 " 書き方は以下を参照
 " * https://github.com/Yggdroot/LeaderF/issues/144#issuecomment-540008950
 " * http://bit.ly/2NdiX1x

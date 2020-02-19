@@ -1,14 +1,9 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/leaderf.vim'))
-    finish
-endif
-
 nnoremap [Leaderf] <Nop>
 nmap     <Space>f [Leaderf]
 
 " ! をつけるとノーマルモードから始まる
-" nnoremap <silent> [Leaderf]l       :<C-u>Leaderf line --popup<CR>
 nnoremap          [Leaderf]g        :<C-u>Leaderf! rg --match-path -e ""<Left>
 nnoremap <silent> 0                 :<C-u>Leaderf rg --next<CR>
 nnoremap <silent> 9                 :<C-u>Leaderf rg --previous<CR>
@@ -25,7 +20,8 @@ nnoremap <silent> [Leaderf]r        :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> [Leaderf]t        :<C-u>Leaderf filetype<CR>
 nnoremap <silent> [Leaderf]w        :<C-u>Leaderf window<CR>
 nnoremap <silent> [Leaderf]m        :<C-u>Leaderf mrw<CR>
-nnoremap <silent> [Leaderf]l        :<C-u>LfUnite outline<CR>
+nnoremap <silent> [Leaderf]u        :<C-u>LfUnite outline<CR>
+nnoremap <silent> [Leaderf]l        :<C-u>Leaderf line<CR>
 nnoremap <silent> [Leaderf]<Tab>    :<C-u>LfUnite tab<CR>
 
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>

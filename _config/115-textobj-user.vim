@@ -1,9 +1,5 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/textobj-user'))
-    finish
-endif
-
 if !empty(globpath(&rtp, 'autoload/textobj/multiblock.vim'))
     " b
     omap ab <Plug>(textobj-multiblock-a)
