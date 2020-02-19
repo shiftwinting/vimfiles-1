@@ -91,6 +91,7 @@ function! PackInit() abort
     call minpac#add('prettier/vim-prettier', { 'do': 'yarn install' }) " Formatter
     call minpac#add('jason0x43/vim-js-indent')
     call minpac#add('leafOfTree/vim-vue-plugin')
+    call minpac#add('AndrewRadev/tagalong.vim')
 
     " syntax
     call minpac#add('yuezk/vim-js')
