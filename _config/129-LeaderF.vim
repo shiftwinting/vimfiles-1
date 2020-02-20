@@ -68,7 +68,14 @@ let g:Lf_HistoryNumber = 3000
 
 let g:Lf_ReverseOrder = 1
 
-let g:Lf_WindowHeight = 0.3
+let g:Lf_WindowHeight = 0.4
+
+" 下に表示
+let g:Lf_WindowPosition = 'bottom'
+" 上にプレビュー表示
+let g:Lf_PreviewHorizontalPosition = 'above'
+" プレビューの高さ
+let g:Lf_PreviewPopupHeight = 30
 
 let g:Lf_StlSeparator = {
 \   'left': "\ue0b0",
@@ -263,6 +270,6 @@ let g:Lf_PreviewResult = {
 \   'Function': 0,
 \   'Line': 1,
 \   'Colorscheme': 0,
-\   'Rg': 0,
+\   'Rg': 1,
 \   'Gtags': 0
 \}
