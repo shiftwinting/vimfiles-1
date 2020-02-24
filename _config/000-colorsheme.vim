@@ -71,6 +71,10 @@ function! DefineMyHighlishts() abort
 
         hi pythonClassVar               guifg=#6f97a6
 
+        " ====================
+        " shot-f
+        hi ShotFGraph guifg=#4f84da guibg=NONE gui=bold
+        hi ShotFBlank guifg=NONE    guibg=#4f84da gui=bold
     endif
 endfunction
 augroup MyColorScheme

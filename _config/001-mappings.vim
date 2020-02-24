@@ -3,7 +3,7 @@ scriptencoding utf-8
 noremap ZZ <Nop>
 noremap ZQ <Nop>
 noremap <C-z> <Nop>
-nnoremap ; <Nop>
+" nnoremap ; <Nop>
 
 " insert mode で細かく undo できるようにする
 inoremap <CR> <C-g>u<CR>

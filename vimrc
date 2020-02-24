@@ -50,7 +50,7 @@ function! PackInit() abort
     call minpac#add('mattn/emmet-vim')
     call minpac#add('mattn/sonictemplate-vim')
     call minpac#add('mechatroner/rainbow_csv')
-    call minpac#add('rhysd/clever-f.vim')
+    " call minpac#add('rhysd/clever-f.vim')
     call minpac#add('simeji/winresizer') " ウィンドウ操作
     call minpac#add('skanehira/translate.vim')
     call minpac#add('t9md/vim-quickhl')
@@ -76,6 +76,8 @@ function! PackInit() abort
     call minpac#add('rbtnn/vim-mrw')
     call minpac#add('simnalamburt/vim-mundo')   " undotree の可視化
     call minpac#add('rhysd/reply.vim')
+    call minpac#add('deris/vim-shot-f')
+    call minpac#add('unblevable/quick-scope')
 
     " == python
     call minpac#add('vim-python/python-syntax')

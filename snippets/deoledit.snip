@@ -1,0 +1,11 @@
+snippet     gitcommit
+abbr        git commit -m ""
+alias       gc gitc
+options     head
+    git commit -m "${1}"
+
+snippet     gitammend
+abbr        git commit --ammend -m ""
+alias       gca gitca
+options     head
+    git commit --amend -m "${1}"

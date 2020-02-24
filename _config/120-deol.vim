@@ -130,7 +130,7 @@ function! ShowDeol(tabnr, ...) abort
     setlocal winfixheight
 
     if empty(l:deol) || !bufexists(l:deol.bufnr)
-        call deol#start(printf('-edit -cwd=%s -command=%s', getcwd(), l:command))
+        call deol#start(printf('-edit -cwd=%s -command=%s -edit-filetype=deoledit', getcwd(), l:command))
     else
         " 復活
         try
@@ -188,7 +188,7 @@ function! ToggleDeol(tabnr) abort
 endfunction
 
 
-command! DeolOpen :<C-u>Deol<CR>
+" command! DeolOpen :<C-u>Deol<CR>
 command! ToggleDeol call ToggleDeol(tabpagenr())
 nnoremap <silent><A-t> :<C-u>ToggleDeol<CR>
 tnoremap <silent><A-t> <C-\><C-n>:<C-u>ToggleDeol<CR>

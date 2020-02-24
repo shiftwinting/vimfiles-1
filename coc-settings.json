@@ -69,6 +69,12 @@
 
   "coc.source.neosnippet.priority": 300,
   "coc.source.neosnippet.disableSyntaxes":["comment", "string"],
+  "coc.source.neosnippet.filetypes": ["vim", "python", "javascript"],
 
-  "coc.source.syntax.disableSyntaxes":["comment", "string"]
+  "coc.source.syntax.disableSyntaxes":["comment", "string"],
+
+  // =================================
+  // omni
+  "coc.source.omni.filetypes": ["css"],
+  // =================================
 }

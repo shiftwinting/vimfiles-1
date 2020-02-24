@@ -28,11 +28,12 @@ let g:Lf_FilerNormalMap = {
 \   's':             'add_selections',
 \   '<C-a>':         'select_all',
 \   '<F3>':          'clear_selections',
+\   'N':             'create_file',
 \}
 
 let g:Lf_FilerUseDefaultInsertMap = 0
 let g:Lf_FilerInsertMap = {
-\   '<C-h>':        'open_parent',
+\   '<C-h>':        'open_parent_or_backspace',
 \   '<C-l>':        'open_current',
 \   '<C-f>':        'toggle_hidden_files',
 \   '<C-g>':        'goto_root_marker_dir',
@@ -45,6 +46,7 @@ let g:Lf_FilerInsertMap = {
 \   '<C-r>':        'toggle_regex',
 \   '<BS>':         'backspace',
 \   '<C-w>':        'delete_left_word',
+\   '<C-u>':        'clear_line',
 \   '<C-o>':        'paste',
 \   '<C-j>':        'down',
 \   '<C-k>':        'up',
