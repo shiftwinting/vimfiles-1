@@ -5,9 +5,9 @@ nnoremap <Space>;f :<C-u>FnamemodsPopup<CR>
 
 command! HereOpen call execute('!start '.getcwd(), "silent")
 
-if executable('js-sqlformat')
-  command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
-endif
+" if executable('js-sqlformat')
+"   command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
+" endif
 
 if executable('jq')
     command! -range=% Jq <line1>,<line2>!jq
@@ -295,21 +295,21 @@ endfunction
 command! ThisOpen execute printf('!start "%s"', expand('%:p'))
 " ------------------------------------------------------------------------------
 
-" ------------------------------------------------------------------------------
-" カレントバッファのファイル名を変更
-function! RenameCurBuffer() abort
-    let l:name = input('Rename: ')
-    if empty(l:name)
-        return
-    endif
-
-    let l:fullpath = tmg#get_fullpath(expand('%:p:h')) . '/' . l:name
-    call rename(expand('%:p'), l:fullpath)
-    execute 'edit! ' . l:fullpath
-endfunction
-
-command! RenameCurBuffer call RenameCurBuffer()
-" ------------------------------------------------------------------------------
+" " ------------------------------------------------------------------------------
+" " カレントバッファのファイル名を変更
+" function! RenameCurBuffer() abort
+"     let l:name = input('Rename: ')
+"     if empty(l:name)
+"         return
+"     endif
+"
+"     let l:fullpath = tmg#get_fullpath(expand('%:p:h')) . '/' . l:name
+"     call rename(expand('%:p'), l:fullpath)
+"     execute 'edit! ' . l:fullpath
+" endfunction
+"
+" command! RenameCurBuffer call RenameCurBuffer()
+" " ------------------------------------------------------------------------------
 
 " ------------------------------------------------------------------------------
 command! MemoOpen call tmg#DropOrTabedit(expand('~/tmp_memo'))
@@ -371,9 +371,8 @@ endfunction
 command! -nargs=* Gitpush call s:git_push(<f-args>)
 command! Gitpull call s:git_pull()
 command! Gitcheckout Leaderf git_checkout --popup
+" ------------------------------------------------------------------------------
 
-call tmg#delcommand('Gpush')
-call tmg#delcommand('Gpull')
 " ------------------------------------------------------------------------------
 command! BrowserSyncStart call browsersync#start()
 command! BrowserSyncStop  call browsersync#stop()

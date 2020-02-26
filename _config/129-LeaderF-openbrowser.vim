@@ -15,4 +15,7 @@ let g:Lf_openbrowser_bookmarks = {
 \   'netlify': 'https://www.netlify.com',
 \   'git commit messages': 'https://github.com/azu/awesome-commit-english',
 \   'flexbox30': 'https://github.com/samanthaming/Flexbox30',
+\   'Google Fonts': 'https://fonts.google.com/',
+\   'sass': 'https://sass-lang.com/documentation',
+\   'cica': 'https://miiton.github.io/Cica/',
 \}

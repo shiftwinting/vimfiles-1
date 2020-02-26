@@ -16,7 +16,11 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 " " カレント行の問題を修正
 " nmap <space>qf  <Plug>(coc-fix-current)
 
-nnoremap <Space>bl :<C-u>call CocAction('format')<CR>
+augroup MyCoc
+    autocmd!
+    autocmd BufEnter *.py
+    \   nnoremap silent <Space>bl :<C-u>call CocAction('format')<CR>
+augroup END
 
 " カーソル下の単語をハイライトする
 " autocmd CursorHold * silent call CocActionAsync('highlight')

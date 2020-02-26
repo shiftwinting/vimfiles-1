@@ -4,6 +4,6 @@ let g:prettier#exec_cmd_async = 1
 
 augroup MyPrettier
     autocmd!
-    autocmd BufEnter *.js,*.css,*.vue,*.html 
+    autocmd BufEnter *.js,*.css,*.vue,*.html,*.scss
     \       nnoremap <buffer> <Space>bl :<C-u>PrettierAsync<CR>
 augroup END
