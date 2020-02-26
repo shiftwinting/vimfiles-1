@@ -375,3 +375,7 @@ command! Gitcheckout Leaderf git_checkout --popup
 call tmg#delcommand('Gpush')
 call tmg#delcommand('Gpull')
 " ------------------------------------------------------------------------------
+command! BrowserSyncStart call browsersync#start()
+command! BrowserSyncStop  call browsersync#stop()
+command! BrowserSyncOpen  call browsersync#open()
+" ------------------------------------------------------------------------------

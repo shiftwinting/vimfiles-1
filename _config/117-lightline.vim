@@ -14,6 +14,7 @@ let g:lightline.active = {
 \             [ 'readonly', 't_filename' ],
 \             [ 'coc_errors', 'coc_warnings', 'coc_ok'],
 \             [ 't_gitbranch', 't_gitfetch' ],
+\             [ 't_browsersync' ],
 \   ],
 \   'right': [ [ 't_lineinfo' ],
 \              [ 't_percent' ],
@@ -57,7 +58,8 @@ let g:lightline.component_function = {
 \   't_inactive_mode': 'LightlineInactiveMode',
 \   't_gitbranch': 'LightlineGitBranch',
 \   't_eskk_mode': 'LightlineSKKMode',
-\   't_gitfetch': 'gitstatus#fetch_status'
+\   't_gitfetch': 'gitstatus#fetch_status',
+\   't_browsersync': 'LightlineBrowserSync',
 \}
 
 function! LightlineMode() abort
@@ -109,4 +111,8 @@ endfunction
 
 function! LightlineGitBranch() abort
     return exists('*FugitiveHead') && !empty(FugitiveHead())  ? ''.FugitiveHead() : ''
+endfunction
+
+function! LightlineBrowserSync() abort
+    return !empty(browsersync#port()) ? '󿤺:'.browsersync#port() : ''
 endfunction
