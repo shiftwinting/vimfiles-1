@@ -9,3 +9,7 @@ abbr        filewrite,file
     p = Path(r'~/tmp/leaderf.log')
     with p.open('w', encoding='utf-8') as f:
         f.writelines('hello')
+
+snippet     out
+abbr        print()
+    print(${0})
