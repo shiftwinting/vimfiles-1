@@ -11,18 +11,19 @@ nnoremap <silent> [Leaderf];        :<C-u>Leaderf cmdHistory<CR>
 nnoremap <silent> [Leaderf]c        :<C-u>Leaderf cdnjs<CR>
 nnoremap <silent> [Leaderf]f        :<C-u>Leaderf file<CR>
 nnoremap <silent> [Leaderf]h        :<C-u>Leaderf help<CR>
-nnoremap <silent> [Leaderf]i        :<C-u>Leaderf function<CR>
+" nnoremap <silent> [Leaderf]i        :<C-u>Leaderf function<CR>
 nnoremap <silent> [Leaderf]j        :<C-u>Leaderf buffer<CR>
 nnoremap <silent> [Leaderf]k        :<C-u>Leaderf mru --nowrap<CR>
 nnoremap <silent> [Leaderf]o        :<C-u>Leaderf openbrowser<CR>
 nnoremap <silent> [Leaderf]q        :<C-u>Leaderf ghq<CR>
 nnoremap <silent> [Leaderf]r        :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> [Leaderf]t        :<C-u>Leaderf filetype<CR>
-nnoremap <silent> [Leaderf]w        :<C-u>Leaderf window<CR>
+" nnoremap <silent> [Leaderf]w        :<C-u>Leaderf window<CR>
 nnoremap <silent> [Leaderf]m        :<C-u>Leaderf mrw --nowrap<CR>
 nnoremap <silent> [Leaderf]u        :<C-u>LfUnite outline<CR>
 nnoremap <silent> [Leaderf]l        :<C-u>Leaderf line<CR>
-nnoremap <silent> [Leaderf]<Tab>    :<C-u>LfUnite tab<CR>
+nnoremap <silent> [Leaderf]p        :<C-u>LfUnite ref/pydoc<CR>
+" nnoremap <silent> [Leaderf]<Tab>    :<C-u>LfUnite tab<CR>
 
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
 nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
@@ -273,3 +274,8 @@ let g:Lf_PreviewResult = {
 \   'Rg': 1,
 \   'Gtags': 0
 \}
+
+augroup MyLeaderf
+    autocmd!
+    autocmd Filetype leaderf silent! setlocal signcolumn=no
+augroup END

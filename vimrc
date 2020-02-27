@@ -50,7 +50,6 @@ function! PackInit() abort
     call minpac#add('mattn/emmet-vim')
     call minpac#add('mattn/sonictemplate-vim')
     call minpac#add('mechatroner/rainbow_csv')
-    " call minpac#add('rhysd/clever-f.vim')
     call minpac#add('simeji/winresizer') " ウィンドウ操作
     call minpac#add('skanehira/translate.vim')
     call minpac#add('t9md/vim-quickhl')
@@ -78,6 +77,7 @@ function! PackInit() abort
     call minpac#add('rhysd/reply.vim')
     call minpac#add('deris/vim-shot-f')
     call minpac#add('unblevable/quick-scope')
+    call minpac#add('mg979/vim-visual-multi')
 
     " == python
     call minpac#add('vim-python/python-syntax')
@@ -168,19 +168,21 @@ command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac
 command! PackClean  call PackInit() | call minpac#clean()
 command! PackStatus call PackInit() | call minpac#status()
 
-if has('win32')
-    let $XDG_CACHE_HOME = $LOCALAPPDATA
-endif
-
 " $PATH に $VIM が入っていない場合、先頭に追加する
 if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
     let $PATH = $VIM . ';' . $PATH
 endif
 
-" " yarn のパスを追加
-if $PATH !~# 'Yarn/bin'
-    if has('win32')
+if has('win32')
+    let $XDG_CACHE_HOME = $LOCALAPPDATA
+
+    if $PATH !~# 'Yarn/bin'
         let $PATH = expand($LOCALAPPDATA.'/Yarn/bin').';' . $PATH
+    endif
+
+    " dart のパスを追加
+    if $PATH !~# 'dart-sdk/bin'
+        let $PATH = expand('C:/tools/dart-sdk/bin').';' . $PATH
     endif
 endif
 
