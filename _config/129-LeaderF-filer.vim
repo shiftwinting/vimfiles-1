@@ -30,6 +30,8 @@ let g:Lf_FilerNormalMap = {
 \   '<F3>':          'clear_selections',
 \   'K':             'mkdir',
 \   'r':             'rename',
+\   'C':             'copy',
+\   'P':             'paste',
 \}
 
 let g:Lf_FilerUseDefaultInsertMap = 0
