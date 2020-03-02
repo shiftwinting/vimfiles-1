@@ -32,6 +32,7 @@ let g:Lf_FilerNormalMap = {
 \   'r':             'rename',
 \   'C':             'copy',
 \   'P':             'paste',
+\   'cd':            'cd',
 \}
 
 let g:Lf_FilerUseDefaultInsertMap = 0

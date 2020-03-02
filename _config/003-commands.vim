@@ -374,7 +374,8 @@ command! Gitcheckout Leaderf git_checkout --popup
 " ------------------------------------------------------------------------------
 
 " ------------------------------------------------------------------------------
-command! BrowserSyncStart call browsersync#start()
-command! BrowserSyncStop  call browsersync#stop()
-command! BrowserSyncOpen  call browsersync#open()
+command! BrowserSyncStart   call browsersync#start()
+command! BrowserSyncStop    call browsersync#stop()
+command! BrowserSyncOpen    call browsersync#open()
+command! BrowserSyncOpenUI  call browsersync#open_ui()
 " ------------------------------------------------------------------------------

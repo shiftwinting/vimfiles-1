@@ -3,3 +3,21 @@ abbr        class=""
 alias       cls
 options     word
     class="${0}"
+
+snippet     !
+    <!doctype html>
+    <html lang="${1:ja}">
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <link rel="stylesheet" href="${2:style.css}">
+            <title>${3}</title>
+        </head>
+        <body>
+            ${5}
+
+            <script src="${4:script.js}" defer></script>
+        </body>
+    </html>
+

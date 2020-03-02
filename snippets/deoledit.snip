@@ -9,3 +9,9 @@ abbr        git commit --ammend -m ""
 alias       gca gitca
 options     head
     git commit --amend -m "${1}"
+
+snippet     sass
+abbr        sass --watch scss/style.scss css/style.css
+alias       scss
+options     head
+    sass --watch ${1:scss/style.scss} ${2:css/style.css}

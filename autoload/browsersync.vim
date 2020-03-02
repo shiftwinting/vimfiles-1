@@ -7,7 +7,8 @@ let s:port = v:null
 function! s:start_job(cmd, options)
     let s:job = job_start([&shell, &shellcmdflag, a:cmd], {
     \   'out_cb': { job_id, data -> a:options.on_out(data)},
-    \   'err_cb': { job_id, data -> a:options.on_err(data)}
+    \   'err_cb': { job_id, data -> a:options.on_err(data)},
+    \   'cwd': a:options.cwd,
     \})
 endfunction
 
@@ -51,6 +52,7 @@ function! browsersync#start() abort
     let l:opts = {
     \   'on_out': function('s:on_out'),
     \   'on_err': function('s:echo_error'),
+    \   'cwd': getcwd(),
     \}
     call s:start_job(l:cmd, l:opts)
 
@@ -74,12 +76,20 @@ function! browsersync#stop() abort
     endif
 endfunction
 
-function! browsersync#open() abort
+function! s:open(port) abort
     if !browsersync#running()
         call s:echo_error(' [browser-sync] Not running')
         return
     endif
-    call openbrowser#open('localhost:'.s:port)
+    call openbrowser#open('localhost:'.a:port)
+endfunction
+
+function! browsersync#open() abort
+    call s:open(s:port)
+endfunction
+
+function! browsersync#open_ui() abort
+    call s:open(str2nr(s:port) + 1)
 endfunction
 
 " You can use for lightline
