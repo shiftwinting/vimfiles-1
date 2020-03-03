@@ -78,6 +78,7 @@ function! PackInit() abort
     call minpac#add('deris/vim-shot-f')
     call minpac#add('unblevable/quick-scope')
     call minpac#add('mg979/vim-visual-multi')
+    call minpac#add('tamago324/vim-browsersync')
 
     " == python
     call minpac#add('vim-python/python-syntax')

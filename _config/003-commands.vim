@@ -372,10 +372,3 @@ command! -nargs=* Gitpush call s:git_push(<f-args>)
 command! Gitpull call s:git_pull()
 command! Gitcheckout Leaderf git_checkout --popup
 " ------------------------------------------------------------------------------
-
-" ------------------------------------------------------------------------------
-command! BrowserSyncStart   call browsersync#start()
-command! BrowserSyncStop    call browsersync#stop()
-command! BrowserSyncOpen    call browsersync#open()
-command! BrowserSyncOpenUI  call browsersync#open_ui()
-" ------------------------------------------------------------------------------
