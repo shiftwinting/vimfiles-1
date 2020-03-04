@@ -163,11 +163,8 @@ function! PackInit() abort
 
 endfunction
 
-" set runtimepath+=~/ghq/github.com/tamago324/LeaderF
-
-command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
-command! PackClean  call PackInit() | call minpac#clean()
-command! PackStatus call PackInit() | call minpac#status()
+set runtimepath^=~/ghq/github.com/tamago324/LeaderF
+set runtimepath^=~/ghq/github.com/tamago324/LeaderF-filer
 
 " $PATH に $VIM が入っていない場合、先頭に追加する
 if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
@@ -185,6 +182,10 @@ if has('win32')
     if $PATH !~# 'dart-sdk/bin'
         let $PATH = expand('C:/tools/dart-sdk/bin').';' . $PATH
     endif
+endif
+
+if $PATH !~# 'ctags'
+    let $PATH = expand('~/ctags').';' . $PATH
 endif
 
 call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})

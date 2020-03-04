@@ -19,9 +19,13 @@ augroup MyTodo
     autocmd!
     autocmd FileType todo setlocal omnifunc=todo#Complete
     autocmd FileType todo call TodoMappings()
+    " 保存したら、終わったタスクは移動する
+    autocmd BufWritePost todo.txt silent call todo#RemoveCompleted()
 augroup END
 
 function! TodoMappings() abort
+    nnoremap <silent><buffer> <A-f> :<C-u>Leaderf todo<CR>
+
     nnoremap <buffer> [Todo]   <Nop>
     nmap     <buffer> <Space>t [Todo]
 
@@ -31,8 +35,6 @@ function! TodoMappings() abort
     imap     <silent><buffer> + +<C-X><C-O>
     imap     <silent><buffer> @ @<C-X><C-O>
 
-    nmap     <silent><buffer> [Todo]x <Plug>DoToggleMarkAsDone
-
     " 優先順位
     noremap  <silent><buffer> [Todo]a :<C-u>call todo#PrioritizeAdd('A')<CR>
     noremap  <silent><buffer> [Todo]j :<C-u>call todo#PrioritizeIncrease()<CR>
@@ -41,13 +43,7 @@ function! TodoMappings() abort
     " 期限
     nmap     <silent><buffer> [Todo]p <Plug>TodotxtIncrementDueDateNormal
     nmap     <silent><buffer> [Todo]n <Plug>TodotxtDecrementDueDateNormal
-    nnoremap <silent><buffer> [Todo]d A due:<C-R>=strftime("%Y-%m-%d")<CR><Esc>0
-
-    " Done
-    nnoremap <silent><buffer> [Todo]d :<C-u>call todo#RemoveCompleted()<CR>
-    " Cancel
-    nmap     <silent><buffer> [Todo]c <Plug>DoCancel
 endfunction
 
-nnoremap <silent> <Space>td :<C-u>Todo<CR>
 command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
+nnoremap <silent> <Space>td :<C-u>Todo<CR>

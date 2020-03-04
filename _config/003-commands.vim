@@ -372,3 +372,9 @@ command! -nargs=* Gitpush call s:git_push(<f-args>)
 command! Gitpull call s:git_pull()
 command! Gitcheckout Leaderf git_checkout --popup
 " ------------------------------------------------------------------------------
+
+" ------------------------------------------------------------------------------
+command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
+command! PackClean  call PackInit() | call minpac#clean()
+command! PackStatus call PackInit() | call minpac#status()
+" ------------------------------------------------------------------------------

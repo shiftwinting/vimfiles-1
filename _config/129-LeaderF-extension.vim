@@ -4,6 +4,13 @@ scriptencoding utf-8
 " * https://github.com/Yggdroot/LeaderF/issues/144#issuecomment-540008950
 " * http://bit.ly/2NdiX1x
 
+" :Leaderf packadd
+" :Leaderf git_checkout
+" :Leaderf mrw
+" :Leaderf todo
+
+let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
+
 " ============================================================================
 " packadd
 function! LfExt_packadd_source(args) abort
@@ -19,6 +26,12 @@ endfunction
 function! LfExt_packadd_accept(line, args) abort
     execute 'packadd '.a:line
 endfunction
+
+let g:Lf_Extensions.packadd = {
+\   'source': 'LfExt_packadd_source',
+\   'accept': 'LfExt_packadd_accept',
+\}
+command! Tpackadd Leaderf packadd
 " ============================================================================
 
 " ============================================================================
@@ -37,6 +50,12 @@ endfunction
 function! LfExt_git_checkout_accept(line, args) abort
     call system('git checkout ' . a:line)
 endfunction
+
+let g:Lf_Extensions.git_checkout = {
+\   'source': 'LfExt_git_checkout_source',
+\   'accept': 'LfExt_git_checkout_accept',
+\}
+command! LfGitCheckout Leaderf git_checkout --popup
 " ============================================================================
 
 " ============================================================================
@@ -72,21 +91,6 @@ function! LfExt_mrw_accept(line, args) abort
     \           . LfExt_mrw_get_digest(a:line, 1)[0]
     exec 'drop ' . l:path
 endfunction
-" ============================================================================
-
-let g:Lf_Extensions = {}
-
-let g:Lf_Extensions.packadd = {
-\   'source': 'LfExt_packadd_source',
-\   'accept': 'LfExt_packadd_accept',
-\}
-command! Tpackadd Leaderf packadd
-
-let g:Lf_Extensions.git_checkout = {
-\   'source': 'LfExt_git_checkout_source',
-\   'accept': 'LfExt_git_checkout_accept',
-\}
-command! LfGitCheckout Leaderf git_checkout --popup
 
 let g:Lf_Extensions.mrw = {
 \   'source': 'LfExt_mrw_source',
@@ -94,3 +98,26 @@ let g:Lf_Extensions.mrw = {
 \   'get_digest': 'LfExt_mrw_get_digest',
 \   'supports_name_only': 1,
 \}
+" ============================================================================
+
+" ============================================================================
+" todo
+let s:todo_dict = {
+\   'cancel':           'call todo#ToggleMarkAsDone("Cancelled")',
+\   'done':             'call todo#ToggleMarkAsDone("")',
+\   'add_due':          "normal! A due:\<C-R>=strftime('%Y-%m-%d')\<CR>\<Esc>0"
+\}
+
+function! LfExt_todo_source(args) abort
+    return keys(s:todo_dict)
+endfunction
+
+function! LfExt_todo_accept(line, args) abort
+    silent execute s:todo_dict[a:line]
+endfunction
+
+let g:Lf_Extensions.todo = {
+\   'source': 'LfExt_todo_source',
+\   'accept': 'LfExt_todo_accept',
+\}
+" ============================================================================
