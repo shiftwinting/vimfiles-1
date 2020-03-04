@@ -104,6 +104,8 @@ let g:Lf_RgConfig = [
 \   '--glob=!tags',
 \]
 
+let g:Lf_StlSeparator = { 'left': '', 'right': '' }
+
 function! DefineMyLeaderFHighlishts() abort
     hi Lf_hl_cursorline  gui=underline guifg=fg guibg=bg
 endfunction

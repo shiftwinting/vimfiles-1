@@ -9,10 +9,10 @@ let g:lightline.tabline = {
 \   'right': [ [] ],
 \}
 
+" \             [ 'coc_errors', 'coc_warnings', 'coc_ok'],
 let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste'],
 \             [ 'readonly', 't_filename' ],
-\             [ 'coc_errors', 'coc_warnings', 'coc_ok'],
 \             [ 't_gitbranch', 't_gitfetch' ],
 \             [ 't_browsersync' ],
 \   ],
@@ -23,22 +23,34 @@ let g:lightline.active = {
 
 let g:lightline.inactive = {
 \   'left': [ [ 't_inactive_mode', 't_filename' ] ],
-\   'right': [ [ 't_lineinfo' ],
-\              [ 't_percent' ] ]
+\   'right': [ [ 't_lineinfo' ,'t_percent' ] ],
 \}
 
-let g:lightline.separator = {
-\   'left': '󾂰',
-\   'right': '󾂲'
-\}
+" let g:lightline.separator = {
+" \   'left': '󾂰',
+" \   'right': '󾂲'
+" \}
 let g:lightline.subseparator = {
-\   'left': '',
-\   'right': ''
+\   'left': '|',
+\   'right': '|'
+\}
+let g:lightline.mode_map = {
+\   'n':        'N',
+\   'i':        'I',
+\   'R':        'R',
+\   'v':        'V',
+\   'V':        'V-L',
+\   "\<C-v>":   'V-B',
+\   'c':        'C',
+\   's':        'S',
+\   'S':        'S-L',
+\   "\<C-s>":   'S-B',
+\   't':        'T',
 \}
 
-let g:lightline#coc#indicator_warnings = nr2char('0xf071')  " 
-let g:lightline#coc#indicator_errors = nr2char('0xffb8a')   " 󿮊
-let g:lightline#coc#indicator_ok = nr2char('0xf00c')        " 
+" let g:lightline#coc#indicator_warnings = nr2char('0xf071')  " 
+" let g:lightline#coc#indicator_errors = nr2char('0xffb8a')   " 󿮊
+" let g:lightline#coc#indicator_ok = nr2char('0xf00c')        " 
 
 " call lightline#coc#register()
 

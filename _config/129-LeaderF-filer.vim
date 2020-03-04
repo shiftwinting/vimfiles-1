@@ -29,10 +29,11 @@ let g:Lf_FilerNormalMap = {
 \   '<C-a>':         'select_all',
 \   '<F3>':          'clear_selections',
 \   'K':             'mkdir',
-\   'r':             'rename',
+\   'R':             'rename',
 \   'C':             'copy',
 \   'P':             'paste',
 \   'cd':            'cd',
+\   'O':             'create_file',
 \}
 
 let g:Lf_FilerUseDefaultInsertMap = 0

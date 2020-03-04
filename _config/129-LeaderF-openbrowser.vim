@@ -19,4 +19,5 @@ let g:Lf_openbrowser_bookmarks = {
 \   'sass': 'https://sass-lang.com/documentation',
 \   'cica': 'https://miiton.github.io/Cica/',
 \   'codepen': 'https://codepen.io/',
+\   'easings.net': 'https://easings.net/',
 \}
