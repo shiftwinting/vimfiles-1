@@ -18,4 +18,5 @@ let g:Lf_openbrowser_bookmarks = {
 \   'Google Fonts': 'https://fonts.google.com/',
 \   'sass': 'https://sass-lang.com/documentation',
 \   'cica': 'https://miiton.github.io/Cica/',
+\   'codepen': 'https://codepen.io/',
 \}
