@@ -69,6 +69,8 @@ function! DefineMyHighlishts() abort
         hi CocWarningSign gui=bold      guifg=#00AD00 guibg=#D7FFD7
         hi CocErrorSign   gui=bold      guifg=#AF0000 guibg=#FFE6FF
 
+        " ====================
+        " python
         hi pythonClassVar               guifg=#6f97a6
 
         " ====================

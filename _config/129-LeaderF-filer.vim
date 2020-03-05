@@ -8,8 +8,8 @@ let g:Lf_FilerNormalMap = {
 \   'l':             'open_current',
 \   '<C-h>':         'open_parent',
 \   '<C-l>':         'open_current',
-\   '<C-f>':         'toggle_hidden_files',
-\   '<C-g>':         'goto_root_marker_dir',
+\   '.':             'toggle_hidden_files',
+\   '~':             'goto_root_marker_dir',
 \   'j':             'down',
 \   'k':             'up',
 \   '<F1>':          'toggle_help',
@@ -19,6 +19,7 @@ let g:Lf_FilerNormalMap = {
 \   'q':             'quit',
 \   '<C-q>':         'quit',
 \   '<C-e>':         'quit',
+\   '<C-c>':         'quit',
 \   'o':             'accept',
 \   '<CR>':          'accept',
 \   '<C-s>':         'accept_horizontal',
@@ -32,16 +33,14 @@ let g:Lf_FilerNormalMap = {
 \   'R':             'rename',
 \   'C':             'copy',
 \   'P':             'paste',
-\   'cd':            'cd',
-\   'O':             'create_file',
+\   'N':             'create_file',
+\   '@':             'change_directory',
 \}
 
 let g:Lf_FilerUseDefaultInsertMap = 0
 let g:Lf_FilerInsertMap = {
 \   '<C-h>':        'open_parent_or_backspace',
 \   '<C-l>':        'open_current',
-\   '<C-f>':        'toggle_hidden_files',
-\   '<C-g>':        'goto_root_marker_dir',
 \   '<C-e>':        'quit',
 \   '<Esc>':        'quit',
 \   '<CR>':         'accept',
@@ -57,7 +56,6 @@ let g:Lf_FilerInsertMap = {
 \   '<C-k>':        'up',
 \   '<C-p>':        'prev_history',
 \   '<C-n>':        'next_history',
-\   '<C-q>':        'preview',
 \   '<Tab>':        'switch_normal_mode',
 \}
 

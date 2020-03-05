@@ -90,11 +90,12 @@ function! PackInit() abort
     call minpac#add('zah/nim.vim')
 
     " == frontend
-    call minpac#add('othree/html5.vim')
-    call minpac#add('prettier/vim-prettier', { 'do': 'yarn install' }) " Formatter
+    call minpac#add('AndrewRadev/tagalong.vim')     " 閉じタグを自動で書き換えてくれる
+    call minpac#add('hail2u/vim-css3-syntax')
     call minpac#add('jason0x43/vim-js-indent')
     call minpac#add('leafOfTree/vim-vue-plugin')
-    call minpac#add('AndrewRadev/tagalong.vim')
+    call minpac#add('othree/html5.vim')
+    call minpac#add('prettier/vim-prettier', { 'do': 'yarn install' }) " Formatter
 
     " syntax
     call minpac#add('yuezk/vim-js')
