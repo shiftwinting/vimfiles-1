@@ -186,3 +186,27 @@ augroup MyVagrant
     autocmd!
     autocmd BufRead,BufNewFile Vagrantfile set ft=ruby
 augroup END
+
+" help
+" http://bit.ly/2VQFGWr
+function! s:ft_help() abort
+    wincmd L
+    82wincmd |
+    setlocal winfixwidth
+endfunction
+augroup MyHelp
+    autocmd!
+    autocmd BufEnter * if &buftype ==# 'help' | call <SID>ft_help() | endif
+augroup END
+
+" diffthis しているときにテキスト更新したら diffupdate
+" http://bit.ly/2wxMnCa
+function! s:auto_diffupdate() abort
+    if &diff
+        diffupdate
+    endif
+endfunction
+augroup MyDiff
+    autocmd!
+    autocmd TextChanged * call s:auto_diffupdate()
+augroup END
