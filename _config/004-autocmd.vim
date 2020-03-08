@@ -210,3 +210,10 @@ augroup MyDiff
     autocmd!
     autocmd TextChanged * call s:auto_diffupdate()
 augroup END
+
+augroup MyScss
+    autocmd!
+    " xxx-xxx もキーワードとして認識させる
+    autocmd FileType scss set iskeyword+=-
+augroup END
+

@@ -384,3 +384,7 @@ command! -nargs=+ -complete=dir SassWatchStart    call sasswatch#start(<f-args>)
 command! -nargs=+ -complete=dir SassWatchStartCwd call sasswatch#start(getcwd(), <f-args>)
 command! -nargs=0               SassWatchStop     call sasswatch#stop()
 " ------------------------------------------------------------------------------
+
+command! -nargs=1 MdnWebDocsSearch call openbrowser#search(<f-args>, 'mdnwebdocs')
+nnoremap <A-m> :<C-u>MdnWebDocsSearch 
+vnoremap <A-m> :<C-u>call execute('MdnWebDocsSearch '.tmg#getwords_last_visual())<CR>

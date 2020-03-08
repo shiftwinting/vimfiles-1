@@ -31,7 +31,7 @@ let g:lightline.inactive = {
 " \   'right': '󾂲'
 " \}
 let g:lightline.subseparator = {
-\   'left': '|',
+\   'left': '',
 \   'right': '|'
 \}
 let g:lightline.mode_map = {

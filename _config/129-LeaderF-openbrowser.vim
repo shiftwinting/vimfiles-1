@@ -20,4 +20,5 @@ let g:Lf_openbrowser_bookmarks = {
 \   'cica': 'https://miiton.github.io/Cica/',
 \   'codepen': 'https://codepen.io/',
 \   'easings.net': 'https://easings.net/',
+\   'color-picker': 'https://www.w3schools.com/colors/colors_picker.asp',
 \}
