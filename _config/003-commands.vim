@@ -378,3 +378,9 @@ command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac
 command! PackClean  call PackInit() | call minpac#clean()
 command! PackStatus call PackInit() | call minpac#status()
 " ------------------------------------------------------------------------------
+
+" ------------------------------------------------------------------------------
+command! -nargs=+ -complete=dir SassWatchStart    call sasswatch#start(<f-args>)
+command! -nargs=+ -complete=dir SassWatchStartCwd call sasswatch#start(getcwd(), <f-args>)
+command! -nargs=0               SassWatchStop     call sasswatch#stop()
+" ------------------------------------------------------------------------------

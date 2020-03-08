@@ -14,7 +14,7 @@ let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste'],
 \             [ 'readonly', 't_filename' ],
 \             [ 't_gitbranch', 't_gitfetch' ],
-\             [ 't_browsersync' ],
+\             [ 't_browsersync', 't_sasswatch'],
 \   ],
 \   'right': [ [ 't_lineinfo' ],
 \              [ 't_percent' ],
@@ -72,6 +72,7 @@ let g:lightline.component_function = {
 \   't_eskk_mode': 'LightlineSKKMode',
 \   't_gitfetch': 'gitstatus#fetch_status',
 \   't_browsersync': 'LightlineBrowserSync',
+\   't_sasswatch': 'LightlineSassWatch',
 \}
 
 function! LightlineMode() abort
@@ -126,5 +127,11 @@ function! LightlineGitBranch() abort
 endfunction
 
 function! LightlineBrowserSync() abort
-    return !empty(browsersync#port()) ? '󿤺:'.browsersync#port() : ''
+    " return !empty(browsersync#port()) ? '󿤺:'.browsersync#port() : ''
+    return !empty(browsersync#port()) ? ':'.browsersync#port() : ''
+endfunction
+
+function! LightlineSassWatch() abort
+    if !exists('*sasswatch#is_watching') | return '' | endif
+    return sasswatch#is_watching(expand('%:p')) ? '' : ''
 endfunction
