@@ -108,6 +108,7 @@ function! sasswatch#stop() abort
     if sasswatch#is_running()
         call job_stop(s:job)
         let s:job = v:null
+        let s:watch_targets = []
         echohl Identifier
         echomsg ' [sass-watch] stoped'
         echohl None
