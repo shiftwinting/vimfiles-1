@@ -100,24 +100,24 @@ let g:Lf_Extensions.mrw = {
 \}
 " ============================================================================
 
-" ============================================================================
-" todo
-let s:todo_dict = {
-\   'cancel':           'call todo#ToggleMarkAsDone("Cancelled")',
-\   'done':             'call todo#ToggleMarkAsDone("")',
-\   'add_due':          "normal! A due:\<C-R>=strftime('%Y-%m-%d')\<CR>\<Esc>0"
-\}
-
-function! LfExt_todo_source(args) abort
-    return keys(s:todo_dict)
-endfunction
-
-function! LfExt_todo_accept(line, args) abort
-    silent execute s:todo_dict[a:line]
-endfunction
-
-let g:Lf_Extensions.todo = {
-\   'source': 'LfExt_todo_source',
-\   'accept': 'LfExt_todo_accept',
-\}
-" ============================================================================
+" " ============================================================================
+" " todo
+" let s:todo_dict = {
+" \   'cancel':           'call todo#ToggleMarkAsDone("Cancelled")',
+" \   'done':             'call todo#ToggleMarkAsDone("")',
+" \   'add_due':          "normal! A due:\<C-R>=strftime('%Y-%m-%d')\<CR>\<Esc>0"
+" \}
+"
+" function! LfExt_todo_source(args) abort
+"     return keys(s:todo_dict)
+" endfunction
+"
+" function! LfExt_todo_accept(line, args) abort
+"     silent execute s:todo_dict[a:line]
+" endfunction
+"
+" let g:Lf_Extensions.todo = {
+" \   'source': 'LfExt_todo_source',
+" \   'accept': 'LfExt_todo_accept',
+" \}
+" " ============================================================================

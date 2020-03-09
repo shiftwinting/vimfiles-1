@@ -79,6 +79,7 @@ function! PackInit() abort
     call minpac#add('unblevable/quick-scope')
     call minpac#add('mg979/vim-visual-multi')
     call minpac#add('tamago324/vim-browsersync')
+    call minpac#add('skywind3000/vim-quickui')
 
     " == python
     call minpac#add('vim-python/python-syntax')
@@ -183,10 +184,10 @@ if has('win32')
     if $PATH !~# 'dart-sdk/bin'
         let $PATH = expand('C:/tools/dart-sdk/bin').';' . $PATH
     endif
-endif
 
-if $PATH !~# 'ctags'
-    let $PATH = expand('~/ctags').';' . $PATH
+    if $PATH !~# 'ctags'
+        let $PATH = expand('~/ctags').';' . $PATH
+    endif
 endif
 
 call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})

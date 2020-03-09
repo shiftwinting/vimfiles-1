@@ -77,7 +77,19 @@ function! DefineMyHighlishts() abort
         " shot-f
         hi ShotFGraph guifg=#4f84da guibg=NONE gui=bold
         hi ShotFBlank guifg=NONE    guibg=#4f84da gui=bold
+
+        "" うまくいかない...
+        " ====================
+        " quickui
+        " hi QuickDefaultBackground ctermfg=235 ctermbg=246 guifg=#eee8d5 guibg=#839496
+        " hi QuickDefaultSel ctermfg=254 ctermbg=241 guifg=#eee8d5 guibg=#586e75
+        " hi QuickDefaultKey ctermfg=166 guifg=#cb4b16
+        " hi QuickDefaultDisable ctermfg=242 guifg=#eee8d5
+        " hi QuickDefaultHelp ctermfg=32 guifg=#268bd2
+        " hi QuickDefaultBorder ctermfg=235 ctermbg=246 guifg=#073642 guibg=#839496
+        " hi QuickDefaultTermBorder ctermfg=235 ctermbg=246 guifg=#073642 guibg=#839496
     endif
+
 endfunction
 augroup MyColorScheme
     autocmd!
