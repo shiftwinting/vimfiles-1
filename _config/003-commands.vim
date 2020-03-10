@@ -347,31 +347,6 @@ command! -nargs=1 GhqGet call tmg#term_exec('ghq', {
 " command! -nargs=1 GhqCreate execute 'belowright terminal ghq create <q-args>'
 " ------------------------------------------------------------------------------
 
-" ------------------------------------------------------------------------------
-" git
-
-" git push
-function! s:git_push(...) abort
-    let l:opts = {
-    \   'cmd': 'push',
-    \   'args': a:000,
-    \}
-    call tmg#term_exec('git', l:opts)
-endfunction
-
-" git pull
-function! s:git_pull() abort
-    let l:opts = {
-    \   'cmd': 'pull',
-    \}
-    call tmg#term_exec('git', l:opts)
-endfunction
-
-" git checkout
-command! -nargs=* Gitpush call s:git_push(<f-args>)
-command! Gitpull call s:git_pull()
-command! Gitcheckout Leaderf git_checkout --popup
-" ------------------------------------------------------------------------------
 
 " ------------------------------------------------------------------------------
 command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
@@ -379,11 +354,13 @@ command! PackClean  call PackInit() | call minpac#clean()
 command! PackStatus call PackInit() | call minpac#status()
 " ------------------------------------------------------------------------------
 
+
 " ------------------------------------------------------------------------------
 command! -nargs=+ -complete=dir SassWatchStart    call sasswatch#start(<f-args>)
 command! -nargs=+ -complete=dir SassWatchStartCwd call sasswatch#start(getcwd(), <f-args>)
 command! -nargs=0               SassWatchStop     call sasswatch#stop()
 " ------------------------------------------------------------------------------
+
 
 command! -nargs=1 MdnWebDocsSearch call openbrowser#search(<f-args>, 'mdnwebdocs')
 nnoremap <A-m> :<C-u>MdnWebDocsSearch 

@@ -29,5 +29,5 @@ endfunction
 augroup MyFugitive
     autocmd!
     autocmd FileType fugitive call s:fugitive_my_settings()
-    autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
+    " autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
 augroup END

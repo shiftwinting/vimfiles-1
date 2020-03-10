@@ -1,5 +1,4 @@
 *.swp
-tags*
 .netrwhist
 plugged/
 autoload/plug.vim
