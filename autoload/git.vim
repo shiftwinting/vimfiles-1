@@ -53,6 +53,10 @@ endfunction
 " -------------------------------------------------
 " private
 
+
+" -------------------------------------------------
+" commit 用のバッファを開く
+" -------------------------------------------------
 function! s:open_commit_buffer(...) abort
     let l:lines = a:0 > 0 ? a:1 : []
 
@@ -76,15 +80,19 @@ function! s:open_commit_buffer(...) abort
 endfunction
 
 
+" -------------------------------------------------
 " バッファにテキストをセット
+" -------------------------------------------------
 function! s:set_lines(bufnr, lines) abort
-    
+
 endfunction
 
 
+" -------------------------------------------------
 " 最後のコミットメッセージを取得
+" -------------------------------------------------
 function! s:get_last_commit_messages() abort
-    
+
 endfunction
 
 
@@ -95,15 +103,26 @@ endfunction
 " :wq     -- QuitPre -> BufWriteCmd -> WinLeave
 " :q      -- QuitPre -> WinLeave
 
+" -------------------------------------------------
+" BufWriteCmd のときの関数
+" -------------------------------------------------
 function! s:BufWriteCmd() abort
     let b:writed = v:true
+    setlocal nomodified
 endfunction
 
+
+" -------------------------------------------------
+" QuitPre のときの関数
+" -------------------------------------------------
 function! s:QuitPre() abort
     let b:quited = v:true
 endfunction
 
 
+" -------------------------------------------------
+" git commit を実行
+" -------------------------------------------------
 function! s:do_commit() abort
     if !b:writed || !b:quited
         " :q or :w を使っていないときは何もしない
@@ -125,7 +144,7 @@ function! s:do_commit() abort
     " ３行目以降: 詳細 (コメントは無視する)
     let l:details = ''
     for l:line in filter(l:lines[2:], 'trim(v:val) !~# "^#"')
-        l:details = l:details . printf(' -m "%s"', l:line)
+        let l:details = l:details . printf(' -m "%s"', l:line)
     endfor
 
     let l:opts = {
@@ -133,4 +152,3 @@ function! s:do_commit() abort
     \}
     call tmg#term_exec('git', l:opts)
 endfunction
-" =================================================

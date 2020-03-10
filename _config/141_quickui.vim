@@ -40,7 +40,7 @@ call quickui#menu#install('&BrowserSync', [
 
 " sass
 call quickui#menu#install('&Sass', [
-\   ['&start', 'call feedkeys(":SassWatchStartIntaractive ")'],
+\   ['&start', 'call sasswatch#start_intaractive()'],
 \   ['s&top',  'SassWatchStop'],
 \])
 

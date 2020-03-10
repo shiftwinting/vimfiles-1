@@ -1,11 +1,17 @@
 scriptencoding utf-8
 
+
+" =================================================
 " バックスラッシュをスラッシュにして返す
+" =================================================
 function! tmg#get_fullpath(path) abort
     return substitute(expand(a:path), '\\', '/', 'g')
 endfunction
 
-" 表示されているか返す
+"
+" -------------------------------------------------
+" バッファが表示されているか返す
+" -------------------------------------------------
 function! s:find_visible_file(path) abort
     for l:buf in getbufinfo({'buflisted': 1})
         if tmg#get_fullpath(l:buf.name) ==# a:path &&
@@ -17,6 +23,9 @@ function! s:find_visible_file(path) abort
 endfunction
 
 
+" =================================================
+" :drop or :tabedit のどっちか
+" =================================================
 function! tmg#DropOrTabedit(path) abort
     let l:path = tmg#get_fullpath(a:path)
     if s:find_visible_file(l:path)
@@ -26,7 +35,10 @@ function! tmg#DropOrTabedit(path) abort
     endif
 endfunction
 
-" get text from last selected words
+
+" =================================================
+" 最後に選択した文字列を取得する
+" =================================================
 function! tmg#getwords_last_visual() abort
     let l:reg = '"'
     " save
@@ -46,14 +58,17 @@ function! tmg#getwords_last_visual() abort
     return l:result
 endfunction
 
-" コマンドがないと怒られるため
-function! tmg#delcommand(cmd) abort
-    if exists(':'.a:cmd) ==# 2
-        execute 'delcommand '.a:cmd
-    endif
-endfunction
+" " コマンドがないと怒られるため
+" function! tmg#delcommand(cmd) abort
+"     if exists(':'.a:cmd) ==# 2
+"         execute 'delcommand '.a:cmd
+"     endif
+" endfunction
 
+
+" =================================================
 " カレントウィンドウの右下に通知を表示する
+" =================================================
 function! tmg#popup_notification_botright(messages, ...) abort
     " option は上書き可能にする
     let l:arg_opt = a:0 == 0 ? {} : a:1
@@ -78,6 +93,10 @@ function! tmg#popup_notification_botright(messages, ...) abort
     call popup_create(a:messages, extend(l:opt, l:arg_opt))
 endfunction
 
+
+" =================================================
+" コマンドを :terminal で実行する
+" =================================================
 " from skanehira/dotfiles http://bit.ly/36CWoez
 " opts:
 " {
@@ -102,4 +121,15 @@ function! tmg#term_exec(cmd, opts) abort
 
     " 元のウィンドウに戻る
     call win_gotoid(l:cur_winid)
+endfunction
+
+
+" =================================================
+" echoerr
+" =================================================
+function! tmg#echoerr(msg) abort
+    redraw
+    echohl ErrorMsg
+    echo a:msg
+    echohl None
 endfunction
