@@ -24,152 +24,166 @@ let g:loaded_netrwPlugin       = 1
 let g:loaded_netrwSettings     = 1
 let g:loaded_netrwFileHandlers = 1
 
-function! PackInit() abort
-    packadd minpac
+let g:min_vimrc = 1
+let g:min_vimrc = get(g:, 'min_vimrc', 0)
 
-    call minpac#init()
 
-    " packadd でロードするために minpac 自体は {'type': 'opt'} で追加しておく
-    call minpac#add('k-takata/minpac', {'type': 'opt'})
-
-    " その他のプラグイン
-    call minpac#add('vim-jp/vimdoc-ja')
-    call minpac#add('vim-jp/vital.vim')
-    call minpac#add('vim-jp/syntax-vim-ex')
-
-    call minpac#add('Yggdroot/indentLine')
-    call minpac#add('andymass/vim-matchup')
-    call minpac#add('ap/vim-css-color')
-    call minpac#add('dbeniamine/todo.txt-vim')
-    call minpac#add('dense-analysis/ale')
-    call minpac#add('deris/vim-shot-f')
-    call minpac#add('dhruvasagar/vim-table-mode')
-    call minpac#add('glidenote/memolist.vim')
-    call minpac#add('haya14busa/vim-asterisk')
-    call minpac#add('jiangmiao/auto-pairs')
-    call minpac#add('junegunn/vim-easy-align')
-    call minpac#add('kana/vim-repeat')
-    call minpac#add('kana/vim-tabpagecd')
-    call minpac#add('ludovicchabant/vim-gutentags') " tags 生成
-    call minpac#add('machakann/vim-highlightedyank')
-    call minpac#add('majutsushi/tagbar')
-    call minpac#add('markonm/traces.vim') " :s の可視化
-    call minpac#add('mattn/emmet-vim')
-    call minpac#add('mattn/gist-vim')
-    call minpac#add('mattn/sonictemplate-vim')
-    call minpac#add('mattn/webapi-vim')
-    call minpac#add('mechatroner/rainbow_csv')
-    call minpac#add('mg979/vim-visual-multi')
-    call minpac#add('previm/previm')
-    call minpac#add('rbtnn/vim-coloredit')
-    call minpac#add('rbtnn/vim-mrw')
-    call minpac#add('rcmdnk/yankround.vim')
-    call minpac#add('rhysd/reply.vim')
-    call minpac#add('simeji/winresizer') " ウィンドウ操作
-    call minpac#add('simnalamburt/vim-mundo')   " undotree の可視化
-    call minpac#add('skanehira/translate.vim')
-    call minpac#add('skywind3000/vim-quickui')
-    call minpac#add('svermeulen/vim-cutlass')   " 削除系はすべてブラックホールレジスタに入れる
-    call minpac#add('t9md/vim-quickhl')
-    call minpac#add('tamago324/vim-browsersync')
-    call minpac#add('thinca/vim-quickrun')
-    call minpac#add('tomtom/tcomment_vim')
-    call minpac#add('tpope/vim-endwise')
-    call minpac#add('tpope/vim-surround')
-    call minpac#add('tweekmonster/helpful.vim')
-    call minpac#add('tyru/capture.vim') " Exコマンドをバッファへ出力
-    call minpac#add('tyru/open-browser-github.vim')
-    call minpac#add('tyru/open-browser.vim')
-    call minpac#add('unblevable/quick-scope')
-
-    " == python
-    call minpac#add('vim-python/python-syntax')
-
-    " == php
-    call minpac#add('jwalton512/vim-blade')
-
-    " == nim
-    call minpac#add('zah/nim.vim')
-
-    " == frontend
-    call minpac#add('AndrewRadev/tagalong.vim')     " 閉じタグを自動で書き換えてくれる
-    call minpac#add('hail2u/vim-css3-syntax')
-    call minpac#add('jason0x43/vim-js-indent')
-    call minpac#add('leafOfTree/vim-vue-plugin')
-    call minpac#add('othree/html5.vim')
-    call minpac#add('prettier/vim-prettier', { 'do': 'yarn install' }) " Formatter
-
-    " syntax
-    call minpac#add('yuezk/vim-js')
-    call minpac#add('delphinus/vim-firestore')
-    call minpac#add('k-takata/vim-dosbatch-indent')
-
-    " == lsp
-    call minpac#add('Shougo/neosnippet.vim')
-    call minpac#add('Shougo/neosnippet-snippets')
-    call minpac#add('honza/vim-snippets')
-
-    " == complete
-    call minpac#add('Shougo/neco-syntax')
-
-    " == complete vim
-    call minpac#add('machakann/vim-Verdin')
-
-    " == textobj
-    call minpac#add('kana/vim-textobj-user')
-    call minpac#add('osyo-manga/vim-textobj-multiblock')
-    call minpac#add('kana/vim-textobj-function')
-    call minpac#add('haya14busa/vim-textobj-function-syntax')
-    call minpac#add('kana/vim-textobj-line')
-
-    " == operator
-    call minpac#add('kana/vim-operator-user')
-    call minpac#add('kana/vim-operator-replace')
-
-    " == dark power
-    call minpac#add('Shougo/deol.nvim')
-    call minpac#add('Shougo/context_filetype.vim')
-
-    " == lightline
-    call minpac#add('itchyny/lightline.vim')
-
-    " == git
-    call minpac#add('airblade/vim-gitgutter')
-    call minpac#add('tpope/vim-fugitive')
-    call minpac#add('junegunn/gv.vim')    " log をみやすくする
-    call minpac#add('gisphm/vim-gitignore')     " gitignore の highlight/snippets
-    call minpac#add('rhysd/conflict-marker.vim')
-
-    " == colorscheme
-    " :colorscheme は opt でもいいため
-    call minpac#add('lifepillar/vim-solarized8', {'type': 'opt'})
-
-    " == LeaderF
-    call minpac#add('Yggdroot/LeaderF', { 'do': './install.bat' })
-    call minpac#add('tamago324/LeaderF-ghq')
-    call minpac#add('tamago324/LeaderF-cdnjs')
-    call minpac#add('tamago324/LeaderF-bookmark')
-    call minpac#add('tamago324/LeaderF-openbrowser')
-    call minpac#add('tamago324/LeaderF-filer')
-        call minpac#add('ryanoasis/vim-devicons')
-    " call minpac#add('tamago324/LeaderF-unite')
-    "     call minpac#add('Shougo/unite.vim')
-    "     call minpac#add('thinca/vim-ref')
-    "     call minpac#add('Shougo/unite-outline')
-
-    " coc
-    call minpac#add('neoclide/coc.nvim', {'branch': 'release'})
-    call minpac#add('Shougo/neco-vim')
-    call minpac#add('neoclide/coc-neco')
-    " call minpac#add('josa42/vim-lightline-coc')
-
-    " ------------------------------------------------------------------------------
-
+function! s:plug(require, name, ...) abort
+    " min かつ 必須ではない場合、読み込まない
+    let l:opts = a:0 > 0 ? a:1 : {}
+    let l:require = !empty(a:require)
+    if l:require || !g:min_vimrc
+        Plug a:name, l:opts
+    endif
 endfunction
 
-set runtimepath^=~/ghq/github.com/tamago324/LeaderF
-set runtimepath^=~/ghq/github.com/tamago324/LeaderF-filer
-set runtimepath^=~/ghq/github.com/tamago324/vim-browsersync
+
+command! -bang -nargs=+ MyPlug call <SID>plug("<bang>", <args>)
+
+
+
+call plug#begin('~/vimfiles/plugged')
+
+
+" いつでも使うやつには ! をつける
+
+MyPlug! 'junegunn/vim-plug'
+MyPlug! 'vim-jp/vimdoc-ja'
+MyPlug! 'vim-jp/vital.vim'
+MyPlug! 'vim-jp/syntax-vim-ex'
+
+MyPlug! 'Yggdroot/indentLine'
+MyPlug! 'ap/vim-css-color'
+MyPlug  'dense-analysis/ale'
+MyPlug  'dhruvasagar/vim-table-mode'
+MyPlug! 'glidenote/memolist.vim'
+MyPlug! 'kana/vim-repeat'
+MyPlug! 'ludovicchabant/vim-gutentags'
+MyPlug! 'machakann/vim-highlightedyank'
+MyPlug  'majutsushi/tagbar'
+MyPlug! 'markonm/traces.vim'
+MyPlug  'mattn/emmet-vim'
+MyPlug! 'mattn/sonictemplate-vim'
+MyPlug! 'mechatroner/rainbow_csv'
+MyPlug! 'simeji/winresizer'
+MyPlug  'skanehira/translate.vim'
+MyPlug! 't9md/vim-quickhl'
+MyPlug! 'thinca/vim-quickrun'
+MyPlug! 'tpope/vim-surround'
+MyPlug! 'tyru/capture.vim'
+MyPlug  'tyru/open-browser.vim'
+MyPlug  'tyru/open-browser-github.vim'
+MyPlug  'previm/previm'
+MyPlug! 'tpope/vim-endwise'
+MyPlug! 'kana/vim-tabpagecd'
+MyPlug  'mattn/gist-vim'
+MyPlug  'mattn/webapi-vim'
+MyPlug! 'dbeniamine/todo.txt-vim'
+MyPlug! 'tomtom/tcomment_vim'
+MyPlug  'andymass/vim-matchup'
+MyPlug  'rbtnn/vim-coloredit'
+MyPlug  'tweekmonster/helpful.vim'
+MyPlug! 'jiangmiao/auto-pairs'
+MyPlug! 'haya14busa/vim-asterisk'
+MyPlug! 'svermeulen/vim-cutlass'
+MyPlug  'rcmdnk/yankround.vim'
+MyPlug! 'rbtnn/vim-mrw'
+MyPlug  'simnalamburt/vim-mundo'
+MyPlug  'rhysd/reply.vim'
+MyPlug! 'deris/vim-shot-f'
+MyPlug! 'unblevable/quick-scope'
+MyPlug  'mg979/vim-visual-multi'
+MyPlug  'tamago324/vim-browsersync'
+MyPlug  'skywind3000/vim-quickui'
+MyPlug! 'junegunn/vim-easy-align'
+
+" == python
+MyPlug 'vim-python/python-syntax'
+
+" == php
+MyPlug 'jwalton512/vim-blade'
+
+" == nim
+MyPlug 'zah/nim.vim'
+
+" == frontend
+MyPlug 'AndrewRadev/tagalong.vim'
+MyPlug 'hail2u/vim-css3-syntax'
+MyPlug 'jason0x43/vim-js-indent'
+MyPlug 'leafOfTree/vim-vue-plugin'
+MyPlug 'othree/html5.vim'
+MyPlug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
+" syntax
+MyPlug  'yuezk/vim-js'
+MyPlug  'delphinus/vim-firestore'
+MyPlug! 'k-takata/vim-dosbatch-indent'
+
+" == lsp
+MyPlug! 'Shougo/neosnippet.vim'
+MyPlug! 'Shougo/neosnippet-snippets'
+MyPlug! 'honza/vim-snippets'
+
+" == complete
+MyPlug! 'Shougo/neco-syntax'
+
+" == complete vim
+MyPlug! 'machakann/vim-Verdin'
+
+" == textobj
+MyPlug! 'kana/vim-textobj-user'
+MyPlug! 'osyo-manga/vim-textobj-multiblock'
+MyPlug! 'kana/vim-textobj-function'
+MyPlug! 'haya14busa/vim-textobj-function-syntax'
+MyPlug! 'kana/vim-textobj-line'
+
+" == operator
+MyPlug! 'kana/vim-operator-user'
+MyPlug! 'kana/vim-operator-replace'
+
+" == dark power
+MyPlug! 'Shougo/deol.nvim'
+MyPlug  'Shougo/context_filetype.vim'
+
+" == lightline
+MyPlug! 'itchyny/lightline.vim'
+
+" == git
+MyPlug  'airblade/vim-gitgutter'
+MyPlug! 'tpope/vim-fugitive'
+MyPlug  'junegunn/gv.vim'
+MyPlug! 'gisphm/vim-gitignore'
+
+" == colorscheme
+MyPlug! 'lifepillar/vim-solarized8'
+
+" == LeaderF
+MyPlug! 'Yggdroot/LeaderF', { 'do': './install.bat' }
+MyPlug! 'tamago324/LeaderF-ghq'
+MyPlug  'tamago324/LeaderF-cdnjs'
+MyPlug! 'tamago324/LeaderF-bookmark'
+MyPlug  'tamago324/LeaderF-openbrowser'
+MyPlug! 'tamago324/LeaderF-filer'
+MyPlug! 'ryanoasis/vim-devicons'
+MyPlug! 'tamago324/LeaderF-unite'
+MyPlug! 'Shougo/unite.vim'
+MyPlug  'thinca/vim-ref'
+MyPlug  'Shougo/unite-outline'
+
+" coc
+MyPlug 'neoclide/coc.nvim', {'branch': 'release'}
+MyPlug 'Shougo/neco-vim'
+MyPlug 'neoclide/coc-neco'
+MyPlug 'josa42/vim-lightline-coc'
+
+
+
+call plug#end()
+
+" ------------------------------------------------------------------------------
+
+" set runtimepath^=~/ghq/github.com/tamago324/LeaderF
+" set runtimepath^=~/ghq/github.com/tamago324/LeaderF-filer
 
 " $PATH に $VIM が入っていない場合、先頭に追加する
 if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'

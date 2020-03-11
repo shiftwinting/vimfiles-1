@@ -1,5 +1,10 @@
 scriptencoding utf-8
 
+if empty(globpath(&rtp, 'autoload/gitgutter.vim'))
+    finish
+endif
+
+
 " 起動時に有効化
 let g:gitgutter_enabled = 1
 " OFF default mappings
