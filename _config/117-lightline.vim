@@ -128,6 +128,7 @@ endfunction
 
 function! LightlineBrowserSync() abort
     " return !empty(browsersync#port()) ? '󿤺:'.browsersync#port() : ''
+    if !exists('*browsersync#port') | return '' | endif
     return !empty(browsersync#port()) ? ':'.browsersync#port() : ''
 endfunction
 

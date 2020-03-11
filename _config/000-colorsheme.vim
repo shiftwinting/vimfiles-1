@@ -78,7 +78,6 @@ function! DefineMyHighlishts() abort
         hi ShotFGraph guifg=#4f84da guibg=NONE gui=bold
         hi ShotFBlank guifg=NONE    guibg=#4f84da gui=bold
 
-        "" うまくいかない...
         " ====================
         " quickui
         hi link QuickBG Pmenu
