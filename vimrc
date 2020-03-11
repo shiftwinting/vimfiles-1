@@ -153,6 +153,7 @@ MyPlug  'airblade/vim-gitgutter'
 MyPlug! 'tpope/vim-fugitive'
 MyPlug  'junegunn/gv.vim'
 MyPlug! 'gisphm/vim-gitignore'
+MyPlug! 'rhysd/conflict-marker.vim'
 
 " == colorscheme
 MyPlug! 'lifepillar/vim-solarized8'
