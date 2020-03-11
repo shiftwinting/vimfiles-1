@@ -187,3 +187,6 @@ execute 'set viewdir='.expand("~/_vimview")
 
 " パスとして = を含めない (set rtp=~/path/to/file で補完できるようにする)
 set isfname-==
+
+" 矩形選択の時、文字がない箇所も選択できるようにする
+set virtualedit=block

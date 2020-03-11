@@ -133,3 +133,11 @@ function! tmg#echoerr(msg) abort
     echo a:msg
     echohl None
 endfunction
+
+
+" =================================================
+" $PATH に追加する
+" =================================================
+function! tmg#add_path(val) abort
+    let $PATH = expand(a:val).';' . $PATH
+endfunction

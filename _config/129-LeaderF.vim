@@ -271,9 +271,9 @@ let g:Lf_PreviewResult = {
 \   'Tag': 0,
 \   'BufTag': 0,
 \   'Function': 0,
-\   'Line': 1,
+\   'Line': 0,
 \   'Colorscheme': 0,
-\   'Rg': 1,
+\   'Rg': 0,
 \   'Gtags': 0
 \}
 
