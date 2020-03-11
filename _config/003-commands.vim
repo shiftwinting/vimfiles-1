@@ -312,7 +312,7 @@ command! ThisOpen execute printf('!start "%s"', expand('%:p'))
 " " ------------------------------------------------------------------------------
 
 " ------------------------------------------------------------------------------
-command! MemoOpen call tmg#DropOrTabedit(expand('~/tmp_memo'))
+command! MemoOpen call tmg#drop_or_tabedit(expand('~/tmp_memo'))
 nnoremap <Space>tm :<C-u>MemoOpen<CR>
 " ------------------------------------------------------------------------------
 

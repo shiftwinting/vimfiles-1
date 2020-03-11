@@ -33,7 +33,7 @@ nnoremap <C-i> 
 
 " vimrc
 nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR>:echo '$MYVIMRC loaded!'<CR>
-nnoremap <silent> <Space>v. :<C-u> call tmg#DropOrTabedit($MYVIMRC)<CR>
+nnoremap <silent> <Space>v. :<C-u> call tmg#drop_or_tabedit($MYVIMRC)<CR>
 
 " 保存、終了
 " 変更があったときのみ、保存される

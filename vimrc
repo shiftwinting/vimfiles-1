@@ -91,6 +91,8 @@ MyPlug! 'simeji/winresizer'
 MyPlug! 'svermeulen/vim-cutlass'
 MyPlug! 't9md/vim-quickhl'
 MyPlug! 'thinca/vim-quickrun'
+MyPlug! 'thinca/vim-qfreplace'
+
 MyPlug! 'tomtom/tcomment_vim'
 MyPlug! 'tpope/vim-endwise'
 MyPlug! 'tpope/vim-surround'

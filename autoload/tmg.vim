@@ -26,7 +26,7 @@ endfunction
 " =================================================
 " :drop or :tabedit のどっちか
 " =================================================
-function! tmg#DropOrTabedit(path) abort
+function! tmg#drop_or_tabedit(path) abort
     let l:path = tmg#get_fullpath(a:path)
     if s:find_visible_file(l:path)
         execute 'drop ' . l:path

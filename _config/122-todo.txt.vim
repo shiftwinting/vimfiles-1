@@ -45,5 +45,5 @@ function! TodoMappings() abort
     nmap     <silent><buffer> [Todo]n <Plug>TodotxtDecrementDueDateNormal
 endfunction
 
-command! Todo call tmg#DropOrTabedit('~/memo/todo/todo.txt')
+command! Todo call tmg#drop_or_tabedit('~/memo/todo/todo.txt')
 nnoremap <silent> <Space>td :<C-u>Todo<CR>
