@@ -7,12 +7,13 @@ scriptencoding utf-8
 " :Leaderf packadd
 " :Leaderf git_checkout
 " :Leaderf mrw
-" :Leaderf todo
+" :Leaderf sonictemplate
 
 let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
 
 " ============================================================================
 " packadd
+" ============================================================================
 function! LfExt_packadd_source(args) abort
     let l:result = []
     for path in split(globpath(&packpath, '/pack/*/opt/*'))
@@ -32,10 +33,12 @@ let g:Lf_Extensions.packadd = {
 \   'accept': 'LfExt_packadd_accept',
 \}
 command! Tpackadd Leaderf packadd
-" ============================================================================
+
+
 
 " ============================================================================
 " git checkout
+" ============================================================================
 function! LfExt_git_checkout_source(args) abort
     let l:source = filter(systemlist('git branch'), 'v:val[0] !=# "*"')
     if empty(source)
@@ -56,10 +59,12 @@ let g:Lf_Extensions.git_checkout = {
 \   'accept': 'LfExt_git_checkout_accept',
 \}
 command! LfGitCheckout Leaderf git_checkout --popup
-" ============================================================================
+
+
 
 " ============================================================================
 " mrw
+" ============================================================================
 function! LfExt_mrw_source(args) abort
     let l:files = mrw#read_cachefile(expand('%'))
     let l:result = []
@@ -98,10 +103,11 @@ let g:Lf_Extensions.mrw = {
 \   'get_digest': 'LfExt_mrw_get_digest',
 \   'supports_name_only': 1,
 \}
-" ============================================================================
+
 
 " " ============================================================================
 " " todo
+" " ============================================================================
 " let s:todo_dict = {
 " \   'cancel':           'call todo#ToggleMarkAsDone("Cancelled")',
 " \   'done':             'call todo#ToggleMarkAsDone("")',
@@ -120,4 +126,21 @@ let g:Lf_Extensions.mrw = {
 " \   'source': 'LfExt_todo_source',
 " \   'accept': 'LfExt_todo_accept',
 " \}
-" " ============================================================================
+
+
+
+" ============================================================================
+" sonictemplate
+" ============================================================================
+function! LfExt_sonictemplate_source(args) abort
+    return sonictemplate#complete('', '', '')
+endfunction
+
+function! LfExt_sonictemplate_accept(line, args) abort
+    execute 'Template '.a:line
+endfunction
+
+let g:Lf_Extensions.sonictemplate = {
+\   'source': 'LfExt_sonictemplate_source',
+\   'accept': 'LfExt_sonictemplate_accept',
+\}

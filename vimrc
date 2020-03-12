@@ -198,10 +198,6 @@ MyPlug! 'tamago324/LeaderF-bookmark'
 MyPlug! 'tamago324/LeaderF-openbrowser'
 MyPlug! 'tamago324/LeaderF-filer'
 MyPlug! 'ryanoasis/vim-devicons'
-    MyPlug! 'tamago324/LeaderF-unite'
-MyPlug! 'Shougo/unite.vim'
-    MyPlug  'thinca/vim-ref'
-    MyPlug  'Shougo/unite-outline'
 
 " --------------------------
 " coc
@@ -209,7 +205,6 @@ MyPlug! 'Shougo/unite.vim'
 MyPlug 'neoclide/coc.nvim', {'branch': 'release'}
 MyPlug 'Shougo/neco-vim'
 MyPlug 'neoclide/coc-neco'
-MyPlug 'josa42/vim-lightline-coc'
 
 
 

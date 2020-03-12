@@ -20,17 +20,13 @@ nnoremap <silent> [Leaderf]r        :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> [Leaderf]t        :<C-u>Leaderf filetype<CR>
 nnoremap <silent> [Leaderf]w        :<C-u>Leaderf window<CR>
 nnoremap <silent> [Leaderf]m        :<C-u>Leaderf mrw --nowrap<CR>
-" nnoremap <silent> [Leaderf]u        :<C-u>LfUnite outline<CR>
 nnoremap <silent> [Leaderf]l        :<C-u>Leaderf line<CR>
-nnoremap <silent> [Leaderf]p        :<C-u>LfUnite ref/pydoc<CR>
-" nnoremap <silent> [Leaderf]<Tab>    :<C-u>LfUnite tab<CR>
+
 
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
 nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
-nnoremap <silent> <Space>;t         :<C-u>LfUnite sonictemplate<CR>
-
+nnoremap <silent> <Space>;t         :<C-u>Leaderf  sonictemplate<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf! filer ~/memo<CR>
-nnoremap          <Space>mg         :<C-u><C-r>=printf('Leaderf! rg %s -e ""', expand(g:memolist_path))<CR><Left>
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'
