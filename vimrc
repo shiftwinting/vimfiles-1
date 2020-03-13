@@ -53,6 +53,7 @@ MyPlug! 'vim-jp/syntax-vim-ex'
 
 
 MyPlug  'andymass/vim-matchup'
+MyPlug  'ap/vim-css-color'
 MyPlug  'dense-analysis/ale'
 MyPlug  'dhruvasagar/vim-table-mode'
 MyPlug  'majutsushi/tagbar'
@@ -62,15 +63,14 @@ MyPlug  'mattn/webapi-vim'
 MyPlug  'mg979/vim-visual-multi'
 MyPlug  'previm/previm'
 MyPlug  'rbtnn/vim-coloredit'
-MyPlug  'rhysd/reply.vim'
 MyPlug  'simnalamburt/vim-mundo'
 MyPlug  'skanehira/translate.vim'
 MyPlug  'skywind3000/vim-quickui'
 MyPlug  'tamago324/vim-browsersync'
+MyPlug  'tpope/vim-endwise'
 MyPlug  'tweekmonster/helpful.vim'
 MyPlug  'unblevable/quick-scope'
 MyPlug! 'Yggdroot/indentLine'
-MyPlug! 'ap/vim-css-color'
 MyPlug! 'dbeniamine/todo.txt-vim'
 MyPlug! 'deris/vim-shot-f'
 MyPlug! 'glidenote/memolist.vim'
@@ -92,7 +92,6 @@ MyPlug! 't9md/vim-quickhl'
 MyPlug! 'thinca/vim-qfreplace'
 MyPlug! 'thinca/vim-quickrun'
 MyPlug! 'tomtom/tcomment_vim'
-MyPlug! 'tpope/vim-endwise'
 MyPlug! 'tpope/vim-surround'
 MyPlug! 'tyru/capture.vim'
 MyPlug! 'tyru/open-browser-github.vim'
@@ -141,21 +140,21 @@ MyPlug! 'honza/vim-snippets'
 " --------------------------
 " complete
 " --------------------------
-MyPlug! 'Shougo/neco-syntax'
+MyPlug  'Shougo/neco-syntax'
 
 " --------------------------
 " complete vim
 " --------------------------
 MyPlug! 'machakann/vim-Verdin'
 
-" --------------------------
-" textobj
-" --------------------------
-MyPlug! 'kana/vim-textobj-user'
-MyPlug! 'osyo-manga/vim-textobj-multiblock'
-MyPlug! 'kana/vim-textobj-function'
-MyPlug! 'haya14busa/vim-textobj-function-syntax'
-MyPlug! 'kana/vim-textobj-line'
+" " --------------------------
+" " textobj
+" " --------------------------
+" MyPlug! 'kana/vim-textobj-user'
+" MyPlug! 'osyo-manga/vim-textobj-multiblock'
+" MyPlug! 'kana/vim-textobj-function'
+" MyPlug! 'haya14busa/vim-textobj-function-syntax'
+" MyPlug! 'kana/vim-textobj-line'
 
 " --------------------------
 " operator
@@ -179,7 +178,7 @@ MyPlug! 'itchyny/lightline.vim'
 " --------------------------
 MyPlug  'airblade/vim-gitgutter'
 MyPlug! 'tpope/vim-fugitive'
-MyPlug  'junegunn/gv.vim'
+MyPlug! 'junegunn/gv.vim'
 MyPlug! 'gisphm/vim-gitignore'
 MyPlug! 'rhysd/conflict-marker.vim'
 
@@ -223,18 +222,13 @@ endif
 if has('win32')
     let $XDG_CACHE_HOME = $LOCALAPPDATA
 
-    if $PATH !~# 'Yarn/bin'
-        call tmg#add_path($LOCALAPPDATA.'/Yarn/bin')
-    endif
+    call tmg#add_path($LOCALAPPDATA.'/Yarn/bin', 'Yarn/bin')
+    call tmg#add_path('~/.poetry/bin',           '.poetry/bin')
+    call tmg#add_path('C:/tools/dart-sdk/bin',   'dart-sdk/bin')
+    call tmg#add_path('~/ctags',                 'ctags')
 
-    " dart のパスを追加
-    if $PATH !~# 'dart-sdk/bin'
-        call tmg#add_path('C:/tools/dart-sdk/bin')
-    endif
-
-    if $PATH !~# 'ctags'
-        call tmg#add_path('~/ctags')
-    endif
 endif
 
 call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})
+
+exec "source ".expand("<sfile>:h")."/work.vim"

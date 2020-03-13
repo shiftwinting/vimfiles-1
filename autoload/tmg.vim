@@ -137,7 +137,14 @@ endfunction
 
 " =================================================
 " $PATH に追加する
+"
+" tmg#add_path({val}[, {check_dir}])
+"   {val}: $PATH に追加する値
+"   {check_dir}: $PATH !~# {check_dir} で使われる文字列
 " =================================================
-function! tmg#add_path(val) abort
-    let $PATH = expand(a:val).';' . $PATH
+function! tmg#add_path(val, ...) abort
+    let l:check_dir = a:0 > 0 ? a:1 : v:true
+    if $PATH !~# l:check_dir
+        let $PATH = expand(a:val).';' . $PATH
+    endif
 endfunction

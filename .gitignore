@@ -5,3 +5,4 @@ autoload/plug.vim
 pack/
 work/
 .mypy_cache
+work.vim

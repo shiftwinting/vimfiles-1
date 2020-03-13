@@ -159,6 +159,29 @@ vnoremap / <Esc>/\%V
 " TODO エスケープ必要なものはエスケープする '\' => '\\' みたいな
 nnoremap <Space>/ /\V<C-R>*<CR>
 
+" from arecarn's vimrc (ttp://bit.ly/33bxPUV)
+nnoremap # :<C-U>call AddToSearch('n')<CR>
+xnoremap # :<C-U>call AddToSearch('x')<CR>
+function! AddToSearch(mode) abort
+    let l:save_reg = @@
+    if @/ !=# ''
+        if @/ ==# '^\v'
+            let @/ .= '|'
+        else
+            let @/ .= '\|'
+        endif
+    endif
+    if a:mode ==# 'x'
+        normal! gvy
+    elseif a:mode ==# 'n'
+        normal! yiw
+    else
+        let @@ = l:save_reg
+    endif
+    let @/ .= @@
+    let @@ = l:save_reg
+endfunction
+
 " 選択文字列を指定の文字で置換
 " 1. `"hy`で選択した範囲の文字列を`h`レジスタに格納
 " 2. `:%s/\V<C-R>h//g`で`h`レジスタにある文字列を検索文字として挿入
@@ -223,4 +246,4 @@ inoremap [Complete]<C-s> <C-x><C-s>
 inoremap [Complete]<C-p> <C-x><C-p>
 
 " 置換
-nnoremap <Space>s<Space> :s///g<Left><Left>
+nnoremap <Space>s<Space> :%s///g<Left><Left>

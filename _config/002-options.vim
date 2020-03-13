@@ -200,3 +200,5 @@ set path+=.
 set path+=,,
 " カレントディレクトリから上に探しに行く
 set path+=**
+
+set foldlevelstart=99
