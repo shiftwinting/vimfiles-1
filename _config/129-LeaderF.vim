@@ -97,7 +97,7 @@ let g:Lf_RgConfig = [
 \   '--smart-case',
 \   '--glob=!*/.mypy_cache/*',
 \   '--glob=!.node_modules/*',
-\   '--glob=!tags',
+\   '--glob=!tags*',
 \]
 
 let g:Lf_StlSeparator = { 'left': '', 'right': '' }

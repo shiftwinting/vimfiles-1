@@ -128,7 +128,7 @@ MyPlug 'yuezk/vim-js'
 " syntax
 " --------------------------
 MyPlug  'delphinus/vim-firestore'
-MyPlug! 'k-takata/vim-dosbatch-indent'
+MyPlug  'k-takata/vim-dosbatch-indent'
 
 " --------------------------
 " snippets
@@ -202,7 +202,6 @@ MyPlug! 'ryanoasis/vim-devicons'
 " coc
 " --------------------------
 MyPlug 'neoclide/coc.nvim', {'branch': 'release'}
-MyPlug 'Shougo/neco-vim'
 MyPlug 'neoclide/coc-neco'
 
 
