@@ -13,3 +13,10 @@ abbr        filewrite,file
 snippet     out
 abbr        print()
     print(${0})
+
+snippet     try
+abbr        try-except
+    try:
+        ${0}
+    except Exception as e:
+        raise e

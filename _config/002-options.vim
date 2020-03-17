@@ -202,3 +202,6 @@ set path+=,,
 set path+=**
 
 set foldlevelstart=99
+
+" 表示できるところまで表示する
+set display=lastline
