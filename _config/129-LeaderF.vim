@@ -5,28 +5,28 @@ nmap     <Space>f [Leaderf]
 
 " ! をつけるとノーマルモードから始まる
 nnoremap          [Leaderf]g        :<C-u>Leaderf! rg --match-path -e ""<Left>
-nnoremap <silent> 0                 :<C-u>Leaderf rg --next<CR>
-nnoremap <silent> 9                 :<C-u>Leaderf rg --previous<CR>
-nnoremap <silent> [Leaderf];        :<C-u>Leaderf cmdHistory<CR>
-nnoremap <silent> [Leaderf]c        :<C-u>Leaderf cdnjs<CR>
-nnoremap <silent> [Leaderf]f        :<C-u>Leaderf file<CR>
-nnoremap <silent> [Leaderf]h        :<C-u>Leaderf help<CR>
-" nnoremap <silent> [Leaderf]i        :<C-u>Leaderf function<CR>
-nnoremap <silent> [Leaderf]j        :<C-u>Leaderf buffer<CR>
-nnoremap <silent> [Leaderf]k        :<C-u>Leaderf mru --nowrap<CR>
-nnoremap <silent> [Leaderf]o        :<C-u>Leaderf openbrowser<CR>
-nnoremap <silent> [Leaderf]q        :<C-u>Leaderf ghq<CR>
+nnoremap <silent> 0                 :<C-u>Leaderf  rg --next<CR>
+nnoremap <silent> 9                 :<C-u>Leaderf  rg --previous<CR>
 nnoremap <silent> [Leaderf]r        :<C-u>Leaderf! rg --recall<CR>
-nnoremap <silent> [Leaderf]t        :<C-u>Leaderf filetype<CR>
-nnoremap <silent> [Leaderf]w        :<C-u>Leaderf window<CR>
-nnoremap <silent> [Leaderf]m        :<C-u>Leaderf mrw --nowrap<CR>
-nnoremap <silent> [Leaderf]l        :<C-u>Leaderf line<CR>
+nnoremap <silent> [Leaderf];        :<C-u>Leaderf  cmdHistory<CR>
+nnoremap <silent> [Leaderf]c        :<C-u>Leaderf  cdnjs<CR>
+nnoremap <silent> [Leaderf]f        :<C-u>Leaderf  file<CR>
+nnoremap <silent> [Leaderf]h        :<C-u>Leaderf  help<CR>
+nnoremap <silent> [Leaderf]j        :<C-u>Leaderf  buffer<CR>
+nnoremap <silent> [Leaderf]k        :<C-u>Leaderf  mru --nowrap<CR>
+nnoremap <silent> [Leaderf]o        :<C-u>Leaderf  openbrowser<CR>
+nnoremap <silent> [Leaderf]q        :<C-u>Leaderf  ghq<CR>
+nnoremap <silent> [Leaderf]t        :<C-u>Leaderf  filetype<CR>
+nnoremap <silent> [Leaderf]w        :<C-u>Leaderf  window<CR>
+nnoremap <silent> [Leaderf]m        :<C-u>Leaderf  mrw --nowrap<CR>
+nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line<CR>
+" nnoremap <silent> [Leaderf]i        :<C-u>Leaderf function<CR>
 
 
-nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
+nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately --popup<CR>
 nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
-nnoremap <silent> <Space>;t         :<C-u>Leaderf  sonictemplate<CR>
-nnoremap <silent> <Space>ml         :<C-u>Leaderf! filer ~/memo<CR>
+nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate<CR>
+nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'
@@ -73,6 +73,12 @@ let g:Lf_WindowPosition = 'bottom'
 let g:Lf_PreviewHorizontalPosition = 'above'
 " プレビューの高さ
 let g:Lf_PreviewPopupHeight = 30
+
+" ----------
+" popup
+" ----------
+" ポップアップの位置
+let g:Lf_PopupPosition = [10, 0]
 
 let g:Lf_StlSeparator = {
 \   'left': "\ue0b0",
@@ -245,20 +251,36 @@ let g:Lf_StlPalette = {
 \   }
 \ }
 
-" popup 検索結果は下線のみ
-let g:Lf_PopupPalette = {
-\   'light': {
-\       'Lf_hl_cursorline': {
-\           'gui': 'underline',
-\           'font': 'NONE',
-\           'guifg': 'fg',
-\           'guibg': 'bg',
-\           'cterm': 'NONE',
-\           'ctermfg': 'NONE',
-\           'ctermbg': 'NONE'
-\       }
-\   }
-\}
+" " popup 検索結果は下線のみ
+" let g:Lf_PopupPalette = {
+" \   'light': {
+" \       'Lf_hl_cursorline': {
+" \           'gui': 'underline',
+" \           'font': 'NONE',
+" \           'guifg': 'fg',
+" \           'guibg': 'bg',
+" \           'cterm': 'NONE',
+" \           'ctermfg': 'NONE',
+" \           'ctermbg': 'NONE'
+" \       }
+" \   }
+" \}
+
+" " popup 検索結果は下線のみ
+" " Lf_hl_popup_window の guifg と guibg を持ってきた
+" let g:Lf_PopupPalette = {
+" \   'light': {
+" \       'Lf_hl_cursorline': {
+" \           'gui': 'underline',
+" \           'font': 'NONE',
+" \           'guifg': '#4d4d4d',
+" \           'guibg': '#fafbff',
+" \           'cterm': 'NONE',
+" \           'ctermfg': 'NONE',
+" \           'ctermbg': 'NONE'
+" \       }
+" \   }
+" \}
 
 let g:Lf_PreviewResult = {
 \   'File': 0,
