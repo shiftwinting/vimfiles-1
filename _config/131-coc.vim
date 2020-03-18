@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+finish
+
 " 移動 (go)
 nmap <silent> gd <Plug>(coc-definition)
 " nmap <silent> gy <Plug>(coc-type-definition)

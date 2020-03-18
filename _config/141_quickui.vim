@@ -43,18 +43,18 @@ call quickui#menu#install('&Sass', [
 \])
 
 
-" ghq
-call quickui#menu#install('gh&q', [
-\   ['&get',    'call feedkeys(":GhqGet ")'],
-\   ['&create', 'echo "todo"'],
-\])
+" " ghq
+" call quickui#menu#install('gh&q', [
+" \   ['&get',    'call feedkeys(":GhqGet ")'],
+" \   ['&create', 'echo "todo"'],
+" \])
 
 
-" git
-call quickui#menu#install('&Git', [
-\   ['&commit',       'call git#commit()'],
-\   ['&commit amend', 'call git#commit_amend()'],
-\   ['&push',         'call git#push()'],
-\   ['pu&ll',         'call git#pull())'],
-\   ['&checkout',     'Leaderf git_checkout --popup'],
-\])
+" " git
+" call quickui#menu#install('&Git', [
+" \   ['&commit',       'call git#commit()'],
+" \   ['&commit amend', 'call git#commit_amend()'],
+" \   ['&push',         'call git#push()'],
+" \   ['pu&ll',         'call git#pull())'],
+" \   ['&checkout',     'Leaderf git_checkout --popup'],
+" \])

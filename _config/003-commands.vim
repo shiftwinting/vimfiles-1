@@ -344,3 +344,12 @@ command! -nargs=1 GhqGet call tmg#term_exec('ghq', {
 command! -nargs=+ -complete=dir SassWatchStart    call sasswatch#start(<f-args>)
 command! -nargs=+ -complete=dir SassWatchStartCwd call sasswatch#start(getcwd(), <f-args>)
 command! -nargs=0               SassWatchStop     call sasswatch#stop()
+
+" =====================
+" git
+" =====================
+command! GitPush        call git#push()
+command! GitPull        call git#pull()
+command! GitCommit      call git#commit()
+command! GitCommitAmend call git#commit_amend()
+command! GitCheckout    :<C-u>Leaderf git_checkout --popup<CR>

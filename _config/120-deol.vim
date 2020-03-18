@@ -11,15 +11,15 @@ let g:deol#shell_history_path = expand('~/deol_history')
 
 augroup MyDeol
     autocmd!
-    autocmd Filetype deol call DeolSettings()
-    " expand('<afile>') とする
-    autocmd BufWinEnter * if expand('<afile>') ==# 'deol-edit' | call DeolEditorSettings() | endif
+    autocmd Filetype deol     call DeolSettings()
+    autocmd Filetype deoledit call DeolEditorSettings()
     autocmd DirChanged * if !empty(gettabvar(tabpagenr(), 'deol', {})) | call deol#cd(expand('<afile>')) | endif
 augroup END
 
+
 function! DeolSettings() abort
     tmap     <buffer><silent> <A-e> <C-w>:call deol#edit()<CR>
-    nmap     <buffer><silent> <A-e> <Esc>:call HideDeol(tabpagenr())<CR>
+    nmap     <buffer><silent> <A-e> :<C-u>normal! i<CR>
     nmap     <buffer><silent> <A-t> <Esc>:call HideDeol(tabpagenr())<CR>
 
     " "\<Right>" じゃだめだった
@@ -34,6 +34,13 @@ function! DeolSettings() abort
     nnoremap <buffer>         <C-e> <Nop>
     nnoremap <buffer>         <C-z> <Nop>
     nnoremap <buffer>         e     <Nop>
+
+endfunction
+
+function! s:deoledit_abbrev() abort
+
+    iabbrev <buffer> poe poetry
+
 endfunction
 
 function! DeolEditorSettings() abort
@@ -48,9 +55,17 @@ function! DeolEditorSettings() abort
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
 
-    " CR のマッピングを上書きしないようにする
-    let b:pear_tree_map_special_keys = 0
+    call s:deoledit_abbrev()
 
+"   " XXX: 行補完したい
+"
+    " augroup MyDeolTextChangedI
+    "     autocmd!
+    "     " 挿入モードでポップアップが表示されていないときにテキストが変更された
+    "     autocmd TextChangedI <buffer> <C-x><C-l>
+    " augroup END
+
+    resize 5
     setlocal winfixheight
 endfunction
 
@@ -192,4 +207,3 @@ endfunction
 command! ToggleDeol call ToggleDeol(tabpagenr())
 nnoremap <silent><A-t> :<C-u>ToggleDeol<CR>
 tnoremap <silent><A-t> <C-\><C-n>:<C-u>ToggleDeol<CR>
-

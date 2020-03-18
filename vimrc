@@ -230,6 +230,9 @@ if has('win32')
     call tmg#add_path('C:/tools/dart-sdk/bin',   'dart-sdk/bin')
     call tmg#add_path('~/ctags',                 'ctags')
 
+    " pipenv の 仮想環境をプロジェクト内に作る
+    let $PIPENV_VENV_IN_PROJECT = 'true'
+
 endif
 
 call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})

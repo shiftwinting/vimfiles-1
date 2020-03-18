@@ -76,6 +76,13 @@ function! s:one_color() abort
     " ====================
     hi link Lf_hl_filerDir Directory
 
+    " ====================
+    " GV
+    " ====================
+    hi DiffAdded   gui=NONE guifg=fg      guibg=#DFFFDF
+    hi DiffRemoved gui=NONE guifg=fg      guibg=#FFDFDF
+    hi DiffLine    gui=NONE guifg=#4078f2 guibg=bg
+
 endfunction
 
 function! DefineMyHighlishts() abort
