@@ -2,7 +2,11 @@ scriptencoding utf-8
 
 let g:lightline = {}
 
-let g:lightline.colorscheme = 'solarized'
+if g:colors_name =~# '^solarzed8'
+    let g:lightline.colorscheme = 'solarized'
+elseif g:colors_name ==# 'one'
+    let g:lightline.colorscheme = 'one'
+endif
 
 let g:lightline.tabline = {
 \   'left': [ ['tabs'] ],

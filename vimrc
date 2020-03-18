@@ -187,6 +187,7 @@ MyPlug! 'rhysd/conflict-marker.vim'
 " colorscheme
 " --------------------------
 MyPlug! 'lifepillar/vim-solarized8'
+MyPlug! 'rakr/vim-one'
 
 " --------------------------
 " LeaderF

@@ -23,7 +23,7 @@ nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line<CR>
 " nnoremap <silent> [Leaderf]i        :<C-u>Leaderf function<CR>
 
 
-nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately --popup<CR>
+nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
 nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
 nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
@@ -35,7 +35,12 @@ let g:Lf_DefaultMode = 'NameOnly'
 let g:Lf_CursorBlink = 0
 
 " ステータスラインのカラースキーム
-let g:Lf_StlColorscheme = 'default'
+if g:colors_name ==# 'one'
+    let g:Lf_StlColorscheme = 'one'
+else
+    let g:Lf_StlColorscheme = 'default'
+endif
+
 
 " 検索に使う外部ツール
 let g:Lf_DefaultExternalTool = 'rg'
@@ -158,6 +163,7 @@ let g:Lf_CommandMap = {
 \   '<Del>':    ['<C-d>'],
 \}
 
+
 let g:Lf_StlPalette = {
 \   'stlName': {
 \       'gui': 'bold',
@@ -222,15 +228,6 @@ let g:Lf_StlPalette = {
 \       'ctermbg': '195',
 \       'cterm': 'NONE',
 \   },
-\   'stlBlank': {
-\       'gui': 'NONE',
-\       'font': 'NONE',
-\       'guifg': '#073642',
-\       'guibg': '#eee8d5',
-\       'cterm': 'NONE',
-\       'ctermfg': 'NONE',
-\       'ctermbg': 'NONE'
-\   },
 \   'stlLineInfo': {
 \       'guifg': '#595959',
 \       'guibg': '#e9f7e9',
@@ -251,36 +248,29 @@ let g:Lf_StlPalette = {
 \   }
 \ }
 
-" " popup 検索結果は下線のみ
-" let g:Lf_PopupPalette = {
-" \   'light': {
-" \       'Lf_hl_cursorline': {
-" \           'gui': 'underline',
-" \           'font': 'NONE',
-" \           'guifg': 'fg',
-" \           'guibg': 'bg',
-" \           'cterm': 'NONE',
-" \           'ctermfg': 'NONE',
-" \           'ctermbg': 'NONE'
-" \       }
-" \   }
-" \}
 
-" " popup 検索結果は下線のみ
-" " Lf_hl_popup_window の guifg と guibg を持ってきた
-" let g:Lf_PopupPalette = {
-" \   'light': {
-" \       'Lf_hl_cursorline': {
-" \           'gui': 'underline',
-" \           'font': 'NONE',
-" \           'guifg': '#4d4d4d',
-" \           'guibg': '#fafbff',
-" \           'cterm': 'NONE',
-" \           'ctermfg': 'NONE',
-" \           'ctermbg': 'NONE'
-" \       }
-" \   }
-" \}
+if g:colors_name =~# '^solarized8'
+    let g:Lf_StlPalette.stlBlank = {
+    \   'gui': 'NONE',
+    \   'font': 'NONE',
+    \   'guifg': '#073642',
+    \   'guibg': '#eee8d5',
+    \   'cterm': 'NONE',
+    \   'ctermfg': 'NONE',
+    \   'ctermbg': 'NONE'
+    \}
+elseif g:colors_name ==# 'one'
+    let g:Lf_StlPalette.stlBlank = {
+    \   'gui': 'NONE',
+    \   'font': 'NONE',
+    \   'guifg': '#494b53',
+    \   'guibg': '#e1e1e1',
+    \   'cterm': 'NONE',
+    \   'ctermfg': 'NONE',
+    \   'ctermbg': 'NONE'
+    \}
+endif
+
 
 let g:Lf_PreviewResult = {
 \   'File': 0,
