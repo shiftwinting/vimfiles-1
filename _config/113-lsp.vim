@@ -1,108 +1,75 @@
 scriptencoding utf-8
 
-finish
+" mattn さんの lsp の設定 https://gist.github.com/mattn/3c65639710016d662701bb2526ecba55
 
-" デバッグ
-let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
+function! s:lsp_setup() abort
 
-" from https://gist.github.com/mattn/3c65639710016d662701bb2526ecba55
-" mattn さんの lsp の設定
-
-" if executable('pyls')
-"     " pip install python-language-server
-"     augroup MyLspPython
-"         autocmd!
-"         autocmd User lsp_setup call lsp#register_server({
-"             \ 'name': 'pyls',
-"             \ 'cmd': {server_info->[&shell, &shellcmdflag, 'pyls']},
-"             \ 'whitelist': ['python'],
-"             \ })
-"         autocmd FileType python call s:configure_lsp()
-"     augroup END
-" endif
-"
-
-if executable('nimlsp')
-    augroup MyLspNim
-        autocmd!
-        autocmd User lsp_setup call lsp#register_server({
-        \   'name': 'nimlsp',
-        \   'cmd': {server_info->[&shell, &shellcmdflag, 'nimlsp C:\\nim\\nim-1.0.2']},
-        \   'whitelist': ['nim'],
+    " python -m pip install python-language-server
+    if executable('pyls')
+        call lsp#register_server({
+        \   'name': 'pyls',
+        \   'cmd': [&shell, &shellcmdflag, 'pyls'],
+        \   'whitelist': ['python'],
         \})
-        autocmd FileType nim call s:configure_lsp()
-    augroup END
-endif
+    endif
 
 
-if executable('typescript-language-server')
-    augroup MyLspTypeScript
-        autocmd!
-        autocmd User lsp_setup call lsp#register_server({
-        \   'name': 'typescript-language-server',
-        \   'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \   'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \   'whitelist': ['typescript', 'javasript'],
+    " yarn global add vim-language-server
+    if executable('vim-language-server')
+        call lsp#register_server({
+        \   'name': 'vim',
+        \   'cmd': [&shell, &shellcmdflag, 'vim-language-server', '--stdio'],
+        \   'whitelist': ['vim'],
         \})
-        autocmd FileType javascript.typescript setlocal omnifunc=lsp#complete
-    augroup END
-endif
-
-" if executable('html-languageserver')
-"     " pip install python-language-server
-"     augroup MyLspHTML
-"         au!
-"         autocmd User lsp_setup call lsp#register_server({
-"         \   'name': 'html-languageserver',
-"         \   'cmd': {server_info->[&shell, &shellcmdflag, 'html-languageserver --stdio']},
-"         \   'whitelist': ['html'],
-"         \})
-"         autocmd FileType html call s:configure_lsp()
-"     augroup END
-" endif
-
-" " from https://gist.github.com/yaegassy/57e50125e9c6488581c4b8fe608ce194
-" if executable('vls')
-"     " npm i -g vue-language-server
-"     " [vetur/server at master · vuejs/vetur https://github.com/vuejs/vetur/tree/master/server]
-"     augroup MyLspVue
-"         autocmd!
-"         autocmd User lsp_setup call lsp#register_server({
-"         \   'name': 'vue-language-server',
-"         \   'cmd': {server_info->[&shell, &shellcmdflag, 'vls']},
-"         \   'whitelist': ['vue'],
-"         \   'initialization_options': {
-"         \       'config': {
-"         \           'html': {},
-"         \            'vetur': {
-"         \                'validation': {}
-"         \            }
-"         \       }
-"         \   }
-"         \})
-"     augroup END
-" endif
-
-function! s:configure_lsp() abort
-    " omnifunc を設定
-    setlocal omnifunc=lsp#complete
-
-    nnoremap <buffer><silent> <C-]> :<C-u>LspDefinition<CR>
-    nnoremap <buffer><silent> <Space>;r    :<C-u>LspReferences<CR>
-    nnoremap <buffer><silent> K     :<C-u>LspHover<CR>
-
-    nnoremap <buffer> gj    :<C-u>LspNextError<CR>
-    nnoremap <buffer> gk    :<C-u>LspPreviousError<CR>
-    nnoremap <buffer><silent> <Space>;a    :<C-u>LspCodeAction<CR>
+    endif
 
 endfunction
-"" sign の表示を無効化 ( mint で行うため )
-let g:lsp_diagnostics_enabled = 0
 
-let g:lsp_settings_servers_dir = expand("~/lsp_server")
 
-augroup MyLspSettings
+" | 機能                    | vim | pyls |
+" |-------------------------|-----|------|
+" | definition              | o   | o    |
+" | references              | o   | o    |
+" | hover                   | o   | o    |
+" | signatureHelp           | o   | o    |
+" | rename                  | o   | o    |
+" | completion              | o   | o    |
+" | executeCommand          | x   | ?    |
+" | documentHighlight       | x   | o    |
+" | codeAction              | x   | o    |
+" | codeLens                | x   | o    |
+" | documentRangeFormatting | x   | o    |
+" | documentFormatting      | x   | o    |
+
+function! s:lsp_settings() abort
+    " completion
+    setlocal omnifunc=lsp#complete
+
+    " definition
+    nmap <buffer> gd    <plug>(lsp-definition)
+
+    " references
+    nmap <buffer> gr    <plug>(lsp-references)
+    nmap <buffer> [r    <plug>(lsp-next-reference)
+    nmap <buffer> ]r    <plug>(lsp-previous-reference)
+
+    " hover
+    nmap <buffer> K     <plug>(lsp-hover)
+
+    " rename
+
+endfunction
+
+augroup MyLsp
     autocmd!
-    autocmd FileType html,python,vim call s:configure_lsp()
+    autocmd User lsp_setup call s:lsp_setup()
+    autocmd FileType python,vim call s:lsp_settings()
 augroup END
+
+
+" デバッグ用
+let g:lsp_log_verbose = 1
+let g:lsp_log_file = 'C:/tmp/vimlsp.log'
+
+" 診断結果を表示する
+let g:lsp_diagnostics_enabled = 1

@@ -21,8 +21,8 @@ augroup gitgutter
 augroup END
 
 " 変更箇所へ移動
-nmap ]c <Plug>(GitGutterNextHunk)
-nmap [c <Plug>(GitGutterPrevHunk)
+nmap ]g <Plug>(GitGutterNextHunk)
+nmap [g <Plug>(GitGutterPrevHunk)
 
 " stage/unstage
 nmap ghs <Plug>(GitGutterStageHunk)

@@ -30,7 +30,7 @@ let g:min_vimrc = get(g:, 'min_vimrc', 0)
 
 function! s:plug(require, name, ...) abort
     " min かつ 必須ではない場合、読み込まない
-    let l:opts = a:0 > 0 ? a:1 : {}
+    let l:opts = get(a:, 1, {})
     if a:require || !g:min_vimrc
         Plug a:name, l:opts
     endif
@@ -69,7 +69,7 @@ MyPlug  'skywind3000/vim-quickui'
 MyPlug  'tamago324/vim-browsersync'
 MyPlug  'tpope/vim-endwise'
 MyPlug  'tweekmonster/helpful.vim'
-MyPlug  'unblevable/quick-scope'
+" MyPlug  'unblevable/quick-scope'
 MyPlug! 'Yggdroot/indentLine'
 MyPlug! 'dbeniamine/todo.txt-vim'
 MyPlug! 'deris/vim-shot-f'
@@ -200,20 +200,22 @@ MyPlug! 'tamago324/LeaderF-openbrowser'
 MyPlug! 'tamago324/LeaderF-filer'
 MyPlug! 'ryanoasis/vim-devicons'
 
-" --------------------------
-" coc
-" --------------------------
-MyPlug 'neoclide/coc.nvim', {'branch': 'release'}
-MyPlug 'neoclide/coc-neco'
+" " --------------------------
+" " coc
+" " --------------------------
+" MyPlug 'neoclide/coc.nvim', {'branch': 'release'}
+" MyPlug 'neoclide/coc-neco'
 
+" lsp
+MyPlug  'prabirshrestha/async.vim'
+MyPlug  'prabirshrestha/vim-lsp'
 
+" Plug '~/ghq/github.com/tamago324/LeaderF'
+" Plug '~/ghq/github.com/tamago324/LeaderF-filer'
 
 call plug#end()
 
 " ------------------------------------------------------------------------------
-
-" set runtimepath^=~/ghq/github.com/tamago324/LeaderF
-" set runtimepath^=~/ghq/github.com/tamago324/LeaderF-filer
 
 " $PATH に $VIM が入っていない場合、先頭に追加する
 if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
