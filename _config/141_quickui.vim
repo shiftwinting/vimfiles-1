@@ -1,7 +1,5 @@
 scriptencoding utf-8
 
-" 読み込まないと関数を呼べないため
-packadd vim-quickui
 let g:quickui_color_scheme = 'solarized'
 
 noremap <C-s> :<C-u>call quickui#menu#open()<CR>

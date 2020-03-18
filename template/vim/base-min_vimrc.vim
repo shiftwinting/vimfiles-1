@@ -20,5 +20,8 @@ set nowritebackup
 set noswapfile
 set updatecount=0
 
+" 消せる文字
+set backspace=indent,eol,start
+
 nnoremap <silent> <Space>q :<C-u>quit<CR>
 nnoremap <silent> <Space>Q :<C-u>quit!<CR>
