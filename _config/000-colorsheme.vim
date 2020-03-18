@@ -82,6 +82,8 @@ function! s:one_color() abort
     hi DiffAdded   gui=NONE guifg=fg      guibg=#DFFFDF
     hi DiffRemoved gui=NONE guifg=fg      guibg=#FFDFDF
     hi DiffLine    gui=NONE guifg=#4078f2 guibg=bg
+    hi DiffNewFile gui=NONE guifg=#50a14f guibg=bg
+    hi DiffFile    gui=NONE guifg=#e45649 guibg=bg
 
 endfunction
 
