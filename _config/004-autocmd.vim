@@ -5,8 +5,9 @@ augroup MyAutoCmd
 augroup END
 
 
+" XXX: これいらない？デフォルトで ro は含まれていないため
 " 自動でコメント開始文字を挿入しないようにする
-autocmd MyAutoCmd FileType * setlocal formatoptions-=r formatoptions-=o
+" autocmd MyAutoCmd FileType * setlocal formatoptions-=r formatoptions-=o
 
 autocmd MyAutoCmd VimEnter,WinEnter * call matchadd('Tab', '\t')
 autocmd MyAutoCmd VimEnter,WinEnter * call matchadd('Eol', '$')
@@ -167,25 +168,19 @@ function! QfSettings() abort
     nnoremap <buffer><silent> gk gk
 endfunction
 
-autocmd! MyAutoCmd FileType qf call QfSettings()
+autocmd MyAutoCmd FileType qf call QfSettings()
 
 " カーソルラインの位置を保存する
 " from skanehira/dotfiles (http://bit.ly/2N82age)
-augroup cursorlineRestore
-    autocmd!
-    autocmd BufReadPost *
-                \ if line("'\"") > 0 && line("'\"") <= line("$") |
-                \   exe "normal! g'\"" |
-                \ endif
-augroup END
+autocmd MyAutoCmd BufReadPost *
+\   if line("'\"") > 0 && line("'\"") <= line("$") |
+\     exe "normal! g'\"" |
+\   endif
 
 " // をコメントとする
-autocmd FileType json syntax match Comment +\/\/.\+$+
+autocmd MyAutoCmd FileType json syntax match Comment +\/\/.\+$+
 
-augroup MyVagrant
-    autocmd!
-    autocmd BufRead,BufNewFile Vagrantfile set ft=ruby
-augroup END
+autocmd MyAutoCmd BufRead,BufNewFile Vagrantfile set ft=ruby
 
 " help
 " http://bit.ly/2VQFGWr
@@ -194,10 +189,7 @@ function! s:ft_help() abort
     82wincmd |
     setlocal winfixwidth
 endfunction
-augroup MyHelp
-    autocmd!
-    autocmd BufEnter * if &buftype ==# 'help' | call <SID>ft_help() | endif
-augroup END
+autocmd MyAutoCmd BufEnter * if &buftype ==# 'help' | call <SID>ft_help() | endif
 
 " diffthis しているときにテキスト更新したら diffupdate
 " http://bit.ly/2wxMnCa
@@ -206,14 +198,19 @@ function! s:auto_diffupdate() abort
         diffupdate
     endif
 endfunction
-augroup MyDiff
-    autocmd!
-    autocmd TextChanged * call s:auto_diffupdate()
-augroup END
+autocmd MyAutoCmd TextChanged * call s:auto_diffupdate()
 
-augroup MyScss
-    autocmd!
-    " xxx-xxx もキーワードとして認識させる
-    autocmd FileType scss set iskeyword+=-
-augroup END
+" xxx-xxx もキーワードとして認識させる
+autocmd MyAutoCmd FileType scss set iskeyword+=-
 
+
+" ====================
+" format
+" ====================
+function! s:format_vim() abort
+    " カーソル位置の保存と復元
+    let l:pos = getcurpos()
+    normal! gg=G
+    call setpos('.', l:pos)
+endfunction
+autocmd MyAutoCmd FileType vim nnoremap <buffer> <Space>bl :call <SID>format_vim()<CR>

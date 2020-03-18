@@ -58,7 +58,7 @@ endfunction
 " commit 用のバッファを開く
 " -------------------------------------------------
 function! s:open_commit_buffer(...) abort
-    let l:lines = a:0 > 0 ? a:1 : []
+    let l:lines = get(a:, 1, [])
 
     " バッファを開く
     let l:tempname = tempname()

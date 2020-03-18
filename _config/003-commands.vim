@@ -28,8 +28,9 @@ function! s:github_fix_param(param) abort
     return substitute(a:param, '\v(|\s+)', '', 'g')
 endfunction
 
-" ------------------------------------------------------------------------------
+" =====================
 " カレントファイルのパスをいろんな形式で yank
+" =====================
 command! FnamemodsPopup call s:yank_fnamemods_popup()
 
 " TODO: コマンドでパスの変換できるようにする
@@ -124,12 +125,12 @@ function! s:create_fnmods_list(fullpath, fnmods) abort "
 
     return fnmods_list
 endfunction
-" ------------------------------------------------------------------------------
 
 
 
-" ------------------------------------------------------------------------------
+" =====================
 " よく使う help へのジャンプ 
+" =====================
 command! FavoriteHelps call FavoriteHelps()
 
 " 順序を保持するため、リスト
@@ -186,10 +187,11 @@ function! FavoriteHelps() abort "
     " window変数を使う
     call setwinvar(l:winid, 'items', map(s:fav_helps, 'v:val'))
 endfunction
-" ------------------------------------------------------------------------------
 
-" ------------------------------------------------------------------------------
+
+" =====================
 " カーソル下の highlight 情報を取得 (name のみ) 
+" =====================
 command! SyntaxInfo call GetSynInfo()
 
 " http://cohama.hateblo.jp/entry/2013/08/11/020849
@@ -221,10 +223,11 @@ function! GetSynInfo() abort
     echo 'link to'
     echo 'name: ' . linked_syn.name
 endfunction
-" ------------------------------------------------------------------------------
 
-" ------------------------------------------------------------------------------
+
+" =====================
 " packages 機能
+" =====================
 command! -nargs=+ PackGet call s:packget(<f-args>)
 " command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
 command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
@@ -290,34 +293,23 @@ endfunction
 " command! -nargs=1 PackHelp -complete=customlist,func call s:packhelp(<f-args>)
 " ------------------------------------------------------------------------------
 
-" ------------------------------------------------------------------------------
+
+" =====================
 " カレントバッファを開く
+" =====================
 command! ThisOpen execute printf('!start "%s"', expand('%:p'))
-" ------------------------------------------------------------------------------
 
-" " ------------------------------------------------------------------------------
-" " カレントバッファのファイル名を変更
-" function! RenameCurBuffer() abort
-"     let l:name = input('Rename: ')
-"     if empty(l:name)
-"         return
-"     endif
-"
-"     let l:fullpath = tmg#get_fullpath(expand('%:p:h')) . '/' . l:name
-"     call rename(expand('%:p'), l:fullpath)
-"     execute 'edit! ' . l:fullpath
-" endfunction
-"
-" command! RenameCurBuffer call RenameCurBuffer()
-" " ------------------------------------------------------------------------------
 
-" ------------------------------------------------------------------------------
+" =====================
+" メモ
+" =====================
 command! MemoOpen call tmg#drop_or_tabedit(expand('~/tmp_memo'))
 nnoremap <Space>tm :<C-u>MemoOpen<CR>
-" ------------------------------------------------------------------------------
 
-" ------------------------------------------------------------------------------
+
+" =====================
 " bitly で URL 短縮
+" =====================
 
 let bitly#use_default_token = 1
 
@@ -332,36 +324,23 @@ endfunction
 
 command! -nargs=1 BitlyShortenUrl call ShortenUrl(<f-args>)
 
-" ------------------------------------------------------------------------------
+
 " TODO: tabstop のくるくる
 
 
-" ------------------------------------------------------------------------------
-
-" ------------------------------------------------------------------------------
+" =====================
 " ghq
+" =====================
 command! -nargs=1 GhqGet call tmg#term_exec('ghq', {
 \   'cmd': 'get',
 \   'args': [<SID>github_fix_param(<f-args>)],
 \})
 " command! -nargs=1 GhqCreate execute 'belowright terminal ghq create <q-args>'
-" ------------------------------------------------------------------------------
 
 
-" " ------------------------------------------------------------------------------
-" command! PackUpdate call PackInit() | call minpac#update('', {'do': 'call minpac#status()'})
-" command! PackClean  call PackInit() | call minpac#clean()
-" command! PackStatus call PackInit() | call minpac#status()
-" " ------------------------------------------------------------------------------
-
-
-" ------------------------------------------------------------------------------
+" =====================
+" Sass
+" =====================
 command! -nargs=+ -complete=dir SassWatchStart    call sasswatch#start(<f-args>)
 command! -nargs=+ -complete=dir SassWatchStartCwd call sasswatch#start(getcwd(), <f-args>)
 command! -nargs=0               SassWatchStop     call sasswatch#stop()
-" ------------------------------------------------------------------------------
-
-
-command! -nargs=1 MdnWebDocsSearch call openbrowser#search(<f-args>, 'mdnwebdocs')
-nnoremap <A-m> :<C-u>MdnWebDocsSearch 
-vnoremap <A-m> :<C-u>call execute('MdnWebDocsSearch '.tmg#getwords_last_visual())<CR>

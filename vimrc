@@ -101,7 +101,8 @@ MyPlug! 'tyru/open-browser.vim'
 " --------------------------
 " python
 " --------------------------
-MyPlug 'vim-python/python-syntax'
+MyPlug! 'vim-python/python-syntax'
+MyPlug! 'petobens/poet-v'
 
 " --------------------------
 " php

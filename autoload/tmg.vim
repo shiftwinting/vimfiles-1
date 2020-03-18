@@ -71,7 +71,7 @@ endfunction
 " =================================================
 function! tmg#popup_notification_botright(messages, ...) abort
     " option は上書き可能にする
-    let l:arg_opt = a:0 == 0 ? {} : a:1
+    let l:arg_opt = get(a:, 1, {})
 
     let l:col = &columns - (&guioptions =~# 'r' ? 1 : 0)
 
@@ -143,7 +143,7 @@ endfunction
 "   {check_dir}: $PATH !~# {check_dir} で使われる文字列
 " =================================================
 function! tmg#add_path(val, ...) abort
-    let l:check_dir = a:0 > 0 ? a:1 : v:true
+    let l:check_dir = get(a:, 1, v:true)
     if $PATH !~# l:check_dir
         let $PATH = expand(a:val).';' . $PATH
     endif
