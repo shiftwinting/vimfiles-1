@@ -9,6 +9,14 @@ let g:deol#prompt_pattern = '[^#>$ ]\{-}\%(>\|# \?\|\$\)'
 " コマンドの履歴
 let g:deol#shell_history_path = expand('~/deol_history')
 
+" job_start() へのオプション
+let g:deol#extra_options = {
+\   'term_kill': 'kill',
+\}
+
+" 履歴ファイルを読めるか
+let s:can_read_history_file = filereadable(expand(g:deol#shell_history_path))
+
 
 nnoremap <silent><A-t> :<C-u>call ToggleDeol()<CR>
 tnoremap <silent><A-t> <C-\><C-n>:<C-u>call ToggleDeol()<CR>
@@ -51,17 +59,11 @@ endfunction
 " TabClosed:
 " ====================
 function! s:TabClosed() abort
-    " TODO: 最後のタブだった場合、どうするか
-
     if !exists('g:last_tab_deol') || empty(g:last_tab_deol)
         return
     endif
 
-    " XXX: kill で終了するようにしているため、少し危なっかしいかも？
-    call term_setkill(g:last_tab_deol.bufnr, 'kill')
-
     call s:bufdelete_if_exists(g:last_tab_deol.bufnr)
-
     unlet g:last_tab_deol
 endfunction
 
@@ -76,10 +78,20 @@ function! s:DirChanged(file) abort
 endfunction
 
 
+" ====================
+" TextChangedI:
+" TextChangedP:
+" ====================
+function! s:TextChanged() abort
+    call s:sign_place()
+endfunction
+
+
+
 function! s:deol_settings() abort
-    tnoremap <buffer><silent>       <A-e> <C-w>:call deol#edit()<CR>
+    tnoremap <buffer><silent>       <A-e> <C-w>:call         deol#edit()<CR>
     nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>normal! i<CR>
-    nnoremap <buffer><silent>       <A-t> <Esc>:call <SID>hide_deol(tabpagenr())<CR>
+    nnoremap <buffer><silent>       <A-t> <Esc>:call         <SID>hide_deol(tabpagenr())<CR>
 
     " "\<Right>" じゃだめだった
     nnoremap <buffer><silent><expr> A     'i' . repeat("<Right>", len(getline('.')))
@@ -111,12 +123,18 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
 
-"   " XXX: 自動で行補完したい
+    nnoremap <buffer><silent> <CR>  :<C-u>call <SID>send_editor()<CR>
+    inoremap <buffer><silent> <CR>  <Esc>:call <SID>send_editor()<CR> \| normal! o
+
+    "   " XXX: 自動で行補完したい
 
     iabbrev <buffer> poe poetry
 
     resize 5
     setlocal winfixheight
+
+    call s:sign_place()
+    autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
 endfunction
 
 
@@ -140,10 +158,10 @@ endfunction
 " ====================
 " deol-edit を削除
 "
-" s:deol_kill_editor([save_history])
+" s:deol_kill_editor()
 " ====================
-function! s:deol_kill_editor(...) abort
-    let l:save_history = get(a:, 1, 1)
+function! s:deol_kill_editor() abort
+    " let l:save_history = get(a:, 1, 1)
 
     let l:deol = s:get_deol()
     " まだ、作られていない場合、終わり
@@ -151,10 +169,10 @@ function! s:deol_kill_editor(...) abort
         return
     endif
 
-    " 履歴を追加
-    if l:save_history
-        call s:save_history(l:deol.edit_bufnr)
-    endif
+    " " 履歴を追加
+    " if l:save_history
+    "     call s:save_history(l:deol.edit_bufnr)
+    " endif
 
     " バッファがあれば削除
     call s:bufdelete_if_exists(l:deol.edit_bufnr)
@@ -178,7 +196,7 @@ function! s:show_deol(tabnr, ...) abort
 
     if empty(l:deol) || !bufexists(l:deol.bufnr)
         " 新規作成
-        call deol#start(printf('-edit -cwd=%s -command=%s -edit-filetype=deoledit', getcwd(), l:command))
+        call deol#start(printf('-edit -command=%s -edit-filetype=deoledit', l:command))
     else
         " 既存を使用
         try
@@ -279,24 +297,89 @@ function! s:bufdelete_if_exists(bufnr) abort
 endfunction
 
 
+" " ====================
+" " 履歴に保存
+" "
+" " s:save_history(bufnr)
+" " ====================
+" function! s:save_history(bufnr) abort
+"     if !s:can_read_history_file
+"         return
+"     endif
+"
+"     let l:history_path = expand(g:deol#shell_history_path)
+"     let l:history = readfile(l:history_path)[-g:deol#shell_history_max :]
+"     " let l:history = map(l:history,
+"     " \   'substitute(v:val, "^\\%(\\d\\+/\\)\\+[:[:digit:]; ]\\+\\|^[:[:digit:]; ]\\+", "", "g")')
+"
+"     " XXX: 履歴にないものだけ追加したい
+"     let l:lines = filter(getbufline(a:bufnr, 1, '$'), 
+"     \       'index(l:history, v:val) ==# -1 && !empty(trim(v:val))')
+"
+"     call writefile(l:lines, l:history_path, 'a')
+" endfunction
+
+" from deol.nvim
+function! s:send_editor() abort
+    let l:deol = s:get_deol()
+    if empty(l:deol)
+        return
+    endif
+    call s:save_history_line(getline('.'))
+    call l:deol.jobsend(s:cleanup() . getline('.') . "\<CR>")
+endfunction
+
+function! s:cleanup() abort
+  return has('win32') ? repeat("\<BS>", len(deol#get_cmdline())) : "\<C-u>"
+endfunction
+
+
 " ====================
 " 履歴に保存
-"
-" s:save_history(bufnr)
 " ====================
-function! s:save_history(bufnr) abort
-    let l:history_path = expand(g:deol#shell_history_path)
-    if !filereadable(l:history_path)
+function! s:save_history_line(line) abort
+    if empty(a:line)
         return
     endif
 
-    let l:history = readfile(l:history_path)[-g:deol#shell_history_max :]
-    " let l:history = map(l:history,
-    " \   'substitute(v:val, "^\\%(\\d\\+/\\)\\+[:[:digit:]; ]\\+\\|^[:[:digit:]; ]\\+", "", "g")')
+    " すでに履歴にあったら追加しない
+    let l:history = readfile(g:deol#shell_history_path)[-g:deol#shell_history_max :]
+    if index(l:history, a:line) != -1
+        return
+    endif
 
-    " XXX: 履歴にないものだけ追加したい
-    let l:lines = filter(getbufline(a:bufnr, 1, '$'), 
-    \       'index(l:history, v:val) ==# -1 && !empty(trim(v:val))')
-
-    call writefile(l:lines, l:history_path, 'a')
+    call writefile([a:line], g:deol#shell_history_path, 'a')
 endfunction
+
+
+" ====================
+" sign を表示したい
+" ====================
+call sign_define('my_deol_prompt', {
+\   'text': '$ ',
+\   'texthl': 'Comment',
+\})
+
+
+function! s:sign_place() abort
+    let l:bufnr = bufnr()
+    " 取得
+    let l:last_lnum = getbufvar(l:bufnr, 'deol_last_lnum', 0)
+    if l:last_lnum ==# line('$')
+        return
+    endif
+
+    for l:idx in range(5)
+        let l:lnum = line('$') - l:idx
+        if l:lnum >= 1
+            call sign_place(l:lnum, 'my_deol', 'my_deol_prompt', l:bufnr, {
+            \   'lnum': l:lnum,
+            \   'priority': 5,
+            \})
+        endif
+    endfor
+
+    " 保存
+    call setbufvar(l:bufnr, 'deol_last_lnum', line('$', bufwinid(l:bufnr)))
+endfunction
+
