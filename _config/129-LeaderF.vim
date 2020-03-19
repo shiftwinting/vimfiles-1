@@ -113,14 +113,14 @@ let g:Lf_RgConfig = [
 
 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 
-function! DefineMyLeaderFHighlishts() abort
-    hi Lf_hl_cursorline  gui=underline guifg=fg guibg=bg
-endfunction
+" function! DefineMyLeaderFHighlishts() abort
+"     hi Lf_hl_cursorline  gui=underline guifg=fg guibg=bg
+" endfunction
 
-augroup MyLeaderFHighlight
-    autocmd!
-    autocmd ColorScheme * call DefineMyLeaderFHighlishts()
-augroup END
+" augroup MyLeaderFHighlight
+"     autocmd!
+"     autocmd ColorScheme * call DefineMyLeaderFHighlishts()
+" augroup END
 
 let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
 
