@@ -62,6 +62,9 @@ endfunction
 " TabLeave:
 " ====================
 function! s:TabLeave() abort
+    if !exists('t:deol')
+        return
+    endif
     let  g:last_tab_deol = t:deol
 endfunction
 
@@ -123,6 +126,11 @@ endfunction
 
 
 function! s:deol_editor_settings() abort
+
+    autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
+    autocmd MyDeol InsertEnter,InsertCharPre <buffer> call <SID>start_complete()
+
+
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
     nnoremap <buffer><silent> <A-e> :<C-u>call <SID>deol_kill_editor()<CR>
 
@@ -135,15 +143,48 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer><silent> <CR>  :<C-u>call <SID>send_editor()<CR>
     inoremap <buffer><silent> <CR>  <Esc>:call <SID>send_editor(v:true)<CR>
 
-    "   " XXX: 自動で行補完したい
 
     iabbrev <buffer> poe poetry
 
     resize 5
     setlocal winfixheight
 
+
+    " --------------------
+    " 行補完
+    " --------------------
+    setlocal completefunc=LineComplete
+    " カレントバッファ
+    setlocal complete=.
+    " ウィンドウに表示されているバッファ
+    setlocal complete+=w
+
     call s:sign_place()
-    autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
+
+endfunction
+
+
+" ====================
+" 行補完
+" ====================
+function! LineComplete(findstart, base) abort
+    if a:findstart
+        " 補完の開始位置を返す
+        return matchstrpos(getline('.'), '^\s*\ze\S')[2]
+    else
+        let l:lines = getline(1, '$')
+        " 先頭でマッチするものを返す
+        call filter(l:lines, 'v:val =~# "^" . a:base')
+        return l:lines
+    endif
+endfunction
+
+function! s:start_complete() abort
+    " １文字以上あったら、行補完開始
+    if empty(getline('.'))
+        return
+    endif
+    call feedkeys("\<C-x>\<C-u>", 'n')
 endfunction
 
 
