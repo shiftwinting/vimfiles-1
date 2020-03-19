@@ -14,8 +14,11 @@ let g:deol#extra_options = {
 \   'term_kill': 'kill',
 \}
 
+" プロンプト
+let g:deol_prompt_sign = '$ '
+
 " 履歴ファイルを読めるか
-let s:can_read_history_file = filereadable(expand(g:deol#shell_history_path))
+let s:can_read_history_file = filereadable(g:deol#shell_history_path)
 
 
 nnoremap <silent><A-t> :<C-u>call ToggleDeol()<CR>
@@ -31,6 +34,14 @@ autocmd MyDeol Filetype   deoledit call <SID>deol_editor_settings()
 autocmd MyDeol TabLeave   *        call <SID>TabLeave()
 autocmd MyDeol TabClosed  *        call <SID>TabClosed()
 autocmd MyDeol DirChanged *        call <SID>DirChanged(expand('<afile>'))
+
+
+" ====================
+" QuitPre:
+" ====================
+function! s:QuitPre() abort
+    call setbufvar(bufnr(), 'deol_quited', 1)
+endfunction
 
 
 " ====================
@@ -51,7 +62,7 @@ endfunction
 " TabLeave:
 " ====================
 function! s:TabLeave() abort
-    let  g:last_tab_deol = <SID>get_deol()
+    let  g:last_tab_deol = t:deol
 endfunction
 
 
@@ -72,7 +83,7 @@ endfunction
 " DirChanged:
 " ====================
 function! s:DirChanged(file) abort
-    if !empty(<SID>get_deol())
+    if exists('t:deol')
         call deol#cd(a:file)
     endif
 endfunction
@@ -105,26 +116,24 @@ function! s:deol_settings() abort
     nnoremap <buffer>               e     <Nop>
 
     " :q --- QuitPre -> WinLeave
-    autocmd MyDeol QuitPre  <buffer> call setbufvar(bufnr(), 'deol_quited', 1)
+    autocmd MyDeol QuitPre  <buffer> call <SID>QuitPre()
     autocmd MyDeol WinLeave <buffer> call <SID>WinLeave()
 
 endfunction
 
 
 function! s:deol_editor_settings() abort
-    imap     <buffer><silent> <C-q> <Esc>:call <SID>deol_kill_editor()<CR>
-    imap     <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
-    nmap     <buffer><silent> <C-q> :<C-u>call <SID>deol_kill_editor()<CR>
-    nmap     <buffer><silent> <A-e> :<C-u>call <SID>deol_kill_editor()<CR>
+    inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
+    nnoremap <buffer><silent> <A-e> :<C-u>call <SID>deol_kill_editor()<CR>
 
-    imap     <buffer><silent> <A-t> <Esc>:call <SID>hide_deol(tabpagenr())<CR>
-    nmap     <buffer><silent> <A-t> :<C-u>call <SID>hide_deol(tabpagenr())<CR>
+    inoremap <buffer><silent> <A-t> <Esc>:call <SID>hide_deol(tabpagenr())<CR>
+    nnoremap <buffer><silent> <A-t> :<C-u>call <SID>hide_deol(tabpagenr())<CR>
 
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
 
     nnoremap <buffer><silent> <CR>  :<C-u>call <SID>send_editor()<CR>
-    inoremap <buffer><silent> <CR>  <Esc>:call <SID>send_editor()<CR> \| normal! o
+    inoremap <buffer><silent> <CR>  <Esc>:call <SID>send_editor(v:true)<CR>
 
     "   " XXX: 自動で行補完したい
 
@@ -161,23 +170,14 @@ endfunction
 " s:deol_kill_editor()
 " ====================
 function! s:deol_kill_editor() abort
-    " let l:save_history = get(a:, 1, 1)
-
-    let l:deol = s:get_deol()
-    " まだ、作られていない場合、終わり
-    if empty(l:deol)
+    if !exists('t:deol')
         return
     endif
 
-    " " 履歴を追加
-    " if l:save_history
-    "     call s:save_history(l:deol.edit_bufnr)
-    " endif
-
     " バッファがあれば削除
-    call s:bufdelete_if_exists(l:deol.edit_bufnr)
+    call s:bufdelete_if_exists(t:deol.edit_bufnr)
 
-    call win_gotoid(bufwinid(l:deol.bufnr))
+    call win_gotoid(bufwinid(t:deol.bufnr))
 endfunction
 
 
@@ -189,19 +189,17 @@ endfunction
 function! s:show_deol(tabnr, ...) abort
     let l:command = get(a:, 1, &shell)
 
-    let l:deol = s:get_deol(a:tabnr)
-
     botright 25new
     setlocal winfixheight
 
-    if empty(l:deol) || !bufexists(l:deol.bufnr)
+    if !exists('t:deol') || !bufexists(t:deol.bufnr)
         " 新規作成
         call deol#start(printf('-edit -command=%s -edit-filetype=deoledit', l:command))
     else
         " 既存を使用
         try
             " うまくできなかったため、エラーは無視する
-            execute 'buffer +normal!\ i ' . l:deol.bufnr
+            execute 'buffer +normal!\ i ' . t:deol.bufnr
         catch /.*/
             " ignore
         endtry
@@ -218,8 +216,7 @@ endfunction
 " s:hide_deol(tabnr)
 " ====================
 function! s:hide_deol(tabnr) abort
-    let l:deol = s:get_deol(a:tabnr)
-    if empty(l:deol)
+    if !exists('t:deol')
         " まだ、作られていない場合、終わり
         return
     endif
@@ -228,8 +225,8 @@ function! s:hide_deol(tabnr) abort
         call s:deol_kill_editor()
     endif
 
-    call win_gotoid(bufwinid(l:deol.bufnr))
-    if l:deol.bufnr ==# bufnr()
+    call win_gotoid(bufwinid(t:deol.bufnr))
+    if t:deol.bufnr ==# bufnr()
         execute 'hide'
     endif
 
@@ -237,13 +234,12 @@ endfunction
 
 
 function! s:is_show_deol(tabnr) abort
-    let l:deol = s:get_deol(a:tabnr)
-    if empty(l:deol)
+    if !exists('t:deol')
         " まだ、作られていない場合、終わり、表示すらされないため
         return 0
     endif
 
-    if empty(win_findbuf(l:deol.bufnr))
+    if empty(win_findbuf(t:deol.bufnr))
         " バッファが表示されているウィンドウが見つからない
         return 0
     endif
@@ -257,22 +253,20 @@ endfunction
 " s:is_show_deol_edit([tabnr])
 " ====================
 function! s:is_show_deol_edit(...) abort
-    let l:tabnr = get(a:, 1, tabpagenr())
-    let l:deol = s:get_deol(l:tabnr)
-    if empty(l:deol)
+    if !exists('t:deol')
         " まだ、作られていない場合、終わり、表示すらされないため
         return 0
     endif
 
     " 全タブの edit_bufnr のウィンドウを返す
-    let l:winid_list = win_findbuf(l:deol.edit_bufnr)
-    " l:tabnr のウィンドウを取得
-    call filter(l:winid_list, 'win_id2tabwin(v:val)[0] ==# l:tabnr')
+    let l:winid_list = win_findbuf(t:deol.edit_bufnr)
+    " カレントタブのウィンドウを取得
+    call filter(l:winid_list, 'win_id2tabwin(v:val)[0] ==# tabpagenr()')
     if empty(l:winid_list)
         return 0
     endif
 
-    return l:winid_list[0] ==# l:deol.edit_winid
+    return l:winid_list[0] ==# t:deol.edit_winid
 endfunction
 
 
@@ -281,9 +275,8 @@ endfunction
 "
 " s:get_deol([tabnr])
 " ====================
-function! s:get_deol(...) abort
-    let l:tabnr = get(a:, 1, tabpagenr())
-    return gettabvar(l:tabnr, 'deol', {})
+function! s:get_deol() abort
+    return gettabvar(tabpagenr(), 'deol', {})
 endfunction
 
 
@@ -297,40 +290,19 @@ function! s:bufdelete_if_exists(bufnr) abort
 endfunction
 
 
-" " ====================
-" " 履歴に保存
-" "
-" " s:save_history(bufnr)
-" " ====================
-" function! s:save_history(bufnr) abort
-"     if !s:can_read_history_file
-"         return
-"     endif
-"
-"     let l:history_path = expand(g:deol#shell_history_path)
-"     let l:history = readfile(l:history_path)[-g:deol#shell_history_max :]
-"     " let l:history = map(l:history,
-"     " \   'substitute(v:val, "^\\%(\\d\\+/\\)\\+[:[:digit:]; ]\\+\\|^[:[:digit:]; ]\\+", "", "g")')
-"
-"     " XXX: 履歴にないものだけ追加したい
-"     let l:lines = filter(getbufline(a:bufnr, 1, '$'), 
-"     \       'index(l:history, v:val) ==# -1 && !empty(trim(v:val))')
-"
-"     call writefile(l:lines, l:history_path, 'a')
-" endfunction
-
-" from deol.nvim
-function! s:send_editor() abort
-    let l:deol = s:get_deol()
-    if empty(l:deol)
-        return
-    endif
+" ====================
+" editor の行を送信
+" 
+" s:send_editor([insert_mode])
+" TODO: 複数行対応
+" ====================
+function! s:send_editor(...) abort
     call s:save_history_line(getline('.'))
-    call l:deol.jobsend(s:cleanup() . getline('.') . "\<CR>")
-endfunction
-
-function! s:cleanup() abort
-  return has('win32') ? repeat("\<BS>", len(deol#get_cmdline())) : "\<C-u>"
+    exec "normal \<Plug>(deol_execute_line)"
+    if get(a:, 1, v:false)
+        " 行挿入 (o)
+        call feedkeys('o', 'n')
+    endif
 endfunction
 
 
@@ -352,15 +324,23 @@ function! s:save_history_line(line) abort
 endfunction
 
 
+
 " ====================
-" sign を表示したい
+" --------------------
+" sign
+" --------------------
 " ====================
+
+" sign の定義
 call sign_define('my_deol_prompt', {
-\   'text': '$ ',
+\   'text': g:deol_prompt_sign,
 \   'texthl': 'Comment',
 \})
 
 
+" ====================
+" sign の設置
+" ====================
 function! s:sign_place() abort
     let l:bufnr = bufnr()
     " 取得
@@ -382,4 +362,3 @@ function! s:sign_place() abort
     " 保存
     call setbufvar(l:bufnr, 'deol_last_lnum', line('$', bufwinid(l:bufnr)))
 endfunction
-
