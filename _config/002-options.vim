@@ -154,10 +154,6 @@ set formatoptions+=M
 " 結合時、コメントを削除する
 set formatoptions+=j
 
-" 自動でコメント開始文字を挿入しないようにする
-set formatoptions-=r
-set formatoptions-=o
-
 " https://github.com/shanselman/cmd-colors-solarized
 
 let g:terminal_ansi_colors = [

@@ -7,7 +7,7 @@ augroup END
 
 " XXX: これいらない？デフォルトで ro は含まれていないため
 " 自動でコメント開始文字を挿入しないようにする
-" autocmd MyAutoCmd FileType * setlocal formatoptions-=r formatoptions-=o
+autocmd MyAutoCmd FileType * setlocal formatoptions-=r formatoptions-=o
 
 autocmd MyAutoCmd VimEnter,WinEnter * call matchadd('Tab', '\t')
 autocmd MyAutoCmd VimEnter,WinEnter * call matchadd('Eol', '$')
