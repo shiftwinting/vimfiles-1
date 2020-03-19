@@ -128,7 +128,7 @@ endfunction
 function! s:deol_editor_settings() abort
 
     autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
-    autocmd MyDeol InsertEnter,InsertCharPre,CursorMovedI <buffer> call <SID>start_complete()
+    autocmd MyDeol InsertEnter,InsertCharPre <buffer> call <SID>start_complete()
 
 
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
