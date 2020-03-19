@@ -51,25 +51,20 @@ MyPlug! 'vim-jp/vimdoc-ja'
 MyPlug! 'vim-jp/vital.vim'
 MyPlug! 'vim-jp/syntax-vim-ex'
 
-
+" MyPlug  'mg979/vim-visual-multi'
+" MyPlug  'tweekmonster/helpful.vim'
 MyPlug  'andymass/vim-matchup'
 MyPlug  'ap/vim-css-color'
 MyPlug  'dense-analysis/ale'
 MyPlug  'dhruvasagar/vim-table-mode'
 MyPlug  'majutsushi/tagbar'
-MyPlug  'mattn/emmet-vim'
 MyPlug  'mattn/gist-vim'
 MyPlug  'mattn/webapi-vim'
-MyPlug  'mg979/vim-visual-multi'
 MyPlug  'previm/previm'
-MyPlug  'rbtnn/vim-coloredit'
+MyPlug! 'rbtnn/vim-coloredit'
 MyPlug  'simnalamburt/vim-mundo'
 MyPlug  'skanehira/translate.vim'
 MyPlug  'skywind3000/vim-quickui'
-MyPlug  'tamago324/vim-browsersync'
-MyPlug  'tpope/vim-endwise'
-MyPlug  'tweekmonster/helpful.vim'
-" MyPlug  'unblevable/quick-scope'
 MyPlug! 'Yggdroot/indentLine'
 MyPlug! 'dbeniamine/todo.txt-vim'
 MyPlug! 'deris/vim-shot-f'
@@ -82,6 +77,7 @@ MyPlug! 'kana/vim-tabpagecd'
 MyPlug! 'ludovicchabant/vim-gutentags'
 MyPlug! 'machakann/vim-highlightedyank'
 MyPlug! 'markonm/traces.vim'
+MyPlug! 'mattn/emmet-vim'
 MyPlug! 'mattn/sonictemplate-vim'
 MyPlug! 'mechatroner/rainbow_csv'
 MyPlug! 'rbtnn/vim-mrw'
@@ -89,14 +85,15 @@ MyPlug! 'rcmdnk/yankround.vim'
 MyPlug! 'simeji/winresizer'
 MyPlug! 'svermeulen/vim-cutlass'
 MyPlug! 't9md/vim-quickhl'
+MyPlug! 'tamago324/vim-browsersync'
 MyPlug! 'thinca/vim-qfreplace'
 MyPlug! 'thinca/vim-quickrun'
 MyPlug! 'tomtom/tcomment_vim'
+MyPlug! 'tpope/vim-endwise'
 MyPlug! 'tpope/vim-surround'
 MyPlug! 'tyru/capture.vim'
 MyPlug! 'tyru/open-browser-github.vim'
 MyPlug! 'tyru/open-browser.vim'
-
 
 " --------------------------
 " python
@@ -117,13 +114,13 @@ MyPlug 'zah/nim.vim'
 " --------------------------
 " frontend
 " --------------------------
-MyPlug 'AndrewRadev/tagalong.vim'
-MyPlug 'hail2u/vim-css3-syntax'
-MyPlug 'jason0x43/vim-js-indent'
-MyPlug 'leafOfTree/vim-vue-plugin'
-MyPlug 'othree/html5.vim'
-MyPlug 'prettier/vim-prettier', { 'do': 'yarn install' }
-MyPlug 'yuezk/vim-js'
+MyPlug  'AndrewRadev/tagalong.vim'
+MyPlug! 'hail2u/vim-css3-syntax'
+MyPlug  'jason0x43/vim-js-indent'
+MyPlug  'leafOfTree/vim-vue-plugin'
+MyPlug! 'othree/html5.vim'
+MyPlug  'prettier/vim-prettier', { 'do': 'yarn install' }
+MyPlug  'yuezk/vim-js'
 
 " --------------------------
 " syntax
@@ -141,7 +138,7 @@ MyPlug! 'honza/vim-snippets'
 " --------------------------
 " complete
 " --------------------------
-MyPlug  'Shougo/neco-syntax'
+MyPlug! 'Shougo/neco-syntax'
 
 " --------------------------
 " complete vim
@@ -194,7 +191,7 @@ MyPlug! 'rakr/vim-one'
 " --------------------------
 MyPlug! 'Yggdroot/LeaderF', { 'do': './install.bat' }
 MyPlug! 'tamago324/LeaderF-ghq'
-MyPlug  'tamago324/LeaderF-cdnjs'
+MyPlug! 'tamago324/LeaderF-cdnjs'
 MyPlug! 'tamago324/LeaderF-bookmark'
 MyPlug! 'tamago324/LeaderF-openbrowser'
 MyPlug! 'tamago324/LeaderF-filer'
