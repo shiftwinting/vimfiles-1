@@ -111,8 +111,6 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
 
-    call s:deoledit_abbrev()
-
 "   " XXX: 自動で行補完したい
 
     iabbrev <buffer> poe poetry
@@ -242,14 +240,21 @@ endfunction
 " ====================
 function! s:is_show_deol_edit(...) abort
     let l:tabnr = get(a:, 1, tabpagenr())
-    let l:deol = s:get_deol(a:tabnr)
+    let l:deol = s:get_deol(l:tabnr)
     if empty(l:deol)
         " まだ、作られていない場合、終わり、表示すらされないため
         return 0
     endif
 
-    " リストが返されるため、[] としている
-    return win_findbuf(l:deol.edit_bufnr) ==# [l:deol.edit_winid]
+    " 全タブの edit_bufnr のウィンドウを返す
+    let l:winid_list = win_findbuf(l:deol.edit_bufnr)
+    " l:tabnr のウィンドウを取得
+    call filter(l:winid_list, 'win_id2tabwin(v:val)[0] ==# l:tabnr')
+    if empty(l:winid_list)
+        return 0
+    endif
+
+    return l:winid_list[0] ==# l:deol.edit_winid
 endfunction
 
 
