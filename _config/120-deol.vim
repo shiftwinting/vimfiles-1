@@ -128,7 +128,7 @@ endfunction
 function! s:deol_editor_settings() abort
 
     autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
-    autocmd MyDeol InsertEnter,InsertCharPre <buffer> call <SID>start_complete()
+    autocmd MyDeol InsertEnter,InsertCharPre,CursorMovedI <buffer> call <SID>start_complete()
 
 
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
@@ -174,7 +174,7 @@ function! LineComplete(findstart, base) abort
     else
         let l:lines = getline(1, '$')
         " 先頭でマッチするものを返す
-        call filter(l:lines, 'v:val =~# "^" . a:base')
+        call filter(l:lines, 'v:val =~# "^" . a:base . "."')
         return l:lines
     endif
 endfunction
@@ -356,7 +356,11 @@ function! s:save_history_line(line) abort
     endif
 
     " すでに履歴にあったら追加しない
-    let l:history = readfile(g:deol#shell_history_path)[-g:deol#shell_history_max :]
+    let l:history = readfile(g:deol#shell_history_path)
+    if len(l:history) > g:deol#shell_history_max
+        " [1, 2, 3, 4, 5][-3:] ==# [3, 4, 5]
+        let l:history[-g:deol#shell_history_max:]
+    endif
     if index(l:history, a:line) != -1
         return
     endif
