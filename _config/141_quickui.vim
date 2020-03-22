@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+finish
+
 let g:quickui_color_scheme = 'solarized'
 
 noremap <C-s> :<C-u>call quickui#menu#open()<CR>

@@ -20,3 +20,10 @@ abbr        try-except
         ${0}
     except Exception as e:
         raise e
+
+snippet     log
+abbr        f.writelines()
+    from pathlib import Path
+    p = Path(r'C:\tmp\lf_log')
+    with p.open('a', encoding="utf-8") as f:
+        f.writelines(${0})

@@ -94,6 +94,7 @@ MyPlug! 'tpope/vim-surround'
 MyPlug! 'tyru/capture.vim'
 MyPlug! 'tyru/open-browser-github.vim'
 MyPlug! 'tyru/open-browser.vim'
+MyPlug! 'tyru/vim-altercmd'
 
 " --------------------------
 " python

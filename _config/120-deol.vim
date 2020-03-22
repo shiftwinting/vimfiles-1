@@ -35,7 +35,6 @@ autocmd MyDeol TabLeave   *        call <SID>TabLeave()
 autocmd MyDeol TabClosed  *        call <SID>TabClosed()
 autocmd MyDeol DirChanged *        call <SID>DirChanged(expand('<afile>'))
 
-
 " ====================
 " QuitPre:
 " ====================
@@ -121,6 +120,8 @@ function! s:deol_settings() abort
     " :q --- QuitPre -> WinLeave
     autocmd MyDeol QuitPre  <buffer> call <SID>QuitPre()
     autocmd MyDeol WinLeave <buffer> call <SID>WinLeave()
+
+    syntax match Comment '[^#>$ ]\{-}\%(>\|# \?\|\$\)'
 
 endfunction
 
@@ -326,7 +327,7 @@ endfunction
 " ====================
 function! s:bufdelete_if_exists(bufnr) abort
     if bufexists(a:bufnr)
-        execute 'bdelete! ' . a:bufnr
+        execute 'silent! bdelete! ' . a:bufnr
     endif
 endfunction
 
