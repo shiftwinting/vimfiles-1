@@ -124,6 +124,11 @@ MyPlug  'prettier/vim-prettier', { 'do': 'yarn install' }
 MyPlug  'yuezk/vim-js'
 
 " --------------------------
+" markdown
+" --------------------------
+MyPlug! 'dkarter/bullets.vim'
+
+" --------------------------
 " syntax
 " --------------------------
 MyPlug  'delphinus/vim-firestore'

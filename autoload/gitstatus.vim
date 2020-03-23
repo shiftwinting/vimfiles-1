@@ -12,18 +12,12 @@ function! s:start_job(cmd, options)
     \})
 endfunction
 
-function! s:echoerr(msg) abort
-    echohl errormsg
-    echomsg a:msg
-    echohl None
-endfunction
-
 function! s:on_err(data) abort
     let l:lines =  type(a:data) ==# v:t_list ? join(a:data) : a:data
     if l:lines ==# 'fatal: not a git repository (or any of the parent directories): .git'
         return
     endif
-    call s:echoerr(l:lines)
+    call tmg#echoerr(l:lines)
 endfunction
 
 " =========================
