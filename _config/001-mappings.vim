@@ -102,10 +102,10 @@ function! s:new_tmp_file() abort
 
     let l:ft = call('input', ['>>> ', '', 'filetype'])
 
-    let s:tmp = tempname()
+    let l:tmp = tempname()
     " もし、空ならそのバッファに表示
     if line('$') == 1 && getline(1) ==# ''
-        exec 'e '.s:tmp
+        exec 'e '.l:tmp
     else
         exec 'new '.l:tmp
     endif

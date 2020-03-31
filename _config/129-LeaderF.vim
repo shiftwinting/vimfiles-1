@@ -311,3 +311,14 @@ let g:Lf_PreviewResult = {
 \   'Gtags': 0
 \}
 
+
+let g:Lf_DevIconsExactSymbols = {
+\   'vimrc':  '',
+\   'gvimrc': '',
+\   'tags':   '󿧸',
+\}
+
+let g:Lf_DevIconsExtensionSymbols = {
+\   'tmp': '󿮷',
+\   'lock':   '󿫺',
+\}
