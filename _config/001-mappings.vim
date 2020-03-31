@@ -75,16 +75,19 @@ nnoremap <C-w>v <Nop>
 " 新規タブ
 nnoremap <silent> so :<C-u>tabedit<CR>
 
-function! s:new_tmp_file() abort "
-    let s:_ft = input('FileType: ', '', 'filetype')
-    let s:tmp = tempname()
+function! s:new_tmp_file() abort
+    let l:ft = input('FileType: ', '', 'filetype')
+    if empty(l:ft)
+        return
+    endif
+    let l:tmp = tempname()
     " もし、空ならそのバッファに表示
     if line('$') == 1 && getline(1) == ''
-        exec 'e '.s:tmp
+        exec 'e '.l:tmp
     else
-        exec 'new '.s:tmp
+        exec 'new '.l:tmp
     endif
-    exec 'set ft='.s:_ft
+    exec 'set ft='.l:ft
 endfunction
 
 " 一時ファイルの作成

@@ -5,7 +5,7 @@ scriptencoding utf-8
 " バックスラッシュをスラッシュにして返す
 " =================================================
 function! tmg#get_fullpath(path) abort
-    return substitute(expand(a:path), '\\', '/', 'g')
+    return tr(expand(a:path), "\\", '/')
 endfunction
 
 "
@@ -94,14 +94,18 @@ function! tmg#popup_notification_botright(messages, ...) abort
 endfunction
 
 
+function! tmg#default_close_handler(channel) abort
+    let l:timer = timer_start(3000, )
+endfunction
+
 " =================================================
 " コマンドを :terminal で実行する
 " =================================================
 " from skanehira/dotfiles http://bit.ly/36CWoez
 " opts:
 " {
-"     cmd: cmd の a:cmd サブコマンド のコマンド
-"     args: cmd のコマンドの引数
+"     cmd:        cmd の a:cmd サブコマンド のコマンド
+"     args:       cmd のコマンドの引数
 "     window_way: ウィンドウの分割方向 (e.g. 'bo')
 " }
 function! tmg#term_exec(cmd, opts) abort
@@ -123,6 +127,37 @@ function! tmg#term_exec(cmd, opts) abort
     call win_gotoid(l:cur_winid)
 endfunction
 
+
+function! s:echo_error(msg) abort
+    echohl errormsg
+    echomsg a:msg
+    echohl None
+endfunction
+
+
+function! s:on_out(line) abort
+    echo a:line
+endfunction
+
+
+function! s:on_close(channel) abort
+    echo 'job finish!'
+endfunction
+
+
+function! tmg#job_start(cmd, opts) abort
+    let l:default_opts = {
+    \   'on_out': function('s:on_out'),
+    \   'on_err': function('s:echo_error'),
+    \   'close_cb': function('s:on_close')
+    \}
+    let l:opts = extend(l:default_opts, a:opts)
+    let l:job = job_start([&shell, &shellcmdflag, a:cmd], {
+    \   'out_cb': { job_id, data -> l:opts.on_out(data)},
+    \   'err_cb': { job_id, data -> l:opts.on_err(data)},
+    \   'close_cb': l:opts.close_cb,
+    \})
+endfunction
 
 " =================================================
 " echoerr

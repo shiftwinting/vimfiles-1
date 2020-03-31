@@ -197,13 +197,12 @@ command! SyntaxInfo call GetSynInfo()
 " http://cohama.hateblo.jp/entry/2013/08/11/020849
 function! s:get_syn_id(transparent) abort
     " synID() で 構文ID が取得できる
-    " XXX: 構文ID とは?
+    " XXX: 構文ID
+    "       synIDattr() と synIDtrans() に渡すことで"構文情報"を取得できる
     " trans に1を渡しているため、実際に表示されている文字が評価対象
     let synid = synID(line('.'), col('.'), 1)
     if a:transparent
-        " 数値が返される
-        " XXX: なんの数値なのかはわからない...
-        " :hi link の参照先の情報を取得？
+        " ハイライトグループにリンクされた構文IDが取得できる
         return synIDtrans(synid)
     else
         return synid
@@ -219,6 +218,7 @@ function! GetSynInfo() abort
     let base_syn = s:get_syn_attr(s:get_syn_id(0))
     echo 'name: ' . base_syn.name
 
+    " 1 を渡すとリンク先が取得できる
     let linked_syn = s:get_syn_attr(s:get_syn_id(1))
     echo 'link to'
     echo 'name: ' . linked_syn.name
@@ -233,7 +233,7 @@ command! -nargs=+ PackGet call s:packget(<f-args>)
 command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
 
 " 末尾の '/' を取り除くため、 :p:h とする
-let s:pack_base_dir = tr(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'), "\\", '/')
+let s:pack_base_dir = tmg#get_fullpath(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'))
 let s:sep = has('win32') ? "\\" : '/'
 
 function! s:add_end_slash(path) abort
@@ -251,6 +251,12 @@ function! s:fix_url(url) abort
     \   'https://github.com/'.a:url
 endfunction
 
+function! s:close_handler(plug_name, channel) abort
+    echomsg ch_status(a:channel)
+    execute 'packadd ' . a:plug_name
+    echomsg ' [PackGet] packadd ' . a:plug_name
+endfunction
+
 function! s:packget(url, ...) abort
     let l:base = s:add_end_slash(s:pack_base_dir)
 
@@ -266,12 +272,15 @@ function! s:packget(url, ...) abort
 
     if isdirectory(l:dst)
         echohl WarningMsg
-        echomsg " Already exists. '".l:plug_name."'"
+        echomsg " [PackGet] Already exists. '".l:plug_name."'"
         echohl None
         return
     endif
 
-    call tmg#term_exec('git', {'cmd': 'clone', 'args': [s:fix_url(l:url), l:dst]})
+    call tmg#job_start(
+    \   printf('git clone %s %s', s:fix_url(l:url), l:dst), {
+    \       'close_cb': function('s:close_handler', [l:plug_name])
+    \   })
 endfunction
 
 " これやっても意味ない？

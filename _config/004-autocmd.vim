@@ -207,10 +207,11 @@ autocmd MyAutoCmd FileType scss set iskeyword+=-
 " ====================
 " format
 " ====================
-function! s:format_vim() abort
+function! s:format() abort
     " カーソル位置の保存と復元
     let l:pos = getcurpos()
     normal! gg=G
     call setpos('.', l:pos)
 endfunction
-autocmd MyAutoCmd FileType vim nnoremap <buffer> <Space>bl :call <SID>format_vim()<CR>
+command! Format call <SID>format()
+autocmd MyAutoCmd FileType vim,html nnoremap <buffer> <Space>bl :call <SID>format()<CR>
