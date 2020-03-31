@@ -2,15 +2,22 @@ scriptencoding utf-8
 
 finish
 
+call coc#add_extension(
+\    'coc-json',
+\    'coc-python',
+\    'coc-neosnippet',
+\    'coc-syntax',
+\)
+
 " 移動 (go)
 nmap <silent> gd <Plug>(coc-definition)
 " nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+" nmap <silent> gr <Plug>(coc-references)
 
 " エラー個所に移動
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 
 " " カレント行のコードアクションを実行
 " nmap <space>ac  <Plug>(coc-codeaction)

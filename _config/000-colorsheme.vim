@@ -85,9 +85,21 @@ function! s:one_color() abort
     hi DiffNewFile gui=NONE guifg=#50a14f guibg=bg
     hi DiffFile    gui=NONE guifg=#e45649 guibg=bg
 
+    " ====================
+    " dense-analysis/ale
+    " ====================
+    hi ALEWarning     gui=undercurl guifg=fg      guibg=#D7FFD7
+    hi ALEError       gui=undercurl guifg=fg      guibg=#FFE6FF
+    " hi ALEWarningSign gui=bold      guifg=#00AD00 guibg=#D7FFD7
+    " hi ALEErrorSign   gui=bold      guifg=#AF0000 guibg=#FFE6FF
+    hi ALEWarningSign gui=bold      guifg=#00AD00 guibg=NONE
+    hi ALEErrorSign   gui=bold      guifg=#AF0000 guibg=NONE
+
 endfunction
 
 function! DefineMyHighlishts() abort
+    if !exists('g:colors_name') | return | endif
+
     hi Tab guifg=#999999
     hi Eol guifg=#999999
 
@@ -126,6 +138,9 @@ function! DefineMyHighlishts() abort
     " エラーの部分を普通にする
     hi link MarkdownError Normal
 
+    " Leaderf
+    hi Lf_hl_cursorline guifg=NONE guibg=NONE gui=NONE ctermfg=57 cterm=NONE
+
     if g:colors_name =~# '^solarized8'
         call s:solarized_color()
     elseif g:colors_name ==# 'one'
@@ -143,5 +158,15 @@ augroup END
 let g:solarized_italics = 0
 
 " colorscheme solarized8
+" set background=dark
 colorscheme one
 set background=light
+
+
+
+" よく間違える文字をハイライト
+let s:misspell = [
+\   'pritn',
+\   'funciton'
+\]
+exe printf('match Error /%s/', join(s:misspell, '\|'))

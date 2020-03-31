@@ -40,7 +40,6 @@ endfunction
 command! -bang -nargs=+ MyPlug call <SID>plug(<bang>0, <args>)
 
 
-
 call plug#begin('~/vimfiles/plugged')
 
 
@@ -53,10 +52,10 @@ MyPlug! 'vim-jp/syntax-vim-ex'
 
 " MyPlug  'mg979/vim-visual-multi'
 " MyPlug  'tweekmonster/helpful.vim'
-MyPlug  'andymass/vim-matchup'
+MyPlug! 'andymass/vim-matchup'
 MyPlug  'ap/vim-css-color'
-MyPlug  'dense-analysis/ale'
-MyPlug  'dhruvasagar/vim-table-mode'
+MyPlug! 'dense-analysis/ale'
+MyPlug! 'dhruvasagar/vim-table-mode'
 MyPlug  'majutsushi/tagbar'
 MyPlug  'mattn/gist-vim'
 MyPlug  'mattn/webapi-vim'
@@ -64,7 +63,7 @@ MyPlug  'previm/previm'
 MyPlug! 'rbtnn/vim-coloredit'
 MyPlug  'simnalamburt/vim-mundo'
 MyPlug  'skanehira/translate.vim'
-MyPlug  'skywind3000/vim-quickui'
+" MyPlug  'skywind3000/vim-quickui'
 MyPlug! 'Yggdroot/indentLine'
 MyPlug! 'dbeniamine/todo.txt-vim'
 MyPlug! 'deris/vim-shot-f'
@@ -101,6 +100,8 @@ MyPlug! 'tyru/vim-altercmd'
 " --------------------------
 MyPlug! 'vim-python/python-syntax'
 MyPlug! 'petobens/poet-v'
+MyPlug! 'davidhalter/jedi-vim'
+MyPlug! 'relastle/vim-nayvy'
 
 " --------------------------
 " php
@@ -145,6 +146,7 @@ MyPlug! 'honza/vim-snippets'
 " complete
 " --------------------------
 MyPlug! 'Shougo/neco-syntax'
+MyPlug! 'Shougo/echodoc.vim'
 
 " --------------------------
 " complete vim
@@ -203,15 +205,16 @@ MyPlug! 'tamago324/LeaderF-openbrowser'
 MyPlug! 'tamago324/LeaderF-filer'
 MyPlug! 'ryanoasis/vim-devicons'
 
-" " --------------------------
-" " coc
-" " --------------------------
+" --------------------------
+" coc
+" --------------------------
 " MyPlug 'neoclide/coc.nvim', {'branch': 'release'}
 " MyPlug 'neoclide/coc-neco'
 
-" lsp
-MyPlug  'prabirshrestha/async.vim'
-MyPlug  'prabirshrestha/vim-lsp'
+" " lsp
+" MyPlug  'prabirshrestha/async.vim'
+" MyPlug  'prabirshrestha/vim-lsp'
+" MyPlug  'mattn/vim-lsp-settings'
 
 " Plug '~/ghq/github.com/tamago324/LeaderF'
 " Plug '~/ghq/github.com/tamago324/LeaderF-filer'

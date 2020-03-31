@@ -1,5 +1,9 @@
 scriptencoding utf-8
 
+let g:Lf_ShowDevIcons = 1
+" let g:Lf_UseCache = 0
+" let g:Lf_PythonVersion = 2
+
 nnoremap [Leaderf] <Nop>
 nmap     <Space>f [Leaderf]
 
@@ -20,13 +24,35 @@ nnoremap <silent> [Leaderf]t        :<C-u>Leaderf  filetype<CR>
 nnoremap <silent> [Leaderf]w        :<C-u>Leaderf  window<CR>
 nnoremap <silent> [Leaderf]m        :<C-u>Leaderf  mrw --nowrap<CR>
 nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line<CR>
-" nnoremap <silent> [Leaderf]i        :<C-u>Leaderf function<CR>
 
 
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
 nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
 nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
+
+" Reference
+nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e "%s" -w -F', expand('<cword>'))<CR><CR>
+vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e "%s" -w -F', tmg#getwords_last_visual())<CR><CR>
+
+
+function! s:leaderf_settings() abort
+    silent! setlocal signcolumn=no
+    silent! setlocal scrolloff=0
+endfunction
+
+
+function! s:leaderf_python_settings() abort
+    nnoremap <buffer> <silent> [Leaderf]i :<C-u>Leaderf nayvy<CR>
+endfunction
+
+
+augroup MyLeaderf
+    autocmd!
+    autocmd Filetype leaderf call <SID>leaderf_settings()
+    autocmd Filetype python  call <SID>leaderf_python_settings()
+augroup END
+
 
 " デフォルト
 let g:Lf_DefaultMode = 'NameOnly'
@@ -113,9 +139,9 @@ let g:Lf_RgConfig = [
 
 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 
-" function! DefineMyLeaderFHighlishts() abort
-"     hi Lf_hl_cursorline  gui=underline guifg=fg guibg=bg
-" endfunction
+function! DefineMyLeaderFHighlishts() abort
+    hi Lf_hl_cursorline  gui=underline guifg=fg guibg=bg
+endfunction
 
 " augroup MyLeaderFHighlight
 "     autocmd!
@@ -285,7 +311,3 @@ let g:Lf_PreviewResult = {
 \   'Gtags': 0
 \}
 
-augroup MyLeaderf
-    autocmd!
-    autocmd Filetype leaderf silent! setlocal signcolumn=no
-augroup END

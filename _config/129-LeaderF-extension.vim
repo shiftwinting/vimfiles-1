@@ -100,7 +100,7 @@ endfunction
 let g:Lf_Extensions.mrw = {
 \   'source': 'LfExt_mrw_source',
 \   'accept': 'LfExt_mrw_accept',
-\   'get_digest': 'LfExt_mrw_get_digest',
+\   'get_digest': 'lfext_mrw_get_digest',
 \   'supports_name_only': 1,
 \}
 
@@ -144,3 +144,68 @@ let g:Lf_Extensions.sonictemplate = {
 \   'source': 'LfExt_sonictemplate_source',
 \   'accept': 'LfExt_sonictemplate_accept',
 \}
+
+
+
+
+" ============================================================================
+" vim-nayvy
+" ============================================================================
+
+
+if !empty(globpath(&rtp, 'autoload/nayvy.vim'))
+
+
+py3 << EOF
+
+import vim
+from nayvy_vim_if import *
+
+def nayvy_list_imports_no_color() -> List[str]:
+    ''' List all available imports
+    '''
+    filepath = vim.eval('expand("%")')
+    stmt_map = init_import_stmt_map(filepath)
+    if stmt_map is None:
+        return []
+    return [
+        single_import.to_line(color=False)
+        for _, single_import in stmt_map.items()
+    ]
+
+EOF
+
+
+function! LfExt_nayvy_source(args) abort
+    return py3eval('nayvy_list_imports_no_color()')
+endfunction
+
+
+function! LfExt_nayvy_accept(line, args) abort
+    let l:names = [split(a:line, ' : ')[0]]
+    let l:py_expr = 'nayvy_import(' . string(l:names) . ')'
+    call py3eval(l:py_expr)
+endfunction
+
+
+function! LfExt_nayvy_get_digest(line, mode) abort
+    if a:mode ==# 0
+        return [a:line, 0]
+    elseif a:mode ==# 1
+        let l:end = stridx(a:line, ' : ')
+        return [a:line[:l:end-1], 0]
+    else
+        let l:start = stridx(a:line, ' : ')
+        return [a:line[l:start : -1], strlen(a:line)]
+    endif
+endfunction
+
+
+let g:Lf_Extensions.nayvy = {
+\   'source': 'LfExt_nayvy_source',
+\   'accept': 'LfExt_nayvy_accept',
+\   'supports_name_only': 1,
+\   'get_digest': 'LfExt_nayvy_get_digest'
+\}
+
+endif

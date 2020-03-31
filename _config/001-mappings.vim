@@ -29,7 +29,7 @@ vnoremap <silent> . :normal! .<CR>
 nnoremap <silent> cd :<C-u>exec 'lcd '.resolve(expand('%:p:h'))<CR>
 
 " 前にいたバッファを表示. めっちゃ好きこれ
-nnoremap <C-i> 
+nnoremap 6 
 
 " vimrc
 nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR>:echo '$MYVIMRC loaded!'<CR>
@@ -75,19 +75,51 @@ nnoremap <C-w>v <Nop>
 " 新規タブ
 nnoremap <silent> so :<C-u>tabedit<CR>
 
+" function! s:new_tmp_file() abort "
+"     let s:_ft = input('FileType: ', '', 'filetype')
+"     let s:tmp = tempname()
+"     " もし、空ならそのバッファに表示
+"     if line('$') == 1 && getline(1) == ''
+"         exec 'e '.s:tmp
+"     else
+"         exec 'new '.s:tmp
+"     endif
+"     exec 'set ft='.s:_ft
+" endfunction
+
+
+" input() のときに getcmdline() で取得できる技
 function! s:new_tmp_file() abort
-    let l:ft = input('FileType: ', '', 'filetype')
-    if empty(l:ft)
-        return
-    endif
-    let l:tmp = tempname()
+    let l:winid =  popup_create('', {
+    \   'padding': [1, 1, 1, 1],
+    \   'minwidth': 20,
+    \   'line': 'cursor-1',
+    \   'col': 'cursor+3',
+    \})
+
+    redraw
+    let l:timer = timer_start(30, funcref('s:timer_callback', [l:winid]), { 'repeat': -1 })
+
+    let l:ft = call('input', ['>>> ', '', 'filetype'])
+
+    let s:tmp = tempname()
     " もし、空ならそのバッファに表示
-    if line('$') == 1 && getline(1) == ''
-        exec 'e '.l:tmp
+    if line('$') == 1 && getline(1) ==# ''
+        exec 'e '.s:tmp
     else
         exec 'new '.l:tmp
     endif
     exec 'set ft='.l:ft
+
+    call timer_stop(l:timer)
+    call popup_close(l:winid)
+endfunction
+
+function! s:timer_callback(winid, ...) abort
+    let l:query = getcmdline()
+    call win_execute(a:winid, printf("call setline(1, 'FileType: %s')", l:query))
+    " redraw は必要！
+    redraw
 endfunction
 
 " 一時ファイルの作成

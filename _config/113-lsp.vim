@@ -1,16 +1,31 @@
 scriptencoding utf-8
 
+finish
+
 " mattn さんの lsp の設定 https://gist.github.com/mattn/3c65639710016d662701bb2526ecba55
 
 function! s:lsp_setup() abort
 
     " python -m pip install python-language-server
     if executable('pyls')
+
+        let l:pyls_config = {
+        \   'pyls': {
+        \       'plugins': {
+        \           'jedi_definition': {
+        \               'follow_imports': v:true
+        \           }
+        \       }
+        \   }
+        \}
+
         call lsp#register_server({
         \   'name': 'pyls',
         \   'cmd': [&shell, &shellcmdflag, 'pyls'],
         \   'whitelist': ['python'],
+        \   'workspace_config': l:pyls_config
         \})
+
     endif
 
 
@@ -73,3 +88,6 @@ let g:lsp_log_file = 'C:/tmp/vimlsp.log'
 
 " 診断結果を表示する
 let g:lsp_diagnostics_enabled = 1
+
+" カーソル位置の診断結果を echo する
+let g:lsp_diagnostics_echo_cursor = 1

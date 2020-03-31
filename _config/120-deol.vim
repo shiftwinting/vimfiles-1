@@ -121,7 +121,7 @@ function! s:deol_settings() abort
     autocmd MyDeol QuitPre  <buffer> call <SID>QuitPre()
     autocmd MyDeol WinLeave <buffer> call <SID>WinLeave()
 
-    syntax match Comment '[^#>$ ]\{-}\%(>\|# \?\|\$\)'
+    " syntax match Comment '[^#>$ ]\{-}\%(>\|# \?\|\$\)'
 
 endfunction
 
@@ -129,8 +129,7 @@ endfunction
 function! s:deol_editor_settings() abort
 
     autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
-    autocmd MyDeol InsertEnter,InsertCharPre <buffer> call <SID>start_complete()
-
+    " autocmd MyDeol InsertEnter,InsertCharPre <buffer> call <SID>start_complete()
 
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
     nnoremap <buffer><silent> <A-e> :<C-u>call <SID>deol_kill_editor()<CR>
@@ -360,7 +359,7 @@ function! s:save_history_line(line) abort
     let l:history = readfile(g:deol#shell_history_path)
     if len(l:history) > g:deol#shell_history_max
         " [1, 2, 3, 4, 5][-3:] ==# [3, 4, 5]
-        let l:history[-g:deol#shell_history_max:]
+        let l:history = l:history[-g:deol#shell_history_max:]
     endif
     if index(l:history, a:line) != -1
         return

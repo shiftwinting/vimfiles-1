@@ -15,3 +15,8 @@ endif
 
 " 自分の snippets
 let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
+
+augroup MySnippets
+    autocmd!
+    autocmd Filetype neosnippet setlocal noexpandtab
+augroup END

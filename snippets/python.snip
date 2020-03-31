@@ -1,29 +1,34 @@
 snippet     lfecho
 abbr        lfCmd("echomsg ...")
-alias       echo
-    lfCmd("echomsg '{}'".format(${1}))
+	lfCmd("echomsg '{}'".format(${1}))
 
 snippet     writefile
 abbr        filewrite,file
-    from pathlib import Path
-    p = Path(r'~/tmp/leaderf.log')
-    with p.open('w', encoding='utf-8') as f:
-        f.writelines('hello')
+	from pathlib import Path
+	p = Path(r'~/tmp/leaderf.log')
+	with p.open('w', encoding='utf-8') as f:
+		f.writelines('hello')
 
-snippet     out
+snippet     echo
 abbr        print()
-    print(${0})
+	print(${0})
 
 snippet     try
 abbr        try-except
-    try:
-        ${0}
-    except Exception as e:
-        raise e
+	try:
+		${0}
+	except Exception as e:
+		raise e
 
 snippet     log
 abbr        f.writelines()
-    from pathlib import Path
-    p = Path(r'C:\tmp\lf_log')
-    with p.open('a', encoding="utf-8") as f:
-        f.writelines(${0})
+	from pathlib import Path
+	p = Path(r'C:\tmp\lf_log')
+	with p.open('a', encoding="utf-8") as f:
+		f.writelines(${0})
+
+snippet     im
+abbr        import {module}
+options     head
+	import ${0}
+
