@@ -100,8 +100,9 @@ MyPlug! 'tyru/vim-altercmd'
 " --------------------------
 MyPlug! 'vim-python/python-syntax'
 MyPlug! 'petobens/poet-v'
-MyPlug! 'davidhalter/jedi-vim'
+" MyPlug! 'davidhalter/jedi-vim'
 MyPlug! 'relastle/vim-nayvy'
+MyPlug! 'kiteco/vim-plugin'
 
 " --------------------------
 " php
