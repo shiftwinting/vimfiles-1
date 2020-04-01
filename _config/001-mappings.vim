@@ -88,12 +88,19 @@ nnoremap <silent> so :<C-u>tabedit<CR>
 " endfunction
 
 
+" ファイルタイプと拡張子のペア
+let s:ft_pair = {
+\   'python': 'py',
+\   'vim':    'vim',
+\}
+
 " input() のときに getcmdline() で取得できる技
 function! s:new_tmp_file() abort
+    let l:line = line('.') < 5 ? 5 : 'cursor-1'
     let l:winid =  popup_create('', {
     \   'padding': [1, 1, 1, 1],
     \   'minwidth': 20,
-    \   'line': 'cursor-1',
+    \   'line': l:line,
     \   'col': 'cursor+3',
     \})
 
@@ -102,7 +109,8 @@ function! s:new_tmp_file() abort
 
     let l:ft = call('input', ['>>> ', '', 'filetype'])
 
-    let l:tmp = tempname()
+    " xxx.tmp => xxx.py みたいな
+    let l:tmp = substitute(tempname(), '\.\zs[^.]\+$', get(s:ft_pair, l:ft, 'tmp'), '')
     " もし、空ならそのバッファに表示
     if line('$') == 1 && getline(1) ==# ''
         exec 'e '.l:tmp
