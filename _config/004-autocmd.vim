@@ -215,3 +215,27 @@ function! s:format() abort
 endfunction
 command! Format call <SID>format()
 autocmd MyAutoCmd FileType vim,html nnoremap <buffer> <Space>bl :call <SID>format()<CR>
+
+
+function! s:md_space() abort
+
+    let l:col = getpos('.')[2]
+    " 先頭なら、* とする
+    if l:col ==# 1
+        return '* '
+    endif
+
+    " インデント
+    let l:line = getline('.')[:l:col]
+    if l:line =~# '\v^\s*\* \s*$'
+        return "\<C-t>"
+    endif
+    return "\<Space>"
+endfunction
+
+function! s:markdown() abort
+    inoremap <buffer>        <Tab>   <C-t>
+    inoremap <buffer>        <S-Tab> <C-d>
+    inoremap <buffer> <expr> <Space> <SID>md_space()
+endfunction
+autocmd MyAutoCmd FileType markdown call <SID>markdown()
