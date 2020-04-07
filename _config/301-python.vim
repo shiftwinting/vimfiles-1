@@ -16,15 +16,23 @@ scriptencoding utf-8
 " from jedi-vim
 function! s:smart_auto_mappings() abort
     if search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\%#\s*$', 'bcn', line('.'))
-        return "\<Space>import\<Space>"
+        " from xxx<Space>
+        "   -> 
+        " from xxx import<C-x><C-o>
+        return "\<Space>import\<Space>\<C-x>\<C-o>"
+    elseif search('\v^\s*from', 'bcn', line('.'))
+        " from<Space>
+        " from <C-x><C-o>
+        return "\<Space>\<C-x>\<C-o>"
     endif
     return "\<Space>"
 endfunction
 
 
 function! s:settings() abort
-    inoremap <silent> <buffer> <space> <C-R>=<SID>smart_auto_mappings()<CR>
+    inoremap <silent> <buffer> <expr> <Space> <SID>smart_auto_mappings()
 endfunction
+
 
 augroup MyPython
     autocmd!
