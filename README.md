@@ -4,7 +4,7 @@
 
 ```sh
 ghq get tamago324/vimfiles
-mklink /D %HOMEPATH%\vimfiles %HOMEPATH%\ghq\github.com\tamago324\vimfiles
+mklink /D %USERPROFILE%\vimfiles %USERPROFILE%\ghq\github.com\tamago324\vimfiles
 ```
 
 > `%HOMEPATH%\ghq\github.com\tamago324\vimfiles`の部分はクローンしたパスによって変わる

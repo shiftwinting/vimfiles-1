@@ -89,7 +89,8 @@ MyPlug! 'thinca/vim-qfreplace'
 MyPlug! 'thinca/vim-quickrun'
 MyPlug! 'tomtom/tcomment_vim'
 MyPlug! 'tpope/vim-endwise'
-MyPlug! 'tpope/vim-surround'
+" MyPlug! 'tpope/vim-surround'
+MyPlug! 'machakann/vim-sandwich'
 MyPlug! 'tyru/capture.vim'
 MyPlug! 'tyru/open-browser-github.vim'
 MyPlug! 'tyru/open-browser.vim'
@@ -101,8 +102,10 @@ MyPlug! 'tyru/vim-altercmd'
 MyPlug! 'vim-python/python-syntax'
 MyPlug! 'petobens/poet-v'
 " MyPlug! 'davidhalter/jedi-vim'
+" JediUseEnvironment のため
+MyPlug! 'blueyed/jedi-vim', { 'branch': 'envs' }
 MyPlug! 'relastle/vim-nayvy'
-MyPlug! 'kiteco/vim-plugin'
+" MyPlug! 'kiteco/vim-plugin'
 
 " --------------------------
 " php
@@ -147,7 +150,7 @@ MyPlug! 'honza/vim-snippets'
 " complete
 " --------------------------
 MyPlug! 'Shougo/neco-syntax'
-MyPlug! 'Shougo/echodoc.vim'
+" MyPlug! 'Shougo/echodoc.vim'
 
 " --------------------------
 " complete vim
@@ -236,6 +239,7 @@ if has('win32')
     call tmg#add_path('~/.poetry/bin',           '.poetry/bin')
     call tmg#add_path('C:/tools/dart-sdk/bin',   'dart-sdk/bin')
     call tmg#add_path('~/ctags',                 'ctags')
+    call tmg#add_path('C:/Neovim/bin',           'Neovim/bin')
 
     " pipenv の 仮想環境をプロジェクト内に作る
     let $PIPENV_VENV_IN_PROJECT = 'true'

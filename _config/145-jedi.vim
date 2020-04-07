@@ -1,7 +1,5 @@
 scriptencoding utf-8
 
-finish
-
 if empty(globpath(&rtp, 'autoload/jedi.vim'))
     finish
 endif
@@ -20,8 +18,8 @@ let g:jedi#completions_enabled = 1
 " <C-l><C-o> でいいや
 " let g:jedi#completions_command = '<C-N>'
 
-" ポップアップで表示
-let g:jedi#show_call_signatures = 1
+" echoで表示
+let g:jedi#show_call_signatures = 2
 
 " ====================
 " キーマッピング

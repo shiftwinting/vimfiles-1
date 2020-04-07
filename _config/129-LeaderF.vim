@@ -24,6 +24,7 @@ nnoremap <silent> [Leaderf]t        :<C-u>Leaderf  filetype<CR>
 nnoremap <silent> [Leaderf]w        :<C-u>Leaderf  window<CR>
 nnoremap <silent> [Leaderf]m        :<C-u>Leaderf  mrw --nowrap<CR>
 nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line<CR>
+nnoremap <silent> [Leaderf]s        :<C-u>Leaderf  bufTag<CR>
 
 
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
@@ -75,12 +76,12 @@ let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_IgnoreCurrentBufferName = 1
 
 " プレビューをポップアップで行う
-let g:Lf_PreviewInPopup = 1
-let g:Lf_PreviewHorizontalPosition = 'top'
-let g:Lf_PreviewPopupHeight = 30
+" let g:Lf_PreviewInPopup = 1
+" let g:Lf_PreviewHorizontalPosition = 'top'
+" let g:Lf_PreviewPopupHeight = 30
 
 " 横幅
-let g:Lf_PreviewPopupWidth = 9999
+" let g:Lf_PreviewPopupWidth = 0.5
 
 let g:Lf_MruMaxFiles = 1000
 
@@ -101,20 +102,20 @@ let g:Lf_WindowHeight = 0.4
 " 下に表示
 let g:Lf_WindowPosition = 'bottom'
 " 上にプレビュー表示
-let g:Lf_PreviewHorizontalPosition = 'above'
+" let g:Lf_PreviewHorizontalPosition = 'above'
 " プレビューの高さ
-let g:Lf_PreviewPopupHeight = 30
+" let g:Lf_PreviewPopupHeight = 30
 
 " ----------
 " popup
 " ----------
 " ポップアップの位置
-let g:Lf_PopupPosition = [10, 0]
+" let g:Lf_PopupPosition = [10, 0]
 
-let g:Lf_StlSeparator = {
-\   'left': "\ue0b0",
-\   'right': "\ue0b2",
-\}
+" let g:Lf_StlSeparator = {
+" \   'left': "\ue0b0",
+" \   'right': "\ue0b2",
+" \}
 
 let g:Lf_HistoryExclude = {
 \   'cmd':  ['^wq?!?$', '^qa?!?$', '^.\s*$', '^\d+$'],
@@ -187,6 +188,7 @@ let g:Lf_CommandMap = {
 \   '<C-p>':    ['<C-q>'],
 \   '<C-o>':    ['<C-e>'],
 \   '<Del>':    ['<C-d>'],
+\   '<C-s>':    ['<C-x>'],
 \}
 
 
@@ -303,11 +305,11 @@ let g:Lf_PreviewResult = {
 \   'Buffer': 0,
 \   'Mru': 0,
 \   'Tag': 0,
-\   'BufTag': 0,
+\   'BufTag': 1,
 \   'Function': 0,
-\   'Line': 0,
-\   'Colorscheme': 0,
-\   'Rg': 0,
+\   'Line': 1,
+\   'Colorscheme': 1,
+\   'Rg': 1,
 \   'Gtags': 0
 \}
 
