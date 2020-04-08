@@ -178,7 +178,7 @@ function! tmg#job_start(cmd, ...) abort
     let s:job = job_start([&shell, &shellcmdflag, a:cmd], {
     \   'out_cb': { job_id, data -> l:opts.out_cb(data, l:buf)},
     \   'err_cb': { job_id, data -> l:opts.err_cb(data, l:buf)},
-    \   'close_cb': { job_id -> l:opts.close_cb(job_id, l:buf) },
+    \   'close_cb': l:opts.close_cb,
     \})
 endfunction
 
