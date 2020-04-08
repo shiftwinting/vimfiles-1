@@ -251,8 +251,7 @@ function! s:fix_url(url) abort
     \   'https://github.com/'.a:url
 endfunction
 
-function! s:close_handler(plug_name, channel) abort
-    echomsg ch_status(a:channel)
+function! s:close_handler(plug_name, channel, ...) abort
     execute 'packadd ' . a:plug_name
     echomsg ' [PackGet] packadd ' . a:plug_name
 endfunction

@@ -90,7 +90,7 @@ function! tmg#popup_notification_botright(messages, ...) abort
     \   'wrap': 0,
     \   'tabpage': -1
     \}
-    call popup_create(a:messages, extend(l:opt, l:arg_opt))
+    return popup_create(a:messages, extend(l:opt, l:arg_opt))
 endfunction
 
 
@@ -128,34 +128,57 @@ function! tmg#term_exec(cmd, opts) abort
 endfunction
 
 
-function! s:echo_error(msg) abort
+function! s:echo_error(msg, ...) abort
     echohl errormsg
     echomsg a:msg
     echohl None
 endfunction
 
 
-function! s:on_out(line) abort
+function! tmg#output_error_buffer(msg, ...) abort
+    let l:buf = get(a:, 1, -1)
+    " もし、渡されなければ、echo
+    if l:buf == -1
+        echomsg a:msg
+    endif
+
+    if index(tabpagebuflist(), l:buf) == -1
+        " 表示されていなかったら、表示する
+        execute 'botright 10new | b ' . l:buf
+        nnoremap <silent> <buffer> q :<C-u>bd!<CR>
+    endif
+    " メッセージ追加
+    call appendbufline(l:buf, '$', a:msg)
+endfunction
+
+
+function! s:on_out(line, ...) abort
     echo a:line
 endfunction
 
 
-function! s:on_close(channel) abort
+function! s:on_close(channel, ...) abort
     echo 'job finish!'
 endfunction
 
 
-function! tmg#job_start(cmd, opts) abort
+function! tmg#job_start(cmd, ...) abort
+
+    " out_cb : stdout で読み込むものがあるときに呼び出される
+    " err_cb : stderr で読み込むものがあるときに呼び出される
+
+    let l:buf = bufadd('tmg_job_output')
+
     let l:default_opts = {
-    \   'on_out': function('s:on_out'),
-    \   'on_err': function('s:echo_error'),
+    \   'out_cb': function('s:on_out'),
+    \   'err_cb': function('tmg#output_error_buffer'),
     \   'close_cb': function('s:on_close')
     \}
-    let l:opts = extend(l:default_opts, a:opts)
-    let l:job = job_start([&shell, &shellcmdflag, a:cmd], {
-    \   'out_cb': { job_id, data -> l:opts.on_out(data)},
-    \   'err_cb': { job_id, data -> l:opts.on_err(data)},
-    \   'close_cb': l:opts.close_cb,
+    let l:opts = extend(l:default_opts, get(a:, 1, {}))
+    let s:job = job_start([&shell, &shellcmdflag, a:cmd], {
+    \   'out_cb': { job_id, data -> l:opts.out_cb(data, l:buf)},
+    \   'err_cb': { job_id, data -> l:opts.err_cb(data, l:buf)},
+    \   'close_cb': { job_id -> l:opts.close_cb(job_id, l:buf) },
     \})
 endfunction
 

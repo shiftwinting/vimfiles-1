@@ -51,7 +51,7 @@ function! LfExt_git_checkout_source(args) abort
 endfunction
 
 function! LfExt_git_checkout_accept(line, args) abort
-    call system('git checkout ' . a:line)
+    call tmg#job_start('git checkout ' . a:line)
 endfunction
 
 let g:Lf_Extensions.git_checkout = {
