@@ -279,6 +279,7 @@ function! s:packget(url, ...) abort
     call tmg#job_start(
     \   printf('git clone %s %s', s:fix_url(l:url), l:dst), {
     \       'close_cb': function('s:close_handler', [l:plug_name]),
+    \       'err_cb': function('tmg#on_out'),
     \   })
 endfunction
 

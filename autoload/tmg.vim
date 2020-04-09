@@ -152,7 +152,7 @@ function! tmg#output_error_buffer(msg, ...) abort
 endfunction
 
 
-function! s:on_out(line, ...) abort
+function! tmg#on_out(line, ...) abort
     echo a:line
 endfunction
 
@@ -170,7 +170,7 @@ function! tmg#job_start(cmd, ...) abort
     let l:buf = bufadd('tmg_job_output')
 
     let l:default_opts = {
-    \   'out_cb': function('s:on_out'),
+    \   'out_cb': function('tmg#on_out'),
     \   'err_cb': function('tmg#output_error_buffer'),
     \   'close_cb': function('s:on_close')
     \}
