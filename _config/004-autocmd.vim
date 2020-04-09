@@ -25,12 +25,12 @@ autocmd MyAutoCmd FileType js           setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType json         setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType org          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType php          setlocal sw=4 sts=4 ts=4 et
-autocmd MyAutoCmd FileType python       setlocal sw=4 sts=4 ts=4 et
+" autocmd MyAutoCmd FileType python       setlocal sw=4 sts=4 ts=4 et
 autocmd MyAutoCmd FileType scss         setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType typescript   setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType vim          setlocal sw=4 sts=4 ts=4 et
 autocmd MyAutoCmd FileType yaml         setlocal sw=2 sts=2 ts=2 et
-autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
+" autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType vue          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType firestore    setlocal sw=2 sts=2 ts=2 et
@@ -215,27 +215,3 @@ function! s:format() abort
 endfunction
 command! Format call <SID>format()
 autocmd MyAutoCmd FileType vim,html nnoremap <buffer> <Space>bl :call <SID>format()<CR>
-
-
-function! s:md_space() abort
-
-    let l:col = getpos('.')[2]
-    " 先頭なら、* とする
-    if l:col ==# 1
-        return '* '
-    endif
-
-    " インデント
-    let l:line = getline('.')[:l:col]
-    if l:line =~# '\v^\s*\* \s*$'
-        return "\<C-t>"
-    endif
-    return "\<Space>"
-endfunction
-
-function! s:markdown() abort
-    inoremap <buffer>        <Tab>   <C-t>
-    inoremap <buffer>        <S-Tab> <C-d>
-    inoremap <buffer> <expr> <Space> <SID>md_space()
-endfunction
-autocmd MyAutoCmd FileType markdown call <SID>markdown()

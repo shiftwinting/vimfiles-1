@@ -32,8 +32,12 @@ nnoremap <silent> cd :<C-u>exec 'lcd '.resolve(expand('%:p:h'))<CR>
 nnoremap 6 
 
 " vimrc
-nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR>:echo '$MYVIMRC loaded!'<CR>
-nnoremap <silent> <Space>v. :<C-u> call tmg#drop_or_tabedit($MYVIMRC)<CR>
+nnoremap <silent> <Space>v.  :<C-u>call tmg#drop_or_tabedit($MYVIMRC)<CR>
+nnoremap <silent> <Space>v,  :<C-u>call tmg#drop_or_tabedit(g:plug_script)<CR>
+
+nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR> :call tmg#echoinfo(' $MYVIMRC loaded!')<CR>
+nnoremap <silent> <Space>vs; :<C-u>source %<CR>        :call tmg#echoinfo(' source %')<CR>
+" nnoremap <silent> <Space>vs, :<C-u>exec 'source '.g:plug_script<CR> :call tmg#echoinfo(' plug_script loaded!')<CR>
 
 " 保存、終了
 " 変更があったときのみ、保存される

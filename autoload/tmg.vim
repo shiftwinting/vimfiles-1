@@ -193,6 +193,17 @@ function! tmg#echoerr(msg) abort
 endfunction
 
 
+
+" =================================================
+" echo info
+" =================================================
+function! tmg#echoinfo(msg) abort
+    redraw
+    echohl Todo
+    echo a:msg
+    echohl None
+endfunction
+
 " =================================================
 " $PATH に追加する
 "

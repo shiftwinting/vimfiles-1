@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+finish
+
 " if executable('black')
 "     function! ExecBlack() abort
 "         ! black %

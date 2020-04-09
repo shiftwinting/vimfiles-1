@@ -339,10 +339,7 @@ command! -nargs=1 BitlyShortenUrl call ShortenUrl(<f-args>)
 " =====================
 " ghq
 " =====================
-command! -nargs=1 GhqGet call tmg#term_exec('ghq', {
-\   'cmd': 'get',
-\   'args': [<SID>github_fix_param(<f-args>)],
-\})
+command! -nargs=1 GhqGet call tmg#job_start('ghq get ' . <SID>github_fix_param(<f-args>), {})
 " command! -nargs=1 GhqCreate execute 'belowright terminal ghq create <q-args>'
 
 

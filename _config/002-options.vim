@@ -93,9 +93,9 @@ set listchars+=eol:↲
 " タブ
 set listchars+=tab:»-
 " 右が省略されている
-set listchars+=extends:»
+set listchars+=extends:>
 " 行をまたいでいる
-set listchars+=precedes:«
+set listchars+=precedes:<
 " 行末のスペース
 set listchars+=trail:\ 
 
