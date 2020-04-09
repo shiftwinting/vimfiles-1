@@ -305,11 +305,11 @@ let g:Lf_PreviewResult = {
 \   'Buffer': 0,
 \   'Mru': 0,
 \   'Tag': 0,
-\   'BufTag': 1,
+\   'BufTag': 0,
 \   'Function': 0,
 \   'Line': 1,
 \   'Colorscheme': 1,
-\   'Rg': 1,
+\   'Rg': 0,
 \   'Gtags': 0
 \}
 

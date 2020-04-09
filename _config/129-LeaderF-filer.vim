@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-let g:Lf_FilerShowDevIcons = 1
+let g:Lf_FilerShowPromptPath = 1
 
 let g:Lf_FilerUseDefaultNormalMap = 0
 let g:Lf_FilerNormalMap = {
@@ -39,7 +39,7 @@ let g:Lf_FilerNormalMap = {
 
 let g:Lf_FilerUseDefaultInsertMap = 0
 let g:Lf_FilerInsertMap = {
-\   '<C-h>':        'open_parent_or_backspace',
+\   '<C-h>':        'open_parent_or_clear_line',
 \   '<C-l>':        'open_current',
 \   '<C-e>':        'quit',
 \   '<Esc>':        'quit',
