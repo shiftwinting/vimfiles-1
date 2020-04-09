@@ -9,8 +9,8 @@ let b:did_ftplugin_tmg = 1
 
 function! s:space() abort
     let l:col = getpos('.')[2]
-    " 先頭なら、* とする
-    if l:col ==# 1
+    " 先頭でリストではなかったら、* とする
+    if l:col ==# 1 && getline('.') !~# '^\s*\* .*'
         return '* '
     endif
 
