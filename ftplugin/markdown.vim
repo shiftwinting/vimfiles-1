@@ -32,7 +32,10 @@ inoremap <buffer> <expr> <Space> <SID>space()
 " inoremap <buffer> <expr> <CR>    <SID>cr()
 
 function! s:cr() abort
-    if getline('.') =~# '\v^\s*\*'
+    let l:line = getline('.')
+    let l:col = getpos('.')[2]
+    " 先頭が * and 末尾にカーソルがあるとき
+    if l:line =~# '\v^\s*\*' && l:line[l:col:] ==# ''
         return "\<C-o>:InsertNewBullet\<CR>"
     endif
     return "\<CR>"
