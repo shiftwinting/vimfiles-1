@@ -9,7 +9,7 @@ endif
 let g:jedi#auto_vim_configuration = 0
 
 " from module.name<space> で import を補完する
-let g:jedi#smart_auto_mappings = 1
+" let g:jedi#smart_auto_mappings = 1
 
 " 自動補完を有効
 let g:jedi#completions_enabled = 1
