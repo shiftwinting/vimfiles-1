@@ -209,3 +209,23 @@ let g:Lf_Extensions.nayvy = {
 \}
 
 endif
+
+
+" ============================================================================
+" ghq
+" ============================================================================
+function! LfExt_ghq_accept(line, args) abort
+    let l:path = $GHQ_ROOT . '/github.com/' . a:line
+    execute 'tabe | tcd ' . l:path
+endfunction
+
+function! LfExt_ghq_format_line(line, args) abort
+    " github.com/ より後ろを取得
+    return a:line[11:]
+endfunction
+
+let g:Lf_Extensions.ghq = {
+\   'source': {'command': 'ghq list'},
+\   'accept': 'LfExt_ghq_accept',
+\   'format_line': 'LfExt_ghq_format_line',
+\}

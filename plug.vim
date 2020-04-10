@@ -177,7 +177,7 @@ MyPlug! 'rakr/vim-one'
 " LeaderF
 " --------------------------
 " MyPlug! 'Yggdroot/LeaderF', { 'do': './install.bat' }
-MyPlug! 'tamago324/LeaderF-ghq'
+" MyPlug! 'tamago324/LeaderF-ghq'
 MyPlug! 'tamago324/LeaderF-cdnjs'
 MyPlug! 'tamago324/LeaderF-bookmark'
 MyPlug! 'tamago324/LeaderF-openbrowser'
