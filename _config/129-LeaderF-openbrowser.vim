@@ -13,7 +13,7 @@ let g:Lf_openbrowser_bookmarks = {
 \   'buefy': 'https://buefy.org/documentation',
 \   'jsprimer': 'https://jsprimer.net/',
 \   'netlify': 'https://www.netlify.com',
-\   'git commit messages': 'https://github.com/azu/awesome-commit-english',
+\   'git-commit-messages': 'https://github.com/azu/awesome-commit-english',
 \   'flexbox30': 'https://github.com/samanthaming/Flexbox30',
 \   'Google Fonts': 'https://fonts.google.com/',
 \   'sass': 'https://sass-lang.com/documentation',
@@ -21,4 +21,5 @@ let g:Lf_openbrowser_bookmarks = {
 \   'codepen': 'https://codepen.io/',
 \   'easings.net': 'https://easings.net/',
 \   'color-picker': 'https://www.w3schools.com/colors/colors_picker.asp',
+\   'go-tour': 'https://www.w3schools.com/colors/colors_picker.asp',
 \}

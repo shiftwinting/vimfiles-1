@@ -118,15 +118,17 @@ function! s:nord_color() abort
     let s:nord14_gui       = '#A3BE8C' "  #A3BE8C
     let s:nord15_gui       = '#B48EAD' "  #B48EAD
 
-    exec printf('hi Lf_hl_cursorline  guifg=%s guibg=NONE gui=NONE', s:nord13_gui)
-    exec printf('hi Lf_hl_match       guifg=%s guibg=NONE gui=bold', s:nord14_gui)
-    exec printf('hi Lf_hl_match0      guifg=%s guibg=NONE gui=bold', s:nord14_gui)
+    exec printf('hi Lf_hl_cursorline  guifg=%s guibg=NONE gui=NONE', s:nord7_gui )
+    exec printf('hi Lf_hl_match       guifg=%s guibg=NONE gui=bold', s:nord13_gui)
+    exec printf('hi Lf_hl_match0      guifg=%s guibg=NONE gui=bold', s:nord13_gui)
     exec printf('hi Lf_hl_match1      guifg=%s guibg=NONE gui=bold', s:nord12_gui)
-    exec printf('hi Lf_hl_match2      guifg=%s guibg=NONE gui=bold', s:nord8_gui )
+    exec printf('hi Lf_hl_match2      guifg=%s guibg=NONE gui=bold', s:nord12_gui)
     exec printf('hi Lf_hl_match3      guifg=%s guibg=NONE gui=bold', s:nord11_gui)
-    exec printf('hi Lf_hl_match4      guifg=%s guibg=NONE gui=bold', s:nord10_gui)
+    exec printf('hi Lf_hl_match4      guifg=%s guibg=NONE gui=bold', s:nord11_gui)
     exec printf('hi Lf_hl_matchRefine guifg=%s guibg=NONE gui=bold', s:nord15_gui)
     exec printf('hi Lf_hl_rgHighlight guifg=%s guibg=%s   gui=NONE', s:nord0_gui, s:nord13_gui)
+
+    hi link Lf_hl_filerDir Directory
 
 endfunction
 

@@ -75,7 +75,7 @@ let g:Lf_Extensions.git_switch = {
 \   'format_list': s:func('s:git_switch_format_list'),
 \   'format_line': s:func('s:git_switch_format_line'),
 \}
-command! LfGitSwitch Leaderf git_switch --popup
+command! LfGitSwitch Leaderf git_switch
 
 
 

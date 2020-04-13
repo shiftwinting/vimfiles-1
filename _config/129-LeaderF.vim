@@ -230,30 +230,30 @@ else
     " dark
 
     " from nord
-    let s:nord0_gui        = '#2E3440'
-    let s:nord1_gui        = '#3B4252'
-    let s:nord2_gui        = '#434C5E'
-    let s:nord3_gui        = '#4C566A'
-    let s:nord3_gui_bright = '#616E88'
-    let s:nord4_gui        = '#D8DEE9'
-    let s:nord5_gui        = '#E5E9F0'
-    let s:nord6_gui        = '#ECEFF4'
-    let s:nord7_gui        = '#8FBCBB'
-    let s:nord8_gui        = '#88C0D0'
-    let s:nord9_gui        = '#81A1C1'
-    let s:nord10_gui       = '#5E81AC'
-    let s:nord11_gui       = '#BF616A'
-    let s:nord12_gui       = '#D08770'
-    let s:nord13_gui       = '#EBCB8B'
-    let s:nord14_gui       = '#A3BE8C'
-    let s:nord15_gui       = '#B48EAD'
+    let s:nord0_gui        = '#2E3440' " #2E3440
+    let s:nord1_gui        = '#3B4252' " #3B4252
+    let s:nord2_gui        = '#434C5E' " #434C5E
+    let s:nord3_gui        = '#4C566A' " #4C566A
+    let s:nord3_gui_bright = '#616E88' " #616E88
+    let s:nord4_gui        = '#D8DEE9' " #D8DEE9
+    let s:nord5_gui        = '#E5E9F0' " #E5E9F0
+    let s:nord6_gui        = '#ECEFF4' " #ECEFF4
+    let s:nord7_gui        = '#8FBCBB' " #8FBCBB
+    let s:nord8_gui        = '#88C0D0' " #88C0D0
+    let s:nord9_gui        = '#81A1C1' " #81A1C1
+    let s:nord10_gui       = '#5E81AC' " #5E81AC
+    let s:nord11_gui       = '#BF616A' " #BF616A
+    let s:nord12_gui       = '#D08770' " #D08770
+    let s:nord13_gui       = '#EBCB8B' " #EBCB8B
+    let s:nord14_gui       = '#A3BE8C' " #A3BE8C
+    let s:nord15_gui       = '#B48EAD' " #B48EAD
 
     let s:stlPalette.nord = {
-    \   'stlName':         { 'guifg': s:nord2_gui, 'guibg': s:nord14_gui },
+    \   'stlName':         { 'guifg': s:nord3_gui, 'guibg': s:nord8_gui },
     \   'stlCategory':     { 'guifg': s:nord5_gui, 'guibg': s:nord1_gui  },
     \   'stlNameOnlyMode': { 'guifg': s:nord2_gui, 'guibg': s:nord13_gui },
-    \   'stlFullPathMode': { 'guifg': s:nord2_gui, 'guibg': s:nord12_gui },
-    \   'stlFuzzyMode':    { 'guifg': s:nord2_gui, 'guibg': s:nord15_gui },
+    \   'stlFullPathMode': { 'guifg': s:nord2_gui, 'guibg': s:nord13_gui },
+    \   'stlFuzzyMode':    { 'guifg': s:nord2_gui, 'guibg': s:nord14_gui },
     \   'stlRegexMode':    { 'guifg': s:nord2_gui, 'guibg': s:nord7_gui  },
     \   'stlCwd':          { 'guifg': s:nord6_gui, 'guibg': s:nord3_gui  },
     \   'stlLineInfo':     { 'guifg': s:nord5_gui, 'guibg': s:nord0_gui  },
@@ -292,4 +292,9 @@ let g:Lf_DevIconsExactSymbols = {
 let g:Lf_DevIconsExtensionSymbols = {
 \   'lock': '󿫺',
 \   'vue':  ''
+\}
+
+let g:Lf_DevIconsPalette = get(g:, 'Lf_DevIconsPalette', {})
+let g:Lf_DevIconsPalette.dark = {
+\   'vim': { 'guifg': s:nord14_gui }
 \}

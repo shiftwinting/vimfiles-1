@@ -217,3 +217,22 @@ function! tmg#add_path(val, ...) abort
         let $PATH = expand(a:val).';' . $PATH
     endif
 endfunction
+
+
+
+" =================================================
+" input()
+" http://secret-garden.hatenablog.com/entry/2016/06/23/224214
+" =================================================
+function! tmg#input(...) abort
+    new
+    cmap <buffer> <Esc> __CANCELED__<CR>
+    cmap <buffer> <C-c> __CANCELED__<CR>
+    let l:ret = call('input', a:000)
+    bw!
+    redraw
+    if l:ret =~# '__CANCELED__$'
+        throw 'キャンセルされました'
+    endif
+    return l:ret
+endfunction

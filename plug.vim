@@ -125,7 +125,7 @@ MyPlug! 'honza/vim-snippets'
 " complete
 " --------------------------
 MyPlug! 'Shougo/neco-syntax'
-" MyPlug! 'Shougo/echodoc.vim'
+MyPlug! 'Shougo/echodoc.vim'
 
 " --------------------------
 " complete vim
