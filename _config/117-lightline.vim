@@ -1,12 +1,26 @@
 scriptencoding utf-8
 
 let g:lightline = {}
+let s:colors = [
+\   ['^solarzed8', 'solarized'],
+\   ['one', 'one'],
+\   ['nord', 'nord'],
+\   ['iceberg', 'iceberg'],
+\]
 
-if g:colors_name =~# '^solarzed8'
-    let g:lightline.colorscheme = 'solarized'
-elseif g:colors_name ==# 'one'
-    let g:lightline.colorscheme = 'one'
-endif
+for s:color in s:colors
+    if g:colors_name =~# s:color[0]
+        let g:lightline.colorscheme = s:color[1]
+    endif
+endfor
+
+" if g:colors_name =~# '^solarzed8'
+"     let g:lightline.colorscheme = 'solarized'
+" elseif g:colors_name ==# 'one'
+"     let g:lightline.colorscheme = 'one'
+" elseif g:colors_name ==# 'nord'
+"     let g:lightline.colorscheme = 'nord'
+" endif
 
 let g:lightline.tabline = {
 \   'left': [ ['tabs'] ],

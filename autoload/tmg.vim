@@ -128,7 +128,7 @@ function! tmg#term_exec(cmd, opts) abort
 endfunction
 
 
-function! s:echo_error(msg, ...) abort
+function! s:on_err(msg, ...) abort
     echohl errormsg
     echomsg a:msg
     echohl None
@@ -171,7 +171,7 @@ function! tmg#job_start(cmd, ...) abort
 
     let l:default_opts = {
     \   'out_cb': function('tmg#on_out'),
-    \   'err_cb': function('tmg#output_error_buffer'),
+    \   'err_cb': function('s:on_err'),
     \   'close_cb': function('s:on_close')
     \}
     let l:opts = extend(l:default_opts, get(a:, 1, {}))

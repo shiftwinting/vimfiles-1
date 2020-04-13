@@ -4,12 +4,20 @@ scriptencoding utf-8
 " * https://github.com/Yggdroot/LeaderF/issues/144#issuecomment-540008950
 " * http://bit.ly/2NdiX1x
 
-" :Leaderf packadd
-" :Leaderf git_checkout
-" :Leaderf mrw
-" :Leaderf sonictemplate
+" packadd
+" git_switch
+" mrw
+" sonictemplate
+" vim-nayvy
+" ghq
+
 
 let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
+
+function! s:func(func_name) abort
+    " function('<SNR>476_sample_func') -> <SNR>476_sample_func
+    return string(function(a:func_name))[10:-3]
+endfunction
 
 " ============================================================================
 " packadd
@@ -37,35 +45,45 @@ command! Tpackadd Leaderf packadd
 
 
 " ============================================================================
-" git checkout
+" git switch
 " ============================================================================
-function! LfExt_git_checkout_source(args) abort
-    let l:source = filter(systemlist('git branch'), 'v:val[0] !=# "*"')
-    if empty(source)
-        echohl ErrorMsg
-        echo 'no other branch'
-        echohl None
-        return []
-    endif
-    return l:source
+" ---------------------
+" accept
+" ---------------------
+function! s:git_switch_accept(line, args) abort
+    call system('git switch ' . a:line)
+    echo printf(" Switched to branch '%s'", a:line)
 endfunction
 
-function! LfExt_git_checkout_accept(line, args) abort
-    call tmg#job_start('git checkout ' . a:line)
+" ---------------------
+" format_list
+" ---------------------
+function! s:git_switch_format_list(list, args) abort
+    return filter(copy(a:list), 'v:val[0] !=# "*"')
 endfunction
 
-let g:Lf_Extensions.git_checkout = {
-\   'source': 'LfExt_git_checkout_source',
-\   'accept': 'LfExt_git_checkout_accept',
+" ---------------------
+" format_line
+" ---------------------
+function! s:git_switch_format_line(line, args) abort
+    return trim(a:line)
+endfunction
+
+let g:Lf_Extensions.git_switch = {
+\   'source': {'command': 'git branch'},
+\   'accept':      s:func('s:git_switch_accept'),
+\   'format_list': s:func('s:git_switch_format_list'),
+\   'format_line': s:func('s:git_switch_format_line'),
 \}
-command! LfGitCheckout Leaderf git_checkout --popup
+command! LfGitSwitch Leaderf git_switch --popup
 
 
 
 " ============================================================================
 " mrw
 " ============================================================================
-function! LfExt_mrw_source(args) abort
+
+function! s:mrw_source(args) abort
     let l:files = mrw#read_cachefile(expand('%'))
     let l:result = []
     " from mrw.vim
@@ -78,7 +96,7 @@ function! LfExt_mrw_source(args) abort
     return l:result
 endfunction
 
-function! LfExt_mrw_get_digest(line, mode) abort
+function! s:mrw_get_digest(line, mode) abort
     if a:mode ==# 0
         return [a:line, 0]
     elseif a:mode ==# 1
@@ -90,17 +108,17 @@ function! LfExt_mrw_get_digest(line, mode) abort
     endif
 endfunction
 
-function! LfExt_mrw_accept(line, args) abort
-    let l:path = LfExt_mrw_get_digest(a:line, 2)[0][:-2]
+function! s:mrw_accept(line, args) abort
+    let l:path = s:mrw_get_digest(a:line, 2)[0][:-2]
     \           . '/'
-    \           . LfExt_mrw_get_digest(a:line, 1)[0]
+    \           . s:mrw_get_digest(a:line, 1)[0]
     exec 'drop ' . l:path
 endfunction
 
 let g:Lf_Extensions.mrw = {
-\   'source': 'LfExt_mrw_source',
-\   'accept': 'LfExt_mrw_accept',
-\   'get_digest': 'lfext_mrw_get_digest',
+\   'source':     s:func('s:mrw_source'),
+\   'accept':     s:func('s:mrw_accept'),
+\   'get_digest': s:func('s:mrw_get_digest'),
 \   'supports_name_only': 1,
 \}
 
@@ -220,7 +238,7 @@ function! LfExt_ghq_accept(line, args) abort
 endfunction
 
 function! LfExt_ghq_format_line(line, args) abort
-    " github.com/ より後ろを取得
+    " 'github.com ' 以降を取得
     return a:line[11:]
 endfunction
 

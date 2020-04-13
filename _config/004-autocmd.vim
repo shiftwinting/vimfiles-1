@@ -46,7 +46,7 @@ autocmd MyAutoCmd BufRead,BufWinEnter *.jsx set filetype=javascript.jsx
 autocmd MyAutoCmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 
 " すぐに quickfixwidow を開く
-autocmd MyAutoCmd QuickFixCmdPost *grep* botright cwindow
+" autocmd MyAutoCmd QuickFixCmdPost *grep* botright cwindow
 
 function! TerminalSettings() abort
     setlocal nolist

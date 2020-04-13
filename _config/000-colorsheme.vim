@@ -97,54 +97,95 @@ function! s:one_color() abort
 
 endfunction
 
+function! s:nord_color() abort
+
+    " from nord
+    let s:nord0_gui        = '#2E3440' "  #2E3440
+    let s:nord1_gui        = '#3B4252' "  #3B4252
+    let s:nord2_gui        = '#434C5E' "  #434C5E
+    let s:nord3_gui        = '#4C566A' "  #4C566A
+    let s:nord3_gui_bright = '#616E88' "  #616E88
+    let s:nord4_gui        = '#D8DEE9' "  #D8DEE9
+    let s:nord5_gui        = '#E5E9F0' "  #E5E9F0
+    let s:nord6_gui        = '#ECEFF4' "  #ECEFF4
+    let s:nord7_gui        = '#8FBCBB' "  #8FBCBB
+    let s:nord8_gui        = '#88C0D0' "  #88C0D0
+    let s:nord9_gui        = '#81A1C1' "  #81A1C1
+    let s:nord10_gui       = '#5E81AC' "  #5E81AC
+    let s:nord11_gui       = '#BF616A' "  #BF616A
+    let s:nord12_gui       = '#D08770' "  #D08770
+    let s:nord13_gui       = '#EBCB8B' "  #EBCB8B
+    let s:nord14_gui       = '#A3BE8C' "  #A3BE8C
+    let s:nord15_gui       = '#B48EAD' "  #B48EAD
+
+    exec printf('hi Lf_hl_cursorline  guifg=%s guibg=NONE gui=NONE', s:nord13_gui)
+    exec printf('hi Lf_hl_match       guifg=%s guibg=NONE gui=bold', s:nord14_gui)
+    exec printf('hi Lf_hl_match0      guifg=%s guibg=NONE gui=bold', s:nord14_gui)
+    exec printf('hi Lf_hl_match1      guifg=%s guibg=NONE gui=bold', s:nord12_gui)
+    exec printf('hi Lf_hl_match2      guifg=%s guibg=NONE gui=bold', s:nord8_gui )
+    exec printf('hi Lf_hl_match3      guifg=%s guibg=NONE gui=bold', s:nord11_gui)
+    exec printf('hi Lf_hl_match4      guifg=%s guibg=NONE gui=bold', s:nord10_gui)
+    exec printf('hi Lf_hl_matchRefine guifg=%s guibg=NONE gui=bold', s:nord15_gui)
+    exec printf('hi Lf_hl_rgHighlight guifg=%s guibg=%s   gui=NONE', s:nord0_gui, s:nord13_gui)
+
+endfunction
+
 function! DefineMyHighlishts() abort
     if !exists('g:colors_name') | return | endif
 
     hi Tab guifg=#999999
     hi Eol guifg=#999999
 
-    " from shirotelin
-    hi Todo gui=bold guifg=#005F00 guibg=#afd7af
+    if &background == 'light'
+        " from shirotelin
+        hi Todo gui=bold guifg=#005F00 guibg=#afd7af
 
-    " ====================
-    " matchup
-    " ====================
-    hi MatchParen   gui=underline guifg=fg guibg=bg
+        " ====================
+        " matchup
+        " ====================
+        hi MatchParen   gui=underline guifg=fg guibg=bg
 
-    " ====================
-    " search
-    " ====================
-    hi IncSearch  gui=NONE guifg=fg guibg=#FFBF80
-    hi Search     gui=NONE guifg=fg guibg=#FFFFA0
+        " ====================
+        " search
+        " ====================
+        hi IncSearch  gui=NONE guifg=fg guibg=#FFBF80
+        hi Search     gui=NONE guifg=fg guibg=#FFFFA0
 
-    " ====================
-    " diff
-    " ====================
-    hi DiffAdd    gui=NONE guifg=fg guibg=#DFFFDF
-    hi DiffChange gui=NONE guifg=fg guibg=#DFFFDF
-    hi DiffDelete gui=NONE guifg=fg guibg=#FFDFDF
-    hi DiffText   gui=NONE guifg=fg guibg=#AAFFAA
+        " ====================
+        " diff
+        " ====================
+        hi DiffAdd    gui=NONE guifg=fg guibg=#DFFFDF
+        hi DiffChange gui=NONE guifg=fg guibg=#DFFFDF
+        hi DiffDelete gui=NONE guifg=fg guibg=#FFDFDF
+        hi DiffText   gui=NONE guifg=fg guibg=#AAFFAA
 
-    " =============================
-    " machakann/vim-highlightedyank
-    " =============================
-    hi HighlightedyankRegion guibg=bg guifg=#ffd6b0 gui=reverse
+        " =============================
+        " machakann/vim-highlightedyank
+        " =============================
+        hi HighlightedyankRegion guibg=bg guifg=#ffd6b0 gui=reverse
 
-    " =============================
-    " markdown
-    " =============================
-    " HTML のリンク
-    hi htmlLink gui=underline guifg=#0896d4 guibg=bg
-    " エラーの部分を普通にする
-    hi link MarkdownError Normal
+        " =============================
+        " markdown
+        " =============================
+        " HTML のリンク
+        hi htmlLink gui=underline guifg=#0896d4 guibg=bg
+        " エラーの部分を普通にする
+        hi link MarkdownError Normal
 
-    " Leaderf
-    hi Lf_hl_cursorline guifg=NONE guibg=NONE gui=NONE ctermfg=57 cterm=NONE
+        " Leaderf
+        hi Lf_hl_cursorline guifg=NONE guibg=NONE gui=NONE ctermfg=57 cterm=NONE
 
-    if g:colors_name =~# '^solarized8'
-        call s:solarized_color()
-    elseif g:colors_name ==# 'one'
-        call s:one_color()
+        if g:colors_name =~# '^solarized8'
+            call s:solarized_color()
+        elseif g:colors_name ==# 'one'
+            call s:one_color()
+        endif
+    else
+
+        if g:colors_name ==# 'nord'
+            call s:nord_color()
+        endif
+
     endif
 
 endfunction
@@ -155,18 +196,24 @@ augroup MyColorScheme
 augroup END
 
 " italic なくす
-let g:solarized_italics = 0
+" let g:solarized_italics = 0
 
 " colorscheme solarized8
 " set background=dark
-colorscheme one
-set background=light
+
+" colorscheme one
+" set background=light
+
+colorscheme nord
+set background=dark
 
 
 
 " よく間違える文字をハイライト
 let s:misspell = [
 \   'pritn',
-\   'funciton'
+\   'funciton',
+\   'fmg',
+\   'Prinln',
 \]
 exe printf('match Error /%s/', join(s:misspell, '\|'))

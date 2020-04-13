@@ -1,8 +1,9 @@
 scriptencoding utf-8
 
-let g:Lf_ShowDevIcons = 1
-" let g:Lf_UseCache = 0
-" let g:Lf_PythonVersion = 2
+" スタックトレースを表示
+let g:Lf_Exception = 1
+" set background=dark
+" set lines=30 columns=100
 
 nnoremap [Leaderf] <Nop>
 nmap     <Space>f [Leaderf]
@@ -25,7 +26,7 @@ nnoremap <silent> [Leaderf]w        :<C-u>Leaderf  window<CR>
 nnoremap <silent> [Leaderf]m        :<C-u>Leaderf  mrw --nowrap<CR>
 nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line<CR>
 nnoremap <silent> [Leaderf]s        :<C-u>Leaderf  bufTag<CR>
-
+nnoremap <silent> [Leaderf]v        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
 
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
 nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
@@ -34,7 +35,7 @@ nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 
 " Reference
 nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e "%s" -w -F', expand('<cword>'))<CR><CR>
-vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e "%s" -w -F', tmg#getwords_last_visual())<CR><CR>
+vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e %s -w -F', leaderf#Rg#visual())<CR><CR>
 
 
 function! s:leaderf_settings() abort
@@ -88,9 +89,9 @@ let g:Lf_MruMaxFiles = 1000
 " ヘルプを非表示
 let g:Lf_HideHelp = 1
 
-" c: 基本的にカレントディレクトリ
-" A: もし、上に RootMaker があれば、そのディレクトリから検索
-let g:Lf_WorkingDirectoryMode = 'Ac'
+" カレントディレクトリよりも上に `g:Lf_RootMakers` があれば、そのディレクトリから検索
+" なければ、カレントディレクトリから検索
+let g:Lf_WorkingDirectoryMode = 'A'
 
 " 履歴を3000
 let g:Lf_HistoryNumber = 3000
@@ -192,112 +193,80 @@ let g:Lf_CommandMap = {
 \}
 
 
-let g:Lf_StlPalette = {
-\   'stlName': {
-\       'gui': 'bold',
-\       'font': 'NONE',
-\       'guifg': '#2F5C00',
-\       'guibg': '#baf2a3',
-\       'cterm': 'bold',
-\       'ctermfg': 'NONE',
-\       'ctermbg': 'NONE'
-\   },
-\   'stlCategory': {
-\       'guifg': '#4d4d4d',
-\       'guibg': '#c7dac3',
-\       'gui': 'NONE',
-\       'font': 'NONE',
-\       'ctermfg': '239',
-\       'ctermbg': '151',
-\       'cterm': 'NONE',
-\   },
-\   'stlNameOnlyMode': {
-\       'guifg': '#4d4d4d',
-\       'guibg': '#c9d473',
-\       'gui': 'NONE',
-\       'font': 'NONE',
-\       'ctermfg': '239',
-\       'ctermbg': '186',
-\       'cterm': 'NONE',
-\   },
-\   'stlFullPathMode': {
-\       'guifg': '#4d4d4d',
-\       'guibg': '#dbe8cf',
-\       'gui': 'NONE',
-\       'font': 'NONE',
-\       'ctermfg': '239',
-\       'ctermbg': '187',
-\       'cterm': 'NONE',
-\   },
-\   'stlFuzzyMode': {
-\       'guifg': '#4d4d4d',
-\       'guibg': '#dbe8cf',
-\       'gui': 'NONE',
-\       'font': 'NONE',
-\       'ctermfg': '239',
-\       'ctermbg': '187',
-\       'cterm': 'NONE',
-\   },
-\   'stlRegexMode': {
-\       'guifg': '#4d4d4d',
-\       'guibg': '#acbf97',
-\       'gui': 'NONE',
-\       'font': 'NONE',
-\       'ctermfg': '239',
-\       'ctermbg': '144',
-\       'cterm': 'NONE',
-\   },
-\   'stlCwd': {
-\       'guifg': '#595959',
-\       'guibg': '#e9f7e9',
-\       'gui': 'NONE',
-\       'font': 'NONE',
-\       'ctermfg': '240',
-\       'ctermbg': '195',
-\       'cterm': 'NONE',
-\   },
-\   'stlLineInfo': {
-\       'guifg': '#595959',
-\       'guibg': '#e9f7e9',
-\       'gui': 'NONE',
-\       'font': 'NONE',
-\       'ctermfg': '240',
-\       'ctermbg': '195',
-\       'cterm': 'NONE',
-\   },
-\   'stlTotal': {
-\       'guifg': '#4d4d4d',
-\       'guibg': '#c7dac3',
-\       'gui': 'NONE',
-\       'font': 'NONE',
-\       'ctermfg': '239',
-\       'ctermbg': '151',
-\       'cterm': 'NONE',
-\   }
-\ }
+" =============================
+" status line
+" =============================
+let s:stlPalette = {}
 
+if &background ==# 'light'
 
-if g:colors_name =~# '^solarized8'
-    let g:Lf_StlPalette.stlBlank = {
-    \   'gui': 'NONE',
-    \   'font': 'NONE',
-    \   'guifg': '#073642',
-    \   'guibg': '#eee8d5',
-    \   'cterm': 'NONE',
-    \   'ctermfg': 'NONE',
-    \   'ctermbg': 'NONE'
+    let s:stlPalette.solarized = {
+    \   'stlName':         { 'guifg': '#2F5C00', 'guibg': '#baf2a3' },
+    \   'stlCategory':     { 'guifg': '#4d4d4d', 'guibg': '#c7dac3' },
+    \   'stlNameOnlyMode': { 'guifg': '#4d4d4d', 'guibg': '#c9d473' },
+    \   'stlFullPathMode': { 'guifg': '#4d4d4d', 'guibg': '#dbe8cf' },
+    \   'stlFuzzyMode':    { 'guifg': '#4d4d4d', 'guibg': '#dbe8cf' },
+    \   'stlRegexMode':    { 'guifg': '#4d4d4d', 'guibg': '#acbf97' },
+    \   'stlCwd':          { 'guifg': '#595959', 'guibg': '#e9f7e9' },
+    \   'stlLineInfo':     { 'guifg': '#595959', 'guibg': '#e9f7e9' },
+    \   'stlTotal':        { 'guifg': '#4d4d4d', 'guibg': '#c7dac3' },
+    \   'stlBlank':        { 'guifg': '#073642', 'guibg': '#eee8d5' },
     \}
-elseif g:colors_name ==# 'one'
-    let g:Lf_StlPalette.stlBlank = {
-    \   'gui': 'NONE',
-    \   'font': 'NONE',
-    \   'guifg': '#494b53',
-    \   'guibg': '#e1e1e1',
-    \   'cterm': 'NONE',
-    \   'ctermfg': 'NONE',
-    \   'ctermbg': 'NONE'
+
+    let s:stlPalette.one = {
+    \   'stlName':         { 'guifg': '#2F5C00', 'guibg': '#baf2a3' },
+    \   'stlCategory':     { 'guifg': '#4d4d4d', 'guibg': '#c7dac3' },
+    \   'stlNameOnlyMode': { 'guifg': '#4d4d4d', 'guibg': '#c9d473' },
+    \   'stlFullPathMode': { 'guifg': '#4d4d4d', 'guibg': '#dbe8cf' },
+    \   'stlFuzzyMode':    { 'guifg': '#4d4d4d', 'guibg': '#dbe8cf' },
+    \   'stlRegexMode':    { 'guifg': '#4d4d4d', 'guibg': '#acbf97' },
+    \   'stlCwd':          { 'guifg': '#595959', 'guibg': '#e9f7e9' },
+    \   'stlLineInfo':     { 'guifg': '#595959', 'guibg': '#e9f7e9' },
+    \   'stlTotal':        { 'guifg': '#4d4d4d', 'guibg': '#c7dac3' },
+    \   'stlBlank':        { 'guifg': '#494b53', 'guibg': '#e1e1e1' },
     \}
+
+else
+    " dark
+
+    " from nord
+    let s:nord0_gui        = '#2E3440'
+    let s:nord1_gui        = '#3B4252'
+    let s:nord2_gui        = '#434C5E'
+    let s:nord3_gui        = '#4C566A'
+    let s:nord3_gui_bright = '#616E88'
+    let s:nord4_gui        = '#D8DEE9'
+    let s:nord5_gui        = '#E5E9F0'
+    let s:nord6_gui        = '#ECEFF4'
+    let s:nord7_gui        = '#8FBCBB'
+    let s:nord8_gui        = '#88C0D0'
+    let s:nord9_gui        = '#81A1C1'
+    let s:nord10_gui       = '#5E81AC'
+    let s:nord11_gui       = '#BF616A'
+    let s:nord12_gui       = '#D08770'
+    let s:nord13_gui       = '#EBCB8B'
+    let s:nord14_gui       = '#A3BE8C'
+    let s:nord15_gui       = '#B48EAD'
+
+    let s:stlPalette.nord = {
+    \   'stlName':         { 'guifg': s:nord2_gui, 'guibg': s:nord14_gui },
+    \   'stlCategory':     { 'guifg': s:nord5_gui, 'guibg': s:nord1_gui  },
+    \   'stlNameOnlyMode': { 'guifg': s:nord2_gui, 'guibg': s:nord13_gui },
+    \   'stlFullPathMode': { 'guifg': s:nord2_gui, 'guibg': s:nord12_gui },
+    \   'stlFuzzyMode':    { 'guifg': s:nord2_gui, 'guibg': s:nord15_gui },
+    \   'stlRegexMode':    { 'guifg': s:nord2_gui, 'guibg': s:nord7_gui  },
+    \   'stlCwd':          { 'guifg': s:nord6_gui, 'guibg': s:nord3_gui  },
+    \   'stlLineInfo':     { 'guifg': s:nord5_gui, 'guibg': s:nord0_gui  },
+    \   'stlTotal':        { 'guifg': s:nord6_gui, 'guibg': s:nord10_gui },
+    \   'stlBlank':        { 'guifg': 'NONE',      'guibg': 'NONE'       },
+    \}
+
 endif
+
+if has_key(s:stlPalette, g:colors_name)
+    let g:Lf_StlPalette = s:stlPalette[g:colors_name]
+endif
+
 
 
 let g:Lf_PreviewResult = {
@@ -321,6 +290,6 @@ let g:Lf_DevIconsExactSymbols = {
 \}
 
 let g:Lf_DevIconsExtensionSymbols = {
-\   'tmp': '󿮷',
-\   'lock':   '󿫺',
+\   'lock': '󿫺',
+\   'vue':  ''
 \}
