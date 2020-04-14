@@ -118,7 +118,7 @@ function! s:nord_color() abort
     let s:nord14_gui       = '#A3BE8C' "  #A3BE8C
     let s:nord15_gui       = '#B48EAD' "  #B48EAD
 
-    exec printf('hi Lf_hl_cursorline  guifg=%s guibg=NONE gui=NONE', s:nord7_gui )
+    exec printf('hi Lf_hl_cursorline  guifg=%s guibg=NONE gui=NONE', s:nord5_gui )
     exec printf('hi Lf_hl_match       guifg=%s guibg=NONE gui=bold', s:nord13_gui)
     exec printf('hi Lf_hl_match0      guifg=%s guibg=NONE gui=bold', s:nord13_gui)
     exec printf('hi Lf_hl_match1      guifg=%s guibg=NONE gui=bold', s:nord12_gui)

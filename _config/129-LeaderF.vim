@@ -151,6 +151,11 @@ endfunction
 " augroup END
 
 let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
+let g:Lf_NormalMap = {
+\   "_": [
+\      ['<C-j>', 'j'],
+\      ['<C-k>', 'k'],
+\}
 
 " <C-r> : 検索切り替え: fuzzy / regex 
 " <C-f> : 検索切り替え: fullpath / name only
