@@ -141,20 +141,12 @@ let g:Lf_RgConfig = [
 
 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 
-function! DefineMyLeaderFHighlishts() abort
-    hi Lf_hl_cursorline  gui=underline guifg=fg guibg=bg
-endfunction
-
-" augroup MyLeaderFHighlight
-"     autocmd!
-"     autocmd ColorScheme * call DefineMyLeaderFHighlishts()
-" augroup END
-
 let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
 let g:Lf_NormalMap = {
 \   "_": [
 \      ['<C-j>', 'j'],
 \      ['<C-k>', 'k'],
+\   ]
 \}
 
 " <C-r> : 検索切り替え: fuzzy / regex 
