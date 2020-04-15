@@ -178,6 +178,7 @@ MyPlug! 'rhysd/conflict-marker.vim'
 " --------------------------
 MyPlug! 'lifepillar/vim-solarized8'
 MyPlug! 'rakr/vim-one'
+MyPlug! 'arcticicestudio/nord-vim'
 
 " --------------------------
 " LeaderF

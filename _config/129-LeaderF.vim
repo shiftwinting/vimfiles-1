@@ -272,6 +272,7 @@ if has_key(s:stlPalette, g:colors_name)
     let g:Lf_StlPalette = s:stlPalette[g:colors_name]
 endif
 
+endif
 
 
 let g:Lf_PreviewResult = {
