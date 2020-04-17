@@ -58,6 +58,3 @@ let g:Lf_FilerInsertMap = {
 \   '<C-n>':        'next_history',
 \   '<Tab>':        'switch_normal_mode',
 \}
-
-let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
-let g:Lf_NormalMap = {'Filer':   [['B', ':LeaderfBookmark<CR>']]}

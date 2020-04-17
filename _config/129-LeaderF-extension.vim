@@ -82,47 +82,47 @@ command! LfGitSwitch Leaderf git_switch
 " ============================================================================
 " mrw
 " ============================================================================
-
-function! s:mrw_source(args) abort
-    let l:files = mrw#read_cachefile(expand('%'))
-    let l:result = []
-    " from mrw.vim
-    let l:max_filename_len = max(map(copy(l:files), {i,x -> strdisplaywidth(fnamemodify(x, ':p:t'))}) + [0])
-    for l:file in l:files
-        let l:name = fnamemodify(l:file, ':p:t')
-        let l:space = l:max_filename_len - strdisplaywidth(l:name)
-        call add(l:result, printf('%s%s "%s"', l:name, repeat(' ', l:space), fnamemodify(l:file, ':p:h')))
-    endfor
-    return l:result
-endfunction
-
-function! s:mrw_get_digest(line, mode) abort
-    if a:mode ==# 0
-        return [a:line, 0]
-    elseif a:mode ==# 1
-        let l:end = stridx(a:line, ' ')
-        return [a:line[:l:end-1], 0]
-    else
-        let l:start = stridx(a:line, ' "')
-        return [a:line[l:start+2: -1], strlen(a:line) - 1]
-    endif
-endfunction
-
-function! s:mrw_accept(line, args) abort
-    let l:path = s:mrw_get_digest(a:line, 2)[0][:-2]
-    \           . '/'
-    \           . s:mrw_get_digest(a:line, 1)[0]
-    exec 'drop ' . l:path
-endfunction
-
-let g:Lf_Extensions.mrw = {
-\   'source':     s:func('s:mrw_source'),
-\   'accept':     s:func('s:mrw_accept'),
-\   'get_digest': s:func('s:mrw_get_digest'),
-\   'supports_name_only': 1,
-\}
-
-
+"
+" function! s:mrw_source(args) abort
+"     let l:files = mrw#read_cachefile(expand('%'))
+"     let l:result = []
+"     " from mrw.vim
+"     let l:max_filename_len = max(map(copy(l:files), {i,x -> strdisplaywidth(fnamemodify(x, ':p:t'))}) + [0])
+"     for l:file in l:files
+"         let l:name = fnamemodify(l:file, ':p:t')
+"         let l:space = l:max_filename_len - strdisplaywidth(l:name)
+"         call add(l:result, printf('%s%s "%s"', l:name, repeat(' ', l:space), fnamemodify(l:file, ':p:h')))
+"     endfor
+"     return l:result
+" endfunction
+"
+" function! s:mrw_get_digest(line, mode) abort
+"     if a:mode ==# 0
+"         return [a:line, 0]
+"     elseif a:mode ==# 1
+"         let l:end = stridx(a:line, ' ')
+"         return [a:line[:l:end-1], 0]
+"     else
+"         let l:start = stridx(a:line, ' "')
+"         return [a:line[l:start+2: -1], strlen(a:line) - 1]
+"     endif
+" endfunction
+"
+" function! s:mrw_accept(line, args) abort
+"     let l:path = s:mrw_get_digest(a:line, 2)[0][:-2]
+"     \           . '/'
+"     \           . s:mrw_get_digest(a:line, 1)[0]
+"     exec 'drop ' . l:path
+" endfunction
+"
+" let g:Lf_Extensions.mrw = {
+" \   'source':     s:func('s:mrw_source'),
+" \   'accept':     s:func('s:mrw_accept'),
+" \   'get_digest': s:func('s:mrw_get_digest'),
+" \   'supports_name_only': 1,
+" \}
+"
+"
 " " ============================================================================
 " " todo
 " " ============================================================================

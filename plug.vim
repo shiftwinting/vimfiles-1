@@ -31,7 +31,7 @@ MyPlug! 'andymass/vim-matchup'
 MyPlug  'ap/vim-css-color'
 MyPlug! 'dense-analysis/ale'
 MyPlug! 'dhruvasagar/vim-table-mode'
-MyPlug  'majutsushi/tagbar'
+" MyPlug  'majutsushi/tagbar'
 MyPlug  'mattn/gist-vim'
 MyPlug  'mattn/webapi-vim'
 MyPlug  'previm/previm'
@@ -70,8 +70,8 @@ MyPlug! 'tyru/capture.vim'
 MyPlug! 'tyru/open-browser-github.vim'
 MyPlug! 'tyru/open-browser.vim'
 MyPlug! 'tyru/vim-altercmd'
-MyPlug! 'machakann/vim-highlightedundo'
-MyPlug! 'tyru/columnskip.vim'
+" MyPlug! 'machakann/vim-highlightedundo'
+" MyPlug! 'tyru/columnskip.vim'
 
 " --------------------------
 " python
@@ -81,7 +81,7 @@ MyPlug! 'petobens/poet-v'
 " MyPlug! 'davidhalter/jedi-vim'
 " JediUseEnvironment のため
 MyPlug! 'blueyed/jedi-vim', { 'branch': 'envs' }
-MyPlug! 'relastle/vim-nayvy'
+" MyPlug! 'relastle/vim-nayvy'
 " MyPlug! 'kiteco/vim-plugin'
 
 " --------------------------
@@ -168,7 +168,7 @@ MyPlug! 'itchyny/lightline.vim'
 " --------------------------
 " git
 " --------------------------
-MyPlug  'airblade/vim-gitgutter'
+MyPlug! 'airblade/vim-gitgutter'
 MyPlug! 'tpope/vim-fugitive'
 MyPlug! 'junegunn/gv.vim'
 MyPlug! 'gisphm/vim-gitignore'

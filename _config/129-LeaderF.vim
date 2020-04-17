@@ -23,7 +23,7 @@ nnoremap <silent> [Leaderf]o        :<C-u>Leaderf  openbrowser<CR>
 nnoremap <silent> [Leaderf]q        :<C-u>Leaderf  ghq<CR>
 nnoremap <silent> [Leaderf]t        :<C-u>Leaderf  filetype<CR>
 nnoremap <silent> [Leaderf]w        :<C-u>Leaderf  window<CR>
-nnoremap <silent> [Leaderf]m        :<C-u>Leaderf  mrw --nowrap<CR>
+nnoremap <silent> [Leaderf]m        :<C-u><C-r>=printf('Leaderf  file --file %s', g:tmg#mrw#cache_path)<CR><CR>
 nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line<CR>
 nnoremap <silent> [Leaderf]s        :<C-u>Leaderf  bufTag<CR>
 nnoremap <silent> [Leaderf]v        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
@@ -44,15 +44,15 @@ function! s:leaderf_settings() abort
 endfunction
 
 
-function! s:leaderf_python_settings() abort
-    nnoremap <buffer> <silent> [Leaderf]i :<C-u>Leaderf nayvy<CR>
-endfunction
+" function! s:leaderf_python_settings() abort
+"     nnoremap <buffer> <silent> [Leaderf]i :<C-u>Leaderf nayvy<CR>
+" endfunction
 
 
 augroup MyLeaderf
     autocmd!
     autocmd Filetype leaderf call <SID>leaderf_settings()
-    autocmd Filetype python  call <SID>leaderf_python_settings()
+    " autocmd Filetype python  call <SID>leaderf_python_settings()
 augroup END
 
 
@@ -77,8 +77,8 @@ let g:Lf_DefaultExternalTool = 'rg'
 let g:Lf_IgnoreCurrentBufferName = 1
 
 " プレビューをポップアップで行う
-" let g:Lf_PreviewInPopup = 1
-" let g:Lf_PreviewHorizontalPosition = 'top'
+let g:Lf_PreviewInPopup = 1
+let g:Lf_PreviewHorizontalPosition = 'bottom'
 " let g:Lf_PreviewPopupHeight = 30
 
 " 横幅
@@ -141,12 +141,21 @@ let g:Lf_RgConfig = [
 
 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 
+" https://bit.ly/2VzuoUO
+" https://bit.ly/2yZYwAX
+" 
 let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
 let g:Lf_NormalMap = {
 \   "_": [
 \      ['<C-j>', 'j'],
 \      ['<C-k>', 'k'],
-\   ]
+\   ],
+\   "Rg": [
+\      ['Q', ':exec g:Lf_py "rgExplManager.outputToQflist()" <bar> :exec g:Lf_py "rgExplManager.quit()" <bar> :Qfreplace<CR>'],
+\   ],
+\   "Filer": [
+\      ['B', ':exec g:Lf_py "filerExplManager.quit()" <bar> :LeaderfBookmark<CR>'],
+\   ],
 \}
 
 " <C-r> : 検索切り替え: fuzzy / regex 
