@@ -5,7 +5,6 @@ scriptencoding utf-8
 " * http://bit.ly/2NdiX1x
 
 " packadd
-" git_switch
 " mrw
 " sonictemplate
 " vim-nayvy
@@ -22,7 +21,7 @@ endfunction
 " ============================================================================
 " packadd
 " ============================================================================
-function! LfExt_packadd_source(args) abort
+function! s:packadd_source(args) abort
     let l:result = []
     for path in split(globpath(&packpath, '/pack/*/opt/*'))
         if isdirectory(path)
@@ -32,13 +31,13 @@ function! LfExt_packadd_source(args) abort
     return l:result
 endfunction
 
-function! LfExt_packadd_accept(line, args) abort
+function! s:packadd_accept(line, args) abort
     execute 'packadd '.a:line
 endfunction
 
 let g:Lf_Extensions.packadd = {
-\   'source': 'LfExt_packadd_source',
-\   'accept': 'LfExt_packadd_accept',
+\   'source': s:func('s:packadd_source'),
+\   'accept': s:func('s:packadd_accept'),
 \}
 command! Tpackadd Leaderf packadd
 
@@ -50,7 +49,7 @@ command! Tpackadd Leaderf packadd
 " ---------------------
 " accept
 " ---------------------
-function! s:git_switch_accept(line, args) abort
+function! s:switch_accept(line, args) abort
     call system('git switch ' . a:line)
     echo printf(" Switched to branch '%s'", a:line)
 endfunction
@@ -58,25 +57,23 @@ endfunction
 " ---------------------
 " format_list
 " ---------------------
-function! s:git_switch_format_list(list, args) abort
+function! s:switch_format_list(list, args) abort
     return filter(copy(a:list), 'v:val[0] !=# "*"')
 endfunction
 
 " ---------------------
 " format_line
 " ---------------------
-function! s:git_switch_format_line(line, args) abort
+function! s:switch_format_line(line, args) abort
     return trim(a:line)
 endfunction
 
-let g:Lf_Extensions.git_switch = {
+let g:Lf_Extensions.switch = {
 \   'source': {'command': 'git branch'},
-\   'accept':      s:func('s:git_switch_accept'),
-\   'format_list': s:func('s:git_switch_format_list'),
-\   'format_line': s:func('s:git_switch_format_line'),
+\   'accept':      s:func('s:switch_accept'),
+\   'format_list': s:func('s:switch_format_list'),
+\   'format_line': s:func('s:switch_format_line'),
 \}
-command! LfGitSwitch Leaderf git_switch
-
 
 
 " ============================================================================
@@ -132,17 +129,17 @@ command! LfGitSwitch Leaderf git_switch
 " \   'add_due':          "normal! A due:\<C-R>=strftime('%Y-%m-%d')\<CR>\<Esc>0"
 " \}
 "
-" function! LfExt_todo_source(args) abort
+" function! s:todo_source(args) abort
 "     return keys(s:todo_dict)
 " endfunction
 "
-" function! LfExt_todo_accept(line, args) abort
+" function! s:todo_accept(line, args) abort
 "     silent execute s:todo_dict[a:line]
 " endfunction
 "
 " let g:Lf_Extensions.todo = {
-" \   'source': 'LfExt_todo_source',
-" \   'accept': 'LfExt_todo_accept',
+" \   'source': s:func('s:todo_source'),
+" \   'accept': s:func('s:todo_accept'),
 " \}
 
 
@@ -150,17 +147,17 @@ command! LfGitSwitch Leaderf git_switch
 " ============================================================================
 " sonictemplate
 " ============================================================================
-function! LfExt_sonictemplate_source(args) abort
+function! s:sonictemplate_source(args) abort
     return sonictemplate#complete('', '', '')
 endfunction
 
-function! LfExt_sonictemplate_accept(line, args) abort
+function! s:sonictemplate_accept(line, args) abort
     execute 'Template '.a:line
 endfunction
 
 let g:Lf_Extensions.sonictemplate = {
-\   'source': 'LfExt_sonictemplate_source',
-\   'accept': 'LfExt_sonictemplate_accept',
+\   'source': s:func('s:sonictemplate_source'),
+\   'accept': s:func('s:sonictemplate_accept'),
 \}
 
 
@@ -194,19 +191,19 @@ def nayvy_list_imports_no_color() -> List[str]:
 EOF
 
 
-function! LfExt_nayvy_source(args) abort
+function! s:nayvy_source(args) abort
     return py3eval('nayvy_list_imports_no_color()')
 endfunction
 
 
-function! LfExt_nayvy_accept(line, args) abort
+function! s:nayvy_accept(line, args) abort
     let l:names = [split(a:line, ' : ')[0]]
     let l:py_expr = 'nayvy_import(' . string(l:names) . ')'
     call py3eval(l:py_expr)
 endfunction
 
 
-function! LfExt_nayvy_get_digest(line, mode) abort
+function! s:nayvy_get_digest(line, mode) abort
     if a:mode ==# 0
         return [a:line, 0]
     elseif a:mode ==# 1
@@ -220,10 +217,10 @@ endfunction
 
 
 let g:Lf_Extensions.nayvy = {
-\   'source': 'LfExt_nayvy_source',
-\   'accept': 'LfExt_nayvy_accept',
+\   'source': s:func('s:nayvy_source'),
+\   'accept': s:func('s:nayvy_accept'),
 \   'supports_name_only': 1,
-\   'get_digest': 'LfExt_nayvy_get_digest'
+\   'get_digest': s:func('s:nayvy_get_digest')
 \}
 
 endif
@@ -232,18 +229,65 @@ endif
 " ============================================================================
 " ghq
 " ============================================================================
-function! LfExt_ghq_accept(line, args) abort
+function! s:ghq_accept(line, args) abort
     let l:path = $GHQ_ROOT . '/github.com/' . a:line
     execute 'tabe | tcd ' . l:path
 endfunction
 
-function! LfExt_ghq_format_line(line, args) abort
+function! s:ghq_format_line(line, args) abort
     " 'github.com ' 以降を取得
     return a:line[11:]
 endfunction
 
 let g:Lf_Extensions.ghq = {
 \   'source': {'command': 'ghq list'},
-\   'accept': 'LfExt_ghq_accept',
-\   'format_line': 'LfExt_ghq_format_line',
+\   'accept': s:func('s:ghq_accept'),
+\   'format_line': s:func('s:ghq_format_line'),
+\}
+
+
+" ============================================================================
+" gv
+" ============================================================================
+
+" --------------------
+" source
+" --------------------
+function! s:gv_source(...) abort
+    if &filetype !=# 'GV'
+        return []
+    endif
+
+    return [
+    \   'CherryPick',
+    \   'CreateBranch',
+    \]
+endfunction
+
+" --------------------
+" accept
+" --------------------
+function! s:gv_accept(line, args) abort
+    call feedkeys(a:line, 'n')
+endfunction
+
+let g:Lf_Extensions.gv = {
+\   'source': s:func('s:gv_source'),
+\   'accept': s:func('s:gv_accept'),
+\}
+
+
+" ============================================================================
+" git 内の編集しているファイル
+" ============================================================================
+
+" 
+function! s:dirty_format_line(line, args) abort
+    return a:line[3:]
+endfunction
+
+let g:Lf_Extensions.dirty = {
+\   'source': {'command': 'git status --porcelain -uall'},
+\   'accept': s:func('s:dirty_format_line'),
+\   'support_multi': v:true,
 \}

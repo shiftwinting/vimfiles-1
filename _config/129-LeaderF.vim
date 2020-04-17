@@ -1,4 +1,4 @@
-scriptencoding utf-8
+criptencoding utf-8
 
 " スタックトレースを表示
 let g:Lf_Exception = 1
@@ -14,7 +14,7 @@ nnoremap <silent> 0                 :<C-u>Leaderf  rg --next<CR>
 nnoremap <silent> 9                 :<C-u>Leaderf  rg --previous<CR>
 nnoremap <silent> [Leaderf]r        :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> [Leaderf];        :<C-u>Leaderf  cmdHistory<CR>
-nnoremap <silent> [Leaderf]c        :<C-u>Leaderf  cdnjs<CR>
+" nnoremap <silent> [Leaderf]c        :<C-u>Leaderf  cdnjs<CR>
 nnoremap <silent> [Leaderf]f        :<C-u>Leaderf  file<CR>
 nnoremap <silent> [Leaderf]h        :<C-u>Leaderf  help<CR>
 nnoremap <silent> [Leaderf]j        :<C-u>Leaderf  buffer<CR>
@@ -33,9 +33,18 @@ nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expan
 nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 
+
+" leaderf#Rg#getPattern()
+"   0: <cword>
+"   1: <cWORD>
+"   2: leaderf#Rg#visual()
+
 " Reference
-nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e "%s" -w -F', expand('<cword>'))<CR><CR>
-vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e %s -w -F', leaderf#Rg#visual())<CR><CR>
+nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e "%s" -w -F', leaderf#Rg#getPattern(0))<CR><CR>
+vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e %s -w -F', leaderf#Rg#getPattern(2))<CR><CR>
+" buftag で検索
+nnoremap <silent> GR                :<C-u><C-r>=printf('Leaderf bufTag --input %s', leaderf#Rg#getPattern(0))<CR><CR>
+vnoremap <silent> GR                :<C-u><C-r>=printf('Leaderf bufTag --input %s', leaderf#Rg#getPattern(2)[1:-2])<CR><CR>
 
 
 function! s:leaderf_settings() abort
@@ -146,9 +155,11 @@ let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 " 
 let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
 let g:Lf_NormalMap = {
-\   "_": [
+\   '_': [
 \      ['<C-j>', 'j'],
 \      ['<C-k>', 'k'],
+\      ['K',     '<Nop>'],
+\      ['M',     '<Nop>'],
 \   ],
 \   "Rg": [
 \      ['Q', ':exec g:Lf_py "rgExplManager.outputToQflist()" <bar> :exec g:Lf_py "rgExplManager.quit()" <bar> :Qfreplace<CR>'],

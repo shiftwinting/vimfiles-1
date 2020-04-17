@@ -24,7 +24,7 @@ let g:loaded_netrwPlugin       = 1
 let g:loaded_netrwSettings     = 1
 let g:loaded_netrwFileHandlers = 1
 
-let g:min_vimrc = 1
+let g:min_vimrc = 0
 let g:min_vimrc = get(g:, 'min_vimrc', 0)
 
 let g:plug_script = expand('<sfile>:h').'/plug.vim'

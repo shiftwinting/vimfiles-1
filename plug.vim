@@ -185,12 +185,10 @@ MyPlug! 'arcticicestudio/nord-vim'
 " LeaderF
 " --------------------------
 " MyPlug! 'Yggdroot/LeaderF', { 'do': './install.bat' }
-" MyPlug! 'tamago324/LeaderF-ghq'
 MyPlug! 'tamago324/LeaderF-cdnjs'
 MyPlug! 'tamago324/LeaderF-bookmark'
 MyPlug! 'tamago324/LeaderF-openbrowser'
-" MyPlug! 'tamago324/LeaderF-filer'
-MyPlug! 'ryanoasis/vim-devicons'
+MyPlug! 'tamago324/LeaderF-filer'
 
 " --------------------------
 " coc
@@ -204,6 +202,7 @@ MyPlug! 'ryanoasis/vim-devicons'
 " MyPlug  'mattn/vim-lsp-settings'
 
 Plug '~/ghq/github.com/tamago324/LeaderF'
-Plug '~/ghq/github.com/tamago324/LeaderF-filer'
+" Plug '~/ghq/github.com/tamago324/LeaderF-filer'
+" Plug '~/ghq/github.com/tamago324/LeaderF-bookmark'
 
 call plug#end()

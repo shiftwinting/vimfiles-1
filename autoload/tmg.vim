@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+let s:V = vital#vital#new()
+let s:Promise = s:V.import('Async.Promise')
 
 " =================================================
 " バックスラッシュをスラッシュにして返す

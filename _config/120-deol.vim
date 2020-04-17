@@ -3,8 +3,14 @@ scriptencoding utf-8
 " XXX: 参考にする https://git.io/JeKIn
 
 " \%(\) : 部分正規表現として保存しない :help /\%(\)
-" \%(>\|# \?\|\$\) :  > # $ 
-let g:deol#prompt_pattern = '[^#>$ ]\{-}\%(>\|# \?\|\$\)'
+let g:deol#prompt_pattern = 
+\   '^\%(PS \)\?' .
+\   '[^#>$ ]\{-}' .
+\   '\%(' .
+\       '> \?'  . '\|' .
+\       '# \? ' . '\|' . 
+\       '\$' .
+\   '\)'
 
 " コマンドの履歴
 let g:deol#shell_history_path = expand('~/deol_history')
@@ -31,14 +37,15 @@ augroup END
 
 autocmd MyDeol Filetype   deol     call <SID>deol_settings()
 autocmd MyDeol Filetype   deoledit call <SID>deol_editor_settings()
-autocmd MyDeol TabLeave   *        call <SID>TabLeave()
-autocmd MyDeol TabClosed  *        call <SID>TabClosed()
-autocmd MyDeol DirChanged *        call <SID>DirChanged(expand('<afile>'))
+autocmd MyDeol DirChanged *        call deol#cd(fnamemodify(expand('<afile>'), ':p:h'))
 
+
+" :q --- QuitPre -> WinLeave
 " ====================
 " QuitPre:
 " ====================
 function! s:QuitPre() abort
+    " :q したら、deol_quited に 1 をセット
     call setbufvar(bufnr(), 'deol_quited', 1)
 endfunction
 
@@ -56,38 +63,11 @@ function! s:WinLeave() abort
 endfunction
 
 
-" タブが閉じられたとき:  TabLeave -> TabClosed の順で呼ばれる
-" ====================
-" TabLeave:
-" ====================
-function! s:TabLeave() abort
-    if !exists('t:deol')
-        return
-    endif
-    let  g:last_tab_deol = t:deol
-endfunction
-
-
-" ====================
-" TabClosed:
-" ====================
-function! s:TabClosed() abort
-    if !exists('g:last_tab_deol') || empty(g:last_tab_deol)
-        return
-    endif
-
-    call s:bufdelete_if_exists(g:last_tab_deol.bufnr)
-    unlet g:last_tab_deol
-endfunction
-
-
 " ====================
 " DirChanged:
 " ====================
 function! s:DirChanged(file) abort
-    if exists('t:deol')
-        call deol#cd(a:file)
-    endif
+    call t:deol.cd(a:file)
 endfunction
 
 
@@ -143,21 +123,12 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer><silent> <CR>  :<C-u>call <SID>send_editor()<CR>
     inoremap <buffer><silent> <CR>  <Esc>:call <SID>send_editor(v:true)<CR>
 
+    nnoremap <buffer><silent> <Sapce>fl :<C-u>Leaderf line --popup<CR>
 
     iabbrev <buffer> poe poetry
 
     resize 5
     setlocal winfixheight
-
-
-    " --------------------
-    " 行補完
-    " --------------------
-    setlocal completefunc=LineComplete
-    " カレントバッファ
-    setlocal complete=.
-    " ウィンドウに表示されているバッファ
-    setlocal complete+=w
 
     call s:sign_place()
 

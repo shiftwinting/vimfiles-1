@@ -126,23 +126,23 @@ if has('persistent_undo')
     augroup END
 endif
 
-" fold 折畳
-function! MyFoldText() abort "
-    let marker_start = strpart(&foldmarker, 0, 3)
-    let line = getline(v:foldstart)
-    let lcnt = v:foldend - v:foldstart
-
-    " TODO: 4桁固定ではなく、レベルごとに設定とかできないのかな...
-    let lcnt =  printf('%4d', lcnt)
-
-    let l:foldtext = ''
-    let l:foldtext.= lcnt.'L'
-    let l:foldtext.= ' '
-    let l:foldtext.= line
-    return l:foldtext
-endfunction
-
-set foldtext=MyFoldText()
+" " fold 折畳
+" function! MyFoldText() abort "
+"     let marker_start = strpart(&foldmarker, 0, 3)
+"     let line = getline(v:foldstart)
+"     let lcnt = v:foldend - v:foldstart
+"
+"     " TODO: 4桁固定ではなく、レベルごとに設定とかできないのかな...
+"     let lcnt =  printf('%4d', lcnt)
+"
+"     let l:foldtext = ''
+"     let l:foldtext.= lcnt.'L'
+"     let l:foldtext.= ' '
+"     let l:foldtext.= line
+"     return l:foldtext
+" endfunction
+"
+" set foldtext=MyFoldText()
 
 " from kaoriya's vimrc
 " マルチバイト文字の間でも改行できるようにする(autoindentが有効の場合いる)
