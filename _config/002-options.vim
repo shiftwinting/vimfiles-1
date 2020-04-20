@@ -32,7 +32,8 @@ set splitright          " 縦分割した時、カレントウィンドウの右
 " menuone:  候補が1つでも表示
 " popup:    info を popup で表示
 " noselect: 自動で候補を表示しない
-set completeopt=menuone,noselect,noinsert
+" noinsert: 自動で候補を挿入しない
+set completeopt=menuone,noselect,noinsert,popup
 set pumheight=15
 
 set expandtab

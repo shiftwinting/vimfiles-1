@@ -26,7 +26,7 @@ let g:Lf_FilerNormalMap = {
 \   '<C-v>':         'accept_vertical',
 \   '<C-t>':         'accept_tab',
 \   '<Esc>':         'close_preview_popup',
-\   's':             'add_selections',
+\   'S':             'add_selections',
 \   '<C-a>':         'select_all',
 \   '<F3>':          'clear_selections',
 \   'K':             'mkdir',
@@ -39,9 +39,8 @@ let g:Lf_FilerNormalMap = {
 
 let g:Lf_FilerUseDefaultInsertMap = 0
 let g:Lf_FilerInsertMap = {
-\   '<C-h>':        'open_parent_or_clear_line',
+\   '<C-h>':        'open_parent_or_backspace',
 \   '<C-l>':        'open_current',
-\   '<C-e>':        'quit',
 \   '<Esc>':        'quit',
 \   '<CR>':         'accept',
 \   '<C-s>':        'accept_horizontal',
@@ -57,4 +56,22 @@ let g:Lf_FilerInsertMap = {
 \   '<C-p>':        'prev_history',
 \   '<C-n>':        'next_history',
 \   '<Tab>':        'switch_normal_mode',
+\   '<C-b>':        'left',
+\   '<C-f>':        'right',
+\   '<C-a>':        'home',
+\   '<C-e>':        'end',
 \}
+
+" let g:Lf_NormalMap = {
+" \   "Filer": [
+" \      ['m', ':call Lf_filer_context_menu()<CR>']
+" \   ],
+" \}
+"
+" function! Lf_filer_context_menu() abort
+"     exec g:Lf_py "from filerExpl import *"
+"     let l:commands = ['create_file', 'mkdir', 'rename', 'copy', 'paste']
+"     let l:selection = confirm('Action?', "New &file\n&New Directory\n&Rename\n&Copy\n&Paste")
+"     silent exe 'redraw'
+"     exec printf('exec g:Lf_py "filerExplManager.do_command(''%s'')"', l:commands[l:selection - 1])
+" endfunction

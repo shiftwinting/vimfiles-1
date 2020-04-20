@@ -4,7 +4,8 @@ scriptencoding utf-8
 function! s:plug(require, name, ...) abort
     " min かつ 必須ではない場合、読み込まない
     let l:opts = get(a:, 1, {})
-    if a:require || !g:min_vimrc
+    let l:if = has_key(l:opts, 'if') ? eval(l:opts.if) : 1
+    if (a:require || !g:min_vimrc) && l:if
         Plug a:name, l:opts
     endif
 endfunction
@@ -83,6 +84,8 @@ MyPlug! 'petobens/poet-v'
 MyPlug! 'blueyed/jedi-vim', { 'branch': 'envs' }
 " MyPlug! 'relastle/vim-nayvy'
 " MyPlug! 'kiteco/vim-plugin'
+" MyPlug! 'heavenshell/vim-pydocstring', { 'if': executable('doq') }
+MyPlug  'wookayin/vim-autoimport'
 
 " --------------------------
 " php
@@ -184,7 +187,7 @@ MyPlug! 'arcticicestudio/nord-vim'
 " --------------------------
 " LeaderF
 " --------------------------
-" MyPlug! 'Yggdroot/LeaderF', { 'do': './install.bat' }
+MyPlug! 'Yggdroot/LeaderF', { 'do': './install.bat' }
 MyPlug! 'tamago324/LeaderF-cdnjs'
 MyPlug! 'tamago324/LeaderF-bookmark'
 MyPlug! 'tamago324/LeaderF-openbrowser'
@@ -201,8 +204,7 @@ MyPlug! 'tamago324/LeaderF-filer'
 " MyPlug  'prabirshrestha/vim-lsp'
 " MyPlug  'mattn/vim-lsp-settings'
 
-Plug '~/ghq/github.com/tamago324/LeaderF'
+" Plug '~/ghq/github.com/tamago324/LeaderF'
 " Plug '~/ghq/github.com/tamago324/LeaderF-filer'
-" Plug '~/ghq/github.com/tamago324/LeaderF-bookmark'
 
 call plug#end()

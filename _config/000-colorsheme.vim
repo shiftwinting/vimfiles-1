@@ -127,7 +127,6 @@ function! s:nord_color() abort
     exec printf('hi Lf_hl_match4      guifg=%s guibg=NONE gui=bold', s:nord11_gui)
     exec printf('hi Lf_hl_matchRefine guifg=%s guibg=NONE gui=bold', s:nord15_gui)
     exec printf('hi Lf_hl_rgHighlight guifg=%s guibg=%s   gui=NONE', s:nord0_gui, s:nord13_gui)
-
     hi link Lf_hl_filerDir Directory
 
 endfunction

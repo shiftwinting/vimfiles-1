@@ -268,7 +268,7 @@ endfunction
 " accept
 " --------------------
 function! s:gv_accept(line, args) abort
-    call feedkeys(a:line, 'n')
+    call feedkeys(':' . a:line, 'n')
 endfunction
 
 let g:Lf_Extensions.gv = {
@@ -281,7 +281,13 @@ let g:Lf_Extensions.gv = {
 " git 内の編集しているファイル
 " ============================================================================
 
-" 
+function! s:dirty_accept(line, args) abort
+    let l:file = matchstr(a:line, '^ \s\zs.*')
+    " split やら tab やらに対応する
+    exec 'edit ' . FugitiveWorkTree() . '/' . l:file
+endfunction
+
+
 function! s:dirty_format_line(line, args) abort
     return a:line[3:]
 endfunction

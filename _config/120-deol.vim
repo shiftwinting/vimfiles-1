@@ -101,7 +101,8 @@ function! s:deol_settings() abort
     autocmd MyDeol QuitPre  <buffer> call <SID>QuitPre()
     autocmd MyDeol WinLeave <buffer> call <SID>WinLeave()
 
-    " syntax match Comment '[^#>$ ]\{-}\%(>\|# \?\|\$\)'
+    " git dirty とかで飛べるようにするため
+    setlocal path+=FugitiveWorkTree()
 
 endfunction
 
@@ -109,7 +110,6 @@ endfunction
 function! s:deol_editor_settings() abort
 
     autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
-    " autocmd MyDeol InsertEnter,InsertCharPre <buffer> call <SID>start_complete()
 
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
     nnoremap <buffer><silent> <A-e> :<C-u>call <SID>deol_kill_editor()<CR>
@@ -132,30 +132,8 @@ function! s:deol_editor_settings() abort
 
     call s:sign_place()
 
-endfunction
+    setlocal completefunc=tmg#git#aliases#complete
 
-
-" ====================
-" 行補完
-" ====================
-function! LineComplete(findstart, base) abort
-    if a:findstart
-        " 補完の開始位置を返す
-        return matchstrpos(getline('.'), '^\s*\ze\S')[2]
-    else
-        let l:lines = getline(1, '$')
-        " 先頭でマッチするものを返す
-        call filter(l:lines, 'v:val =~# "^" . a:base . "."')
-        return l:lines
-    endif
-endfunction
-
-function! s:start_complete() abort
-    " １文字以上あったら、行補完開始
-    if empty(getline('.'))
-        return
-    endif
-    call feedkeys("\<C-x>\<C-u>", 'n')
 endfunction
 
 
@@ -248,14 +226,14 @@ endfunction
 function! s:is_show_deol(tabnr) abort
     if !exists('t:deol')
         " まだ、作られていない場合、終わり、表示すらされないため
-        return 0
+        return v:false
     endif
 
     if empty(win_findbuf(t:deol.bufnr))
         " バッファが表示されているウィンドウが見つからない
-        return 0
+        return v:false
     endif
-    return 1
+    return v:true
 endfunction
 
 
@@ -267,7 +245,7 @@ endfunction
 function! s:is_show_deol_edit(...) abort
     if !exists('t:deol')
         " まだ、作られていない場合、終わり、表示すらされないため
-        return 0
+        return v:false
     endif
 
     " 全タブの edit_bufnr のウィンドウを返す
@@ -275,7 +253,7 @@ function! s:is_show_deol_edit(...) abort
     " カレントタブのウィンドウを取得
     call filter(l:winid_list, 'win_id2tabwin(v:val)[0] ==# tabpagenr()')
     if empty(l:winid_list)
-        return 0
+        return v:false
     endif
 
     return l:winid_list[0] ==# t:deol.edit_winid
