@@ -297,3 +297,49 @@ let g:Lf_Extensions.dirty = {
 \   'accept': s:func('s:dirty_format_line'),
 \   'support_multi': v:true,
 \}
+
+" ============================================================================
+" neosnippet
+" ============================================================================
+let s:neosnippet = {}
+let s:neosnippet.source = {}
+let s:neosnippet.col = 0
+
+function! s:neosnippet_source(...) abort
+    let s:neosnippet.source = neosnippet#helpers#get_completion_snippets()
+    let s:neosnippet.col = col('.')
+    return keys(s:neosnippet.source)
+endfunction
+
+function! s:neosnippet_accept(line, args) abort
+    " from neosnippet.vim
+    let l:cur_text = neosnippet#util#get_cur_text()
+    let l:cur_keyword_str = matchstr(l:cur_text, '\S\+$')
+    call neosnippet#view#_expand(
+    \   l:cur_text . a:line[len(l:cur_keyword_str)], s:neosnippet.col, a:line)
+endfunction
+
+function! s:neosnippet_preview(orig_buf_nr, orig_cursor, line, arguments) abort
+    let l:bufnr = bufadd('lf_neosnippet_preview') 
+    silent! call bufload(l:bufnr)
+
+    " " from instance.py
+    call setbufvar(l:bufnr, '&buflisted',   0)
+    call setbufvar(l:bufnr, '&buftype',     'nofile')
+    call setbufvar(l:bufnr, '&bufhidden',   'hide')
+    call setbufvar(l:bufnr, '&undolevels',  -1)
+    call setbufvar(l:bufnr, '&swapfile',    0)
+    call setbufvar(l:bufnr, '&filetype',    getbufvar(a:orig_buf_nr, '&filetype', ''))
+
+    let l:info = get(s:neosnippet.source, a:line, {})
+    let l:lines = split(get(l:info, 'snip', ''), "\n")
+    call setbufline(bufnr, 1, l:lines)
+    " buf_number, line_num, jump_cmd
+    return [l:bufnr, 1, '']
+endfunction
+
+let g:Lf_Extensions.neosnippet = {
+\   'source': s:func('s:neosnippet_source'),
+\   'accept': s:func('s:neosnippet_accept'),
+\   'preview': s:func('s:neosnippet_preview'),
+\}

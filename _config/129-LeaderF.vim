@@ -361,7 +361,8 @@ let g:Lf_PreviewResult = {
 \   'Line': 1,
 \   'Colorscheme': 1,
 \   'Rg': 0,
-\   'Gtags': 0
+\   'Gtags': 0,
+\   'neosnippet': 1,
 \}
 
 
