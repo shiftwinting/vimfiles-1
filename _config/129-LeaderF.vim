@@ -35,6 +35,7 @@ nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate --popup<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 nnoremap <silent> [Leaderf]c        :<C-u>Leaderf switch --popup<CR>
 nnoremap <silent> [Leaderf]d        :<C-u>Leaderf dirty --popup<CR>
+nnoremap <silent> [Leaderf]n        :<C-u>Leaderf neosnippet --popup<CR>
 
 
 " leaderf#Rg#getPattern()

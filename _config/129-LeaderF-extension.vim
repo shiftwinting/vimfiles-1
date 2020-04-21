@@ -39,7 +39,7 @@ let g:Lf_Extensions.packadd = {
 \   'source': s:func('s:packadd_source'),
 \   'accept': s:func('s:packadd_accept'),
 \}
-command! Tpackadd Leaderf packadd
+command! Tpackadd Leaderf packadd --popup
 
 
 
@@ -281,33 +281,55 @@ let g:Lf_Extensions.gv = {
 " git 内の編集しているファイル
 " ============================================================================
 
-function! s:dirty_accept(line, args) abort
-    let l:file = matchstr(a:line, '^ \s\zs.*')
-    " split やら tab やらに対応する
-    exec 'edit ' . FugitiveWorkTree() . '/' . l:file
-endfunction
-
-
-function! s:dirty_format_line(line, args) abort
-    return a:line[3:]
-endfunction
-
-let g:Lf_Extensions.dirty = {
-\   'source': {'command': 'git status --porcelain -uall'},
-\   'accept': s:func('s:dirty_format_line'),
-\   'support_multi': v:true,
-\}
+" function! s:dirty_accept(line, args) abort
+"     let l:file = matchstr(a:line, '^ \s\zs.*')
+"     " split やら tab やらに対応する
+"     exec 'edit ' . FugitiveWorkTree() . '/' . l:file
+" endfunction
+"
+"
+" function! s:dirty_format_line(line, args) abort
+"     return a:line[3:]
+" endfunction
+"
+" let g:Lf_Extensions.dirty = {
+" \   'source': {'command': 'git status --porcelain -uall'},
+" \   'accept': s:func('s:dirty_format_line'),
+" \   'support_multi': v:true,
+" \}
 
 " ============================================================================
 " neosnippet
 " ============================================================================
-let s:neosnippet = {}
-let s:neosnippet.source = {}
-let s:neosnippet.col = 0
+let s:neosnippet = {
+\   'source': {},
+\   'col': 0,
+\   'ft': '',
+\   'preview_bufnr': -1,
+\}
 
 function! s:neosnippet_source(...) abort
-    let s:neosnippet.source = neosnippet#helpers#get_completion_snippets()
-    let s:neosnippet.col = col('.')
+    " プレビューのところでやるとカーソル移動が遅くなるから
+    let l:bufnr = bufadd('lf_neosnippet_preview') 
+    silent! call bufload(l:bufnr)
+
+    try
+        " from instance.py
+        call setbufvar(l:bufnr, '&buflisted',   0)
+        call setbufvar(l:bufnr, '&buftype',     'nofile')
+        call setbufvar(l:bufnr, '&bufhidden',   'hide')
+        call setbufvar(l:bufnr, '&undolevels',  -1)
+        call setbufvar(l:bufnr, '&swapfile',    0)
+        call setbufvar(l:bufnr, '&filetype',    &filetype)
+    catch /*/
+        " pass
+    endtry
+
+    let s:neosnippet = {
+    \   'source': neosnippet#helpers#get_completion_snippets(),
+    \   'col': col('.'),
+    \   'preview_bufnr': l:bufnr,
+    \}
     return keys(s:neosnippet.source)
 endfunction
 
@@ -320,22 +342,12 @@ function! s:neosnippet_accept(line, args) abort
 endfunction
 
 function! s:neosnippet_preview(orig_buf_nr, orig_cursor, line, arguments) abort
-    let l:bufnr = bufadd('lf_neosnippet_preview') 
-    silent! call bufload(l:bufnr)
-
-    " " from instance.py
-    call setbufvar(l:bufnr, '&buflisted',   0)
-    call setbufvar(l:bufnr, '&buftype',     'nofile')
-    call setbufvar(l:bufnr, '&bufhidden',   'hide')
-    call setbufvar(l:bufnr, '&undolevels',  -1)
-    call setbufvar(l:bufnr, '&swapfile',    0)
-    call setbufvar(l:bufnr, '&filetype',    getbufvar(a:orig_buf_nr, '&filetype', ''))
-
     let l:info = get(s:neosnippet.source, a:line, {})
     let l:lines = split(get(l:info, 'snip', ''), "\n")
-    call setbufline(bufnr, 1, l:lines)
-    " buf_number, line_num, jump_cmd
-    return [l:bufnr, 1, '']
+    silent call deletebufline(s:neosnippet.preview_bufnr, 1, '$')
+    silent call setbufline(s:neosnippet.preview_bufnr, 1, l:lines)
+    " [buf_number, line_num, jump_cmd]
+    return [s:neosnippet.preview_bufnr, 1, '']
 endfunction
 
 let g:Lf_Extensions.neosnippet = {

@@ -51,6 +51,8 @@ if has('win32')
     " pipenv の 仮想環境をプロジェクト内に作る
     let $PIPENV_VENV_IN_PROJECT = 'true'
 
+    call tmg#add_path('$LOCALAPPDATA/Programs/Git/usr/bin')
+
 endif
 
 call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})

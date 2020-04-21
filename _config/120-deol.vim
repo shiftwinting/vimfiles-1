@@ -102,7 +102,7 @@ function! s:deol_settings() abort
     autocmd MyDeol WinLeave <buffer> call <SID>WinLeave()
 
     " git dirty とかで飛べるようにするため
-    setlocal path+=FugitiveWorkTree()
+    " setlocal path+=FugitiveWorkTree()
 
 endfunction
 

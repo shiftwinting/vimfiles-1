@@ -176,6 +176,7 @@ MyPlug! 'tpope/vim-fugitive'
 MyPlug! 'junegunn/gv.vim'
 MyPlug! 'gisphm/vim-gitignore'
 MyPlug! 'rhysd/conflict-marker.vim'
+MyPlug! 'lambdalisue/gina.vim'
 
 " --------------------------
 " colorscheme

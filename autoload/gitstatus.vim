@@ -1,5 +1,19 @@
 scriptencoding utf-8
 
+" なんか重くなる
+" function! gitstatus#fetch_status() abort
+"     let l:ahead = gina#component#traffic#ahead()
+"     let l:behind = gina#component#traffic#behind()
+"     if l:ahead > 1 && l:behind > 1
+"         let l:val  = '󿗶' . l:ahead . ' ' . '󿗹' . l:behind
+"     else
+"         return '󿧧'
+"     endif
+" endfunction
+"
+"
+" finish
+"
 " from https://github.com/APZelos/gitline.vim
 
 let s:timer_fetch_status = v:null
@@ -64,7 +78,7 @@ function! s:on_fetch_status(data) abort
 endfunction
 
 function! gitstatus#fetch_job_start() abort
-    if !exists('*FugitiveHead') || len(FugitiveHead()) == 0
+    if !exists('*gina#core#get') || empty(gina#core#get())
         return
     endif
 
@@ -77,7 +91,7 @@ function! gitstatus#fetch_job_start() abort
 endfunction
 
 function! gitstatus#fetch_status() abort
-    if !exists('*FugitiveHead') || len(FugitiveHead()) == 0
+    if !exists('*gina#core#get') || empty(gina#core#get())
         return ''
     endif
     return s:git_fetch_status
