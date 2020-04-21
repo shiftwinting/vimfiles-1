@@ -146,6 +146,7 @@ let g:Lf_Extensions.switch = {
 
 " ============================================================================
 " sonictemplate
+" TODO: Preview する (どのファイル化を検索するロジック難しそう？)
 " ============================================================================
 function! s:sonictemplate_source(args) abort
     return sonictemplate#complete('', '', '')

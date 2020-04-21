@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+finish
+
 let s:Process = vital#vital#import('System.Process')
 
 " タブで開く

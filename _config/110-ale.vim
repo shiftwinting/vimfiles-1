@@ -55,3 +55,4 @@ augroup MyALE
     autocmd FileType python nnoremap <buffer> <Space>bl :<C-u>ALEFix<CR>
     autocmd FileType python let $PYTHONIOENCODING = "utf-8"
 augroup END
+
