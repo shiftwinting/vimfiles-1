@@ -28,6 +28,7 @@ set completeslash=slash " 補完時に使用する slash
 set nostartofline       " <C-v>で選択しているときに、上下移動しても、行頭に行かないようにする
 set autoread            " Vim の外でファイルを変更した時、自動で読み込む
 set splitright          " 縦分割した時、カレントウィンドウの右に作成する
+set nosplitbelow        " 横分割した時、カレントウィンドウの上に作成する
 
 " menuone:  候補が1つでも表示
 " popup:    info を popup で表示

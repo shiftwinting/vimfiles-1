@@ -51,7 +51,7 @@ nmap <Space>g [gina]
 
 nnoremap [gina]s :<C-u>Gina status<CR><C-w>T
 nnoremap [gina]b :<C-u>Gina blame<CR>
-" nnoremap [gina]p :<C-u><C-r>=printf('Gina patch %s', <SID>get_current_buffer_relpath())<CR><CR>
+nnoremap [gina]p :<C-u><C-r>=printf('Gina patch %s', <SID>get_current_buffer_relpath())<CR><CR>
 
 " ====================
 " status
@@ -124,6 +124,12 @@ call gina#custom#mapping#nmap(
 call gina#custom#mapping#nmap(
 \   'status', 'R',
 \   ':<C-u>Gina status<CR>',
+\   {'noremap': 1, 'silent': 1}
+\)
+
+call gina#custom#mapping#nmap(
+\   'status', 'q',
+\   ':<C-u>tabclose<CR>',
 \   {'noremap': 1, 'silent': 1}
 \)
 
@@ -201,34 +207,51 @@ call gina#custom#mapping#nmap(
 " --------------
 " INDEX に put 取得
 call gina#custom#mapping#nmap(
-\   'patch', 'dp',
+\   'patch', '<Space>dp',
 \   '<Plug>(gina-diffput)',
 \   {'noremap': 1, 'silent': 1}
 \)
+
+call gina#custom#mapping#vmap(
+\   'patch', '<Space>dp',
+\   ':call <SID>diffput_to_index()',
+\   {'noremap': 1, 'silent': 1}
+\)
+function! s:diffput_to_index() abort
+    " HEAD / INDEX / WORKTREE となるため
+    exec 'diffput ' . tabpagebuflist()[1]
+endfunction
 
 " --------------
 " WORKTREE
 " --------------
 " INDEX から get 取得
 call gina#custom#mapping#nmap(
-\   'patch', 'dg',
+\   'patch', '<Space>dg',
 \   '<Plug>(gina-diffget)',
 \   {'noremap': 1, 'silent': 1}
 \)
 
-" --------------
-" INDEX
-" --------------
-" HEAD から get
-call gina#custom#mapping#nmap(
-\   'patch', 'dh',
-\   '<Plug>(gina-diffget-l)',
-\   {'noremap': 1, 'silent': 1}
-\)
-
-" WORKTREE から get
-call gina#custom#mapping#nmap(
-\   'patch', 'dh',
-\   '<Plug>(gina-diffget-r)',
-\   {'noremap': 1, 'silent': 1}
-\)
+" " --------------
+" " INDEX
+" " --------------
+" " HEAD から get
+" call gina#custom#mapping#nmap(
+" \   'patch', '<Space>dh',
+" \   '<Plug>(gina-diffget-l)',
+" \   {'noremap': 1, 'silent': 1}
+" \)
+"
+" " WORKTREE から get
+" call gina#custom#mapping#nmap(
+" \   'patch', '<Space>dh',
+" \   '<Plug>(gina-diffget-r)',
+" \   {'noremap': 1, 'silent': 1}
+" \)
+"
+" " WORKTREE から get
+" call gina#custom#mapping#vmap(
+" \   'patch', '<Space>dh',
+" \   ':diffget ',
+" \   {'noremap': 1, 'silent': 1}
+" \)
