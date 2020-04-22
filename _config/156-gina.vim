@@ -36,15 +36,26 @@ endif
 
 
 
-function! s:abs_path() abort
+function! s:abspath() abort
     return gina#core#repo#abspath(gina#core#get_or_fail(), '')
 endfunction
 
+function! s:get_current_buffer_relpath() abort
+    let curpath = substitute(expand('%:p'), '\', '/', 'g')
+    let relpath = substitute(curpath, s:abspath(), '', '')
+    return relpath
+endfunction
+
+nnoremap [gina] <Nop>
+nmap <Space>g [gina]
+
+nnoremap [gina]s :<C-u>Gina status<CR><C-w>T
+nnoremap [gina]b :<C-u>Gina blame<CR>
+" nnoremap [gina]p :<C-u><C-r>=printf('Gina patch %s', <SID>get_current_buffer_relpath())<CR><CR>
 
 " ====================
 " status
 " ====================
-nnoremap <Space>gs :<C-u>Gina status<CR><C-w>T
 
 let g:gina#command#status#use_default_mappings = 0
 
@@ -55,26 +66,27 @@ call gina#custom#command#option('status', '--branch')
 call gina#custom#command#option('status', '--opener', 'split')
 call gina#custom#command#option('status', '--group', 'gina-status')
 
+" set diffopt+=vertical をしておく
 call gina#custom#mapping#nmap(
-\   'status', 'P',
-\   ':<C-u>call Gina_close_not_status_viewr()<CR>:call gina#action#call("edit:right")<CR>',
+\   'status', 'pp',
+\   ':call gina#action#call("patch:tab")<CR>',
 \   {'noremap': 1, 'silent': 1}
 \)
 
 call gina#custom#mapping#nmap(
 \   'status', '<CR>',
-\   ':<C-u>call gina#action#call("edit")<CR>',
+\   ':<C-u>call gina#action#call("edit:tab")<CR>',
 \   {'noremap': 1, 'silent': 1}
 \)
 
 call gina#custom#mapping#nmap(
 \   'status', 'o',
-\   ':<C-u>call gina#action#call("edit")<CR>',
+\   ':<C-u>call gina#action#call("edit:tab")<CR>',
 \   {'noremap': 1, 'silent': 1}
 \)
 
 call gina#custom#mapping#nmap(
-\   'status', 's',
+\   'status', '-',
 \   ':<C-u>call gina#action#call("index:toggle")<CR>',
 \   {'noremap': 1, 'silent': 1}
 \)
@@ -105,7 +117,7 @@ call gina#custom#mapping#nmap(
 
 call gina#custom#mapping#nmap(
 \   'status', 'x',
-\   ':<C-u>call gina#action#call("index:discard")<CR>',
+\   '<Plug>(gina-index-discard)',
 \   {'noremap': 1, 'silent': 1}
 \)
 
@@ -114,17 +126,7 @@ call gina#custom#mapping#nmap(
 \   ':<C-u>Gina status<CR>',
 \   {'noremap': 1, 'silent': 1}
 \)
-"
-" " diff プレビューを閉じる
-" " patch の時使う
-" function! Gina_close_diff_preview() abort
-"     let l:buflist = tabpagebuflist()
-"     for l:bufnr in l:buflist
-"         if bufname(l:bufnr) =~# '\$$'
-"             exec 'bd' l:bufnr
-"         endif
-"     endfor
-" endfunction
+
 
 " status 以外を閉じる
 function! Gina_close_not_status_viewr() abort
@@ -153,3 +155,79 @@ call gina#custom#command#option('log',    '--group', 'gina-log')
 " commit
 " ====================
 call gina#custom#command#option('commit', '--opener', 'split')
+
+
+" ====================
+" blame
+" ====================
+let g:gina#command#blame#formatter#format = '%su%=on %ti by %au %ma%in'
+let g:gina#command#blame#formatter#timestamp_format1 = '%Y-%m-%d'
+let g:gina#command#blame#formatter#timestamp_format2 = '%Y-%m-%d'
+let g:gina#command#blame#formatter#timestamp_months = 0
+
+call gina#custom#mapping#nmap(
+\   'blame', 'j',
+\   'j<Plug>(gina-blame-echo)'
+\)
+
+call gina#custom#mapping#nmap(
+\   'blame', 'k',
+\   'k<Plug>(gina-blame-echo)'
+\)
+
+call gina#custom#mapping#nmap(
+\   'blame', '<CR>',
+\   ':call gina#action#call(''show:commit:tab'')<CR>',
+\   {'noremap': 1, 'silent': 1}
+\)
+
+
+" ====================
+" patch
+" ====================
+
+" 以下のような配置になる
+" +--------+---------+----------+
+" |        |         |          |
+" |        |         |          |
+" |  HEAD  |  INDEX  | WORKTREE |
+" |        |         |          |
+" |        |         |          |
+" +--------+---------+----------+
+
+" --------------
+" HEAD/WORKTREE
+" --------------
+" INDEX に put 取得
+call gina#custom#mapping#nmap(
+\   'patch', 'dp',
+\   '<Plug>(gina-diffput)',
+\   {'noremap': 1, 'silent': 1}
+\)
+
+" --------------
+" WORKTREE
+" --------------
+" INDEX から get 取得
+call gina#custom#mapping#nmap(
+\   'patch', 'dg',
+\   '<Plug>(gina-diffget)',
+\   {'noremap': 1, 'silent': 1}
+\)
+
+" --------------
+" INDEX
+" --------------
+" HEAD から get
+call gina#custom#mapping#nmap(
+\   'patch', 'dh',
+\   '<Plug>(gina-diffget-l)',
+\   {'noremap': 1, 'silent': 1}
+\)
+
+" WORKTREE から get
+call gina#custom#mapping#nmap(
+\   'patch', 'dh',
+\   '<Plug>(gina-diffget-r)',
+\   {'noremap': 1, 'silent': 1}
+\)

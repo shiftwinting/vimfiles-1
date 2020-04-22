@@ -112,6 +112,8 @@ set shortmess+=c
 " algorithm:histogram: histogram差分アルゴリズム を使用する
 " indent-heuristic: 内部 diff のインデントヒューリスティック？を使う
 set diffopt=internal,filler,algorithm:histogram,indent-heuristic
+" 垂直に分割する
+set diffopt+=vertical
 
 " ファイル閉じても、undoできるようにする
 if has('persistent_undo')

@@ -24,7 +24,7 @@ nnoremap <silent> [Leaderf]q        :<C-u>Leaderf  ghq --popup<CR>
 nnoremap <silent> [Leaderf]t        :<C-u>Leaderf  filetype --popup<CR>
 " nnoremap <silent> [Leaderf]w        :<C-u>Leaderf  window<CR>
 nnoremap <silent> [Leaderf]m        :<C-u><C-r>=printf('Leaderf  file --file %s', g:tmg#mrw#cache_path)<CR><CR>
-nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line --popup<CR>
+nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line --popup --regexMode --popup-width=200<CR>
 nnoremap <silent> [Leaderf]s        :<C-u>Leaderf  bufTag --popup<CR>
 nnoremap <silent> [Leaderf]v        :<C-u><C-r>=printf("Leaderf file --popup %s", g:vimfiles_path)<CR><CR>
 nnoremap <silent> [Leaderf]b        :<C-u>Leaderf  bookmark --popup<CR>

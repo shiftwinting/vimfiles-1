@@ -65,6 +65,8 @@ nnoremap sL <C-w>L
 nnoremap st <C-w>T
 " カレントウィンドウを複製し、タブで開く
 nnoremap sT <C-w>s<C-w>T
+" タブを閉じる
+nnoremap <silent> sc :<C-u>tabclose<CR>
 
 " 新規ウィンドウ
 nnoremap <silent> sn :<C-u>new<CR>
