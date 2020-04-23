@@ -21,7 +21,9 @@ let g:deol#extra_options = {
 \}
 
 " プロンプト
-let g:deol_prompt_sign = '$ '
+let s:deol_prompt_sign = '$ '
+
+let s:deol_term_command = 'pwsh'
 
 " 履歴ファイルを読めるか
 let s:can_read_history_file = filereadable(g:deol#shell_history_path)
@@ -126,6 +128,8 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer><silent> <Sapce>fl :<C-u>Leaderf line --popup<CR>
 
     iabbrev <buffer> poe poetry
+    iabbrev <buffer> py3 py -3
+    iabbrev <buffer> pip py -3 -m pip
 
     resize 5
     setlocal winfixheight
@@ -148,7 +152,7 @@ function! ToggleDeol(...) abort
     if s:is_show_deol(l:tabnr)
         call s:hide_deol(l:tabnr)
     else
-        call s:show_deol(l:tabnr)
+        call s:show_deol(l:tabnr, s:deol_term_command)
     endif
 endfunction
 
@@ -287,7 +291,15 @@ endfunction
 " TODO: 複数行対応
 " ====================
 function! s:send_editor(...) abort
-    call s:save_history_line(getline('.'))
+    let l:line = getline('.')
+    call s:save_history_line(l:line)
+
+    " alias の場合、表示
+    if l:line =~# '^alias$'
+        NeoSnippetEdit -split -direction=aboveleft | wincmd T
+        return
+    endif
+
     exec "normal \<Plug>(deol_execute_line)"
     if get(a:, 1, v:false)
         " 行挿入 (o)
@@ -327,7 +339,7 @@ endfunction
 
 " sign の定義
 call sign_define('my_deol_prompt', {
-\   'text': g:deol_prompt_sign,
+\   'text': s:deol_prompt_sign,
 \   'texthl': 'Comment',
 \})
 

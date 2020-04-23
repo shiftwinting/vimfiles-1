@@ -342,6 +342,8 @@ function! s:neosnippet_accept(line, args) abort
     \   l:cur_text . a:line[len(l:cur_keyword_str)], s:neosnippet.col, a:line)
 endfunction
 
+" TODO: 展開後の preview
+" `` な部分を展開する
 function! s:neosnippet_preview(orig_buf_nr, orig_cursor, line, arguments) abort
     let l:info = get(s:neosnippet.source, a:line, {})
     let l:lines = split(get(l:info, 'snip', ''), "\n")

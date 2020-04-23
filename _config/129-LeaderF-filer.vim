@@ -35,6 +35,8 @@ let g:Lf_FilerNormalMap = {
 \   'P':             'paste',
 \   'N':             'create_file',
 \   '@':             'change_directory',
+\   'H':             'history_back',
+\   'L':             'history_forward',
 \}
 
 let g:Lf_FilerUseDefaultInsertMap = 0

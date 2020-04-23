@@ -192,7 +192,7 @@ call gina#custom#mapping#nmap(
 " ====================
 " patch
 " ====================
-
+let g:gina#command#patch#use_default_mappings = 0
 " 以下のような配置になる
 " +--------+---------+----------+
 " |        |         |          |
@@ -202,35 +202,35 @@ call gina#custom#mapping#nmap(
 " |        |         |          |
 " +--------+---------+----------+
 
-" --------------
-" HEAD/WORKTREE
-" --------------
-" INDEX に put 取得
-call gina#custom#mapping#nmap(
-\   'patch', '<Space>dp',
-\   '<Plug>(gina-diffput)',
-\   {'noremap': 1, 'silent': 1}
-\)
-
-call gina#custom#mapping#vmap(
-\   'patch', '<Space>dp',
-\   ':call <SID>diffput_to_index()',
-\   {'noremap': 1, 'silent': 1}
-\)
-function! s:diffput_to_index() abort
-    " HEAD / INDEX / WORKTREE となるため
-    exec 'diffput ' . tabpagebuflist()[1]
-endfunction
-
-" --------------
-" WORKTREE
-" --------------
-" INDEX から get 取得
-call gina#custom#mapping#nmap(
-\   'patch', '<Space>dg',
-\   '<Plug>(gina-diffget)',
-\   {'noremap': 1, 'silent': 1}
-\)
+" " --------------
+" " HEAD/WORKTREE
+" " --------------
+" " INDEX に put 取得
+" call gina#custom#mapping#nmap(
+" \   'patch', 'gs',
+" \   '<Plug>(gina-diffput)',
+" \   {'noremap': 1, 'silent': 1}
+" \)
+"
+" call gina#custom#mapping#vmap(
+" \   'patch', 'gs',
+" \   ':call <SID>diffput_to_index()',
+" \   {'noremap': 1, 'silent': 1}
+" \)
+" function! s:diffput_to_index() abort
+"     " HEAD / INDEX / WORKTREE となるため
+"     exec 'diffput ' . tabpagebuflist()[1]
+" endfunction
+"
+" " --------------
+" " WORKTREE
+" " --------------
+" " INDEX から get 取得
+" call gina#custom#mapping#nmap(
+" \   'patch', 'dg',
+" \   '<Plug>(gina-diffget)',
+" \   {'noremap': 1, 'silent': 1}
+" \)
 
 " " --------------
 " " INDEX
