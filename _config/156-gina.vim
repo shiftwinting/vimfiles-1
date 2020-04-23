@@ -148,6 +148,7 @@ call gina#custom#command#option('diff', '--group',  'gina-diff')
 " log
 " ====================
 call gina#custom#command#option('log',    '--group', 'gina-log')
+call gina#custom#command#option('log',    '--graph')
 
 
 
