@@ -87,6 +87,7 @@ MyPlug! 'blueyed/jedi-vim', { 'branch': 'envs' }
 " MyPlug! 'kiteco/vim-plugin'
 " MyPlug! 'heavenshell/vim-pydocstring', { 'if': executable('doq') }
 MyPlug  'wookayin/vim-autoimport'
+MyPlug  'glench/vim-jinja2-syntax'
 
 " --------------------------
 " php

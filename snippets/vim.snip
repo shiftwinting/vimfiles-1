@@ -11,3 +11,8 @@ abbr        autocmd
 alias       aucmd
 options     head
 	autocmd ${1:#:group} ${2:#:event}
+
+snippet		MyPlug
+alias		plug
+abbr		MyPlug ''
+	MyPlug '`getreg('+')=='' ? '<\`0\`>' : getreg('+')`'${0}

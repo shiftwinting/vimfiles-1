@@ -22,4 +22,5 @@ let g:Lf_openbrowser_bookmarks = {
 \   'easings.net': 'https://easings.net/',
 \   'color-picker': 'https://www.w3schools.com/colors/colors_picker.asp',
 \   'go-tour': 'https://www.w3schools.com/colors/colors_picker.asp',
+\   'project': 'https://github.com/users/tamago324/projects/8'
 \}

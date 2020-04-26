@@ -9,7 +9,6 @@ let g:Lf_FilerNormalMap = {
 \   '<C-h>':         'open_parent',
 \   '<C-l>':         'open_current',
 \   '.':             'toggle_hidden_files',
-\   '~':             'goto_root_marker_dir',
 \   'j':             'down',
 \   'k':             'up',
 \   '<F1>':          'toggle_help',
@@ -26,7 +25,7 @@ let g:Lf_FilerNormalMap = {
 \   '<C-v>':         'accept_vertical',
 \   '<C-t>':         'accept_tab',
 \   '<Esc>':         'close_preview_popup',
-\   'S':             'add_selections',
+\   's':             'add_selections',
 \   '<C-a>':         'select_all',
 \   '<F3>':          'clear_selections',
 \   'K':             'mkdir',
@@ -35,8 +34,9 @@ let g:Lf_FilerNormalMap = {
 \   'P':             'paste',
 \   'N':             'create_file',
 \   '@':             'change_directory',
-\   'H':             'history_back',
+\   'H':             'history_backward',
 \   'L':             'history_forward',
+\   'D':             'remove_trash',
 \}
 
 let g:Lf_FilerUseDefaultInsertMap = 0

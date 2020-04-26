@@ -17,7 +17,7 @@ nnoremap <silent> [Leaderf];        :<C-u>Leaderf  cmdHistory<CR>
 " nnoremap <silent> [Leaderf]c        :<C-u>Leaderf  cdnjs<CR>
 nnoremap <silent> [Leaderf]f        :<C-u>Leaderf  file --popup<CR>
 nnoremap <silent> [Leaderf]h        :<C-u>Leaderf  help --popup<CR>
-nnoremap <silent> [Leaderf]j        :<C-u>Leaderf  buffer --popup<CR>
+nnoremap <silent> [Leaderf]j        :<C-u>Leaderf  buffer --nowrap --popup<CR>
 nnoremap <silent> [Leaderf]k        :<C-u>Leaderf  mru --nowrap --popup<CR>
 nnoremap <silent> [Leaderf]o        :<C-u>Leaderf  openbrowser --popup<CR>
 nnoremap <silent> [Leaderf]q        :<C-u>Leaderf  ghq --popup<CR>
@@ -36,6 +36,7 @@ nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 nnoremap <silent> [Leaderf]c        :<C-u>Leaderf switch --popup<CR>
 nnoremap <silent> [Leaderf]d        :<C-u>Leaderf dirty --popup<CR>
 nnoremap <silent> [Leaderf]n        :<C-u>Leaderf neosnippet --popup<CR>
+nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp --popup<CR>
 
 
 " leaderf#Rg#getPattern()
@@ -159,7 +160,7 @@ let g:Lf_NormalMap = {
 \      ['M',     '<Nop>'],
 \   ],
 \   'Rg': [
-\      ['Q', ':exec g:Lf_py "rgExplManager.outputToQflist()" <bar> :exec g:Lf_py "rgExplManager.quit()" <bar> :Qfreplace<CR>'],
+\      ['Q', ':exec g:Lf_py "rgExplManager.outputToQflist()" \| :exec g:Lf_py "rgExplManager.quit()" <bar> :Qfreplace<CR>'],
 \   ],
 \   'Filer': [
 \      ['B', ':exec g:Lf_py "filerExplManager.quit()" <bar> :LeaderfBookmark<CR>'],
@@ -250,23 +251,23 @@ else
     " dark
 
     " from nord
-    let s:nord0_gui        = '#2E3440' " #2E3440
-    let s:nord1_gui        = '#3B4252' " #3B4252
-    let s:nord2_gui        = '#434C5E' " #434C5E
-    let s:nord3_gui        = '#4C566A' " #4C566A
-    let s:nord3_gui_bright = '#616E88' " #616E88
-    let s:nord4_gui        = '#D8DEE9' " #D8DEE9
-    let s:nord5_gui        = '#E5E9F0' " #E5E9F0
-    let s:nord6_gui        = '#ECEFF4' " #ECEFF4
-    let s:nord7_gui        = '#8FBCBB' " #8FBCBB
-    let s:nord8_gui        = '#88C0D0' " #88C0D0
-    let s:nord9_gui        = '#81A1C1' " #81A1C1
-    let s:nord10_gui       = '#5E81AC' " #5E81AC
-    let s:nord11_gui       = '#BF616A' " #BF616A
-    let s:nord12_gui       = '#D08770' " #D08770
-    let s:nord13_gui       = '#EBCB8B' " #EBCB8B
-    let s:nord14_gui       = '#A3BE8C' " #A3BE8C
-    let s:nord15_gui       = '#B48EAD' " #B48EAD
+    let s:nord0_gui        = '#2E3440'
+    let s:nord1_gui        = '#3B4252'
+    let s:nord2_gui        = '#434C5E'
+    let s:nord3_gui        = '#4C566A'
+    let s:nord3_gui_bright = '#616E88'
+    let s:nord4_gui        = '#D8DEE9'
+    let s:nord5_gui        = '#E5E9F0'
+    let s:nord6_gui        = '#ECEFF4'
+    let s:nord7_gui        = '#8FBCBB'
+    let s:nord8_gui        = '#88C0D0'
+    let s:nord9_gui        = '#81A1C1'
+    let s:nord10_gui       = '#5E81AC'
+    let s:nord11_gui       = '#BF616A'
+    let s:nord12_gui       = '#D08770'
+    let s:nord13_gui       = '#EBCB8B'
+    let s:nord14_gui       = '#A3BE8C'
+    let s:nord15_gui       = '#B48EAD'
 
     let s:stlPalette.nord = {
     \   'stlName':         { 'guifg': s:nord3_gui, 'guibg': s:nord8_gui },

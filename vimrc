@@ -47,6 +47,7 @@ if has('win32')
     call tmg#add_path('C:/tools/dart-sdk/bin',   'dart-sdk/bin')
     call tmg#add_path('~/ctags',                 'ctags')
     call tmg#add_path('C:/Neovim/bin',           'Neovim/bin')
+    call tmg#add_path($HOME.'/.pyenv/pyenv-win/versions/3.8.1/Scripts')
 
     " pipenv の 仮想環境をプロジェクト内に作る
     let $PIPENV_VENV_IN_PROJECT = 'true'

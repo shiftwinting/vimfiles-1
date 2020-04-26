@@ -117,7 +117,7 @@ call gina#custom#mapping#nmap(
 
 call gina#custom#mapping#nmap(
 \   'status', 'x',
-\   '<Plug>(gina-index-discard)',
+\   ':<C-u>call gina#action#call("index:discard:force")<CR>',
 \   {'noremap': 1, 'silent': 1}
 \)
 

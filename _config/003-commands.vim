@@ -5,9 +5,9 @@ nnoremap <Space>;f :<C-u>FnamemodsPopup<CR>
 
 command! HereOpen call execute('!start '.getcwd(), "silent")
 
-" if executable('js-sqlformat')
-"   command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
-" endif
+if executable('js-sqlformat')
+  command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
+endif
 
 if executable('jq')
     command! -range=% Jq <line1>,<line2>!jq
@@ -124,68 +124,6 @@ function! s:create_fnmods_list(fullpath, fnmods) abort "
     endfor
 
     return fnmods_list
-endfunction
-
-
-
-" =====================
-" よく使う help へのジャンプ 
-" =====================
-command! FavoriteHelps call FavoriteHelps()
-
-" 順序を保持するため、リスト
-let s:fav_helps = []
-
-call add(s:fav_helps, ['function-list', '関数一覧'])
-call add(s:fav_helps, ['user-commands', 'command の書き方'])
-call add(s:fav_helps, ['autocmd-events', 'autocmd 一覧'])
-call add(s:fav_helps, ['E500', '<cword> とか <afile> とか'])
-call add(s:fav_helps, ['usr_41', 'Vim script 基本'])
-call add(s:fav_helps, ['pattern-overview', '正規表現'])
-call add(s:fav_helps, ['eval', 'Vim script [tips]'])
-call add(s:fav_helps, ['ex-cmd-index', '":"のコマンド'])
-call add(s:fav_helps, ['filename-modifiers', ':p とか :h とか'])
-call add(s:fav_helps, ['index', '各モードのマッピング'])
-" call add(s:fav_helps, ['doc-file-list', 'home'])
-" call add(s:fav_helps, ['functions', ''])
-" call add(s:fav_helps, ['help-summary', ''])
-" call add(s:fav_helps, ['quickref', ''])
-
-" TODO: よくアクセスする順に変更したい
-" let s:fav_help_history_path = expand('~/_fav_help_history')
-
-" help menus 作成 
-function! s:help_create_text_list(list) abort
-    let help_items = []
-    " 最大桁数を取得
-    let max_len = s:get_maxlen(map(deepcopy(a:list), 'v:val[0]'))
-    for [k, v] in a:list
-        " 左揃えにする
-        call add(help_items, printf('%-'.max_len.'s', k).' '.v)
-    endfor
-    return help_items
-endfunction
-
-
-function! s:help_favorite_handler(winid, idx) abort " 
-    " キャンセル時、-1が渡されるため
-    if a:idx != -1
-        " ウィンドウ関数から取得
-        let l:items = getwinvar(a:winid, 'items', [])
-        " idx は 1 始まりのため -1 する
-        exec 'help '.l:items[a:idx-1][0]
-    endif
-endfunction
-
-
-function! FavoriteHelps() abort " 
-    let l:winid = popup_menu(s:help_create_text_list(s:fav_helps), {
-    \   'callback': function('s:help_favorite_handler'),
-    \   'title': 'Favorite helps',
-    \   'padding': [0, 1, 0, 1],
-    \})
-    " window変数を使う
-    call setwinvar(l:winid, 'items', map(s:fav_helps, 'v:val'))
 endfunction
 
 

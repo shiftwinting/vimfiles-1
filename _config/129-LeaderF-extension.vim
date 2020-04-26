@@ -11,11 +11,31 @@ scriptencoding utf-8
 " ghq
 
 
+let s:Filepath = vital#vital#import('System.Filepath')
+
 let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
 
 function! s:func(func_name) abort
     " function('<SNR>476_sample_func') -> <SNR>476_sample_func
     return string(function(a:func_name))[10:-3]
+endfunction
+
+" a:linesは [[str, str], [str, str], ...] のようなリスト
+" 例)
+"   :echo s:space_between([['mac', 'text1'], ['windows', 'text2']])
+" [
+" \ 'mac      | text1',
+" \ 'windows  | text2',
+" ]
+function! s:space_between(line_items) abort
+    let l:result = []
+    " 1つ目の要素の最大の長さを返す
+    let l:max_len = max(map(copy(a:line_items), {_,x -> strdisplaywidth(x[0])}) + [0])
+    for l:line_item in a:line_items
+        let l:space = l:max_len - strdisplaywidth(l:line_item[0])
+        call add(l:result, printf('%s%s | %s', l:line_item[0], repeat(' ', l:space), l:line_item[1]))
+    endfor
+    return l:result
 endfunction
 
 " ============================================================================
@@ -310,28 +330,9 @@ let s:neosnippet = {
 \}
 
 function! s:neosnippet_source(...) abort
-    " プレビューのところでやるとカーソル移動が遅くなるから
-    let l:bufnr = bufadd('lf_neosnippet_preview') 
-    silent! call bufload(l:bufnr)
-
-    try
-        " from instance.py
-        call setbufvar(l:bufnr, '&buflisted',   0)
-        call setbufvar(l:bufnr, '&buftype',     'nofile')
-        call setbufvar(l:bufnr, '&bufhidden',   'hide')
-        call setbufvar(l:bufnr, '&undolevels',  -1)
-        call setbufvar(l:bufnr, '&swapfile',    0)
-        call setbufvar(l:bufnr, '&filetype',    &filetype)
-    catch /*/
-        " pass
-    endtry
-
-    let s:neosnippet = {
-    \   'source': neosnippet#helpers#get_completion_snippets(),
-    \   'col': col('.'),
-    \   'preview_bufnr': l:bufnr,
-    \}
-    return keys(s:neosnippet.source)
+    let l:snippets = neosnippet#helpers#get_completion_snippets()
+    let s:neosnippet.source = l:snippets
+    return keys(l:snippets)
 endfunction
 
 function! s:neosnippet_accept(line, args) abort
@@ -353,8 +354,120 @@ function! s:neosnippet_preview(orig_buf_nr, orig_cursor, line, arguments) abort
     return [s:neosnippet.preview_bufnr, 1, '']
 endfunction
 
+function! s:neosnippet_before_enter(args) abort
+    " プレビューのところでやるとカーソル移動が遅くなるから
+    let l:bufnr = bufadd('lf_neosnippet_preview') 
+    silent! call bufload(l:bufnr)
+
+    try
+        " from instance.py
+        call setbufvar(l:bufnr, '&buflisted',   0)
+        call setbufvar(l:bufnr, '&buftype',     'nofile')
+        call setbufvar(l:bufnr, '&bufhidden',   'hide')
+        call setbufvar(l:bufnr, '&undolevels',  -1)
+        call setbufvar(l:bufnr, '&swapfile',    0)
+        call setbufvar(l:bufnr, '&filetype',    &filetype)
+    catch /*/
+        " pass
+    endtry
+
+    let s:neosnippet.col = col('.')
+    let s:neosnippet.preview_bufnr = l:bufnr
+endfunction
+
 let g:Lf_Extensions.neosnippet = {
 \   'source': s:func('s:neosnippet_source'),
 \   'accept': s:func('s:neosnippet_accept'),
 \   'preview': s:func('s:neosnippet_preview'),
+\   'before_enter': s:func('s:neosnippet_before_enter'),
 \}
+
+" ============================================================================
+" よく使うヘルプ
+" ============================================================================
+let s:fav_helps = [
+\   ['function-list',      '関数一覧'],
+\   ['user-commands',      'command の書き方'],
+\   ['autocmd-events',     'autocmd 一覧'],
+\   ['E500',               '<cword> とか <afile> とか'],
+\   ['usr_41',             'Vim script 基本'],
+\   ['pattern-overview',   '正規表現'],
+\   ['eval',               'Vim script [tips]'],
+\   ['ex-cmd-index',       '":"のコマンド'],
+\   ['filename-modifiers', ':p とか :h とか'],
+\   ['index',              '各モードのマッピング'],
+\   ['popup-window',       'ポップアップのヘルプ'],
+\   ['job-options',        'job のオプション集'],
+\]
+" let s:favhelp = {
+" \   'help_tags': {},
+" \   'preview_bufnr': -1,
+" \}
+
+" function! s:favhelp_before_enter(args) abort
+"     " プレビューのところでやるとカーソル移動が遅くなるから
+"     let l:bufnr = bufadd('lf_favhelp_preview') 
+"     silent! call bufload(l:bufnr)
+"
+"     try
+"         " from instance.py
+"         call setbufvar(l:bufnr, '&buflisted',   0)
+"         call setbufvar(l:bufnr, '&buftype',     'nofile')
+"         call setbufvar(l:bufnr, '&bufhidden',   'hide')
+"         call setbufvar(l:bufnr, '&undolevels',  -1)
+"         call setbufvar(l:bufnr, '&swapfile',    0)
+"         call setbufvar(l:bufnr, '&filetype',    'help')
+"     catch /*/
+"         " pass
+"     endtry
+"
+"     let s:favhelp = {
+"     \   'help_tags': s:make_help_tags(),
+"     \   'preview_bufnr': l:bufnr,
+"     \}
+" endfunction
+"
+" function! s:make_help_tags() abort
+"     if !empty(s:favhelp.help_tags)
+"         return s:favhelp.help_tags
+"     endif
+"
+"     let l:help_tags = {}
+"     for dir in split(&runtimepath, ',')
+"         let l:tags_file = s:Filepath.join(dir, 'doc', 'tags')
+"         if filereadable(l:tags_file)
+"             let l:lines = readfile(l:tags_file)
+"             for l:line in l:lines
+"                 let [l:tag, l:file] = split(l:line)[:1]
+"                 let l:help_tags[l:tag] = {
+"                 \   'dir': dir,
+"                 \   'file': l:file
+"                 \}
+"             endfor
+"         endif
+"     endfor
+"     return l:help_tags
+" endfunction
+
+
+function! s:favhelp_accept(line, args) abort
+    exec 'help ' . split(a:line, ' ')[0]
+endfunction
+
+
+" function! s:favhelp_preview(orig_buf_nr, orig_cursor, line, arguments) abort
+"     " どうやって表示しよう
+" endfunction
+
+let g:Lf_Extensions.favhelp = {
+\   'source': s:space_between(s:fav_helps),
+\   'accept': s:func('s:favhelp_accept'),
+\   'highlights_def': {
+\       'Lf_hl_favhelp_comment': '|\zs .*$'
+\   },
+\   'highlights_cmd': [
+\       'hi link Lf_hl_favhelp_comment Comment'
+\   ],
+\}
+" \   'preview': s:func('s:favhelp_preview'),
+" \   'before_enter': s:func('s:favhelp_before_enter'),

@@ -14,7 +14,7 @@ let g:ale_linters = {
 
 let g:ale_fixers = {
 \   'nim': 'nimpretty',
-\   'python': ['black', 'isort'],
+\   'python': ['isort', 'black'],
 \}
 
 let g:ale_enabled = 1

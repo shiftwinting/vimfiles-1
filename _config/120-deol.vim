@@ -23,7 +23,7 @@ let g:deol#extra_options = {
 " プロンプト
 let s:deol_prompt_sign = '$ '
 
-let s:deol_term_command = 'pwsh'
+let s:deol_term_command = 'cmd.exe'
 
 " 履歴ファイルを読めるか
 let s:can_read_history_file = filereadable(g:deol#shell_history_path)
