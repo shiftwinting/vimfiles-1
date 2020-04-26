@@ -5,9 +5,9 @@ nnoremap <Space>;f :<C-u>FnamemodsPopup<CR>
 
 command! HereOpen call execute('!start '.getcwd(), "silent")
 
-if executable('js-sqlformat')
-  command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
-endif
+" if executable('js-sqlformat')
+"   command! -range=% SQLFmt <line1>,<line2>!js-sqlformat
+" endif
 
 if executable('jq')
     command! -range=% Jq <line1>,<line2>!jq
