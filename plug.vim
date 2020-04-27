@@ -76,6 +76,14 @@ MyPlug! 'tyru/vim-altercmd'
 MyPlug! 'sillybun/vim-repl'
 MyPlug! 'chrisbra/NrrwRgn'
 
+
+" --------------------------
+" db
+" --------------------------
+" MyPlug  'tpope/vim-dadbod'
+MyPlug  'kristijanhusak/vim-dadbod-ui'
+MyPlug  'kristijanhusak/vim-dadbod-completion'
+
 " --------------------------
 " python
 " --------------------------
