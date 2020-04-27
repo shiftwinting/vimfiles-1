@@ -74,6 +74,7 @@ MyPlug! 'tyru/vim-altercmd'
 " MyPlug! 'machakann/vim-highlightedundo'
 " MyPlug! 'tyru/columnskip.vim'
 MyPlug! 'sillybun/vim-repl'
+MyPlug! 'chrisbra/NrrwRgn'
 
 " --------------------------
 " python

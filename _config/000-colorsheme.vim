@@ -129,7 +129,7 @@ function! s:nord_color() abort
     exec printf('hi Lf_hl_rgHighlight guifg=%s guibg=%s   gui=NONE', s:nord0_gui, s:nord13_gui)
     hi link Lf_hl_filerDir Directory
 
-    exec printf('hi VertSplit guifg=NONE guibg=%s gui=NONE', s:nord1_gui)
+    " exec printf('hi VertSplit guifg=NONE guibg=%s gui=NONE', s:nord1_gui)
 endfunction
 
 function! DefineMyHighlishts() abort
@@ -208,6 +208,10 @@ augroup END
 
 colorscheme nord
 set background=dark
+
+let g:nord_uniform_diff_background = 1
+let g:nord_underline = 1
+let g:nord_bold_vertical_split_line = 1
 
 
 
