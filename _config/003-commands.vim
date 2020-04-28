@@ -171,7 +171,7 @@ command! -nargs=+ PackGet call s:packget(<f-args>)
 command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
 
 " 末尾の '/' を取り除くため、 :p:h とする
-let s:pack_base_dir = tmg#get_fullpath(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'))
+let s:pack_base_dir = vimrc#get_fullpath(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'))
 let s:sep = has('win32') ? "\\" : '/'
 
 function! s:add_end_slash(path) abort
@@ -214,10 +214,10 @@ function! s:packget(url, ...) abort
         return
     endif
 
-    call tmg#job_start(
+    call vimrc#job_start(
     \   printf('git clone %s %s', s:fix_url(l:url), l:dst), {
     \       'close_cb': function('s:close_handler', [l:plug_name]),
-    \       'err_cb': function('tmg#on_out'),
+    \       'err_cb': function('vimrc#on_out'),
     \   })
 endfunction
 
@@ -250,7 +250,7 @@ command! ThisOpen execute printf('!start "%s"', expand('%:p'))
 " =====================
 " メモ
 " =====================
-command! MemoOpen call tmg#drop_or_tabedit(expand('~/tmp_memo'))
+command! MemoOpen call vimrc#drop_or_tabedit(expand('~/tmp_memo'))
 nnoremap <Space>tm :<C-u>MemoOpen<CR>
 
 
@@ -278,7 +278,7 @@ command! -nargs=1 BitlyShortenUrl call ShortenUrl(<f-args>)
 " =====================
 " ghq
 " =====================
-command! -nargs=1 GhqGet call tmg#job_start('ghq get ' . <SID>github_fix_param(<f-args>), {})
+command! -nargs=1 GhqGet call vimrc#job_start('ghq get ' . <SID>github_fix_param(<f-args>), {})
 " command! -nargs=1 GhqCreate execute 'belowright terminal ghq create <q-args>'
 
 

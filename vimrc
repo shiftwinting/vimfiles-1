@@ -36,24 +36,24 @@ exec "source ".expand("<sfile>:h").'/plug.vim'
 
 " $PATH に $VIM が入っていない場合、先頭に追加する
 if has('win32') && $PATH !~? '\(^\|;\)' . escape($VIM, '\\') . '\(;\|$\)'
-    call tmg#add_path($VIM)
+    call vimrc#add_path($VIM)
 endif
 
 if has('win32')
     let $XDG_CACHE_HOME = $LOCALAPPDATA
 
-    call tmg#add_path($LOCALAPPDATA.'/Yarn/bin', 'Yarn/bin')
-    call tmg#add_path('~/.poetry/bin',           '.poetry/bin')
-    call tmg#add_path('C:/tools/dart-sdk/bin',   'dart-sdk/bin')
-    call tmg#add_path('~/ctags',                 'ctags')
-    call tmg#add_path('C:/Neovim/bin',           'Neovim/bin')
-    call tmg#add_path($HOME.'/.pyenv/pyenv-win/versions/3.8.1/Scripts')
-    call tmg#add_path('C:/Program Files/PostgreSQL/12/bin')
+    call vimrc#add_path($LOCALAPPDATA.'/Yarn/bin', 'Yarn/bin')
+    call vimrc#add_path('~/.poetry/bin',           '.poetry/bin')
+    call vimrc#add_path('C:/tools/dart-sdk/bin',   'dart-sdk/bin')
+    call vimrc#add_path('~/ctags',                 'ctags')
+    call vimrc#add_path('C:/Neovim/bin',           'Neovim/bin')
+    call vimrc#add_path($HOME.'/.pyenv/pyenv-win/versions/3.8.1/Scripts')
+    call vimrc#add_path('C:/Program Files/PostgreSQL/12/bin')
 
     " pipenv の 仮想環境をプロジェクト内に作る
     let $PIPENV_VENV_IN_PROJECT = 'true'
 
-    call tmg#add_path('$LOCALAPPDATA/Programs/Git/usr/bin')
+    call vimrc#add_path('$LOCALAPPDATA/Programs/Git/usr/bin')
 
 endif
 

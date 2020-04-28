@@ -24,7 +24,7 @@ function! s:cherrypick() abort
         return
     endif
 
-    call tmg#echoerr(l:res.output)
+    call vimrc#echoerr(l:res.output)
 endfunction
 
 
@@ -37,7 +37,7 @@ function! s:create_branch(...) abort
     \       ? a:1
     \       : input(' New [ranch: ', '')
     if empty(l:name)
-        call tmg#echoerr(' [GV] Canceled.')
+        call vimrc#echoerr(' [GV] Canceled.')
         return
     endif
     let l:res = s:Process.execute(['git', 'switch', '-c', l:name, gv#sha()])
@@ -47,7 +47,7 @@ function! s:create_branch(...) abort
         return
     endif
 
-    call tmg#echoerr(l:res.output)
+    call vimrc#echoerr(l:res.output)
 endfunction
 
 

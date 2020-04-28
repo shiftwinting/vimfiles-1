@@ -3,6 +3,6 @@
     "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="{{_expr_:substitute(substitute(tmg#get_fullpath(expand('%:p:r')), '.*src/main/resources/', '', ''), '/', '.', 'g')}}{{_cursor_}}">
+<mapper namespace="{{_expr_:substitute(substitute(vimrc#get_fullpath(expand('%:p:r')), '.*src/main/resources/', '', ''), '/', '.', 'g')}}{{_cursor_}}">
 
 </mapper>

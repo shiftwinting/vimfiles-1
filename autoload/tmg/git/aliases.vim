@@ -3,7 +3,7 @@ scriptencoding utf-8
 let s:aliases = []
 
 " setlocal completefunc=CompleteGitAlias
-function! tmg#git#aliases#complete(findstart, base) abort
+function! vimrc#git#aliases#complete(findstart, base) abort
     if a:findstart
         return matchstrpos(getline('.'), '^\s*git ')[2]
     else

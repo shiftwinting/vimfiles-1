@@ -36,7 +36,7 @@ function! s:close_if_done(cmd, timer) abort
         let l:opt = {
         \   'highlight': l:error ? 'ErrorMsg' : 'Todo'
         \}
-        call tmg#popup_notification_botright('Done ' . a:cmd, l:opt)
+        call vimrc#popup_notification_botright('Done ' . a:cmd, l:opt)
     endif
 endfunction
 
@@ -45,7 +45,7 @@ function! s:exec_plug_cmd(cmd) abort
     let s:term_bufnr = term_start(l:cmd, {
     \   'hidden': 1,
     \})
-    call tmg#popup_notification_botright('Start ' . a:cmd)
+    call vimrc#popup_notification_botright('Start ' . a:cmd)
     let s:timer = timer_start(300, function('s:close_if_done', [a:cmd]), {
     \   'repeat': -1
     \})

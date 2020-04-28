@@ -23,7 +23,7 @@ nnoremap <silent> [Leaderf]o        :<C-u>Leaderf  openbrowser<CR>
 nnoremap <silent> [Leaderf]q        :<C-u>Leaderf  ghq<CR>
 nnoremap <silent> [Leaderf]t        :<C-u>Leaderf  filetype<CR>
 " nnoremap <silent> [Leaderf]w        :<C-u>Leaderf  window<CR>
-nnoremap <silent> [Leaderf]m        :<C-u><C-r>=printf('Leaderf  file --file %s', g:tmg#mrw#cache_path)<CR><CR>
+nnoremap <silent> [Leaderf]m        :<C-u><C-r>=printf('Leaderf  file --file %s', g:vimrc#mrw#cache_path)<CR><CR>
 nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line --regexMode --popup-width=200<CR>
 nnoremap <silent> [Leaderf]s        :<C-u>Leaderf  bufTag<CR>
 nnoremap <silent> [Leaderf]v        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
@@ -387,3 +387,22 @@ let g:Lf_DevIconsPalette = get(g:, 'Lf_DevIconsPalette', {})
 let g:Lf_DevIconsPalette.dark = {
 \   'vim': { 'guifg': s:nord14_gui }
 \}
+
+" " リストで取得
+" let s:sfile = expand('<sfile>:p')
+" function! s:load_extensions() abort
+"     let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
+"     for l:ext in glob(fnamemodify(s:sfile, ':h:h') . '/autoload/lf/*.vim', '', v:true)
+"         let l:name = fnamemodify(l:ext, ':t:r')
+"         let g:Lf_Extensions[l:name] = {
+"         \   'source': {'command': printf('lf#%s#source', l:name)},
+"         \   'accept':             printf('lf#%s#accept', l:name),
+"         \   'before_enter':       printf('lf#%s#before_enter', l:name),
+"         \   'preview':            printf('lf#%s#preview', l:name),
+"         \   'highlights_def':     execute(printf('lf#%s#highlights_def()', l:name)),
+"         \   'highlights_cmd':     execute(printf('lf#%s#highlights_cmd()', l:name)),
+"         \}
+"     endfor
+" endfunction
+"
+" call s:load_extensions()

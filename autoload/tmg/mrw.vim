@@ -2,11 +2,11 @@ scriptencoding utf-8
 
 let s:Filepath = vital#vital#import('System.Filepath')
 
-let g:tmg#mrw#cache_path = expand('~/.mrw/cache')
+let g:vimrc#mrw#cache_path = expand('~/.mrw/cache')
 let s:mrw_limit = 3000
 
 " from rbtnn/vim-mrw
-function! tmg#mrw#bufwritepost() abort
+function! vimrc#mrw#bufwritepost() abort
     let path = expand('<afile>')
     if filereadable(path)
         let fullpath = s:Filepath.to_slash(path)
@@ -25,7 +25,7 @@ function! tmg#mrw#bufwritepost() abort
     endif
 endfunction
 
-function! tmg#mrw#read_cachefile(fullpath) abort
+function! vimrc#mrw#read_cachefile(fullpath) abort
     if filereadable(s:mrw_cache_path)
         return filter(readfile(s:mrw_cache_path, '', s:mrw_limit), { i,x ->
             \ (a:fullpath != x) && filereadable(x)

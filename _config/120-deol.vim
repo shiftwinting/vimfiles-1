@@ -136,7 +136,7 @@ function! s:deol_editor_settings() abort
 
     call s:sign_place()
 
-    setlocal completefunc=tmg#git#aliases#complete
+    setlocal completefunc=vimrc#git#aliases#complete
 
 endfunction
 

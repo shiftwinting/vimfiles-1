@@ -33,7 +33,7 @@ function! git#push(...) abort
     \   'cmd': 'push',
     \   'args': a:000,
     \}
-    call tmg#term_exec('git', l:opts)
+    call vimrc#term_exec('git', l:opts)
 endfunction
 
 
@@ -45,7 +45,7 @@ function! git#pull() abort
     let l:opts = {
     \   'cmd': 'pull',
     \}
-    call tmg#term_exec('git', l:opts)
+    call vimrc#term_exec('git', l:opts)
 endfunction
 
 
@@ -132,7 +132,7 @@ function! s:do_commit() abort
 
     let l:res = input(' Commit? (y/n) ')
     if l:res !~? '^y$'
-        call tmg#echoerr(' Cancel.')
+        call vimrc#echoerr(' Cancel.')
         return
     endif
 
@@ -150,5 +150,5 @@ function! s:do_commit() abort
     let l:opts = {
     \   'cmd': printf('commit -m "%s" %s', l:title, l:details),
     \}
-    call tmg#term_exec('git', l:opts)
+    call vimrc#term_exec('git', l:opts)
 endfunction

@@ -238,12 +238,3 @@ function! vimrc#input(...) abort
     endif
     return l:ret
 endfunction
-
-
-" ====================
-" スクリプトローカルな関数の関数部分を返す
-" ====================
-function! vimrc#func(func_name) abort
-    " function('<SNR>476_sample_func') -> <SNR>476_sample_func
-    return string(function(a:func_name))[10:-3]
-endfunction

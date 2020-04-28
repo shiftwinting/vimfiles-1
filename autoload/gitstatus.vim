@@ -31,7 +31,7 @@ function! s:on_err(data) abort
     if l:lines ==# 'fatal: not a git repository (or any of the parent directories): .git'
         return
     endif
-    call tmg#echoerr(l:lines)
+    call vimrc#echoerr(l:lines)
 endfunction
 
 " =========================
