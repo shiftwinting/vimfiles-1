@@ -78,7 +78,7 @@ function! s:on_fetch_status(data) abort
 endfunction
 
 function! gitstatus#fetch_job_start() abort
-    if !exists('*gina#core#get') || empty(gina#core#get())
+    if empty(vimrc#git#worktree())
         return
     endif
 
@@ -91,7 +91,7 @@ function! gitstatus#fetch_job_start() abort
 endfunction
 
 function! gitstatus#fetch_status() abort
-    if !exists('*gina#core#get') || empty(gina#core#get())
+    if empty(vimrc#git#worktree())
         return ''
     endif
     return s:git_fetch_status

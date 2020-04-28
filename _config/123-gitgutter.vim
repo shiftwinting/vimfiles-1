@@ -26,8 +26,8 @@ nmap [g <Plug>(GitGutterPrevHunk)
 
 " use gina
 " stage/unstage
-" nmap ghs <Plug>(GitGutterStageHunk)
-" nmap ghu <Plug>(GitGutterUndoHunk)
+nmap ghs <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
 " nmap ght :<C-u>GitGutterSignsToggle<CR>
 " nmap ghf :<C-u>GitGutterFold<CR>
-" nmap ghp :<C-u>GitGutterPreviewHunk<CR>
+nmap ghp :<C-u>GitGutterPreviewHunk<CR>

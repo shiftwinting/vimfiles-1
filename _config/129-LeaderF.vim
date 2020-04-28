@@ -9,34 +9,35 @@ nnoremap [Leaderf] <Nop>
 nmap     <Space>f [Leaderf]
 
 " ! をつけるとノーマルモードから始まる
-nnoremap          [Leaderf]g        :<C-u>Leaderf! rg --match-path -e ""<Left>
+nnoremap          [Leaderf]g        :<C-u>Leaderf! rg --popup-width=200 --match-path -e ""<Left>
 nnoremap <silent> 0                 :<C-u>Leaderf  rg --next<CR>
 nnoremap <silent> 9                 :<C-u>Leaderf  rg --previous<CR>
 nnoremap <silent> [Leaderf]r        :<C-u>Leaderf! rg --recall<CR>
 nnoremap <silent> [Leaderf];        :<C-u>Leaderf  cmdHistory<CR>
 " nnoremap <silent> [Leaderf]c        :<C-u>Leaderf  cdnjs<CR>
-nnoremap <silent> [Leaderf]f        :<C-u>Leaderf  file --popup<CR>
-nnoremap <silent> [Leaderf]h        :<C-u>Leaderf  help --popup<CR>
-nnoremap <silent> [Leaderf]j        :<C-u>Leaderf  buffer --nowrap --popup<CR>
-nnoremap <silent> [Leaderf]k        :<C-u>Leaderf  mru --nowrap --popup<CR>
-nnoremap <silent> [Leaderf]o        :<C-u>Leaderf  openbrowser --popup<CR>
-nnoremap <silent> [Leaderf]q        :<C-u>Leaderf  ghq --popup<CR>
-nnoremap <silent> [Leaderf]t        :<C-u>Leaderf  filetype --popup<CR>
+nnoremap <silent> [Leaderf]f        :<C-u>Leaderf  file<CR>
+nnoremap <silent> [Leaderf]h        :<C-u>Leaderf  help<CR>
+nnoremap <silent> [Leaderf]j        :<C-u>Leaderf  buffer --nowrap<CR>
+nnoremap <silent> [Leaderf]k        :<C-u>Leaderf  mru --nowrap<CR>
+nnoremap <silent> [Leaderf]o        :<C-u>Leaderf  openbrowser<CR>
+nnoremap <silent> [Leaderf]q        :<C-u>Leaderf  ghq<CR>
+nnoremap <silent> [Leaderf]t        :<C-u>Leaderf  filetype<CR>
 " nnoremap <silent> [Leaderf]w        :<C-u>Leaderf  window<CR>
-nnoremap <silent> [Leaderf]m        :<C-u><C-r>=printf('Leaderf  file --popup --file %s', g:tmg#mrw#cache_path)<CR><CR>
-nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line --popup --regexMode --popup-width=200<CR>
-nnoremap <silent> [Leaderf]s        :<C-u>Leaderf  bufTag --popup<CR>
-nnoremap <silent> [Leaderf]v        :<C-u><C-r>=printf("Leaderf file --popup %s", g:vimfiles_path)<CR><CR>
-nnoremap <silent> [Leaderf]b        :<C-u>Leaderf  bookmark --popup<CR>
+nnoremap <silent> [Leaderf]m        :<C-u><C-r>=printf('Leaderf  file --file %s', g:tmg#mrw#cache_path)<CR><CR>
+nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line --regexMode --popup-width=200<CR>
+nnoremap <silent> [Leaderf]s        :<C-u>Leaderf  bufTag<CR>
+nnoremap <silent> [Leaderf]v        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
+nnoremap <silent> [Leaderf]b        :<C-u>Leaderf  bookmark<CR>
 
-nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately --popup<CR>
-nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer --popup %s', expand('%:p:h'))<CR><CR>
-nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate --popup<CR>
+nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
+nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
+nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
-nnoremap <silent> [Leaderf]c        :<C-u>Leaderf switch --popup<CR>
-nnoremap <silent> [Leaderf]d        :<C-u>Leaderf dirty --popup<CR>
-nnoremap <silent> [Leaderf]n        :<C-u>Leaderf neosnippet --popup<CR>
-nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp --popup<CR>
+nnoremap <silent> [Leaderf]c        :<C-u>Leaderf switch<CR>
+nnoremap <silent> [Leaderf]d        :<C-u>Leaderf dirty<CR>
+nnoremap <silent> [Leaderf]n        :<C-u>Leaderf neosnippet<CR>
+nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp<CR>
+nnoremap <silent> [Leaderf]p        :<C-u>Leaderf menu<CR>
 
 
 " leaderf#Rg#getPattern()
@@ -48,8 +49,8 @@ nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp --popup<CR>
 nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e "%s" -w -F', leaderf#Rg#getPattern(0))<CR><CR>
 vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e %s -w -F', leaderf#Rg#getPattern(2))<CR><CR>
 " buftag で検索
-nnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --popup --input %s', leaderf#Rg#getPattern(0))<CR><CR>
-vnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --popup --input %s', leaderf#Rg#getPattern(2)[1:-2])<CR><CR>
+nnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --input %s', leaderf#Rg#getPattern(0))<CR><CR>
+vnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --input %s', leaderf#Rg#getPattern(2)[1:-2])<CR><CR>
 
 
 function! s:leaderf_settings() abort
@@ -112,7 +113,8 @@ let g:Lf_ReverseOrder = 1
 let g:Lf_WindowHeight = 0.4
 
 " 下に表示
-let g:Lf_WindowPosition = 'bottom'
+" let g:Lf_WindowPosition = 'bottom'
+let g:Lf_WindowPosition = 'popup'
 
 " ----------
 " popup

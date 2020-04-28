@@ -59,7 +59,7 @@ let g:Lf_Extensions.packadd = {
 \   'source': s:func('s:packadd_source'),
 \   'accept': s:func('s:packadd_accept'),
 \}
-command! Tpackadd Leaderf packadd --popup
+command! Tpackadd Leaderf packadd
 
 
 
@@ -451,7 +451,7 @@ let s:fav_helps = [
 
 
 function! s:favhelp_accept(line, args) abort
-    exec 'help ' . split(a:line, ' ')[0]
+    exec 'help ' . trim(split(a:line, '|')[0])
 endfunction
 
 
@@ -471,3 +471,32 @@ let g:Lf_Extensions.favhelp = {
 \}
 " \   'preview': s:func('s:favhelp_preview'),
 " \   'before_enter': s:func('s:favhelp_before_enter'),
+
+
+
+" ============================================================================
+" メニュー
+" ============================================================================
+let s:menu = [
+\   ['git switch', 'Leaderf switch'],
+\   ['git pull',   'GitPull'],
+\   ['git push',   'GitPush'],
+\   ['gina patch', 'GinaPatch'],
+\]
+
+
+function! s:menu_accept(line, args) abort
+    exec trim(split(a:line, '|')[1])
+endfunction
+
+
+let g:Lf_Extensions.menu = {
+\   'source': s:space_between(s:menu),
+\   'accept': s:func('s:menu_accept'),
+\   'highlights_def': {
+\       'Lf_hl_menu_comment': '|\zs .*$'
+\   },
+\   'highlights_cmd': [
+\       'hi link Lf_hl_menu_comment Comment'
+\   ],
+\}
