@@ -12,6 +12,7 @@ scriptencoding utf-8
 
 
 let s:Filepath = vital#vital#import('System.Filepath')
+let s:Process = vital#vital#import('System.Process')
 
 let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
 
@@ -302,22 +303,113 @@ let g:Lf_Extensions.gv = {
 " git 内の編集しているファイル
 " ============================================================================
 
-" function! s:dirty_accept(line, args) abort
-"     let l:file = matchstr(a:line, '^ \s\zs.*')
-"     " split やら tab やらに対応する
-"     exec 'edit ' . FugitiveWorkTree() . '/' . l:file
-" endfunction
-"
-"
-" function! s:dirty_format_line(line, args) abort
-"     return a:line[3:]
-" endfunction
-"
-" let g:Lf_Extensions.dirty = {
-" \   'source': {'command': 'git status --porcelain -uall'},
-" \   'accept': s:func('s:dirty_format_line'),
-" \   'support_multi': v:true,
-" \}
+let s:dirty = {
+\   'preview_bufnr': -1,
+\   'lines': [],
+\   'job': v:null,
+\   'worktree': ''
+\}
+
+function! s:dirty_accept(line, args) abort
+    let l:file = split(a:line, ' ')[1]
+    " TODO: split やら tab やらに対応する
+    exec 'edit ' . s:Filepath.to_slash(expand(s:dirty.worktree . '/' . l:file))
+endfunction
+
+function! s:dirty_format_line(line, args) abort
+    return a:line[3:]
+endfunction
+
+function! s:add_line(ch, msg) abort
+    " 先頭の行はいらない
+    if a:msg =~# '^\(diff \|index \|--- a\|+++ b\)'
+        return
+    endif
+    call add(s:dirty.lines, a:msg)
+endfunction
+
+function! s:setline_preview_buf(lines, ft) abort
+    if !bufexists(s:dirty.preview_bufnr)
+        return
+    endif
+    " 結果をセットする
+    call setbufvar(s:dirty.preview_bufnr, '&ft', a:ft)
+    silent call deletebufline(s:dirty.preview_bufnr, 1, '$')
+    silent call setbufline(s:dirty.preview_bufnr, 1, a:lines)
+endfunction
+
+function! s:dirty_preview(orig_buf_nr, orig_cursor, line, arguments) abort
+    if s:dirty.job != v:null
+        call job_stop(s:dirty.job, "kill")
+    endif
+    let s:dirty.lines = []
+
+    let l:file = split(a:line, ' ')[1]
+    if a:line =~# '^?? '
+        " 知らないファイルは普通に表示
+        let l:path = s:dirty.worktree . '/' . l:file
+        if filereadable(l:path)
+            call s:setline_preview_buf(readfile(l:path), 'text')
+        else
+            call s:setline_preview_buf(["Could not read file."], 'text')
+        endif
+    else
+        call s:setline_preview_buf(['...'], 'text')
+        " --staged をつけると、インデックスと最新のコミットとの変更点を表示
+        let l:opts = a:line =~# '^M ' ? '--staged' : ''
+        let l:cmd = printf('git diff %s %s', l:opts, l:file)
+
+        let s:dirty.job = job_start([&shell, &shellcmdflag, l:cmd], {
+        \   'close_cb': {ch->s:setline_preview_buf(s:dirty.lines, 'diff')},
+        \   'out_cb': funcref('s:add_line'),
+        \})
+    endif
+    return [s:dirty.preview_bufnr, 1, '']
+endfunction
+
+function! s:dirty_before_enter(args) abort
+    " プレビューのところでやるとカーソル移動が遅くなるから
+    let l:bufnr = bufadd('lf_dirty_preview') 
+    silent! call bufload(l:bufnr)
+
+    try
+        " from instance.py
+        call setbufvar(l:bufnr, '&buflisted',   0)
+        call setbufvar(l:bufnr, '&buftype',     'nofile')
+        call setbufvar(l:bufnr, '&bufhidden',   'hide')
+        call setbufvar(l:bufnr, '&undolevels',  -1)
+        call setbufvar(l:bufnr, '&swapfile',    0)
+        " call setbufvar(l:bufnr, '&filetype',    'diff')
+    catch /*/
+        " pass
+    endtry
+
+    let s:dirty = {
+    \   'preview_bufnr': l:bufnr,
+    \   'lines': [],
+    \   'job': 0,
+    \   'worktree': vimrc#git#worktree(),
+    \}
+endfunction
+
+" Refer https://git-scm.com/docs/git-status#_output
+let g:Lf_Extensions.dirty = {
+\   'source': {'command': 'git status --porcelain -uall'},
+\   'accept': s:func('s:dirty_accept'),
+\   'before_enter': s:func('s:dirty_before_enter'),
+\   'preview': s:func('s:dirty_preview'),
+\   'support_multi': v:true,
+\   'highlights_def': {
+\       'Lf_hl_dirty_updated_index': '^M  .*$',
+\       'Lf_hl_dirty_change': '^.M .*$',
+\       'Lf_hl_dirty_untracked': '^?? .*$',
+\   },
+\   'highlights_cmd': [
+\       'hi Lf_hl_dirty_updated_index guifg=#A3BE8C',
+\       'hi Lf_hl_dirty_change        guifg=#D08770',
+\       'hi Lf_hl_dirty_untracked     guifg=#81A1C1',
+\   ],
+\}
 
 " ============================================================================
 " neosnippet
@@ -479,6 +571,7 @@ let g:Lf_Extensions.favhelp = {
 " ============================================================================
 let s:menu = [
 \   ['git switch', 'Leaderf switch'],
+\   ['git dirty',  'Leaderf dirty'],
 \   ['git pull',   'GitPull'],
 \   ['git push',   'GitPush'],
 \   ['gina patch', 'GinaPatch'],

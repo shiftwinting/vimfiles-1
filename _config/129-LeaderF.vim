@@ -367,6 +367,7 @@ let g:Lf_PreviewResult = {
 \   'Rg': 0,
 \   'Gtags': 0,
 \   'neosnippet': 1,
+\   'dirty': 1,
 \}
 
 
