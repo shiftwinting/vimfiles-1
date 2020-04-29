@@ -15,6 +15,7 @@ let g:dbs = {
 
 " いろいろの保存先
 let g:db_ui_save_location = expand($LOCALAPPDATA . '/db_ui')
+let g:db_ui_show_database_icon = 1
 
 let g:db_ui_icons = {
 \   'expanded':         '',
@@ -41,3 +42,5 @@ function! s:dadbod_setup() abort
         nmap <buffer> <Space>W <Plug>(DBUI_SaveQuery)
     endif
 endfunction
+
+nnoremap md :<C-u>DBUIToggle<CR>

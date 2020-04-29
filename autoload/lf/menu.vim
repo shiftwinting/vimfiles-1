@@ -16,7 +16,7 @@ function! lf#menu#source(args) abort
     return lf#space_between(s:menu)
 endfunction
 
-function! s:menu_accept(line, args) abort
+function! lf#menu#accept(line, args) abort
     exec trim(split(a:line, '|')[1])
 endfunction
 

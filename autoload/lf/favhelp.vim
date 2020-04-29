@@ -27,7 +27,7 @@ function! lf#favhelp#source(args) abort
     return lf#space_between(s:fav_helps)
 endfunction
 
-function! s:favhelp_accept(line, args) abort
+function! lf#favhelp#accept(line, args) abort
     exec 'help ' . trim(split(a:line, '|')[0])
 endfunction
 

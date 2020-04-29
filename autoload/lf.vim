@@ -1,12 +1,6 @@
 scriptencoding utf-8
 
 
-function! lf#func(func_name) abort
-    " function('<SNR>476_sample_func') -> <SNR>476_sample_func
-    return string(function(a:func_name))[10:-3]
-endfunction
-
-
 " a:linesは [[str, str], [str, str], ...] のようなリスト
 " 例)
 "   :echo s:space_between([['mac', 'text1'], ['windows', 'text2']])
@@ -25,4 +19,3 @@ function! lf#space_between(line_items) abort
     endfor
     return l:result
 endfunction
-

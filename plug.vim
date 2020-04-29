@@ -209,7 +209,7 @@ MyPlug! 'Yggdroot/LeaderF', { 'do': './install.bat' }
 MyPlug! 'tamago324/LeaderF-cdnjs'
 MyPlug! 'tamago324/LeaderF-bookmark'
 MyPlug! 'tamago324/LeaderF-openbrowser'
-MyPlug! 'tamago324/LeaderF-filer'
+" MyPlug! 'tamago324/LeaderF-filer'
 
 " --------------------------
 " coc
@@ -223,6 +223,7 @@ MyPlug! 'tamago324/LeaderF-filer'
 " MyPlug  'mattn/vim-lsp-settings'
 
 " Plug '~/ghq/github.com/tamago324/LeaderF'
-" Plug '~/ghq/github.com/tamago324/LeaderF-filer'
+Plug '~/ghq/github.com/tamago324/LeaderF-filer'
+Plug '~/ghq/github.com/tpope/vim-dadbod'
 
 call plug#end()
