@@ -4,6 +4,8 @@ scriptencoding utf-8
 " git 内の編集しているファイル
 " ============================================================================
 
+" TODO: いい感じに fold したい
+
 let s:Filepath = vital#vital#import('System.Filepath')
 
 let s:info = {

@@ -46,13 +46,13 @@ function! s:get_current_buffer_relpath() abort
     return relpath
 endfunction
 
-nnoremap [gina] <Nop>
-nmap <Space>g [gina]
+" nnoremap [gina] <Nop>
+" nmap <Space>g [gina]
 
-nnoremap [gina]s :<C-u>Gina status<CR><C-w>T
-nnoremap [gina]b :<C-u>Gina blame<CR>
-nnoremap [gina]p :<C-u><C-r>=printf('Gina patch %s', <SID>get_current_buffer_relpath())<CR><CR>
-command! GinaPatch call execute(printf('Gina patch %s', <SID>get_current_buffer_relpath()))
+" nnoremap [gina]s :<C-u>Gina status<CR><C-w>T
+" nnoremap [gina]b :<C-u>Gina blame<CR>
+" nnoremap [gina]p :<C-u><C-r>=printf('Gina patch %s', <SID>get_current_buffer_relpath())<CR><CR>
+" command! GinaPatch call execute(printf('Gina patch %s', <SID>get_current_buffer_relpath()))
 
 " ====================
 " status
