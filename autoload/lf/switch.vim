@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 function! lf#switch#source_type() abort
-    return 'funcref'
+    return 'command_funcref'
 endfunction
 
 

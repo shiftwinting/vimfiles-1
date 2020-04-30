@@ -12,7 +12,7 @@ function! s:load_extensions() abort
         if l:source_type ==# 'funcref'
             " funcref にしてしまうと、Python 側で None になってしまうため文字列にする
             let g:Lf_Extensions[l:category]['source'] = printf('lf#%s#source', l:category)
-        elseif l:source_type ==# 'commnad_funcref'
+        elseif l:source_type ==# 'command_funcref'
             let l:source = {'command': funcref(printf('lf#%s#source', l:category))}
             let g:Lf_Extensions[l:category]['source'] = l:source
         else

@@ -16,7 +16,7 @@ let s:info = {
 \}
 
 function! lf#dirty#source_type() abort
-    return 'commnad_funcref'
+    return 'command_funcref'
 endfunction
 
 function! lf#dirty#source(args) abort

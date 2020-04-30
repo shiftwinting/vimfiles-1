@@ -1,11 +1,13 @@
 scriptencoding utf-8
 
+" ! をつけるとすぐに実行
 let s:menu = [
-\   ['git switch', 'Leaderf switch'],
-\   ['git dirty',  'Leaderf dirty'],
-\   ['git pull',   'GitPull'],
-\   ['git push',   'GitPush'],
-\   ['gina patch', 'GinaPatch'],
+\   ['!git switch', 'Leaderf switch'],
+\   ['!git dirty',  'Leaderf dirty'],
+\   ['!git pull',   'GitPull'],
+\   ['!git push',   'GitPush'],
+\   ['!gina patch', 'GinaPatch'],
+\   [' git new', 'Git switch -c '],
 \]
 
 function! lf#menu#source_type() abort
@@ -17,7 +19,12 @@ function! lf#menu#source(args) abort
 endfunction
 
 function! lf#menu#accept(line, args) abort
-    exec trim(split(a:line, '|')[1])
+    let l:cmd = trim(split(a:line, '|')[1])
+    if a:line =~# '^!'
+        exec l:cmd
+    else
+        call feedkeys(printf(':%s', l:cmd), 'n')
+    endif
 endfunction
 
 function! lf#menu#highlights_def() abort

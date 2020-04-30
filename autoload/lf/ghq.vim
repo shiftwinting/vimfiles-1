@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 function! lf#ghq#source_type() abort
-    return 'commnad_funcref'
+    return 'command_funcref'
 endfunction
 
 function! lf#ghq#source(args) abort

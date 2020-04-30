@@ -387,22 +387,3 @@ let g:Lf_DevIconsPalette = get(g:, 'Lf_DevIconsPalette', {})
 let g:Lf_DevIconsPalette.dark = {
 \   'vim': { 'guifg': s:nord14_gui }
 \}
-
-" " リストで取得
-" let s:sfile = expand('<sfile>:p')
-" function! s:load_extensions() abort
-"     let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
-"     for l:ext in glob(fnamemodify(s:sfile, ':h:h') . '/autoload/lf/*.vim', '', v:true)
-"         let l:name = fnamemodify(l:ext, ':t:r')
-"         let g:Lf_Extensions[l:name] = {
-"         \   'source': {'command': printf('lf#%s#source', l:name)},
-"         \   'accept':             printf('lf#%s#accept', l:name),
-"         \   'before_enter':       printf('lf#%s#before_enter', l:name),
-"         \   'preview':            printf('lf#%s#preview', l:name),
-"         \   'highlights_def':     execute(printf('lf#%s#highlights_def()', l:name)),
-"         \   'highlights_cmd':     execute(printf('lf#%s#highlights_cmd()', l:name)),
-"         \}
-"     endfor
-" endfunction
-"
-" call s:load_extensions()
