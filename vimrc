@@ -48,6 +48,7 @@ if has('win32')
     call vimrc#add_path('~/ctags',                 'ctags')
     call vimrc#add_path('C:/Neovim/bin',           'Neovim/bin')
     call vimrc#add_path($HOME.'/.pyenv/pyenv-win/versions/3.8.1/Scripts')
+    call vimrc#add_path($HOME.'/.pyenv/pyenv-win/bin')
     call vimrc#add_path('C:/Program Files/PostgreSQL/12/bin')
 
     " pipenv の 仮想環境をプロジェクト内に作る

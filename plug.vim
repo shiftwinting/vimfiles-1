@@ -1,229 +1,253 @@
 scriptencoding utf-8
 
 
-function! s:plug(require, name, ...) abort
-    " min かつ 必須ではない場合、読み込まない
-    let l:opts = get(a:, 1, {})
-    let l:if = has_key(l:opts, 'if') ? eval(l:opts.if) : 1
-    if (a:require || !g:min_vimrc) && l:if
-        Plug a:name, l:opts
-    endif
-endfunction
-
-" <bang>0 って書くと、0 or 1 で渡せる (vim-plug からもらった)
-command! -bang -nargs=+ MyPlug call <SID>plug(<bang>0, <args>)
-
-
-
-
 call plug#begin('~/vimfiles/plugged')
 
 
-" いつでも使うやつには ! をつける
+Plug 'junegunn/vim-plug'
+Plug 'vim-jp/vimdoc-ja'
+Plug 'vim-jp/vital.vim'
+Plug 'vim-jp/syntax-vim-ex'
 
-MyPlug! 'junegunn/vim-plug'
-MyPlug! 'vim-jp/vimdoc-ja'
-MyPlug! 'vim-jp/vital.vim'
-MyPlug! 'vim-jp/syntax-vim-ex'
-
-" MyPlug  'mg979/vim-visual-multi'
-" MyPlug  'tweekmonster/helpful.vim'
-MyPlug! 'andymass/vim-matchup'
-MyPlug  'ap/vim-css-color'
-MyPlug! 'dense-analysis/ale'
-MyPlug! 'dhruvasagar/vim-table-mode'
-" MyPlug  'majutsushi/tagbar'
-MyPlug  'mattn/gist-vim'
-MyPlug  'mattn/webapi-vim'
-MyPlug  'previm/previm'
-MyPlug! 'rbtnn/vim-coloredit'
-MyPlug  'simnalamburt/vim-mundo'
-MyPlug  'skanehira/translate.vim'
-" MyPlug  'skywind3000/vim-quickui'
-MyPlug! 'Yggdroot/indentLine'
-MyPlug! 'dbeniamine/todo.txt-vim'
-MyPlug! 'deris/vim-shot-f'
-MyPlug! 'glidenote/memolist.vim'
-MyPlug! 'haya14busa/vim-asterisk'
-MyPlug! 'jiangmiao/auto-pairs'
-MyPlug! 'junegunn/vim-easy-align'
-MyPlug! 'kana/vim-repeat'
-MyPlug! 'kana/vim-tabpagecd'
-MyPlug! 'ludovicchabant/vim-gutentags'
-MyPlug! 'machakann/vim-highlightedyank'
-MyPlug! 'markonm/traces.vim'
-MyPlug! 'mattn/emmet-vim'
-MyPlug! 'mattn/sonictemplate-vim'
-MyPlug! 'mechatroner/rainbow_csv'
-MyPlug! 'rbtnn/vim-mrw'
-MyPlug! 'rcmdnk/yankround.vim'
-MyPlug! 'simeji/winresizer'
-MyPlug! 'svermeulen/vim-cutlass'
-MyPlug! 't9md/vim-quickhl'
-MyPlug! 'tamago324/vim-browsersync'
-MyPlug! 'thinca/vim-qfreplace'
-MyPlug! 'thinca/vim-quickrun'
-MyPlug! 'tomtom/tcomment_vim'
-MyPlug! 'tpope/vim-endwise'
-" MyPlug! 'tpope/vim-surround'
-MyPlug! 'machakann/vim-sandwich'
-MyPlug! 'tyru/capture.vim'
-MyPlug! 'tyru/open-browser-github.vim'
-MyPlug! 'tyru/open-browser.vim'
-MyPlug! 'tyru/vim-altercmd'
-" MyPlug! 'machakann/vim-highlightedundo'
-" MyPlug! 'tyru/columnskip.vim'
-MyPlug! 'sillybun/vim-repl'
-MyPlug! 'chrisbra/NrrwRgn'
+" Plug 'mg979/vim-visual-multi'
+" Plug 'tweekmonster/helpful.vim'
+Plug 'andymass/vim-matchup'
+Plug 'ap/vim-css-color'
+Plug 'dense-analysis/ale'
+Plug 'dhruvasagar/vim-table-mode'
+" Plug 'majutsushi/tagbar'
+" Plug 'mattn/gist-vim'
+Plug 'mattn/webapi-vim'
+Plug 'previm/previm'
+" Plug 'rbtnn/vim-coloredit'
+Plug 'simnalamburt/vim-mundo'
+Plug 'skanehira/translate.vim'
+" Plug 'skywind3000/vim-quickui'
+Plug 'Yggdroot/indentLine'
+Plug 'dbeniamine/todo.txt-vim'
+Plug 'deris/vim-shot-f'
+Plug 'glidenote/memolist.vim'
+Plug 'haya14busa/vim-asterisk'
+Plug 'jiangmiao/auto-pairs'
+Plug 'junegunn/vim-easy-align'
+Plug 'kana/vim-repeat'
+Plug 'kana/vim-tabpagecd'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'machakann/vim-highlightedyank'
+" Plug 'markonm/traces.vim'
+Plug 'mattn/sonictemplate-vim'
+Plug 'mechatroner/rainbow_csv'
+" Plug 'rbtnn/vim-mrw'
+Plug 'rcmdnk/yankround.vim'
+Plug 'simeji/winresizer'
+Plug 'svermeulen/vim-cutlass'
+" Plug 't9md/vim-quickhl'
+" Plug 'tamago324/vim-browsersync'
+Plug 'thinca/vim-qfreplace'
+Plug 'thinca/vim-quickrun'
+Plug 'tomtom/tcomment_vim'
+" Plug 'tpope/vim-endwise'
+" Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
+Plug 'tyru/capture.vim'
+" Plug 'tyru/open-browser-github.vim'
+Plug 'tyru/open-browser.vim'
+" Plug 'tyru/vim-altercmd'
+" Plug 'machakann/vim-highlightedundo'
+" Plug 'tyru/columnskip.vim'
+Plug 'sillybun/vim-repl'
+Plug 'chrisbra/NrrwRgn'
+" Plug 'romainl/vim-cool'
+Plug 'lambdalisue/vim-backslash'
+Plug 'liuchengxu/vim-which-key'
 
 
 " --------------------------
 " db
 " --------------------------
-" MyPlug  'tpope/vim-dadbod'
-MyPlug  'kristijanhusak/vim-dadbod-ui'
-MyPlug  'kristijanhusak/vim-dadbod-completion'
+Plug 'tpope/vim-dadbod'
+Plug 'kristijanhusak/vim-dadbod-ui'
+Plug 'kristijanhusak/vim-dadbod-completion'
 
 " --------------------------
 " python
 " --------------------------
-MyPlug! 'vim-python/python-syntax'
-MyPlug! 'petobens/poet-v'
-" MyPlug! 'davidhalter/jedi-vim'
+Plug 'vim-python/python-syntax'
+Plug 'petobens/poet-v'
+" Plug 'davidhalter/jedi-vim'
 " JediUseEnvironment のため
-MyPlug! 'blueyed/jedi-vim', { 'branch': 'envs' }
-" MyPlug! 'relastle/vim-nayvy'
-" MyPlug! 'kiteco/vim-plugin'
-" MyPlug! 'heavenshell/vim-pydocstring', { 'if': executable('doq') }
-MyPlug  'wookayin/vim-autoimport'
-MyPlug  'glench/vim-jinja2-syntax'
+Plug 'blueyed/jedi-vim', { 'branch': 'envs' }
+" Plug 'relastle/vim-nayvy'
+" Plug 'kiteco/vim-plugin'
+" Plug 'heavenshell/vim-pydocstring', { 'if': executable('doq') }
+Plug 'wookayin/vim-autoimport'
+Plug 'glench/vim-jinja2-syntax'
 
 " --------------------------
 " php
 " --------------------------
-MyPlug 'jwalton512/vim-blade'
+Plug 'jwalton512/vim-blade'
 
 " --------------------------
 " nim
 " --------------------------
-MyPlug 'zah/nim.vim'
+Plug 'zah/nim.vim'
 
 " --------------------------
 " frontend
 " --------------------------
-MyPlug  'AndrewRadev/tagalong.vim'
-MyPlug! 'hail2u/vim-css3-syntax'
-MyPlug  'jason0x43/vim-js-indent'
-MyPlug  'leafOfTree/vim-vue-plugin'
-MyPlug! 'othree/html5.vim'
-MyPlug  'prettier/vim-prettier', { 'do': 'yarn install' }
-MyPlug  'yuezk/vim-js'
+Plug 'AndrewRadev/tagalong.vim'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'jason0x43/vim-js-indent'
+Plug 'leafOfTree/vim-vue-plugin'
+Plug 'othree/html5.vim'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'yuezk/vim-js'
+Plug 'mattn/emmet-vim'
 
 " --------------------------
 " markdown
 " --------------------------
-MyPlug! 'dkarter/bullets.vim'
+Plug 'dkarter/bullets.vim'
 
 " --------------------------
 " syntax
 " --------------------------
-MyPlug  'delphinus/vim-firestore'
-MyPlug  'k-takata/vim-dosbatch-indent'
+Plug 'delphinus/vim-firestore'
+Plug 'k-takata/vim-dosbatch-indent'
 
 " --------------------------
 " snippets
 " --------------------------
-MyPlug! 'Shougo/neosnippet.vim'
-MyPlug! 'Shougo/neosnippet-snippets'
-MyPlug! 'honza/vim-snippets'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'honza/vim-snippets'
 
 " --------------------------
 " complete
 " --------------------------
-MyPlug! 'Shougo/neco-syntax'
-MyPlug! 'Shougo/echodoc.vim'
+Plug 'Shougo/echodoc.vim'
 
 " --------------------------
 " complete vim
 " --------------------------
-MyPlug! 'machakann/vim-Verdin'
+" Plug 'machakann/vim-Verdin'
 
 " --------------------------
 " go
 " --------------------------
-MyPlug  'fatih/vim-go'
+Plug 'fatih/vim-go'
 
 " --------------------------
 " sql
 " --------------------------
-MyPlug  'mattn/vim-sqlfmt'
+Plug 'mattn/vim-sqlfmt'
 
 
-" " --------------------------
-" " textobj
-" " --------------------------
-" MyPlug! 'kana/vim-textobj-user'
-" MyPlug! 'osyo-manga/vim-textobj-multiblock'
-" MyPlug! 'kana/vim-textobj-function'
-" MyPlug! 'haya14busa/vim-textobj-function-syntax'
-" MyPlug! 'kana/vim-textobj-line'
+" --------------------------
+" textobj
+" --------------------------
+Plug 'kana/vim-textobj-user'
+Plug 'osyo-manga/vim-textobj-multiblock'
+Plug 'kana/vim-textobj-function'
+Plug 'haya14busa/vim-textobj-function-syntax'
+Plug 'kana/vim-textobj-line'
+Plug 'michaeljsmith/vim-indent-object'
 
 " --------------------------
 " operator
 " --------------------------
-MyPlug! 'kana/vim-operator-user'
-MyPlug! 'kana/vim-operator-replace'
+Plug 'kana/vim-operator-user'
+Plug 'kana/vim-operator-replace'
 
 " --------------------------
 " dark power
 " --------------------------
-MyPlug! 'Shougo/deol.nvim'
-MyPlug  'Shougo/context_filetype.vim'
+Plug 'Shougo/deol.nvim'
+" Plug 'Shougo/context_filetype.vim'
 
 " --------------------------
 " lightline
 " --------------------------
-MyPlug! 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim'
 
 " --------------------------
 " git
 " --------------------------
-MyPlug! 'airblade/vim-gitgutter'
-MyPlug! 'tpope/vim-fugitive'
-MyPlug! 'junegunn/gv.vim'
-MyPlug! 'gisphm/vim-gitignore'
-MyPlug! 'rhysd/conflict-marker.vim'
-MyPlug! 'lambdalisue/gina.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/gv.vim'
+Plug 'gisphm/vim-gitignore'
+Plug 'rhysd/conflict-marker.vim'
+Plug 'lambdalisue/gina.vim'
 
 " --------------------------
 " colorscheme
 " --------------------------
-MyPlug! 'lifepillar/vim-solarized8'
-MyPlug! 'rakr/vim-one'
-MyPlug! 'arcticicestudio/nord-vim'
+Plug 'lifepillar/vim-solarized8'
+Plug 'rakr/vim-one'
+Plug 'arcticicestudio/nord-vim'
 
 " --------------------------
 " LeaderF
 " --------------------------
-MyPlug! 'Yggdroot/LeaderF', { 'do': './install.bat' }
-MyPlug! 'tamago324/LeaderF-cdnjs'
-MyPlug! 'tamago324/LeaderF-bookmark'
-MyPlug! 'tamago324/LeaderF-openbrowser'
-" MyPlug! 'tamago324/LeaderF-filer'
+Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
+Plug 'tamago324/LeaderF-cdnjs'
+Plug 'tamago324/LeaderF-bookmark'
+Plug 'tamago324/LeaderF-openbrowser'
+Plug 'tamago324/LeaderF-filer'
 
 " --------------------------
-" coc
+" coc  チカチカするからやだ -> asyncomplete 
 " --------------------------
-" MyPlug 'neoclide/coc.nvim', {'branch': 'release'}
-" MyPlug 'neoclide/coc-neco'
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc-neco'
 
+" " --------------------------
+" " deoplete ちょっとおそい -> asyncomplete
+" " --------------------------
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'roxma/nvim-yarp'
+" Plug 'roxma/vim-hug-neovim-rpc'
+
+" --------------------------
+" asyncomplete
+" --------------------------
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+Plug 'prabirshrestha/asyncomplete-necovim.vim'
+Plug 'yami-beta/asyncomplete-omni.vim'
+Plug 'Shougo/neco-syntax'
+Plug 'Shougo/neco-vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+
+" " --------------------------
 " " lsp
-" MyPlug  'prabirshrestha/async.vim'
-" MyPlug  'prabirshrestha/vim-lsp'
-" MyPlug  'mattn/vim-lsp-settings'
+" " --------------------------
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
 
-" Plug '~/ghq/github.com/tamago324/LeaderF'
-Plug '~/ghq/github.com/tamago324/LeaderF-filer'
-Plug '~/ghq/github.com/tpope/vim-dadbod'
+" Plug '~/ghq/github.com/kristijanhusak/vim-dadbod-completion'
+" Plug '~/ghq/github.com/kristijanhusak/vim-dadbod-ui'
+" Plug '~/ghq/github.com/prabirshrestha/asyncomplete.vim'
+" Plug '~/ghq/github.com/yami-beta/asyncomplete-omni.vim'
+
 
 call plug#end()
+
+
+" いつでも使うやつには ! をつける
+" function! s:plug(require, name, ...) abort
+"     " min かつ 必須ではない場合、読み込まない
+"     let l:opts = get(a:, 1, {})
+"     let l:if = has_key(l:opts, 'if') ? eval(l:opts.if) : 1
+"     if (a:require || !g:min_vimrc) && l:if
+"         Plug a:name, l:opts
+"     endif
+" endfunction
+"
+" " <bang>0 って書くと、0 or 1 で渡せる (vim-plug からもらった)
+" command! -bang -nargs=+ MyPlug call <SID>plug(<bang>0, <args>)
+
+packadd! vim-which-key

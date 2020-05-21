@@ -33,43 +33,43 @@
     "default": "\uf29c"
   },
 
-  // =================================
-  // Python
-  // 補完したときに () を自動で入れる
-  "python.autoComplete.addBrackets": true,
+  //// =================================
+  //// Python
+  //// 補完したときに () を自動で入れる
+  //"python.autoComplete.addBrackets": true,
 
-  // black
-  "python.formatting.provider": "black",
-  "python.formatting.blackArgs": ["--line-length=99"],
+  //// black
+  //"python.formatting.provider": "black",
+  //"python.formatting.blackArgs": ["--line-length=99"],
 
-  "python.linting.enabled": true,
-  // 保存時に Linter を実行
-  "python.linting.lintOnSave": true,
+  //"python.linting.enabled": true,
+  //// 保存時に Linter を実行
+  //"python.linting.lintOnSave": true,
 
-  "python.linting.pylintEnabled": false,
+  //"python.linting.pylintEnabled": false,
 
-  // flake8
-  "python.linting.flake8Enabled": true,
-  "python.linting.flake8Args": [
-    "--max-line-length=99",
-    "--ignore=E121,E123,E126,E226,E24,E704,W503,W504,F405,W191,E101,F403,E501,E265,E302,E303,E251"
-  ],
+  //// flake8
+  //"python.linting.flake8Enabled": true,
+  //"python.linting.flake8Args": [
+  //  "--max-line-length=99",
+  //  "--ignore=E121,E123,E126,E226,E24,E704,W503,W504,F405,W191,E101,F403,E501,E265,E302,E303,E251"
+  //],
 
-  // mypy
-  "python.linting.mypyEnabled": true,
-  "python.linting.mypyArgs": [
-    "--ignore-missing-imports",
-    "--follow-imports=skip",
-    "--namespace-packages",
-    "--show-column-numbers"
-  ],
-  // =================================
+  //// mypy
+  //"python.linting.mypyEnabled": true,
+  //"python.linting.mypyArgs": [
+  //  "--ignore-missing-imports",
+  //  "--follow-imports=skip",
+  //  "--namespace-packages",
+  //  "--show-column-numbers"
+  //],
+  //// =================================
 
-  "coc.source.neosnippet.priority": 300,
-  "coc.source.neosnippet.disableSyntaxes":["comment", "string"],
-  "coc.source.neosnippet.filetypes": ["vim", "python", "javascript"],
+  //"coc.source.neosnippet.priority": 300,
+  //"coc.source.neosnippet.disableSyntaxes":["comment", "string"],
+  //"coc.source.neosnippet.filetypes": ["vim", "python", "javascript"],
 
-  "coc.source.syntax.disableSyntaxes":["comment", "string"],
+  //"coc.source.syntax.disableSyntaxes":["comment", "string"],
 
   // =================================
   // omni

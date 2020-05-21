@@ -14,8 +14,10 @@ nnoremap <Space>re :<C-u>REPLToggle<CR>
 " <Space>rl で送信
 let g:sendtorepl_invoke_key = '<Space>rl'
 
+" py -3 は py となるため
 let g:repl_exit_commands = {
-\   'python': '',
+\   'py': 'exit()',
+\   'python': 'exit()',
 \}
 
 " 変数の表示
@@ -32,3 +34,7 @@ let g:repl_auto_sends = [
 \   'while ',
 \   'with '
 \]
+
+let g:repl_program = {
+\   'python': 'py -3'
+\}

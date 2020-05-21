@@ -2,43 +2,46 @@ scriptencoding utf-8
 
 " スタックトレースを表示
 let g:Lf_Exception = 1
-" set background=dark
-" set lines=30 columns=100
-
-nnoremap [Leaderf] <Nop>
-nmap     <Space>f [Leaderf]
 
 " ! をつけるとノーマルモードから始まる
-nnoremap          [Leaderf]g        :<C-u>Leaderf! rg --popup-width=200 --match-path -e ""<Left>
+nnoremap          <Space>fg        :<C-u><C-r>=printf('Leaderf! rg --popup-width=%d --match-path -e ""', <SID>nice_width(200))<CR><Left>
 nnoremap <silent> 0                 :<C-u>Leaderf  rg --next<CR>
 nnoremap <silent> 9                 :<C-u>Leaderf  rg --previous<CR>
-nnoremap <silent> [Leaderf]r        :<C-u>Leaderf! rg --recall<CR>
-nnoremap <silent> [Leaderf];        :<C-u>Leaderf  cmdHistory<CR>
-" nnoremap <silent> [Leaderf]c        :<C-u>Leaderf  cdnjs<CR>
-nnoremap <silent> [Leaderf]f        :<C-u>Leaderf  file<CR>
-nnoremap <silent> [Leaderf]h        :<C-u>Leaderf  help<CR>
-nnoremap <silent> [Leaderf]j        :<C-u>Leaderf  buffer --nowrap<CR>
-nnoremap <silent> [Leaderf]k        :<C-u>Leaderf  mru --nowrap<CR>
-nnoremap <silent> [Leaderf]o        :<C-u>Leaderf  openbrowser<CR>
-nnoremap <silent> [Leaderf]q        :<C-u>Leaderf  ghq<CR>
-nnoremap <silent> [Leaderf]t        :<C-u>Leaderf  filetype<CR>
-" nnoremap <silent> [Leaderf]w        :<C-u>Leaderf  window<CR>
-nnoremap <silent> [Leaderf]m        :<C-u><C-r>=printf('Leaderf  file --file %s', g:vimrc#mrw#cache_path)<CR><CR>
-nnoremap <silent> [Leaderf]l        :<C-u>Leaderf  line --regexMode --popup-width=200<CR>
-nnoremap <silent> [Leaderf]s        :<C-u>Leaderf  bufTag<CR>
-nnoremap <silent> [Leaderf]v        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
-nnoremap <silent> [Leaderf]b        :<C-u>Leaderf  bookmark<CR>
+nnoremap <silent> <Space>fr        :<C-u><C-r>=printf('Leaderf! rg --recall --popup-width=%d', <SID>nice_width(200))<CR><CR>
+" nnoremap <silent> <Space>f;        :<C-u>Leaderf  cmdHistory<CR>
+" nnoremap <silent> <Space>fc        :<C-u>Leaderf  cdnjs<CR>
+nnoremap <silent> <Space>ff        :<C-u>Leaderf  file<CR>
+nnoremap <silent> <Space>fh        :<C-u>Leaderf  help<CR>
+nnoremap <silent> <Space>j         :<C-u>Leaderf  buffer --nowrap<CR>
+nnoremap <silent> <Space>fj        :<C-u>Leaderf  buffer --nowrap<CR>
+nnoremap <silent> <Space>fk        :<C-u>Leaderf  mru --nowrap<CR>
+nnoremap <silent> <Space>fo        :<C-u>Leaderf  openbrowser<CR>
+nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq<CR>
+nnoremap <silent> <Space>ft        :<C-u>Leaderf  filetype<CR>
+" nnoremap <silent> <Space>fw        :<C-u>Leaderf  window<CR>
+nnoremap <silent> <Space>fm        :<C-u><C-r>=printf('Leaderf  file --file %s', g:vimrc#mrw#cache_path)<CR><CR>
+nnoremap <silent> <Space>fl        :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
+nnoremap <silent> <Space>fs        :<C-u>Leaderf  bufTag<CR>
+nnoremap <silent> <Space>fv        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
+nnoremap <silent> <Space>fb        :<C-u>Leaderf  bookmark --nowrap<CR>
 
 nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
-nnoremap <silent> <C-e>             :<C-u><C-r>=printf('Leaderf filer %s', expand('%:p:h'))<CR><CR>
+nnoremap <silent> <C-e>             :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
 nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate<CR>
 nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
-nnoremap <silent> [Leaderf]c        :<C-u>Leaderf switch<CR>
-nnoremap <silent> [Leaderf]d        :<C-u>Leaderf dirty<CR>
-nnoremap <silent> [Leaderf]n        :<C-u>Leaderf neosnippet<CR>
+nnoremap <silent> <Space>fc        :<C-u>Leaderf switch<CR>
+nnoremap <silent> <Space>fd        :<C-u>Leaderf dirty<CR>
+nnoremap <silent> <Space>fn        :<C-u>Leaderf neosnippet<CR>
 nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp<CR>
-nnoremap <silent> [Leaderf]p        :<C-u>Leaderf menu<CR>
+nnoremap <silent> <Space>fp        :<C-u>Leaderf menu<CR>
 
+" nnoremap <silent> /                 :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
+
+cnoremap <silent> <C-l> <C-c>\|:Leaderf cmdHistory<CR>
+
+function! s:nice_width(maxwidth) abort
+    return min([&columns - 10, a:maxwidth - 10])
+endfunction
 
 " leaderf#Rg#getPattern()
 "   0: <cword>
@@ -46,11 +49,11 @@ nnoremap <silent> [Leaderf]p        :<C-u>Leaderf menu<CR>
 "   2: leaderf#Rg#visual()
 
 " Reference
-nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e "%s" -w -F', leaderf#Rg#getPattern(0))<CR><CR>
-vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --match-path -e %s -w -F', leaderf#Rg#getPattern(2))<CR><CR>
+nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --popup-width=%d --match-path --regexMode -e "%s" -w -F', <SID>nice_width(200), leaderf#Rg#getPattern(0))<CR><CR>
+vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --popup-width=%d --match-path --regexMode -e %s -w -F', <SID>nice_width(200), leaderf#Rg#getPattern(2))<CR><CR>
 " buftag で検索
-nnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --input %s', leaderf#Rg#getPattern(0))<CR><CR>
-vnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --input %s', leaderf#Rg#getPattern(2)[1:-2])<CR><CR>
+nnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --regexMode --input %s', leaderf#Rg#getPattern(0))<CR><CR>
+vnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --regexMode --input %s', leaderf#Rg#getPattern(2)[1:-2])<CR><CR>
 
 
 function! s:leaderf_settings() abort
@@ -60,7 +63,7 @@ endfunction
 
 
 " function! s:leaderf_python_settings() abort
-"     nnoremap <buffer> <silent> [Leaderf]i :<C-u>Leaderf nayvy<CR>
+"     nnoremap <buffer> <silent> <Space>fi :<C-u>Leaderf nayvy<CR>
 " endfunction
 
 
@@ -72,7 +75,7 @@ augroup END
 
 
 " デフォルト
-let g:Lf_DefaultMode = 'NameOnly'
+let g:Lf_DefaultMode = 'Regex'
 
 " カーソルの点滅をなくす
 let g:Lf_CursorBlink = 0
@@ -116,6 +119,7 @@ let g:Lf_WindowHeight = 0.4
 " let g:Lf_WindowPosition = 'bottom'
 let g:Lf_WindowPosition = 'popup'
 
+
 " ----------
 " popup
 " ----------
@@ -137,7 +141,9 @@ let g:Lf_WildIgnore = {
 \   'file': ['tags']
 \}
 
-let g:Lf_MruWildIgnore = {}
+let g:Lf_MruWildIgnore = {
+\   'file': ['*.dbout']
+\}
 
 " Leaderf rg --help
 " --glob は .gitignore のような書き方
@@ -293,26 +299,25 @@ else
     \   'Lf_hl_popup_normalMode':   { 'guifg': s:nord2_gui,  'guibg': s:nord8_gui  },
     \   'Lf_hl_popup_inputMode':    { 'guifg': s:nord2_gui,  'guibg': s:nord5_gui  },
     \   'Lf_hl_popup_category':     { 'guifg': s:nord5_gui,  'guibg': s:nord1_gui  },
-    \   'Lf_hl_popup_nameOnlyMode': { 'guifg': s:nord2_gui,  'guibg': s:nord13_gui },
-    \   'Lf_hl_popup_fullPathMode': { 'guifg': s:nord2_gui,  'guibg': s:nord13_gui },
-    \   'Lf_hl_popup_fuzzyMode':    { 'guifg': s:nord2_gui,  'guibg': s:nord13_gui },
+    \   'Lf_hl_popup_nameOnlyMode': { 'guifg': s:nord2_gui,  'guibg': s:nord7_gui  },
+    \   'Lf_hl_popup_fullPathMode': { 'guifg': s:nord2_gui,  'guibg': s:nord7_gui  },
+    \   'Lf_hl_popup_fuzzyMode':    { 'guifg': s:nord2_gui,  'guibg': s:nord7_gui  },
     \   'Lf_hl_popup_regexMode':    { 'guifg': s:nord2_gui,  'guibg': s:nord7_gui  },
     \   'Lf_hl_popup_cwd':          { 'guifg': s:nord6_gui,  'guibg': s:nord3_gui  },
     \   'Lf_hl_popup_lineInfo':     { 'guifg': s:nord5_gui,  'guibg': s:nord0_gui  },
     \   'Lf_hl_popup_total':        { 'guifg': s:nord6_gui,  'guibg': s:nord10_gui },
     \   'Lf_hl_selection':          { 'guifg': s:nord2_gui,  'guibg': s:nord14_gui},
     \   'Lf_hl_cursorline':         { 'guifg': s:nord4_gui,  'guibg': s:nord2_gui, 'gui': 'bold'},
-    \   'Lf_hl_match':              { 'guifg': s:nord8_gui,  'guibg': 'NONE'},
-    \   'Lf_hl_match0':             { 'guifg': s:nord8_gui,  'guibg': 'NONE'},
-    \   'Lf_hl_match1':             { 'guifg': s:nord9_gui,  'guibg': 'NONE'},
-    \   'Lf_hl_match2':             { 'guifg': s:nord9_gui,  'guibg': 'NONE'},
-    \   'Lf_hl_match3':             { 'guifg': s:nord10_gui, 'guibg': 'NONE'},
-    \   'Lf_hl_match4':             { 'guifg': s:nord10_gui, 'guibg': 'NONE'},
-    \   'Lf_hl_matchRefine':        { 'guifg': s:nord8_gui,  'guibg': 'NONE'},
+    \   'Lf_hl_match':              { 'guifg': s:nord6_gui,  'guibg': s:nord10_gui},
+    \   'Lf_hl_match0':             { 'guifg': s:nord6_gui,  'guibg': s:nord10_gui},
+    \   'Lf_hl_match1':             { 'guifg': s:nord6_gui,  'guibg': s:nord10_gui},
+    \   'Lf_hl_match2':             { 'guifg': s:nord6_gui,  'guibg': s:nord10_gui},
+    \   'Lf_hl_match3':             { 'guifg': s:nord6_gui,  'guibg': s:nord10_gui},
+    \   'Lf_hl_match4':             { 'guifg': s:nord6_gui,  'guibg': s:nord10_gui},
+    \   'Lf_hl_matchRefine':        { 'guifg': s:nord1_gui,  'guibg': s:nord8_gui },
     \   'Lf_hl_rgHighlight':        { 'guifg': s:nord1_gui,  'guibg': s:nord8_gui, 'gui': 'bold'},
     \   'Lf_hl_gtagsHighlight':     { 'guifg': s:nord1_gui,  'guibg': s:nord8_gui, 'gui': 'bold'},
     \}
-
     " ポップアップのカーソル
     " \   'Lf_hl_popup_cursor':       { 'guifg': 'NONE',  'guibg': 'NONE' },
 
@@ -360,7 +365,7 @@ let g:Lf_PreviewResult = {
 \   'Buffer': 0,
 \   'Mru': 0,
 \   'Tag': 0,
-\   'BufTag': 0,
+\   'BufTag': 1,
 \   'Function': 0,
 \   'Line': 1,
 \   'Colorscheme': 1,
@@ -385,5 +390,7 @@ let g:Lf_DevIconsExtensionSymbols = {
 
 let g:Lf_DevIconsPalette = get(g:, 'Lf_DevIconsPalette', {})
 let g:Lf_DevIconsPalette.dark = {
-\   'vim': { 'guifg': s:nord14_gui }
+\   'vim': { 'guifg': s:nord14_gui },
+\   'vimrc': { 'guifg': s:nord14_gui },
+\   'gvimrc': { 'guifg': s:nord14_gui },
 \}

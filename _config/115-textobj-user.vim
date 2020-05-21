@@ -20,3 +20,10 @@ if !empty(globpath(&rtp, 'autoload/textobj/line.vim'))
     omap il <Plug>(textobj-line-I)
 endif
 
+
+
+if !empty(globpath(&rtp, 'autoload/textobj/indent.vim'))
+    " l
+    omap al <Plug>(textobj-indent-A)
+    omap il <Plug>(textobj-indent-I)
+endif

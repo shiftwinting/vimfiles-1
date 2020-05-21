@@ -28,8 +28,25 @@ endfunction
 augroup MyFugitive
     autocmd!
     autocmd FileType fugitive call s:fugitive_my_settings()
-    " autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
+    autocmd FileType gitcommit call s:gitcommit_settings()
+    autocmd FileType gitcommit call s:fugitive_init_buffer_if_empty()
 augroup END
+
+function! s:fugitive_init_buffer_if_empty() abort
+    let l:lines = line('$')
+    " exec 'resize ' . l:lines
+    " setlocal winfixheight
+    startinsert!
+
+    " mappings
+    " nnoremap <buffer> <C-q> :<C-u>quit!<CR>
+endfunction
+
+function! s:gitcommit_settings() abort
+    setlocal textwidth=72
+    " 自動で折り返しを行う
+    setlocal formatoptions+=t
+endfunction
 
 
 " function! s:add_p() abort

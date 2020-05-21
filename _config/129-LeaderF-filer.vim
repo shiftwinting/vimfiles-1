@@ -1,6 +1,7 @@
 scriptencoding utf-8
 
 let g:Lf_FilerShowPromptPath = 1
+let g:Lf_FilerOnlyIconHighlight = 1
 
 let g:Lf_FilerUseDefaultNormalMap = 0
 let g:Lf_FilerNormalMap = {
@@ -20,7 +21,7 @@ let g:Lf_FilerNormalMap = {
 \   '<C-e>':         'quit',
 \   '<C-c>':         'quit',
 \   'o':             'accept',
-\   '<CR>':          'accept',
+\   '<CR>':          'open_current',
 \   '<C-s>':         'accept_horizontal',
 \   '<C-v>':         'accept_vertical',
 \   '<C-t>':         'accept_tab',
@@ -44,7 +45,7 @@ let g:Lf_FilerInsertMap = {
 \   '<C-h>':        'open_parent_or_backspace',
 \   '<C-l>':        'open_current',
 \   '<Esc>':        'quit',
-\   '<CR>':         'accept',
+\   '<CR>':         'open_current',
 \   '<C-s>':        'accept_horizontal',
 \   '<C-v>':        'accept_vertical',
 \   '<C-t>':        'accept_tab',

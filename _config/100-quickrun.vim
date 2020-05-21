@@ -17,6 +17,9 @@ let g:quickrun_config = {
     \   'nim': {
     \       'hook/output_encode/encoding': '&fileencoding',
     \   },
+    \   'python': {
+    \       'exec': 'py -3 %s',
+    \   },
     \}
 
 nmap <Space>rr <Plug>(quickrun)

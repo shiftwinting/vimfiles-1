@@ -209,3 +209,8 @@ set foldlevelstart=99
 
 " 表示できるところまで表示する
 set display=lastline
+
+" set cursorline
+
+" マクロの実行が終わったら、描画する (高速化)
+set lazyredraw

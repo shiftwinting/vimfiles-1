@@ -16,7 +16,7 @@ let g:jedi#completions_enabled = 1
 
 " 補完のキー
 " <C-l><C-o> でいいや
-" let g:jedi#completions_command = '<C-N>'
+let g:jedi#completions_command = '<C-Space>'
 
 " echoで表示
 let g:jedi#show_call_signatures = 2

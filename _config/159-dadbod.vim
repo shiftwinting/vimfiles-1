@@ -20,27 +20,40 @@ let g:db_ui_show_database_icon = 1
 let g:db_ui_icons = {
 \   'expanded':         '',
 \   'collapsed':        '',
-\   'saved_query':      '',
+\   'saved_query':      '',
 \   'new_query':        '',
-\   'tables':           '~',
+\   'tables':           '',
 \   'buffers':          '󿘽',
+\   'add_connection':   '',
 \   'connection_ok':    '',
 \   'connection_error': '',
 \}
 
-let g:dbui_table_helpers = {}
-let g:dbui_table_helpers.postgresql = {
-\   'TColumns': "SELECT TABLE_NAME,\nCOLUMN_NAME,\nis_nullable,\ndata_type,\ncharacter_maximum_length,\nnumeric_precision\nFROM information_schema.columns\nWHERE TABLE_NAME='{table}';",
+let g:db_ui_table_helpers = {}
+let g:db_ui_table_helpers.postgresql = {
+\   'table_def': join(readfile(expand('<sfile>:h') . '/sql/postgresql/table_def.sql'), "\n") 
 \}
 
 augroup MyDadbod
     autocmd!
-    autocmd Filetype sql call s:dadbod_setup()
+    autocmd Filetype sql call s:sql_setup()
+    autocmd Filetype dbui call s:dbui_setup()
 augroup END
-function! s:dadbod_setup() abort
+function! s:sql_setup() abort
     if exists('b:dbui_is_tmp')
-        nmap <buffer> <Space>W <Plug>(DBUI_SaveQuery)
+        nmap    <buffer> <Space>W  <Plug>(DBUI_SaveQuery)
+        nmap    <buffer> <Space>rr <Plug>(DBUI_ExecuteQuery)
+        vmap    <buffer> <Space>rr <Plug>(DBUI_ExecuteQuery)
+
+        " キャッシュを更新
+        nnoremap <buffer> <F5> :call vim_dadbod_completion#fetch(bufnr())<CR>
+
+        set omnifunc=vim_dadbod_completion#omni
     endif
+endfunction
+
+function! s:dbui_setup() abort
+    nmap <C-t> <Plug>(DBUI_SelectLineVsplit)<C-w>T
 endfunction
 
 nnoremap md :<C-u>DBUIToggle<CR>

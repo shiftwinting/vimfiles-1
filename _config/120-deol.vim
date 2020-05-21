@@ -88,9 +88,9 @@ function! s:deol_settings() abort
     nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>normal! i<CR>
     nnoremap <buffer><silent>       <A-t> <Esc>:call         <SID>hide_deol(tabpagenr())<CR>
 
-    " "\<Right>" じゃだめだった
-    nnoremap <buffer><silent><expr> A     'i' . repeat("<Right>", len(getline('.')))
-    nnoremap <buffer><silent><expr> I     'i' . repeat("<Left>",  len(getline('.')))
+    " " "\<Right>" じゃだめだった
+    " nnoremap <buffer><silent><expr> A     'i' . repeat("<Right>", len(getline('.')))
+    " nnoremap <buffer><silent><expr> I     'i' . repeat("<Left>",  len(getline('.')))
 
     " 不要なマッピングを削除
     nnoremap <buffer>               <C-o> <Nop>
@@ -128,15 +128,20 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer><silent> <Sapce>fl :<C-u>Leaderf line --popup<CR>
 
     iabbrev <buffer> poe poetry
-    iabbrev <buffer> py3 py -3
-    iabbrev <buffer> pip py -3 -m pip
+
+    inoreabbrev <buffer><expr> py3   deol#abbrev('py3',   'py3',   'py -3')
+    inoreabbrev <buffer><expr> pip   deol#abbrev('pip',   'pip',   'py -3 -m pip')
+    inoreabbrev <buffer><expr> pipup deol#abbrev('pipup', 'pipup', 'py -3 -m pip install --upgrade')
+
+    inoreabbrev <buffer><expr> h deol#abbrev('h', 'h', 'hub')
+    inoreabbrev <buffer><expr> pr deol#abbrev('hub pr', 'pr', 'pr-new')
 
     resize 5
     setlocal winfixheight
 
     call s:sign_place()
 
-    setlocal completefunc=vimrc#git#aliases#complete
+    " setlocal completefunc=vimrc#git#aliases#complete
 
 endfunction
 
@@ -293,13 +298,6 @@ endfunction
 function! s:send_editor(...) abort
     let l:line = getline('.')
     call s:save_history_line(l:line)
-
-    " alias の場合、表示
-    if l:line =~# '^alias$'
-        NeoSnippetEdit -split -direction=aboveleft | wincmd T
-        return
-    endif
-
     exec "normal \<Plug>(deol_execute_line)"
     if get(a:, 1, v:false)
         " 行挿入 (o)
@@ -316,17 +314,19 @@ function! s:save_history_line(line) abort
         return
     endif
 
-    " すでに履歴にあったら追加しない
+    " すでに履歴にあったら末尾に移動する
     let l:history = readfile(g:deol#shell_history_path)
     if len(l:history) > g:deol#shell_history_max
         " [1, 2, 3, 4, 5][-3:] ==# [3, 4, 5]
         let l:history = l:history[-g:deol#shell_history_max:]
     endif
-    if index(l:history, a:line) != -1
-        return
+    let l:idx = index(l:history, a:line)
+    if l:idx > -1
+        " 削除
+        call remove(l:history, l:idx)
     endif
-
-    call writefile([a:line], g:deol#shell_history_path, 'a')
+    call add(l:history, a:line)
+    call writefile(l:history, g:deol#shell_history_path)
 endfunction
 
 

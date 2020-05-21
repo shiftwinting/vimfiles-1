@@ -8,10 +8,13 @@ let s:V = vital#vital#new()
 let s:Process = s:V.import('System.Process')
 
 function! s:settings() abort
-    command!          CherryPick   call <SID>cherrypick()
-    command! -nargs=? CreateBranch call <SID>create_branch(<f-args>)
+    command! -buffer          CherryPick   call <SID>cherrypick()
+    command! -buffer -nargs=? CreateBranch call <SID>create_branch(<f-args>)
 
-    nnoremap ? :<C-u>Leaderf gv --popup<CR>
+    call lf#menu#add_buflocal({
+    \   'name': 'git new', 
+    \   'cmd': 'CreateBranch ',
+    \})
 endfunction
 
 " ====================
@@ -35,19 +38,20 @@ function! s:create_branch(...) abort
     let l:name = 
     \   a:0 == 1
     \       ? a:1
-    \       : input(' New [ranch: ', '')
+    \       : input(' New branch: ', '')
     if empty(l:name)
         call vimrc#echoerr(' [GV] Canceled.')
         return
     endif
-    let l:res = s:Process.execute(['git', 'switch', '-c', l:name, gv#sha()])
+    exec printf('Git switch -c %s %s', l:name, gv#sha())
+    " let l:res = s:Process.execute(['git', 'switch', '-c', l:name, gv#sha()])
 
-    if l:res.success
-        echomsg ' [GV] Success create branch'
-        return
-    endif
-
-    call vimrc#echoerr(l:res.output)
+    " if l:res.success
+    "     echomsg ' [GV] Success create branch'
+    "     return
+    " endif
+    "
+    " call vimrc#echoerr(l:res.output)
 endfunction
 
 

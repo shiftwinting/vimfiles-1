@@ -35,8 +35,8 @@ nnoremap 6 
 nnoremap <silent> <Space>v.  :<C-u>call vimrc#drop_or_tabedit($MYVIMRC)<CR>
 nnoremap <silent> <Space>v,  :<C-u>call vimrc#drop_or_tabedit(g:plug_script)<CR>
 
-nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR> :call vimrc#echoinfo(' $MYVIMRC loaded!')<CR>
-nnoremap <silent> <Space>vs; :<C-u>source %<CR>        :call vimrc#echoinfo(' source %')<CR>
+" nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR> :call vimrc#echoinfo(' $MYVIMRC loaded!')<CR>
+nnoremap <silent> <Space>vs. :<C-u>source %<CR>        :call vimrc#echoinfo(' source %')<CR>
 " nnoremap <silent> <Space>vs, :<C-u>exec 'source '.g:plug_script<CR> :call vimrc#echoinfo(' plug_script loaded!')<CR>
 
 " 保存、終了
