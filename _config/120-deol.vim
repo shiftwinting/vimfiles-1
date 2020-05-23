@@ -31,6 +31,7 @@ let s:can_read_history_file = filereadable(g:deol#shell_history_path)
 
 nnoremap <silent><A-t> :<C-u>call ToggleDeol()<CR>
 tnoremap <silent><A-t> <C-\><C-n>:<C-u>call ToggleDeol()<CR>
+nnoremap <Space>re :<C-u>DeolRepl py<CR>
 
 
 augroup MyDeol
@@ -110,6 +111,11 @@ endfunction
 
 
 function! s:deol_editor_settings() abort
+    command! -buffer -range -bang SendEditor call <SID>send_editor(<line1>, <line2>, <bang>0)
+
+    if exists('t:deol_repl')
+        return
+    endif
 
     autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
 
@@ -122,8 +128,9 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
 
-    nnoremap <buffer><silent> <CR>  :<C-u>call <SID>send_editor()<CR>
-    inoremap <buffer><silent> <CR>  <Esc>:call <SID>send_editor(v:true)<CR>
+    nnoremap <buffer><silent> <CR>  :<C-u>SendEditor<CR>
+    inoremap <buffer><silent> <CR>  <Esc>:SendEditor!<CR>
+    vnoremap <buffer><silent> <CR>  :SendEditor<CR>
 
     nnoremap <buffer><silent> <Sapce>fl :<C-u>Leaderf line --popup<CR>
 
@@ -293,15 +300,28 @@ endfunction
 " editor の行を送信
 " 
 " s:send_editor([insert_mode])
-" TODO: 複数行対応
 " ====================
-function! s:send_editor(...) abort
-    let l:line = getline('.')
-    call s:save_history_line(l:line)
-    exec "normal \<Plug>(deol_execute_line)"
-    if get(a:, 1, v:false)
+function! s:send_editor(line1, line2, new_line) abort
+    let l:lines = getline(a:line1, a:line2)
+
+    if !exists('t:deol_repl')
+        for l:line in l:lines
+            call s:save_history_line(l:line)
+        endfor
+    endif
+
+    exec printf("%d,%dnormal \<Plug>(deol_execute_line)", a:line1, a:line2)
+
+    " 複数行なら、最後の行にジャンプ
+    if a:line1 !=# a:line2
+        normal! '>
+    endif
+
+    if a:new_line
         " 行挿入 (o)
         call feedkeys('o', 'n')
+    else
+        normal! '>j
     endif
 endfunction
 
@@ -367,4 +387,147 @@ function! s:sign_place() abort
 
     " 保存
     call setbufvar(l:bufnr, 'deol_last_lnum', line('$', bufwinid(l:bufnr)))
+endfunction
+
+
+
+" ==========
+" deol-repl.vim
+
+command! -nargs=1 DeolRepl call <SID>repl_open(<f-args>)
+
+let s:repl_types = {
+\   'py': {
+\       'cmd': 'py\ -3',
+\       'filetype': 'python',
+\       'tabpagenr': -1,
+\       'term_name': 'Python REPL'
+\   }
+\}
+
+" 
+" REPL open
+"
+function! s:repl_open(type) abort
+    " すでにあれば、それを開く
+    let l:repl_tabnr = s:repl_find(a:type)
+    if l:repl_tabnr != -1
+        exec l:repl_tabnr.'tabn'
+        return
+    endif
+
+    tabe
+    let t:deol_repl = {}
+    let t:deol_repl.type = a:type
+
+    let l:info = s:repl_types[a:type]
+    let [g:deol#shell_history_path, l:hist_path] = ['', g:deol#shell_history_path]
+    try
+        let b:deol_extra_options = {
+        \   'term_name': l:info.term_name
+        \}
+        call deol#start(printf('%s -edit -edit-filetype=%s', l:info.cmd, l:info.filetype))
+    finally
+        let g:deol#shell_history_path = l:hist_path
+    endtry
+
+    " 全行削除
+    %d _
+    wincmd H
+    call <SID>repl_settings()
+endfunction
+
+"
+" tabpagenr を返す
+"   見つからない場合、-1 を返す
+"
+function! s:repl_find(type) abort
+    for l:tabnr in range(1, tabpagenr('$'))
+        let l:deol_repl = gettabvar(l:tabnr, 'deol_repl', {})
+        if get(l:deol_repl, 'type', '') ==# a:type
+            return l:tabnr
+        endif
+    endfor
+    return -1
+endfunction
+
+function! s:repl_settings() abort
+    if !exists('t:deol_repl')
+        return
+    endif
+
+    command! -buffer -range -bang SendEditor call <SID>repl_send_editor(<line1>, <line2>, <bang>0)
+
+    imap     <buffer><expr>   <CR>  <SID>CR()
+    inoremap <buffer><expr>   <M-j> <SID>deol_repl_cr_mode_toggle()
+    nnoremap <buffer>         <M-j> <Esc>:call <SID>deol_repl_cr_mode_toggle()
+    nnoremap <buffer><silent> <CR>  :<C-u>SendEditor<CR>
+    vnoremap <buffer><silent> <CR>  :SendEditor<CR>
+endfunction
+
+function! s:CR() abort
+    if !getbufvar(bufnr(), 'deol_repl_cr_send', v:false)
+        let l:line = getline('.')
+        return "\<Plug>(deol_execute_line)"
+    endif
+    return "\<CR>"
+endfunction
+
+function! s:deol_repl_cr_send_enable() abort
+    let b:deol_repl_cr_send = v:true
+    echohl Todo
+    echo ' [DeolREPL] <CR> send enabled.'
+    echohl None
+endfunction
+
+function! s:deol_repl_cr_send_disable() abort
+    let b:deol_repl_cr_send = v:false
+    echohl Todo
+    echo ' [DeolREPL] <CR> send disabled.'
+    echohl None
+endfunction
+
+function! s:deol_repl_cr_mode_toggle() abort
+    if s:deol_repl_cr_send()
+        call s:deol_repl_cr_send_disable()
+    else
+        call s:deol_repl_cr_send_enable()
+    endif
+    return ''
+endfunction
+
+function! s:deol_repl_cr_send() abort
+    return getbufvar(bufnr(), 'deol_repl_cr_send', v:false)
+endfunction
+
+
+" ====================
+" editor の行を送信
+" 
+" s:send_editor([insert_mode])
+" ====================
+function! s:repl_send_editor(line1, line2, new_line) abort
+    let l:lines = getline(a:line1, a:line2)
+
+    if !exists('t:deol_repl')
+        for l:line in l:lines
+            call s:save_history_line(l:line)
+        endfor
+    endif
+
+    exec printf("%d,%dnormal \<Plug>(deol_execute_line)", a:line1, a:line2)
+
+    " 複数行なら、最後の行にジャンプ
+    if a:line1 !=# a:line2
+        normal! '>
+    endif
+
+    if a:new_line
+        " 行挿入 (o)
+        call feedkeys('o', 'n')
+    else
+        if a:line1 !=# a:line2
+            normal! '>j
+        endif
+    endif
 endfunction
