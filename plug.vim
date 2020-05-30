@@ -9,60 +9,58 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
 Plug 'vim-jp/syntax-vim-ex'
 
-" Plug 'mg979/vim-visual-multi'
-" Plug 'tweekmonster/helpful.vim'
-" Plug 'andymass/vim-matchup'
-" Plug 'ap/vim-css-color'
-Plug 'dense-analysis/ale'
-Plug 'dhruvasagar/vim-table-mode'
-" Plug 'majutsushi/tagbar'
-" Plug 'mattn/gist-vim'
-Plug 'mattn/webapi-vim'
-Plug 'previm/previm'
-" Plug 'rbtnn/vim-coloredit'
-" Plug 'simnalamburt/vim-mundo'
-Plug 'skanehira/translate.vim'
-" Plug 'skywind3000/vim-quickui'
 Plug 'Yggdroot/indentLine'
-" Plug 'dbeniamine/todo.txt-vim'
+Plug 'chrisbra/NrrwRgn'
+Plug 'dense-analysis/ale'
 Plug 'deris/vim-shot-f'
+Plug 'dhruvasagar/vim-table-mode'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'cohama/lexima.vim'
+Plug 'jpalardy/vim-slime'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-repeat'
-" Plug 'kana/vim-tabpagecd'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
-" Plug 'markonm/traces.vim'
+Plug 'machakann/vim-sandwich'
 Plug 'mattn/sonictemplate-vim'
-" Plug 'mechatroner/rainbow_csv'
-" Plug 'rbtnn/vim-mrw'
+Plug 'mattn/webapi-vim'
+Plug 'previm/previm'
 Plug 'rcmdnk/yankround.vim'
 Plug 'simeji/winresizer'
+Plug 'skanehira/translate.vim'
 Plug 'svermeulen/vim-cutlass'
-" Plug 't9md/vim-quickhl'
-" Plug 'tamago324/vim-browsersync'
 Plug 'thinca/vim-qfreplace'
 Plug 'thinca/vim-quickrun'
 Plug 'tomtom/tcomment_vim'
-" Plug 'tpope/vim-endwise'
-" Plug 'tpope/vim-surround'
-Plug 'machakann/vim-sandwich'
 Plug 'tyru/capture.vim'
 Plug 'tyru/open-browser-github.vim'
 Plug 'tyru/open-browser.vim'
-" Plug 'tyru/vim-altercmd'
-" Plug 'machakann/vim-highlightedundo'
-" Plug 'tyru/columnskip.vim'
-" Plug 'sillybun/vim-repl'
-Plug 'chrisbra/NrrwRgn'
-" Plug 'romainl/vim-cool'
-" Plug 'lambdalisue/vim-backslash'
-" Plug 'liuchengxu/vim-which-key'
-Plug 'jpalardy/vim-slime'
 
+" Plug 'andymass/vim-matchup'
+" Plug 'ap/vim-css-color'
+" Plug 'dbeniamine/todo.txt-vim'        " 家だと使わないから
+" Plug 'kana/vim-tabpagecd'
+" Plug 'lambdalisue/vim-backslash'      " たまにおかしくなるから
+" Plug 'liuchengxu/vim-which-key'       " 定義がめんどくさい & でてくるのなんかやだ
+" Plug 'machakann/vim-highlightedundo'  " 毎回光るのやだ
+" Plug 'majutsushi/tagbar'              " -> LeaderF
+" Plug 'markonm/traces.vim'             " 可視化しなくても良い気がするから
+" Plug 'mattn/gist-vim'     
+" Plug 'mechatroner/rainbow_csv'        " CSV 見ないから
+" Plug 'mg979/vim-visual-multi'
+" Plug 'rbtnn/vim-coloredit'            " そこまで使わないから
+" Plug 'rbtnn/vim-mrw'                  " ん～～って感じ
+" Plug 'romainl/vim-cool'               " 他の検索系のプラグインと相性が悪い
+" Plug 'sillybun/vim-repl'              " なんか微妙
+" Plug 'simnalamburt/vim-mundo'         " そこまで使わないから
+" Plug 'skywind3000/vim-quickui'        " LeaderF でいいやって感じ
+" Plug 't9md/vim-quickhl'               " それほど使わない
+" Plug 'tpope/vim-endwise'              " -> neosnippet
+" Plug 'tpope/vim-surround'             " -> sandwich
+" Plug 'tweekmonster/helpful.vim'
+" Plug 'tyru/columnskip.vim'            " イマイチ使い方がわからない
+" Plug 'tyru/vim-altercmd'
 
 " --------------------------
 " db
@@ -110,6 +108,7 @@ Plug 'othree/html5.vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'yuezk/vim-js'
 Plug 'mattn/emmet-vim'
+" Plug 'tamago324/vim-browsersync'  " 使わない
 
 " --------------------------
 " markdown
@@ -152,6 +151,7 @@ Plug 'kovisoft/slimv'
 Plug 'wlangstroth/vim-racket'
 
 
+" TODO: 使いこなしたい
 " " --------------------------
 " " textobj
 " " --------------------------
@@ -219,7 +219,9 @@ Plug 'tamago324/LeaderF-filer'
 " Plug 'roxma/vim-hug-neovim-rpc'
 
 " --------------------------
-" asyncomplete いい感じ 日本語売った後にポップアップが出ちゃうのが微妙だけど
+" asyncomplete いい感じ 
+"  -> 日本語売った後にポップアップが出ちゃうのが微妙だけど
+"  -> 関数を保管した後のカッコがなんかいやだ ( だけ補完される
 " --------------------------
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
@@ -236,24 +238,4 @@ Plug 'prabirshrestha/asyncomplete-buffer.vim'
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
 
-" Plug '~/ghq/github.com/kristijanhusak/vim-dadbod-completion'
-" Plug '~/ghq/github.com/kristijanhusak/vim-dadbod-ui'
-" Plug '~/ghq/github.com/prabirshrestha/asyncomplete.vim'
-" Plug '~/ghq/github.com/yami-beta/asyncomplete-omni.vim'
-
-
 call plug#end()
-
-
-" いつでも使うやつには ! をつける
-" function! s:plug(require, name, ...) abort
-"     " min かつ 必須ではない場合、読み込まない
-"     let l:opts = get(a:, 1, {})
-"     let l:if = has_key(l:opts, 'if') ? eval(l:opts.if) : 1
-"     if (a:require || !g:min_vimrc) && l:if
-"         Plug a:name, l:opts
-"     endif
-" endfunction
-"
-" " <bang>0 って書くと、0 or 1 で渡せる (vim-plug からもらった)
-" command! -bang -nargs=+ MyPlug call <SID>plug(<bang>0, <args>)
