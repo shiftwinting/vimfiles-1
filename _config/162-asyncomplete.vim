@@ -20,6 +20,7 @@ augroup asynctomplete_setup
         autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#neosnippet#get_source_options({
         \   'name': 'neosnippet',
         \   'whitelist': ['*'],
+        \   'blacklist': ['lisp', 'python'],
         \   'completor': function('asyncomplete#sources#neosnippet#completor'),
         \ }))
     endif
@@ -27,7 +28,7 @@ augroup asynctomplete_setup
     autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
     \   'name': 'necosyntax',
     \   'whitelist': ['*'],
-    \   'blacklist': ['python'],
+    \   'blacklist': ['python', 'lisp'],
     \   'completor': function('asyncomplete#sources#necosyntax#completor'),
     \ }))
 
@@ -40,7 +41,7 @@ augroup asynctomplete_setup
     " python は jedi の補完を使いたいため
     autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
     \   'name': 'omni',
-    \   'whitelist': ['sql'],
+    \   'whitelist': ['sql', 'lisp'],
     \   'blacklist': ['c', 'cpp', 'html', 'python'],
     \   'completor': function('asyncomplete#sources#omni#completor')
     \ }))
@@ -48,6 +49,7 @@ augroup asynctomplete_setup
     autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
     \   'name': 'buffer',
     \   'whitelist': ['*'],
+    \   'blacklist': ['lisp', 'python'],
     \   'completor': function('asyncomplete#sources#buffer#completor'),
     \   'config': {
     \      'max_buffer_size': 100000,

@@ -19,21 +19,21 @@ nnoremap <silent> <Space>fo        :<C-u>Leaderf  openbrowser<CR>
 nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq<CR>
 nnoremap <silent> <Space>ft        :<C-u>Leaderf  filetype<CR>
 " nnoremap <silent> <Space>fw        :<C-u>Leaderf  window<CR>
-nnoremap <silent> <Space>fm        :<C-u><C-r>=printf('Leaderf  file --file %s', g:vimrc#mrw#cache_path)<CR><CR>
+" nnoremap <silent> <Space>fm        :<C-u><C-r>=printf('Leaderf  file --file %s', g:vimrc#mrw#cache_path)<CR><CR>
 nnoremap <silent> <Space>fl        :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
 nnoremap <silent> <Space>fs        :<C-u>Leaderf  bufTag<CR>
 nnoremap <silent> <Space>fv        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
 nnoremap <silent> <Space>fb        :<C-u>Leaderf  bookmark --nowrap<CR>
 
-nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately<CR>
+nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately --fuzzy<CR>
 nnoremap <silent> <C-e>             :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
 nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate<CR>
-nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
-nnoremap <silent> <Space>fc        :<C-u>Leaderf switch<CR>
-nnoremap <silent> <Space>fd        :<C-u>Leaderf dirty<CR>
+" nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
+" nnoremap <silent> <Space>fc        :<C-u>Leaderf switch<CR>
+" nnoremap <silent> <Space>fd        :<C-u>Leaderf dirty<CR>
 nnoremap <silent> <Space>fn        :<C-u>Leaderf neosnippet<CR>
 nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp<CR>
-nnoremap <silent> <Space>fp        :<C-u>Leaderf menu<CR>
+" nnoremap <silent> <Space>fp        :<C-u>Leaderf menu<CR>
 
 " nnoremap <silent> /                 :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
 
@@ -369,7 +369,7 @@ let g:Lf_PreviewResult = {
 \   'Function': 0,
 \   'Line': 1,
 \   'Colorscheme': 1,
-\   'Rg': 0,
+\   'Rg': 1,
 \   'Gtags': 0,
 \   'neosnippet': 1,
 \   'dirty': 1,

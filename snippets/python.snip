@@ -40,11 +40,11 @@ options     head
 		${2:field}: ${3:type}
 		${0}
 
-snippet     def
-abbr        def fn(...)
-	def ${1:name}(${2:#:self}) -> ${3:None}:
-		${4:pass}
-
 snippet     raise
 abbr        raise Exception(...)
 	raise Exception(${1:#:'message'})
+
+snippet     init
+abbr        def __init__(self, ...)
+	def __init__(self, ${1:#:args}) -> None:
+		${2:pass}

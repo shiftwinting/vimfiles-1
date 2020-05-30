@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+finish
+
 if empty(globpath(&rtp, 'autoload/which_key.vim'))
     finish
 endif

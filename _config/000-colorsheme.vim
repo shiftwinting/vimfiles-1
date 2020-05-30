@@ -130,6 +130,18 @@ function! s:nord_color() abort
     hi link Lf_hl_filerDir Directory
 
     " exec printf('hi VertSplit guifg=NONE guibg=%s gui=NONE', s:nord1_gui)
+
+    exec printf('hi hlLevel0 guifg=%s', s:nord11_gui)
+    exec printf('hi hlLevel1 guifg=%s', s:nord12_gui)
+    exec printf('hi hlLevel2 guifg=%s', s:nord13_gui)
+    exec printf('hi hlLevel3 guifg=%s', s:nord14_gui)
+    exec printf('hi hlLevel4 guifg=%s', 'green1')
+    exec printf('hi hlLevel5 guifg=%s', s:nord7_gui)
+    exec printf('hi hlLevel6 guifg=%s', 'cyan1')
+    exec printf('hi hlLevel7 guifg=%s', s:nord8_gui)
+    exec printf('hi hlLevel8 guifg=%s', 'magenta1')
+    exec printf('hi hlLevel9 guifg=%s', s:nord15_gui)
+
 endfunction
 
 function! DefineMyHighlishts() abort

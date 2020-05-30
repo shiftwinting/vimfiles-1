@@ -10,13 +10,15 @@ let s:fav_helps = [
 \   ['autocmd-events',     'autocmd 一覧'],
 \   ['E500',               '<cword> とか <afile> とか'],
 \   ['usr_41',             'Vim script 基本'],
-\   ['pattern-overview',   '正規表現'],
+\   ['pattern-overview',   '正規表現 [regexp]'],
 \   ['eval',               'Vim script [tips]'],
 \   ['ex-cmd-index',       '":"のコマンド'],
-\   ['filename-modifiers', ':p とか :h とか'],
-\   ['index',              '各モードのマッピング'],
+\   ['filename-modifiers', ':p とか :h とか [fnamemodify]'],
+\   ['index',              '各モードのマッピング [mapping]'],
 \   ['popup-window',       'ポップアップのヘルプ'],
 \   ['job-options',        'job のオプション集'],
+\   [':terminal',          'terminal のオプションとか'],
+\   ['slimv-keyboard',     'slimv の keymapping']
 \]
 
 function! lf#favhelp#source_type() abort

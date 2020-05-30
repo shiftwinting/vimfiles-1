@@ -11,8 +11,8 @@ Plug 'vim-jp/syntax-vim-ex'
 
 " Plug 'mg979/vim-visual-multi'
 " Plug 'tweekmonster/helpful.vim'
-Plug 'andymass/vim-matchup'
-Plug 'ap/vim-css-color'
+" Plug 'andymass/vim-matchup'
+" Plug 'ap/vim-css-color'
 Plug 'dense-analysis/ale'
 Plug 'dhruvasagar/vim-table-mode'
 " Plug 'majutsushi/tagbar'
@@ -20,23 +20,24 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'mattn/webapi-vim'
 Plug 'previm/previm'
 " Plug 'rbtnn/vim-coloredit'
-Plug 'simnalamburt/vim-mundo'
+" Plug 'simnalamburt/vim-mundo'
 Plug 'skanehira/translate.vim'
 " Plug 'skywind3000/vim-quickui'
 Plug 'Yggdroot/indentLine'
-Plug 'dbeniamine/todo.txt-vim'
+" Plug 'dbeniamine/todo.txt-vim'
 Plug 'deris/vim-shot-f'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
 Plug 'jiangmiao/auto-pairs'
+" Plug 'cohama/lexima.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-repeat'
-Plug 'kana/vim-tabpagecd'
+" Plug 'kana/vim-tabpagecd'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
 " Plug 'markonm/traces.vim'
 Plug 'mattn/sonictemplate-vim'
-Plug 'mechatroner/rainbow_csv'
+" Plug 'mechatroner/rainbow_csv'
 " Plug 'rbtnn/vim-mrw'
 Plug 'rcmdnk/yankround.vim'
 Plug 'simeji/winresizer'
@@ -50,7 +51,7 @@ Plug 'tomtom/tcomment_vim'
 " Plug 'tpope/vim-surround'
 Plug 'machakann/vim-sandwich'
 Plug 'tyru/capture.vim'
-" Plug 'tyru/open-browser-github.vim'
+Plug 'tyru/open-browser-github.vim'
 Plug 'tyru/open-browser.vim'
 " Plug 'tyru/vim-altercmd'
 " Plug 'machakann/vim-highlightedundo'
@@ -58,8 +59,9 @@ Plug 'tyru/open-browser.vim'
 " Plug 'sillybun/vim-repl'
 Plug 'chrisbra/NrrwRgn'
 " Plug 'romainl/vim-cool'
-Plug 'lambdalisue/vim-backslash'
-Plug 'liuchengxu/vim-which-key'
+" Plug 'lambdalisue/vim-backslash'
+" Plug 'liuchengxu/vim-which-key'
+Plug 'jpalardy/vim-slime'
 
 
 " --------------------------
@@ -70,18 +72,22 @@ Plug 'kristijanhusak/vim-dadbod-ui'
 Plug 'kristijanhusak/vim-dadbod-completion'
 
 " --------------------------
+" sql
+" --------------------------
+Plug 'mattn/vim-sqlfmt'
+
+" --------------------------
 " python
 " --------------------------
 Plug 'vim-python/python-syntax'
-Plug 'petobens/poet-v'
-" Plug 'davidhalter/jedi-vim'
-" JediUseEnvironment のため
-Plug 'blueyed/jedi-vim', { 'branch': 'envs' }
+" Plug 'petobens/poet-v'  " 起動時間遅くなるし、あまり使わないから
+Plug 'davidhalter/jedi-vim'    " JediUseEnvironment のため
+" Plug 'blueyed/jedi-vim', { 'branch': 'envs' } " poet-v 使わないから
 " Plug 'relastle/vim-nayvy'
-" Plug 'kiteco/vim-plugin'
+" Plug 'kiteco/vim-plugin'      " 挙動がおかしいから
 " Plug 'heavenshell/vim-pydocstring', { 'if': executable('doq') }
-Plug 'wookayin/vim-autoimport'
-Plug 'glench/vim-jinja2-syntax'
+" Plug 'wookayin/vim-autoimport'    " 使いどきわからん
+" Plug 'glench/vim-jinja2-syntax'
 
 " --------------------------
 " php
@@ -139,20 +145,22 @@ Plug 'Shougo/echodoc.vim'
 Plug 'fatih/vim-go'
 
 " --------------------------
-" sql
+" lisp
 " --------------------------
-Plug 'mattn/vim-sqlfmt'
+Plug 'kovisoft/slimv'
+" Plug 'jpalardy/vim-slime'
+Plug 'wlangstroth/vim-racket'
 
 
-" --------------------------
-" textobj
-" --------------------------
-Plug 'kana/vim-textobj-user'
-Plug 'osyo-manga/vim-textobj-multiblock'
-Plug 'kana/vim-textobj-function'
-Plug 'haya14busa/vim-textobj-function-syntax'
-Plug 'kana/vim-textobj-line'
-Plug 'michaeljsmith/vim-indent-object'
+" " --------------------------
+" " textobj
+" " --------------------------
+" Plug 'kana/vim-textobj-user'
+" Plug 'osyo-manga/vim-textobj-multiblock'
+" Plug 'kana/vim-textobj-function'
+" Plug 'haya14busa/vim-textobj-function-syntax'
+" Plug 'kana/vim-textobj-line'
+" Plug 'michaeljsmith/vim-indent-object'
 
 " --------------------------
 " operator
@@ -179,20 +187,20 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'gisphm/vim-gitignore'
 Plug 'rhysd/conflict-marker.vim'
-Plug 'lambdalisue/gina.vim'
+" Plug 'lambdalisue/gina.vim'
 
 " --------------------------
 " colorscheme
 " --------------------------
-Plug 'lifepillar/vim-solarized8'
-Plug 'rakr/vim-one'
+" Plug 'lifepillar/vim-solarized8'
+" Plug 'rakr/vim-one'
 Plug 'arcticicestudio/nord-vim'
 
 " --------------------------
 " LeaderF
 " --------------------------
 Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
-Plug 'tamago324/LeaderF-cdnjs'
+" Plug 'tamago324/LeaderF-cdnjs'
 Plug 'tamago324/LeaderF-bookmark'
 Plug 'tamago324/LeaderF-openbrowser'
 Plug 'tamago324/LeaderF-filer'
@@ -211,7 +219,7 @@ Plug 'tamago324/LeaderF-filer'
 " Plug 'roxma/vim-hug-neovim-rpc'
 
 " --------------------------
-" asyncomplete
+" asyncomplete いい感じ 日本語売った後にポップアップが出ちゃうのが微妙だけど
 " --------------------------
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
@@ -249,5 +257,3 @@ call plug#end()
 "
 " " <bang>0 って書くと、0 or 1 で渡せる (vim-plug からもらった)
 " command! -bang -nargs=+ MyPlug call <SID>plug(<bang>0, <args>)
-
-packadd! vim-which-key

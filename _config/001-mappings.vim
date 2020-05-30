@@ -283,21 +283,19 @@ nmap 7 &
 
 " tyru さんのマッピング
 " https://github.com/tyru/config/blob/master/home/volt/rc/vimrc-only/vimrc.vim#L618
-imap <C-l> [Complete]
-inoremap [Complete] <C-l>
-inoremap [Complete]<C-l> <C-x><C-l>
-inoremap [Complete]<C-n> <C-x><C-n>
-inoremap [Complete]<C-k> <C-x><C-k>
-inoremap [Complete]<C-t> <C-x><C-t>
-inoremap [Complete]<C-i> <C-x><C-i>
-inoremap [Complete]<C-]> <C-x><C-]>
-inoremap [Complete]<C-f> <C-x><C-f>
-inoremap [Complete]<C-d> <C-x><C-d>
-inoremap [Complete]<C-v> <C-x><C-v>
-inoremap [Complete]<C-u> <C-x><C-u>
-inoremap [Complete]<C-o> <C-x><C-o>
-inoremap [Complete]<C-s> <C-x><C-s>
-inoremap [Complete]<C-p> <C-x><C-p>
+inoremap <C-l><C-l> <C-x><C-l>
+inoremap <C-l><C-n> <C-x><C-n>
+inoremap <C-l><C-k> <C-x><C-k>
+inoremap <C-l><C-t> <C-x><C-t>
+inoremap <C-l><C-i> <C-x><C-i>
+inoremap <C-l><C-]> <C-x><C-]>
+inoremap <C-l><C-f> <C-x><C-f>
+inoremap <C-l><C-d> <C-x><C-d>
+inoremap <C-l><C-v> <C-x><C-v>
+inoremap <C-l><C-u> <C-x><C-u>
+inoremap <C-l><C-o> <C-x><C-o>
+inoremap <C-l><C-s> <C-x><C-s>
+inoremap <C-l><C-p> <C-x><C-p>
 
 " 置換
 nnoremap <Space>s<Space> :%s///g<Left><Left>

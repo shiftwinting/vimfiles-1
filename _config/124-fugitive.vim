@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-let s:Process = vital#vital#import('System.Process')
+" let s:Process = vital#vital#import('System.Process')
 
 " タブで開く
 nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>\|:wincmd T<CR>

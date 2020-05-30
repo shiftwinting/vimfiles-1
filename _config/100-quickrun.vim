@@ -6,20 +6,30 @@ let g:quickrun_config = {}
 " (vimとかは内部で実行しているため、utf-8にする必要がある)
 " hook/output_encode/encoding で encoding の from:to を指定できる
 let g:quickrun_config = {
-    \   '_': {
-    \       'runner': 'job',
-    \       'hook/output_encode/encoding': 'cp932',
-    \       'outputter/buffer/close_on_empty': 1,
-    \   },
-    \   'vim': {
-    \       'hook/output_encode/encoding': '&fileencoding',
-    \   },
-    \   'nim': {
-    \       'hook/output_encode/encoding': '&fileencoding',
-    \   },
-    \   'python': {
-    \       'exec': 'py -3 %s',
-    \   },
-    \}
+\   '_': {
+\       'runner': 'job',
+\       'hook/output_encode/encoding': 'cp932',
+\       'outputter/buffer/close_on_empty': 1,
+\   },
+\   'vim': {
+\       'hook/output_encode/encoding': '&fileencoding',
+\   },
+\   'nim': {
+\       'hook/output_encode/encoding': '&fileencoding',
+\   },
+\   'python': {
+\       'exec': 'py -3 %s',
+\   },
+\   'c': {
+\       'command': 'clang',
+\       'exec': ['%c %o %s:p:r', 'a.exe %a'],
+\       'tempfile': '%{tempname()}.c',
+\       'hook/sweep/files': '%S:p:r',
+\   },
+\}
+
+" \   'c': {
+" \       'exec': 'clang.exe %s && a'
+" \   }
 
 nmap <Space>rr <Plug>(quickrun)

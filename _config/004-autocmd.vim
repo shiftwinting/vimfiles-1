@@ -215,3 +215,7 @@ function! s:format() abort
 endfunction
 command! Format call <SID>format()
 autocmd MyAutoCmd FileType vim,html nnoremap <buffer> <Space>bl :call <SID>format()<CR>
+
+
+" 検索時、ハイライト
+autocmd MyAutoCmd VimEnter * call vimrc#auto_cursorline#exec()
