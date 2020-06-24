@@ -9,6 +9,8 @@ let g:indentLine_fileTypeExclude = [
 \   'help', 
 \   'json',
 \   'sql',
+\   'r7rs',
+\   'scheme',
 \]
 let g:indentLine_char = '|'
 

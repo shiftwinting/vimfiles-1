@@ -118,6 +118,7 @@ function! s:nord_color() abort
     let s:nord14_gui       = '#A3BE8C' "  #A3BE8C
     let s:nord15_gui       = '#B48EAD' "  #B48EAD
 
+    " LeaderF
     exec printf('hi Lf_hl_cursorline  guifg=%s guibg=NONE gui=NONE', s:nord5_gui )
     exec printf('hi Lf_hl_match       guifg=%s guibg=NONE gui=bold', s:nord13_gui)
     exec printf('hi Lf_hl_match0      guifg=%s guibg=NONE gui=bold', s:nord13_gui)
@@ -128,19 +129,29 @@ function! s:nord_color() abort
     exec printf('hi Lf_hl_matchRefine guifg=%s guibg=NONE gui=bold', s:nord15_gui)
     exec printf('hi Lf_hl_rgHighlight guifg=%s guibg=%s   gui=NONE', s:nord0_gui, s:nord13_gui)
     hi link Lf_hl_filerDir Directory
+    exec printf('hi Lf_hl_rgLineNumber         guifg=%s guibg=%s  gui=NONE', s:nord14_gui, 'NONE')
+    exec printf('hi Lf_hl_rgColumnNumber       guifg=%s guibg=%s  gui=NONE', s:nord14_gui, 'NONE')
+    exec printf('hi Lf_hl_quickfixLineNumber   guifg=%s guibg=%s  gui=NONE', s:nord14_gui, 'NONE')
+    exec printf('hi Lf_hl_quickfixColumnNumber guifg=%s guibg=%s  gui=NONE', s:nord14_gui, 'NONE')
+    exec printf('hi Lf_hl_loclistLineNumber    guifg=%s guibg=%s  gui=NONE', s:nord14_gui, 'NONE')
+    exec printf('hi Lf_hl_loclistColumnNumber  guifg=%s guibg=%s  gui=NONE', s:nord14_gui, 'NONE')
 
-    " exec printf('hi VertSplit guifg=NONE guibg=%s gui=NONE', s:nord1_gui)
+    " slimv
+    " exec printf('hi hlLevel0 guifg=%s', s:nord11_gui)
+    " exec printf('hi hlLevel1 guifg=%s', s:nord12_gui)
+    " exec printf('hi hlLevel2 guifg=%s', s:nord13_gui)
+    " exec printf('hi hlLevel3 guifg=%s', s:nord14_gui)
+    " exec printf('hi hlLevel4 guifg=%s', 'green1')
+    " exec printf('hi hlLevel5 guifg=%s', s:nord7_gui)
+    " exec printf('hi hlLevel6 guifg=%s', 'cyan1')
+    " exec printf('hi hlLevel7 guifg=%s', s:nord8_gui)
+    " exec printf('hi hlLevel8 guifg=%s', 'magenta1')
+    " exec printf('hi hlLevel9 guifg=%s', s:nord15_gui)
 
-    exec printf('hi hlLevel0 guifg=%s', s:nord11_gui)
-    exec printf('hi hlLevel1 guifg=%s', s:nord12_gui)
-    exec printf('hi hlLevel2 guifg=%s', s:nord13_gui)
-    exec printf('hi hlLevel3 guifg=%s', s:nord14_gui)
-    exec printf('hi hlLevel4 guifg=%s', 'green1')
-    exec printf('hi hlLevel5 guifg=%s', s:nord7_gui)
-    exec printf('hi hlLevel6 guifg=%s', 'cyan1')
-    exec printf('hi hlLevel7 guifg=%s', s:nord8_gui)
-    exec printf('hi hlLevel8 guifg=%s', 'magenta1')
-    exec printf('hi hlLevel9 guifg=%s', s:nord15_gui)
+    " shot-f
+    exec printf('hi ShotFGraph guifg=%s guibg=%s gui=bold', s:nord12_gui, 'NONE')
+    exec printf('hi ShotFBlank guifg=%s guibg=%s gui=bold', 'NONE', s:nord12_gui)
+    " highlight link ShotFCursor Cursor
 
 endfunction
 

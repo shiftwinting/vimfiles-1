@@ -7,4 +7,5 @@ let g:matchup_matchparen_deferred = 1
 let g:matchup_matchparen_offscreen = {}
 
 " 指定のモードではハイライトさせない
-let g:matchup_matchparen_nomode = 'i'
+" let g:matchup_matchparen_nomode = 'i'
+let g:matchup_matchparen_nomode = ''

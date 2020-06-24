@@ -218,4 +218,4 @@ autocmd MyAutoCmd FileType vim,html nnoremap <buffer> <Space>bl :call <SID>forma
 
 
 " 検索時、ハイライト
-autocmd MyAutoCmd VimEnter * call vimrc#auto_cursorline#exec()
+" autocmd MyAutoCmd VimEnter * call vimrc#auto_cursorline#exec()

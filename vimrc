@@ -53,6 +53,7 @@ if has('win32')
     call vimrc#add_path('C:/SBCL/1.4.14')
     call vimrc#add_path('C:/Racket')
     call vimrc#add_path('C:/Program Files/LLVM/bin')
+    call vimrc#add_path('C:/Gauche/bin')
 
     " pipenv の 仮想環境をプロジェクト内に作る
     let $PIPENV_VENV_IN_PROJECT = 'true'

@@ -21,3 +21,6 @@ let g:slimv_keybindings = 1
 
 " paredir の Leader
 let g:paredit_leader = ','
+
+" < > S でできる
+let g:paredit_shortmaps = 1

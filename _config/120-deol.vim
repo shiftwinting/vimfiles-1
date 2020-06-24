@@ -31,7 +31,7 @@ let s:can_read_history_file = filereadable(g:deol#shell_history_path)
 
 nnoremap <silent><A-t> :<C-u>call ToggleDeol()<CR>
 tnoremap <silent><A-t> <C-\><C-n>:<C-u>call ToggleDeol()<CR>
-nnoremap <Space>re :<C-u>DeolRepl py<CR>
+" nnoremap <Space>re :<C-u>DeolRepl py<CR>
 
 
 augroup MyDeol

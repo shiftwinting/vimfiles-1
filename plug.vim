@@ -17,15 +17,15 @@ Plug 'dhruvasagar/vim-table-mode'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
 Plug 'jiangmiao/auto-pairs'
-Plug 'jpalardy/vim-slime'
+" Plug 'jpalardy/vim-slime'
 Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
 Plug 'machakann/vim-sandwich'
 Plug 'mattn/sonictemplate-vim'
-Plug 'mattn/webapi-vim'
-Plug 'previm/previm'
+" Plug 'mattn/webapi-vim'
+" Plug 'previm/previm'
 Plug 'rcmdnk/yankround.vim'
 Plug 'simeji/winresizer'
 Plug 'skanehira/translate.vim'
@@ -36,9 +36,12 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tyru/capture.vim'
 Plug 'tyru/open-browser-github.vim'
 Plug 'tyru/open-browser.vim'
+Plug 'terryma/vim-expand-region'
 
-" Plug 'andymass/vim-matchup'
-" Plug 'ap/vim-css-color'
+Plug 'andymass/vim-matchup'
+Plug 'ap/vim-css-color'
+Plug 'sillybun/vim-repl'              " なんか微妙
+
 " Plug 'dbeniamine/todo.txt-vim'        " 家だと使わないから
 " Plug 'kana/vim-tabpagecd'
 " Plug 'lambdalisue/vim-backslash'      " たまにおかしくなるから
@@ -52,7 +55,6 @@ Plug 'tyru/open-browser.vim'
 " Plug 'rbtnn/vim-coloredit'            " そこまで使わないから
 " Plug 'rbtnn/vim-mrw'                  " ん～～って感じ
 " Plug 'romainl/vim-cool'               " 他の検索系のプラグインと相性が悪い
-" Plug 'sillybun/vim-repl'              " なんか微妙
 " Plug 'simnalamburt/vim-mundo'         " そこまで使わないから
 " Plug 'skywind3000/vim-quickui'        " LeaderF でいいやって感じ
 " Plug 't9md/vim-quickhl'               " それほど使わない
@@ -65,21 +67,22 @@ Plug 'tyru/open-browser.vim'
 " --------------------------
 " db
 " --------------------------
-Plug 'tpope/vim-dadbod'
-Plug 'kristijanhusak/vim-dadbod-ui'
-Plug 'kristijanhusak/vim-dadbod-completion'
+" Plug 'tpope/vim-dadbod'
+" Plug 'kristijanhusak/vim-dadbod-ui'
+" Plug 'kristijanhusak/vim-dadbod-completion'
 
 " --------------------------
 " sql
 " --------------------------
-Plug 'mattn/vim-sqlfmt'
+" Plug 'mattn/vim-sqlfmt'
 
 " --------------------------
 " python
 " --------------------------
-Plug 'vim-python/python-syntax'
+Plug 'vim-python/python-syntax', {'for': ['python']}
 " Plug 'petobens/poet-v'  " 起動時間遅くなるし、あまり使わないから
-Plug 'davidhalter/jedi-vim'    " JediUseEnvironment のため
+Plug 'davidhalter/jedi-vim', {'for': ['python']}
+" JediUseEnvironment のため
 " Plug 'blueyed/jedi-vim', { 'branch': 'envs' } " poet-v 使わないから
 " Plug 'relastle/vim-nayvy'
 " Plug 'kiteco/vim-plugin'      " 挙動がおかしいから
@@ -90,36 +93,41 @@ Plug 'davidhalter/jedi-vim'    " JediUseEnvironment のため
 " --------------------------
 " php
 " --------------------------
-Plug 'jwalton512/vim-blade'
+" Plug 'jwalton512/vim-blade'
 
 " --------------------------
 " nim
 " --------------------------
-Plug 'zah/nim.vim'
+" Plug 'zah/nim.vim'
 
 " --------------------------
 " frontend
 " --------------------------
-Plug 'AndrewRadev/tagalong.vim'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'jason0x43/vim-js-indent'
-Plug 'leafOfTree/vim-vue-plugin'
-Plug 'othree/html5.vim'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
-Plug 'yuezk/vim-js'
-Plug 'mattn/emmet-vim'
+" Plug 'AndrewRadev/tagalong.vim'
+" Plug 'hail2u/vim-css3-syntax'
+" Plug 'jason0x43/vim-js-indent'
+" Plug 'leafOfTree/vim-vue-plugin'
+" Plug 'othree/html5.vim'
+" Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+" Plug 'yuezk/vim-js'
+" Plug 'mattn/emmet-vim'
 " Plug 'tamago324/vim-browsersync'  " 使わない
 
 " --------------------------
 " markdown
 " --------------------------
-Plug 'dkarter/bullets.vim'
+Plug 'dkarter/bullets.vim', {'for': ['md', 'markdown']}
+
+" --------------------------
+" clang
+" --------------------------
+Plug 'vim-jp/vim-cpp'
 
 " --------------------------
 " syntax
 " --------------------------
-Plug 'delphinus/vim-firestore'
-Plug 'k-takata/vim-dosbatch-indent'
+" Plug 'delphinus/vim-firestore'
+" Plug 'k-takata/vim-dosbatch-indent'
 
 " --------------------------
 " snippets
@@ -141,14 +149,17 @@ Plug 'Shougo/echodoc.vim'
 " --------------------------
 " go
 " --------------------------
-Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go'
 
 " --------------------------
 " lisp
 " --------------------------
 Plug 'kovisoft/slimv'
 " Plug 'jpalardy/vim-slime'
-Plug 'wlangstroth/vim-racket'
+" Plug 'wlangstroth/vim-racket'
+" Plug 'mnacamura/vim-r7rs-syntax'    " Gauche の syntax highlight
+" Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}    " うまく動かないため
+" Plug 'bhurlow/vim-parinfer'
 
 
 " TODO: 使いこなしたい
@@ -182,11 +193,11 @@ Plug 'itchyny/lightline.vim'
 " --------------------------
 " git
 " --------------------------
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
-Plug 'gisphm/vim-gitignore'
-Plug 'rhysd/conflict-marker.vim'
+" Plug 'junegunn/gv.vim'
+" Plug 'gisphm/vim-gitignore'
+" Plug 'rhysd/conflict-marker.vim'
 " Plug 'lambdalisue/gina.vim'
 
 " --------------------------
@@ -223,13 +234,13 @@ Plug 'tamago324/LeaderF-filer'
 "  -> 日本語売った後にポップアップが出ちゃうのが微妙だけど
 "  -> 関数を保管した後のカッコがなんかいやだ ( だけ補完される
 " --------------------------
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
-Plug 'prabirshrestha/asyncomplete-necovim.vim'
-Plug 'yami-beta/asyncomplete-omni.vim'
-Plug 'Shougo/neco-syntax'
-Plug 'Shougo/neco-vim'
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
+" Plug 'prabirshrestha/asyncomplete-necovim.vim'
+" Plug 'yami-beta/asyncomplete-omni.vim'
+" Plug 'Shougo/neco-syntax'
+" Plug 'Shougo/neco-vim'
+" Plug 'prabirshrestha/asyncomplete-buffer.vim'
 
 " " --------------------------
 " " lsp
@@ -237,5 +248,7 @@ Plug 'prabirshrestha/asyncomplete-buffer.vim'
 " Plug 'prabirshrestha/async.vim'
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
+
+" Plug '~/ghq/github.com/tamago324/LeaderF'
 
 call plug#end()

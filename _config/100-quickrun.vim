@@ -19,6 +19,10 @@ let g:quickrun_config = {
 \   },
 \   'python': {
 \       'exec': 'py -3 %s',
+\       'hook/output_encode/encoding': '&fileencoding',
+\   },
+\   'scheme': {
+\       'exec': 'gosh %s',
 \   },
 \   'c': {
 \       'command': 'clang',
@@ -33,3 +37,5 @@ let g:quickrun_config = {
 " \   }
 
 nmap <Space>rr <Plug>(quickrun)
+
+command! QRHookUtf8 let b:quickrun_config = {'hook/output_encode/encoding': 'utf8'}

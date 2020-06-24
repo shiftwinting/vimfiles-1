@@ -29,7 +29,7 @@ set guioptions+=!
 
 " フォント設定
 " cXX -> 文字セットを SHIFTJIS とする?
-set guifont=Cica:h11:cSHIFTJIS
+set guifont=Cica:h11.5:cSHIFTJIS
 
 " カーソルを点滅させない
 " a: すべてのモード

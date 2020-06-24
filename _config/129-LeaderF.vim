@@ -152,6 +152,7 @@ let g:Lf_RgConfig = [
 \   '--glob=!*/.mypy_cache/*',
 \   '--glob=!.node_modules/*',
 \   '--glob=!tags*',
+\   '--column',
 \]
 
 let g:Lf_StlSeparator = { 'left': '', 'right': '' }
@@ -167,13 +168,13 @@ let g:Lf_NormalMap = {
 \      ['K',     '<Nop>'],
 \      ['M',     '<Nop>'],
 \   ],
-\   'Rg': [
-\      ['Q', ':exec g:Lf_py "rgExplManager.outputToQflist()" \| :exec g:Lf_py "rgExplManager.quit()" <bar> :Qfreplace<CR>'],
-\   ],
 \   'Filer': [
 \      ['B', ':exec g:Lf_py "filerExplManager.quit()" <bar> :LeaderfBookmark<CR>'],
 \   ],
 \}
+" \   'Rg': [
+" \      ['Q', ':exec g:Lf_py "rgExplManager.outputToQflist()" \| :exec g:Lf_py "rgExplManager.quit()" <bar> :Qfreplace<CR>'],
+" \   ],
 
 " <C-r> : 検索切り替え: fuzzy / regex 
 " <C-f> : 検索切り替え: fullpath / name only
@@ -385,7 +386,8 @@ let g:Lf_DevIconsExactSymbols = {
 
 let g:Lf_DevIconsExtensionSymbols = {
 \   'lock': '󿫺',
-\   'vue':  ''
+\   'vue':  '',
+\   'scm': '󿬦',
 \}
 
 let g:Lf_DevIconsPalette = get(g:, 'Lf_DevIconsPalette', {})
@@ -393,4 +395,5 @@ let g:Lf_DevIconsPalette.dark = {
 \   'vim': { 'guifg': s:nord14_gui },
 \   'vimrc': { 'guifg': s:nord14_gui },
 \   'gvimrc': { 'guifg': s:nord14_gui },
+\   'scm': { 'guifg': s:nord11_gui },
 \}
