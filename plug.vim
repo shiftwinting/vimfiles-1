@@ -154,19 +154,21 @@ Plug 'Shougo/echodoc.vim'
 " --------------------------
 " lisp
 " --------------------------
-Plug 'kovisoft/slimv'
+" Plug 'kovisoft/slimv'
 " Plug 'jpalardy/vim-slime'
 " Plug 'wlangstroth/vim-racket'
-" Plug 'mnacamura/vim-r7rs-syntax'    " Gauche の syntax highlight
+Plug 'mnacamura/vim-r7rs-syntax'    " Gauche の syntax highlight
 " Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}    " うまく動かないため
 " Plug 'bhurlow/vim-parinfer'
+Plug 'kovisoft/paredit'
+Plug 'luochen1990/rainbow'
 
 
 " TODO: 使いこなしたい
 " " --------------------------
 " " textobj
 " " --------------------------
-" Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-user'
 " Plug 'osyo-manga/vim-textobj-multiblock'
 " Plug 'kana/vim-textobj-function'
 " Plug 'haya14busa/vim-textobj-function-syntax'
