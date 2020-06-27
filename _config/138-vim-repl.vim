@@ -16,7 +16,7 @@ let g:sendtorepl_invoke_key = '<Enter>'
 
 " py -3 は py となるため
 let g:repl_exit_commands = {
-\   'py': 'exit()',
+\   'py': 'quit()',
 \   'python': 'exit()',
 \   'scheme': '(exit)',
 \}
@@ -50,11 +50,11 @@ function! s:highlight_yank_toggle() abort
 endfunction
 
 " カーソルの後ろの S式を REPL に送る
-function! s:send_last_sexp() abort
+function! s:get_last_sexp() abort
     " 保存
     let l:save_pos = getcurpos()
 
-    " s式を送信する
+    " 空行なら、直前の ) を探す
     if empty(trim(getbufline(bufnr(), line('.'))[0])) 
         " b: 上に検索
         " n: カーソルを移動しない
@@ -75,19 +75,75 @@ function! s:send_last_sexp() abort
     else
         " カーソル下の文字を取得
         execute 'silent! normal! "' . l:reg . 'yiW'
+
+        let l:str = getreg(l:reg, v:false)
+        if l:str !~# '\v^\(.+\)$'
+            if l:str =~# '^('
+                " (1| 2 3) -> (1 となってしまうため
+                call setreg(l:reg, l:str[1:])
+            elseif l:str =~# ')$'
+                " (1 2 |3) -> 3) となってしまうため
+                call setreg(l:reg, l:str[:-2])
+            endif
+        endif
     endif 
 
     " 復元
     call setpos('.', l:save_pos)
 
+    return getreg(l:reg, v:false, v:true)
+endfunction
+
+" 関数を評価
+function! s:get_define() abort
+    " 保存
+    let l:save_pos = getcurpos()
+
+    let l:reg = 'e'
+
+    " define を探す
+    "   '(define' になるまで normal! ( を繰り返す
+    "   ( を押しても、pos が変わらなければ、終わり
+    let l:last_pos = [0, 0, 0, 0, 0]
+    let l:is_define = v:false
+
+    while l:last_pos !=# getcurpos()
+        let l:last_pos = getcurpos()
+
+        exec 'normal ('
+
+        let l:line = getbufline(bufnr(), line('.'))[0]
+        let l:col = l:last_pos[2]
+        let l:find_define = l:line[l:col :] =~# '^define\s'
+    endwhile
+
+    if !l:find_define
+        " 見つからなかったら、終わり
+        call setreg(l:reg, '')
+    else
+        call s:highlight_yank_toggle()
+        execute 'silent! normal! v%"' . l:reg . 'y'
+        call s:highlight_yank_toggle()
+    endif
+
+    " 復元
+    call setpos('.', l:save_pos)
+
+    return getreg(l:reg, v:false, v:true)
+endfunction
+
+function! s:send_repl(lines) abort
+    if a:lines ==# ['']
+        return
+    endif
     " 送信
-    for l:line in getreg(l:reg, v:false, v:true)
+    for l:line in a:lines
         if repl#REPLWin32Return()
             exe "call term_sendkeys('" . repl#GetConsoleName() . ''', l:line . "\r\n")'
         else
             exe "call term_sendkeys('" . repl#GetConsoleName() . ''', l:line . "\n")'
         endif
-        exe 'call term_wait("' . repl#GetConsoleName() . '", 50)'
+        " exe 'call term_wait("' . repl#GetConsoleName() . '", 5)'
     endfor
 
     if repl#REPLWin32Return()
@@ -95,11 +151,16 @@ function! s:send_last_sexp() abort
     else
         exe "call term_sendkeys('" . repl#GetConsoleName() . ''', "\n")'
     endif
+
 endfunction
 
-command! SendLastSexp call s:send_last_sexp()
+" 最後のS式を評価
+command! SendLastSexp call s:send_repl(s:get_last_sexp())
+" カーソル位置のDefineを評価
+command! SendDefine call s:send_repl(s:get_define())
 
 augroup MyVimRepl
     autocmd!
-    autocmd Filetype r7rs,scheme,lisp nnoremap <C-c><C-e> :<C-u>SendLastSexp<CR>
+    autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,e :<C-u>SendLastSexp<CR>
+    autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,d :<C-u>SendDefine<CR>
 augroup END

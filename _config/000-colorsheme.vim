@@ -153,6 +153,8 @@ function! s:nord_color() abort
     exec printf('hi ShotFBlank guifg=%s guibg=%s gui=bold', 'NONE', s:nord12_gui)
     " highlight link ShotFCursor Cursor
 
+    hi link r7rsSyntaxA PreProc
+
 endfunction
 
 function! DefineMyHighlishts() abort
