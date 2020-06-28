@@ -171,6 +171,8 @@ function! s:eval_smart() abort
     " ノーマルモード
     let l:last_pos = [0, 0, 0, 0, 0]
 
+    "   normal! ( を繰り返す
+    "   ( を押しても、pos が変わらなければ、終わり
     while l:last_pos !=# getcurpos()
         let l:last_pos = getcurpos()
 
@@ -184,10 +186,17 @@ function! s:eval_smart() abort
     execute 'silent! normal! v%"' . l:reg . 'y'
     call s:highlight_yank_toggle()
 
-    " 復元
-    call setpos('.', l:save_pos)
+    " カーソル位置の調整
+    if s:is_auto_move_cursor_down()
+        " 下に移動
+        normal! %j0
+    else
+        " 復元
+        call setpos('.', l:save_pos)
+    endif
     " 送信
     call s:send_repl(getreg(l:reg, v:false, v:true))
+
 endfunction
 
 " 選択範囲を評価
@@ -212,11 +221,18 @@ endfunction
 
 " command! EvalSmart call s:eval_smart()
 
+function! s:is_auto_move_cursor_down() abort
+    return get(b:, 'vimrc_auto_move_cursor_down', v:false)
+endfunction
+
+function! s:lisp_settings() abort
+    let b:vimrc_auto_move_cursor_down = v:true
+
+    nnoremap <buffer><silent> ,f :<C-u>call <SID>eval_smart()<CR>
+    vnoremap <buffer><silent> ,f :call      <SID>eval_visual()<CR>
+endfunction
+
 augroup MyVimRepl
     autocmd!
-    " autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,e :<C-u>EvalLastSexp<CR>
-    " autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,d :<C-u>EvalDefine<CR>
-    " カーソル位置の最上位のS式を評価
-    autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,f :<C-u>call <SID>eval_smart()<CR>
-    autocmd Filetype r7rs,scheme,lisp vnoremap <buffer><silent> ,f :call <SID>eval_visual()<CR>
+    autocmd Filetype r7rs,scheme,lisp call s:lisp_settings()
 augroup END
