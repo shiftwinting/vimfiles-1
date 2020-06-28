@@ -289,11 +289,74 @@ command! -nargs=+ -complete=dir SassWatchStart    call sasswatch#start(<f-args>)
 command! -nargs=+ -complete=dir SassWatchStartCwd call sasswatch#start(getcwd(), <f-args>)
 command! -nargs=0               SassWatchStop     call sasswatch#stop()
 
+" " =====================
+" " git
+" " =====================
+" command! GitPush        call git#push()
+" command! GitPull        call git#pull()
+" command! GitCommit      call git#commit()
+" command! GitCommitAmend call git#commit_amend()
+" command! GitCheckout    :<C-u>Leaderf git_checkout --popup<CR>
+
+
 " =====================
-" git
+" new temp file
 " =====================
-command! GitPush        call git#push()
-command! GitPull        call git#pull()
-command! GitCommit      call git#commit()
-command! GitCommitAmend call git#commit_amend()
-command! GitCheckout    :<C-u>Leaderf git_checkout --popup<CR>
+
+if exists('*popup_create')
+    " ファイルタイプと拡張子のペア
+    let s:ft_pair = {
+    \   'python': 'py',
+    \   'vim':    'vim',
+    \}
+
+    " input() のときに getcmdline() で取得できる技
+    function! s:new_tmp_file() abort
+        let l:line = line('.') < 5 ? 5 : 'cursor-1'
+        let l:winid =  popup_create('', {
+        \   'padding': [1, 1, 1, 1],
+        \   'minwidth': 20,
+        \   'line': l:line,
+        \   'col': 'cursor+3',
+        \})
+
+        redraw
+        let l:timer = timer_start(30, funcref('s:timer_callback', [l:winid]), { 'repeat': -1 })
+
+        let l:ft = call('input', ['>>> ', '', 'filetype'])
+
+        " xxx.tmp => xxx.py みたいな
+        let l:tmp = substitute(tempname(), '\.\zs[^.]\+$', get(s:ft_pair, l:ft, 'tmp'), '')
+        " もし、空ならそのバッファに表示
+        if line('$') == 1 && getline(1) ==# ''
+            exec 'e '.l:tmp
+        else
+            exec 'new '.l:tmp
+        endif
+        exec 'set ft='.l:ft
+
+        call timer_stop(l:timer)
+        call popup_close(l:winid)
+    endfunction
+
+    function! s:timer_callback(winid, ...) abort
+        let l:query = getcmdline()
+        call win_execute(a:winid, printf("call setline(1, 'FileType: %s')", l:query))
+        " redraw は必要！
+        redraw
+    endfunction
+else
+    function! s:new_tmp_file() abort "
+        let s:_ft = input('FileType: ', '', 'filetype')
+        let s:tmp = tempname()
+        " もし、空ならそのバッファに表示
+        if line('$') == 1 && getline(1) ==# ''
+            exec 'e '.s:tmp
+        else
+            exec 'new '.s:tmp
+        endif
+        exec 'set ft='.s:_ft
+    endfunction
+endif
+
+command! NewTempFile call <SID>new_tmp_file()

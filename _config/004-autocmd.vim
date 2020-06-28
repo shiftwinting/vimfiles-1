@@ -219,3 +219,23 @@ autocmd MyAutoCmd FileType vim,html nnoremap <buffer> <Space>bl :call <SID>forma
 
 " 検索時、ハイライト
 " autocmd MyAutoCmd VimEnter * call vimrc#auto_cursorline#exec()
+
+" 常にターミナルモードではノーマルモードにする
+" thanks! https://github.com/ujihisa/config/commit/5fa60a1f55ad312c081c4c7275ef0442c02ff09d
+function! s:terminal_normal_enter() abort
+    if mode() ==# 't'
+        call feedkeys("\<C-w>N", 'n')
+    endif
+endfunction
+
+function! s:terminal_normal_leave() abort
+    if &buftype ==# 'terminal' && mode() != 't'
+        normal! i
+    endif
+endfunction
+
+augroup my-terminal-normal
+    autocmd!
+    autocmd BufEnter * call s:terminal_normal_enter()
+    autocmd BufLeave * call s:terminal_normal_leave()
+augroup END

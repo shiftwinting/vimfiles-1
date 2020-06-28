@@ -81,63 +81,8 @@ nnoremap <C-w>v <Nop>
 " 新規タブ
 nnoremap <silent> so :<C-u>tabedit<CR>
 
-" function! s:new_tmp_file() abort "
-"     let s:_ft = input('FileType: ', '', 'filetype')
-"     let s:tmp = tempname()
-"     " もし、空ならそのバッファに表示
-"     if line('$') == 1 && getline(1) == ''
-"         exec 'e '.s:tmp
-"     else
-"         exec 'new '.s:tmp
-"     endif
-"     exec 'set ft='.s:_ft
-" endfunction
-
-
-" ファイルタイプと拡張子のペア
-let s:ft_pair = {
-\   'python': 'py',
-\   'vim':    'vim',
-\}
-
-" input() のときに getcmdline() で取得できる技
-function! s:new_tmp_file() abort
-    let l:line = line('.') < 5 ? 5 : 'cursor-1'
-    let l:winid =  popup_create('', {
-    \   'padding': [1, 1, 1, 1],
-    \   'minwidth': 20,
-    \   'line': l:line,
-    \   'col': 'cursor+3',
-    \})
-
-    redraw
-    let l:timer = timer_start(30, funcref('s:timer_callback', [l:winid]), { 'repeat': -1 })
-
-    let l:ft = call('input', ['>>> ', '', 'filetype'])
-
-    " xxx.tmp => xxx.py みたいな
-    let l:tmp = substitute(tempname(), '\.\zs[^.]\+$', get(s:ft_pair, l:ft, 'tmp'), '')
-    " もし、空ならそのバッファに表示
-    if line('$') == 1 && getline(1) ==# ''
-        exec 'e '.l:tmp
-    else
-        exec 'new '.l:tmp
-    endif
-    exec 'set ft='.l:ft
-
-    call timer_stop(l:timer)
-    call popup_close(l:winid)
-endfunction
-
-function! s:timer_callback(winid, ...) abort
-    let l:query = getcmdline()
-    call win_execute(a:winid, printf("call setline(1, 'FileType: %s')", l:query))
-    " redraw は必要！
-    redraw
-endfunction
-
 " 一時ファイルの作成
-nnoremap <silent> sf :<C-u>call <SID>new_tmp_file()<CR>
+nnoremap <silent> sf :<C-u>NewTempFile<CR>
 
 " 見た目通りに移動
 nnoremap j gj
@@ -275,11 +220,16 @@ cnoremap <C-o> <C-r>*
 inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 
 " 対応するカッコの移動
-nmap 5 %
-vmap 5 %
+" nmap 5 %
+" vmap 5 %
+nmap t <Nop>
+xmap t <Nop>
+
+nmap tj %
+xmap tj %
 
 " 置換を再実行
-nmap 7 &
+" nmap 7 &
 
 " tyru さんのマッピング
 " https://github.com/tyru/config/blob/master/home/volt/rc/vimrc-only/vimrc.vim#L618

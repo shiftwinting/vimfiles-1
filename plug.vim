@@ -198,9 +198,10 @@ Plug 'itchyny/lightline.vim'
 " Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
-" Plug 'gisphm/vim-gitignore'
+Plug 'gisphm/vim-gitignore'
 " Plug 'rhysd/conflict-marker.vim'
 " Plug 'lambdalisue/gina.vim'
+Plug 'tpope/vim-dispatch'
 
 " --------------------------
 " colorscheme
