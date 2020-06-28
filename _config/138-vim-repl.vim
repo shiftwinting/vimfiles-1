@@ -94,43 +94,43 @@ function! s:get_last_sexp() abort
     return getreg(l:reg, v:false, v:true)
 endfunction
 
-" 関数を評価
-function! s:get_define() abort
-    " 保存
-    let l:save_pos = getcurpos()
-
-    let l:reg = 'e'
-
-    " define を探す
-    "   '(define' になるまで normal! ( を繰り返す
-    "   ( を押しても、pos が変わらなければ、終わり
-    let l:last_pos = [0, 0, 0, 0, 0]
-    let l:is_define = v:false
-
-    while l:last_pos !=# getcurpos()
-        let l:last_pos = getcurpos()
-
-        exec 'normal ('
-
-        let l:line = getbufline(bufnr(), line('.'))[0]
-        let l:col = l:last_pos[2]
-        let l:find_define = l:line[l:col :] =~# '^define\s'
-    endwhile
-
-    if !l:find_define
-        " 見つからなかったら、終わり
-        call setreg(l:reg, '')
-    else
-        call s:highlight_yank_toggle()
-        execute 'silent! normal! v%"' . l:reg . 'y'
-        call s:highlight_yank_toggle()
-    endif
-
-    " 復元
-    call setpos('.', l:save_pos)
-
-    return getreg(l:reg, v:false, v:true)
-endfunction
+" " 関数を評価
+" function! s:get_define() abort
+"     " 保存
+"     let l:save_pos = getcurpos()
+"
+"     let l:reg = 'e'
+"
+"     " define を探す
+"     "   '(define' になるまで normal! ( を繰り返す
+"     "   ( を押しても、pos が変わらなければ、終わり
+"     let l:last_pos = [0, 0, 0, 0, 0]
+"     let l:is_define = v:false
+"
+"     while l:last_pos !=# getcurpos()
+"         let l:last_pos = getcurpos()
+"
+"         exec 'normal ('
+"
+"         let l:line = getbufline(bufnr(), line('.'))[0]
+"         let l:col = l:last_pos[2]
+"         let l:find_define = l:line[l:col :] =~# '^define\s'
+"     endwhile
+"
+"     if !l:find_define
+"         " 見つからなかったら、終わり
+"         call setreg(l:reg, '')
+"     else
+"         call s:highlight_yank_toggle()
+"         execute 'silent! normal! v%"' . l:reg . 'y'
+"         call s:highlight_yank_toggle()
+"     endif
+"
+"     " 復元
+"     call setpos('.', l:save_pos)
+"
+"     return getreg(l:reg, v:false, v:true)
+" endfunction
 
 function! s:send_repl(lines) abort
     if a:lines ==# ['']
@@ -154,13 +154,69 @@ function! s:send_repl(lines) abort
 
 endfunction
 
-" 最後のS式を評価
-command! SendLastSexp call s:send_repl(s:get_last_sexp())
-" カーソル位置のDefineを評価
-command! SendDefine call s:send_repl(s:get_define())
+function! s:eval_smart() abort
+    " いい感じに評価する
+
+    " 空行の場合
+    if empty(trim(getbufline(bufnr(), line('.'))[0])) 
+        " 直前の S式
+        call s:send_repl(s:get_last_sexp())
+        return
+    endif
+
+    " カーソル位置がカッコの中
+    let l:save_pos = getcurpos()
+    let l:reg = 'e'
+
+    " ノーマルモード
+    let l:last_pos = [0, 0, 0, 0, 0]
+
+    while l:last_pos !=# getcurpos()
+        let l:last_pos = getcurpos()
+
+        exec 'normal ('
+
+        let l:line = getbufline(bufnr(), line('.'))[0]
+        let l:col = l:last_pos[2]
+    endwhile
+
+    call s:highlight_yank_toggle()
+    execute 'silent! normal! v%"' . l:reg . 'y'
+    call s:highlight_yank_toggle()
+
+    " 復元
+    call setpos('.', l:save_pos)
+    " 送信
+    call s:send_repl(getreg(l:reg, v:false, v:true))
+endfunction
+
+" 選択範囲を評価
+function! s:eval_visual() abort
+    let l:save_pos = getcurpos()
+    let l:reg = 'e'
+
+    call s:highlight_yank_toggle()
+    execute 'silent! normal! gv"' . l:reg . 'y'
+    call s:highlight_yank_toggle()
+
+    " 復元
+    call setpos('.', l:save_pos)
+    " 送信
+    call s:send_repl(getreg(l:reg, v:false, v:true))
+endfunction
+
+" " 最後のS式を評価
+" command! EvalLastSexp call s:send_repl(s:get_last_sexp())
+" " カーソル位置のDefineを評価
+" command! EvalDefine call s:send_repl(s:get_define())
+
+" command! EvalSmart call s:eval_smart()
 
 augroup MyVimRepl
     autocmd!
-    autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,e :<C-u>SendLastSexp<CR>
-    autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,d :<C-u>SendDefine<CR>
+    " autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,e :<C-u>EvalLastSexp<CR>
+    " autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,d :<C-u>EvalDefine<CR>
+    " カーソル位置の最上位のS式を評価
+    autocmd Filetype r7rs,scheme,lisp nnoremap <buffer><silent> ,f :<C-u>call <SID>eval_smart()<CR>
+    autocmd Filetype r7rs,scheme,lisp vnoremap <buffer><silent> ,f :call <SID>eval_visual()<CR>
 augroup END
