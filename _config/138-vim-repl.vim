@@ -69,9 +69,9 @@ function! s:get_last_sexp() abort
 
     if l:cur_char ==# ')' || l:cur_char ==# '('
         " ハイライトしちゃうから
-        call s:highlight_yank_toggle()
+        " call s:highlight_yank_toggle()
         execute 'silent! normal! v%"' . l:reg . 'y'
-        call s:highlight_yank_toggle()
+        " call s:highlight_yank_toggle()
     else
         " カーソル下の文字を取得
         execute 'silent! normal! "' . l:reg . 'yiW'
@@ -182,9 +182,9 @@ function! s:eval_smart() abort
         let l:col = l:last_pos[2]
     endwhile
 
-    call s:highlight_yank_toggle()
+    " call s:highlight_yank_toggle()
     execute 'silent! normal! v%"' . l:reg . 'y'
-    call s:highlight_yank_toggle()
+    " call s:highlight_yank_toggle()
 
     " カーソル位置の調整
     if s:is_auto_move_cursor_down()
@@ -204,9 +204,9 @@ function! s:eval_visual() abort
     let l:save_pos = getcurpos()
     let l:reg = 'e'
 
-    call s:highlight_yank_toggle()
+    " call s:highlight_yank_toggle()
     execute 'silent! normal! gv"' . l:reg . 'y'
-    call s:highlight_yank_toggle()
+    " call s:highlight_yank_toggle()
 
     " 復元
     call setpos('.', l:save_pos)
