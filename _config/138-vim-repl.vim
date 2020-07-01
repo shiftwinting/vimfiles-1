@@ -12,7 +12,7 @@ let g:repl_stayatrepl_when_open = 0
 nnoremap <Space>re :<C-u>REPLToggle<CR>
 
 " <Enter> で送信
-let g:sendtorepl_invoke_key = '<Enter>'
+" let g:sendtorepl_invoke_key = '<Enter>'
 
 " py -3 は py となるため
 let g:repl_exit_commands = {
@@ -235,7 +235,7 @@ function! s:lisp_settings() abort
     let b:vimrc_auto_move_cursor_down = v:true
 
     nnoremap <buffer><silent> ,f :<C-u>call <SID>eval_smart()<CR>
-    vnoremap <buffer><silent> ,f :call      <SID>eval_visual()<CR>
+    vnoremap <buffer><silent> ,f :<C-u>call <SID>eval_visual()<CR>
 endfunction
 
 augroup MyVimRepl

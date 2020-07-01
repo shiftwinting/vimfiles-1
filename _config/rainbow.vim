@@ -28,6 +28,9 @@ endfor
 
 " from slimv.vim
 " https://github.com/kovisoft/slimv/blob/b04b425f724deb9b4c60402822832a360075fd99/ftplugin/slimv.vim#L778-L800
+" ======
+" nord 用
+" ======
 let s:guifgs = {
 \   'dark': [
 \       'red1',
@@ -37,9 +40,9 @@ let s:guifgs = {
 \       'green1',
 \       'springgreen1',
 \       'cyan1',
-\       'slateblue1',
+\       '#b366ff',
 \       'magenta1',
-\       'purple1',
+\       '#b48ead',
 \   ],
 \   'light': [
 \       'red3',
@@ -54,5 +57,6 @@ let s:guifgs = {
 \       'darkviolet',
 \   ]
 \}
+" \       'purple1',
 
 let g:rainbow_conf.guifgs = s:guifgs[&background]
