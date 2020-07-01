@@ -189,7 +189,12 @@ function! s:eval_smart() abort
     " カーソル位置の調整
     if s:is_auto_move_cursor_down()
         " 下に移動
-        normal! %j0
+        normal! %
+        " 最終行じゃなければ、j
+        if line('.') !=# line('$')
+            normal! j
+        endif
+        normal! 0
     else
         " 復元
         call setpos('.', l:save_pos)
@@ -222,6 +227,7 @@ endfunction
 " command! EvalSmart call s:eval_smart()
 
 function! s:is_auto_move_cursor_down() abort
+    " 最終行なら、移動しない
     return get(b:, 'vimrc_auto_move_cursor_down', v:false)
 endfunction
 
