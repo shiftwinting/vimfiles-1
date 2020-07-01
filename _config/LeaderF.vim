@@ -397,3 +397,10 @@ let g:Lf_DevIconsPalette.dark = {
 \   'gvimrc': { 'guifg': s:nord14_gui },
 \   'scm': { 'guifg': s:nord11_gui },
 \}
+
+
+" 自動で生成する
+let g:Lf_GtagsAutoGenerate = 1
+
+" .git の中に生成する
+let g:Lf_GtagsStoreInRootMarker = 1

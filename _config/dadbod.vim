@@ -5,11 +5,21 @@ if empty(globpath(&rtp, 'autoload/db.vim'))
 endif
 
 
-" 'postgresql://ユーザー名:パスワード@ホスト:ポート/DB名'
+" PostgreSQL: postgresql://ユーザー名:パスワード@ホスト:ポート/DB名
+" MySQL:      mysql:///[<database>]?login-path=<login-path>
+" SQL Server: sqlserver://[<user>[:<password>]@][<host>][:<port>]/[<database>]
 " g:dbs で定義する
 let g:dbs = {
 \   'zero_study': 'postgresql://postgres:postgres@127.0.0.1:5432/shop',
+\   'mysql': 'mysql:///demo?login-path=local',
+\   'sqlserver': 'sqlserver://sa:Vagrant324@127.0.0.1:1433/demo'
 \}
+
+" mysql を使えるようにする
+call vimrc#add_path('C:/Program Files/MySQL/MySQL Workbench 8.0 CE')
+" mysql_config_editor を使えるようにする
+call vimrc#add_path('C:/Program Files/MySQL/MySQL Server 8.0/bin')
+
 
 " g:db_ui_table_helpers で便利なヘルパーテーブルを作成できる？
 
