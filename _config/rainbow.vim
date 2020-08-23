@@ -21,42 +21,52 @@ let g:rainbow_conf = {
 \}
 
 " 有効にするファイルタイプ
-let s:fts = ['scheme', 'lisp', 'r7rs']
+let s:fts = ['scheme', 'lisp', 'r7rs', 'python']
 for s:ft in s:fts
     let g:rainbow_conf.separately[s:ft] = {}
 endfor
 
 " from slimv.vim
 " https://github.com/kovisoft/slimv/blob/b04b425f724deb9b4c60402822832a360075fd99/ftplugin/slimv.vim#L778-L800
+" let s:guifgs = {
+" \   'dark': [
+" \       'orange1',
+" \       'yellow1',
+" \       'greenyellow',
+" \       'green1',
+" \       'springgreen1',
+" \       'cyan1',
+" \       '#b366ff',
+" \       'magenta1',
+" \       '#b48ead',
+" \       'red1',
+" \   ],
+" \   'light': [
+" \       'orangered3',
+" \       'orange2',
+" \       'yellow3',
+" \       'olivedrab4',
+" \       'green4',
+" \       'paleturquoise3',
+" \       'deepskyblue4',
+" \       'darkslateblue',
+" \       'darkviolet',
+" \       'red3',
+" \   ]
+" \}
+" " \       'purple1',
+
 " ======
 " nord 用
 " ======
 let s:guifgs = {
 \   'dark': [
-\       'red1',
-\       'orange1',
-\       'yellow1',
-\       'greenyellow',
-\       'green1',
-\       'springgreen1',
-\       'cyan1',
-\       '#b366ff',
-\       'magenta1',
-\       '#b48ead',
+\       '#A3BE8C',
+\       '#BF616A',
+\       '#EBCB8B',
+\       '#B48EAD',
+\       '#D08770',
 \   ],
-\   'light': [
-\       'red3',
-\       'orangered3',
-\       'orange2',
-\       'yellow3',
-\       'olivedrab4',
-\       'green4',
-\       'paleturquoise3',
-\       'deepskyblue4',
-\       'darkslateblue',
-\       'darkviolet',
-\   ]
 \}
-" \       'purple1',
 
 let g:rainbow_conf.guifgs = s:guifgs[&background]

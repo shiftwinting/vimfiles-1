@@ -25,4 +25,5 @@ let g:openbrowser_search_engines = {
 \   'duckduckgo': 'http://duckduckgo.com/?q={query}',
 \   'memo': 'https://scrapbox.io/tamago324-05149866/search/page?q={query}',
 \   'mdnwebdocs': 'https://developer.mozilla.org/ja/search?q={query}',
+\   'python': 'https://docs.python.org/3/search.html?q={query}'
 \}

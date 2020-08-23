@@ -12,7 +12,7 @@ Plug 'vim-jp/syntax-vim-ex'
 Plug 'Yggdroot/indentLine'
 Plug 'chrisbra/NrrwRgn'
 Plug 'dense-analysis/ale'
-Plug 'deris/vim-shot-f'
+" Plug 'deris/vim-shot-f'               " -> rhysd/clever-f.vim
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
@@ -28,7 +28,7 @@ Plug 'mattn/sonictemplate-vim'
 " Plug 'previm/previm'
 Plug 'rcmdnk/yankround.vim'
 Plug 'simeji/winresizer'
-Plug 'skanehira/translate.vim'
+Plug 'voldikss/vim-translator'
 Plug 'svermeulen/vim-cutlass'
 Plug 'thinca/vim-qfreplace'
 Plug 'thinca/vim-quickrun'
@@ -36,11 +36,13 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tyru/capture.vim'
 Plug 'tyru/open-browser-github.vim'
 Plug 'tyru/open-browser.vim'
-Plug 'terryma/vim-expand-region'
+" Plug 'terryma/vim-expand-region'      " 使いたい！ってときがあまりない
 
 Plug 'andymass/vim-matchup'
 Plug 'ap/vim-css-color'
-Plug 'sillybun/vim-repl'              " なんか微妙
+Plug 'sillybun/vim-repl'              " 使いやすいように最高になった
+Plug 'markonm/traces.vim'             " 可視化しなくても良い気がするから
+Plug 'liuchengxu/graphviz.vim'        " Graphviz 用
 
 " Plug 'dbeniamine/todo.txt-vim'        " 家だと使わないから
 " Plug 'kana/vim-tabpagecd'
@@ -48,7 +50,6 @@ Plug 'sillybun/vim-repl'              " なんか微妙
 " Plug 'liuchengxu/vim-which-key'       " 定義がめんどくさい & でてくるのなんかやだ
 " Plug 'machakann/vim-highlightedundo'  " 毎回光るのやだ
 " Plug 'majutsushi/tagbar'              " -> LeaderF
-" Plug 'markonm/traces.vim'             " 可視化しなくても良い気がするから
 " Plug 'mattn/gist-vim'     
 " Plug 'mechatroner/rainbow_csv'        " CSV 見ないから
 " Plug 'mg979/vim-visual-multi'
@@ -63,6 +64,8 @@ Plug 'sillybun/vim-repl'              " なんか微妙
 " Plug 'tweekmonster/helpful.vim'
 " Plug 'tyru/columnskip.vim'            " イマイチ使い方がわからない
 " Plug 'tyru/vim-altercmd'
+" Plug 'skanehira/translate.vim'        " -> voldikss/vim-translator
+Plug 'rhysd/clever-f.vim'           " -> deris/vim-shot-f
 
 " --------------------------
 " db
@@ -84,11 +87,12 @@ Plug 'vim-python/python-syntax', {'for': ['python']}
 Plug 'davidhalter/jedi-vim', {'for': ['python']}
 " JediUseEnvironment のため
 " Plug 'blueyed/jedi-vim', { 'branch': 'envs' } " poet-v 使わないから
-" Plug 'relastle/vim-nayvy'
+Plug 'relastle/vim-nayvy'
 " Plug 'kiteco/vim-plugin'      " 挙動がおかしいから
-" Plug 'heavenshell/vim-pydocstring', { 'if': executable('doq') }
 " Plug 'wookayin/vim-autoimport'    " 使いどきわからん
 " Plug 'glench/vim-jinja2-syntax'
+Plug 'heavenshell/vim-pydocstring'
+Plug 'puremourning/vimspector'
 
 " --------------------------
 " php
@@ -163,6 +167,10 @@ Plug 'mnacamura/vim-r7rs-syntax'    " Gauche の syntax highlight
 Plug 'kovisoft/paredit'
 Plug 'luochen1990/rainbow'
 
+" --------------------------
+" haskell
+" --------------------------
+Plug 'itchyny/vim-haskell-indent'
 
 " TODO: 使いこなしたい
 " " --------------------------
@@ -180,6 +188,7 @@ Plug 'kana/vim-textobj-user'
 " --------------------------
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-operator-replace'
+Plug 'tyru/operator-camelize.vim'
 
 " --------------------------
 " dark power

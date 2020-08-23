@@ -6,6 +6,10 @@ scriptencoding utf-8
 
 " TODO: いい感じに fold したい
 
+if !exists('*vital#vital#import')
+    finish
+endif
+
 let s:Filepath = vital#vital#import('System.Filepath')
 
 let s:info = {

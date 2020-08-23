@@ -14,6 +14,12 @@ function! s:smart_auto_mappings() abort
         " が
         " from xxx import<C-x><C-o>
         return "\<Space>import\<Space>\<C-x>\<C-o>"
+    elseif search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\s\+import.*$', 'bcn', l:line)
+        " from xxx import xxx,<Space>
+        " が
+        " from xxx import xxx, <C-x><C-o>
+        echomsg "hi"
+        return "\<Space>\<C-x>\<C-o>"
     elseif search('\v^\s*from$', 'bcn', l:line)
         " from<Space>
         " が

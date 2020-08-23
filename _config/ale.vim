@@ -77,7 +77,8 @@ let g:ale_python_flake8_options = '--max-line-length=99'
 " W191: タブが使われてますよー(文字列に含まれてるかも)
 " W503: 改行の前に演算子をおいてねー
 " E265: # の後ろは ' ' にしてねー
-let g:ale_python_flake8_options .= ' '.'--ignore=E121,E123,E126,E226,E24,E704,W503,W504,F405,W191,E101,F403,E501,E265'
+" E203: スライスの : の前はスペース入れないでね
+let g:ale_python_flake8_options .= ' '.'--ignore=E121,E123,E126,E226,E24,E704,W503,W504,F405,W191,E101,F403,E501,E265,E203'
 
 
 "

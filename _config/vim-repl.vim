@@ -40,6 +40,7 @@ let g:repl_program = {
 \   'python': 'py -3',
 \   'scheme': 'gosh',
 \   'r7rs': 'gosh',
+\   'haskell': 'stack ghci',
 \}
 
 
@@ -238,7 +239,13 @@ function! s:lisp_settings() abort
     vnoremap <buffer><silent> ,f :<C-u>call <SID>eval_visual()<CR>
 endfunction
 
+function! s:settings() abort
+    nnoremap <buffer><silent> ,f :<C-u>SendCurrentLine<CR>
+    vnoremap <buffer><silent> ,f :SendLineToREPL<CR>
+endfunction
+
 augroup MyVimRepl
     autocmd!
     autocmd Filetype r7rs,scheme,lisp call s:lisp_settings()
+    autocmd Filetype python,haskell call s:settings()
 augroup END

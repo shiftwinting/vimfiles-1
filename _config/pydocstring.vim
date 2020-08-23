@@ -9,6 +9,17 @@ let g:pydocstring_enable_mapping = 0
 " 'sphinx', 'google', 'numpy'
 let g:pydocstring_formatter = 'sphinx'
 
-" if executable('doq')
-"     let g:pydocstring_doq_path = system('where doq')
-" endif
+if executable('doq')
+    " system() を使うと開業がついてしまうため
+    let g:pydocstring_doq_path = substitute(substitute(system('where doq'), '\', '/', 'g'), '\n$', '', '')
+endif
+
+
+function! s:settings() abort
+    nmap <silent> <M-d> <Plug>(pydocstring)
+endfunction
+
+augroup MyPydocstring
+    autocmd!
+    autocmd FileType python call <SID>settings()
+augroup END

@@ -29,7 +29,7 @@ vnoremap <silent> . :normal! .<CR>
 nnoremap <silent> cd :<C-u>exec 'lcd '.resolve(expand('%:p:h'))<CR>
 
 " 前にいたバッファを表示. めっちゃ好きこれ
-nnoremap 6 
+" nnoremap 6 
 
 " vimrc
 nnoremap <silent> <Space>v.  :<C-u>call vimrc#drop_or_tabedit($MYVIMRC)<CR>

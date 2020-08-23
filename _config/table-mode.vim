@@ -13,4 +13,4 @@ let g:table_mode_auto_align = 1
 " table-modeのトグル
 " let g:table_mode_toggle_map = 'm'
 
-nnoremap <F4> :<C-u>%Tableize<CR>
+" nnoremap <F4> :<C-u>%Tableize<CR>

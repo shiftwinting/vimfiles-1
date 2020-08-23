@@ -6,3 +6,4 @@ pack/
 work/
 .mypy_cache
 work.vim
+vimspector_config/gadgets/*

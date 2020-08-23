@@ -25,9 +25,9 @@ nnoremap <silent> <Space>fs        :<C-u>Leaderf  bufTag<CR>
 nnoremap <silent> <Space>fv        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
 nnoremap <silent> <Space>fb        :<C-u>Leaderf  bookmark --nowrap<CR>
 
-nnoremap <silent> <Space><Space>    :<C-u>Leaderf command --run-immediately --fuzzy<CR>
-nnoremap <silent> <C-e>             :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
-nnoremap <silent> <Space>;t         :<C-u>Leaderf sonictemplate<CR>
+nnoremap <silent> <M-x>            :<C-u>Leaderf command --run-immediately --fuzzy<CR>
+nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
+nnoremap <silent> <Space>;t        :<C-u>Leaderf sonictemplate<CR>
 " nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf switch<CR>
 " nnoremap <silent> <Space>fd        :<C-u>Leaderf dirty<CR>
@@ -388,6 +388,7 @@ let g:Lf_DevIconsExtensionSymbols = {
 \   'lock': '󿫺',
 \   'vue':  '',
 \   'scm': '󿬦',
+\   'dot': '󿩢'
 \}
 
 let g:Lf_DevIconsPalette = get(g:, 'Lf_DevIconsPalette', {})

@@ -155,6 +155,10 @@ function! s:nord_color() abort
 
     hi link r7rsSyntaxA PreProc
 
+    hi vimspectorBP         guifg=#A3BE8C guibg=#3B4252
+    hi vimspectorBPDisabled guifg=#81A1C1 guibg=#3B4252
+    hi vimspectorPC         guifg=#EBCB8B guibg=#3B4252
+
 endfunction
 
 function! DefineMyHighlishts() abort
