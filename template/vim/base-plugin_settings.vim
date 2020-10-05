@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'autoload/{{_expr_:expand("%:t:r")[4:]}}.vim'))
+if empty(globpath(&rtp, 'autoload/{{_expr_:expand("%:t:r")}}.vim'))
     finish
 endif
 

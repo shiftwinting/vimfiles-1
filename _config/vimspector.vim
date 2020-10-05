@@ -33,9 +33,38 @@ nmap <C-m>        <Plug>VimspectorToggleBreakpoint
 
 let g:vimspector_base_dir = expand('~/vimfiles/vimspector_config')
 
+" ====================
+" stacktrace window
+" ====================
+function! s:BufEnterStackTrace() abort
+    " ダブルクリックでジャンプ
+    nnoremap <buffer> <2-LeftMouse> :call vimspector#GoToFrame()<CR>
+endfunction
+
+" ====================
+" variables window
+" ====================
+function! s:BufEnterVariables() abort
+    " l でトグル
+    nnoremap <buffer> l :call vimspector#ExpandVariable()<CR>
+endfunction
+
+" ====================
+"  window
+" ====================
+function! s:BufEnterWatches() abort
+    " 削除
+    nnoremap <buffer> dd :call vimspector#DeleteWatch()<CR>
+    " トグル
+    nnoremap <buffer> l  :call vimspector#ExpandVariable()<CR>
+endfunction
+
 augroup MyVimspector
     autocmd!
     autocmd User VimspectorUICreated call s:CustomWinBar()
+    autocmd BufEnter vimspector.StackTrace call s:BufEnterStackTrace()
+    autocmd BufEnter vimspector.Variables call s:BufEnterVariables()
+    autocmd BufEnter vimspector.Watches call s:BufEnterWatches()
 augroup END
 
 function! s:CustomWinBar()
@@ -55,18 +84,42 @@ endfunction
 
 
 " ブレークポイントの sign
-sign define vimspectorBP text=󿗙 texthl=vimspectorBP
+sign define vimspectorBP text= texthl=vimspectorBP
 sign define vimspectorBPDisabled text= texthl=vimspectorBP
-sign define vimspectorPC text=󿤉 texthl=vimspectorPC
+sign define vimspectorPC text= texthl=vimspectorPC linehl=vimspectorPCBP
+sign define vimspectorPCBP text=󿧗 texthl=vimspectorPC linehl=vimspectorPCBP
 
 
-" TODO: vimspector#ListBreakpoints() を使って、LeaderF でリスト化して、なんかやる
-
-function! s:add_multi_watch(...) abort
-    let l:exprs = get(a:, 1, [])
-    for l:e in l:exprs
+" ====================
+" 複数の変数を追加
+" ====================
+function! s:add_multi_watch(exprs) abort
+    for l:e in a:exprs
         exec 'VimspectorWatch ' . l:e
     endfor
 endfunction
 
 command! -nargs=+ VimspectorWatchMulti call s:add_multi_watch(<f-args>)
+
+
+" ====================
+" カーソル下の変数を watch に追加
+" ====================
+nnoremap <M-w> :<C-u>VimspectorWatch <C-r><C-w><CR>
+vnoremap <M-w> :<C-u>execute 'VimspectorWatch ' . vimrc#getwords_last_visual()<CR>
+
+
+" ====================
+" Leaderf でブレークポイントを表示
+" TODO: Quickfix じゃなくて、ちゃんとしたのを作る トグルとかできるようにしたい
+" ====================
+function! s:lf_breakpoint() abort
+
+python3 << EOF
+qf = _vimspector_session._breakpoints.BreakpointsAsQuickFix()
+vim.eval('setqflist({})'.format(json.dumps(qf)))
+EOF
+    exec 'Leaderf quickfix'
+endfunction
+
+command! LeaderfVimspectorBreakpoints call <SID>lf_breakpoint()

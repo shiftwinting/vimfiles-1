@@ -31,4 +31,6 @@ let g:kite_completion_max_width = 75
 augroup MyKite
     autocmd!
     autocmd FileType python nnoremap K <Plug>(kite-docs)
+    " <C-Space> で補完開始
+    autocmd FileType python imap <C-Space> <C-X><C-U>
 augroup END

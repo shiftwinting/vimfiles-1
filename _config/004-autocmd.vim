@@ -35,11 +35,13 @@ autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType vue          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType firestore    setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType java         setlocal sw=4 sts=4 ts=4 noexpandtab
+autocmd MyAutoCmd FileType pl0          setlocal sw=2 sts=2 ts=2 et
 
 " 拡張子をもとにファイルタイプを設定
 autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini
 autocmd MyAutoCmd BufRead,BufWinEnter *.csv set filetype=csv
 autocmd MyAutoCmd BufRead,BufWinEnter *.jsx set filetype=javascript.jsx
+autocmd MyAutoCmd BufRead,BufWinEnter *.pl0 set filetype=pl0
 
 " omnifunc
 " https://github.com/vim/vim/tree/master/runtime/autoload
@@ -224,18 +226,148 @@ autocmd MyAutoCmd FileType vim,html nnoremap <buffer> <Space>bl :call <SID>forma
 " thanks! https://github.com/ujihisa/config/commit/5fa60a1f55ad312c081c4c7275ef0442c02ff09d
 function! s:terminal_normal_enter() abort
     if mode() ==# 't'
-        call feedkeys("\<C-w>N", 'n')
+        " deol-edit のときに実行されていたため
+        if &filetype ==# 'deol'
+            " call feedkeys("\<C-w>N", 'n')
+        endif
     endif
 endfunction
 
 function! s:terminal_normal_leave() abort
-    if &buftype ==# 'terminal' && mode() != 't'
-        normal! i
-    endif
+    try
+        if &buftype ==# 'terminal' && mode() !=# 't'
+            normal! i
+        endif
+    catch /.*/
+        " 無視
+    endtry
 endfunction
 
 augroup my-terminal-normal
     autocmd!
     autocmd BufEnter * call s:terminal_normal_enter()
     autocmd BufLeave * call s:terminal_normal_leave()
+augroup END
+
+
+
+augroup my-ft-gitconfig
+    autocmd!
+    autocmd FileType gitconfig set noexpandtab
+augroup END
+
+
+function! s:my_ft_scheme() abort
+    let g:paredit_mode = 1
+    call PareditInitBuffer()
+endfunction
+
+augroup my-ft-scheme
+    autocmd!
+    autocmd FileType scheme call s:my_ft_scheme()
+augroup END
+
+function! s:my_ft_markdown() abort
+    function! s:markdown_space() abort
+        let l:col = getpos('.')[2]
+        " 先頭でリストではなかったら、* とする
+        if l:col ==# 1 && getline('.') !~# '^\s*\* .*'
+            return '* '
+        endif
+
+        " インデント
+        let l:line = getline('.')[:l:col]
+        if l:line =~# '\v^\s*\* \s*$'
+            return "\<C-t>"
+        endif
+        return "\<Space>"
+    endfunction
+
+    inoremap <buffer>        <Tab>   <C-t>
+    inoremap <buffer>        <S-Tab> <C-d>
+    inoremap <buffer> <expr> <Space> <SID>markdown_space()
+    " inoremap <buffer> <expr> <CR>    <SID>cr()
+
+    function! s:markdown_cr() abort
+        let l:line = getline('.')
+        let l:col = getpos('.')[2]
+        " 先頭が * and 末尾にカーソルがあるとき
+        if l:line =~# '\v^\s*\*' && l:line[l:col:] ==# ''
+            return "\<C-o>:InsertNewBullet\<CR>"
+        endif
+        return "\<CR>"
+    endfunction
+
+    if exists('g:loaded_bullets_vim')
+        inoremap <silent> <buffer> <expr> <CR> <SID>markdown_cr()
+        nnoremap <silent> <buffer> o    :<C-u>InsertNewBullet<CR>
+        " vnoremap <silent> <buffer> gN   <C-u>:RenumberSelection<CR>
+        " nnoremap <silent> <buffer> gN   <C-u>:RenumberList<CR>
+        " nnoremap <silent> <buffer> <Space>x <C-u>:ToggleCheckbox<CR>
+    endif
+
+    setlocal sw=2 sts=2 ts=2 et
+endfunction
+
+augroup my-ft-markdown
+    autocmd!
+    autocmd FileType markdown call s:my_ft_markdown()
+augroup END
+
+
+function! s:my_ft_python() abort
+    " from jedi-vim
+    function! s:smart_auto_mappings() abort
+        let l:line = line('.')
+        let l:completion_start_key = "\<C-Space>"
+        if search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\%#\s*$', 'bcn', l:line)
+            " from xxx<Space>
+            " が
+            " from xxx import<C-x><C-o>
+            return "\<Space>import\<Space>" . l:completion_start_key
+        elseif search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\s\+import.*$', 'bcn', l:line)
+            " from xxx import xxx,<Space>
+            " が
+            " from xxx import xxx, <C-x><C-o>
+            return "\<Space>" . l:completion_start_key
+            " return "\<Space>\<C-x>\<C-o>"
+        elseif search('\v^\s*from$', 'bcn', l:line)
+            " from<Space>
+            " が
+            " from <C-x><C-o>
+            return "\<Space>" . l:completion_start_key
+        elseif search('\v^\s*import$', 'bcn', l:line)
+            " import<Space>
+            " が
+            " import <C-x><C-o>
+            return "\<Space>" . l:completion_start_key
+        endif
+        return "\<Space>"
+    endfunction
+
+    imap <silent> <buffer> <expr> <Space> <SID>smart_auto_mappings()
+
+    setlocal sw=4 sts=4 ts=4 et
+
+endfunction
+
+augroup my-ft-python
+    autocmd!
+    autocmd FileType python call s:my_ft_python()
+augroup END
+
+
+function! s:my_ft_sql() abort
+    nnoremap <Space>bl :<C-u>SQLFmt<CR>
+
+    if !empty(globpath(&rtp, 'autoload/nrrwrgn.vim'))
+        vnoremap <Space>bl :NR<CR> \| :SQLFmt<CR> \| :write<CR> \| :close<CR>
+    endif
+
+    setlocal sw=2 sts=2 ts=2 et
+endfunction
+
+augroup my-ft-sql
+    autocmd!
+    autocmd FileType sql call s:my_ft_sql()
 augroup END

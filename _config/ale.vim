@@ -12,6 +12,9 @@ let g:ale_linters = {
 \   ],
 \   'c': [
 \       'clang'
+\   ],
+\   'cpp': [
+\       'clang'
 \   ]
 \}
 
@@ -19,6 +22,8 @@ let g:ale_fixers = {
 \   'nim': 'nimpretty',
 \   'python': ['isort', 'black'],
 \   'c': ['clang-format'],
+\   'cpp': ['clang-format'],
+\   'haskell': ['stack_ghc'],
 \}
 
 let g:ale_enabled = 1
@@ -36,26 +41,39 @@ let g:ale_sign_warning = ''
 
 nmap <silent> <A-j> <Plug>(ale_next_wrap_error)
 nmap <silent> <A-k> <Plug>(ale_previous_wrap_error)
-" nmap <silent> <A-u> <Plug>(ale_next_wrap_warning)
-" nmap <silent> <A-i> <Plug>(ale_previous_wrap_warning)
+nmap <silent> <A-u> <Plug>(ale_next_wrap_warning)
+nmap <silent> <A-i> <Plug>(ale_previous_wrap_warning)
+
+function! s:if_nrrw_buf_write_close() abort
+    " nrrw のウィンドウなら、実行する
+    if exists('b:nrrw_instn')
+        write
+        close
+    endif
+endfunction
+
+function! s:fix() abort
+    NR
+    " ALEFix
+endfunction
+command! -range=% NRALEFix call <SID>fix()
+
+" augroup MyNRALEFix
+"     autocmd!
+"     autocmd User ALELintPost call <SID>if_nrrw_buf_write_close()
+" augroup END
 
 function! s:nrr_alefix() abort
     if !empty(globpath(&rtp, 'autoload/nrrwrgn.vim'))
-        function! s:fix() abort
-            NR
-            ALEFix
-            write
-            close
-        endfunction
-        command! NRALEFix call <SID>fix()
-        vnoremap <buffer> <Space>bl NRALEFix
+        " vnoremap <buffer> <Space>bl :NRALEFix<CR>
+        vnoremap <buffer> <Space>bl :NR<CR>
     endif
 endfunction
 
 augroup MyALE
     autocmd!
-    autocmd FileType python,c nnoremap <buffer> <Space>bl :<C-u>ALEFix<CR>
-    autocmd FileType python,c call <SID>nrr_alefix()
+    autocmd FileType python,c,cpp nnoremap <buffer> <Space>bl :<C-u>ALEFix<CR>
+    autocmd FileType python,c,cpp call <SID>nrr_alefix()
     " isort の文字化け対応
     autocmd FileType python let $PYTHONIOENCODING = "utf-8"
 augroup END
@@ -95,7 +113,7 @@ function! s:setup_clangformat_options() abort
     for [key, val] in items(l:clangformat_options)
         let g:ale_c_clangformat_options .= l:first ? '' : ','
         let l:first = v:false
-        let g:ale_c_clangformat_options .= printf('%s: %s,', key, val)
+        let g:ale_c_clangformat_options .= printf('%s: %s', key, val)
     endfor
     let g:ale_c_clangformat_options .= '}" '
 endfunction

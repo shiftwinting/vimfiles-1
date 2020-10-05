@@ -18,7 +18,7 @@ let g:quickrun_config = {
 \       'hook/output_encode/encoding': '&fileencoding',
 \   },
 \   'python': {
-\       'exec': 'py -3 %s',
+\       'exec': 'py -3 %s %a',
 \       'hook/output_encode/encoding': '&fileencoding',
 \   },
 \   'scheme': {
@@ -26,10 +26,15 @@ let g:quickrun_config = {
 \   },
 \   'c': {
 \       'command': 'clang',
-\       'exec': ['%c %o %s:p:r', 'a.exe %a'],
+\       'exec': ['%c %o %s:p', 'a.exe %a'],
 \       'tempfile': '%{tempname()}.c',
 \       'hook/sweep/files': '%S:p:r',
+\       'cmdopt': '-Wall',
 \   },
+\   'haskell': {
+\       'command': 'stack',
+\       'cmdopt': 'runhaskell',
+\   }
 \}
 
 " \   'c': {
@@ -39,3 +44,5 @@ let g:quickrun_config = {
 nmap <Space>rr <Plug>(quickrun)
 
 command! QRHookUtf8 let b:quickrun_config = {'hook/output_encode/encoding': 'utf8'}
+
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"

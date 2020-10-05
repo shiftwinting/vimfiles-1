@@ -161,6 +161,30 @@ function! s:nord_color() abort
 
 endfunction
 
+function! s:palenight_color() abort
+    " green は nord から
+    let g:palenight_color_overrides = {}
+    let g:palenight_color_overrides.green = {'gui': '#A3BE8C'}
+
+    hi pythonClassVar guifg=#88C0D0
+    hi link pythonDecorator Function
+    hi Boolean guifg=#D08770
+
+    hi VertSplit gui=NONE guifg=fg guibg=#2E3440
+
+    " " " davidhalter/jedi-vim
+    " hi jediFunction guifg=#bfc7d5 guibg=#474b59
+    " hi jediFat      guifg=#82b1ff guibg=#474b59 gui=bold,underline
+
+    hi Todo gui=bold guifg=#005F00 guibg=#A3BE8C
+
+    hi vimspectorBP         guifg=#A3BE8C guibg=#3B4252
+    hi vimspectorBPDisabled guifg=#81A1C1 guibg=#3B4252
+    hi vimspectorPC         guifg=#EBCB8B guibg=#3B4252
+    hi vimspectorPCBP       guifg=#EBCB8B guibg=#3B4252
+
+endfunction
+
 function! DefineMyHighlishts() abort
     if !exists('g:colors_name') | return | endif
 
@@ -217,7 +241,13 @@ function! DefineMyHighlishts() abort
             call s:nord_color()
         endif
 
+        if g:colors_name ==# 'palenight'
+            call s:palenight_color()
+        endif
+
     endif
+
+    hi EftChar      guifg=red gui=bold
 
 endfunction
 
@@ -229,26 +259,40 @@ augroup END
 " italic なくす
 " let g:solarized_italics = 0
 
-" colorscheme solarized8
 " set background=dark
+" colorscheme solarized8
 
 " colorscheme one
 " set background=light
 
-colorscheme nord
-set background=dark
+" colorscheme nord
+" set background=dark
 
 let g:nord_uniform_diff_background = 1
 let g:nord_underline = 1
 let g:nord_bold_vertical_split_line = 1
 
 
+" colorscheme palenight
+" set background=dark
 
-" よく間違える文字をハイライト
-let s:misspell = [
-\   'pritn',
-\   'funciton',
-\   'fmg',
-\   'Prinln',
-\]
-exe printf('match Error /%s/', join(s:misspell, '\|'))
+" set background=dark
+" let g:ayucolor = "mirage"
+" colorscheme ayu
+
+" set background=dark
+" colorscheme tender
+
+set background=dark
+
+let g:gruvbox_material_enable_italic = 0
+let g:gruvbox_material_disable_italic_comment = 1
+
+" let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_background = 'hard'
+" let g:gruvbox_material_background = 'soft'
+
+colorscheme gruvbox-material
+
+
+hi link vimEmbedError Normal

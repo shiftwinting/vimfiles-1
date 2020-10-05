@@ -16,3 +16,15 @@ options     head
 # alias		plug
 # abbr		MyPlug ''
 # 	MyPlug '`getreg('+')=='' ? '<\`0\`>' : getreg('+')`'${0}
+
+snippet     ft_autocmd
+abbr        filetype autocmd
+options     head
+	function! s:my_ft_${1:filetype}() abort
+		${2}
+	endfunction
+
+	augroup my-ft-$1
+		autocmd!
+		autocmd FileType $1 call s:my_ft_$1()
+	augroup END

@@ -1,7 +1,8 @@
 scriptencoding utf-8
 
+let g:plug_install_dir = expand('~/vimfiles/plugged')
 
-call plug#begin('~/vimfiles/plugged')
+call plug#begin(g:plug_install_dir)
 
 
 Plug 'junegunn/vim-plug'
@@ -12,7 +13,6 @@ Plug 'vim-jp/syntax-vim-ex'
 Plug 'Yggdroot/indentLine'
 Plug 'chrisbra/NrrwRgn'
 Plug 'dense-analysis/ale'
-" Plug 'deris/vim-shot-f'               " -> rhysd/clever-f.vim
 Plug 'dhruvasagar/vim-table-mode'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
@@ -43,29 +43,58 @@ Plug 'ap/vim-css-color'
 Plug 'sillybun/vim-repl'              " 使いやすいように最高になった
 Plug 'markonm/traces.vim'             " 可視化しなくても良い気がするから
 Plug 'liuchengxu/graphviz.vim'        " Graphviz 用
+" Plug 'deris/vim-shot-f'               " -> rhysd/clever-f.vim -> vim-eft
+" Plug 'rhysd/clever-f.vim'             " -> deris/vim-shot-f -> vim-eft
+Plug 'hrsh7th/vim-eft'
+
+Plug 'skywind3000/asynctasks.vim'
+Plug 'skywind3000/asyncrun.vim'
+
+Plug 'rbtnn/vim-gloaded'
+Plug 'y0za/vim-reading-vimrc'
+
+Plug 'puremourning/vimspector'
+Plug 'AndrewRadev/switch.vim'
+Plug 'google/vim-searchindex'       " 検索結果の個数を表示
+Plug 'tyru/columnskip.vim'
+
+Plug 'iamcco/markdown-preview.nvim' " markdown プレビュー
+
+" Plug 'ryanoasis/vim-devicons'
+" Plug 'hardcoreplayers/spaceline.vim'
 
 " Plug 'dbeniamine/todo.txt-vim'        " 家だと使わないから
 " Plug 'kana/vim-tabpagecd'
-" Plug 'lambdalisue/vim-backslash'      " たまにおかしくなるから
-" Plug 'liuchengxu/vim-which-key'       " 定義がめんどくさい & でてくるのなんかやだ
-" Plug 'machakann/vim-highlightedundo'  " 毎回光るのやだ
-" Plug 'majutsushi/tagbar'              " -> LeaderF
-" Plug 'mattn/gist-vim'     
+" Plug 'lambdalisue/vim-backslash'
+" Plug 'liuchengxu/vim-which-key'
+" Plug 'machakann/vim-highlightedundo'
+" Plug 'majutsushi/tagbar'              " -> Vista
+" Plug 'mattn/gist-vim'
 " Plug 'mechatroner/rainbow_csv'        " CSV 見ないから
 " Plug 'mg979/vim-visual-multi'
-" Plug 'rbtnn/vim-coloredit'            " そこまで使わないから
-" Plug 'rbtnn/vim-mrw'                  " ん～～って感じ
+" Plug 'rbtnn/vim-coloredit'
+" Plug 'rbtnn/vim-mrw'
 " Plug 'romainl/vim-cool'               " 他の検索系のプラグインと相性が悪い
 " Plug 'simnalamburt/vim-mundo'         " そこまで使わないから
-" Plug 'skywind3000/vim-quickui'        " LeaderF でいいやって感じ
-" Plug 't9md/vim-quickhl'               " それほど使わない
+" Plug 'skywind3000/vim-quickui'        " -> LeaderF
+" Plug 't9md/vim-quickhl'
 " Plug 'tpope/vim-endwise'              " -> neosnippet
 " Plug 'tpope/vim-surround'             " -> sandwich
 " Plug 'tweekmonster/helpful.vim'
-" Plug 'tyru/columnskip.vim'            " イマイチ使い方がわからない
 " Plug 'tyru/vim-altercmd'
 " Plug 'skanehira/translate.vim'        " -> voldikss/vim-translator
-Plug 'rhysd/clever-f.vim'           " -> deris/vim-shot-f
+" Plug 'JMcKiern/vim-venter'            " ウィンドウを真ん中に表示
+
+" --------------------------
+" completor
+" --------------------------
+" Plug 'maralla/completor.vim'
+" Plug 'maralla/completor-neosnippet'
+" Plug 'kyouryuukunn/completor-necosyntax'
+" Plug 'tamago324/completor-necosyntax'       " fork したやつ
+" Plug '~/ghq/github.com/kyouryuukunn/completor-necosyntax'
+" Plug 'kyouryuukunn/completor-necovim'
+" Plug '~/ghq/github.com/kyouryuukunn/completor-necovim'
 
 " --------------------------
 " db
@@ -84,15 +113,14 @@ Plug 'rhysd/clever-f.vim'           " -> deris/vim-shot-f
 " --------------------------
 Plug 'vim-python/python-syntax', {'for': ['python']}
 " Plug 'petobens/poet-v'  " 起動時間遅くなるし、あまり使わないから
-Plug 'davidhalter/jedi-vim', {'for': ['python']}
+" Plug 'davidhalter/jedi-vim', {'for': ['python']}
 " JediUseEnvironment のため
 " Plug 'blueyed/jedi-vim', { 'branch': 'envs' } " poet-v 使わないから
-Plug 'relastle/vim-nayvy'
+" Plug 'relastle/vim-nayvy'
 " Plug 'kiteco/vim-plugin'      " 挙動がおかしいから
 " Plug 'wookayin/vim-autoimport'    " 使いどきわからん
 " Plug 'glench/vim-jinja2-syntax'
-Plug 'heavenshell/vim-pydocstring'
-Plug 'puremourning/vimspector'
+" Plug 'heavenshell/vim-pydocstring'
 
 " --------------------------
 " php
@@ -126,6 +154,7 @@ Plug 'dkarter/bullets.vim', {'for': ['md', 'markdown']}
 " clang
 " --------------------------
 Plug 'vim-jp/vim-cpp'
+Plug 'Shougo/neoinclude.vim'
 
 " --------------------------
 " syntax
@@ -139,16 +168,12 @@ Plug 'vim-jp/vim-cpp'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
-
-" --------------------------
-" complete
-" --------------------------
-Plug 'Shougo/echodoc.vim'
+" Plug 'SirVer/ultisnips'
 
 " --------------------------
 " complete vim
 " --------------------------
-" Plug 'machakann/vim-Verdin'
+Plug 'machakann/vim-Verdin'
 
 " --------------------------
 " go
@@ -194,7 +219,11 @@ Plug 'tyru/operator-camelize.vim'
 " dark power
 " --------------------------
 Plug 'Shougo/deol.nvim'
-" Plug 'Shougo/context_filetype.vim'
+Plug 'Shougo/context_filetype.vim'
+Plug 'Shougo/neco-syntax'
+Plug 'Shougo/neco-vim'
+Plug 'Shougo/echodoc.vim'
+
 
 " --------------------------
 " lightline
@@ -204,13 +233,14 @@ Plug 'itchyny/lightline.vim'
 " --------------------------
 " git
 " --------------------------
-" Plug 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
 Plug 'gisphm/vim-gitignore'
 " Plug 'rhysd/conflict-marker.vim'
 " Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-dispatch'
+" Plug 'mhinz/vim-signify'
 
 " --------------------------
 " colorscheme
@@ -218,6 +248,10 @@ Plug 'tpope/vim-dispatch'
 " Plug 'lifepillar/vim-solarized8'
 " Plug 'rakr/vim-one'
 Plug 'arcticicestudio/nord-vim'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'ayu-theme/ayu-vim'
+Plug 'jacoborus/tender.vim'
+Plug 'sainnhe/gruvbox-material'
 
 " --------------------------
 " LeaderF
@@ -226,11 +260,15 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
 " Plug 'tamago324/LeaderF-cdnjs'
 Plug 'tamago324/LeaderF-bookmark'
 Plug 'tamago324/LeaderF-openbrowser'
-Plug 'tamago324/LeaderF-filer'
+" Plug 'tamago324/LeaderF-filer'
+Plug 'tamago324/LeaderF-neosnippet'
+Plug 'tamago324/LeaderF-packadd'
+Plug 'tamago324/LeaderF-sonictemplate'
+Plug 'bennyyip/LeaderF-ghq'
 
-" --------------------------
-" coc  チカチカするからやだ -> asyncomplete 
-" --------------------------
+" " --------------------------
+" " coc  チカチカするからやだ -> asyncomplete 
+" " --------------------------
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc-neco'
 
@@ -240,27 +278,38 @@ Plug 'tamago324/LeaderF-filer'
 " Plug 'Shougo/deoplete.nvim'
 " Plug 'roxma/nvim-yarp'
 " Plug 'roxma/vim-hug-neovim-rpc'
+" Plug 'lighttiger2505/deoplete-vim-lsp'
+" Plug 'deoplete-plugins/deoplete-tag'
+Plug 'Shougo/neopairs.vim'
 
-" --------------------------
-" asyncomplete いい感じ 
-"  -> 日本語売った後にポップアップが出ちゃうのが微妙だけど
-"  -> 関数を保管した後のカッコがなんかいやだ ( だけ補完される
-" --------------------------
+" " --------------------------
+" " asyncomplete いい感じ 
+" "  -> 日本語売った後にポップアップが出ちゃうのが微妙だけど
+" "  -> 関数を保管した後のカッコがなんかいやだ ( だけ補完される
+" " --------------------------
 " Plug 'prabirshrestha/asyncomplete.vim'
 " Plug 'prabirshrestha/asyncomplete-necosyntax.vim'
 " Plug 'prabirshrestha/asyncomplete-necovim.vim'
-" Plug 'yami-beta/asyncomplete-omni.vim'
-" Plug 'Shougo/neco-syntax'
-" Plug 'Shougo/neco-vim'
+" " Plug 'yami-beta/asyncomplete-omni.vim'
 " Plug 'prabirshrestha/asyncomplete-buffer.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+" Plug 'thomasfaingnaert/vim-lsp-neosnippet'
 
-" " --------------------------
-" " lsp
-" " --------------------------
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
+" " complete
+" " Plug 'lifepillar/vim-mucomplete'
+" Plug 'ycm-core/YouCompleteMe'
+" Plug 'ycm-core/lsp-examples'
 
-" Plug '~/ghq/github.com/tamago324/LeaderF'
+" --------------------------
+" lsp
+" --------------------------
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
+Plug 'liuchengxu/vista.vim'
+
+Plug '~/ghq/github.com/tamago324/LeaderF-filer'
+" Plug '~/ghq/github.com/tamago324/LeaderF-unite'
+" Plug '~/ghq/github.com/Shougo/unite.vim'
 
 call plug#end()

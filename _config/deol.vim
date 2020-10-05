@@ -11,7 +11,8 @@ let g:deol#prompt_pattern =
 \       '# \? ' . '\|' . 
 \       '\$' .
 \   '\)'
-
+" let g:deol#prompt_pattern = 
+" \   '[^#>$ ]\{-}'
 " コマンドの履歴
 let g:deol#shell_history_path = expand('~/deol_history')
 
@@ -21,17 +22,39 @@ let g:deol#extra_options = {
 \}
 
 " プロンプト
-let s:deol_prompt_sign = '$ '
+" let s:deol_prompt_sign = '$ '
 
 let s:deol_term_command = 'cmd.exe'
 
 " 履歴ファイルを読めるか
-let s:can_read_history_file = filereadable(g:deol#shell_history_path)
+" let s:can_read_history_file = filereadable(g:deol#shell_history_path)
 
+command! ShowDeol call <SID>show_deol(tabpagenr())
 
+nnoremap <A-t> :<C-u>ShowDeol<CR>
 nnoremap <silent><A-t> :<C-u>call ToggleDeol()<CR>
 tnoremap <silent><A-t> <C-\><C-n>:<C-u>call ToggleDeol()<CR>
 " nnoremap <Space>re :<C-u>DeolRepl py<CR>
+
+" ====================
+" deol を表示
+" 
+" s:show_deol(tabnr[, command])
+" ====================
+function! s:show_deol(tabnr, ...) abort
+    let l:command = get(a:, 1, &shell)
+
+    botright 25new
+    setlocal winfixheight
+
+    if !exists('t:deol') || !bufexists(t:deol.bufnr)
+        " 新規作成
+        execute 'Deol -edit -command=' . l:command . ' -edit-filetype=deoledit'
+    else
+        Deol
+        DeolEdit
+    endif
+endfunction
 
 
 augroup MyDeol
@@ -43,27 +66,27 @@ autocmd MyDeol Filetype   deoledit call <SID>deol_editor_settings()
 autocmd MyDeol DirChanged *        call <SID>deol_cd()
 
 
-" :q --- QuitPre -> WinLeave
-" ====================
-" QuitPre:
-" ====================
-function! s:QuitPre() abort
-    " :q したら、deol_quited に 1 をセット
-    call setbufvar(bufnr(), 'deol_quited', 1)
-endfunction
+" " :q --- QuitPre -> WinLeave
+" " ====================
+" " QuitPre:
+" " ====================
+" function! s:QuitPre() abort
+"     " :q したら、deol_quited に 1 をセット
+"     call setbufvar(bufnr(), 'deol_quited', 1)
+" endfunction
 
 
-" ====================
-" WinLeave:
-" ====================
-function! s:WinLeave() abort
-    if !getbufvar(bufnr(), 'deol_quited', 0)
-        return
-    endif
-
-    let l:deol_edit_bufnr = get(s:get_deol(), 'edit_bufnr', -1)
-    call s:bufdelete_if_exists(l:deol_edit_bufnr)
-endfunction
+" " ====================
+" " WinLeave:
+" " ====================
+" function! s:WinLeave() abort
+"     if !getbufvar(bufnr(), 'deol_quited', 0)
+"         return
+"     endif
+"
+"     let l:deol_edit_bufnr = get(s:get_deol(), 'edit_bufnr', -1)
+"     call s:bufdelete_if_exists(l:deol_edit_bufnr)
+" endfunction
 
 
 " ====================
@@ -74,19 +97,20 @@ function! s:DirChanged(file) abort
 endfunction
 
 
-" ====================
-" TextChangedI:
-" TextChangedP:
-" ====================
-function! s:TextChanged() abort
-    call s:sign_place()
-endfunction
+" " ====================
+" " TextChangedI:
+" " TextChangedP:
+" " ====================
+" function! s:TextChanged() abort
+"     call s:sign_place()
+" endfunction
 
 
 
 function! s:deol_settings() abort
     tnoremap <buffer><silent>       <A-e> <C-w>:call         deol#edit()<CR>
-    nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>normal! i<CR>
+    " nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>normal! i<CR>
+    nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>call deol#edit()<CR>
     nnoremap <buffer><silent>       <A-t> <Esc>:call         <SID>hide_deol(tabpagenr())<CR>
 
     " " "\<Right>" じゃだめだった
@@ -100,9 +124,9 @@ function! s:deol_settings() abort
     nnoremap <buffer>               <C-z> <Nop>
     nnoremap <buffer>               e     <Nop>
 
-    " :q --- QuitPre -> WinLeave
-    autocmd MyDeol QuitPre  <buffer> call <SID>QuitPre()
-    autocmd MyDeol WinLeave <buffer> call <SID>WinLeave()
+    " " :q --- QuitPre -> WinLeave
+    " autocmd MyDeol QuitPre  <buffer> call <SID>QuitPre()
+    " autocmd MyDeol WinLeave <buffer> call <SID>WinLeave()
 
     " git dirty とかで飛べるようにするため
     " setlocal path+=FugitiveWorkTree()
@@ -113,11 +137,11 @@ endfunction
 function! s:deol_editor_settings() abort
     command! -buffer -range -bang SendEditor call <SID>send_editor(<line1>, <line2>, <bang>0)
 
-    if exists('t:deol_repl')
-        return
-    endif
+    " if exists('t:deol_repl')
+    "     return
+    " endif
 
-    autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
+    " autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
 
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
     nnoremap <buffer><silent> <A-e> :<C-u>call <SID>deol_kill_editor()<CR>
@@ -132,7 +156,7 @@ function! s:deol_editor_settings() abort
     inoremap <buffer><silent> <CR>  <Esc>:SendEditor!<CR>
     vnoremap <buffer><silent> <CR>  :SendEditor<CR>
 
-    nnoremap <buffer><silent> <Sapce>fl :<C-u>Leaderf line --popup<CR>
+    " nnoremap <buffer><silent> <Sapce>fl :<C-u>Leaderf line --popup<CR>
 
     iabbrev <buffer> poe poetry
 
@@ -146,7 +170,7 @@ function! s:deol_editor_settings() abort
     resize 5
     setlocal winfixheight
 
-    call s:sign_place()
+    " call s:sign_place()
 
     " setlocal completefunc=vimrc#git#aliases#complete
 
@@ -155,9 +179,9 @@ endfunction
 
 function! s:deol_cd() abort
     " もし、REPL なら、実行しない
-    if exists('t:deol_repl')
-        return
-    endif
+    " if exists('t:deol_repl')
+    "     return
+    " endif
     call deol#cd(fnamemodify(expand('<afile>'), ':p:h'))
 endfunction
 
@@ -196,33 +220,6 @@ function! s:deol_kill_editor() abort
 endfunction
 
 
-" ====================
-" deol を表示
-" 
-" s:show_deol(tabnr[, command])
-" ====================
-function! s:show_deol(tabnr, ...) abort
-    let l:command = get(a:, 1, &shell)
-
-    botright 25new
-    setlocal winfixheight
-
-    if !exists('t:deol') || !bufexists(t:deol.bufnr)
-        " 新規作成
-        call deol#start(printf('-edit -command=%s -edit-filetype=deoledit', l:command))
-    else
-        " 既存を使用
-        try
-            " うまくできなかったため、エラーは無視する
-            execute 'buffer +normal!\ i ' . t:deol.bufnr
-        catch /.*/
-            " ignore
-        endtry
-
-        " deol-editor を開く
-        call deol#edit()
-    endif
-endfunction
 
 
 " ====================
@@ -238,6 +235,7 @@ function! s:hide_deol(tabnr) abort
 
     if s:is_show_deol_edit()
         call s:deol_kill_editor()
+        " call deol#kill_editor()
     endif
 
     call win_gotoid(bufwinid(t:deol.bufnr))
@@ -285,14 +283,14 @@ function! s:is_show_deol_edit(...) abort
 endfunction
 
 
-" ====================
-" tab の deol を取得
-"
-" s:get_deol([tabnr])
-" ====================
-function! s:get_deol() abort
-    return gettabvar(tabpagenr(), 'deol', {})
-endfunction
+" " ====================
+" " tab の deol を取得
+" "
+" " s:get_deol([tabnr])
+" " ====================
+" function! s:get_deol() abort
+"     return gettabvar(tabpagenr(), 'deol', {})
+" endfunction
 
 
 " ====================
@@ -362,43 +360,43 @@ endfunction
 
 
 
-" ====================
-" --------------------
-" sign
-" --------------------
-" ====================
-
-" sign の定義
-call sign_define('my_deol_prompt', {
-\   'text': s:deol_prompt_sign,
-\   'texthl': 'Comment',
-\})
-
-
-" ====================
-" sign の設置
-" ====================
-function! s:sign_place() abort
-    let l:bufnr = bufnr()
-    " 取得
-    let l:last_lnum = getbufvar(l:bufnr, 'deol_last_lnum', 0)
-    if l:last_lnum ==# line('$')
-        return
-    endif
-
-    for l:idx in range(5)
-        let l:lnum = line('$') - l:idx
-        if l:lnum >= 1
-            call sign_place(l:lnum, 'my_deol', 'my_deol_prompt', l:bufnr, {
-            \   'lnum': l:lnum,
-            \   'priority': 5,
-            \})
-        endif
-    endfor
-
-    " 保存
-    call setbufvar(l:bufnr, 'deol_last_lnum', line('$', bufwinid(l:bufnr)))
-endfunction
+" " ====================
+" " --------------------
+" " sign
+" " --------------------
+" " ====================
+"
+" " sign の定義
+" call sign_define('my_deol_prompt', {
+" \   'text': s:deol_prompt_sign,
+" \   'texthl': 'Comment',
+" \})
+"
+"
+" " ====================
+" " sign の設置
+" " ====================
+" function! s:sign_place() abort
+"     let l:bufnr = bufnr()
+"     " 取得
+"     let l:last_lnum = getbufvar(l:bufnr, 'deol_last_lnum', 0)
+"     if l:last_lnum ==# line('$')
+"         return
+"     endif
+"
+"     for l:idx in range(5)
+"         let l:lnum = line('$') - l:idx
+"         if l:lnum >= 1
+"             call sign_place(l:lnum, 'my_deol', 'my_deol_prompt', l:bufnr, {
+"             \   'lnum': l:lnum,
+"             \   'priority': 5,
+"             \})
+"         endif
+"     endfor
+"
+"     " 保存
+"     call setbufvar(l:bufnr, 'deol_last_lnum', line('$', bufwinid(l:bufnr)))
+" endfunction
 
 
 

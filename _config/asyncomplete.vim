@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-finish
+" finish
 
 if empty(globpath(&rtp, 'autoload/asyncomplete.vim'))
     finish
@@ -27,35 +27,43 @@ augroup asynctomplete_setup
         \ }))
     endif
 
-    autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
-    \   'name': 'necosyntax',
-    \   'whitelist': ['*'],
-    \   'blacklist': ['python', 'lisp'],
-    \   'completor': function('asyncomplete#sources#necosyntax#completor'),
-    \ }))
+    if <SID>exists_source('necosyntax')
+        autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necosyntax#get_source_options({
+        \   'name': 'necosyntax',
+        \   'whitelist': ['*'],
+        \   'blacklist': ['python', 'lisp'],
+        \   'completor': function('asyncomplete#sources#necosyntax#completor'),
+        \ }))
+    endif
 
-    autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-    \   'name': 'necovim',
-    \   'whitelist': ['vim'],
-    \   'completor': function('asyncomplete#sources#necovim#completor'),
-    \ }))
+    if <SID>exists_source('necovim')
+        autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
+        \   'name': 'necovim',
+        \   'whitelist': ['vim'],
+        \   'completor': function('asyncomplete#sources#necovim#completor'),
+        \ }))
+    endif
 
-    " python は jedi の補完を使いたいため
-    autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
-    \   'name': 'omni',
-    \   'whitelist': ['sql', 'lisp'],
-    \   'blacklist': ['c', 'cpp', 'html', 'python'],
-    \   'completor': function('asyncomplete#sources#omni#completor')
-    \ }))
+    if <SID>exists_source('omni')
+        " python は jedi の補完を使いたいため
+        autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#omni#get_source_options({
+        \   'name': 'omni',
+        \   'whitelist': ['sql', 'lisp'],
+        \   'blacklist': ['c', 'cpp', 'html', 'python'],
+        \   'completor': function('asyncomplete#sources#omni#completor')
+        \ }))
+    endif
 
-    autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \   'name': 'buffer',
-    \   'whitelist': ['*'],
-    \   'blacklist': ['lisp', 'python'],
-    \   'completor': function('asyncomplete#sources#buffer#completor'),
-    \   'config': {
-    \      'max_buffer_size': 100000,
-    \   },
-    \ }))
+    if <SID>exists_source('buffer')
+        autocmd User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+        \   'name': 'buffer',
+        \   'whitelist': ['*'],
+        \   'blacklist': ['lisp', 'python'],
+        \   'completor': function('asyncomplete#sources#buffer#completor'),
+        \   'config': {
+        \      'max_buffer_size': 100000,
+        \   },
+        \ }))
+    endif
 
 augroup END

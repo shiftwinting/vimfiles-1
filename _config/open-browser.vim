@@ -23,7 +23,8 @@ let g:openbrowser_search_engines = {
 \   'github': 'http://github.com/search?q={query}',
 \   'vimawesome': 'https://vimawesome.com/?q={query}',
 \   'duckduckgo': 'http://duckduckgo.com/?q={query}',
-\   'memo': 'https://scrapbox.io/tamago324-05149866/search/page?q={query}',
+\   'memo': 'https://scrapbox.io/tamago324vim/search/page?q={query}',
 \   'mdnwebdocs': 'https://developer.mozilla.org/ja/search?q={query}',
-\   'python': 'https://docs.python.org/3/search.html?q={query}'
+\   'python': 'https://docs.python.org/3/search.html?q={query}',
+\   'clang_func_dict': 'http://www.c-tipsref.com/cgi-bin/index.cgi?q={query}&b.x=0&b.y=0'
 \}

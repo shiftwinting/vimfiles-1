@@ -7,3 +7,6 @@ work/
 .mypy_cache
 work.vim
 vimspector_config/gadgets/*
+tags
+
+_config/LeaderF-github-stars.vim

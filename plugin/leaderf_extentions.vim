@@ -6,6 +6,9 @@ function! s:load_extensions() abort
     let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
     for l:ext in glob(fnamemodify(s:sfile, ':h:h') . '/autoload/lf/*.vim', '', v:true)
         let l:category = fnamemodify(l:ext, ':t:r')
+        " if !exists(printf('*lf#%s#source_type', l:category))
+        "     continue
+        " endif
         let l:source_type = lf#{l:category}#source_type()
         let g:Lf_Extensions[l:category] = {}
 
@@ -48,5 +51,3 @@ function! s:add_by_exec(category, key) abort
 endfunction
 
 call s:load_extensions()
-
-command! Tpackadd Leaderf packadd

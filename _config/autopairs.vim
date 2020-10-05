@@ -6,3 +6,15 @@ augroup MyAutoPairs
     " slimv を使うため
     autocmd Filetype lisp,scheme let b:autopairs_enabled = 0
 augroup END
+
+" let g:AutoPairsShortcutToggle = '<M-p>'
+let g:AutoPairsShortcutToggle = ''
+
+" let g:AutoPairsShortcutFastWrap = '<M-e>'
+let g:AutoPairsShortcutFastWrap = ''
+
+" let g:AutoPairsShortcutJump = '<M-n>'
+let g:AutoPairsShortcutJump = ''
+
+" let g:AutoPairsShortcutBackInsert = '<M-b>'
+let g:AutoPairsShortcutBackInsert = ''

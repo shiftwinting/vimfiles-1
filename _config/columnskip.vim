@@ -1,13 +1,13 @@
 scriptencoding utf-8
 
-if empty(globpath(&rtp, 'plugin/columnskip.vim'))
+if empty(globpath(&rtp, 'autoload/columnskip.vim'))
     finish
 endif
 
-nmap zj <Plug>(columnskip-j)
-omap zj <Plug>(columnskip-j)
-xmap zj <Plug>(columnskip-j)
+nmap <A-n> <Plug>(columnskip:nonblank:next)
+omap <A-n> <Plug>(columnskip:nonblank:next)
+xmap <A-n> <Plug>(columnskip:nonblank:next)
 
-nmap zk <Plug>(columnskip-k)
-omap zk <Plug>(columnskip-k)
-xmap zk <Plug>(columnskip-k)
+nmap <A-p> <Plug>(columnskip:nonblank:prev)
+omap <A-p> <Plug>(columnskip:nonblank:prev)
+xmap <A-p> <Plug>(columnskip:nonblank:prev)

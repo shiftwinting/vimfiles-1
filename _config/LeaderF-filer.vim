@@ -38,6 +38,7 @@ let g:Lf_FilerNormalMap = {
 \   'H':             'history_backward',
 \   'L':             'history_forward',
 \   'D':             'remove_trash',
+\   ',':             'toggle_gitignore_files',
 \}
 
 let g:Lf_FilerUseDefaultInsertMap = 0

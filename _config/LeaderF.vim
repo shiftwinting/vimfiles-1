@@ -12,11 +12,12 @@ nnoremap <silent> <Space>fr        :<C-u><C-r>=printf('Leaderf! rg --recall --po
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf  cdnjs<CR>
 nnoremap <silent> <Space>ff        :<C-u>Leaderf  file<CR>
 nnoremap <silent> <Space>fh        :<C-u>Leaderf  help<CR>
-nnoremap <silent> <Space>j         :<C-u>Leaderf  buffer --nowrap<CR>
-nnoremap <silent> <Space>fj        :<C-u>Leaderf  buffer --nowrap<CR>
-nnoremap <silent> <Space>fk        :<C-u>Leaderf  mru --nowrap<CR>
+nnoremap <silent> <Space>fj         :<C-u>Leaderf  buffer --nowrap<CR>
+" nnoremap <silent> <Space>fj        :<C-u>Leaderf  buffer --nowrap<CR>
+" nnoremap <silent> <Space>fk        :<C-u>Leaderf  mru --nowrap<CR>
+nnoremap <silent> <Space>fk         :<C-u>Leaderf  mru --nowrap<CR>
 nnoremap <silent> <Space>fo        :<C-u>Leaderf  openbrowser<CR>
-nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq<CR>
+nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq --bottom<CR>
 nnoremap <silent> <Space>ft        :<C-u>Leaderf  filetype<CR>
 " nnoremap <silent> <Space>fw        :<C-u>Leaderf  window<CR>
 " nnoremap <silent> <Space>fm        :<C-u><C-r>=printf('Leaderf  file --file %s', g:vimrc#mrw#cache_path)<CR><CR>
@@ -24,9 +25,10 @@ nnoremap <silent> <Space>fl        :<C-u><C-r>=printf('Leaderf  line --regexMode
 nnoremap <silent> <Space>fs        :<C-u>Leaderf  bufTag<CR>
 nnoremap <silent> <Space>fv        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
 nnoremap <silent> <Space>fb        :<C-u>Leaderf  bookmark --nowrap<CR>
+nnoremap <silent> <Space>fa        :<C-u>Leaderf  task --nowrap<CR>
 
 nnoremap <silent> <M-x>            :<C-u>Leaderf command --run-immediately --fuzzy<CR>
-nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
+nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s' --popup", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
 nnoremap <silent> <Space>;t        :<C-u>Leaderf sonictemplate<CR>
 " nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf switch<CR>
@@ -34,6 +36,8 @@ nnoremap <silent> <Space>;t        :<C-u>Leaderf sonictemplate<CR>
 nnoremap <silent> <Space>fn        :<C-u>Leaderf neosnippet<CR>
 nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp<CR>
 " nnoremap <silent> <Space>fp        :<C-u>Leaderf menu<CR>
+" nnoremap <silent> <Space>fp        :<C-u>LeaderfVimspectorBreakpoints<CR>
+nnoremap <silent> <Space>fp         :<C-u>Leaderf yankround --nowrap<CR>
 
 " nnoremap <silent> /                 :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
 
@@ -49,12 +53,17 @@ endfunction
 "   2: leaderf#Rg#visual()
 
 " Reference
-nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --popup-width=%d --match-path --regexMode -e "%s" -w -F', <SID>nice_width(200), leaderf#Rg#getPattern(0))<CR><CR>
-vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! rg --popup-width=%d --match-path --regexMode -e %s -w -F', <SID>nice_width(200), leaderf#Rg#getPattern(2))<CR><CR>
+nnoremap <silent> <C-g><C-r>                :<C-u><C-r>=printf('Leaderf! rg --popup-width=%d --match-path --regexMode -e "%s" -w -F', <SID>nice_width(200), leaderf#Rg#getPattern(0))<CR><CR>
+vnoremap <silent> <C-g><C-r>                :<C-u><C-r>=printf('Leaderf! rg --popup-width=%d --match-path --regexMode -e %s -w -F', <SID>nice_width(200), leaderf#Rg#getPattern(2))<CR><CR>
 " buftag で検索
-nnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --regexMode --input %s', leaderf#Rg#getPattern(0))<CR><CR>
-vnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --regexMode --input %s', leaderf#Rg#getPattern(2)[1:-2])<CR><CR>
+" nnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --regexMode --input %s', leaderf#Rg#getPattern(0))<CR><CR>
+" vnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --regexMode --input %s', leaderf#Rg#getPattern(2)[1:-2])<CR><CR>
 
+
+nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! gtags -r %s --popup-width=%d', leaderf#Rg#getPattern(0), <SID>nice_width(200))<CR><CR>
+vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! gtags -r %s --popup-width=%d', leaderf#Rg#getPattern(2), <SID>nice_width(200))<CR><CR>
+nnoremap <silent> gd                :<C-u><C-r>=printf('Leaderf! gtags -d %s --popup-width=%d', leaderf#Rg#getPattern(0), <SID>nice_width(200))<CR><CR>
+vnoremap <silent> gd                :<C-u><C-r>=printf('Leaderf! gtags -d %s --popup-width=%d', leaderf#Rg#getPattern(2), <SID>nice_width(200))<CR><CR>
 
 function! s:leaderf_settings() abort
     silent! setlocal signcolumn=no
@@ -75,7 +84,7 @@ augroup END
 
 
 " デフォルト
-let g:Lf_DefaultMode = 'Regex'
+let g:Lf_DefaultMode = 'Fuzzy'
 
 " カーソルの点滅をなくす
 let g:Lf_CursorBlink = 0
@@ -86,6 +95,7 @@ if g:colors_name ==# 'one'
 else
     let g:Lf_StlColorscheme = 'default'
 endif
+let g:Lf_StlColorscheme = 'one'
 
 
 " 検索に使う外部ツール
@@ -109,13 +119,13 @@ let g:Lf_HideHelp = 1
 let g:Lf_WorkingDirectoryMode = 'A'
 
 " 履歴を3000
-let g:Lf_HistoryNumber = 3000
+let g:Lf_HistoryNumber = 10000
 
 let g:Lf_ReverseOrder = 1
 
 let g:Lf_WindowHeight = 0.4
 
-" 下に表示
+" 位置
 " let g:Lf_WindowPosition = 'bottom'
 let g:Lf_WindowPosition = 'popup'
 
@@ -138,11 +148,11 @@ let g:Lf_HistoryExclude = {
 
 let g:Lf_WildIgnore = {
 \   'dir': ['**/.mypy_cache/*', 'node_modules/*', '*.pyc'],
-\   'file': ['tags']
+\   'file': ['tags', 'index']
 \}
 
 let g:Lf_MruWildIgnore = {
-\   'file': ['*.dbout']
+\   'file': ['*.dbout', 'index']
 \}
 
 " Leaderf rg --help
@@ -167,9 +177,13 @@ let g:Lf_NormalMap = {
 \      ['<C-k>', 'k'],
 \      ['K',     '<Nop>'],
 \      ['M',     '<Nop>'],
+\      ['E',     ':echo '],
 \   ],
 \   'Filer': [
 \      ['B', ':exec g:Lf_py "filerExplManager.quit()" <bar> :LeaderfBookmark<CR>'],
+\   ],
+\   'File': [
+\      ['M', ':exec g:Lf_py "fileExplManager.quit()" <bar> :LeaderfMru<CR>'],
 \   ],
 \}
 " \   'Rg': [
@@ -371,9 +385,11 @@ let g:Lf_PreviewResult = {
 \   'Line': 1,
 \   'Colorscheme': 1,
 \   'Rg': 1,
-\   'Gtags': 0,
+\   'Gtags': 1,
 \   'neosnippet': 1,
 \   'dirty': 1,
+\   'quickfix': 1,
+\   'yankround': 1,
 \}
 
 
@@ -381,7 +397,12 @@ let g:Lf_DevIconsExactSymbols = {
 \   'vimrc':  '',
 \   'gvimrc': '',
 \   'tags':   '󿧸',
-\   '.gitconfig':   '',
+\   '.gitconfig': '',
+\   '.gitignore': '󿯙',
+\   'LICENSE': '',
+\   '.tasks':'',
+\   '.vimspector.json': '󿚷',
+\   'README.md': '',
 \}
 
 let g:Lf_DevIconsExtensionSymbols = {
@@ -397,6 +418,9 @@ let g:Lf_DevIconsPalette.dark = {
 \   'vimrc': { 'guifg': s:nord14_gui },
 \   'gvimrc': { 'guifg': s:nord14_gui },
 \   'scm': { 'guifg': s:nord11_gui },
+\   '.tasks': { 'guifg': s:nord10_gui },
+\   '.gitignore': { 'guifg': s:nord11_gui },
+\   '.vimspector.json': { 'guifg': s:nord9_gui },
 \}
 
 
@@ -405,3 +429,210 @@ let g:Lf_GtagsAutoGenerate = 1
 
 " .git の中に生成する
 let g:Lf_GtagsStoreInRootMarker = 1
+
+
+
+" =============================
+" task
+" =============================
+function! s:lf_task_source(...) abort
+    let rows = asynctasks#source(&columns * 48 / 100)
+    let source = []
+    for row in rows
+        let name = row[0]
+        let source += [name . '  ' . row[1] . '  : ' . row[2]]
+    endfor
+    return source
+endfunction
+
+
+function! s:lf_task_accept(line, arg) abort
+    let pos = stridx(a:line, '<')
+    if pos < 0
+        return
+    endif
+    let name = strpart(a:line, 0, pos)
+    let name = substitute(name, '^\s*\(.\{-}\)\s*$', '\1', '')
+    if name !=# ''
+        exec 'AsyncTask ' . name
+    endif
+endfunction
+
+function! s:lf_task_digest(line, mode) abort
+    let pos = stridx(a:line, '<')
+    if pos < 0
+        return [a:line, 0]
+    endif
+    let name = strpart(a:line, 0, pos)
+    return [name, 0]
+endfunction
+
+function! s:lf_win_init(...) abort
+    setlocal nonumber
+    setlocal nowrap
+endfunction
+
+
+let g:Lf_Extensions = get(g:, 'Lf_Extensions', {})
+let g:Lf_Extensions.task = {
+\ 'source': string(function('s:lf_task_source'))[10:-3],
+\ 'accept': string(function('s:lf_task_accept'))[10:-3],
+\ 'get_digest': string(function('s:lf_task_digest'))[10:-3],
+\ 'highlights_def': {
+\     'Lf_hl_funcScope': '^\S\+',
+\     'Lf_hl_funcDirname': '^\S\+\s*\zs<.*>\ze\s*:',
+\ },
+\ }
+
+
+" =============================
+" yankround
+" =============================
+let s:yankround_preview_bufnr = -1
+
+function! s:_yankround_cache_to_leaderfline(cache) "{{{
+    let l:entry = matchlist(a:cache, "^\\(.\\d*\\)\t\\(.*\\)")
+    return l:entry[1] . "\t" . strtrans(l:entry[2])
+endfunction
+
+
+
+function! s:lf_yankround_source(...) abort
+    return map(copy(g:_yankround_cache), 's:_yankround_cache_to_leaderfline(v:val)')
+endfunction
+
+
+function! s:lf_yankround_accept(line, args) abort
+    let l:strlist = map(copy(g:_yankround_cache), 's:_yankround_cache_to_leaderfline(v:val)')
+    let l:idx = index(l:strlist, a:line)
+    let [l:str, l:regtype] = yankround#_get_cache_and_regtype(l:idx)
+    call setreg('*', l:str, l:regtype)
+endfunction
+
+
+function! s:lf_yankround_preview(orig_buf_nr, orig_cursor, line, arguments) abort
+    let l:strlist = map(copy(g:_yankround_cache), 's:_yankround_cache_to_leaderfline(v:val)')
+    let l:idx = index(l:strlist, a:line)
+    let [l:lines, _] = yankround#_get_cache_and_regtype(l:idx)
+    let l:lines = split(l:lines, '\n')
+
+    silent call deletebufline(s:preview_bufnr, 1, '$')
+    silent call setbufline(s:preview_bufnr, 1, l:lines)
+    " [buf_number, line_num, jump_cmd]
+    return [s:preview_bufnr, 1, '']
+endfunction
+
+
+function! s:lf_yankround_before_enter(args) abort
+    let l:bufnr = bufadd('lf_yankround_preview') 
+    silent! call bufload(l:bufnr)
+
+    try
+        " from instance.py
+        call setbufvar(l:bufnr, '&buflisted',   0)
+        call setbufvar(l:bufnr, '&buftype',     'nofile')
+        call setbufvar(l:bufnr, '&bufhidden',   'hide')
+        call setbufvar(l:bufnr, '&undolevels',  -1)
+        call setbufvar(l:bufnr, '&swapfile',    0)
+        call setbufvar(l:bufnr, '&filetype',    &filetype)
+    catch /*/
+        " pass
+    endtry
+
+    let s:preview_bufnr = l:bufnr
+endfunction
+
+
+let g:Lf_Extensions.yankround = {
+\   'source': string(function('s:lf_yankround_source'))[10:-3],
+\   'accept': string(function('s:lf_yankround_accept'))[10:-3],
+\   'preview': string(function('s:lf_yankround_preview'))[10:-3],
+\   'before_enter': string(function('s:lf_yankround_before_enter'))[10:-3],
+\   'highlights_def': {
+\       'Lf_hl_funcScope': '^.',
+\   },
+\}
+
+
+" ====================
+" fav help
+" ====================
+function! s:_lf_space_between(line_items) abort
+    let l:result = []
+    " 1つ目の要素の最大の長さを返す
+    let l:max_len = max(map(copy(a:line_items), {_,x -> strdisplaywidth(x[0])}) + [0])
+    for l:line_item in a:line_items
+        let l:space = l:max_len - strdisplaywidth(l:line_item[0])
+        call add(l:result, printf('%s%s | %s', l:line_item[0], repeat(' ', l:space), l:line_item[1]))
+    endfor
+    return l:result
+endfunction
+
+
+let s:fav_helps = [
+\   ['function-list',      '関数一覧'],
+\   ['user-commands',      'command の書き方'],
+\   ['autocmd-events',     'autocmd 一覧'],
+\   ['E500',               '<cword> とか <afile> とか'],
+\   ['usr_41',             'Vim script 基本'],
+\   ['pattern-overview',   '正規表現 [regexp]'],
+\   ['eval',               'Vim script [tips]'],
+\   ['ex-cmd-index',       '":"のコマンド'],
+\   ['filename-modifiers', ':p とか :h とか [fnamemodify]'],
+\   ['index',              '各モードのマッピング [mapping]'],
+\   ['popup-window',       'ポップアップのヘルプ'],
+\   ['job-options',        'job のオプション集'],
+\   [':terminal',          'terminal のオプションとか'],
+\   ['slimv-keyboard',     'slimv の keymapping']
+\]
+
+function! s:lf_favhelp_source(args) abort
+    return s:_lf_space_between(s:fav_helps)
+endfunction
+
+function! s:lf_favhelp_accept(line, args) abort
+    exec 'help ' . trim(split(a:line, '|')[0])
+endfunction
+
+let g:Lf_Extensions.favhelp = {
+\   'source': string(function('s:lf_favhelp_source'))[10:-3],
+\   'accept': string(function('s:lf_favhelp_accept'))[10:-3],
+\   'highlights_def': {
+\       'Lf_hl_favhelp_comment': '|\zs .*$',
+\   },
+\   'highlights_cmd': [
+\       'hi link Lf_hl_favhelp_comment Comment'
+\   ]
+\}
+
+
+" ====================
+" LeaderF に独自のコマンドを追加する
+" ====================
+let s:script_file_dir = expand('<sfile>:h')
+
+function! s:custom_leaderf() abort
+    " autoload を実行させるため
+    call leaderf#versionCheck()
+    " LeaderF の拡張を sys.path に入れる
+    exec 'py3 import sys'
+    for [l:key, l:val] in items(g:plugs)
+        let l:lf_ext_dir = substitute(l:val.dir, '\', '/', 'g') . 'autoload/leaderf/python'
+        if isdirectory(l:lf_ext_dir)
+            exec printf('py3 sys.path.insert(0, "%s")', l:lf_ext_dir)
+        endif
+    endfor
+
+    " ./leaderf/*.py のファイルを読み込む
+    for l:file in glob(s:script_file_dir . '/leaderf/*.py', v:false, v:true)
+        echo l:file
+        exec 'py3file' l:file
+    endfor
+endfunction
+call s:custom_leaderf()
+
+let g:Lf_NormalMap = get(g:, 'Lf_NormalMap')
+let g:Lf_NormalMap.Ghq = [
+\   ['B', ':exec g:Lf_py "ghqExplManager.open_browser()"<CR>'],
+\   ['P', ':exec g:Lf_py "ghqExplManager.packget()"<CR>'],
+\]

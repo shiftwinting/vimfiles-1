@@ -6,6 +6,9 @@ let s:colors = [
 \   ['one', 'one'],
 \   ['nord', 'nord'],
 \   ['iceberg', 'iceberg'],
+\   ['palenight', 'palenight'],
+\   ['ayu', 'tender'],
+\   ['^gruvbox', 'gruvbox_material']
 \]
 
 for s:color in s:colors

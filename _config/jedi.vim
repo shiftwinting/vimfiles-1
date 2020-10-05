@@ -1,7 +1,5 @@
 scriptencoding utf-8
 
-finish
-
 if empty(globpath(&rtp, 'autoload/jedi.vim'))
     finish
 endif

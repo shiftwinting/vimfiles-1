@@ -1,45 +1,8 @@
 scriptencoding utf-8
 
-finish
-
-" mattn さんの lsp の設定 https://gist.github.com/mattn/3c65639710016d662701bb2526ecba55
-
-function! s:lsp_setup() abort
-
-    " python -m pip install python-language-server
-    if executable('pyls')
-
-        let l:pyls_config = {
-        \   'pyls': {
-        \       'plugins': {
-        \           'jedi_definition': {
-        \               'follow_imports': v:true
-        \           }
-        \       }
-        \   }
-        \}
-
-        call lsp#register_server({
-        \   'name': 'pyls',
-        \   'cmd': [&shell, &shellcmdflag, 'pyls'],
-        \   'whitelist': ['python'],
-        \   'workspace_config': l:pyls_config
-        \})
-
-    endif
-
-
-    " yarn global add vim-language-server
-    if executable('vim-language-server')
-        call lsp#register_server({
-        \   'name': 'vim',
-        \   'cmd': [&shell, &shellcmdflag, 'vim-language-server', '--stdio'],
-        \   'whitelist': ['vim'],
-        \})
-    endif
-
-endfunction
-
+if empty(globpath(&rtp, 'autoload/lsp.vim'))
+    finish
+endif
 
 " | 機能                    | vim | pyls |
 " |-------------------------|-----|------|
@@ -73,12 +36,14 @@ function! s:lsp_settings() abort
 
     " rename
 
+    inoremap <buffer> <C-space> <C-x><C-o>
+
 endfunction
 
 augroup MyLsp
     autocmd!
-    autocmd User lsp_setup call s:lsp_setup()
-    autocmd FileType python,vim call s:lsp_settings()
+    " autocmd User lsp_setup call s:lsp_setup()
+    autocmd FileType python,vim,c,cpp call s:lsp_settings()
 augroup END
 
 
@@ -86,8 +51,9 @@ augroup END
 let g:lsp_log_verbose = 1
 let g:lsp_log_file = 'C:/tmp/vimlsp.log'
 
-" 診断結果を表示する
-let g:lsp_diagnostics_enabled = 1
+" lint するか？
+" let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_enabled = 0
 
 " カーソル位置の診断結果を echo する
-let g:lsp_diagnostics_echo_cursor = 1
+let g:lsp_diagnostics_echo_cursor = 0

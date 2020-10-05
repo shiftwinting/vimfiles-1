@@ -18,6 +18,25 @@
           "userUnhandled": ""
         }
       }
+    },
+    "run with args - $current.py": {
+      "adapter": "debugpy",
+      "configuration": {
+        "request": "launch",
+        "type": "python",
+        "cwd": "${cwd}",
+        "program": "${file}",
+        "stopOnEntry": false,
+        "console": "integratedTerminal",
+        "args#json": "${args:[]}"
+      },
+      "breakpoints": {
+        "exception": {
+          "raised": "N",
+          "uncaught": "",
+          "userUnhandled": ""
+        }
+      }
     }
   }
 }

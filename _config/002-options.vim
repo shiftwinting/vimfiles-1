@@ -34,7 +34,7 @@ set nosplitbelow        " 横分割した時、カレントウィンドウの上
 " popup:    info を popup で表示
 " noselect: 自動で候補を表示しない
 " noinsert: 自動で候補を挿入しない
-set completeopt=menuone,noselect,noinsert,popup
+set completeopt=menuone,noselect,noinsert
 set pumheight=15
 
 set expandtab
@@ -210,7 +210,27 @@ set foldlevelstart=99
 " 表示できるところまで表示する
 set display=lastline
 
+" 重くなるため
+" " カーソル行をハイライト
 " set cursorline
 
 " マクロの実行が終わったら、描画する (高速化)
 set lazyredraw
+
+" よく間違える文字をハイライト
+let s:misspell = [
+\   'pritn',
+\   'funciton',
+\   'fmg',
+\   'Prinln',
+\   'improt',
+\]
+exe printf('match Error /%s/', join(s:misspell, '\|'))
+
+" .,w,b,u,t,i
+" include
+set complete-=i
+" tag
+set complete-=t
+" unload buffer
+set complete-=u

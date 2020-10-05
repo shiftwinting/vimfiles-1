@@ -48,3 +48,21 @@ snippet     init
 abbr        def __init__(self, ...)
 	def __init__(self, ${1:#:args}) -> None:
 		${2:pass}
+
+snippet     def
+abbr        def method(self, ...) -> type: ...
+options     head
+	def ${1:#:name}(${2}) -> ${3:None}:
+		${0:pass}
+
+snippet     defm
+abbr        def method(self, ...) -> type: ...
+options     head
+	def ${1:#:name}(self${2}) -> ${3:None}:
+		${0:pass}
+
+snippet     defstr
+abbr        def __str__(self) -> str: return ...
+options     head
+	def __str__(self) -> str:
+		return "${0}"

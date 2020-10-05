@@ -222,8 +222,8 @@ inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
 " 対応するカッコの移動
 " nmap 5 %
 " vmap 5 %
-nmap t <Nop>
-xmap t <Nop>
+" nmap t <Nop>
+" xmap t <Nop>
 
 nmap tj %
 xmap tj %
@@ -249,3 +249,9 @@ inoremap <C-l><C-p> <C-x><C-p>
 
 " 置換
 nnoremap <Space>s<Space> :%s///g<Left><Left>
+
+" from https://github.com/wass88/dotfiles/blob/62ad8bca0a494c45294164fb9df27ee440b23e87/.vimrc#L876
+vnoremap <C-a> <C-a>gv
+vnoremap <C-X> <C-X>gv
+
+nnoremap <space>i i_<ESC>r
