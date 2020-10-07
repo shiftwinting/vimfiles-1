@@ -187,7 +187,7 @@ set termwinkey=<C-w>
 set noshowmode
 set laststatus=2
 
-execute 'set viewdir='.expand("~/_vimview")
+" execute 'set viewdir='.expand("~/_vimview")
 
 " パスとして = を含めない (set rtp=~/path/to/file で補完できるようにする)
 set isfname-==

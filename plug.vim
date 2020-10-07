@@ -59,6 +59,7 @@ Plug 'google/vim-searchindex'       " 検索結果の個数を表示
 Plug 'tyru/columnskip.vim'
 
 Plug 'iamcco/markdown-preview.nvim' " markdown プレビュー
+Plug 'dstein64/vim-startuptime'
 
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'hardcoreplayers/spaceline.vim'
@@ -167,7 +168,7 @@ Plug 'Shougo/neoinclude.vim'
 " --------------------------
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'honza/vim-snippets'
+" Plug 'honza/vim-snippets'
 " Plug 'SirVer/ultisnips'
 
 " --------------------------
@@ -196,6 +197,11 @@ Plug 'luochen1990/rainbow'
 " haskell
 " --------------------------
 Plug 'itchyny/vim-haskell-indent'
+
+" --------------------------
+" ml
+" --------------------------
+Plug 'jez/vim-better-sml'
 
 " TODO: 使いこなしたい
 " " --------------------------
