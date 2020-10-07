@@ -605,34 +605,8 @@ let g:Lf_Extensions.favhelp = {
 \   ]
 \}
 
-
-" ====================
-" LeaderF に独自のコマンドを追加する
-" ====================
-let s:script_file_dir = expand('<sfile>:h')
-
-function! s:custom_leaderf() abort
-    " autoload を実行させるため
-    call leaderf#versionCheck()
-    " LeaderF の拡張を sys.path に入れる
-    exec 'py3 import sys'
-    for [l:key, l:val] in items(g:plugs)
-        let l:lf_ext_dir = substitute(l:val.dir, '\', '/', 'g') . 'autoload/leaderf/python'
-        if isdirectory(l:lf_ext_dir)
-            exec printf('py3 sys.path.insert(0, "%s")', l:lf_ext_dir)
-        endif
-    endfor
-
-    " ./leaderf/*.py のファイルを読み込む
-    for l:file in glob(s:script_file_dir . '/leaderf/*.py', v:false, v:true)
-        echo l:file
-        exec 'py3file' l:file
-    endfor
-endfunction
-call s:custom_leaderf()
-
 let g:Lf_NormalMap = get(g:, 'Lf_NormalMap')
 let g:Lf_NormalMap.Ghq = [
-\   ['B', ':exec g:Lf_py "ghqExplManager.open_browser()"<CR>'],
-\   ['P', ':exec g:Lf_py "ghqExplManager.packget()"<CR>'],
+\   ['B', ':call lf#ext#ghq#openbrowser()<CR>'],
+\   ['P', ':call lf#ext#ghq#packget()<CR>'],
 \]
