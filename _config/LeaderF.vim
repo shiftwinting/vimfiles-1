@@ -607,6 +607,6 @@ let g:Lf_Extensions.favhelp = {
 
 let g:Lf_NormalMap = get(g:, 'Lf_NormalMap')
 let g:Lf_NormalMap.Ghq = [
-\   ['B', ':call lf#ext#ghq#openbrowser()<CR>'],
-\   ['P', ':call lf#ext#ghq#packget()<CR>'],
+\   ['B', ':call lf#ghq#openbrowser()<CR>'],
+\   ['P', ':call lf#ghq#packget()<CR>'],
 \]
