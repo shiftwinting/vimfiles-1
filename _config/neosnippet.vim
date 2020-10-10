@@ -1,8 +1,8 @@
 scriptencoding utf-8
 
 " C-L でsunippet を選択開始
-imap <C-j> <Plug>(neosnippet_expand_or_jump)
-smap <C-j> <Plug>(neosnippet_expand_or_jump)
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
 
 " C-L で次の項目に移動
 " xmap <C-j> <Plug>(neosnippet_expand_target)
@@ -14,7 +14,7 @@ if has('conceal')
 endif
 
 " 自分の snippets
-let g:neosnippet#snippets_directory = expand('~/vimfiles/snippets')
+let g:neosnippet#snippets_directory = expand('$MYVIMFILES/snippets')
 
 augroup MySnippets
     autocmd!

@@ -171,7 +171,7 @@ command! -nargs=+ PackGet call s:packget(<f-args>)
 command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
 
 " 末尾の '/' を取り除くため、 :p:h とする
-let s:pack_base_dir = vimrc#get_fullpath(fnamemodify('~/vimfiles/pack/plugs/opt', ':p'))
+let s:pack_base_dir = vimrc#get_fullpath(fnamemodify('$MYVIMFILES/pack/plugs/opt', ':p'))
 let s:sep = has('win32') ? "\\" : '/'
 
 function! s:add_end_slash(path) abort

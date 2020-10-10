@@ -60,7 +60,14 @@ filetype plugin indent on
 set backspace=indent,eol,start
 
 " Windows の場合、 @* と @+ は同じになる
-set clipboard=unnamed
+if has('win32')
+    set clipboard=unnamed
+else
+    " https://pocke.hatenablog.com/entry/2014/10/26/145646
+    " reset
+    set clipboard&
+    set clipboard^=unnamedplus
+endif
 
 " 余白文字を指定
 "   vert: 垂直分割の区切り文字
@@ -118,12 +125,17 @@ set diffopt+=vertical
 
 " ファイル閉じても、undoできるようにする
 if has('persistent_undo')
-    " mkdir($LOCALAPPDATA.'/vim', 'p')
-    " 存在していない場合、作成する
-    if !isdirectory($LOCALAPPDATA.'/vim')
-        call mkdir($LOCALAPPDATA.'/vim')
+    if has('win32')
+        if !isdirectory($LOCALAPPDATA.'/vim')
+            call mkdir($LOCALAPPDATA.'/vim')
+        endif
+        set undodir=$LOCALAPPDATA\vim
+    else
+        if !isdirectory($HOME.'/.vim/undo')
+            call mkdir($HOME.'/.vim/undo')
+        endif
+        set undodir=$HOME/.vim/undo
     endif
-    set undodir=$LOCALAPPDATA\vim
     augroup MyAutoCmdUndofile
         autocmd!
         autocmd BufReadPre ~/* setlocal undofile
@@ -157,6 +169,8 @@ set formatoptions+=M
 " from #vimtips_ac https://twitter.com/Takutakku/status/1207676964225597441
 " 結合時、コメントを削除する
 set formatoptions+=j
+
+set formatoptions-=t
 
 " https://github.com/shanselman/cmd-colors-solarized
 
@@ -234,3 +248,18 @@ set complete-=i
 set complete-=t
 " unload buffer
 set complete-=u
+
+" カーソルの形を変更する
+" let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+" let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+" https://github.com/tyru/config/commit/993b57acd84a4996990771ae293625133f1b2ed8#diff-054bd431f12b7b2850de6d50d6e0ce17R864
+" https://qiita.com/Linda_pp/items/9e0c94eb82b18071db34
+if has('vim_starting')
+    " 挿入モード時に非点滅の縦棒タイプのカーソル
+    let &t_SI .= "\e[6 q"
+    " ノーマルモード時に非点滅のブロックタイプのカーソル
+    let &t_EI .= "\e[2 q"
+    " 置換モード時に非点滅の下線タイプのカーソル
+    let &t_SR .= "\e[4 q"
+endif

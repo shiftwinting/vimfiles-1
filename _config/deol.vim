@@ -10,11 +10,14 @@ let g:deol#prompt_pattern =
 \       '> \?'  . '\|' .
 \       '# \? ' . '\|' . 
 \       '\$' .
+\       '\$ ' .
 \   '\)'
 " let g:deol#prompt_pattern = 
 " \   '[^#>$ ]\{-}'
+
+
 " コマンドの履歴
-let g:deol#shell_history_path = expand('~/deol_history')
+let g:deol#shell_history_path = $IS_WSL ? expand('~/.zsh_history') : expand('~/deol_history')
 
 " job_start() へのオプション
 let g:deol#extra_options = {
@@ -24,7 +27,12 @@ let g:deol#extra_options = {
 " プロンプト
 " let s:deol_prompt_sign = '$ '
 
-let s:deol_term_command = 'cmd.exe'
+if $IS_WSL
+    " let s:deol_term_command = 'bash'
+    let s:deol_term_command = 'zsh'
+else
+    let s:deol_term_command = 'cmd.exe'
+endif
 
 " 履歴ファイルを読めるか
 " let s:can_read_history_file = filereadable(g:deol#shell_history_path)
@@ -43,13 +51,14 @@ tnoremap <silent><A-t> <C-\><C-n>:<C-u>call ToggleDeol()<CR>
 " ====================
 function! s:show_deol(tabnr, ...) abort
     let l:command = get(a:, 1, &shell)
+    let l:filetype = get(a:, 2, 'deoledit')
 
     botright 25new
     setlocal winfixheight
 
     if !exists('t:deol') || !bufexists(t:deol.bufnr)
         " 新規作成
-        execute 'Deol -edit -command=' . l:command . ' -edit-filetype=deoledit'
+        execute 'Deol -edit -command=' . l:command . ' -edit-filetype=' . l:filetype
     else
         Deol
         DeolEdit
@@ -160,9 +169,16 @@ function! s:deol_editor_settings() abort
 
     iabbrev <buffer> poe poetry
 
-    inoreabbrev <buffer><expr> py3   deol#abbrev('py3',   'py3',   'py -3')
-    inoreabbrev <buffer><expr> pip   deol#abbrev('pip',   'pip',   'py -3 -m pip')
-    inoreabbrev <buffer><expr> pipup deol#abbrev('pipup', 'pipup', 'py -3 -m pip install --upgrade')
+    if $IS_WSL
+        inoreabbrev <buffer><expr> py3   deol#abbrev('py3',   'py3',   'python3.8')
+        inoreabbrev <buffer><expr> pip   deol#abbrev('pip',   'pip',   'python3.8 -m pip')
+        inoreabbrev <buffer><expr> pip   deol#abbrev('pipinstall',   'pip',   'python3.8 -m pip install --user')
+        inoreabbrev <buffer><expr> pipup deol#abbrev('pipup', 'pipup', 'python3.8 -m pip install --upgrade')
+    else
+        inoreabbrev <buffer><expr> py3   deol#abbrev('py3',   'py3',   'py -3')
+        inoreabbrev <buffer><expr> pip   deol#abbrev('pip',   'pip',   'py -3 -m pip')
+        inoreabbrev <buffer><expr> pipup deol#abbrev('pipup', 'pipup', 'py -3 -m pip install --upgrade')
+    endif
 
     inoreabbrev <buffer><expr> h deol#abbrev('h', 'h', 'hub')
     inoreabbrev <buffer><expr> pr deol#abbrev('hub pr', 'pr', 'pr-new')
@@ -173,6 +189,8 @@ function! s:deol_editor_settings() abort
     " call s:sign_place()
 
     " setlocal completefunc=vimrc#git#aliases#complete
+
+    setlocal filetype=zsh
 
 endfunction
 

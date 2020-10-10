@@ -22,14 +22,21 @@ set guioptions-=r
 " 左のスクロールバーを非表示にする
 set guioptions-=L
 
-" 外部コマンドを端末ウィンドウで表示
-set guioptions+=!
+if has('win32')
+    " 外部コマンドを端末ウィンドウで表示
+    set guioptions+=!
+endif
 
 " }}}
 
 " フォント設定
 " cXX -> 文字セットを SHIFTJIS とする?
-set guifont=Cica:h11.5:cSHIFTJIS
+if has('win32')
+    set guifont=Cica:h11.5:cSHIFTJIS
+else
+    " set guifont=Cica\ 11
+    set guifont=Cica\ 12
+end
 
 " カーソルを点滅させない
 " a: すべてのモード

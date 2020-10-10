@@ -4,6 +4,10 @@ if empty(globpath(&rtp, 'autoload/deoplete.vim'))
     finish
 endif
 
+" python3.8 -m pip install --user pynvim
+
+let g:deoplete#enable_at_startup = 1
+
 inoremap <expr><C-Space> deoplete#refresh()
 
 " refresh_always: チラツキ防止

@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-let g:plug_install_dir = expand('~/vimfiles/plugged')
+let g:plug_install_dir = expand('$MYVIMFILES/plugged')
 
 call plug#begin(g:plug_install_dir)
 
@@ -53,13 +53,27 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'rbtnn/vim-gloaded'
 Plug 'y0za/vim-reading-vimrc'
 
-Plug 'puremourning/vimspector'
-Plug 'AndrewRadev/switch.vim'
+" Plug 'puremourning/vimspector'
+" Plug 'AndrewRadev/switch.vim'
 Plug 'google/vim-searchindex'       " 検索結果の個数を表示
 Plug 'tyru/columnskip.vim'
 
 Plug 'iamcco/markdown-preview.nvim' " markdown プレビュー
 Plug 'dstein64/vim-startuptime'
+
+Plug 'tyru/eskk.vim'
+
+" Plug 'lambdalisue/fern.vim'
+" Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+" Plug 'lambdalisue/fern-hijack.vim'
+" Plug 'lambdalisue/fern-comparator-lexical.vim'
+" Plug 'lambdalisue/fern-renderer-devicons.vim'
+
+Plug 'mattn/vim-molder'
+Plug 'mattn/vim-molder-operations'
+
+" Plug 'lambdalisue/fin.vim'
+" Plug 'tyru/restart.vim'
 
 " Plug 'ryanoasis/vim-devicons'
 " Plug 'hardcoreplayers/spaceline.vim'
@@ -264,13 +278,13 @@ Plug 'sainnhe/gruvbox-material'
 " --------------------------
 Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
 " Plug 'tamago324/LeaderF-cdnjs'
-Plug 'tamago324/LeaderF-bookmark'
-Plug 'tamago324/LeaderF-openbrowser'
-" Plug 'tamago324/LeaderF-filer'
-Plug 'tamago324/LeaderF-neosnippet'
-Plug 'tamago324/LeaderF-packadd'
-Plug 'tamago324/LeaderF-sonictemplate'
-Plug 'bennyyip/LeaderF-ghq'
+    Plug 'tamago324/LeaderF-bookmark'
+    Plug 'tamago324/LeaderF-openbrowser'
+    " Plug 'tamago324/LeaderF-filer'    " -> fern
+    Plug 'tamago324/LeaderF-neosnippet'
+    Plug 'tamago324/LeaderF-packadd'
+    Plug 'tamago324/LeaderF-sonictemplate'
+    Plug 'bennyyip/LeaderF-ghq'
 
 " " --------------------------
 " " coc  チカチカするからやだ -> asyncomplete 
@@ -278,14 +292,15 @@ Plug 'bennyyip/LeaderF-ghq'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc-neco'
 
-" " --------------------------
-" " deoplete ちょっとおそい -> asyncomplete
-" " --------------------------
-" Plug 'Shougo/deoplete.nvim'
-" Plug 'roxma/nvim-yarp'
-" Plug 'roxma/vim-hug-neovim-rpc'
-" Plug 'lighttiger2505/deoplete-vim-lsp'
+" --------------------------
+" deoplete ちょっとおそい -> asyncomplete -> WSL では最強では？！
+" --------------------------
+Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'lighttiger2505/deoplete-vim-lsp'
 " Plug 'deoplete-plugins/deoplete-tag'
+Plug 'Shougo/deoplete-zsh'
 Plug 'Shougo/neopairs.vim'
 
 " " --------------------------
@@ -315,7 +330,5 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'liuchengxu/vista.vim'
 
 Plug '~/ghq/github.com/tamago324/LeaderF-filer'
-" Plug '~/ghq/github.com/tamago324/LeaderF-unite'
-" Plug '~/ghq/github.com/Shougo/unite.vim'
 
 call plug#end()

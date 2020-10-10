@@ -31,7 +31,7 @@ nmap <C-m>        <Plug>VimspectorToggleBreakpoint
 " nmap <F8>         <Plug>VimspectorAddFunctionBreakpoint
 
 
-let g:vimspector_base_dir = expand('~/vimfiles/vimspector_config')
+let g:vimspector_base_dir = expand('$MYVIMFILES/vimspector_config')
 
 " ====================
 " stacktrace window

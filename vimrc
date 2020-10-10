@@ -7,15 +7,20 @@ set fileformats=unix,dos,mac
 " https://github.com/vim-jp/issues/issues/1186
 set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
 
-let g:min_vimrc = 0
-let g:min_vimrc = get(g:, 'min_vimrc', 0)
-
 let g:plug_script = expand('<sfile>:h').'/plug.vim'
 let g:vimfiles_path = expand('<sfile>:h')
 
+if $IS_WSL
+    let $MYVIMFILES = expand('$HOME/.vim')
+else
+    let $MYVIMFILES = expand('$HOME/vimfiles')
+endif
+
 exec 'source '.expand('<sfile>:h').'/plug.vim'
 
-let $EDITOR = 'gvim'
+if has('gui_running')
+    let $EDITOR = 'gvim'
+endif
 
 " ------------------------------------------------------------------------------
 
@@ -57,5 +62,3 @@ if has('win32')
 endif
 
 call map(sort(split(globpath(&runtimepath, '_config/*.vim'))), {->[execute('exec "so" v:val')]})
-
-exec 'source '.expand('<sfile>:h').'/work.vim'

@@ -36,7 +36,7 @@ nnoremap <silent> <Space>v.  :<C-u>call vimrc#drop_or_tabedit($MYVIMRC)<CR>
 nnoremap <silent> <Space>v,  :<C-u>call vimrc#drop_or_tabedit(g:plug_script)<CR>
 
 " nnoremap <silent> <Space>vs. :<C-u>source $MYVIMRC<CR> :call vimrc#echoinfo(' $MYVIMRC loaded!')<CR>
-nnoremap <silent> <Space>vs. :<C-u>source %<CR>        :call vimrc#echoinfo(' source %')<CR>
+nnoremap <silent> <Space>vs. :<C-u>source %<CR>
 " nnoremap <silent> <Space>vs, :<C-u>exec 'source '.g:plug_script<CR> :call vimrc#echoinfo(' plug_script loaded!')<CR>
 
 " 保存、終了
@@ -156,7 +156,11 @@ vnoremap / <Esc>/\%V
 
 " クリップボード内の内容で検索
 " TODO エスケープ必要なものはエスケープする '\' => '\\' みたいな
-nnoremap <Space>/ /\V<C-R>*<CR>
+if $IS_WSL
+    nnoremap <Space>/ /\V<C-R>+<CR>
+else
+    nnoremap <Space>/ /\V<C-R>*<CR>
+endif
 
 " from arecarn's vimrc (ttp://bit.ly/33bxPUV)
 nnoremap # :<C-U>call AddToSearch('n')<CR>
@@ -213,8 +217,13 @@ nnoremap <A-h> :<C-u>h
 vnoremap K <Nop>
 
 " クリップボード貼り付け
-inoremap <C-r><C-r> <C-r>*
-cnoremap <C-o> <C-r>*
+if $IS_WSL
+    inoremap <C-r><C-r> <C-r>+
+    cnoremap <C-o> <C-r>+
+else
+    inoremap <C-r><C-r> <C-r>*
+    cnoremap <C-o> <C-r>*
+endif
 
 " " 挿入モードから抜けるときに IME をOFFにする
 inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
@@ -255,3 +264,8 @@ vnoremap <C-a> <C-a>gv
 vnoremap <C-X> <C-X>gv
 
 nnoremap <space>i i_<ESC>r
+
+if $IS_WSL
+    " zshrc を開く
+    nnoremap <silent> <Space>z.  :<C-u>call vimrc#drop_or_tabedit('~/.zshrc')<CR>
+endif

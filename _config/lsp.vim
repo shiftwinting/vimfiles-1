@@ -49,7 +49,12 @@ augroup END
 
 " デバッグ用
 let g:lsp_log_verbose = 1
-let g:lsp_log_file = 'C:/tmp/vimlsp.log'
+if has('win32')
+    let g:lsp_log_file = 'C:/tmp/vimlsp.log'
+else
+    let g:lsp_log_file = '/tmp/vimlsp.log'
+endif
+
 
 " lint するか？
 " let g:lsp_diagnostics_enabled = 1

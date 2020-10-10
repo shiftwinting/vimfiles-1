@@ -171,14 +171,22 @@ let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 " https://bit.ly/2yZYwAX
 " 
 " let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
+" let g:Lf_NormalMap = {
+" \   '_': [
+" \      ['<C-j>', 'j'],
+" \      ['<C-k>', 'k'],
+" \      ['K',     '<Nop>'],
+" \      ['M',     '<Nop>'],
+" \      ['E',     ':echo '],
+" \   ],
+" \   'Filer': [
+" \      ['B', ':exec g:Lf_py "filerExplManager.quit()" <bar> :LeaderfBookmark<CR>'],
+" \   ],
+" \   'File': [
+" \      ['M', ':exec g:Lf_py "fileExplManager.quit()" <bar> :LeaderfMru<CR>'],
+" \   ],
+" \}
 let g:Lf_NormalMap = {
-\   '_': [
-\      ['<C-j>', 'j'],
-\      ['<C-k>', 'k'],
-\      ['K',     '<Nop>'],
-\      ['M',     '<Nop>'],
-\      ['E',     ':echo '],
-\   ],
 \   'Filer': [
 \      ['B', ':exec g:Lf_py "filerExplManager.quit()" <bar> :LeaderfBookmark<CR>'],
 \   ],
@@ -186,9 +194,6 @@ let g:Lf_NormalMap = {
 \      ['M', ':exec g:Lf_py "fileExplManager.quit()" <bar> :LeaderfMru<CR>'],
 \   ],
 \}
-" \   'Rg': [
-" \      ['Q', ':exec g:Lf_py "rgExplManager.outputToQflist()" \| :exec g:Lf_py "rgExplManager.quit()" <bar> :Qfreplace<CR>'],
-" \   ],
 
 " <C-r> : 検索切り替え: fuzzy / regex 
 " <C-f> : 検索切り替え: fullpath / name only
@@ -424,11 +429,11 @@ let g:Lf_DevIconsPalette.dark = {
 \}
 
 
-" 自動で生成する
-let g:Lf_GtagsAutoGenerate = 1
-
-" .git の中に生成する
-let g:Lf_GtagsStoreInRootMarker = 1
+" " 自動で生成する
+" let g:Lf_GtagsAutoGenerate = 1
+"
+" " .git の中に生成する
+" let g:Lf_GtagsStoreInRootMarker = 1
 
 
 
