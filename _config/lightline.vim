@@ -103,7 +103,8 @@ endfunction
 
 function! LightlineFilename() abort
     " 無名ファイルは %:t が '' となる
-    return (expand('%:t') !=# '' ? expand('%:t') : 'No Name') .
+    return &filetype ==# 'molder' ? '[MOLDER] ' . expand('%:t') :
+    \       (expand('%:t') !=# '' ? expand('%:t') : 'No Name') .
     \       (&modifiable && &modified ? '[+]' : '')
 endfunction
 

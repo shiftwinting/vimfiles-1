@@ -126,8 +126,8 @@ let g:Lf_ReverseOrder = 1
 let g:Lf_WindowHeight = 0.4
 
 " 位置
-" let g:Lf_WindowPosition = 'bottom'
-let g:Lf_WindowPosition = 'popup'
+let g:Lf_WindowPosition = 'bottom'
+" let g:Lf_WindowPosition = 'popup'
 
 
 " ----------

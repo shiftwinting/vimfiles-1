@@ -388,8 +388,48 @@ augroup END
 " ====================
 " sml
 " ====================
+
+" --------------------
+" 複数行送信
+" --------------------
+function! s:sml_send_lines() abort
+    let l:colon = v:false
+    for l:line in getline(getpos("'<")[1], getpos("'>")[1])
+        call deol#send(l:line)
+        if l:line =~# ';$'
+            let l:colon = v:true
+        endif
+        sleep 50ms
+    endfor
+    if !l:colon
+        call deol#send(';')
+    endif
+endfunction
+
+" --------------------
+" 選択範囲でフォーマット
+" --------------------
+function! s:vsmlformat() abort
+    let l:cmd = winrestcmd()
+    :'<,'>NarrowRegion
+    SmlFormat
+    wq
+    exec l:cmd
+endfunction
+command! -range VSmlFormat call <SID>vsmlformat()
+
 function! s:my_ft_sml() abort
-    nnoremap <buffer> <Space>bl :<C-u>SmlFormat<CR>
+    nnoremap <buffer>         <Space>bl :<C-u>SmlFormat<CR>
+    vnoremap <silent><buffer> <Space>bl :<C-u>VSmlFormat<CR>
+
+    iabbrev <buffer> func fun
+
+    " deol.nvim との連携
+    " send all
+    nnoremap <buffer><silent> ,a :<C-u>call deol#send('use "' . expand("%:p:t") . '";')<CR>
+    " send line
+    nnoremap <buffer><silent> ,f :<C-u>call deol#send('' . getline('.') . (getline('.') =~# ';$' ? '' : ';'))<CR>
+    vnoremap <buffer><silent> ,f :<C-u>call <SID>sml_send_lines()<CR>
 endfunction
 
 augroup my-ft-sml

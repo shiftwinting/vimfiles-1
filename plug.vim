@@ -51,6 +51,7 @@ Plug 'mattn/vim-molder'
 Plug 'mattn/vim-molder-operations'
 Plug 'lambdalisue/vim-protocol'
 Plug 'luochen1990/rainbow'
+" Plug 'delphinus/vim-auto-cursorline'
 
 " --------------------------
 " python
@@ -76,6 +77,8 @@ Plug 'dkarter/bullets.vim', {'for': ['md', 'markdown']}
 " --------------------------
 Plug 'vim-jp/vim-cpp'
 Plug 'Shougo/neoinclude.vim'
+" .c -> .h
+Plug 'vim-scripts/a.vim'
 
 " --------------------------
 " syntax

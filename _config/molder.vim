@@ -50,6 +50,10 @@ function! s:my_ft_molder() abort
     " close
     nmap <silent> <buffer> q     :<C-u>call <SID>molder_close()<CR>
     nmap <silent> <buffer> <C-e> :<C-u>call <SID>molder_close()<CR>
+
+    if exists(':LeaderfBookmark')
+        nnoremap <silent> <buffer> B :<C-u>Leaderf bookmark --bottom<CR>
+    endif
 endfunction
 
 augroup my-ft-molder

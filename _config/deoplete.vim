@@ -14,7 +14,7 @@ inoremap <expr><C-Space> deoplete#refresh()
 " yarp: nvim-yarp の機能を使う
 call deoplete#custom#option({
 \   'smart_case': v:true,
-\   'num_processes': 4,
+\   'num_processes': 2,
 \   'refresh_always': v:false,
 \   'min_pattern_length': 1,
 \   'yarp': v:true,
