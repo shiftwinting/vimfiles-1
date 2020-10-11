@@ -397,5 +397,5 @@ augroup my-ft-sml
     autocmd FileType smlnj call s:my_ft_sml()
 
     autocmd BufRead,BufWinEnter *.ml set filetype=smlnj
-    autocmd FileType smlnj setlocal sw=2 sts=2 ts=2 et
+    autocmd FileType smlnj,sml setlocal sw=2 sts=2 ts=2 et
 augroup END
