@@ -8,5 +8,6 @@ work/
 work.vim
 vimspector_config/gadgets/*
 tags
+/undo/
 
 _config/LeaderF-github-stars.vim

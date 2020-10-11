@@ -213,6 +213,8 @@ function! DefineMyHighlishts() abort
         hi DiffChange gui=NONE guifg=fg guibg=#DFFFDF
         hi DiffDelete gui=NONE guifg=fg guibg=#FFDFDF
         hi DiffText   gui=NONE guifg=fg guibg=#AAFFAA
+        hi! link DiffAdded   DiffAdd
+        hi! link DiffRemoved DiffDelete
 
         " =============================
         " machakann/vim-highlightedyank
@@ -283,16 +285,20 @@ let g:nord_bold_vertical_split_line = 1
 " set background=dark
 " colorscheme tender
 
-set background=dark
+" set background=light
+"
+" let g:gruvbox_material_enable_italic = 0
+" let g:gruvbox_material_disable_italic_comment = 1
+"
+" " let g:gruvbox_material_background = 'medium'
+" let g:gruvbox_material_background = 'hard'
+" " let g:gruvbox_material_background = 'soft'
+"
+" colorscheme gruvbox-material
 
-let g:gruvbox_material_enable_italic = 0
-let g:gruvbox_material_disable_italic_comment = 1
+set background=light
 
-" let g:gruvbox_material_background = 'medium'
-let g:gruvbox_material_background = 'hard'
-" let g:gruvbox_material_background = 'soft'
-
-colorscheme gruvbox-material
+colorscheme monochromenote
 
 
 hi link vimEmbedError Normal

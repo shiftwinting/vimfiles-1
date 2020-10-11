@@ -257,6 +257,9 @@ augroup my-ft-gitconfig
 augroup END
 
 
+" ====================
+" scheme
+" ====================
 function! s:my_ft_scheme() abort
     let g:paredit_mode = 1
     call PareditInitBuffer()
@@ -267,6 +270,10 @@ augroup my-ft-scheme
     autocmd FileType scheme call s:my_ft_scheme()
 augroup END
 
+
+" ====================
+" markdown
+" ====================
 function! s:my_ft_markdown() abort
     function! s:markdown_space() abort
         let l:col = getpos('.')[2]
@@ -314,7 +321,9 @@ augroup my-ft-markdown
     autocmd FileType markdown call s:my_ft_markdown()
 augroup END
 
-
+" ====================
+" python
+" ====================
 function! s:my_ft_python() abort
     " from jedi-vim
     function! s:smart_auto_mappings() abort
@@ -357,6 +366,9 @@ augroup my-ft-python
 augroup END
 
 
+" ====================
+" sql
+" ====================
 function! s:my_ft_sql() abort
     nnoremap <Space>bl :<C-u>SQLFmt<CR>
 
@@ -370,4 +382,20 @@ endfunction
 augroup my-ft-sql
     autocmd!
     autocmd FileType sql call s:my_ft_sql()
+augroup END
+
+
+" ====================
+" sml
+" ====================
+function! s:my_ft_sml() abort
+    nnoremap <buffer> <Space>bl :<C-u>SmlFormat<CR>
+endfunction
+
+augroup my-ft-sml
+    autocmd!
+    autocmd FileType smlnj call s:my_ft_sml()
+
+    autocmd BufRead,BufWinEnter *.ml set filetype=smlnj
+    autocmd FileType smlnj setlocal sw=2 sts=2 ts=2 et
 augroup END

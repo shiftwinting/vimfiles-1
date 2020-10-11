@@ -360,3 +360,8 @@ else
 endif
 
 command! NewTempFile call <SID>new_tmp_file()
+
+
+if executable('sml-format')
+    command! -range=% SmlFormat <line1>,<line2>!sml-format
+endif

@@ -35,3 +35,5 @@ call deoplete#custom#option('omni_patterns', {
 \   'c': ['[^. *\t]\%(\.\|->\)\w*'],
 \   'cpp': ['[^. *\t]\%(\.\|->\)\w*', '[a-zA-Z_]\w*::'],
 \})
+
+call deoplete#enable_logging("DEBUG", '/tmp/deoplete.log')
