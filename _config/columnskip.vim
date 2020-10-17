@@ -4,10 +4,10 @@ if empty(globpath(&rtp, 'autoload/columnskip.vim'))
     finish
 endif
 
-nmap <A-n> <Plug>(columnskip:nonblank:next)
-omap <A-n> <Plug>(columnskip:nonblank:next)
-xmap <A-n> <Plug>(columnskip:nonblank:next)
+nmap zj <Plug>(columnskip:nonblank:next)
+omap zj <Plug>(columnskip:nonblank:next)
+xmap zj <Plug>(columnskip:nonblank:next)
 
-nmap <A-p> <Plug>(columnskip:nonblank:prev)
-omap <A-p> <Plug>(columnskip:nonblank:prev)
-xmap <A-p> <Plug>(columnskip:nonblank:prev)
+nmap zk <Plug>(columnskip:nonblank:prev)
+omap zk <Plug>(columnskip:nonblank:prev)
+xmap zk <Plug>(columnskip:nonblank:prev)

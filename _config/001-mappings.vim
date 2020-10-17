@@ -135,8 +135,8 @@ nnoremap <C-h> gT
 
 " terminal
 tnoremap <C-r> <Nop>
-execute 'tnoremap <C-r><C-r> ' . &termwinkey . '"*'
-execute 'tnoremap ' . '&termwinkey' . 'p <Nop>'
+" execute 'tnoremap <C-r><C-r> ' . &termwinkey . '"*'
+" execute 'tnoremap ' . '&termwinkey' . 'p <Nop>'
 " C-[ でTerminal Job モードへ移行
 tnoremap <Esc> <C-\><C-n>
 
@@ -226,7 +226,9 @@ else
 endif
 
 " " 挿入モードから抜けるときに IME をOFFにする
-inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+if has('win32')
+    inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+endif
 
 " 対応するカッコの移動
 " nmap 5 %
@@ -268,4 +270,9 @@ nnoremap <space>i i_<ESC>r
 if $IS_WSL
     " zshrc を開く
     nnoremap <silent> <Space>z.  :<C-u>call vimrc#drop_or_tabedit('~/.zshrc')<CR>
+endif
+
+if !has('win32')
+    inoremap <Esc> <C-c>
+    vnoremap <Esc> <C-c>
 endif

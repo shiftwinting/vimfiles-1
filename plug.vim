@@ -4,7 +4,6 @@ let g:plug_install_dir = expand('$MYVIMFILES/plugged')
 
 call plug#begin(g:plug_install_dir)
 
-
 Plug 'junegunn/vim-plug'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/vital.vim'
@@ -12,46 +11,53 @@ Plug 'vim-jp/syntax-vim-ex'
 Plug 'Yggdroot/indentLine'
 Plug 'chrisbra/NrrwRgn'
 Plug 'dense-analysis/ale'
-Plug 'dhruvasagar/vim-table-mode'
+" Plug 'dhruvasagar/vim-table-mode'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
 Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/vim-easy-align'
+" Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'machakann/vim-highlightedyank'
+" Plug 'machakann/vim-highlightedyank'
 Plug 'machakann/vim-sandwich'
 Plug 'mattn/sonictemplate-vim'
-Plug 'rcmdnk/yankround.vim'
+" Plug 'rcmdnk/yankround.vim'
 Plug 'simeji/winresizer'
-Plug 'voldikss/vim-translator'
+if has('nvim')
+    " WSL環境のVimで複数の単語を翻訳できなくなってしまったためneovimのみ
+    Plug 'voldikss/vim-translator'
+else
+    Plug 'skanehira/translate.vim'
+endif
 Plug 'svermeulen/vim-cutlass'
 Plug 'thinca/vim-qfreplace'
 Plug 'thinca/vim-quickrun'
 Plug 'tomtom/tcomment_vim'
 Plug 'tyru/capture.vim'
-Plug 'tyru/open-browser-github.vim'
-Plug 'tyru/open-browser.vim'
+" Plug 'tyru/open-browser-github.vim'
+" Plug 'tyru/open-browser.vim'
 Plug 'andymass/vim-matchup'
-Plug 'ap/vim-css-color'
-Plug 'sillybun/vim-repl'              " 使いやすいように最高になった
-Plug 'markonm/traces.vim'             " 可視化しなくても良い気がするから
-Plug 'liuchengxu/graphviz.vim'        " Graphviz 用
+" Plug 'ap/vim-css-color'
+" Plug 'sillybun/vim-repl'              " 使いやすいように最高になった
+if !has('nvim')
+    Plug 'markonm/traces.vim'             " 可視化しなくても良い気がするから
+endif
+" Plug 'liuchengxu/graphviz.vim'        " Graphviz 用
 Plug 'hrsh7th/vim-eft'
-Plug 'skywind3000/asynctasks.vim'
-Plug 'skywind3000/asyncrun.vim'
+" Plug 'skywind3000/asynctasks.vim'
+" Plug 'skywind3000/asyncrun.vim'
 Plug 'rbtnn/vim-gloaded'
 Plug 'y0za/vim-reading-vimrc'
 Plug 'google/vim-searchindex'       " 検索結果の個数を表示
 Plug 'tyru/columnskip.vim'
-Plug 'iamcco/markdown-preview.nvim' " markdown プレビュー
-Plug 'dstein64/vim-startuptime'
+" Plug 'iamcco/markdown-preview.nvim' " markdown プレビュー
+" Plug 'dstein64/vim-startuptime'
 Plug 'tyru/eskk.vim'
-Plug 'mattn/vim-molder'
-Plug 'mattn/vim-molder-operations'
+" Plug 'mattn/vim-molder'
+" Plug 'mattn/vim-molder-operations'
 Plug 'lambdalisue/vim-protocol'
-Plug 'luochen1990/rainbow'
-" Plug 'delphinus/vim-auto-cursorline'
+" Plug 'luochen1990/rainbow'
+Plug 'lambdalisue/suda.vim'
 
 " --------------------------
 " python
@@ -105,15 +111,15 @@ Plug 'machakann/vim-Verdin'
 " Plug 'kovisoft/slimv'
 " Plug 'jpalardy/vim-slime'
 " Plug 'wlangstroth/vim-racket'
-Plug 'mnacamura/vim-r7rs-syntax'    " Gauche の syntax highlight
+" Plug 'mnacamura/vim-r7rs-syntax'    " Gauche の syntax highlight
 " Plug 'eraserhd/parinfer-rust', {'do': 'cargo build --release'}    " うまく動かないため
 " Plug 'bhurlow/vim-parinfer'
-Plug 'kovisoft/paredit'
+" Plug 'kovisoft/paredit'
 
 " --------------------------
 " haskell
 " --------------------------
-Plug 'itchyny/vim-haskell-indent'
+" Plug 'itchyny/vim-haskell-indent'
 
 " --------------------------
 " sml
@@ -125,16 +131,16 @@ Plug 'jez/vim-better-sml'
 " --------------------------
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-operator-replace'
-Plug 'tyru/operator-camelize.vim'
+" Plug 'tyru/operator-camelize.vim'
 
 " --------------------------
 " dark power
 " --------------------------
 Plug 'Shougo/deol.nvim'
-Plug 'Shougo/context_filetype.vim'
+" Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/neco-vim'
-Plug 'Shougo/echodoc.vim'
+" Plug 'Shougo/echodoc.vim'
 
 
 " --------------------------
@@ -145,7 +151,7 @@ Plug 'itchyny/lightline.vim'
 " --------------------------
 " git
 " --------------------------
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
 Plug 'gisphm/vim-gitignore'
@@ -166,24 +172,32 @@ Plug 'jacoborus/tender.vim'
 Plug 'sainnhe/gruvbox-material'
 
 " --------------------------
-" LeaderF
+" LeaderF -> nvim-lua/telescope.nvim
 " --------------------------
 Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
-" Plug 'tamago324/LeaderF-cdnjs'
     Plug 'tamago324/LeaderF-bookmark'
     Plug 'tamago324/LeaderF-openbrowser'
-    " Plug 'tamago324/LeaderF-filer'    " -> fern
+    Plug 'tamago324/LeaderF-filer'
     Plug 'tamago324/LeaderF-neosnippet'
     Plug 'tamago324/LeaderF-packadd'
     Plug 'tamago324/LeaderF-sonictemplate'
-    Plug 'bennyyip/LeaderF-ghq'
+    Plug 'Freed-Wu/LeaderF-man'
+
+if has('nvim')
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'nvim-lua/telescope.nvim'
+    Plug 'kyazdani42/nvim-ewb-devicons'
+endif
 
 " --------------------------
 " deoplete ちょっとおそい -> asyncomplete -> WSL では最強では？！
 " --------------------------
 Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
+    if !has('nvim')
+        Plug 'roxma/nvim-yarp'
+        Plug 'roxma/vim-hug-neovim-rpc'
+    endif
 Plug 'lighttiger2505/deoplete-vim-lsp'
 " Plug 'deoplete-plugins/deoplete-tag'
 Plug 'Shougo/deoplete-zsh'
@@ -195,7 +209,7 @@ Plug 'Shougo/neopairs.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 
-Plug 'liuchengxu/vista.vim'
+" Plug 'liuchengxu/vista.vim'
 
 " Plug 'lambdalisue/fern.vim'
 " Plug 'lambdalisue/fern-renderer-nerdfont.vim'
@@ -327,5 +341,13 @@ Plug 'liuchengxu/vista.vim'
 " Plug 'yuezk/vim-js'
 " Plug 'mattn/emmet-vim'
 " Plug 'tamago324/vim-browsersync'  " 使わない
+
+
+" Plug 'delphinus/vim-auto-cursorline'
+
+" Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'mattn/ctrlp-matchfuzzy'
+" Plug 'ryanoasis/vim-devicons'
+
 
 call plug#end()

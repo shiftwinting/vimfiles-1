@@ -25,7 +25,7 @@ let g:deol#extra_options = {
 \}
 
 " プロンプト
-" let s:deol_prompt_sign = '$ '
+let s:deol_prompt_sign = '$ '
 
 if $IS_WSL
     " let s:deol_term_command = 'bash'
@@ -39,10 +39,8 @@ endif
 
 command! ShowDeol call <SID>show_deol(tabpagenr())
 
-nnoremap <A-t> :<C-u>ShowDeol<CR>
 nnoremap <silent><A-t> :<C-u>call ToggleDeol()<CR>
 tnoremap <silent><A-t> <C-\><C-n>:<C-u>call ToggleDeol()<CR>
-" nnoremap <Space>re :<C-u>DeolRepl py<CR>
 
 " ====================
 " deol を表示
@@ -58,10 +56,9 @@ function! s:show_deol(tabnr, ...) abort
 
     if !exists('t:deol') || !bufexists(t:deol.bufnr)
         " 新規作成
-        execute 'Deol -edit -command=' . l:command . ' -edit-filetype=' . l:filetype
+        execute 'Deol -edit -no-start-insert -command=' . l:command . ' -edit-filetype=' . l:filetype
     else
-        Deol
-        DeolEdit
+        Deol -edit -no-start-insert
     endif
 endfunction
 
@@ -120,7 +117,7 @@ function! s:deol_settings() abort
     tnoremap <buffer><silent>       <A-e> <C-w>:call         deol#edit()<CR>
     " nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>normal! i<CR>
     nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>call deol#edit()<CR>
-    nnoremap <buffer><silent>       <A-t> <Esc>:call         <SID>hide_deol(tabpagenr())<CR>
+    nnoremap <buffer><silent>       <A-e> <Esc>:call         <SID>hide_deol(tabpagenr())<CR>
 
     " " "\<Right>" じゃだめだった
     " nnoremap <buffer><silent><expr> A     'i' . repeat("<Right>", len(getline('.')))
@@ -131,7 +128,7 @@ function! s:deol_settings() abort
     nnoremap <buffer>               <C-i> <Nop>
     nnoremap <buffer>               <C-e> <Nop>
     nnoremap <buffer>               <C-z> <Nop>
-    nnoremap <buffer>               e     <Nop>
+    nnoremap <buffer>               e     e
 
     " " :q --- QuitPre -> WinLeave
     " autocmd MyDeol QuitPre  <buffer> call <SID>QuitPre()
@@ -154,7 +151,6 @@ function! s:deol_editor_settings() abort
 
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
     nnoremap <buffer><silent> <A-e> :<C-u>call <SID>deol_kill_editor()<CR>
-
     inoremap <buffer><silent> <A-t> <Esc>:call <SID>hide_deol(tabpagenr())<CR>
     nnoremap <buffer><silent> <A-t> :<C-u>call <SID>hide_deol(tabpagenr())<CR>
 
@@ -165,14 +161,12 @@ function! s:deol_editor_settings() abort
     inoremap <buffer><silent> <CR>  <Esc>:SendEditor!<CR>
     vnoremap <buffer><silent> <CR>  :SendEditor<CR>
 
-    " nnoremap <buffer><silent> <Sapce>fl :<C-u>Leaderf line --popup<CR>
-
     iabbrev <buffer> poe poetry
 
     if $IS_WSL
         inoreabbrev <buffer><expr> py3   deol#abbrev('py3',   'py3',   'python3.8')
         inoreabbrev <buffer><expr> pip   deol#abbrev('pip',   'pip',   'python3.8 -m pip')
-        inoreabbrev <buffer><expr> pip   deol#abbrev('pipinstall',   'pip',   'python3.8 -m pip install --user')
+        " inoreabbrev <buffer><expr> pip   deol#abbrev('pipinstall',   'pip',   'python3.8 -m pip install --user')
         inoreabbrev <buffer><expr> pipup deol#abbrev('pipup', 'pipup', 'python3.8 -m pip install --upgrade')
     else
         inoreabbrev <buffer><expr> py3   deol#abbrev('py3',   'py3',   'py -3')
@@ -188,18 +182,12 @@ function! s:deol_editor_settings() abort
 
     " call s:sign_place()
 
-    " setlocal completefunc=vimrc#git#aliases#complete
-
     setlocal filetype=zsh
 
 endfunction
 
 
 function! s:deol_cd() abort
-    " もし、REPL なら、実行しない
-    " if exists('t:deol_repl')
-    "     return
-    " endif
     call deol#cd(fnamemodify(expand('<afile>'), ':p:h'))
 endfunction
 
@@ -329,7 +317,7 @@ endfunction
 function! s:send_editor(line1, line2, new_line) abort
     let l:lines = getline(a:line1, a:line2)
 
-    if !exists('t:deol_repl')
+    if !has('nvim')
         for l:line in l:lines
             call s:save_history_line(l:line)
         endfor

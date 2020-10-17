@@ -44,8 +44,9 @@ let g:ale_sign_warning = ''
 
 nmap <silent> <A-j> <Plug>(ale_next_wrap_error)
 nmap <silent> <A-k> <Plug>(ale_previous_wrap_error)
-nmap <silent> <A-u> <Plug>(ale_next_wrap_warning)
-nmap <silent> <A-i> <Plug>(ale_previous_wrap_warning)
+" nmap <silent> <A-u> <Plug>(ale_next_wrap_warning)
+" nmap <silent> <A-i> <Plug>(ale_previous_wrap_warning)
+
 
 function! s:if_nrrw_buf_write_close() abort
     " nrrw のウィンドウなら、実行する

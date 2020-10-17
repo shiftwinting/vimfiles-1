@@ -27,8 +27,8 @@ nnoremap <silent> <Space>fv        :<C-u><C-r>=printf("Leaderf file %s", g:vimfi
 nnoremap <silent> <Space>fb        :<C-u>Leaderf  bookmark --nowrap<CR>
 nnoremap <silent> <Space>fa        :<C-u>Leaderf  task --nowrap<CR>
 
-nnoremap <silent> <M-x>            :<C-u>Leaderf command --run-immediately --fuzzy<CR>
-nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s' --popup", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
+nnoremap <silent> <A-x> :<C-u>Leaderf command --run-immediately --fuzzy<CR>
+nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
 nnoremap <silent> <Space>;t        :<C-u>Leaderf sonictemplate<CR>
 " nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf switch<CR>
@@ -38,6 +38,7 @@ nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp<CR>
 " nnoremap <silent> <Space>fp        :<C-u>Leaderf menu<CR>
 " nnoremap <silent> <Space>fp        :<C-u>LeaderfVimspectorBreakpoints<CR>
 nnoremap <silent> <Space>fp         :<C-u>Leaderf yankround --nowrap<CR>
+nnoremap <silent> <Space>fQ         :<C-u>Leaderf stars --nowrap<CR>
 
 " nnoremap <silent> /                 :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
 
@@ -170,7 +171,7 @@ let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 " https://bit.ly/2VzuoUO
 " https://bit.ly/2yZYwAX
 " 
-" let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
+let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
 " let g:Lf_NormalMap = {
 " \   '_': [
 " \      ['<C-j>', 'j'],
@@ -186,14 +187,6 @@ let g:Lf_StlSeparator = { 'left': '', 'right': '' }
 " \      ['M', ':exec g:Lf_py "fileExplManager.quit()" <bar> :LeaderfMru<CR>'],
 " \   ],
 " \}
-let g:Lf_NormalMap = {
-\   'Filer': [
-\      ['B', ':exec g:Lf_py "filerExplManager.quit()" <bar> :LeaderfBookmark<CR>'],
-\   ],
-\   'File': [
-\      ['M', ':exec g:Lf_py "fileExplManager.quit()" <bar> :LeaderfMru<CR>'],
-\   ],
-\}
 
 " <C-r> : 検索切り替え: fuzzy / regex 
 " <C-f> : 検索切り替え: fullpath / name only
@@ -247,6 +240,26 @@ let g:Lf_CommandMap = {
 let s:stlPalette = {}
 let s:popupPalette = {}
 
+
+" from nord
+let s:nord0_gui        = '#2E3440'
+let s:nord1_gui        = '#3B4252'
+let s:nord2_gui        = '#434C5E'
+let s:nord3_gui        = '#4C566A'
+let s:nord3_gui_bright = '#616E88'
+let s:nord4_gui        = '#D8DEE9'
+let s:nord5_gui        = '#E5E9F0'
+let s:nord6_gui        = '#ECEFF4'
+let s:nord7_gui        = '#8FBCBB'
+let s:nord8_gui        = '#88C0D0'
+let s:nord9_gui        = '#81A1C1'
+let s:nord10_gui       = '#5E81AC'
+let s:nord11_gui       = '#BF616A'
+let s:nord12_gui       = '#D08770'
+let s:nord13_gui       = '#EBCB8B'
+let s:nord14_gui       = '#A3BE8C'
+let s:nord15_gui       = '#B48EAD'
+
 if &background ==# 'light'
 
     let s:stlPalette.solarized = {
@@ -277,25 +290,6 @@ if &background ==# 'light'
 
 else
     " dark
-
-    " from nord
-    let s:nord0_gui        = '#2E3440'
-    let s:nord1_gui        = '#3B4252'
-    let s:nord2_gui        = '#434C5E'
-    let s:nord3_gui        = '#4C566A'
-    let s:nord3_gui_bright = '#616E88'
-    let s:nord4_gui        = '#D8DEE9'
-    let s:nord5_gui        = '#E5E9F0'
-    let s:nord6_gui        = '#ECEFF4'
-    let s:nord7_gui        = '#8FBCBB'
-    let s:nord8_gui        = '#88C0D0'
-    let s:nord9_gui        = '#81A1C1'
-    let s:nord10_gui       = '#5E81AC'
-    let s:nord11_gui       = '#BF616A'
-    let s:nord12_gui       = '#D08770'
-    let s:nord13_gui       = '#EBCB8B'
-    let s:nord14_gui       = '#A3BE8C'
-    let s:nord15_gui       = '#B48EAD'
 
     let s:stlPalette.nord = {
     \   'stlName':         { 'guifg': s:nord3_gui, 'guibg': s:nord8_gui },
@@ -588,7 +582,8 @@ let s:fav_helps = [
 \   ['popup-window',       'ポップアップのヘルプ'],
 \   ['job-options',        'job のオプション集'],
 \   [':terminal',          'terminal のオプションとか'],
-\   ['slimv-keyboard',     'slimv の keymapping']
+\   ['slimv-keyboard',     'slimv の keymapping'],
+\   ['nvim.txt',           'nvim.txt'],
 \]
 
 function! s:lf_favhelp_source(args) abort
@@ -610,8 +605,30 @@ let g:Lf_Extensions.favhelp = {
 \   ]
 \}
 
-let g:Lf_NormalMap = get(g:, 'Lf_NormalMap')
+let g:Lf_NormalMap = get(g:, 'Lf_NormalMap', {})
 let g:Lf_NormalMap.Ghq = [
 \   ['B', ':call lf#ghq#openbrowser()<CR>'],
 \   ['P', ':call lf#ghq#packget()<CR>'],
 \]
+let g:Lf_NormalMap.Stars = [
+\   ['U', ':call lf#stars#update_list()<CR>'],
+\]
+
+
+" ====================
+" ghq
+" ====================
+function! LfExt_ghq_accept(line, args) abort
+    let l:path = $GHQ_ROOT . '/github.com/' . a:line
+    execute 'tabe | tcd ' . l:path
+endfunction
+
+function! LfExt_ghq_format_line(line, args) abort
+    return a:line[11:]
+endfunction
+
+let g:Lf_Extensions.ghq = {
+\   'source': {'command': 'ghq list'},
+\   'accept': 'LfExt_ghq_accept',
+\   'format_line': 'LfExt_ghq_format_line',
+\}

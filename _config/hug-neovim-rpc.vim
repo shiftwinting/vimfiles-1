@@ -1,3 +1,5 @@
 scriptencoding utf-8
 
-set pyxversion=3
+if !has('nvim')
+    set pyxversion=3
+endif

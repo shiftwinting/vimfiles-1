@@ -67,6 +67,9 @@ let s:guifgs = {
 \       '#B48EAD',
 \       '#D08770',
 \   ],
+\   'light': [
+\       '#A3BE8C',
+\   ],
 \}
 
 let g:rainbow_conf.guifgs = s:guifgs[&background]

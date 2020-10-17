@@ -191,6 +191,8 @@ function! DefineMyHighlishts() abort
     hi Tab guifg=#999999
     hi Eol guifg=#999999
 
+    hi link smlType smlLCIdentifier
+
     if &background == 'light'
         " from shirotelin
         hi Todo gui=bold guifg=#005F00 guibg=#afd7af
@@ -287,8 +289,8 @@ let g:nord_bold_vertical_split_line = 1
 
 " set background=light
 "
-" let g:gruvbox_material_enable_italic = 0
-" let g:gruvbox_material_disable_italic_comment = 1
+let g:gruvbox_material_enable_italic = 0
+let g:gruvbox_material_disable_italic_comment = 1
 "
 " " let g:gruvbox_material_background = 'medium'
 " let g:gruvbox_material_background = 'hard'
@@ -297,8 +299,8 @@ let g:nord_bold_vertical_split_line = 1
 " colorscheme gruvbox-material
 
 set background=light
-
-colorscheme monochromenote
+" colorscheme monochromenote
+colorscheme gruvbox-material
 
 
 hi link vimEmbedError Normal

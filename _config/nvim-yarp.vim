@@ -6,4 +6,5 @@ let g:python3_host_prog = $IS_WSL ?
 let $NVIM_PYTHON_LOG_FILE = $IS_WSL ?
 \   '/tmp/nvim_log' :
 \   expand('~/tmp/nvim_log')
+
 let $NVIM_PYTHON_LOG_LEVEL = 'DEBUG'

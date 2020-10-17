@@ -33,3 +33,10 @@ snippet     else
 options     head
 	else
 		${0}
+
+snippet     nvim
+abbr        has('nvim')
+options     head
+	if ${1:!}has('nvim')
+		${0}
+	endif

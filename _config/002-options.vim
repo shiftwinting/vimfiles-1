@@ -20,11 +20,15 @@ set showtabline=2       " 常にタブを表示
 set ignorecase          " 大文字小文字を区別しない
 set smartcase           " 大文字が入らない限り、大文字小文字は区別しない
 set cmdheight=2         " 2 で慣れてしまったため
-set ambiwidth=double    " 記号を正しく表示
+if !has('nvim')
+    set ambiwidth=double    " 記号を正しく表示
+endif
 set timeoutlen=480      " マッピングの待機時間
 set nrformats-=octal    " 07 で CTRL-A しても、010 にならないようにする
 set signcolumn=yes      " 常に表示
-set completeslash=slash " 補完時に使用する slash
+if !has('nvim')
+    set completeslash=slash " 補完時に使用する slash
+endif
 set nostartofline       " <C-v>で選択しているときに、上下移動しても、行頭に行かないようにする
 set autoread            " Vim の外でファイルを変更した時、自動で読み込む
 set splitright          " 縦分割した時、カレントウィンドウの右に作成する
@@ -67,6 +71,22 @@ else
     " reset
     set clipboard&
     set clipboard^=unnamedplus
+    " https://github.com/neovim/neovim/wiki/FAQ#how-to-use-the-windows-clipboard-from-wsl
+    " WSL用のクリップボード設定 (https://blog.himanoa.net/entries/20/)
+    " if system('uname -a | grep microsoft') !=# ''
+    "     let g:clipboard = {
+    "     \   'name': 'win32yank',
+    "     \   'copy': {
+    "     \      '+': 'win32yank.exe -i',
+    "     \      '*': 'win32yank.exe -i',
+    "     \    },
+    "     \   'paste': {
+    "     \      '+': 'win32yank.exe -o',
+    "     \      '*': 'win32yank.exe -o',
+    "     \   },
+    "     \   'cache_enabled': 1,
+    "     \ }
+    " endif
 endif
 
 " 余白文字を指定
@@ -119,7 +139,9 @@ set shortmess+=c
 " filler: 片方にしか無い行を埋める
 " algorithm:histogram: histogram差分アルゴリズム を使用する
 " indent-heuristic: 内部 diff のインデントヒューリスティック？を使う
-set diffopt=internal,filler,algorithm:histogram,indent-heuristic
+if !has('nvim')
+    set diffopt=internal,filler,algorithm:histogram,indent-heuristic
+endif
 " 垂直に分割する
 set diffopt+=vertical
 
@@ -196,7 +218,9 @@ set formatoptions-=t
 
 " terminal
 " prefix
-set termwinkey=<C-w>
+if !has('nvim')
+    set termwinkey=<C-w>
+endif
 
 set noshowmode
 set laststatus=2
@@ -255,16 +279,27 @@ set complete-=u
 
 " https://github.com/tyru/config/commit/993b57acd84a4996990771ae293625133f1b2ed8#diff-054bd431f12b7b2850de6d50d6e0ce17R864
 " https://qiita.com/Linda_pp/items/9e0c94eb82b18071db34
-if has('vim_starting')
-    " 挿入モード時に非点滅の縦棒タイプのカーソル
-    let &t_SI .= "\e[6 q"
-    " ノーマルモード時に非点滅のブロックタイプのカーソル
-    let &t_EI .= "\e[2 q"
-    " 置換モード時に非点滅の下線タイプのカーソル
-    let &t_SR .= "\e[4 q"
-endif
+" if has('vim_starting')
+"     " 挿入モード時に非点滅の縦棒タイプのカーソル
+"     let &t_SI .= "\e[6 q"
+"     " ノーマルモード時に非点滅のブロックタイプのカーソル
+"     let &t_EI .= "\e[2 q"
+"     " 置換モード時に非点滅の下線タイプのカーソル
+"     let &t_SR .= "\e[4 q"
+" endif
 
 " 
 set breakindent
 let &showbreak=repeat(' ', 3)
 set linebreak
+
+if !has('gui_running')
+    set termguicolors
+endif
+
+set mouse+=n
+
+if has('nvim')
+    " ポップアップを透過させる
+    set pumblend=5
+endif

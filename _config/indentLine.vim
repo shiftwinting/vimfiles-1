@@ -13,6 +13,6 @@ let g:indentLine_fileTypeExclude = [
 \   'scheme',
 \   'smlnj',
 \   'ocaml',
+\   'sml',
 \]
 let g:indentLine_char = '|'
-

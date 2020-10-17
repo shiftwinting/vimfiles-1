@@ -24,7 +24,7 @@ augroup MyTodo
 augroup END
 
 function! TodoMappings() abort
-    nnoremap <silent><buffer> <A-f> :<C-u>Leaderf todo<CR>
+    " nnoremap <silent><buffer> <A-f> :<C-u>Leaderf todo<CR>
 
     nnoremap <buffer> [Todo]   <Nop>
     nmap     <buffer> <Space>t [Todo]

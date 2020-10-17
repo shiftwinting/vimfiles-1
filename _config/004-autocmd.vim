@@ -50,12 +50,14 @@ autocmd MyAutoCmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 " すぐに quickfixwidow を開く
 " autocmd MyAutoCmd QuickFixCmdPost *grep* botright cwindow
 
-function! TerminalSettings() abort
-    setlocal nolist
-    setlocal signcolumn=no
-    setlocal cursorline
-endfunction
-autocmd MyAutoCmd TerminalWinOpen * call TerminalSettings()
+if !has('nvim')
+    function! TerminalSettings() abort
+        setlocal nolist
+        setlocal signcolumn=no
+        setlocal cursorline
+    endfunction
+    autocmd MyAutoCmd TerminalWinOpen * call TerminalSettings()
+endif
 
 " <script type="text/x-template"> のハイライトを正しくする
 " https://github.com/yuezk/vim-js/issues/1
@@ -139,7 +141,9 @@ function! CmdlineRemoveLinesExec() abort
 
     " 一番下に移動
     silent normal! G
-    call cursor(line('.'), s:cmdline_cursor_pos)
+    if !has('nvim')
+        call cursor(line('.'), s:cmdline_cursor_pos)
+    endif
 endfunction
 
 function! CmdlineSaveCursorPos() abort
@@ -150,7 +154,9 @@ augroup MyCmdWinSettings
     autocmd!
     autocmd CmdwinEnter * call CmdlineEnterSettings()
     autocmd CmdwinLeave * call CmdlineLeaveSettings()
-    autocmd CmdlineChanged * call CmdlineSaveCursorPos()
+    if !has('nvim')
+        autocmd CmdlineChanged * call CmdlineSaveCursorPos()
+    endif
     autocmd CmdwinEnter : call CmdlineRemoveLinesExec()
 augroup END
 
@@ -228,7 +234,11 @@ function! s:terminal_normal_enter() abort
     if mode() ==# 't'
         " deol-edit のときに実行されていたため
         if &filetype ==# 'deol'
-            " call feedkeys("\<C-w>N", 'n')
+            if has('nvim')
+                call feedkeys("<C-\><C-n>", 'n')
+            else
+                call feedkeys("\<C-w>N", 'n')
+            endif
         endif
     endif
 endfunction
@@ -236,7 +246,9 @@ endfunction
 function! s:terminal_normal_leave() abort
     try
         if &buftype ==# 'terminal' && mode() !=# 't'
-            normal! i
+            if !has('nvim')
+                normal! i
+            endif
         endif
     catch /.*/
         " 無視
@@ -247,6 +259,7 @@ augroup my-terminal-normal
     autocmd!
     autocmd BufEnter * call s:terminal_normal_enter()
     autocmd BufLeave * call s:terminal_normal_leave()
+    " autocmd WinLeave * call s:terminal_normal_leave()
 augroup END
 
 
@@ -324,6 +337,15 @@ augroup END
 " ====================
 " python
 " ====================
+function! s:python_send_lines() abort
+    let l:colon = v:false
+    let l:lines = getline(getpos("'<")[1], getpos("'>")[1])
+    for l:line in l:lines
+        call deol#send(l:line)
+        sleep 50ms
+    endfor
+endfunction
+
 function! s:my_ft_python() abort
     " from jedi-vim
     function! s:smart_auto_mappings() abort
@@ -333,28 +355,31 @@ function! s:my_ft_python() abort
             " from xxx<Space>
             " が
             " from xxx import<C-x><C-o>
-            return "\<Space>import\<Space>" . l:completion_start_key
-        elseif search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\s\+import.*$', 'bcn', l:line)
-            " from xxx import xxx,<Space>
-            " が
-            " from xxx import xxx, <C-x><C-o>
-            return "\<Space>" . l:completion_start_key
-            " return "\<Space>\<C-x>\<C-o>"
-        elseif search('\v^\s*from$', 'bcn', l:line)
-            " from<Space>
-            " が
-            " from <C-x><C-o>
-            return "\<Space>" . l:completion_start_key
-        elseif search('\v^\s*import$', 'bcn', l:line)
-            " import<Space>
-            " が
-            " import <C-x><C-o>
-            return "\<Space>" . l:completion_start_key
+            " return "\<Space>import\<Space>" . l:completion_start_key
+            return "\<Space>import\<Space>"
+        " elseif search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\s\+import.*$', 'bcn', l:line)
+        "     " from xxx import xxx,<Space>
+        "     " が
+        "     " from xxx import xxx, <C-x><C-o>
+        "     return "\<Space>" . l:completion_start_key
+        " elseif search('\v^\s*from$', 'bcn', l:line)
+        "     " from<Space>
+        "     " が
+        "     " from <C-x><C-o>
+        "     return "\<Space>" . l:completion_start_key
+        " elseif search('\v^\s*import$', 'bcn', l:line)
+        "     " import<Space>
+        "     " が
+        "     " import <C-x><C-o>
+        "     return "\<Space>" . l:completion_start_key
         endif
         return "\<Space>"
     endfunction
 
     imap <silent> <buffer> <expr> <Space> <SID>smart_auto_mappings()
+
+    nnoremap <buffer><silent> ,f :<C-u>call deol#send(getline('.'))<CR>
+    vnoremap <buffer><silent> ,f :<C-u>call <SID>python_send_lines()<CR>
 
     setlocal sw=4 sts=4 ts=4 et
 
@@ -394,14 +419,12 @@ augroup END
 " --------------------
 function! s:sml_send_lines() abort
     let l:colon = v:false
-    for l:line in getline(getpos("'<")[1], getpos("'>")[1])
+    let l:lines = getline(getpos("'<")[1], getpos("'>")[1])
+    for l:line in l:lines
         call deol#send(l:line)
-        if l:line =~# ';$'
-            let l:colon = v:true
-        endif
         sleep 50ms
     endfor
-    if !l:colon
+    if l:lines[-1] !~# ';$'
         call deol#send(';')
     endif
 endfunction
@@ -418,9 +441,17 @@ function! s:vsmlformat() abort
 endfunction
 command! -range VSmlFormat call <SID>vsmlformat()
 
+function! s:start_sml() abort
+    new
+    Deol -command=sml -no-start-insert -no-edit
+    wincmd w
+endfunction
+
+
 function! s:my_ft_sml() abort
     nnoremap <buffer>         <Space>bl :<C-u>SmlFormat<CR>
     vnoremap <silent><buffer> <Space>bl :<C-u>VSmlFormat<CR>
+    nnoremap <silent><buffer> <Space>re :<C-u>call <SID>start_sml()<CR>
 
     iabbrev <buffer> func fun
 
@@ -430,6 +461,9 @@ function! s:my_ft_sml() abort
     " send line
     nnoremap <buffer><silent> ,f :<C-u>call deol#send('' . getline('.') . (getline('.') =~# ';$' ? '' : ';'))<CR>
     vnoremap <buffer><silent> ,f :<C-u>call <SID>sml_send_lines()<CR>
+
+    " off autopairs
+    inoremap <buffer> ' '
 endfunction
 
 augroup my-ft-sml
@@ -438,4 +472,18 @@ augroup my-ft-sml
 
     autocmd BufRead,BufWinEnter *.ml set filetype=smlnj
     autocmd FileType smlnj,sml setlocal sw=2 sts=2 ts=2 et
+augroup END
+
+" https://github.com/thinca/config/commit/1221567f4a0cea3b29d2a01cc7b4c793c4e548cf
+" https://github.com/tyru/eskk.vim/issues/204
+augroup my-eskk
+    autocmd!
+    " autocmd User eskk-enable-pre
+    " \   if exists('*deoplete#disable')
+    " \ |   call deoplete#disable()
+    " \ | endif
+    " autocmd User eskk-disable-pre
+    " \   if exists('*deoplete#enable')
+    " \ |   call deoplete#enable()
+    " \ | endif
 augroup END

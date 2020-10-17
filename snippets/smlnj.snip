@@ -1,0 +1,19 @@
+snippet     fun
+abbr        func
+options     head
+	fun ${1:#:name} ${2:#:args} =
+	  ${0}
+
+snippet     let
+options     head
+	let
+	  ${1}
+	in
+	  ${0}
+	end
+
+snippet     case
+abbr        case .. of
+	case ${1} of
+	  ${2} => ${3}
+	| ${4} => ${5}

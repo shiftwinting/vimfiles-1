@@ -247,5 +247,5 @@ endfunction
 augroup MyVimRepl
     autocmd!
     autocmd Filetype r7rs,scheme,lisp call s:lisp_settings()
-    autocmd Filetype python,haskell call s:settings()
+    autocmd Filetype haskell call s:settings()
 augroup END
