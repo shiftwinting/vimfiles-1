@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 let g:python3_host_prog = $IS_WSL ? 
-\   '/usr/bin/python3.8' :
+\   expand('$HOME/.asdf/shims/python') :
 \   $LOCALAPPDATA.'/Programs/Python/Python37/python'
 let $NVIM_PYTHON_LOG_FILE = $IS_WSL ?
 \   '/tmp/nvim_log' :

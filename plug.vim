@@ -18,10 +18,10 @@ Plug 'jiangmiao/auto-pairs'
 " Plug 'junegunn/vim-easy-align'
 Plug 'kana/vim-repeat'
 Plug 'ludovicchabant/vim-gutentags'
-" Plug 'machakann/vim-highlightedyank'
+Plug 'machakann/vim-highlightedyank'
 Plug 'machakann/vim-sandwich'
 Plug 'mattn/sonictemplate-vim'
-" Plug 'rcmdnk/yankround.vim'
+Plug 'rcmdnk/yankround.vim'
 Plug 'simeji/winresizer'
 if has('nvim')
     " WSL環境のVimで複数の単語を翻訳できなくなってしまったためneovimのみ
@@ -182,13 +182,6 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
     Plug 'tamago324/LeaderF-packadd'
     Plug 'tamago324/LeaderF-sonictemplate'
     Plug 'Freed-Wu/LeaderF-man'
-
-if has('nvim')
-    Plug 'nvim-lua/popup.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-lua/telescope.nvim'
-    Plug 'kyazdani42/nvim-ewb-devicons'
-endif
 
 " --------------------------
 " deoplete ちょっとおそい -> asyncomplete -> WSL では最強では？！

@@ -10,7 +10,9 @@ set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
 let g:plug_script = expand('<sfile>:h').'/plug.vim'
 let g:vimfiles_path = expand('<sfile>:h')
 
-if $IS_WSL
+if has('nvim')
+    let $MYVIMFILES = expand('$HOME/.config/nvim')
+elseif $IS_WSL
     let $MYVIMFILES = expand('$HOME/.vim')
 else
     let $MYVIMFILES = expand('$HOME/vimfiles')
