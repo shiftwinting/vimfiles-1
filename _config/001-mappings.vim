@@ -272,7 +272,7 @@ if $IS_WSL
     nnoremap <silent> <Space>z.  :<C-u>call vimrc#drop_or_tabedit('~/.zshrc')<CR>
 endif
 
-if !has('win32')
-    inoremap <Esc> <C-c>
-    vnoremap <Esc> <C-c>
-endif
+" if !has('win32')
+"     inoremap <Esc> <C-c>
+"     vnoremap <Esc> <C-c>
+" endif

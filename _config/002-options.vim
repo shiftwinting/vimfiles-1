@@ -300,6 +300,6 @@ endif
 set mouse+=n
 
 if has('nvim')
-    " ポップアップを透過させる
-    set pumblend=5
+    " " ポップアップを透過させる
+    " set pumblend=30
 endif

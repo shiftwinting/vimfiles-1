@@ -114,7 +114,20 @@ endfunction
 
 
 function! s:deol_settings() abort
-    tnoremap <buffer><silent>       <A-e> <C-w>:call         deol#edit()<CR>
+    if has('nvim')
+        tnoremap <buffer><silent> <A-e> <C-\><C-N>:call deol#edit()<CR>
+        inoremap <buffer><silent> <A-e> <C-\><C-N>:call deol#edit()<CR>
+        tnoremap <buffer>         <A-h> <C-\><C-N><C-w>h
+        tnoremap <buffer>         <A-j> <C-\><C-N><C-w>j
+        tnoremap <buffer>         <A-k> <C-\><C-N><C-w>k
+        tnoremap <buffer>         <A-l> <C-\><C-N><C-w>l
+        inoremap <buffer>         <A-h> <C-\><C-N><C-w>h
+        inoremap <buffer>         <A-j> <C-\><C-N><C-w>j
+        inoremap <buffer>         <A-k> <C-\><C-N><C-w>k
+        inoremap <buffer>         <A-l> <C-\><C-N><C-w>l
+    else
+        tnoremap <buffer><silent>       <A-e> <C-w>:call         deol#edit()<CR>
+    endif
     " nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>normal! i<CR>
     nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>call deol#edit()<CR>
     nnoremap <buffer><silent>       <A-e> <Esc>:call         <SID>hide_deol(tabpagenr())<CR>
@@ -160,6 +173,8 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer><silent> <CR>  :<C-u>SendEditor<CR>
     inoremap <buffer><silent> <CR>  <Esc>:SendEditor!<CR>
     vnoremap <buffer><silent> <CR>  :SendEditor<CR>
+
+    nnoremap <buffer><silent> cd :<C-u>Leaderf fd_dir --popup<CR>
 
     iabbrev <buffer> poe poetry
 

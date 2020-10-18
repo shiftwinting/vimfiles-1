@@ -12,10 +12,8 @@ nnoremap <silent> <Space>fr        :<C-u><C-r>=printf('Leaderf! rg --recall --po
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf  cdnjs<CR>
 nnoremap <silent> <Space>ff        :<C-u>Leaderf  file<CR>
 nnoremap <silent> <Space>fh        :<C-u>Leaderf  help<CR>
-nnoremap <silent> <Space>fj         :<C-u>Leaderf  buffer --nowrap<CR>
-" nnoremap <silent> <Space>fj        :<C-u>Leaderf  buffer --nowrap<CR>
-" nnoremap <silent> <Space>fk        :<C-u>Leaderf  mru --nowrap<CR>
-nnoremap <silent> <Space>fk         :<C-u>Leaderf  mru --nowrap<CR>
+nnoremap <silent> <Space>fj        :<C-u>Leaderf  buffer --nowrap<CR>
+nnoremap <silent> <Space>fk        :<C-u>Leaderf  mru --nowrap --regexMode<CR>
 nnoremap <silent> <Space>fo        :<C-u>Leaderf  openbrowser<CR>
 nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq --bottom<CR>
 nnoremap <silent> <Space>ft        :<C-u>Leaderf  filetype<CR>
@@ -38,7 +36,8 @@ nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp<CR>
 " nnoremap <silent> <Space>fp        :<C-u>Leaderf menu<CR>
 " nnoremap <silent> <Space>fp        :<C-u>LeaderfVimspectorBreakpoints<CR>
 nnoremap <silent> <Space>fp         :<C-u>Leaderf yankround --nowrap<CR>
-nnoremap <silent> <Space>fQ         :<C-u>Leaderf stars --nowrap<CR>
+" nnoremap <silent> <Space>fQ         :<C-u>Leaderf stars --nowrap<CR>
+nnoremap <silent> <Space>cd         :<C-u>Leaderf fd_dir<CR>
 
 " nnoremap <silent> /                 :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
 
@@ -632,3 +631,42 @@ let g:Lf_Extensions.ghq = {
 \   'accept': 'LfExt_ghq_accept',
 \   'format_line': 'LfExt_ghq_format_line',
 \}
+
+
+" ====================
+" fd --type directory
+" ====================
+function! LfExt_fd_dir_accept(line, args) abort
+    exec 'tcd ' .. a:line
+endfunction
+
+" function! LfExtfd_dir_before_enter(args) abort
+"     py3 from leaderf.utils import getBasename, getDirname, lfBytesLen
+" endfunction
+"
+" function! LfExt_fd_dir_digest(line, mode) abort
+"     " mode: 0, return the full path
+"     "       1, return the name only
+"     "       2, return the directory name
+"     if a:mode ==# 0 || a:mode ==# 2
+"         return [a:line, 0]
+"     endif
+"     return [py3eval(printf('getBasename("%s")', a:line)), py3eval(printf('lfBytesLen(getDirname("%s"))', a:line))]
+" endfunction
+
+
+let g:Lf_Extensions.fd_dir = {
+\   'source': {'command': 'fd --type directory --color never --hidden --exclude ".git"'},
+\   'accept': 'LfExt_fd_dir_accept',
+\   'supports_refine': 1,
+\}
+
+
+" let g:Lf_Extensions.fd_dir = {
+" \   'source': {'command': 'fd --type directory --color never'},
+" \   'accept': 'LfExt_fd_dir_accept',
+" \   'get_digest': 'LfExt_fd_dir_digest',
+" \   'supports_name_only': 1,
+" \   'before_enter': 'LfExtfd_dir_before_enter',
+" \   'supports_refine': 1,
+" \}

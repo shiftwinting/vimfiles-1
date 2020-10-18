@@ -9,8 +9,8 @@ endif
 let g:deoplete#enable_at_startup = 1
 
 " inoremap <expr><C-Space> deoplete#refresh()
-inoremap <expr><C-i> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><C-g> deoplete#undo_completion()
+" inoremap <expr><C-i> pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <expr><C-g> deoplete#undo_completion()
 
 " refresh_always: チラツキ防止
 " yarp: nvim-yarp の機能を使う
@@ -19,7 +19,7 @@ call deoplete#custom#option({
 \   'num_processes': 2,
 \   'refresh_always': v:false,
 \   'min_pattern_length': 1,
-\   'auto_refresh_delay': 10,
+\   'auto_refresh_delay': 30,
 \})
 
 call deoplete#custom#source('buffer', 'rank', 9999)
@@ -37,6 +37,16 @@ call deoplete#custom#option('omni_patterns', {
 \   'cpp': ['[^. *\t]\%(\.\|->\)\w*', '[a-zA-Z_]\w*::'],
 \})
 
+call deoplete#custom#option('keyword_patterns', {
+\   '_': '[a-zA-Z_]\k*',
+\})
+
 call deoplete#enable_logging("DEBUG", '/tmp/deoplete.log')
 
 " zsh のキャッシュは $HOME/.cache/deoplete/zsh/compdump に吐かれる
+
+
+" ====================
+" jedi
+" ===================="
+let g:deoplete#sources#jedi#show_docstring = 1

@@ -1,7 +1,14 @@
 scriptencoding utf-8
 
+if empty(globpath(&rtp, 'autoload/gist.vim'))
+    finish
+endif
+
+let g:github_user = 'tamago324'
+
 " 設定方法
-" Settings > Developper settingss > Personal access tokens でトークンを作って
+" Settings > Developper settingss > Personal access tokens でトークンを作る
+" (gist だけでいいのかな？) 
 " ~/.gist-vim に以下のように保存する
 "   token xxxxxxxx
 
