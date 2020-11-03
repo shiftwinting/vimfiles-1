@@ -7,3 +7,17 @@ snippet     vic
 abbr        vim.api.nvim_command(|)
 options     head
 	vim.api.nvim_command(${0})
+
+snippet     init_module
+abbr        local M = {} ... return M
+options     head
+	local M = {}
+
+	${0}
+
+	return M
+
+snippet     map
+abbr        vimp.?map({'override'}, ...)
+options     head
+	vimp.${1}noremap({'override'}, ${0})

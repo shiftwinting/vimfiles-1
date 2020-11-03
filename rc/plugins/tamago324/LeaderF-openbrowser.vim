@@ -1,7 +1,5 @@
 scriptencoding utf-8
 
-" nnoremap <silent> <Space>fo :<C-u>Leaderf openbrowser<CR>
-
 " name: url の dict
 " LeaderfOpenBrowser で表示できる
 let g:Lf_openbrowser_bookmarks = {
@@ -28,3 +26,4 @@ let g:Lf_openbrowser_bookmarks = {
 \   'nanotee/nvim-lua-guide': 'https://github.com/nanotee/nvim-lua-guide',
 \   'Learn X in Lua minutes': 'https://learnxinyminutes.com/docs/lua/',
 \}
+

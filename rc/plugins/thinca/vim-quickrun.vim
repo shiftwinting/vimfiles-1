@@ -1,4 +1,5 @@
 scriptencoding utf-8
+UsePlugin 'vim-quickrun'
 
 let g:quickrun_config = {}
 
@@ -46,3 +47,4 @@ nmap <Space>rr <Plug>(quickrun)
 command! QRHookUtf8 let b:quickrun_config = {'hook/output_encode/encoding': 'utf8'}
 
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+

@@ -1,5 +1,13 @@
 scriptencoding utf-8
 
+set encoding=utf-8
+
+" 改行コードの設定
+set fileformats=unix,dos,mac
+
+" https://github.com/vim-jp/issues/issues/1186
+set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
+
 " 折返しのインデント
 let g:vim_indent_cont = 0
 

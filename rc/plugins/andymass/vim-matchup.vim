@@ -1,5 +1,7 @@
 scriptencoding utf-8
 
+UsePlugin 'vim-matchup'
+
 " ハイライトを少し遅らせる (hjkl の移動がスムーズになる？)
 let g:matchup_matchparen_deferred = 1
 

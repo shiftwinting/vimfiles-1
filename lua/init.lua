@@ -1,3 +1,4 @@
-require('options')
+require('vimrc.mappings')
 
-require('plugins')
+-- require('rc.lewis6991.gitsigns')
+-- require('rc.norcalli.nvim-colorizer')

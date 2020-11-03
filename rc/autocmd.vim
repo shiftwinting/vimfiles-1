@@ -4,13 +4,9 @@ augroup MyAutoCmd
     autocmd!
 augroup END
 
-
-" XXX: これいらない？デフォルトで ro は含まれていないため
 " 自動でコメント開始文字を挿入しないようにする
 autocmd MyAutoCmd FileType * setlocal formatoptions-=r formatoptions-=o
 
-" autocmd MyAutoCmd VimEnter,WinEnter * call matchadd('Tab', '\t')
-" autocmd MyAutoCmd VimEnter,WinEnter * call matchadd('Eol', '$')
 
 "   expandtab   タブ入力を複数の空白入力に置き換える
 "   tabstop     実際に挿入されるスペースの数
@@ -25,12 +21,12 @@ autocmd MyAutoCmd FileType js           setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType json         setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType org          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType php          setlocal sw=4 sts=4 ts=4 et
-" autocmd MyAutoCmd FileType python       setlocal sw=4 sts=4 ts=4 et
+autocmd MyAutoCmd FileType python       setlocal sw=4 sts=4 ts=4 et
 autocmd MyAutoCmd FileType scss         setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType typescript   setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType vim          setlocal sw=4 sts=4 ts=4 et
 autocmd MyAutoCmd FileType yaml         setlocal sw=2 sts=2 ts=2 et
-" autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType vue          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType firestore    setlocal sw=2 sts=2 ts=2 et
@@ -38,40 +34,28 @@ autocmd MyAutoCmd FileType java         setlocal sw=4 sts=4 ts=4 noexpandtab
 autocmd MyAutoCmd FileType pl0          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType c            setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType lua          setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType smlnj        setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType sml          setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType sql          setlocal sw=2 sts=2 ts=2 et
+
 
 " 拡張子をもとにファイルタイプを設定
 autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini
 autocmd MyAutoCmd BufRead,BufWinEnter *.csv set filetype=csv
 autocmd MyAutoCmd BufRead,BufWinEnter *.jsx set filetype=javascript.jsx
 autocmd MyAutoCmd BufRead,BufWinEnter *.pl0 set filetype=pl0
+autocmd MyAutoCmd BufRead,BufWinEnter *.ml  set filetype=smlnj
 
-" omnifunc
-" https://github.com/vim/vim/tree/master/runtime/autoload
-autocmd MyAutoCmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+" ファイル名を元にファイルタイプを設定
+autocmd MyAutoCmd BufRead,BufWinEnter Vagrantfile set ft=ruby
 
-" すぐに quickfixwidow を開く
-" autocmd MyAutoCmd QuickFixCmdPost *grep* botright cwindow
-
-if !has('nvim')
-    function! TerminalSettings() abort
-        setlocal nolist
-        setlocal signcolumn=no
-        setlocal cursorline
-    endfunction
-    autocmd MyAutoCmd TerminalWinOpen * call TerminalSettings()
-endif
-
-" <script type="text/x-template"> のハイライトを正しくする
-" https://github.com/yuezk/vim-js/issues/1
-" XXX: matchgroup が理解できない...
-"       matchgroup で指定したハイライトは、start ~ end の間では使わないようにする?
-" start ~ end の間で @htmlTop を入れられるよー
-autocmd MyAutoCmd FileType html syn region htmlTemplate matchgroup=htmlScriptTag
-\           start=+<script\s*type="text/x-template"\_[^>]*>+ keepend end=+</script\_[^>]*>+ contains=@htmlTop
+" xxx-xxx もキーワードとして認識させる
+autocmd MyAutoCmd FileType scss setlocal iskeyword+=-
 
 
-
+" ====================
 " cmdline-window コマンドラインウィンドウ
+" ====================
 function! s:save_global_options(...) abort
     let s:save_opts = {}
     let l:opt_names = a:000
@@ -148,25 +132,81 @@ function! CmdlineRemoveLinesExec() abort
     endif
 endfunction
 
-function! CmdlineSaveCursorPos() abort
-    let s:cmdline_cursor_pos = getcmdpos()
-endfunction
 
 augroup MyCmdWinSettings
     autocmd!
     autocmd CmdwinEnter * call CmdlineEnterSettings()
     autocmd CmdwinLeave * call CmdlineLeaveSettings()
-    if !has('nvim')
-        autocmd CmdlineChanged * call CmdlineSaveCursorPos()
-    endif
     autocmd CmdwinEnter : call CmdlineRemoveLinesExec()
 augroup END
 
-" help を q で閉じれるようにする
-autocmd MyAutoCmd FileType help nnoremap <buffer> q <C-w>c
 
+" ====================
+" カーソルラインの位置を保存する
+" from skanehira/dotfiles (http://bit.ly/2N82age)
+" ====================
+autocmd MyAutoCmd BufReadPost *
+\   if line("'\"") > 0 && line("'\"") <= line("$") |
+\     exe "normal! g'\"" |
+\   endif
+
+
+" ====================
+" diffthis しているときにテキスト更新したら diffupdate
+" http://bit.ly/2wxMnCa
+" ====================
+function! s:auto_diffupdate() abort
+    if &diff
+        diffupdate
+    endif
+endfunction
+autocmd MyAutoCmd TextChanged * call s:auto_diffupdate()
+
+
+" ====================
+" ディレクトリ自動生成
+"   https://github.com/skanehira/dotfiles/blob/1a311030cbd201d395d4846b023156f346c6a1aa/vim/vimrc#L384-L394
+" ====================
+function! s:auto_mkdir(dir)
+    if !isdirectory(a:dir)
+        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+endfunction
+augroup my-auto-mkdir
+    au!
+    au BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'))
+augroup END
+
+
+" ====================
+" ファイル閉じても、undoできるようにする
+" ====================
+if has('persistent_undo')
+    if !isdirectory($HOME.'/.vim/undo')
+        call mkdir($HOME.'/.vim/undo')
+    endif
+    set undodir=$HOME/.vim/undo
+    augroup MyAutoCmdUndofile
+        autocmd!
+        autocmd BufReadPre ~/* setlocal undofile
+    augroup END
+endif
+
+
+" ====================
+" help
+" ====================
+function! s:my_ft_help() abort
+    " help を q で閉じれるようにする
+    nnoremap <buffer> q <C-w>c
+endfunction
+autocmd MyAutoCmd FileType help call <SID>my_ft_help()
+
+
+" ====================
 " quickfix
-function! QfSettings() abort
+" ====================
+function! s:my_ft_qf() abort
     nnoremap <buffer>         p         <CR>zz<C-w>p
     nnoremap <buffer><silent> q         :<C-u>quit<CR>
     nnoremap <buffer><silent> <C-q>     :<C-u>quit<CR>
@@ -177,99 +217,27 @@ function! QfSettings() abort
     nnoremap <buffer><silent> gj gj
     nnoremap <buffer><silent> gk gk
 endfunction
+autocmd MyAutoCmd FileType qf call <SID>my_ft_qf()
 
-autocmd MyAutoCmd FileType qf call QfSettings()
-
-" カーソルラインの位置を保存する
-" from skanehira/dotfiles (http://bit.ly/2N82age)
-autocmd MyAutoCmd BufReadPost *
-\   if line("'\"") > 0 && line("'\"") <= line("$") |
-\     exe "normal! g'\"" |
-\   endif
-
-" // をコメントとする
-autocmd MyAutoCmd FileType json syntax match Comment +\/\/.\+$+
-
-autocmd MyAutoCmd BufRead,BufNewFile Vagrantfile set ft=ruby
-
-" " help
-" " http://bit.ly/2VQFGWr
-" function! s:ft_help() abort
-"     wincmd L
-"     82wincmd |
-"     setlocal winfixwidth
-" endfunction
-" autocmd MyAutoCmd BufEnter * if &buftype ==# 'help' | call <SID>ft_help() | endif
-
-" diffthis しているときにテキスト更新したら diffupdate
-" http://bit.ly/2wxMnCa
-function! s:auto_diffupdate() abort
-    if &diff
-        diffupdate
-    endif
-endfunction
-autocmd MyAutoCmd TextChanged * call s:auto_diffupdate()
-
-" xxx-xxx もキーワードとして認識させる
-autocmd MyAutoCmd FileType scss set iskeyword+=-
 
 
 " ====================
-" format
+" json
 " ====================
-function! s:format() abort
-    " カーソル位置の保存と復元
-    let l:pos = getcurpos()
-    normal! gg=G
-    call setpos('.', l:pos)
+function! s:my_ft_json() abort
+    " // をコメントとする
+    syntax match Comment +\/\/.\+$+
 endfunction
-command! Format call <SID>format()
-autocmd MyAutoCmd FileType vim,html nnoremap <buffer> <Space>bl :call <SID>format()<CR>
+autocmd MyAutoCmd FileType json call <SID>my_ft_json()
 
 
-" 検索時、ハイライト
-" autocmd MyAutoCmd VimEnter * call vimrc#auto_cursorline#exec()
-
-" 常にターミナルモードではノーマルモードにする
-" thanks! https://github.com/ujihisa/config/commit/5fa60a1f55ad312c081c4c7275ef0442c02ff09d
-function! s:terminal_normal_enter() abort
-    if mode() ==# 't'
-        " deol-edit のときに実行されていたため
-        if &filetype ==# 'deol'
-            if has('nvim')
-                call feedkeys("<C-\><C-n>", 'n')
-            else
-                call feedkeys("\<C-w>N", 'n')
-            endif
-        endif
-    endif
+" ====================
+" gitconfig
+" ====================
+function! s:my_ft_gitconfig() abort
+    setlocal noexpandtab
 endfunction
-
-function! s:terminal_normal_leave() abort
-    try
-        if &buftype ==# 'terminal' && mode() !=# 't'
-            if !has('nvim')
-                normal! i
-            endif
-        endif
-    catch /.*/
-        " 無視
-    endtry
-endfunction
-
-augroup my-terminal-normal
-    autocmd!
-    autocmd BufEnter * call s:terminal_normal_enter()
-    autocmd BufLeave * call s:terminal_normal_leave()
-    " autocmd WinLeave * call s:terminal_normal_leave()
-augroup END
-
-
-
-augroup my-ft-gitconfig
-    autocmd!
-    autocmd FileType gitconfig set noexpandtab
-augroup END
+autocmd MyAutoCmd FileType gitconfig call <SID>my_ft_gitconfig()
 
 
 " ====================
@@ -279,11 +247,7 @@ function! s:my_ft_scheme() abort
     let g:paredit_mode = 1
     call PareditInitBuffer()
 endfunction
-
-augroup my-ft-scheme
-    autocmd!
-    autocmd FileType scheme call s:my_ft_scheme()
-augroup END
+autocmd MyAutoCmd FileType scheme call <SID>my_ft_scheme()
 
 
 " ====================
@@ -327,14 +291,10 @@ function! s:my_ft_markdown() abort
         " nnoremap <silent> <buffer> gN   <C-u>:RenumberList<CR>
         " nnoremap <silent> <buffer> <Space>x <C-u>:ToggleCheckbox<CR>
     endif
-
-    setlocal sw=2 sts=2 ts=2 et
 endfunction
 
-augroup my-ft-markdown
-    autocmd!
-    autocmd FileType markdown call s:my_ft_markdown()
-augroup END
+autocmd MyAutoCmd FileType markdown call s:my_ft_markdown()
+
 
 " ====================
 " python
@@ -354,27 +314,7 @@ function! s:my_ft_python() abort
         let l:line = line('.')
         let l:completion_start_key = "\<C-Space>"
         if search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\%#\s*$', 'bcn', l:line)
-            " from xxx<Space>
-            " が
-            " from xxx import<C-x><C-o>
-            " return "\<Space>import\<Space>" . l:completion_start_key
             return "\<Space>import\<Space>"
-        " elseif search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\s\+import.*$', 'bcn', l:line)
-        "     " from xxx import xxx,<Space>
-        "     " が
-        "     " from xxx import xxx, <C-x><C-o>
-        "     return "\<Space>" . l:completion_start_key
-        " elseif search('\v^\s*from$', 'bcn', l:line)
-        "     " from<Space>
-        "     " が
-        "     " from <C-x><C-o>
-        "     return "\<Space>" . l:completion_start_key
-        " elseif search('\v^\s*import$', 'bcn', l:line)
-        "     " import<Space>
-        "     " が
-        "     " import <C-x><C-o>
-        "     return "\<Space>" . l:completion_start_key
-        endif
         return "\<Space>"
     endfunction
 
@@ -382,15 +322,8 @@ function! s:my_ft_python() abort
 
     nnoremap <buffer><silent> ,f :<C-u>call deol#send(getline('.'))<CR>
     vnoremap <buffer><silent> ,f :<C-u>call <SID>python_send_lines()<CR>
-
-    setlocal sw=4 sts=4 ts=4 et
-
 endfunction
-
-augroup my-ft-python
-    autocmd!
-    autocmd FileType python call s:my_ft_python()
-augroup END
+autocmd MyAutoCmd FileType python call s:my_ft_python()
 
 
 " ====================
@@ -402,14 +335,8 @@ function! s:my_ft_sql() abort
     if !empty(globpath(&rtp, 'autoload/nrrwrgn.vim'))
         vnoremap <Space>bl :NR<CR> \| :SQLFmt<CR> \| :write<CR> \| :close<CR>
     endif
-
-    setlocal sw=2 sts=2 ts=2 et
 endfunction
-
-augroup my-ft-sql
-    autocmd!
-    autocmd FileType sql call s:my_ft_sql()
-augroup END
+autocmd MyAutoCmd FileType sql call s:my_ft_sql()
 
 
 " ====================
@@ -468,31 +395,7 @@ function! s:my_ft_sml() abort
     inoremap <buffer> ' '
 endfunction
 
-augroup my-ft-sml
-    autocmd!
-    autocmd FileType smlnj call s:my_ft_sml()
-
-    autocmd BufRead,BufWinEnter *.ml set filetype=smlnj
-    autocmd FileType smlnj,sml setlocal sw=2 sts=2 ts=2 et
-augroup END
-
-
-
-" ====================
-" eskk
-" ====================" https://github.com/thinca/config/commit/1221567f4a0cea3b29d2a01cc7b4c793c4e548cf
-" https://github.com/tyru/eskk.vim/issues/204
-augroup my-eskk
-    autocmd!
-    " autocmd User eskk-enable-pre
-    " \   if exists('*deoplete#disable')
-    " \ |   call deoplete#disable()
-    " \ | endif
-    " autocmd User eskk-disable-pre
-    " \   if exists('*deoplete#enable')
-    " \ |   call deoplete#enable()
-    " \ | endif
-augroup END
+autocmd MyAutoCmd FileType smlnj call s:my_ft_sml()
 
 
 " ====================
@@ -507,11 +410,7 @@ function! s:my_ft_c() abort
         setlocal formatprg=clang-format\ -style=file
     endif
 endfunction
-
-augroup my-ft-c
-    autocmd!
-    autocmd FileType c,cpp call s:my_ft_c()
-augroup END
+autocmd MyAutoCmd FileType c,cpp call s:my_ft_c()
 
 
 " ====================
@@ -522,10 +421,8 @@ function! s:my_ft_diff() abort
     nnoremap <buffer><silent> <A-k> :<C-u>call search('^--- a', 'Wb')<CR>
     nnoremap <silent><buffer> ? :<C-u>LeaderfPatchFiles<CR>
 endfunction
-augroup my-ft-diff
-    autocmd!
-    autocmd FileType diff call s:my_ft_diff()
-augroup END
+autocmd MyAutoCmd FileType diff call s:my_ft_diff()
+
 
 " ====================
 " patch
@@ -542,48 +439,16 @@ augroup END
 function! s:my_ft_git() abort
     nnoremap <silent><buffer> ? :<C-u>LeaderfPatchFiles<CR>
 endfunction
-
-augroup my-ft-git
-    autocmd!
-    autocmd FileType git call s:my_ft_git()
-augroup END
+autocmd MyAutoCmd FileType git call s:my_ft_git()
 
 function! s:my_ft_lua() abort
     nnoremap <buffer><silent> <Space>vs. :<C-u>luafile %<CR>
     nnoremap <buffer><silent> <Space>rr  :<C-u>luafile %<CR>
 endfunction
-
-augroup my-ft-lua
-    autocmd!
-    autocmd FileType lua call s:my_ft_lua()
-augroup END
+autocmd MyAutoCmd FileType lua call s:my_ft_lua()
 
 
-" ====================
-" ディレクトリ自動生成
-"   https://github.com/skanehira/dotfiles/blob/1a311030cbd201d395d4846b023156f346c6a1aa/vim/vimrc#L384-L394
-" ====================
-function! s:auto_mkdir(dir)
-    if !isdirectory(a:dir)
-        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-    endif
+function! s:my_ft_neosnippet() abort
+    setlocal noexpandtab
 endfunction
-augroup my-auto-mkdir
-    au!
-    au BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'))
-augroup END
-
-
-" ====================
-" ファイル閉じても、undoできるようにする
-" ====================
-if has('persistent_undo')
-    if !isdirectory($HOME.'/.vim/undo')
-        call mkdir($HOME.'/.vim/undo')
-    endif
-    set undodir=$HOME/.vim/undo
-    augroup MyAutoCmdUndofile
-        autocmd!
-        autocmd BufReadPre ~/* setlocal undofile
-    augroup END
-endif
+autocmd MyAutoCmd Filetype neosnippet call <SID>my_ft_neosnippet()
