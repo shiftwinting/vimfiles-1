@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 nnoremap <Space>;h :<C-u>FavoriteHelps<CR>
-nnoremap <Space>;f :<C-u>FnamemodsPopup<CR>
+" nnoremap <Space>;f :<C-u>FnamemodsPopup<CR>
 
 command! HereOpen call execute('!start '.getcwd(), "silent")
 
@@ -28,103 +28,103 @@ function! s:github_fix_param(param) abort
     return substitute(a:param, '\v(|\s+)', '', 'g')
 endfunction
 
-" =====================
-" カレントファイルのパスをいろんな形式で yank
-" =====================
-command! FnamemodsPopup call s:yank_fnamemods_popup()
-
-" TODO: コマンドでパスの変換できるようにする
-" wsl wslpath -a 'xxxxx/xxxxx/xxx'
-
-" 形式を設定
+" " =====================
+" " カレントファイルのパスをいろんな形式で yank  -> Leaderf fnamemods
+" " =====================
+" command! FnamemodsPopup call s:yank_fnamemods_popup()
+"
+" " TODO: コマンドでパスの変換できるようにする
+" " wsl wslpath -a 'xxxxx/xxxxx/xxx'
+"
+" " 形式を設定
+" " let s:modifiers = [
+" "     \ ':p',
+" "     \ ':p:.',
+" "     \ ':p:~',
+" "     \ ':h',
+" "     \ ':p:h',
+" "     \ ':p:h:h',
+" "     \ ':t',
+" "     \ ':p:t',
+" "     \ ':r',
+" "     \ ':p:r',
+" "     \ ':t:r',
+" "     \ ':e',
+" "     \]
 " let s:modifiers = [
-"     \ ':p',
-"     \ ':p:.',
-"     \ ':p:~',
-"     \ ':h',
 "     \ ':p:h',
-"     \ ':p:h:h',
-"     \ ':t',
-"     \ ':p:t',
-"     \ ':r',
+"     \ ':p:~',
+"     \ ':p',
 "     \ ':p:r',
 "     \ ':t:r',
+"     \ ':p:t',
 "     \ ':e',
 "     \]
-let s:modifiers = [
-    \ ':p:h',
-    \ ':p:~',
-    \ ':p',
-    \ ':p:r',
-    \ ':t:r',
-    \ ':p:t',
-    \ ':e',
-    \]
-
-function! s:yank_fnamemods_popup() abort " 
-    let fnmods = s:create_fnmods_list(expand('%:p'), s:modifiers)
-
-    let c_fnmods = deepcopy(fnmods)
-    let disp_list = map(c_fnmods, {key, val -> val.mods.' '.val.path })
-
-    let popctx = {
-        \ 'fnmods': fnmods
-        \}
-
-    let opts = {
-        \ 'callback': function('s:fnmods_handler', [popctx]),
-        \ 'title': 'File modifiers to yank',
-        \ 'padding': [0, 1, 0, 1],
-        \}
-
-    " popup_menu: リストから選択する popup window
-    "             callback の第2引数に選択行のindexを渡す(1始まり)
-    let popctx.id = popup_menu(disp_list, opts)
-
-endfunction
-
-function! s:fnmods_handler(popctx, winid, idx) abort " 
-    " キャンセル時、-1が渡されるため
-    if a:idx != -1
-        " idx は 1 始まりのため -1 する
-        let fname = a:popctx.fnmods[a:idx-1].path
-        call setreg('+', trim(fname))
-        echo 'yanked'
-    endif
-endfunction
-
-
-function! s:create_fnmods_list(fullpath, fnmods) abort " 
-    let maxlen = s:get_maxlen(a:fnmods)
-
-    let fnmods_list = []
-
-    for mods in a:fnmods
-        let path = expand('%'.mods)
-
-        " パスの位置を合わせる
-        if mods ==# ':e'
-            " :e
-            let space_num = strridx(a:fullpath, path)
-        elseif stridx(mods, '~') != -1
-            " :~
-            let space_num = len($HOME) -1
-        else
-            let space_num = stridx(a:fullpath, path)
-        endif
-
-        " mods, path の調整
-        let just_mods = printf('%-'.maxlen.'s', mods)
-        let just_path = repeat(' ', space_num).' '.path
-
-        call add(fnmods_list, {
-            \ 'mods': just_mods,
-            \ 'path': just_path,
-            \})
-    endfor
-
-    return fnmods_list
-endfunction
+"
+" function! s:yank_fnamemods_popup() abort " 
+"     let fnmods = s:create_fnmods_list(expand('%:p'), s:modifiers)
+"
+"     let c_fnmods = deepcopy(fnmods)
+"     let disp_list = map(c_fnmods, {key, val -> val.mods.' '.val.path })
+"
+"     let popctx = {
+"         \ 'fnmods': fnmods
+"         \}
+"
+"     let opts = {
+"         \ 'callback': function('s:fnmods_handler', [popctx]),
+"         \ 'title': 'File modifiers to yank',
+"         \ 'padding': [0, 1, 0, 1],
+"         \}
+"
+"     " popup_menu: リストから選択する popup window
+"     "             callback の第2引数に選択行のindexを渡す(1始まり)
+"     let popctx.id = popup_menu(disp_list, opts)
+"
+" endfunction
+"
+" function! s:fnmods_handler(popctx, winid, idx) abort " 
+"     " キャンセル時、-1が渡されるため
+"     if a:idx != -1
+"         " idx は 1 始まりのため -1 する
+"         let fname = a:popctx.fnmods[a:idx-1].path
+"         call setreg('+', trim(fname))
+"         echo 'yanked'
+"     endif
+" endfunction
+"
+"
+" function! s:create_fnmods_list(fullpath, fnmods) abort " 
+"     let maxlen = s:get_maxlen(a:fnmods)
+"
+"     let fnmods_list = []
+"
+"     for mods in a:fnmods
+"         let path = expand('%'.mods)
+"
+"         " パスの位置を合わせる
+"         if mods ==# ':e'
+"             " :e
+"             let space_num = strridx(a:fullpath, path)
+"         elseif stridx(mods, '~') != -1
+"             " :~
+"             let space_num = len($HOME) -1
+"         else
+"             let space_num = stridx(a:fullpath, path)
+"         endif
+"
+"         " mods, path の調整
+"         let just_mods = printf('%-'.maxlen.'s', mods)
+"         let just_path = repeat(' ', space_num).' '.path
+"
+"         call add(fnmods_list, {
+"             \ 'mods': just_mods,
+"             \ 'path': just_path,
+"             \})
+"     endfor
+"
+"     return fnmods_list
+" endfunction
 
 
 " =====================
@@ -365,3 +365,18 @@ command! NewTempFile call <SID>new_tmp_file()
 if executable('sml-format')
     command! -range=% SmlFormat <line1>,<line2>!sml-format
 endif
+
+
+" ====================
+" 特定のコミットのdiffを取得する
+" ====================
+function! s:get_diff_commmit(val) abort
+    new
+    set filetype=diff
+    " bang なら tag から取得する
+    let l:hash = system('git rev-parse ' . a:val)[:-2]
+    exec printf('r! git diff --patch-with-stat %s~1 %s', l:hash, l:hash)
+    1delete
+endfunction
+
+command! -nargs=1 GitDiff call <SID>get_diff_commmit(<f-args>)

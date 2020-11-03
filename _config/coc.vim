@@ -1,6 +1,8 @@
 scriptencoding utf-8
 
-finish
+if empty(globpath(&rtp, 'autoload/coc.vim'))
+    finish
+endif
 
 call coc#add_extension(
 \    'coc-json',

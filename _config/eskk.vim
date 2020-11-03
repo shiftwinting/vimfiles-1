@@ -23,6 +23,7 @@ let g:eskk#start_completion_length = 1
 " デフォルトの設定をしない
 let g:eskk#no_default_mappings = 1
 imap <C-j> <Plug>(eskk:enable)
+cmap <C-j> <Plug>(eskk:enable)
 
 " deoplete.nvim がうまく動かなくなってしまうため、だめ...
 " buffer ごとで状態をキープする?

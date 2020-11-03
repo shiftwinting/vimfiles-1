@@ -269,12 +269,12 @@ augroup END
 " colorscheme one
 " set background=light
 
-" colorscheme nord
-" set background=dark
-
 let g:nord_uniform_diff_background = 1
 let g:nord_underline = 1
 let g:nord_bold_vertical_split_line = 1
+
+" colorscheme nord
+" set background=dark
 
 
 " colorscheme palenight
@@ -287,20 +287,19 @@ let g:nord_bold_vertical_split_line = 1
 " set background=dark
 " colorscheme tender
 
-" set background=light
-"
 let g:gruvbox_material_enable_italic = 0
 let g:gruvbox_material_disable_italic_comment = 1
 "
-" " let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_background = 'medium'
 " let g:gruvbox_material_background = 'hard'
 " " let g:gruvbox_material_background = 'soft'
-"
-" colorscheme gruvbox-material
 
 set background=light
-" colorscheme monochromenote
 colorscheme gruvbox-material
+
+" set background=light
+" " colorscheme monochromenote
+" colorscheme gruvbox-material
 
 
 hi link vimEmbedError Normal

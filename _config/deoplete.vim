@@ -16,7 +16,7 @@ let g:deoplete#enable_at_startup = 1
 " yarp: nvim-yarp の機能を使う
 call deoplete#custom#option({
 \   'smart_case': v:true,
-\   'num_processes': 2,
+\   'num_processes': 1,
 \   'refresh_always': v:false,
 \   'min_pattern_length': 1,
 \   'auto_refresh_delay': 30,
@@ -28,9 +28,9 @@ call deoplete#custom#source('_', 'converters', [
 \   'converter_remove_paren'
 \])
 
-call deoplete#custom#var('omni', 'functions', {
-\   'c': ['lsp#complete']
-\})
+" call deoplete#custom#var('omni', 'functions', {
+" \   'c': ['lsp#complete']
+" \})
 
 call deoplete#custom#option('omni_patterns', {
 \   'c': ['[^. *\t]\%(\.\|->\)\w*'],
@@ -50,3 +50,13 @@ call deoplete#enable_logging("DEBUG", '/tmp/deoplete.log')
 " jedi
 " ===================="
 let g:deoplete#sources#jedi#show_docstring = 1
+
+
+" ====================
+" clang
+" ===================="
+" https://qiita.com/musou1500/items/3f0b139d37d78a18786f
+
+" sudo apt install clang でインストールしておくこと
+let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
+let g:deoplete#sources#clang#clang_header = '/usr/include/clang'

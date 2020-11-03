@@ -7,112 +7,100 @@ let g:vim_indent_cont = 0
 let $MYVIMRC = resolve($MYVIMRC)
 
 
-set autoindent          " 改行時に前の行のインデントを維持する
+"" set autoindent          " 改行時に前の行のインデントを維持する
 " set smartindent         " 改行時に入力された行の末尾に合わせて次の行のインデントを増減
-set shiftround          " インデント幅を必ず shiftwidth の倍数にする
-set hlsearch            " 検索文字列をハイライトする
-set incsearch           " 文字を入力されるたびに検索を実行する
-set scrolloff=5         " 5行開けてスクロールできるようにする
-set visualbell t_vb=    " ビープ音すべてを無効にする
-set noerrorbells        " エラーメッセージの表示時にビープ音を鳴らさない
-set history=3000         " 検索、置換、コマンド... の履歴を300にする(default: 50)
-set showtabline=2       " 常にタブを表示
-set ignorecase          " 大文字小文字を区別しない
-set smartcase           " 大文字が入らない限り、大文字小文字は区別しない
-set cmdheight=2         " 2 で慣れてしまったため
-if !has('nvim')
-    set ambiwidth=double    " 記号を正しく表示
-endif
-set timeoutlen=480      " マッピングの待機時間
+"" set shiftround          " インデント幅を必ず shiftwidth の倍数にする
+"" set hlsearch            " 検索文字列をハイライトする
+"" set incsearch           " 文字を入力されるたびに検索を実行する
+"" set scrolloff=5         " 5行開けてスクロールできるようにする
+"" set visualbell t_vb=    " ビープ音すべてを無効にする
+"" set noerrorbells        " エラーメッセージの表示時にビープ音を鳴らさない
+"" set history=3000         " 検索、置換、コマンド... の履歴を300にする(default: 50)
+"" set showtabline=2       " 常にタブを表示
+"" set ignorecase          " 大文字小文字を区別しない
+"" set smartcase           " 大文字が入らない限り、大文字小文字は区別しない
+"" set cmdheight=2         " 2 で慣れてしまったため
+" if !has('nvim')
+    "" set ambiwidth=double    " 記号を正しく表示
+" endif
+"" set timeoutlen=480      " マッピングの待機時間
 set nrformats-=octal    " 07 で CTRL-A しても、010 にならないようにする
-set signcolumn=yes      " 常に表示
+"" if has('nvim')
+""     set signcolumn=yes:2    " 常に表示 (幅を2にする)
+"" else
+""     set signcolumn=yes      " 常に表示
+"" endif
 if !has('nvim')
     set completeslash=slash " 補完時に使用する slash
 endif
-set nostartofline       " <C-v>で選択しているときに、上下移動しても、行頭に行かないようにする
-set autoread            " Vim の外でファイルを変更した時、自動で読み込む
-set splitright          " 縦分割した時、カレントウィンドウの右に作成する
-set nosplitbelow        " 横分割した時、カレントウィンドウの上に作成する
+"" set nostartofline       " <C-v>で選択しているときに、上下移動しても、行頭に行かないようにする
+"" set autoread            " Vim の外でファイルを変更した時、自動で読み込む
+"" set splitright          " 縦分割した時、カレントウィンドウの右に作成する
+"" set nosplitbelow        " 横分割した時、カレントウィンドウの上に作成する
 
-" menuone:  候補が1つでも表示
-" popup:    info を popup で表示
-" noselect: 自動で候補を表示しない
-" noinsert: 自動で候補を挿入しない
-set completeopt=menuone,noselect,noinsert
-set pumheight=15
+"" " menuone:  候補が1つでも表示
+"" " popup:    info を popup で表示
+"" " noselect: 自動で候補を表示しない
+"" " noinsert: 自動で候補を挿入しない
+"" set completeopt=menuone,noselect,noinsert
+"" set pumheight=15
 
-set expandtab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+"" set expandtab
+"" set tabstop=4
+"" set shiftwidth=4
+"" set softtabstop=4
 
-" syntax highlight
-" syntax enable と syntax on の違いを理解する (:help :syntax-on)
-" on: 既存の色の設定を上書きする
-" enable: まだ、設定されていない色の設定のみ適用する
-syntax enable
+"" " syntax highlight
+"" " syntax enable と syntax on の違いを理解する (:help :syntax-on)
+"" " on: 既存の色の設定を上書きする
+"" " enable: まだ、設定されていない色の設定のみ適用する
+"" syntax enable
 
-" plugin ファイルタイプ別プラグインを有効化
-" indent ファイルタイプごとのインデントを有効化
-" ファイルタイプの自動検出
-filetype plugin indent on
+"" " plugin ファイルタイプ別プラグインを有効化
+"" " indent ファイルタイプごとのインデントを有効化
+"" " ファイルタイプの自動検出
+"" filetype plugin indent on
 
-" <BS>, <Del>, <CTRL-W>, <CTRL-U> で削除できるものを設定
-"   indent  : 行頭の空白
-"   eol     : 改行(行の連結が可能)
-"   start   : 挿入モード開始位置より手前の文字
-set backspace=indent,eol,start
+"" " <BS>, <Del>, <CTRL-W>, <CTRL-U> で削除できるものを設定
+"" "   indent  : 行頭の空白
+"" "   eol     : 改行(行の連結が可能)
+"" "   start   : 挿入モード開始位置より手前の文字
+"" set backspace=indent,eol,start
 
-" Windows の場合、 @* と @+ は同じになる
-if has('win32')
-    set clipboard=unnamed
-else
-    " https://pocke.hatenablog.com/entry/2014/10/26/145646
-    " reset
-    set clipboard&
-    set clipboard^=unnamedplus
-    " https://github.com/neovim/neovim/wiki/FAQ#how-to-use-the-windows-clipboard-from-wsl
-    " WSL用のクリップボード設定 (https://blog.himanoa.net/entries/20/)
-    " if system('uname -a | grep microsoft') !=# ''
-    "     let g:clipboard = {
-    "     \   'name': 'win32yank',
-    "     \   'copy': {
-    "     \      '+': 'win32yank.exe -i',
-    "     \      '*': 'win32yank.exe -i',
-    "     \    },
-    "     \   'paste': {
-    "     \      '+': 'win32yank.exe -o',
-    "     \      '*': 'win32yank.exe -o',
-    "     \   },
-    "     \   'cache_enabled': 1,
-    "     \ }
-    " endif
-endif
+"" " Windows の場合、 @* と @+ は同じになる
+"" if has('win32')
+""     set clipboard=unnamed
+"" else
+""     " https://pocke.hatenablog.com/entry/2014/10/26/145646
+""     " reset
+""     set clipboard&
+""     set clipboard^=unnamedplus
+"" endif
 
-" 余白文字を指定
-"   vert: 垂直分割の区切り文字
-"   fold: 折畳の余白
-"   diff: diffの余白
-set fillchars=vert:\ ,fold:\ ,diff:\ 
+"" " 余白文字を指定
+"" "   vert: 垂直分割の区切り文字
+"" "   fold: 折畳の余白
+"" "   diff: diffの余白
+"" set fillchars=vert:\ ,fold:\ ,diff:\ 
 
-" バックアップファイル(~)を作成しない(defaut: off)
-set nobackup
-set nowritebackup
+"" " バックアップファイル(~)を作成しない(defaut: off)
+"" set nobackup
+"" set nowritebackup
 
-" スワップファイル(.swp)を作成しない
-set noswapfile
-set updatecount=0
+"" " スワップファイル(.swp)を作成しない
+"" set noswapfile
+"" set updatecount=0
 
-" cmdline の補完設定
-" ステータスラインに候補を表示
-set wildmenu
+"" " cmdline の補完設定
+"" " ステータスラインに候補を表示
+"" set wildmenu
 
-" Tab 1回目:  共通部分まで補完し、候補リストを表示
-" Tab 2回目~: 候補を完全に補完
-set wildmode=longest:full,list:full
+"" " Tab 1回目:  共通部分まで補完し、候補リストを表示
+"" " Tab 2回目~: 候補を完全に補完
+"" set wildmode=longest:full,list:full
 
-" cmdline から cmdline-window へ移動
-set cedit=\<C-k>
+" " cmdline から cmdline-window へ移動
+" set cedit=\<C-k>
 
 " listchars (不可視文字を表示する) "
 set list

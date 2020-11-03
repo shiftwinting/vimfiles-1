@@ -26,5 +26,7 @@ let g:openbrowser_search_engines = {
 \   'memo': 'https://scrapbox.io/tamago324vim/search/page?q={query}',
 \   'mdnwebdocs': 'https://developer.mozilla.org/ja/search?q={query}',
 \   'python': 'https://docs.python.org/3/search.html?q={query}',
-\   'clang_func_dict': 'http://www.c-tipsref.com/cgi-bin/index.cgi?q={query}&b.x=0&b.y=0'
+\   'clang_func_dict': 'http://www.c-tipsref.com/cgi-bin/index.cgi?q={query}&b.x=0&b.y=0',
+\   'neovim-vim-patch': 'https://github.com/neovim/neovim/issues?q=is%3Aopen+sort%3Aupdated-desc+{query}',
+\   'vim/commits': 'https://github.com/vim/vim/search?q={query}&type=commits',
 \}

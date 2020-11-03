@@ -36,6 +36,8 @@ autocmd MyAutoCmd FileType vue          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType firestore    setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType java         setlocal sw=4 sts=4 ts=4 noexpandtab
 autocmd MyAutoCmd FileType pl0          setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType c            setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType lua          setlocal sw=2 sts=2 ts=2 et
 
 " 拡張子をもとにファイルタイプを設定
 autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini
@@ -190,14 +192,14 @@ autocmd MyAutoCmd FileType json syntax match Comment +\/\/.\+$+
 
 autocmd MyAutoCmd BufRead,BufNewFile Vagrantfile set ft=ruby
 
-" help
-" http://bit.ly/2VQFGWr
-function! s:ft_help() abort
-    wincmd L
-    82wincmd |
-    setlocal winfixwidth
-endfunction
-autocmd MyAutoCmd BufEnter * if &buftype ==# 'help' | call <SID>ft_help() | endif
+" " help
+" " http://bit.ly/2VQFGWr
+" function! s:ft_help() abort
+"     wincmd L
+"     82wincmd |
+"     setlocal winfixwidth
+" endfunction
+" autocmd MyAutoCmd BufEnter * if &buftype ==# 'help' | call <SID>ft_help() | endif
 
 " diffthis しているときにテキスト更新したら diffupdate
 " http://bit.ly/2wxMnCa
@@ -474,7 +476,11 @@ augroup my-ft-sml
     autocmd FileType smlnj,sml setlocal sw=2 sts=2 ts=2 et
 augroup END
 
-" https://github.com/thinca/config/commit/1221567f4a0cea3b29d2a01cc7b4c793c4e548cf
+
+
+" ====================
+" eskk
+" ====================" https://github.com/thinca/config/commit/1221567f4a0cea3b29d2a01cc7b4c793c4e548cf
 " https://github.com/tyru/eskk.vim/issues/204
 augroup my-eskk
     autocmd!
@@ -486,4 +492,67 @@ augroup my-eskk
     " \   if exists('*deoplete#enable')
     " \ |   call deoplete#enable()
     " \ | endif
+augroup END
+
+
+" ====================
+" c
+" ====================
+function! s:my_ft_c() abort
+    nnoremap <buffer> - :<C-u>A<CR>
+
+    " https://github.com/neovim/neovim/blob/master/CONTRIBUTING.md#style
+    " Neovim のため
+    if !empty(findfile('.clang-format', ';'))
+        setlocal formatprg=clang-format\ -style=file
+    endif
+endfunction
+
+augroup my-ft-c
+    autocmd!
+    autocmd FileType c,cpp call s:my_ft_c()
+augroup END
+
+
+" ====================
+" diff
+" ====================
+function! s:my_ft_diff() abort
+    nnoremap <buffer><silent> <A-j> :<C-u>call search('^--- a', 'W')<CR>
+    nnoremap <buffer><silent> <A-k> :<C-u>call search('^--- a', 'Wb')<CR>
+    nnoremap <silent><buffer> ? :<C-u>LeaderfPatchFiles<CR>
+endfunction
+augroup my-ft-diff
+    autocmd!
+    autocmd FileType diff call s:my_ft_diff()
+augroup END
+
+" ====================
+" patch
+" ====================
+augroup MyLfPatch
+    autocmd!
+    autocmd BufEnter *.patch nnoremap <silent><buffer> ? :<C-u>LeaderfPatchFiles<CR>
+augroup END
+
+
+" ====================
+" git
+" ====================
+function! s:my_ft_git() abort
+    nnoremap <silent><buffer> ? :<C-u>LeaderfPatchFiles<CR>
+endfunction
+
+augroup my-ft-git
+    autocmd!
+    autocmd FileType git call s:my_ft_git()
+augroup END
+
+function! s:my_ft_lua() abort
+    nnoremap <buffer><silent> <Space>vs. :<C-u>luafile %<CR>
+endfunction
+
+augroup my-ft-lua
+    autocmd!
+    autocmd FileType lua call s:my_ft_lua()
 augroup END

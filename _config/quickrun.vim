@@ -7,8 +7,8 @@ let g:quickrun_config = {}
 " hook/output_encode/encoding で encoding の from:to を指定できる
 let g:quickrun_config = {
 \   '_': {
-\       'runner': 'job',
-\       'hook/output_encode/encoding': 'cp932',
+\       'runner': has('nvim') ? 'system' : 'job',
+\       'hook/output_encode/encoding': has('win32') ? 'cp932' : 'utf-8',
 \       'outputter/buffer/close_on_empty': 1,
 \   },
 \   'vim': {
@@ -26,7 +26,7 @@ let g:quickrun_config = {
 \   },
 \   'c': {
 \       'command': 'clang',
-\       'exec': ['%c %o %s:p', 'a.exe %a'],
+\       'exec': has('win32') ? ['%c %o %s:p', 'a.exe %a'] : ['%c %o %s:p', './a.out %a'],
 \       'tempfile': '%{tempname()}.c',
 \       'hook/sweep/files': '%S:p:r',
 \       'cmdopt': '-Wall',

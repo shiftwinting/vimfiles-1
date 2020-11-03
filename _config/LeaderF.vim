@@ -14,19 +14,22 @@ nnoremap <silent> <Space>ff        :<C-u>Leaderf  file<CR>
 nnoremap <silent> <Space>fh        :<C-u>Leaderf  help<CR>
 nnoremap <silent> <Space>fj        :<C-u>Leaderf  buffer --nowrap<CR>
 nnoremap <silent> <Space>fk        :<C-u>Leaderf  mru --nowrap --regexMode<CR>
+nnoremap <silent> <Space>f,        :<C-u>LeaderfMrHere<CR>
 nnoremap <silent> <Space>fo        :<C-u>Leaderf  openbrowser<CR>
-nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq --bottom<CR>
+" nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq --bottom<CR>
+nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq<CR>
 nnoremap <silent> <Space>ft        :<C-u>Leaderf  filetype<CR>
 " nnoremap <silent> <Space>fw        :<C-u>Leaderf  window<CR>
 " nnoremap <silent> <Space>fm        :<C-u><C-r>=printf('Leaderf  file --file %s', g:vimrc#mrw#cache_path)<CR><CR>
-nnoremap <silent> <Space>fl        :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
+" nnoremap <silent> <Space>fl        :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
 nnoremap <silent> <Space>fs        :<C-u>Leaderf  bufTag<CR>
 nnoremap <silent> <Space>fv        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
 nnoremap <silent> <Space>fb        :<C-u>Leaderf  bookmark --nowrap<CR>
-nnoremap <silent> <Space>fa        :<C-u>Leaderf  task --nowrap<CR>
+" nnoremap <silent> <Space>fa        :<C-u>Leaderf  task --nowrap<CR>
 
 nnoremap <silent> <A-x> :<C-u>Leaderf command --run-immediately --fuzzy<CR>
-nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
+" -> defx.nvim
+" nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
 nnoremap <silent> <Space>;t        :<C-u>Leaderf sonictemplate<CR>
 " nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf switch<CR>
@@ -35,9 +38,10 @@ nnoremap <silent> <Space>fn        :<C-u>Leaderf neosnippet<CR>
 nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp<CR>
 " nnoremap <silent> <Space>fp        :<C-u>Leaderf menu<CR>
 " nnoremap <silent> <Space>fp        :<C-u>LeaderfVimspectorBreakpoints<CR>
-nnoremap <silent> <Space>fp         :<C-u>Leaderf yankround --nowrap<CR>
-" nnoremap <silent> <Space>fQ         :<C-u>Leaderf stars --nowrap<CR>
-nnoremap <silent> <Space>cd         :<C-u>Leaderf fd_dir<CR>
+" nnoremap <silent> <Space>fp         :<C-u>Leaderf yankround --nowrap<CR>
+" nnoremap <silent> <Space>fQ         :<C-u>Leaderf gh_stars<CR>
+nnoremap <silent> <Space>fd         :<C-u>Leaderf fd_dir<CR>
+nnoremap <silent> <Space>;f         :<C-u>Leaderf fnamemods<CR>
 
 " nnoremap <silent> /                 :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
 
@@ -92,10 +96,11 @@ let g:Lf_CursorBlink = 0
 " ステータスラインのカラースキーム
 if g:colors_name ==# 'one'
     let g:Lf_StlColorscheme = 'one'
+elseif g:colors_name =~# '^gruvbox'
+    let g:Lf_StlColorscheme = 'gruvbox_material'
 else
     let g:Lf_StlColorscheme = 'default'
 endif
-let g:Lf_StlColorscheme = 'one'
 
 
 " 検索に使う外部ツール
@@ -126,8 +131,8 @@ let g:Lf_ReverseOrder = 1
 let g:Lf_WindowHeight = 0.4
 
 " 位置
-let g:Lf_WindowPosition = 'bottom'
-" let g:Lf_WindowPosition = 'popup'
+" let g:Lf_WindowPosition = 'bottom'
+let g:Lf_WindowPosition = 'popup'
 
 
 " ----------
@@ -640,21 +645,6 @@ function! LfExt_fd_dir_accept(line, args) abort
     exec 'tcd ' .. a:line
 endfunction
 
-" function! LfExtfd_dir_before_enter(args) abort
-"     py3 from leaderf.utils import getBasename, getDirname, lfBytesLen
-" endfunction
-"
-" function! LfExt_fd_dir_digest(line, mode) abort
-"     " mode: 0, return the full path
-"     "       1, return the name only
-"     "       2, return the directory name
-"     if a:mode ==# 0 || a:mode ==# 2
-"         return [a:line, 0]
-"     endif
-"     return [py3eval(printf('getBasename("%s")', a:line)), py3eval(printf('lfBytesLen(getDirname("%s"))', a:line))]
-" endfunction
-
-
 let g:Lf_Extensions.fd_dir = {
 \   'source': {'command': 'fd --type directory --color never --hidden --exclude ".git"'},
 \   'accept': 'LfExt_fd_dir_accept',
@@ -662,11 +652,118 @@ let g:Lf_Extensions.fd_dir = {
 \}
 
 
-" let g:Lf_Extensions.fd_dir = {
-" \   'source': {'command': 'fd --type directory --color never'},
-" \   'accept': 'LfExt_fd_dir_accept',
-" \   'get_digest': 'LfExt_fd_dir_digest',
-" \   'supports_name_only': 1,
-" \   'before_enter': 'LfExtfd_dir_before_enter',
-" \   'supports_refine': 1,
-" \}
+" ====================
+" github stars
+" ====================
+let g:Lf_Extensions.gh_stars = {
+\   'source': 'lf#gh_stars#source',
+\   'accept': 'lf#gh_stars#accept',
+\}
+
+
+" ====================
+" fname mods
+" ====================
+let s:modifiers = [
+    \ ':p:h',
+    \ ':p:~',
+    \ ':p',
+    \ ':p:r',
+    \ ':t:r',
+    \ ':p:t',
+    \ ':e',
+    \]
+
+function! s:get_maxlen(list) abort " 
+    let maxlen = 0
+    for val in a:list
+        let length = len(val)
+        if maxlen < length
+            let maxlen = length
+        endif
+    endfor
+    return maxlen
+endfunction
+
+function! s:create_fnmods_list(fullpath, fnmods) abort " 
+    let maxlen = s:get_maxlen(a:fnmods)
+
+    let fnmods_list = []
+
+    for mods in a:fnmods
+        let path = expand('%'.mods)
+
+        " パスの位置を合わせる
+        if mods ==# ':e'
+            " :e
+            let space_num = strridx(a:fullpath, path)
+        elseif stridx(mods, '~') != -1
+            " :~
+            let space_num = len($HOME) -1
+        else
+            let space_num = stridx(a:fullpath, path)
+        endif
+
+        " mods, path の調整
+        let mods = printf('%-'.maxlen.'s', mods)
+        let path = repeat(' ', space_num).' '.path
+
+        call add(fnmods_list, mods . ' | ' . path)
+    endfor
+
+    return fnmods_list
+endfunction
+
+function! s:lf_fnamemods_source(args) abort
+    return s:create_fnmods_list(expand('%:p'), s:modifiers)
+endfunction
+
+function! s:lf_fnamemods_accept(line, args) abort
+    call setreg('+', trim(split(a:line, ' | ')[1]))
+    echo 'yanked'
+endfunction
+
+let g:Lf_Extensions.fnamemods = {
+\   'source': string(function('s:lf_fnamemods_source'))[10:-3],
+\   'accept': string(function('s:lf_fnamemods_accept'))[10:-3],
+\   'highlights_def': {
+\       'Lf_hl_fnamemods_mods': '^\S+',
+\   },
+\   'highlights_cmd': [
+\       'hi link Lf_hl_fnamemods_mods Comment'
+\   ]
+\}
+
+
+
+
+" ====================
+" patch files
+" ====================
+function! s:lf_patch_files() abort
+    let l:files = []
+    for l:line in getline(1, '$')
+        let l:file = matchstr(l:line, '\v^--- (a\/)?\zs.*')
+        if !empty(l:file)
+            call add(l:files, fnamemodify(l:file, ':.'))
+        endif
+    endfor
+    let l:fname = tempname()
+    call writefile(l:files, l:fname)
+
+    exec 'Leaderf file --file ' . l:fname
+endfunction
+
+command! LeaderfPatchFiles call <SID>lf_patch_files()
+
+
+" ====================
+" Mru .
+" ====================
+function! s:lf_mru_here() abort
+    let l:tmp = tempname()
+    call writefile(map(mr#filter(mr#mru#list(), getcwd()), {_, val -> fnamemodify(val, ":~:p")}), l:tmp)
+    exec 'Leaderf file --regexMode --file ' . l:tmp
+endfunction
+
+command! LeaderfMrHere call <SID>lf_mru_here()

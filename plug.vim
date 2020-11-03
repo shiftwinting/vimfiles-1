@@ -38,17 +38,15 @@ Plug 'markonm/traces.vim'
 Plug 'hrsh7th/vim-eft'
 Plug 'rbtnn/vim-gloaded'
 Plug 'y0za/vim-reading-vimrc'
-Plug 'google/vim-searchindex'       " 検索結果の個数を表示
+" Plug 'google/vim-searchindex'       " 検索結果の個数を表示
 Plug 'tyru/columnskip.vim'
 Plug 'tyru/eskk.vim'
 Plug 'lambdalisue/vim-protocol'
 Plug 'lambdalisue/suda.vim'
 
-if !$IS_WSL
-    Plug 'iamcco/markdown-preview.nvim' " markdown プレビュー
-    Plug 'tyru/open-browser-github.vim'
-    Plug 'tyru/open-browser.vim'
-endif
+" Plug 'iamcco/markdown-preview.nvim' " markdown プレビュー
+Plug 'tyru/open-browser-github.vim'
+Plug 'tyru/open-browser.vim'
 " Plug 'mattn/vim-molder'
 " Plug 'dstein64/vim-startuptime'
 " Plug 'mattn/vim-molder-operations'
@@ -57,9 +55,19 @@ endif
 " Plug 'skywind3000/asynctasks.vim'
 " Plug 'skywind3000/asyncrun.vim'
 " Plug 'dhruvasagar/vim-table-mode'
-" Plug 'junegunn/vim-easy-align'
-" Plug 'ap/vim-css-color'
+Plug 'junegunn/vim-easy-align'
+" Plug 'ap/vim-css-color'       " -> norcalli/nvim-colorizer.lua
+Plug 'norcalli/nvim-colorizer.lua'
 " Plug 'sillybun/vim-repl'              " 使いやすいように最高になった
+" Plug 'xolox/vim-session'
+Plug 'skanehira/vsession'
+Plug 'lambdalisue/mr.vim'
+Plug 'lambdalisue/mr-quickfix.vim'
+
+" Plug 'lambdalisue/fin.vim'
+" Plug 'lambdalisue/fin-quickfix.vim'
+
+Plug 'ryym/vim-viler'
 
 " --------------------------
 " python
@@ -134,16 +142,29 @@ Plug 'jez/vim-better-sml'
 Plug 'kana/vim-operator-user'
 Plug 'kana/vim-operator-replace'
 " Plug 'tyru/operator-camelize.vim'
+Plug 'romgrk/equal.operator'
+
+Plug 'kana/vim-gf-user'
+Plug 'kana/vim-gf-diff'
 
 " --------------------------
 " dark power
 " --------------------------
 Plug 'Shougo/deol.nvim'
-" Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/neco-syntax'
 Plug 'Shougo/neco-vim'
 Plug 'Shougo/echodoc.vim'
 Plug 'Shougo/Denite.nvim'
+"     Plug 'Shougo/neomru.vim'
+"     " Plug 'Jagua/vim-denite-ghq'
+"     Plug '~/.ghq/github.com/Jagua/vim-denite-ghq'
+"     Plug 'ryanoasis/vim-devicons'
+    " Plug 'Shougo/unite.vim'
+    "     Plug 'tsukkee/unite-tag'
+" Plug 'Shougo/context_filetype.vim'
+"     Plug 'osyo-manga/vim-precious'
+Plug 'Shougo/defx.nvim'
+    Plug 'kristijanhusak/defx-icons'
 
 " --------------------------
 " lightline
@@ -153,9 +174,11 @@ Plug 'itchyny/lightline.vim'
 " --------------------------
 " git
 " --------------------------
-" Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter' " -> lewis6991/gitsigns.nvim
+Plug 'lewis6991/gitsigns.nvim'
+    Plug 'nvim-lua/plenary.nvim'
 Plug 'tpope/vim-fugitive'
-" Plug 'junegunn/gv.vim'
+Plug 'junegunn/gv.vim'
 Plug 'gisphm/vim-gitignore'
 " Plug 'rhysd/conflict-marker.vim'
 " Plug 'lambdalisue/gina.vim'
@@ -164,6 +187,11 @@ Plug 'tpope/vim-dispatch'
 " Plug 'lambdalisue/vim-gista'
 Plug 'mattn/vim-gist'
 Plug 'mattn/webapi-vim'
+Plug 'knsh14/vim-github-link'
+" Plug 'APZelos/blamer.nvim'
+" Plug 'iberianpig/tig-explorer.vim'
+"   Plug 'rbgrouleff/bclose.vim'
+Plug 'lambdalisue/gina.vim'
 
 " --------------------------
 " colorscheme
@@ -177,16 +205,21 @@ Plug 'jacoborus/tender.vim'
 Plug 'sainnhe/gruvbox-material'
 
 " --------------------------
-" LeaderF -> nvim-lua/telescope.nvim
+" LeaderF
 " --------------------------
-Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
-    Plug 'tamago324/LeaderF-bookmark'
+if has('win32')
+    Plug 'Yggdroot/LeaderF', { 'do': './install.bat' }
+else
+    Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+endif
+    " Plug 'tamago324/LeaderF-bookmark'
     Plug 'tamago324/LeaderF-openbrowser'
-    Plug 'tamago324/LeaderF-filer'
+    " Plug 'tamago324/LeaderF-filer'
+    " Plug '~/.ghq/github.com/tamago324/LeaderF-filer'
     Plug 'tamago324/LeaderF-neosnippet'
     Plug 'tamago324/LeaderF-packadd'
     Plug 'tamago324/LeaderF-sonictemplate'
-    Plug 'Freed-Wu/LeaderF-man'
+    " Plug 'Freed-Wu/LeaderF-man'
     Plug 'linjiX/LeaderF-git'
 
 " --------------------------
@@ -197,19 +230,44 @@ if !has('nvim')
     Plug 'roxma/nvim-yarp'
     Plug 'roxma/vim-hug-neovim-rpc'
 endif
-Plug 'lighttiger2505/deoplete-vim-lsp'
+" Plug 'lighttiger2505/deoplete-vim-lsp'
+" Plug 'deoplete-plugins/deoplete-clang'
 Plug 'deoplete-plugins/deoplete-tag'
 Plug 'Shougo/deoplete-zsh'
 Plug 'Shougo/neopairs.vim'
-Plug 'deoplete-plugins/deoplete-jedi'
+" Plug 'deoplete-plugins/deoplete-jedi'
+" Plug 'Shougo/deoplete-lsp'
 
 " --------------------------
 " lsp
 " --------------------------
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
 
 " Plug 'liuchengxu/vista.vim'
+
+" --------------------------
+" Neovim
+" --------------------------
+Plug 'neovim/nvimdev.nvim'
+    Plug 'neomake/neomake'
+    Plug 'tpope/vim-projectionist'
+Plug 'svermeulen/vimpeccable'
+Plug 'euclidianAce/BetterLua.vim'
+
+" Plug 'nvim-lua/telescope.nvim'
+"     Plug 'nvim-lua/popup.nvim'
+"     Plug 'nvim-lua/plenary.nvim'
+
+" Plug 'nvim-treesitter/nvim-treesitter'
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'romgrk/nvim-treesitter-context'
+
+" lua
+" Plug 'tjdevries/nlua.nvim'
+" Plug 'kyazdani42/nvim-web-devicons'
+" Plug 'romgrk/lib.kom'
+" Plug 'romgrk/barbar.nvim'
 
 " Plug 'lambdalisue/fern.vim'
 " Plug 'lambdalisue/fern-renderer-nerdfont.vim'
@@ -252,8 +310,6 @@ Plug 'mattn/vim-lsp-settings'
 " Plug 'kana/vim-textobj-line'
 " Plug 'michaeljsmith/vim-indent-object'
 
-
-" Plug 'lambdalisue/fin.vim'
 " Plug 'tyru/restart.vim'
 
 " Plug 'ryanoasis/vim-devicons'
@@ -348,6 +404,5 @@ Plug 'mattn/vim-lsp-settings'
 " Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'mattn/ctrlp-matchfuzzy'
 " Plug 'ryanoasis/vim-devicons'
-
 
 call plug#end()

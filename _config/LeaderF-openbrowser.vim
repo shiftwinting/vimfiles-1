@@ -24,4 +24,5 @@ let g:Lf_openbrowser_bookmarks = {
 \   'go-tour': 'https://www.w3schools.com/colors/colors_picker.asp',
 \   'project': 'https://github.com/users/tamago324/projects/8',
 \   'markdown preview': 'https://dillinger.io',
+\   'merging-patches-from-upstream-Vim': 'https://github.com/neovim/neovim/wiki/Merging-patches-from-upstream-Vim'
 \}
