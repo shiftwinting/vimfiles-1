@@ -1,3 +1,6 @@
 scriptencoding utf-8
 
-exec 'source ' . expand('<sfile>:h') . '/vimrc'
+augroup NvimInit
+    autocmd!
+    autocmd VimEnter * ++once lua require('init')
+augroup END
