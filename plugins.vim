@@ -2,6 +2,7 @@ scriptencoding utf-8
 
 let g:plug_install_dir = expand('$MYVIMFILES/plugged')
 
+
 call plug#begin(g:plug_install_dir)
 
 Plug 'junegunn/vim-plug'
@@ -15,7 +16,8 @@ Plug 'andymass/vim-matchup'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
 " Plug 'itchyny/lightline.vim'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
+Plug 'cohama/lexima.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'markonm/traces.vim'
 Plug 'simeji/winresizer'
@@ -38,7 +40,8 @@ Plug 'mattn/sonictemplate-vim'
 
 Plug 'lambdalisue/suda.vim'
 Plug 'lambdalisue/vim-protocol'
-Plug 'lambdalisue/mr.vim'
+" Plug 'lambdalisue/mr.vim'
+Plug '~/.ghq/github.com/lambdalisue/mr.vim'
 Plug 'lambdalisue/mr-quickfix.vim'
 
 Plug 'thinca/vim-quickrun'

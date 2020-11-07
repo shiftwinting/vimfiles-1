@@ -19,7 +19,7 @@ nnoremap('<C-z>', '<Nop>')
 
 -- insert mode で細かく undo できるようにする
 inoremap('<CR>', '<C-g>u<CR>')
-inoremap('<C-h>', '<C-g>u<CR>')
+inoremap('<C-h>', '<C-g>u<C-h>')
 inoremap('<BS>' , '<C-g>u<BS>')
 inoremap('<Del>', '<C-g>u<Del>')
 inoremap('<C-w>', '<C-g>u<C-w>')
@@ -111,7 +111,7 @@ nnoremap('Q', '@@')
 
 
 -- terminal
-tnoremap('<C-r>', '')
+tnoremap('<C-r>', '<Nop>')
 -- <C-]> で Job mode に移行
 tnoremap('<Esc>', [[<C-\><C-n>]])
 
@@ -140,12 +140,13 @@ nnoremap('<Space>/', [[/\V<C-r>+<CR>]])
 nnoremap('<Space>s<Space>', [[:%s///g<Left><Left>]])
 
 
+-- https://github.com/TornaxO7/my_configs/blob/7bab856b4b9956a0101236e28644e56ebc03fcf0/nvim/mappings.vim#L237
 -- 選択文字列を指定の文字で置換
 --  1. `"hy`で選択した範囲の文字列を`h`レジスタに格納
 --  2. `:%s/\V<C-R>h//g`で`h`レジスタにある文字列を検索文字として挿入
 --  3. `<left><left>`で置換後の文字列を入力しやすいようにしている
-xnoremap({'chord'}, '<C-r>',      [["hy:%s/\v(<C-r>h)//g<Left><Left>]])
-xnoremap({'chord'}, '<C-r><C-r>', [["hy:%s/\V(<C-r>h)//g<Left><Left>]])
+xnoremap({'chord'}, '<C-r>',      [["hy:%s/\v(<C-r>h)//g<C-k$F/i]])
+xnoremap({'chord'}, '<C-r><C-r>', [["hy:%s/\V(<C-r>h)//g<C-k>$F/i]])
 
 -- diff
 nnoremap('<Space>dt', [[:<C-u>windo diffthis<CR>]])
@@ -168,7 +169,7 @@ map_option_toggle('<F3>', 'readonly')
 -- help
 xnoremap('<A-h>', [["hy:help <C-r>h<CR>]])
 nnoremap('<A-h>', ':h ')
-xnoremap('K', '')
+xnoremap('K', '<Nop>')
 
 -- クリップボードの貼り付け
 inoremap('<C-r><C-r>', '<C-r>+')
@@ -204,7 +205,7 @@ nnoremap('<Space>v,', ':<C-u>call vimrc#drop_or_tabedit(g:plug_script)<CR>')
 nnoremap('sf', function()
   local ft = vim.api.nvim_eval([[input('FileType: ', '', 'filetype')]])
   -- もし空ならそのバッファを使う
-  if vim.fn.line('$') == 1 and vim.fn.getline(1) then
+  if vim.fn.line('$') == 1 and vim.fn.getline(1) and not vim.bo.modified then
     vim.api.nvim_command('e ' .. os.tmpname())
   else
     vim.api.nvim_command('new ' .. os.tmpname())

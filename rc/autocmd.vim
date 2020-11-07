@@ -52,7 +52,6 @@ autocmd MyAutoCmd BufRead,BufWinEnter Vagrantfile set ft=ruby
 " xxx-xxx もキーワードとして認識させる
 autocmd MyAutoCmd FileType scss setlocal iskeyword+=-
 
-
 " ====================
 " cmdline-window コマンドラインウィンドウ
 " ====================
@@ -452,3 +451,7 @@ function! s:my_ft_neosnippet() abort
     setlocal noexpandtab
 endfunction
 autocmd MyAutoCmd Filetype neosnippet call <SID>my_ft_neosnippet()
+
+
+" 自動で読み込む
+autocmd MyAutoCmd BufWritePost plugins.vim source plugins.vim

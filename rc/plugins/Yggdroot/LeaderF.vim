@@ -740,7 +740,7 @@ command! LeaderfPatchFiles call <SID>lf_patch_files()
 " ====================
 function! s:lf_mru_here() abort
     let l:tmp = tempname()
-    call writefile(map(mr#filter(mr#mru#list(), getcwd()), {_, val -> fnamemodify(val, ":p:.")}), l:tmp)
+    call writefile(map(mr#filter(mr#mru#list(), getcwd()), {_, val -> fnamemodify(val, ":p")}), l:tmp)
     exec 'Leaderf file --file ' . l:tmp
 endfunction
 
@@ -752,12 +752,28 @@ command! LeaderfMrHere call <SID>lf_mru_here()
 " ====================
 function! s:lf_mru() abort
     let l:tmp = tempname()
-    call writefile(map(mr#filter(mr#mru#list(), getcwd()), {_, val -> fnamemodify(val, ":p:.")}), l:tmp)
-    exec 'Leaderf file --file ' . l:tmp
+    call writefile(map(mr#mru#list(), {_, val -> fnamemodify(val, ":p")}), l:tmp)
+    exec 'Leaderf file --regexMode --file ' . l:tmp
 endfunction
-
 command! LeaderfMruuu call <SID>lf_mru()
-nnoremap <Space>fk :<C-u>LeaderfMruuu<CR>
+nnoremap <silent> <Space>fk :<C-u>LeaderfMruuu<CR>
+
+
+" ====================
+" Mrr (Most Recent git Repositories)
+" ====================
+function! s:lf_mrr_source(args) abort
+    return mr#mrr#list()
+endfunction
+function! s:lf_mrr_accept(line, args) abort
+    tabnew
+    execute printf('tcd %s', fnameescape(a:line))
+endfunction
+let g:Lf_Extensions.mrr = {
+\   'source': string(function('s:lf_mrr_source'))[10:-3],
+\   'accept': string(function('s:lf_mrr_accept'))[10:-3],
+\}
+nnoremap <Space>fp :<C-u>Leaderf mrr<CR>
 
 
 
