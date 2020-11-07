@@ -35,7 +35,7 @@ inoremap('<C-b>', '<Left>')
 xnoremap('.', [[:normal! .<CR>]])
 
 -- シンボリックリンクの先に移動する
-nnoremap('cd', [[<:<C-u>>exec 'lcd' .. resolve(expand('%:p:h'))<CR>]])
+nnoremap({'silent'}, 'cd', [[:<C-u>exec 'lcd ' .. resolve(expand('%:p:h')) | pwd<CR>]])
 
 nnoremap('<Space>vs.', function()
   if vim.bo.ft == 'lua' then
