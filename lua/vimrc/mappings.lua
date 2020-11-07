@@ -155,14 +155,15 @@ xnoremap('<Space>dp', [[:diffput<CR>]])
 nnoremap('<Space>dg', [[:diffget<CR>]])
 xnoremap('<Space>dg', [[:diffget<CR>]])
 
--- toggle
-api.nvim_command([[
-function! MapToggleOption(key, opt) abort
-exec 'nnoremap <silent> '.a:key.' :<C-u>setlocal '.a:opt.'!<CR> :echo "toggle '.a:opt.'"<CR>'
-endfunction
-call MapToggleOption('<F2>', 'wrap')
-call MapToggleOption('<F3>', 'readonly')
-]])
+-- toggle options
+local map_option_toggle = function(key, opt)
+  nnoremap({'silent'}, key, function()
+    vim.api.nvim_command(string.format('setlocal %s!', opt))
+    vim.api.nvim_command(string.format('echo "toggle %s"', opt))
+  end)
+end
+map_option_toggle('<F2>', 'wrap')
+map_option_toggle('<F3>', 'readonly')
 
 -- help
 xnoremap('<A-h>', [["hy:help <C-r>h<CR>]])
