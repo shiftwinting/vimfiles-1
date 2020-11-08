@@ -1,4 +1,4 @@
 require('vimrc.mappings')
+local utils = require('vimrc.utils')
 
--- require('rc.lewis6991.gitsigns')
--- require('rc.norcalli.nvim-colorizer')
+utils.load_rc_files()

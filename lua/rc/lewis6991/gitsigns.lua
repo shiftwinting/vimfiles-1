@@ -1,4 +1,7 @@
-require('gitsigns').setup{
+local ok, gitsigns = pcall(require, 'gitsigns')
+if not ok then do return end end
+
+gitsigns.setup{
   signs = {
     add = {hl = 'DiffAdd', text = '+'},
     change = {hl = 'DiffChange', text = '~'},
@@ -7,4 +10,3 @@ require('gitsigns').setup{
     changedelete = {hl = 'DiffChange', text = '~'},
   }
 }
-
