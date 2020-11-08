@@ -9,7 +9,15 @@ let g:lexima_map_escape = ''
 " endwise をしないようにする
 let g:lexima_enable_endwise_rules = 0
 
+" TODO: オススメらしい？
+let g:lexima_accept_pum_with_enter = 0
+
 let s:rules = []
+
+
+" 設定のリセット
+call lexima#set_default_rules()
+
 
 " \%# はカーソル位置
 
@@ -17,21 +25,9 @@ let s:rules = []
 " ====================
 " カッコ (Parenthesis)
 " ====================
-" " ( を2回入力で ) を削除する
-" call add(s:rules, { 'char': '(', 'at': '(\%#)', 'input': '<Del>' })
-" " (| の場所で ( を入力すると、((|)) となる
-" call add(s:rules, { 'char': '(', 'at': '(\%#',  'input': '('     , 'input_after': '))'})
-
 " 閉じ括弧も削除
 call add(s:rules, { 'char': '<C-h>', 'at': '(\%#)',  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': '(\%#)',  'input': '<BS><Del>' })
-
-" |) の位置でタブを入力すると、)| に移動する
-call add(s:rules, { 'char': '<TAB>', 'at': '\%#)',  'input': '<Right>' })
-
-" print(| で ) を入力すると、 print(|) となる
-call add(s:rules, { 'char': ')', 'at': '(\%#',  'input': ')<Left>' })
-
 
 
 " ====================
@@ -41,89 +37,59 @@ call add(s:rules, { 'char': ')', 'at': '(\%#',  'input': ')<Left>' })
 call add(s:rules, { 'char': '<C-h>', 'at': '{\%#}',  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': '{\%#}',  'input': '<BS><Del>' })
 
-" |) の位置でタブを入力すると、)| に移動する
-call add(s:rules, { 'char': '<TAB>', 'at': '\%#}',  'input': '<Right>' })
-
 
 
 " ====================
 " 角カッコ (Bracket)
 " ====================
 " 閉じ括弧も削除
-call add(s:rules, { 'char': '<C-h>', 'at': '[\%#]',  'input': '<BS><Del>' })
-call add(s:rules, { 'char': '<BS>',  'at': '[\%#]',  'input': '<BS><Del>' })
-
-" |) の位置でタブを入力すると、)| に移動する
-call add(s:rules, { 'char': '<TAB>', 'at': '\%#]',  'input': '<Right>' })
+call add(s:rules, { 'char': '<C-h>', 'at': '\[\%#\]',  'input': '<BS><Del>' })
+call add(s:rules, { 'char': '<BS>',  'at': '\[\%#\]',  'input': '<BS><Del>' })
 
 
 
 " ====================
 " シングルクオート (Single Quote)
 " ====================
-" '' を2回入力で ' を削除する
-call add(s:rules, { 'char': "'", 'at': "'\\%#'", 'input': '<Del>' })
-
-" '| の場合、何も入力しない
-call add(s:rules, { 'char': "'", 'at': "'\\%#" })
-
 " 閉じクオートも削除
 call add(s:rules, { 'char': '<C-h>', 'at': "'\\%#'",  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': "'\\%#'",  'input': '<BS><Del>' })
-
-" |' の位置でタブを入力すると、'| に移動する
-call add(s:rules, { 'char': '<TAB>', 'at': "\\%#'",  'input': '<Right>' })
-
 
 
 " ====================
 " ダブルクオート (Double Quote)
 " ====================
-" " を2回入力で " を削除する
-call add(s:rules, { 'char': '"', 'at': '"\%#"', 'input': '<Del>' })
-
-" "| で " を入力しても、何も入力しない
-call add(s:rules, { 'char': '"', 'at': '"\%' })
-
 " 閉じクオートも削除
 call add(s:rules, { 'char': '<C-h>', 'at': '"\%#"',  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': '"\%#"',  'input': '<BS><Del>' })
-
-" |" の位置でタブを入力すると、"| に移動する
-call add(s:rules, { 'char': '<TAB>', 'at': '\%#"',  'input': '<Right>' })
 
 
 
 " ====================
 " バッククオート (Back Quote)
 " ====================
-" `|` で ` を入力すると 右の ` を削除する
-call add(s:rules, { 'char': '`', 'at': '`\%#`', 'input': '<Del>' })
-
-" `| で ` を入力しても、何も入力しない
-call add(s:rules, { 'char': '`', 'at': '`\%' })
-
 " 閉じクオートも削除
 call add(s:rules, { 'char': '<C-h>', 'at': '`\%#`',  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': '`\%#`',  'input': '<BS><Del>' })
-
-" |" の位置でタブを入力すると、"| に移動する
-call add(s:rules, { 'char': '<TAB>', 'at': '\%#`',  'input': '<Right>' })
 
 
 
 " ====================
 " lua
 " ====================
-call add(s:rules, { 'filetype': ['lua'], 'char': "'", 'at': 'require\%#',  'input': "''<Left>" })
-
+call add(s:rules, { 'filetype': ['lua'], 'char': "'", 'at': 'require\%#',  'input': "''\<Left>" })
 
 
 " ====================
 " python
 " ====================
-call add(s:rules, { 'filetype': ['python'], 'char': "'", 'at': 'f\%#',  'input': "''<Left>" })
+call add(s:rules, { 'filetype': ['python'], 'char': "'", 'at': 'f\%#',  'input': "''\<Left>" })
 
+
+" ====================
+" vim
+" ====================
+call add(s:rules, { 'filetype': ['vim'], 'char': '<', 'at': '^\s*\(autocmd\|.[nore]map\)\s*',  'input': "<>\<Left>" })
 
 
 for s:rule in s:rules

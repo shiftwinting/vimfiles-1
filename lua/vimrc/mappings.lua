@@ -18,9 +18,9 @@ nnoremap('ZQ', '<Nop>')
 nnoremap('<C-z>', '<Nop>')
 
 -- insert mode で細かく undo できるようにする
-inoremap('<CR>', '<C-g>u<CR>')
-inoremap('<C-h>', '<C-g>u<C-h>')
-inoremap('<BS>' , '<C-g>u<BS>')
+-- inoremap('<CR>', '<C-g>u<CR>')
+-- inoremap('<C-h>', '<C-g>u<C-h>')
+-- inoremap('<BS>' , '<C-g>u<BS>')
 inoremap('<Del>', '<C-g>u<Del>')
 inoremap('<C-w>', '<C-g>u<C-w>')
 inoremap('<C-u>', '<C-g>u<C-u>')
