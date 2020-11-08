@@ -21,3 +21,23 @@ snippet     map
 abbr        vimp.?map({'override'}, ...)
 options     head
 	vimp.${1}noremap({'override'}, ${0})
+
+snippet     require
+abbr        pcall(require, ...)
+options     head
+	local ok, ${1} = pcall(require, '${1}')
+	if not ok then do return end end
+
+	${0}
+
+snippet     lam
+abbr        function(${1}) ... end
+	function(${1})
+		${0}
+	end
+
+snippet     fe
+abbr        for i, v in ipairs({$1}) do ...
+	for i, v in ipairs(${1}) do
+		${0}
+	end
