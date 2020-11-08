@@ -15,13 +15,6 @@ command! -nargs=1 UsePlugin if !FindPlugin(<args>) | finish | endif
 let g:lua_plugin_config_dir = g:vimfiles_path .. '/lua/rc'
 let g:vim_plugin_config_dir = g:vimfiles_path .. '/rc'
 
-lua require('init')
-
-let g:gruvbox_material_enable_italic = 0
-let g:gruvbox_material_disable_italic_comment = 1
-let g:gruvbox_material_background = 'medium'
-
-set bg=light
-colorscheme gruvbox-material
-
 runtime! rc/**/*.vim
+
+lua require('init')
