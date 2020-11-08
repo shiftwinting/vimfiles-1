@@ -46,10 +46,10 @@ nnoremap('<Space>vs.', function()
 end)
 
 -- update は変更があったときのみ保存するコマンド
-nnoremap('<Space>w', [[:<C-u>update<CR>]])
-nnoremap('<Space>W', [[:<C-u>update!<CR>]])
-nnoremap('<Space>q', [[:<C-u>quit<CR>]])
-nnoremap('<Space>Q', [[:<C-u>quit!<CR>]])
+nnoremap({'silent'}, '<Space>w', [[:<C-u>update<CR>]])
+nnoremap({'silent'}, '<Space>W', [[:<C-u>update!<CR>]])
+nnoremap({'silent'}, '<Space>q', [[:<C-u>quit<CR>]])
+nnoremap({'silent'}, '<Space>Q', [[:<C-u>quit!<CR>]])
 
 
 -- window 操作
@@ -64,13 +64,13 @@ nnoremap('sK', '<C-w>K')
 nnoremap('sL', '<C-w>L')
 
 -- 分割ウィンドウを開く
-nnoremap('sn', [[:<C-u>new<CR>]])
+nnoremap({'silent'}, 'sn', [[:<C-u>new<CR>]])
 
 -- カレントウィンドウを新規タブで開く
 nnoremap('st', '<C-w>T')
 
 -- 新規タブ
-nnoremap('so', ':<C-u>tabedit<CR>')
+nnoremap({'silent'}, 'so', ':<C-u>tabedit<CR>')
 
 -- タブ間の移動
 nnoremap('tg', '<Nop>')
@@ -100,7 +100,7 @@ nnoremap('G', 'Gzz')
 -- カーソル位置から行末までコピー
 nnoremap('Y', 'y$')
 -- 全行コピー
-nnoremap('<Space>ay', [[:<C-u>%y<CR>]])
+nnoremap({'silent'}, '<Space>ay', [[:<C-u>%y<CR>]])
 -- 最後にコピーしたテキストを貼り付ける
 nnoremap('<Space>p', [["0p]])
 xnoremap('<Space>p', [["0p]])
@@ -117,7 +117,7 @@ tnoremap('<Esc>', [[<C-\><C-n>]])
 
 
 -- ハイライトの消去
-nnoremap('<Esc><Esc>', [[:<C-u>noh<CR>]])
+nnoremap({'silent'}, '<Esc><Esc>', [[:<C-u>noh<CR>]])
 
 
 -- cmdline コマンドライン
@@ -149,11 +149,11 @@ xnoremap({'chord'}, '<C-r>',      [["hy:%s/\v(<C-r>h)//g<C-k$F/i]])
 xnoremap({'chord'}, '<C-r><C-r>', [["hy:%s/\V(<C-r>h)//g<C-k>$F/i]])
 
 -- diff
-nnoremap('<Space>dt', [[:<C-u>windo diffthis<CR>]])
-nnoremap('<Space>do', [[:<C-u>windo diffoff<CR>]])
-nnoremap('<Space>dp', [[:diffput<CR>]])
+nnoremap({'silent'}, '<Space>dt', [[:<C-u>windo diffthis<CR>]])
+nnoremap({'silent'}, '<Space>do', [[:<C-u>windo diffoff<CR>]])
+nnoremap({'silent'}, '<Space>dp', [[:diffput<CR>]])
 xnoremap('<Space>dp', [[:diffput<CR>]])
-nnoremap('<Space>dg', [[:diffget<CR>]])
+nnoremap({'silent'}, '<Space>dg', [[:diffget<CR>]])
 xnoremap('<Space>dg', [[:diffget<CR>]])
 
 -- toggle options
@@ -199,8 +199,8 @@ xnoremap('<C-x>', '<C-x>gv')
 
 nnoremap('<Space>i', 'i_<Esc>r')
 
-nnoremap('<Space>v.', ':<C-u>call vimrc#drop_or_tabedit($MYVIMRC)<CR>')
-nnoremap('<Space>v,', ':<C-u>call vimrc#drop_or_tabedit(g:plug_script)<CR>')
+nnoremap({'silent'}, '<Space>v.', ':<C-u>call vimrc#drop_or_tabedit($MYVIMRC)<CR>')
+nnoremap({'silent'}, '<Space>v,', ':<C-u>call vimrc#drop_or_tabedit(g:plug_script)<CR>')
 
 nnoremap('sf', function()
   local ft = vim.api.nvim_eval([[input('FileType: ', '', 'filetype')]])
