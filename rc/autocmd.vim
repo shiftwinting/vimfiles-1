@@ -452,6 +452,5 @@ function! s:my_ft_neosnippet() abort
 endfunction
 autocmd MyAutoCmd Filetype neosnippet call <SID>my_ft_neosnippet()
 
-
 " 自動で読み込む
-autocmd MyAutoCmd BufWritePost plugins.vim source plugins.vim
+autocmd MyAutoCmd BufWritePost plugins.vim exec 'source ' .. expand('<afile>')
