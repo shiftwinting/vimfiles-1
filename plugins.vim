@@ -15,8 +15,7 @@ Plug 'rbtnn/vim-gloaded'
 Plug 'andymass/vim-matchup'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
-" Plug 'itchyny/lightline.vim'
-" Plug 'jiangmiao/auto-pairs'
+Plug 'itchyny/lightline.vim'
 Plug 'cohama/lexima.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'markonm/traces.vim'
@@ -44,6 +43,7 @@ Plug 'lambdalisue/vim-protocol'
 Plug '~/.ghq/github.com/lambdalisue/mr.vim'
 Plug 'lambdalisue/mr-quickfix.vim'
 
+Plug 'lambdalisue/vim-quickrun-neovim-job'
 Plug 'thinca/vim-quickrun'
 Plug 'thinca/vim-qfreplace'
 
@@ -121,8 +121,7 @@ Plug 'Yggdroot/LeaderF',
 "    Plug 'deoplete-plugins/deoplete-tag',
 "    Plug 'Shougo/neco-syntax',
 "    Plug 'Shougo/neco-vim',
-"    Plug 'Shougo/echodoc.vim',
-"  Plug 'Shougo/neopairs.vim'
+Plug 'Shougo/echodoc.vim',
 
 " deol
 Plug 'Shougo/deol.nvim'
@@ -135,15 +134,25 @@ Plug 'Shougo/neosnippet.vim'
 " ------------------------
 "  Neovim
 " ------------------------
-Plug 'neovim/nvimdev.nvim',
-  Plug 'neomake/neomake'
-  Plug 'tpope/vim-projectionist'
-Plug 'tjdevries/express_line.nvim'
-  Plug 'nvim-lua/plenary.nvim'
+" Plug 'neovim/nvimdev.nvim',
+"   Plug 'neomake/neomake'
+"   Plug 'tpope/vim-projectionist'
 Plug 'svermeulen/vimpeccable'
 
 Plug 'euclidianAce/BetterLua.vim'
 
+Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-lua/diagnostic-nvim'
+Plug 'nvim-lua/completion-nvim'
+    Plug 'steelsojka/completion-buffers'
+    Plug 'Shougo/neopairs.vim'
+Plug 'liuchengxu/vista.vim'
+
+Plug 'nvim-lua/telescope.nvim'
+    Plug 'nvim-lua/popup.nvim'
+    Plug 'nvim-lua/plenary.nvim'
+    Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-treesitter/nvim-treesitter'
 
 " ------------------------
 "  Languages
@@ -151,6 +160,8 @@ Plug 'euclidianAce/BetterLua.vim'
 
 " Lua
 Plug 'tjdevries/nlua.nvim'
+Plug 'rafcamlet/nvim-luapad'
+Plug 'bfredl/nvim-luadev'
 
 " ------------------------
 "  C
@@ -163,4 +174,18 @@ Plug 'Shougo/neoinclude.vim'
 " Python
 " Plug 'vim-python/python-syntax'
 
+
+"------------------------
+" Vim
+Plug 'machakann/vim-Verdin'
+
 call plug#end()
+
+
+" Plug 'jiangmiao/auto-pairs'  -> cohama/lexima.vim
+
+
+" ---> lightline.vim
+" Plug 'tjdevries/express_line.nvim'
+"   Plug 'nvim-lua/plenary.nvim'
+"   Plug 'kyazdani42/nvim-web-devicons'

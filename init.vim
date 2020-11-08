@@ -2,9 +2,9 @@ scriptencoding utf-8
 
 let g:vimfiles_path = expand('<sfile>:h')
 let g:plug_script = expand('<sfile>:h').'/plugins.vim'
-let $MYVIMFILES = expand('$HOME/.config/nvim')
+let $MYVIMFILES = g:vimfiles_path
 
-exec 'source '.expand('<sfile>:h').'/plugins.vim'
+exec 'source '. g:plug_script
 
 let s:plugs = get(s:, 'plugs', get(g:, 'plugs', {}))
 function! FindPlugin(name) abort

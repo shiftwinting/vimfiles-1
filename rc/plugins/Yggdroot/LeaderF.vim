@@ -14,25 +14,25 @@ nnoremap <silent> 9                 :<C-u>Leaderf  rg --previous<CR>
 nnoremap <silent> <Space>fr        :<C-u><C-r>=printf('Leaderf! rg --recall --popup-width=%d', <SID>nice_width(200))<CR><CR>
 " nnoremap <silent> <Space>f;        :<C-u>Leaderf  cmdHistory<CR>
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf  cdnjs<CR>
-nnoremap <silent> <Space>ff        :<C-u>Leaderf  file<CR>
-nnoremap <silent> <Space>fh        :<C-u>Leaderf  help<CR>
-nnoremap <silent> <Space>fj        :<C-u>Leaderf  buffer --nowrap<CR>
+" nnoremap <silent> <Space>ff        :<C-u>Leaderf  file<CR>
+" nnoremap <silent> <Space>fh        :<C-u>Leaderf  help<CR>
+" nnoremap <silent> <Space>fj        :<C-u>Leaderf  buffer --nowrap<CR>
 " nnoremap <silent> <Space>fk        :<C-u>Leaderf  mru --nowrap --regexMode<CR>
-nnoremap <Space>fk :<C-u>LeaderfMruuu<CR>
-nnoremap <silent> <Space>f,        :<C-u>LeaderfMrHere<CR>
+" nnoremap <Space>fk :<C-u>LeaderfMruuu<CR>
+" nnoremap <silent> <Space>f,        :<C-u>LeaderfMrHere<CR>
 nnoremap <silent> <Space>fo        :<C-u>Leaderf  openbrowser<CR>
 " nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq --bottom<CR>
 nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq<CR>
-nnoremap <silent> <Space>ft        :<C-u>Leaderf  filetype<CR>
+" nnoremap <silent> <Space>ft        :<C-u>Leaderf  filetype<CR>
 " nnoremap <silent> <Space>fw        :<C-u>Leaderf  window<CR>
 " nnoremap <silent> <Space>fm        :<C-u><C-r>=printf('Leaderf  file --file %s', g:vimrc#mrw#cache_path)<CR><CR>
 " nnoremap <silent> <Space>fl        :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
-nnoremap <silent> <Space>fs        :<C-u>Leaderf  bufTag<CR>
-nnoremap <silent> <Space>fv        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
-nnoremap <silent> <Space>fb        :<C-u>Leaderf  bookmark --nowrap<CR>
+" nnoremap <silent> <Space>fs        :<C-u>Leaderf  bufTag<CR>
+" nnoremap <silent> <Space>fv        :<C-u><C-r>=printf("Leaderf file %s", g:vimfiles_path)<CR><CR>
+" nnoremap <silent> <Space>fb        :<C-u>Leaderf  bookmark --nowrap<CR>
 " nnoremap <silent> <Space>fa        :<C-u>Leaderf  task --nowrap<CR>
 
-nnoremap <silent> <A-x> :<C-u>Leaderf command --run-immediately --fuzzy<CR>
+" nnoremap <silent> <A-x> :<C-u>Leaderf command --run-immediately --fuzzy<CR>
 " -> defx.nvim
 nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
 nnoremap <silent> <Space>;t        :<C-u>Leaderf sonictemplate<CR>
@@ -735,45 +735,44 @@ endfunction
 command! LeaderfPatchFiles call <SID>lf_patch_files()
 
 
-" ====================
-" Mru .
-" ====================
-function! s:lf_mru_here() abort
-    let l:tmp = tempname()
-    call writefile(map(mr#filter(mr#mru#list(), getcwd()), {_, val -> fnamemodify(val, ":p")}), l:tmp)
-    exec 'Leaderf file --file ' . l:tmp
-endfunction
-
-command! LeaderfMrHere call <SID>lf_mru_here()
-
-
-" ====================
-" Mru
-" ====================
-function! s:lf_mru() abort
-    let l:tmp = tempname()
-    call writefile(map(mr#mru#list(), {_, val -> fnamemodify(val, ":p")}), l:tmp)
-    exec 'Leaderf file --regexMode --file ' . l:tmp
-endfunction
-command! LeaderfMruuu call <SID>lf_mru()
-nnoremap <silent> <Space>fk :<C-u>LeaderfMruuu<CR>
-
-
-" ====================
-" Mrr (Most Recent git Repositories)
-" ====================
-function! s:lf_mrr_source(args) abort
-    return mr#mrr#list()
-endfunction
-function! s:lf_mrr_accept(line, args) abort
-    tabnew
-    execute printf('tcd %s', fnameescape(a:line))
-endfunction
-let g:Lf_Extensions.mrr = {
-\   'source': string(function('s:lf_mrr_source'))[10:-3],
-\   'accept': string(function('s:lf_mrr_accept'))[10:-3],
-\}
-nnoremap <Space>fp :<C-u>Leaderf mrr<CR>
+" " ====================
+" " Mru .
+" " ====================
+" function! s:lf_mru_here() abort
+"     let l:tmp = tempname()
+"     call writefile(map(mr#filter(mr#mru#list(), getcwd()), {_, val -> fnamemodify(val, ":p")}), l:tmp)
+"     exec 'Leaderf file --file ' . l:tmp
+" endfunction
+"
+" command! LeaderfMrHere call <SID>lf_mru_here()
+"
+"
+" " ====================
+" " Mru
+" " ====================
+" function! s:lf_mru() abort
+"     let l:tmp = tempname()
+"     call writefile(map(mr#mru#list(), {_, val -> fnamemodify(val, ":p")}), l:tmp)
+"     exec 'Leaderf file --regexMode --file ' . l:tmp
+" endfunction
+" command! LeaderfMruuu call <SID>lf_mru()
+"
+"
+" " ====================
+" " Mrr (Most Recent git Repositories)
+" " ====================
+" function! s:lf_mrr_source(args) abort
+"     return mr#mrr#list()
+" endfunction
+" function! s:lf_mrr_accept(line, args) abort
+"     tabnew
+"     execute printf('tcd %s', fnameescape(a:line))
+" endfunction
+" let g:Lf_Extensions.mrr = {
+" \   'source': string(function('s:lf_mrr_source'))[10:-3],
+" \   'accept': string(function('s:lf_mrr_accept'))[10:-3],
+" \}
+" nnoremap <Space>fp :<C-u>Leaderf mrr<CR>
 
 
 
