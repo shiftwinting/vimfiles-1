@@ -25,5 +25,6 @@ let g:Lf_openbrowser_bookmarks = {
 \   'merging-patches-from-upstream-Vim': 'https://github.com/neovim/neovim/wiki/Merging-patches-from-upstream-Vim',
 \   'nanotee/nvim-lua-guide': 'https://github.com/nanotee/nvim-lua-guide',
 \   'Learn X in Lua minutes': 'https://learnxinyminutes.com/docs/lua/',
+\   'lua manual': 'http://milkpot.sakura.ne.jp/lua/lua53_manual_ja.html'
 \}
 

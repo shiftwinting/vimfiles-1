@@ -22,10 +22,10 @@ abbr        vimp.?map({'override'}, ...)
 options     head
 	vimp.${1}noremap({'override'}, ${0})
 
-snippet     require
+snippet     plug
 abbr        pcall(require, ...)
 options     head
-	local ok, ${1} = pcall(require, '${1}')
+	local ok, ${1} = pcall(require, '$1')
 	if not ok then do return end end
 
 	${0}
@@ -41,3 +41,12 @@ abbr        for i, v in ipairs({$1}) do ...
 	for i, v in ipairs(${1}) do
 		${0}
 	end
+
+snippet     ncmd
+abbr        vim.api.nvim_command(...)
+	vim.api.nvim_command(${0})
+
+
+snippet     ncall
+abbr        vim.api.nvim_call_function(...)
+	vim.api.nvim_command(${0})
