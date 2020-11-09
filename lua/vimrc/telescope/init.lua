@@ -114,6 +114,18 @@ M.filetypes = function(opts)
       entry_maker = make_entry.gen_from_string(opts),
     },
     sorter = sorters.get_levenshtein_sorter(),
+    attach_mappings = function(prompt_bufnr, map)
+      local set_ft = function()
+        local val = actions.get_selected_entry(prompt_bufnr).value
+        actions.close(prompt_bufnr)
+        a.nvim_buf_set_option(0, 'ft', val)
+      end
+
+      map('i', '<CR>', set_ft)
+      map('n', '<CR>', set_ft)
+
+      return true
+    end
   }):find()
 end
 
