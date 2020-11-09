@@ -120,44 +120,21 @@ end
 
 --[[
   ghq
-    from telescope/make_entry.lua の gen_from_string() からもらった
-    TODO: 理解する
+    from telescope/make_entry.lua の make_entry.gen_from_buffer() からもらった
 ]]
-local gen_from_ghq_list
-do
-  local lookup_keys = {
-    display = 1,
-    ordinal = 1,
-    value = 1,
-  }
-
-  local ghq_root = vim.env.GHQ_ROOT
-
-  local mt_ghq_list_entry = {
-    __index = function(t, k)
-      -- display なら綺麗にする
-      if k == 'display' then
-        return string.sub(t[1], #ghq_root + #'/github.com/' + 1)
-      end
-      return rawget(t, rawget(lookup_keys, k))
-    end
-  }
-
-  gen_from_ghq_list = function ()
-    return function(line)
-      return setmetatable({
-        line,
-      }, mt_ghq_list_entry)
-    end
-  end
-end
-
 M.ghq = function(opts)
+  local ghq_root = vim.env.GHQ_ROOT
   pickers.new(opts, {
     prompt_title = 'ghq',
     finder = finders.new_oneshot_job(
       {'ghq', 'list', '--full-path'}, {
-        entry_maker = gen_from_ghq_list()
+        entry_maker = function(line)
+          return {
+            value = line,
+            ordinal = line,
+            display = string.sub(line, #ghq_root + #'/github.com/' + 1),
+          }
+        end
       }
     ),
     sorter = sorters.get_fzy_sorter(),
