@@ -24,7 +24,7 @@ nvim_lsp.sumneko_lua.setup{
       runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
       diagnostics = {
         enable = true,
-        globals = {'vim', 'describe', 'it', 'before_earch', 'after_each'}
+        globals = {'vim', 'describe', 'it', 'before_earch', 'after_each', 'vimp'}
       },
       workspace = {
         library = {

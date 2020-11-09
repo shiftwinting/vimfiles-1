@@ -146,13 +146,17 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
     Plug 'steelsojka/completion-buffers'
     Plug 'Shougo/neopairs.vim'
+    Plug 'nvim-treesitter/completion-treesitter'
+
 Plug 'liuchengxu/vista.vim'
 
 Plug 'nvim-lua/telescope.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
+
 Plug 'nvim-treesitter/nvim-treesitter'
+    " Plug 'p00f/nvim-ts-rainbow'
 
 " ------------------------
 "  Languages

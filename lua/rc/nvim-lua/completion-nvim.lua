@@ -16,21 +16,45 @@ vim.api.nvim_command([[  autocmd BufEnter * lua require'completion'.on_attach()]
 vim.api.nvim_command([[augroup END]])
 
 local chain_complete_list = {
-  default = {
-    {complete_items = {'lsp', 'snippet'}},
-    {complete_items = {'path'}, triggered_only = {'/'}},
-    {complete_items = {'buffers'}},
+  defalt ={
+    default = {
+      {complete_items = {'lsp', 'snippet'}},
+      {complete_items = {'path'}, triggered_only = {'/'}},
+      {complete_items = {'buffers'}},
+    },
+    string = {
+      {complete_items = {'path'}, triggered_only = {'/'}},
+      {complete_items = {'buffers'}},
+    },
+    comment = {},
   },
-  string = {
-    {complete_items = {'path'}, triggered_only = {'/'}},
-    {complete_items = {'buffers'}},
-  },
-  comment = {},
   vim = {
-    {complete_items = {'lsp', 'snippet'}},
-    {mode = '<c-n>'},
-    {mode = '<c-p>'},
-    {mode = 'omni'}
+    default = {
+      {mode = 'omni'},
+      {mode = '<c-n>'},
+      {mode = '<c-p>'},
+      {complete_items = {'snippet'}},
+      {complete_items = {'buffers'}},
+    },
+    string = {
+      {complete_items = {'path'}, triggered_only = {'/'}},
+      {mode = '<c-n>'},
+      {mode = '<c-p>'},
+      {mode = 'buffers'},
+    },
+    comment = {},
+  },
+  lua = {
+    default = {
+      {complete_items = {'lsp'}},
+      {mode = '<c-p>'},
+      {mode = '<c-n>'},
+      {complete_items = {'snippet'}},
+    },
+    string = {
+      {complete_items = {'path'}, triggered_only = {'/'}}
+    },
+    comment = {},
   }
 }
 
