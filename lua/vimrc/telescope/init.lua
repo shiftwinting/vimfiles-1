@@ -63,6 +63,7 @@ M.mru = function(opts)
   }):find()
 end
 
+
 --[[
   mrr
 ]]
@@ -116,6 +117,66 @@ M.filetypes = function(opts)
   }):find()
 end
 
+
+--[[
+  ghq
+    from telescope/make_entry.lua の gen_from_string() からもらった
+    TODO: 理解する
+]]
+local gen_from_ghq_list
+do
+  local lookup_keys = {
+    display = 1,
+    ordinal = 1,
+    value = 1,
+  }
+
+  local ghq_root = vim.env.GHQ_ROOT
+
+  local mt_ghq_list_entry = {
+    __index = function(t, k)
+      -- display なら綺麗にする
+      if k == 'display' then
+        return string.sub(t[1], #ghq_root + #'/github.com/' + 1)
+      end
+      return rawget(t, rawget(lookup_keys, k))
+    end
+  }
+
+  gen_from_ghq_list = function ()
+    return function(line)
+      return setmetatable({
+        line,
+      }, mt_ghq_list_entry)
+    end
+  end
+end
+
+M.ghq = function(opts)
+  pickers.new(opts, {
+    prompt_title = 'ghq',
+    finder = finders.new_oneshot_job(
+      {'ghq', 'list', '--full-path'}, {
+        entry_maker = gen_from_ghq_list()
+      }
+    ),
+    sorter = sorters.get_fzy_sorter(),
+    attach_mappings = function(prompt_bufnr, map)
+      local tabedit = function()
+        local val = actions.get_selected_entry(prompt_bufnr).value
+        actions.close(prompt_bufnr)
+        a.nvim_command('tabnew')
+        a.nvim_command(string.format('tcd %s', val))
+      end
+
+      map('i', '<CR>', tabedit)
+      map('n', '<CR>', tabedit)
+
+      -- true を返さないと、mapping が上書きされてしまう？
+      return true
+    end
+  }):find()
+end
 
 
 return M
