@@ -1,5 +1,4 @@
-local ok, nvim_treesitter = pcall(require, 'nvim-treesitter')
-if not ok then do return end end
+if vim.api.nvim_call_function('FindPlugin', {'nvim-treesitter'}) == 0 then do return end end
 
 require('nvim-treesitter.configs').setup{
   ensure_installed = {

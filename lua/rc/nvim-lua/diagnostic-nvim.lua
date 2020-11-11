@@ -1,7 +1,6 @@
-local ok, _ = pcall(require, 'diagnostic')
-if not ok then do return end end
+if vim.api.nvim_call_function('FindPlugin', {'diagnostic-nvim'}) == 0 then do return end end
 
-local vimp = require('vimp')
+require('vimp')
 
 vimp.nnoremap({'override'}, '<A-j>', ':<C-u>NextDiagnosticCycle<CR>')
 vimp.nnoremap({'override'}, '<A-k>', ':<C-u>PrevDiagnosticCycle<CR>')

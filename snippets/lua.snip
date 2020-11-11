@@ -36,7 +36,7 @@ abbr        function(${1}) ... end
 		${0}
 	end
 
-snippet     fe
+snippet     foreach
 abbr        for i, v in ipairs({$1}) do ...
 	for i, v in ipairs(${1}) do
 		${0}
@@ -50,3 +50,7 @@ abbr        vim.api.nvim_command(...)
 snippet     ncall
 abbr        vim.api.nvim_call_function(...)
 	vim.api.nvim_command(${0})
+
+snippet     echo
+abbr        print(vim.inspect(|))
+	print(vim.inspect(${0}))

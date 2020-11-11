@@ -1,5 +1,4 @@
-local ok, nvim_lsp = pcall(require, 'nvim_lsp')
-if not ok then do return end end
+if vim.api.nvim_call_function('FindPlugin', {'nvim-lspconfig'}) == 0 then do return end end
 
 local on_attach = function(client)
   require "diagnostic".on_attach(client)
@@ -12,7 +11,7 @@ end
 ]]
 
 -- 参考になる https://github.com/7415963987456321/dotfiles/blob/76685865c9ed6d7bb42dda926f21b8cc56201e1e/.config/nvim/lua/init.lua#L71
-nvim_lsp.sumneko_lua.setup{
+require'nvim_lsp'.sumneko_lua.setup{
   on_attach = on_attach,
   cmd = {
     "/home/tamago324/.cache/nvim/nvim_lsp/sumneko_lua/lua-language-server/bin/Linux/lua-language-server",
@@ -24,7 +23,7 @@ nvim_lsp.sumneko_lua.setup{
       runtime = { version = 'LuaJIT', path = vim.split(package.path, ';') },
       diagnostics = {
         enable = true,
-        globals = {'vim', 'describe', 'it', 'before_earch', 'after_each', 'vimp'}
+        globals = {'vim', 'describe', 'it', 'before_earch', 'after_each', 'vimp', '_vimp'}
       },
       workspace = {
         library = {

@@ -1,7 +1,6 @@
-local ok, gitsigns = pcall(require, 'gitsigns')
-if not ok then do return end end
+if vim.api.nvim_call_function('FindPlugin', {'gitsigns.nvim'}) == 0 then do return end end
 
-gitsigns.setup{
+require'gitsigns'.setup{
   signs = {
     add = {hl = 'DiffAdd', text = '+'},
     change = {hl = 'DiffChange', text = '~'},

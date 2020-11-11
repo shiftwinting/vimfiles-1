@@ -145,6 +145,7 @@ Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/diagnostic-nvim'
 Plug 'nvim-lua/completion-nvim'
     Plug 'steelsojka/completion-buffers'
+    Plug 'kristijanhusak/completion-tags'
     Plug 'Shougo/neopairs.vim'
     Plug 'nvim-treesitter/completion-treesitter'
 
@@ -157,6 +158,8 @@ Plug 'nvim-lua/telescope.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter'
     " Plug 'p00f/nvim-ts-rainbow'
+
+" Plug 'glepnir/indent-guides.nvim'
 
 " ------------------------
 "  Languages

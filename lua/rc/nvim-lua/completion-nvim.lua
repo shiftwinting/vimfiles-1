@@ -7,6 +7,14 @@ vim.g.completion_enable_snippet = 'Neosnippet'
 -- 候補がなければ、sourceを切り替える
 vim.g.completion_auto_change_source = 1
 
+-- 自動で括弧を挿入する
+vim.g.completion_enable_auto_paren = 1
+
+vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
+
+-- ソート
+vim.g.completion_sorting = 'length'
+
 -- <C-Space> で補完開始
 vimp.imap({'override', 'silent'}, '<C-Space>', '<Plug>(completion_trigger)')
 
@@ -52,9 +60,15 @@ local chain_complete_list = {
       {complete_items = {'snippet'}},
     },
     string = {
-      {complete_items = {'path'}, triggered_only = {'/'}}
+      {complete_items = {'path'}, triggered_only = {'/'}},
+      {mode = '<c-n>'},
+      {mode = '<c-p>'},
+      {complete_items = {'buffers'}},
     },
-    comment = {},
+    comment = {
+      {mode = '<c-n>'},
+      {mode = '<c-p>'},
+    },
   }
 }
 

@@ -1,16 +1,22 @@
-local ok, telescope = pcall(require, 'telescope')
-if not ok then do return end end
+if vim.api.nvim_call_function('FindPlugin', {'telescope.nvim'}) == 0 then do return end end
+
+local map_command = require'vimrc.utils'.map_command
 
 local actions = require('telescope.actions')
 local pickers = require('telescope.pickers')
 local sorters = require('telescope.sorters')
 local finders = require('telescope.finders')
 local previewers = require('telescope.previewers')
+local conf = require('telescope.config').values
 
 vim.env.BAT_THEME = 'gruvbox-light'
 
+local my_actions = require('vimrc.telescope.actions')
+
+local a = vim.api
+
 -- https://github.com/nvim-lua/telescope.nvim/blob/d32d4a6e0f0c571941f1fd37759ca1ebbdd5f488/lua/telescope/init.lua
-telescope.setup{
+require'telescope'.setup{
   defaults = {
     borderchars = {'-', '|', '-', '|', '+', '+', '+', '+'},
     winblend = 10,
@@ -71,13 +77,16 @@ end)
 
 -- <A-x> コマンド検索
 vimp.nnoremap({'override'}, '<A-x>', function()
-  require('telescope.builtin').commands {}
+  require('telescope.builtin').commands {
+    sorter = sorters.get_fzy_sorter(),
+  }
 end)
 
 -- <Space>fh ヘルプ検索
 vimp.nnoremap({'override'}, '<Space>fh', function()
   require('telescope.builtin').help_tags {
     previewer = false,
+    sorter = sorters.get_fzy_sorter(),
   }
 end)
 
@@ -86,7 +95,14 @@ vimp.nnoremap({'override'}, '<Space>fj', function()
   require('telescope.builtin').buffers {
     shorten_path = true,
     show_all_buffers = true,
-  }
+
+    attach_mappings = function(prompt_bufnr, map)
+      map('i', '<CR>', my_actions.goto_file_selection_drop)
+      map('n', '<CR>', my_actions.goto_file_selection_drop)
+
+      return true
+    end,
+    }
 end)
 
 -- <Space>ff ファイル検索
@@ -114,10 +130,17 @@ end)
 
 -- mrr
 vimp.nnoremap({'override'}, '<Space>fp', function()
-  require('vimrc.telescope').mrr{}
+  require('vimrc.telescope').mrr{
+  }
 end)
 
 -- ghq
 vimp.nnoremap({'override'}, '<Space>fq', function()
-  require('vimrc.telescope').ghq{}
+  require('vimrc.telescope').ghq{
+    sorter = sorters.get_fzy_sorter(),
+  }
+end)
+
+map_command('UseLuaInsertLine', function()
+  require'vimrc.telescope'.plug_names{}
 end)
