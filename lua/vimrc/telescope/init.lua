@@ -10,24 +10,26 @@ local make_entry = require('telescope.make_entry')
 local path = require('telescope.path')
 local previewers = require('telescope.previewers')
 
--- from make_entry.lua
-local has_devicons, devicons = pcall(require, 'nvim-web-devicons')
-local transform_devicons
-if has_devicons then
-  transform_devicons = function(filename, display, disable_devicons)
-    if disable_devicons or not filename then
-      return display
-    end
+local format = string.format
 
-    local icon_display = (devicons.get_icon(filename, string.match(filename, '%a+$')) or ' ') .. ' ' .. display
-
-    return icon_display
-  end
-else
-  transform_devicons = function(_, display, _)
-    return display
-  end
-end
+-- -- from make_entry.lua
+-- local has_devicons, devicons = pcall(require, 'nvim-web-devicons')
+-- local transform_devicons
+-- if has_devicons then
+--   transform_devicons = function(filename, display, disable_devicons)
+--     if disable_devicons or not filename then
+--       return display
+--     end
+--
+--     local icon_display = (devicons.get_icon(filename, string.match(filename, '%a+$')) or ' ') .. ' ' .. display
+--
+--     return icon_display
+--   end
+-- else
+--   transform_devicons = function(_, display, _)
+--     return display
+--   end
+-- end
 
 
 local a = vim.api
@@ -69,49 +71,6 @@ local M = {}
    mru
   ======================
 ]]
--- from make_entry.lua
-local my_gen_from_file
-do
-  local lookup_keys = {
-    ordinal = 1,
-    value = 1,
-    filename = 1,
-    cwd = 2,
-  }
-
-  my_gen_from_file = function(opts)
-    opts = opts or {}
-
-    local cwd = vim.fn.expand(opts.cwd or vim.fn.getcwd())
-
-    local disable_devicons = opts.disable_devicons or false
-
-    local mt_file_entry = {}
-
-    mt_file_entry.cwd = cwd
-    mt_file_entry.display = function(entry)
-      local display = vim.fn.fnamemodify(entry.value, ':p:~')
-
-      return transform_devicons(entry.value, display, disable_devicons)
-    end
-
-    mt_file_entry.__index = function(t, k)
-      local raw = rawget(mt_file_entry, k)
-      if raw then return raw end
-
-      if k == "path" then
-        return t.cwd .. path.separator .. t.value
-      end
-
-      return rawget(t, rawget(lookup_keys, k))
-    end
-
-    return function(line)
-      return setmetatable({line}, mt_file_entry)
-    end
-  end
-end
-
 M.mru = function(opts)
   opts = opts or {}
   opts.shorten_path = opts.shorten_path or true
@@ -119,13 +78,14 @@ M.mru = function(opts)
   pickers.new(opts, {
     prompt_title = 'mru',
     finder = finders.new_table {
-      results = vim.api.nvim_eval([[mr#mru#list()]]),
-      entry_maker = my_gen_from_file(opts),
+      results = vim.api.nvim_eval('mr#mru#list()[:100]'),
+      entry_maker = make_entry.gen_from_file()
     },
     -- sortings.fuzzy_with_index_bias で順序が変らずに検索できる
     -- sorter = sorters.fuzzy_with_index_bias(),
     sorter = conf.file_sorter({}),
-    previewer = previewers.cat.new({}),
+    -- previewer = previewers.cat.new({}),
+    previewer = false,
   }):find()
 end
 
@@ -151,7 +111,7 @@ M.mrr = function(opts)
         local val = selection.value
 
         a.nvim_command('tabnew')
-        a.nvim_command(string.format('tcd %s', val))
+        a.nvim_command(format('tcd %s', val))
       end
 
       map('i', '<CR>', tabedit)
@@ -179,7 +139,7 @@ M.filetypes = function(opts)
       results = filetypes,
       entry_maker = make_entry.gen_from_string(opts),
     },
-    sorter = sorters.get_levenshtein_sorter(),
+    sorter = sorters.get_fuzzy_file(),
     attach_mappings = function(prompt_bufnr, map)
       local set_ft = function()
         local val = actions.get_selected_entry(prompt_bufnr).value
@@ -221,7 +181,7 @@ M.ghq = function(opts)
         local val = actions.get_selected_entry(prompt_bufnr).value
         actions.close(prompt_bufnr)
         a.nvim_command('tabnew')
-        a.nvim_command(string.format('tcd %s', val))
+        a.nvim_command(format('tcd %s', val))
       end
 
       map('i', '<CR>', tabedit)
@@ -232,6 +192,7 @@ M.ghq = function(opts)
     end
   }):find()
 end
+
 
 --[[
   plug names
@@ -245,8 +206,15 @@ M.plug_names = function(opts)
       local set_buf_line = function()
         local val = actions.get_selected_entry(prompt_bufnr).value
         actions.close(prompt_bufnr)
-        local line = string.format([[if vim.api.nvim_call_function('FindPlugin', {'%s'}) == 0 then do return end end]], val)
-        a.nvim_buf_set_lines(0, 1, 1, 1, {line})
+        local lines = {}
+        if vim.bo.ft == 'lua' then
+          table.insert(lines, format([[if vim.api.nvim_call_function('FindPlugin', {'%s'}) == 0 then do return end end]], val))
+        else
+          table.insert(lines, format([[UsePlugin '%s']], val))
+          table.insert(lines, format([[scriptencoding utf-8]], val))
+          vim.api.nvim_command([[normal! G]])
+        end
+        a.nvim_buf_set_lines(0, 1, 1, 1, lines)
         a.nvim_command([[:1delete _]])
       end
 
@@ -259,5 +227,6 @@ M.plug_names = function(opts)
 
   }):find()
 end
+
 
 return M

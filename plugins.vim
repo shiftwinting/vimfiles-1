@@ -18,13 +18,17 @@ Plug 'haya14busa/vim-asterisk'
 Plug 'itchyny/lightline.vim'
 Plug 'cohama/lexima.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'markonm/traces.vim'
+if !has('nvim')
+    Plug 'markonm/traces.vim'
+endif
 Plug 'simeji/winresizer'
 Plug 'svermeulen/vim-cutlass'
 Plug 'tomtom/tcomment_vim'
 Plug 'voldikss/vim-translator'
 Plug 'Yggdroot/indentLine'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'mhinz/vim-grepper'
+Plug 'mtth/scratch.vim'
 
 Plug 'kana/vim-repeat'
 
@@ -39,13 +43,16 @@ Plug 'mattn/sonictemplate-vim'
 
 Plug 'lambdalisue/suda.vim'
 Plug 'lambdalisue/vim-protocol'
-" Plug 'lambdalisue/mr.vim'
-Plug '~/.ghq/github.com/lambdalisue/mr.vim'
+Plug 'lambdalisue/mr.vim'
 Plug 'lambdalisue/mr-quickfix.vim'
+" Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+" Plug 'lambdalisue/nerdfont.vim'
 
 Plug 'lambdalisue/vim-quickrun-neovim-job'
 Plug 'thinca/vim-quickrun'
 Plug 'thinca/vim-qfreplace'
+Plug 'thinca/vim-prettyprint'
 
 Plug 'tyru/capture.vim'
 Plug 'tyru/columnskip.vim'
@@ -53,8 +60,7 @@ Plug 'tyru/eskk.vim'
 Plug 'tyru/open-browser.vim'
     Plug 'tyru/open-browser-github.vim'
 
-Plug 'norcalli/nvim-colorizer.lua'
-Plug 'mcchrish/nnn.vim'
+" Plug 'mcchrish/nnn.vim'
 
 " ------------------------
 "  git
@@ -110,7 +116,7 @@ Plug 'Yggdroot/LeaderF',
   Plug 'tamago324/LeaderF-neosnippet',
   Plug 'tamago324/LeaderF-packadd',
   Plug 'tamago324/LeaderF-sonictemplate',
-  Plug 'tamago324/LeaderF-filer',
+  " Plug 'tamago324/LeaderF-filer',
 
 
 " ------------------------
@@ -122,6 +128,9 @@ Plug 'Yggdroot/LeaderF',
 "    Plug 'Shougo/neco-syntax',
 "    Plug 'Shougo/neco-vim',
 Plug 'Shougo/echodoc.vim',
+" Plug 'Shougo/denite.nvim'
+" Plug 'Shougo/defx.nvim'
+
 
 " deol
 Plug 'Shougo/deol.nvim'
@@ -142,7 +151,7 @@ Plug 'svermeulen/vimpeccable'
 Plug 'euclidianAce/BetterLua.vim'
 
 Plug 'neovim/nvim-lspconfig'
-    Plug 'nvim-lua/diagnostic-nvim'
+    Plug 'jubnzv/virtual-types.nvim'
 Plug 'nvim-lua/completion-nvim'
     Plug 'steelsojka/completion-buffers'
     Plug 'kristijanhusak/completion-tags'
@@ -154,12 +163,19 @@ Plug 'liuchengxu/vista.vim'
 Plug 'nvim-lua/telescope.nvim'
     Plug 'nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
-    Plug 'kyazdani42/nvim-web-devicons'
+    " Plug 'kyazdani42/nvim-web-devicons'
+    Plug '/home/tamago324/.ghq/github.com/kyazdani42/nvim-web-devicons'
 
 Plug 'nvim-treesitter/nvim-treesitter'
-    " Plug 'p00f/nvim-ts-rainbow'
+    Plug 'p00f/nvim-ts-rainbow'
 
 " Plug 'glepnir/indent-guides.nvim'
+
+" Plug 'kyazdani42/nvim-web-devicons'
+" Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'norcalli/nvim-colorizer.lua'
+
 
 " ------------------------
 "  Languages
@@ -169,6 +185,10 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'tjdevries/nlua.nvim'
 Plug 'rafcamlet/nvim-luapad'
 Plug 'bfredl/nvim-luadev'
+" Plug 'theHamsta/nvim_rocks'
+
+Plug 'bakpakin/fennel.vim'
+
 
 " ------------------------
 "  C

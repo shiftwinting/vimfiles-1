@@ -311,7 +311,7 @@ endif
 
 set mouse+=n
 
-if has('nvim')
-    " " ポップアップを透過させる
-    " set pumblend=30
-endif
+set inccommand=split
+
+" lua ハイライトを ON
+let g:vimsyn_embed = 'l'

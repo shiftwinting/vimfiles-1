@@ -11,7 +11,10 @@ end)
 
 map_command('TouchPlugVim', function(name)
   local fname, path
-  fname = string.gsub(name, '%.(nvim)$', '_%1') .. '.vim'
+  fname = string.gsub(name, '%.nvim$', '_nvim')
+  if not string.match(fname, '%.vim') then
+    fname = fname .. '.vim'
+  end
   path = vim.g.vim_plugin_config_dir .. '/' .. fname
   vim.api.nvim_call_function('vimrc#drop_or_tabedit', {path})
 end)

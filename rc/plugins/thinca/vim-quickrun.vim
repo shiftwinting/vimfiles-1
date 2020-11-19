@@ -36,6 +36,9 @@ let g:quickrun_config = {
 \       'command': 'stack',
 \       'cmdopt': 'runhaskell',
 \   },
+\   'lua': {
+\       'type': 'lua/vim'
+\   }
 \}
 
 " \   'c': {

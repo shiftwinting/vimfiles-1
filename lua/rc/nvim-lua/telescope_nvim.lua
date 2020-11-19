@@ -3,23 +3,29 @@ if vim.api.nvim_call_function('FindPlugin', {'telescope.nvim'}) == 0 then do ret
 local map_command = require'vimrc.utils'.map_command
 
 local actions = require('telescope.actions')
-local pickers = require('telescope.pickers')
 local sorters = require('telescope.sorters')
-local finders = require('telescope.finders')
-local previewers = require('telescope.previewers')
-local conf = require('telescope.config').values
+-- local pickers = require('telescope.pickers')
+-- local finders = require('telescope.finders')
+-- local previewers = require('telescope.previewers')
+-- local conf = require('telescope.config').values
 
 vim.env.BAT_THEME = 'gruvbox-light'
 
 local my_actions = require('vimrc.telescope.actions')
-
-local a = vim.api
 
 -- https://github.com/nvim-lua/telescope.nvim/blob/d32d4a6e0f0c571941f1fd37759ca1ebbdd5f488/lua/telescope/init.lua
 require'telescope'.setup{
   defaults = {
     borderchars = {'-', '|', '-', '|', '+', '+', '+', '+'},
     winblend = 10,
+
+    sorting_strategy = "ascending",
+    layout_strategy = "center",
+
+    results_title = false,
+    preview_title = false,
+    width = 140,
+    results_height = 30,
 
     mappings = {
       -- insert mode のマッピング
@@ -38,7 +44,7 @@ require'telescope'.setup{
         ["<C-v>"] = actions.goto_file_selection_vsplit,
         ["<CR>"]  = actions.goto_file_selection_edit,
 
-        -- TODO: 
+        -- TODO:
       },
 
       -- normal mode のマッピング
@@ -93,10 +99,10 @@ end)
 -- <Space>fj バッファ検索
 vimp.nnoremap({'override'}, '<Space>fj', function()
   require('telescope.builtin').buffers {
-    shorten_path = true,
+    shorten_path = false,
     show_all_buffers = true,
 
-    attach_mappings = function(prompt_bufnr, map)
+    attach_mappings = function(_, map)
       map('i', '<CR>', my_actions.goto_file_selection_drop)
       map('n', '<CR>', my_actions.goto_file_selection_drop)
 
@@ -118,21 +124,19 @@ end)
 
 vimp.cmap({'override'}, '<C-l>', '<Plug>(TelescopeFuzzyCommandSearch)')
 
--- ghq
-
 
 -- mru
 vimp.nnoremap({'override'}, '<Space>fk', function()
   require('vimrc.telescope').mru{
-    shorten_path = true,
+    file_ignore_patterns = { "^/tmp" }
   }
 end)
 
--- mrr
-vimp.nnoremap({'override'}, '<Space>fp', function()
-  require('vimrc.telescope').mrr{
-  }
-end)
+-- -- mrr
+-- vimp.nnoremap({'override'}, '<Space>fp', function()
+--   require('vimrc.telescope').mrr{
+--   }
+-- end)
 
 -- ghq
 vimp.nnoremap({'override'}, '<Space>fq', function()
@@ -141,6 +145,32 @@ vimp.nnoremap({'override'}, '<Space>fq', function()
   }
 end)
 
-map_command('UseLuaInsertLine', function()
+-- reloader
+vimp.nnoremap({'override'}, '<Space>fl', function()
+  require'telescope.builtin'.reloader{
+    sorter = sorters.get_fzy_sorter(),
+  }
+end)
+
+
+-- -- grep
+-- vimp.nnoremap({'override'}, '<Space>fg', function()
+--   require('telescope.builtin').live_grep{}
+-- end)
+
+
+-- -- fd
+-- vimp.nnoremap({'override'}, '<Space>fd', function()
+--   require('vimrc.telescope').fd_dir{
+--     sorter = sorters.get_fzy_sorter(),
+--   }
+-- end)
+
+
+
+
+
+
+map_command('UsePlugInsertLine', function()
   require'vimrc.telescope'.plug_names{}
 end)

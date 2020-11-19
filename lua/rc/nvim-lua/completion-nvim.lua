@@ -18,6 +18,10 @@ vim.g.completion_sorting = 'length'
 -- <C-Space> で補完開始
 vimp.imap({'override', 'silent'}, '<C-Space>', '<Plug>(completion_trigger)')
 
+vim.g.completion_enable_auto_popup = 0
+-- vimp.imap({'override'}, ' <tab>', ' <Plug>(completion_smart_tab)')
+-- vimp.imap({'override'}, '<s-tab>', '<Plug>(completion_smart_s_tab)')
+
 vim.api.nvim_command([[augroup my-completion-nvim]])
 vim.api.nvim_command([[  autocmd!]])
 vim.api.nvim_command([[  autocmd BufEnter * lua require'completion'.on_attach()]])
@@ -55,8 +59,7 @@ local chain_complete_list = {
   lua = {
     default = {
       {complete_items = {'lsp'}},
-      {mode = '<c-p>'},
-      {mode = '<c-n>'},
+      {complete_items = {'buffers'}},
       {complete_items = {'snippet'}},
     },
     string = {

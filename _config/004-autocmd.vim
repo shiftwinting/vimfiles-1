@@ -550,7 +550,7 @@ augroup END
 
 function! s:my_ft_lua() abort
     nnoremap <buffer><silent> <Space>vs. :<C-u>luafile %<CR>
-    nnoremap <buffer><silent> <Space>rr  :<C-u>luafile %<CR>
+    " nnoremap <buffer><silent> <Space>rr  :<C-u>luafile %<CR>
 endfunction
 
 augroup my-ft-lua

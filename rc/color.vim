@@ -47,6 +47,30 @@ function! s:define_my_highlight() abort
         hi Lf_hl_cursorline guifg=NONE guibg=NONE gui=NONE ctermfg=57 cterm=NONE
 
         " hi EftChar      guifg=red gui=bold
+        if get(g:, 'colors_name', '') =~# 'gruvbox'
+            " =============================
+            " p00f/nvim-ts-rainbow
+            " =============================
+            " from ~/.ghq/github.com/sainnhe/gruvbox-material/autoload/gruvbox_material.vim
+            " blue
+            hi rainbowcol1 guifg=#45707a
+            " purple (magenta)
+            hi rainbowcol2 guifg=#945e80
+            " red
+            hi rainbowcol3 guifg=#c14a4a
+            " orange
+            hi rainbowcol4 guifg=#c35e0a
+
+            hi LspDiagnosticsError                  guifg=#c14a4a
+            hi LspDiagnosticsWarning                guifg=#c35e0a
+            hi LspDiagnosticsInformation            guifg=#e2cca9
+            hi LspDiagnosticsHint                   guifg=#b47109
+
+            hi LspDiagnosticsVirtualTextError       guifg=#c14a4a
+            hi LspDiagnosticsVirtualTextWarning     guifg=#c35e0a
+            hi LspDiagnosticsVirtualTextInformation guifg=#e2cca9
+            hi LspDiagnosticsVirtualTextHint        guifg=#b47109
+        endif
     endif
 
 endfunction

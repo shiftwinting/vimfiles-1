@@ -209,7 +209,7 @@ function! s:my_ft_qf() abort
     nnoremap <buffer>         p         <CR>zz<C-w>p
     nnoremap <buffer><silent> q         :<C-u>quit<CR>
     nnoremap <buffer><silent> <C-q>     :<C-u>quit<CR>
-    setlocal winheight=20
+    resize 20
 
     nnoremap <buffer><silent> j  j
     nnoremap <buffer><silent> k  k
@@ -308,16 +308,16 @@ function! s:python_send_lines() abort
 endfunction
 
 function! s:my_ft_python() abort
-    " from jedi-vim
-    function! s:smart_auto_mappings() abort
-        let l:line = line('.')
-        let l:completion_start_key = "\<C-Space>"
-        if search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\%#\s*$', 'bcn', l:line)
-            return "\<Space>import\<Space>"
-        return "\<Space>"
-    endfunction
-
-    imap <silent> <buffer> <expr> <Space> <SID>smart_auto_mappings()
+    " " from jedi-vim
+    " function! s:smart_auto_mappings() abort
+    "     let l:line = line('.')
+    "     let l:completion_start_key = "\<C-Space>"
+    "     if search('\m^\s*from\s\+[A-Za-z0-9._]\{1,50}\%#\s*$', 'bcn', l:line)
+    "         return "\<Space>import\<Space>"
+    "     return "\<Space>"
+    " endfunction
+    "
+    " imap <silent> <buffer> <expr> <Space> <SID>smart_auto_mappings()
 
     nnoremap <buffer><silent> ,f :<C-u>call deol#send(getline('.'))<CR>
     vnoremap <buffer><silent> ,f :<C-u>call <SID>python_send_lines()<CR>
@@ -442,15 +442,44 @@ autocmd MyAutoCmd FileType git call s:my_ft_git()
 
 function! s:my_ft_lua() abort
     nnoremap <buffer><silent> <Space>vs. :<C-u>luafile %<CR>
-    nnoremap <buffer><silent> <Space>rr  :<C-u>luafile %<CR>
+    " nnoremap <buffer><silent> <Space>rr  :<C-u>luafile %<CR>
 endfunction
 autocmd MyAutoCmd FileType lua call s:my_ft_lua()
 
 
+" ====================
+" neosnippet
+" ====================
 function! s:my_ft_neosnippet() abort
     setlocal noexpandtab
+    nnoremap ? :<C-u>h neosnippet<CR> \| <C-w>L<CR>
 endfunction
 autocmd MyAutoCmd Filetype neosnippet call <SID>my_ft_neosnippet()
 
-" 自動で読み込む
-autocmd MyAutoCmd BufWritePost plugins.vim exec 'source ' .. expand('<afile>')
+" " 自動で読み込む
+" autocmd MyAutoCmd BufWritePost plugins.vim exec 'source ' .. expand('<afile>')
+
+
+function! s:my_ft_lir() abort
+    nnoremap <buffer> l     <cmd>lua require'vimrc.lir.actions'.edit()<CR>
+    nnoremap <buffer> o     <cmd>lua require'vimrc.lir.actions'.edit()<CR>
+    nnoremap <buffer> <C-s> <cmd>lua require'vimrc.lir.actions'.split()<CR>
+    nnoremap <buffer> <C-v> <cmd>lua require'vimrc.lir.actions'.vsplit()<CR>
+
+    nnoremap <buffer> h     <cmd>lua require'vimrc.lir.actions'.up()<CR>
+    nnoremap <buffer> q     <cmd>lua require'vimrc.lir.actions'.quit()<CR>
+    nnoremap <buffer> <C-e> <cmd>lua require'vimrc.lir.actions'.quit()<CR>
+
+    nnoremap <buffer> K     <cmd>lua require'vimrc.lir.actions'.mkdir()<CR>
+    nnoremap <buffer> N     <cmd>lua require'vimrc.lir.actions'.newfile()<CR>
+    nnoremap <buffer> R     <cmd>lua require'vimrc.lir.actions'.rename()<CR>
+    nnoremap <buffer> @     <cmd>lua require'vimrc.lir.actions'.cd()<CR>
+    nnoremap <buffer> Y     <cmd>lua require'vimrc.lir.actions'.yank_path()<CR>
+    nnoremap <buffer> .     <cmd>lua require'vimrc.lir.actions'.toggle_show_hidden()<CR>
+endfunction
+
+augroup my-ft-lauir
+    autocmd!
+    autocmd FileType lir call <SID>my_ft_lir()
+    autocmd BufEnter * lua require'vimrc.lir'.init()
+augroup END

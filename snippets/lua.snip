@@ -54,3 +54,19 @@ abbr        vim.api.nvim_call_function(...)
 snippet     echo
 abbr        print(vim.inspect(|))
 	print(vim.inspect(${0}))
+
+
+snippet     lfunc
+abbr        local funciton(...)
+alias       localfunction,localfunc
+	local ${1:func} = function(${2:#:args})
+		${0}
+	end
+
+
+snippet     function
+abbr        funciton name(...)
+alias       func
+	function ${1:#:name}(${2:#:args})
+		${0}
+	end

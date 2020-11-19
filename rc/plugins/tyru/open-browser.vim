@@ -21,4 +21,5 @@ let g:openbrowser_search_engines = {
 \   'clang_func_dict': 'http://www.c-tipsref.com/cgi-bin/index.cgi?q={query}&b.x=0&b.y=0',
 \   'neovim-vim-patch': 'https://github.com/neovim/neovim/issues?q=is%3Aopen+sort%3Aupdated-desc+{query}',
 \   'vim/commits': 'https://github.com/vim/vim/search?q={query}&type=commits',
+\   'luaroks': 'https://luarocks.org/search?q={query}',
 \}

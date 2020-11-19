@@ -78,12 +78,14 @@ call add(s:rules, { 'char': '<BS>',  'at': '`\%#`',  'input': '<BS><Del>' })
 " lua
 " ====================
 call add(s:rules, { 'filetype': ['lua'], 'char': "'", 'at': 'require\%#',  'input': "''\<Left>" })
+call add(s:rules, { 'filetype': ['lua'], 'char': ">", 'at': '([^)]*\%#)',  'input': "function ()\nend\<Up>\<End>\<Left>" })
 
 
 " ====================
 " python
 " ====================
 call add(s:rules, { 'filetype': ['python'], 'char': "'", 'at': 'f\%#',  'input': "''\<Left>" })
+call add(s:rules, { 'filetype': ['python'], 'char': "'", 'at': 'r\%#',  'input': "''\<Left>" })
 
 
 " ====================

@@ -2,11 +2,11 @@ scriptencoding utf-8
 
 UsePlugin 'defx.nvim'
 
-nnoremap <silent> <C-e> :<C-u>Defx -listed -resume
-\   -buffer-name=`'defx' . tabpagenr()`
-\   -search=`expand('%:p')`
-\   `expand('%:p:h')`
-\   <CR>
+" nnoremap <silent> <C-e> :<C-u>Defx -listed -resume
+" \   -buffer-name=`'defx' . tabpagenr()`
+" \   -search=`expand('%:p')`
+" \   `expand('%:p:h')`
+" \   <CR>
 
 call defx#custom#column('icon', {
 \   'directory_icon': '▸',

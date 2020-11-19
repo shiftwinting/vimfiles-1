@@ -213,3 +213,5 @@ nnoremap('sf', function()
   vim.bo.filetype = ft
 end)
 
+-- luair
+nnoremap('<C-e>', [[:<C-u>edit %:p:h<CR>]])

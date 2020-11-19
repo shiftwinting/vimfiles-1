@@ -8,10 +8,10 @@ let g:Lf_ShowDevIcons = 1
 let g:Lf_Exception = 1
 
 " ! をつけるとノーマルモードから始まる
-nnoremap          <Space>fg        :<C-u><C-r>=printf('Leaderf! rg --popup-width=%d --match-path -e ""', <SID>nice_width(200))<CR><Left>
-nnoremap <silent> 0                 :<C-u>Leaderf  rg --next<CR>
-nnoremap <silent> 9                 :<C-u>Leaderf  rg --previous<CR>
-nnoremap <silent> <Space>fr        :<C-u><C-r>=printf('Leaderf! rg --recall --popup-width=%d', <SID>nice_width(200))<CR><CR>
+" nnoremap          <Space>fg        :<C-u><C-r>=printf('Leaderf! rg --popup-width=%d --match-path -e ""', <SID>nice_width(200))<CR><Left>
+" nnoremap <silent> 0                 :<C-u>Leaderf  rg --next<CR>
+" nnoremap <silent> 9                 :<C-u>Leaderf  rg --previous<CR>
+" nnoremap <silent> <Space>fr        :<C-u><C-r>=printf('Leaderf! rg --recall --popup-width=%d', <SID>nice_width(200))<CR><CR>
 " nnoremap <silent> <Space>f;        :<C-u>Leaderf  cmdHistory<CR>
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf  cdnjs<CR>
 " nnoremap <silent> <Space>ff        :<C-u>Leaderf  file<CR>
@@ -22,7 +22,7 @@ nnoremap <silent> <Space>fr        :<C-u><C-r>=printf('Leaderf! rg --recall --po
 " nnoremap <silent> <Space>f,        :<C-u>LeaderfMrHere<CR>
 nnoremap <silent> <Space>fo        :<C-u>Leaderf  openbrowser<CR>
 " nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq --bottom<CR>
-nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq<CR>
+" nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq<CR>
 " nnoremap <silent> <Space>ft        :<C-u>Leaderf  filetype<CR>
 " nnoremap <silent> <Space>fw        :<C-u>Leaderf  window<CR>
 " nnoremap <silent> <Space>fm        :<C-u><C-r>=printf('Leaderf  file --file %s', g:vimrc#mrw#cache_path)<CR><CR>
@@ -34,7 +34,7 @@ nnoremap <silent> <Space>fq        :<C-u>Leaderf  ghq<CR>
 
 " nnoremap <silent> <A-x> :<C-u>Leaderf command --run-immediately --fuzzy<CR>
 " -> defx.nvim
-nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
+" nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
 nnoremap <silent> <Space>;t        :<C-u>Leaderf sonictemplate<CR>
 " nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf switch<CR>
@@ -45,7 +45,7 @@ nnoremap <silent> <Space>;h         :<C-u>Leaderf favhelp<CR>
 " nnoremap <silent> <Space>fp        :<C-u>LeaderfVimspectorBreakpoints<CR>
 " nnoremap <silent> <Space>fp         :<C-u>Leaderf yankround --nowrap<CR>
 " nnoremap <silent> <Space>fQ         :<C-u>Leaderf gh_stars<CR>
-nnoremap <silent> <Space>fd         :<C-u>Leaderf fd_dir<CR>
+" nnoremap <silent> <Space>fd         :<C-u>Leaderf fd_dir<CR>
 nnoremap <silent> <Space>;f         :<C-u>Leaderf fnamemods<CR>
 
 " nnoremap <silent> /                 :<C-u><C-r>=printf('Leaderf  line --regexMode --popup-width=%d', <SID>nice_width(200))<CR><CR>
@@ -597,46 +597,46 @@ let g:Lf_NormalMap.Stars = [
 \]
 
 
-" ====================
-" ghq
-" ====================
-function! LfExt_ghq_accept(line, args) abort
-    let l:path = $GHQ_ROOT . '/github.com/' . a:line
-    execute 'tabe | tcd ' . l:path
-endfunction
-
-function! LfExt_ghq_format_line(line, args) abort
-    return a:line[11:]
-endfunction
-
-let g:Lf_Extensions.ghq = {
-\   'source': {'command': 'ghq list'},
-\   'accept': 'LfExt_ghq_accept',
-\   'format_line': 'LfExt_ghq_format_line',
-\}
-
-
-" ====================
-" fd --type directory
-" ====================
-function! LfExt_fd_dir_accept(line, args) abort
-    exec 'tcd ' .. a:line
-endfunction
-
-let g:Lf_Extensions.fd_dir = {
-\   'source': {'command': 'fd --type directory --color never --hidden --exclude ".git"'},
-\   'accept': 'LfExt_fd_dir_accept',
-\   'supports_refine': 1,
-\}
+" " ====================
+" " ghq
+" " ====================
+" function! LfExt_ghq_accept(line, args) abort
+"     let l:path = $GHQ_ROOT . '/github.com/' . a:line
+"     execute 'tabe | tcd ' . l:path
+" endfunction
+"
+" function! LfExt_ghq_format_line(line, args) abort
+"     return a:line[11:]
+" endfunction
+"
+" let g:Lf_Extensions.ghq = {
+" \   'source': {'command': 'ghq list'},
+" \   'accept': 'LfExt_ghq_accept',
+" \   'format_line': 'LfExt_ghq_format_line',
+" \}
 
 
-" ====================
-" github stars
-" ====================
-let g:Lf_Extensions.gh_stars = {
-\   'source': 'lf#gh_stars#source',
-\   'accept': 'lf#gh_stars#accept',
-\}
+" " ====================
+" " fd --type directory
+" " ====================
+" function! LfExt_fd_dir_accept(line, args) abort
+"     exec 'tcd ' .. a:line
+" endfunction
+"
+" let g:Lf_Extensions.fd_dir = {
+" \   'source': {'command': 'fd --type directory --color never --hidden --exclude ".git"'},
+" \   'accept': 'LfExt_fd_dir_accept',
+" \   'supports_refine': 1,
+" \}
+
+
+" " ====================
+" " github stars
+" " ====================
+" let g:Lf_Extensions.gh_stars = {
+" \   'source': 'lf#gh_stars#source',
+" \   'accept': 'lf#gh_stars#accept',
+" \}
 
 
 " ====================
@@ -776,23 +776,23 @@ command! LeaderfPatchFiles call <SID>lf_patch_files()
 
 
 
-" ====================
-" plugin settings
-" ====================
-function! s:lf_plug_names_source(args) abort
-    return keys(g:plugs)
-endfunction
-function! s:lf_plug_names_accept(line, args) abort
-    call setreg('+', a:line)
-endfunction
-
-let g:Lf_Extensions.plug_names = {
-\   'source': string(function('s:lf_plug_names_source'))[10:-3],
-\   'accept': string(function('s:lf_plug_names_accept'))[10:-3],
-\   'highlights_def': {
-\       'Lf_hl_plug_names_dir': '/\ze.*$',
-\   },
-\   'highlights_cmd': [
-\       'hi link Lf_hl_plug_names_dir Comment'
-\   ]
-\}
+" " ====================
+" " plugin settings
+" " ====================
+" function! s:lf_plug_names_source(args) abort
+"     return keys(g:plugs)
+" endfunction
+" function! s:lf_plug_names_accept(line, args) abort
+"     call setreg('+', a:line)
+" endfunction
+"
+" let g:Lf_Extensions.plug_names = {
+" \   'source': string(function('s:lf_plug_names_source'))[10:-3],
+" \   'accept': string(function('s:lf_plug_names_accept'))[10:-3],
+" \   'highlights_def': {
+" \       'Lf_hl_plug_names_dir': '/\ze.*$',
+" \   },
+" \   'highlights_cmd': [
+" \       'hi link Lf_hl_plug_names_dir Comment'
+" \   ]
+" \}
