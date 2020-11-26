@@ -214,7 +214,8 @@ local mappings = {
   end },
 
   -- lir.nvim
-  ['n<C-e>'] = {[[:<C-u>edit %:p:h<CR>]]},
+  -- ['n<C-e>'] = {[[:<C-u>edit %:p:h<CR>]], silent = true},
+  ['n<C-e>'] = { require'vimrc.lir.float'.init },
 
   ['c<C-x>'] = {[[<C-r>=expand('%:p')<CR>]], silent = false},
 
