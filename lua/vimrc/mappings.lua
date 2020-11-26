@@ -49,6 +49,7 @@ local mappings = {
     else
       vim.api.nvim_command[[source %]]
     end
+    print('source ' .. vim.fn.expand('%:p'))
   end},
 
   -- update は変更があったときのみ保存するコマンド
@@ -194,8 +195,12 @@ local mappings = {
 
   ["n<Space>i"] = {'i_<Esc>r'},
 
-  ["n<Space>v."] = {':<C-u>call vimrc#drop_or_tabedit($MYVIMRC)<CR>'},
-  ['n<Space>v,'] = {':<C-u>call vimrc#drop_or_tabedit(g:plug_script)<CR>'},
+  ["n<Space>v."] = {function()
+    vim.fn['vimrc#drop_or_tabedit'](vim.env.MVIMRC)
+  end},
+  ['n<Space>v,'] = {function()
+    vim.fn['vimrc#drop_or_tabedit'](vim.g.plug_script)
+  end},
 
   ['nsf'] = {function()
     local ft = vim.api.nvim_eval([[input('FileType: ', '', 'filetype')]])
@@ -211,7 +216,7 @@ local mappings = {
   -- lir.nvim
   ['n<C-e>'] = {[[:<C-u>edit %:p:h<CR>]]},
 
-  ['c<C-x>'] = {[[<C-r>=expand('%:p')<CR>]]},
+  ['c<C-x>'] = {[[<C-r>=expand('%:p')<CR>]], silent = false},
 
   ['n<Space>e'] = { function () vim.cmd[[e!]] end },
 
@@ -230,5 +235,5 @@ map_option_toggle('<F3>', 'readonly')
 
 
 
-nvim_apply_mappings(mappings, {silent = true; noremap = true})
+nvim_apply_mappings(mappings, {silent = false; noremap = true})
 
