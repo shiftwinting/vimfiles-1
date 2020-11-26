@@ -1,6 +1,9 @@
 
-vimp.nnoremap({'override'}, '<A-j>', ':<C-u>lua vim.lsp.diagnostic.goto_next()<CR>')
-vimp.nnoremap({'override'}, '<A-k>', ':<C-u>lua vim.lsp.diagnostic.goto_prev()<CR>')
+local mappings = {
+  ['n<A-j>'] = {':<C-u>lua vim.lsp.diagnostic.goto_next()<CR>'},
+  ['n<A-k>'] ={ ':<C-u>lua vim.lsp.diagnostic.goto_prev()<CR>'},
+}
+nvim_apply_mappings(mappings, {silent = true, noremap = true})
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   -- :h vim.lsp.diagnostic.on_publish_diagnostics(l
