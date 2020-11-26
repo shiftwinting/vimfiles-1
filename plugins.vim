@@ -25,7 +25,7 @@ Plug 'simeji/winresizer'
 Plug 'svermeulen/vim-cutlass'
 Plug 'tomtom/tcomment_vim'
 Plug 'voldikss/vim-translator'
-Plug 'Yggdroot/indentLine'
+" Plug 'Yggdroot/indentLine'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-grepper'
 Plug 'mtth/scratch.vim'
@@ -75,6 +75,7 @@ Plug 'knsh14/vim-github-link'
 " sign
 Plug 'lewis6991/gitsigns.nvim'
   Plug 'nvim-lua/plenary.nvim'
+  " Plug '/home/tamago324/.ghq/github.com/nvim-lua/plenary.nvim'
 
 Plug 'gisphm/vim-gitignore'
 
@@ -114,7 +115,7 @@ Plug 'kana/vim-operator-user',
 Plug 'Yggdroot/LeaderF',
   Plug 'tamago324/LeaderF-openbrowser',
   Plug 'tamago324/LeaderF-neosnippet',
-  Plug 'tamago324/LeaderF-packadd',
+  " Plug 'tamago324/LeaderF-packadd',
   Plug 'tamago324/LeaderF-sonictemplate',
   " Plug 'tamago324/LeaderF-filer',
 
@@ -152,23 +153,30 @@ Plug 'norcalli/nvim_utils'
 Plug 'euclidianAce/BetterLua.vim'
 
 Plug 'neovim/nvim-lspconfig'
-    Plug 'jubnzv/virtual-types.nvim'
-Plug 'nvim-lua/completion-nvim'
-    Plug 'steelsojka/completion-buffers'
-    Plug 'kristijanhusak/completion-tags'
-    Plug 'Shougo/neopairs.vim'
-    Plug 'nvim-treesitter/completion-treesitter'
+    " Plug 'jubnzv/virtual-types.nvim'
+    Plug 'h-michael/lsp-ext.nvim'
+    Plug 'nvim-lua/lsp-status.nvim'
+    " Plug 'RishabhRD/nvim-lsputils'
+    "     Plug 'RishabhRD/popfix'
+    Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'hrsh7th/nvim-compe'
+    " Plug 'hrsh7th/vim-vsnip'
+    " Plug 'hrsh7th/vim-vsnip-integ'
 
 Plug 'liuchengxu/vista.vim'
 
 Plug 'nvim-lua/telescope.nvim'
-    Plug 'nvim-lua/popup.nvim'
+" Plug '/home/tamago324/.ghq/github.com/nvim-lua/telescope.nvim'
+    " Plug 'nvim-lua/popup.nvim'
+    Plug '/home/tamago324/.ghq/github.com/nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
-    " Plug 'kyazdani42/nvim-web-devicons'
-    Plug '/home/tamago324/.ghq/github.com/kyazdani42/nvim-web-devicons'
+    Plug 'kyazdani42/nvim-web-devicons'
+    Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
-Plug 'nvim-treesitter/nvim-treesitter'
-    Plug 'p00f/nvim-ts-rainbow'
+
+" Plug 'nvim-treesitter/nvim-treesitter'
+"     Plug 'p00f/nvim-ts-rainbow'
+"     Plug 'nvim-treesitter/playground'
 
 " Plug 'glepnir/indent-guides.nvim'
 
@@ -207,6 +215,9 @@ Plug 'Shougo/neoinclude.vim'
 " Vim
 Plug 'machakann/vim-Verdin'
 
+
+Plug '~/.ghq/github.com/tamago324/lir.nvim'
+
 call plug#end()
 
 
@@ -217,3 +228,15 @@ call plug#end()
 " Plug 'tjdevries/express_line.nvim'
 "   Plug 'nvim-lua/plenary.nvim'
 "   Plug 'kyazdani42/nvim-web-devicons'
+
+
+
+" Plug 'Xuyuanp/scrollbar.nvim'     " => うまく表示できなかった。。。
+
+
+" -> nvim-compe
+" Plug 'nvim-lua/completion-nvim'
+"     Plug 'steelsojka/completion-buffers'
+"     Plug 'kristijanhusak/completion-tags'
+"     Plug 'Shougo/neopairs.vim'
+"     " Plug 'nvim-treesitter/completion-treesitter'

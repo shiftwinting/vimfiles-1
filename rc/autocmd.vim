@@ -226,6 +226,7 @@ autocmd MyAutoCmd FileType qf call <SID>my_ft_qf()
 function! s:my_ft_json() abort
     " // をコメントとする
     syntax match Comment +\/\/.\+$+
+    setlocal concealcursor=nc
 endfunction
 autocmd MyAutoCmd FileType json call <SID>my_ft_json()
 
@@ -461,25 +462,26 @@ autocmd MyAutoCmd Filetype neosnippet call <SID>my_ft_neosnippet()
 
 
 function! s:my_ft_lir() abort
-    nnoremap <buffer> l     <cmd>lua require'vimrc.lir.actions'.edit()<CR>
-    nnoremap <buffer> o     <cmd>lua require'vimrc.lir.actions'.edit()<CR>
-    nnoremap <buffer> <C-s> <cmd>lua require'vimrc.lir.actions'.split()<CR>
-    nnoremap <buffer> <C-v> <cmd>lua require'vimrc.lir.actions'.vsplit()<CR>
+    nnoremap <buffer> l     <cmd>lua require'lir.actions'.edit()<CR>
+    nnoremap <buffer> o     <cmd>lua require'lir.actions'.edit()<CR>
+    nnoremap <buffer> <C-s> <cmd>lua require'lir.actions'.split()<CR>
+    nnoremap <buffer> <C-v> <cmd>lua require'lir.actions'.vsplit()<CR>
+    nnoremap <buffer> <C-t> <cmd>lua require'lir.actions'.tabopen()<CR>
 
-    nnoremap <buffer> h     <cmd>lua require'vimrc.lir.actions'.up()<CR>
-    nnoremap <buffer> q     <cmd>lua require'vimrc.lir.actions'.quit()<CR>
-    nnoremap <buffer> <C-e> <cmd>lua require'vimrc.lir.actions'.quit()<CR>
+    nnoremap <buffer> h     <cmd>lua require'lir.actions'.up()<CR>
+    nnoremap <buffer> q     <cmd>lua require'lir.actions'.quit()<CR>
+    nnoremap <buffer> <C-e> <cmd>lua require'lir.actions'.quit()<CR>
 
-    nnoremap <buffer> K     <cmd>lua require'vimrc.lir.actions'.mkdir()<CR>
-    nnoremap <buffer> N     <cmd>lua require'vimrc.lir.actions'.newfile()<CR>
-    nnoremap <buffer> R     <cmd>lua require'vimrc.lir.actions'.rename()<CR>
-    nnoremap <buffer> @     <cmd>lua require'vimrc.lir.actions'.cd()<CR>
-    nnoremap <buffer> Y     <cmd>lua require'vimrc.lir.actions'.yank_path()<CR>
-    nnoremap <buffer> .     <cmd>lua require'vimrc.lir.actions'.toggle_show_hidden()<CR>
+    nnoremap <buffer> K     <cmd>lua require'lir.actions'.mkdir()<CR>
+    nnoremap <buffer> N     <cmd>lua require'lir.actions'.newfile()<CR>
+    nnoremap <buffer> R     <cmd>lua require'lir.actions'.rename()<CR>
+    nnoremap <buffer> D     <cmd>lua require'vimrc.lir.extension.gomi'.rm()<CR>
+    nnoremap <buffer> @     <cmd>lua require'lir.actions'.cd()<CR>
+    nnoremap <buffer> Y     <cmd>lua require'lir.actions'.yank_path()<CR>
+    nnoremap <buffer> .     <cmd>lua require'lir.actions'.toggle_show_hidden()<CR>
 endfunction
 
-augroup my-ft-lauir
+augroup my-ft-lir
     autocmd!
     autocmd FileType lir call <SID>my_ft_lir()
-    autocmd BufEnter * lua require'vimrc.lir'.init()
 augroup END

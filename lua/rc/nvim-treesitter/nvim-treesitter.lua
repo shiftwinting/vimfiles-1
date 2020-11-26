@@ -6,14 +6,19 @@ require('nvim-treesitter.configs').setup{
     'python',
     'json',
     'c',
+    -- 'query',
+    'javascript',
   },
-  -- highlight = {
-  --   enable = true,
-  -- },
+  highlight = {
+    enable = true,
+  },
   -- indent = {
   --   enable = true,
   -- }
-  -- rainbow = {
-  --   enable = true
-  -- }
+  rainbow = {
+    enable = true
+  },
+  playground = {
+    enable = true
+  }
 }

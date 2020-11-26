@@ -2,9 +2,21 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-lspconfig'}) == 0 then do ret
 
 local neorocks = require'plenary.neorocks'
 
+--[[
+  lsp-status
+]]
+local lsp_status = require('lsp-status')
+lsp_status.config {
+  kind_labels = vim.g.completion_customize_lsp_label,
+  indicator_info = '',
+  status_symbol = ''
+}
+lsp_status.register_progress()
+
 
 local on_attach = function(client)
   vimp.nnoremap({'buffer'}, '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
+  lsp_status.on_attach(client)
 end
 
 local lspconfig = require'lspconfig'
@@ -56,7 +68,7 @@ local lspconfig = require'lspconfig'
 require('nlua.lsp.nvim').setup(lspconfig, {
   on_attach = on_attach,
   disabled_diagnostics = {"unused-local", "unused-vararg", "lowercase-global"},
-  globals = {'vimp', '_vimp'},
+  globals = {'vimp', '_vimp', "pprint"},
   library = {
     -- 再帰的に検索される
     [vim.fn.stdpath("config")] = true,
@@ -72,3 +84,10 @@ require('nlua.lsp.nvim').setup(lspconfig, {
   Vim
 ]]
 lspconfig.vimls.setup{}
+
+
+
+--[[
+  lsp_ext
+]]
+require'lsp_ext'.set_signature_help_autocmd()

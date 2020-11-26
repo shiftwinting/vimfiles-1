@@ -97,3 +97,8 @@ call add(s:rules, { 'filetype': ['vim'], 'char': '<', 'at': '^\s*\(autocmd\|.[no
 for s:rule in s:rules
     call lexima#add_rule(s:rule)
 endfor
+
+augroup my-lexima
+    autocmd!
+    autocmd FileType TelescopePrompt b:lexima_disabled = 1
+augroup END

@@ -100,7 +100,7 @@ M.mrr = function(opts)
     prompt_title = 'Most Recent git Repository',
     finder = finders.new_table {
       results = vim.api.nvim_eval([[mr#mrr#list()]]),
-      make_entry = make_entry.gen_from_string(opts),
+      entry_maker = make_entry.gen_from_string(opts),
     },
     sorter = sorters.get_fuzzy_file(),
 
@@ -119,39 +119,6 @@ M.mrr = function(opts)
 
       return true
     end,
-  }):find()
-end
-
---[[
-  filetypes
-]]
-M.filetypes = function(opts)
-  opts = opts or {}
-
-  local files = vim.api.nvim_eval([[split(globpath(&rtp, 'syntax/*.vim'), '\n')]])
-  local filetypes = vim.tbl_map(function(item)
-    return vim.fn.fnamemodify(item, ':t:r')
-  end, files)
-
-  pickers.new(opts, {
-    prompt_title = 'filetype',
-    finder = finders.new_table {
-      results = filetypes,
-      entry_maker = make_entry.gen_from_string(opts),
-    },
-    sorter = sorters.get_fuzzy_file(),
-    attach_mappings = function(prompt_bufnr, map)
-      local set_ft = function()
-        local val = actions.get_selected_entry(prompt_bufnr).value
-        actions.close(prompt_bufnr)
-        a.nvim_buf_set_option(0, 'ft', val)
-      end
-
-      map('i', '<CR>', set_ft)
-      map('n', '<CR>', set_ft)
-
-      return true
-    end
   }):find()
 end
 
@@ -181,7 +148,7 @@ M.ghq = function(opts)
         local val = actions.get_selected_entry(prompt_bufnr).value
         actions.close(prompt_bufnr)
         a.nvim_command('tabnew')
-        a.nvim_command(format('tcd %s', val))
+        a.nvim_command(format('tcd %s | edit .', val))
       end
 
       map('i', '<CR>', tabedit)
@@ -203,7 +170,7 @@ M.plug_names = function(opts)
     finder = finders.new_table(vim.tbl_keys(vim.g.plugs)),
     sorter = sorters.get_fzy_sorter(),
     attach_mappings = function(prompt_bufnr, map)
-      local set_buf_line = function()
+      local function set_buf_line()
         local val = actions.get_selected_entry(prompt_bufnr).value
         actions.close(prompt_bufnr)
         local lines = {}
@@ -218,13 +185,47 @@ M.plug_names = function(opts)
         a.nvim_command([[:1delete _]])
       end
 
+      local function ghq_get()
+        local val = actions.get_selected_entry(prompt_bufnr).value
+        local uri = vim.g.plugs[val].uri
+        actions.close(prompt_bufnr)
+        vim.cmd('botright 10new')
+        vim.fn.termopen('ghq get ' .. uri, {
+          on_exit = function (...)
+            vim.defer_fn(function ()
+              vim.cmd('quit')
+            end, 1000)
+          end
+        })
+      end
+
       map('i', '<CR>', set_buf_line)
       map('n', '<CR>', set_buf_line)
+
+      map('n', 'P', ghq_get)
 
       -- true を返さないと、mapping が上書きされてしまう？
       return true
     end
 
+  }):find()
+end
+
+
+M.openbrowser = function(opts)
+  local results = vim.tbl_extend('keep', vim.g.openbrowser_search_engines or {}, {})
+  pickers.new(opts, {
+    prompt_title = 'Openbrowser',
+    finder = finders.new_table {
+      results = results,
+      entry_maker = function(line)
+        return {
+          value = line,
+          ordinal = line,
+          display = pprint(line),
+        }
+      end
+    },
   }):find()
 end
 

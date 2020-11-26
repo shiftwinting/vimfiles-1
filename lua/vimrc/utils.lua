@@ -26,4 +26,5 @@ M.map_command = function(name, handler)
   vimp.map_command(name, handler)
 end
 
+
 return M

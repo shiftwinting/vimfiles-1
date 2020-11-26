@@ -30,6 +30,7 @@ set smartcase           " 大文字が入らない限り、大文字小文字は
 set cmdheight=2         " 2 で慣れてしまったため
 " if !has('nvim')
     set ambiwidth=double    " 記号を正しく表示
+    " set ambiwidth=single    " 記号を正しく表示
 " endif
 set timeoutlen=480      " マッピングの待機時間
 set nrformats-=octal    " 07 で CTRL-A しても、010 にならないようにする

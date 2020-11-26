@@ -18,3 +18,9 @@ if false then
 
   -- local pl = require'pl' で使える！
 end
+
+
+function _G.pprint(...)
+  local objects = vim.tbl_map(vim.inspect, {...})
+  print(unpack(objects))
+end

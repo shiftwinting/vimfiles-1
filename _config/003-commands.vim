@@ -163,76 +163,76 @@ function! GetSynInfo() abort
 endfunction
 
 
-" =====================
-" packages 機能
-" =====================
-command! -nargs=+ PackGet call s:packget(<f-args>)
-" command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
-command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
-
-" 末尾の '/' を取り除くため、 :p:h とする
-let s:pack_base_dir = vimrc#get_fullpath(fnamemodify('$MYVIMFILES/pack/plugs/opt', ':p'))
-let s:sep = has('win32') ? "\\" : '/'
-
-function! s:add_end_slash(path) abort
-    if a:path =~# '/$'
-        let l:result = a:path
-    else
-        let l:result = a:path.'/'
-    endif
-    return l:result
-endfunction
-
-function! s:fix_url(url) abort
-    return a:url =~# '^http' ?
-    \   a:url :
-    \   'https://github.com/'.a:url
-endfunction
-
-function! s:close_handler(plug_name, channel, ...) abort
-    execute 'packadd ' . a:plug_name
-    echomsg ' [PackGet] packadd ' . a:plug_name
-endfunction
-
-function! s:packget(url, ...) abort
-    let l:base = s:add_end_slash(s:pack_base_dir)
-
-    " 改行文字と空白を取り除く
-    let l:url = s:github_fix_param(a:url)
-
-    " 引数指定されていたら、その名前のディレクトリに作成する
-    let l:plug_name = a:0 ==# 0 ?
-    \   fnamemodify(l:url, ':t:r') :
-    \   a:1
-
-    let l:dst = l:base . l:plug_name
-
-    if isdirectory(l:dst)
-        echohl WarningMsg
-        echomsg " [PackGet] Already exists. '".l:plug_name."'"
-        echohl None
-        return
-    endif
-
-    call vimrc#job_start(
-    \   printf('git clone %s %s', s:fix_url(l:url), l:dst), {
-    \       'close_cb': function('s:close_handler', [l:plug_name]),
-    \       'err_cb': function('vimrc#on_out'),
-    \   })
-endfunction
-
-" これやっても意味ない？
-" :help で検索聞いてなさそう?
-function! s:packhelptags(plugin_name) abort
-    let l:base = s:add_end_slash(s:pack_base_dir)
-    if !isdirectory(l:base . a:plugin_name)
-        echohl ErrorMsg
-        echomsg 'Not found plugin. '.a:plugin_name
-        echohl None
-        return
-    endif
-    execute 'helptags ' . l:base. a:plugin_name . '/doc'
-endfunction
+" " =====================
+" " packages 機能
+" " =====================
+" command! -nargs=+ PackGet call s:packget(<f-args>)
+" " command! -nargs=1 -complete=packadd PackAdd call s:packadd(<f-args>)
+" command! -nargs=1 -complete=packadd PackHelptags call s:packhelptags(<f-args>)
+"
+" " 末尾の '/' を取り除くため、 :p:h とする
+" let s:pack_base_dir = vimrc#get_fullpath(fnamemodify('$MYVIMFILES/pack/plugs/opt', ':p'))
+" let s:sep = has('win32') ? "\\" : '/'
+"
+" function! s:add_end_slash(path) abort
+"     if a:path =~# '/$'
+"         let l:result = a:path
+"     else
+"         let l:result = a:path.'/'
+"     endif
+"     return l:result
+" endfunction
+"
+" function! s:fix_url(url) abort
+"     return a:url =~# '^http' ?
+"     \   a:url :
+"     \   'https://github.com/'.a:url
+" endfunction
+"
+" function! s:close_handler(plug_name, channel, ...) abort
+"     execute 'packadd ' . a:plug_name
+"     echomsg ' [PackGet] packadd ' . a:plug_name
+" endfunction
+"
+" function! s:packget(url, ...) abort
+"     let l:base = s:add_end_slash(s:pack_base_dir)
+"
+"     " 改行文字と空白を取り除く
+"     let l:url = s:github_fix_param(a:url)
+"
+"     " 引数指定されていたら、その名前のディレクトリに作成する
+"     let l:plug_name = a:0 ==# 0 ?
+"     \   fnamemodify(l:url, ':t:r') :
+"     \   a:1
+"
+"     let l:dst = l:base . l:plug_name
+"
+"     if isdirectory(l:dst)
+"         echohl WarningMsg
+"         echomsg " [PackGet] Already exists. '".l:plug_name."'"
+"         echohl None
+"         return
+"     endif
+"
+"     call vimrc#job_start(
+"     \   printf('git clone %s %s', s:fix_url(l:url), l:dst), {
+"     \       'close_cb': function('s:close_handler', [l:plug_name]),
+"     \       'err_cb': function('vimrc#on_out'),
+"     \   })
+" endfunction
+"
+" " これやっても意味ない？
+" " :help で検索聞いてなさそう?
+" function! s:packhelptags(plugin_name) abort
+"     let l:base = s:add_end_slash(s:pack_base_dir)
+"     if !isdirectory(l:base . a:plugin_name)
+"         echohl ErrorMsg
+"         echomsg 'Not found plugin. '.a:plugin_name
+"         echohl None
+"         return
+"     endif
+"     execute 'helptags ' . l:base. a:plugin_name . '/doc'
+" endfunction
 
 " pack/plugs/opt の中の help を検索
 " runtimepath 内の doc/ も help で引ける

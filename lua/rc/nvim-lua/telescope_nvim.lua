@@ -6,12 +6,14 @@ local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
 -- local pickers = require('telescope.pickers')
 -- local finders = require('telescope.finders')
--- local previewers = require('telescope.previewers')
+local previewers = require('telescope.previewers')
 -- local conf = require('telescope.config').values
 
 vim.env.BAT_THEME = 'gruvbox-light'
 
 local my_actions = require('vimrc.telescope.actions')
+
+require'telescope'.load_extension('fzy_native')
 
 -- https://github.com/nvim-lua/telescope.nvim/blob/d32d4a6e0f0c571941f1fd37759ca1ebbdd5f488/lua/telescope/init.lua
 require'telescope'.setup{
@@ -19,13 +21,14 @@ require'telescope'.setup{
     borderchars = {'-', '|', '-', '|', '+', '+', '+', '+'},
     winblend = 10,
 
+    prompt_position = "top",
     sorting_strategy = "ascending",
-    layout_strategy = "center",
+    -- layout_strategy = "center",
 
     results_title = false,
     preview_title = false,
-    width = 140,
-    results_height = 30,
+    -- width = 0.8,
+    -- results_height = 40,
 
     mappings = {
       -- insert mode のマッピング
@@ -102,9 +105,15 @@ vimp.nnoremap({'override'}, '<Space>fj', function()
     shorten_path = false,
     show_all_buffers = true,
 
-    attach_mappings = function(_, map)
-      map('i', '<CR>', my_actions.goto_file_selection_drop)
-      map('n', '<CR>', my_actions.goto_file_selection_drop)
+    attach_mappings = function(prompt_bufnr, map)
+      actions.goto_file_selection_edit:replace(function ()
+        local selection = actions.get_selected_entry(prompt_bufnr)
+        actions.close(prompt_bufnr)
+        local val = selection.value
+        vim.api.nvim_command(string.format('drop %s', val))
+      end)
+      map('i', '<CR>', actions.goto_file_selection_edit)
+      map('n', '<CR>', actions.goto_file_selection_edit)
 
       return true
     end,
@@ -119,7 +128,7 @@ end)
 
 -- <Space>ft ファイルタイプ検索
 vimp.nnoremap({'override'}, '<Space>ft', function()
-  require'vimrc.telescope'.filetypes{}
+  require'telescope.builtin'.filetypes{}
 end)
 
 vimp.cmap({'override'}, '<C-l>', '<Plug>(TelescopeFuzzyCommandSearch)')
@@ -128,7 +137,8 @@ vimp.cmap({'override'}, '<C-l>', '<Plug>(TelescopeFuzzyCommandSearch)')
 -- mru
 vimp.nnoremap({'override'}, '<Space>fk', function()
   require('vimrc.telescope').mru{
-    file_ignore_patterns = { "^/tmp" }
+    file_ignore_patterns = { "^/tmp" },
+    previewer = previewers.cat.new({}),
   }
 end)
 
@@ -166,11 +176,15 @@ end)
 --   }
 -- end)
 
+-- vim-plug
+vimp.nnoremap({'override'}, '<Space>fp', function()
+  require('vimrc.telescope').plug_names{}
+end)
 
 
 
 
 
-map_command('UsePlugInsertLine', function()
+map_command('TelescopePlug', function()
   require'vimrc.telescope'.plug_names{}
 end)
