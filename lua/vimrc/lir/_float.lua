@@ -25,10 +25,12 @@ end
 
 
 M.init = function()
-  local dir = vim.fn.expand('%:p:h')
-  win_float.centered({
-    percentage = 0.4
+  local dir, file = vim.fn.expand('%:p:h'), vim.fn.expand('%:p')
+  local bufnr, winid = win_float.centered({
+    percentage = 0.5
   })
+  -- カーソルを移動のため
+  vim.w.lir_file_jump_cursor = file
   vim.cmd('edit ' .. vim.fn.fnameescape(dir))
   vim.w.lir_float = true
 end
@@ -64,5 +66,6 @@ end
 M.newfile = function()
   vim.api.nvim_feedkeys(':close | :new ' .. Buffer.curdir(), 'n', true)
 end
+
 
 return M

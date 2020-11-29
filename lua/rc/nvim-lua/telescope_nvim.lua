@@ -23,12 +23,12 @@ require'telescope'.setup{
 
     prompt_position = "top",
     sorting_strategy = "ascending",
-    -- layout_strategy = "center",
+    layout_strategy = "center",
 
     results_title = false,
     preview_title = false,
-    -- width = 0.8,
-    -- results_height = 40,
+    width = 0.8,
+    results_height = 40,
 
     mappings = {
       -- insert mode のマッピング
@@ -69,122 +69,98 @@ require'telescope'.setup{
   }
 }
 
-local vimp = require('vimp')
+local mappings = {
+  ['n//'] = {[[:<C-u>Telescope current_buffer_fuzzy_find<CR>]], silent = false},
 
--- <Space>fv 設定ファイルを検索
-vimp.nnoremap({'override'}, '<Space>fv', function()
-  require'telescope.builtin'.find_files{
-    cwd = vim.g.vimfiles_path,
-    file_ignore_patterns = { "_config/.*" }
-  }
-end)
-
--- <Space>f; 履歴検索
-vimp.nnoremap({'override'}, '<Space>f;', function()
-  require('telescope.builtin').command_history {}
-end)
-
--- <A-x> コマンド検索
-vimp.nnoremap({'override'}, '<A-x>', function()
-  require('telescope.builtin').commands {
-    sorter = sorters.get_fzy_sorter(),
-  }
-end)
-
--- <Space>fh ヘルプ検索
-vimp.nnoremap({'override'}, '<Space>fh', function()
-  require('telescope.builtin').help_tags {
-    previewer = false,
-    sorter = sorters.get_fzy_sorter(),
-  }
-end)
-
--- <Space>fj バッファ検索
-vimp.nnoremap({'override'}, '<Space>fj', function()
-  require('telescope.builtin').buffers {
-    shorten_path = false,
-    show_all_buffers = true,
-
-    attach_mappings = function(prompt_bufnr, map)
-      actions.goto_file_selection_edit:replace(function ()
-        local selection = actions.get_selected_entry(prompt_bufnr)
-        actions.close(prompt_bufnr)
-        local val = selection.value
-        vim.api.nvim_command(string.format('drop %s', val))
-      end)
-      map('i', '<CR>', actions.goto_file_selection_edit)
-      map('n', '<CR>', actions.goto_file_selection_edit)
-
-      return true
-    end,
+  -- find_files
+  ['n<Space>fv'] = {function()
+    require'telescope.builtin'.find_files{
+      cwd = vim.g.vimfiles_path,
+      file_ignore_patterns = { "_config/.*" }
     }
-end)
+  end},
 
--- <Space>ff ファイル検索
-vimp.nnoremap({'override'}, '<Space>ff', function()
-  require'telescope.builtin'.git_files{}
-end)
+  -- command_history
+  ['n<Space>f;'] = {function()
+    require('telescope.builtin').command_history {}
+  end},
 
+  -- commands
+  ['n<A-x>'] = {function()
+    require('telescope.builtin').commands {}
+  end},
 
--- <Space>ft ファイルタイプ検索
-vimp.nnoremap({'override'}, '<Space>ft', function()
-  require'telescope.builtin'.filetypes{}
-end)
+  -- help
+  ['n<Space>fh'] = {function()
+    require('telescope.builtin').help_tags {
+      previewer = false,
+      sorter = sorters.get_fzy_sorter(),
+    }
+  end},
 
-vimp.cmap({'override'}, '<C-l>', '<Plug>(TelescopeFuzzyCommandSearch)')
+  -- buffers
+  ['n<Space>fj'] = {function()
+    require('telescope.builtin').buffers {
+      shorten_path = false,
+      show_all_buffers = true,
+      previewer = false,
 
+      attach_mappings = function(prompt_bufnr, map)
+        actions.goto_file_selection_edit:replace(function ()
+          local selection = actions.get_selected_entry(prompt_bufnr)
+          actions.close(prompt_bufnr)
+          local val = selection.value
+          vim.api.nvim_command(string.format('drop %s', val))
+        end)
+        -- map('i', '<CR>', actions.goto_file_selection_edit)
+        -- map('n', '<CR>', actions.goto_file_selection_edit)
 
--- mru
-vimp.nnoremap({'override'}, '<Space>fk', function()
-  require('vimrc.telescope').mru{
-    file_ignore_patterns = { "^/tmp" },
-    previewer = previewers.cat.new({}),
-  }
-end)
+        return true
+      end,
+    }
+  end},
 
--- -- mrr
--- vimp.nnoremap({'override'}, '<Space>fp', function()
---   require('vimrc.telescope').mrr{
---   }
--- end)
+  -- git_files
+  ['n<Space>ff'] = {function()
+    require'telescope.builtin'.git_files{}
+  end},
 
--- ghq
-vimp.nnoremap({'override'}, '<Space>fq', function()
-  require('vimrc.telescope').ghq{
-    sorter = sorters.get_fzy_sorter(),
-  }
-end)
+  -- filetypes
+  ['n<Space>ft'] = {function()
+    require'telescope.builtin'.filetypes{}
+  end},
 
--- reloader
-vimp.nnoremap({'override'}, '<Space>fl', function()
-  require'telescope.builtin'.reloader{
-    sorter = sorters.get_fzy_sorter(),
-  }
-end)
+  -- mru
+  ['n<Space>fk'] = {function()
+    require('vimrc.telescope').mru{
+      file_ignore_patterns = { "^/tmp" },
+      previewer = previewers.cat.new({}),
+    }
+  end},
 
+  -- ghq
+  ['n<Space>fq'] = {function()
+    require('vimrc.telescope').ghq{
+      sorter = sorters.get_fzy_sorter(),
+    }
+  end},
 
--- -- grep
--- vimp.nnoremap({'override'}, '<Space>fg', function()
---   require('telescope.builtin').live_grep{}
--- end)
+  -- reloader
+  ['n<Space>fl'] = {function()
+    require'telescope.builtin'.reloader{
+      sorter = sorters.get_fzy_sorter(),
+    }
+  end},
 
+  -- plug_names
+  ['n<Space>fp'] = {function()
+    require('vimrc.telescope').plug_names{}
+  end},
 
--- -- fd
--- vimp.nnoremap({'override'}, '<Space>fd', function()
---   require('vimrc.telescope').fd_dir{
---     sorter = sorters.get_fzy_sorter(),
---   }
--- end)
+  ['n<Space>fs'] = {function()
+    require'telescope.builtin'.current_buffer_tags {}
+  end},
 
--- vim-plug
-vimp.nnoremap({'override'}, '<Space>fp', function()
-  require('vimrc.telescope').plug_names{}
-end)
+}
 
-
-
-
-
-map_command('TelescopePlug', function()
-  require'vimrc.telescope'.plug_names{}
-end)
+nvim_apply_mappings(mappings, {noremap = true, silent = true})

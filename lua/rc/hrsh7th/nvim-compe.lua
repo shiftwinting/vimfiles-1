@@ -15,7 +15,8 @@ g.compe_auto_preselect = false
 
 
 require'compe_nvim_lsp'.attach()
+-- require'compe_nvim_lua'.attach()
 require'compe':register_lua_source('buffer', require'compe_buffer')
 vim.cmd([[call compe#source#vim_bridge#register('path', compe_path#source#create())]])
-vim.cmd([[call compe#source#vim_bridge#register('tags', compe_tags#source#create())]])
-vim.cmd([[call compe#source#vim_bridge#register('vsnip', compe_vsnip#source#create())]])
+-- vim.cmd([[call compe#source#vim_bridge#register('tags', compe_tags#source#create())]])
+-- vim.cmd([[call compe#source#vim_bridge#register('vsnip', compe_vsnip#source#create())]])

@@ -15,7 +15,10 @@ lsp_status.register_progress()
 
 
 local on_attach = function(client)
-  vimp.nnoremap({'buffer'}, '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
+  local mappings = {
+    ['n<C-]>'] = {'<cmd>lua vim.lsp.buf.definition()<CR>'}
+  }
+  nvim_apply_mappings(mappings, {buffer = true})
   lsp_status.on_attach(client)
 end
 

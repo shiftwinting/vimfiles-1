@@ -167,8 +167,8 @@ Plug 'liuchengxu/vista.vim'
 
 Plug 'nvim-lua/telescope.nvim'
 " Plug '/home/tamago324/.ghq/github.com/nvim-lua/telescope.nvim'
-    " Plug 'nvim-lua/popup.nvim'
-    Plug '/home/tamago324/.ghq/github.com/nvim-lua/popup.nvim'
+    Plug 'nvim-lua/popup.nvim'
+    " Plug '/home/tamago324/.ghq/github.com/nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'nvim-telescope/telescope-fzy-native.nvim'
@@ -217,6 +217,7 @@ Plug 'machakann/vim-Verdin'
 
 
 Plug '~/.ghq/github.com/tamago324/lir.nvim'
+Plug '~/.ghq/github.com/tamago324/lir-float.nvim'
 
 call plug#end()
 

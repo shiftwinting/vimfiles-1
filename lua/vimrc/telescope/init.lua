@@ -148,7 +148,8 @@ M.ghq = function(opts)
         local val = actions.get_selected_entry(prompt_bufnr).value
         actions.close(prompt_bufnr)
         a.nvim_command('tabnew')
-        a.nvim_command(format('tcd %s | edit .', val))
+        -- a.nvim_command(format('tcd %s | edit .', val))
+        a.nvim_command(format([[tcd %s | lua require'lir.float'.toggle()]], val))
       end
 
       map('i', '<CR>', tabedit)
