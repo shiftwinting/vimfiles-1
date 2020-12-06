@@ -316,3 +316,6 @@ set inccommand=split
 
 " lua ハイライトを ON
 let g:vimsyn_embed = 'l'
+
+" :h file-searching
+set tags=./tags;/

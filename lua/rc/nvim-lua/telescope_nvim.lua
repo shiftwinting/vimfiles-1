@@ -87,7 +87,37 @@ local mappings = {
 
   -- commands
   ['n<A-x>'] = {function()
-    require('telescope.builtin').commands {}
+    require('telescope.builtin').commands {
+      attach_mappings = function(prompt_bufnr, map)
+        actions.goto_file_selection_edit:replace(function()
+          local selection = actions.get_selected_entry()
+          actions.close(prompt_bufnr)
+          local val = selection.value
+          local cmd = string.format([[:%s ]], val.name)
+
+          if val.nargs == "0" or val.nargs == '*' or val.nargs == '?' then
+            vim.cmd(cmd)
+          else
+            vim.cmd [[stopinsert]]
+            vim.fn.feedkeys(cmd)
+          end
+        end)
+
+        local edit_command = function(prompt_bufnr)
+          local entry = actions.get_selected_entry()
+          actions.close(prompt_bufnr)
+          local val = entry.value
+          local cmd = string.format([[:%s ]], val.name)
+
+          vim.cmd [[stopinsert]]
+          vim.fn.feedkeys(cmd)
+        end
+
+        map('i', '<C-e>', edit_command)
+
+        return true
+      end
+    }
   end},
 
   -- help
@@ -159,6 +189,16 @@ local mappings = {
 
   ['n<Space>fs'] = {function()
     require'telescope.builtin'.current_buffer_tags {}
+  end},
+
+  ['ngr'] = {function()
+    require'telescope.builtin.lsp'.references {}
+  end},
+
+
+  -- git
+  ['n<Space>gb'] = {function()
+    require'telescope.builtin.git'.branches {}
   end},
 
 }

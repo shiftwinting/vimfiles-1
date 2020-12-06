@@ -469,3 +469,14 @@ function! s:my_ft_neosnippet() abort
     setlocal noexpandtab
     nnoremap ? :<C-u>h neosnippet<CR> \| <C-w>L<CR>
 endfunction
+
+
+" ====================
+" gitconfig
+" ====================
+function! s:my_ft_gitconfig() abort
+  setlocal textwidth=72
+  " 自動で折り返しを行う
+  setlocal formatoptions+=t
+  startinsert!
+endfunction

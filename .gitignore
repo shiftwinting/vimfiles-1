@@ -1,6 +1,6 @@
 *.swp
 .netrwhist
-plugged/
+.plugged/
 autoload/plug.vim
 pack/
 work/

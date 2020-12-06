@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-let g:plug_install_dir = expand('$MYVIMFILES/plugged')
+let g:plug_install_dir = expand('$MYVIMFILES/.plugged')
 
 
 call plug#begin(g:plug_install_dir)
@@ -11,6 +11,8 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/syntax-vim-ex'
 Plug 'vim-jp/vital.vim'
 Plug 'rbtnn/vim-gloaded'
+" Plug 'y0za/vim-reading-vimrc'
+Plug '~/.ghq/github.com/tamago324/vim-reading-vimrc'
 
 Plug 'andymass/vim-matchup'
 Plug 'glidenote/memolist.vim'
@@ -25,10 +27,10 @@ Plug 'simeji/winresizer'
 Plug 'svermeulen/vim-cutlass'
 Plug 'tomtom/tcomment_vim'
 Plug 'voldikss/vim-translator'
-" Plug 'Yggdroot/indentLine'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-grepper'
-Plug 'mtth/scratch.vim'
+" Plug 'mtth/scratch.vim'
+" Plug 'bfrg/vim-qf-preview'
 
 Plug 'kana/vim-repeat'
 
@@ -46,7 +48,7 @@ Plug 'lambdalisue/vim-protocol'
 Plug 'lambdalisue/mr.vim'
 Plug 'lambdalisue/mr-quickfix.vim'
 " Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/glyph-palette.vim'
+" Plug 'lambdalisue/glyph-palette.vim'
 " Plug 'lambdalisue/nerdfont.vim'
 
 Plug 'lambdalisue/vim-quickrun-neovim-job'
@@ -59,8 +61,6 @@ Plug 'tyru/columnskip.vim'
 Plug 'tyru/eskk.vim'
 Plug 'tyru/open-browser.vim'
     Plug 'tyru/open-browser-github.vim'
-
-" Plug 'mcchrish/nnn.vim'
 
 " ------------------------
 "  git
@@ -84,24 +84,22 @@ Plug 'tpope/vim-fugitive',
     Plug 'junegunn/gv.vim'
     Plug 'tpope/vim-dispatch'
 
-" Plug 'lambdalisue/gina.vim'
-
 " ------------------------
 "  colorscheme
 " ------------------------
 Plug 'sainnhe/gruvbox-material'
-Plug 'cocopon/iceberg.vim'
-Plug 'koron/vim-monochromenote'
-Plug 'jsit/toast.vim'
-Plug 'rakr/vim-one'
-Plug 'zefei/cake16'
-Plug 'fabi1cazenave/kalahari.vim'
-Plug 'yasukotelin/shirotelin'
-Plug 'mhartington/oceanic-next'
-Plug 'rigellute/shades-of-purple.vim'
-Plug 'drewtempelmeyer/palenight.vim'
-Plug 'adrian5/oceanic-next-vim'
-Plug 'lifepillar/vim-gruvbox8'
+" Plug 'cocopon/iceberg.vim'
+" Plug 'koron/vim-monochromenote'
+" Plug 'jsit/toast.vim'
+" Plug 'rakr/vim-one'
+" Plug 'zefei/cake16'
+" Plug 'fabi1cazenave/kalahari.vim'
+" Plug 'yasukotelin/shirotelin'
+" Plug 'mhartington/oceanic-next'
+" Plug 'rigellute/shades-of-purple.vim'
+" Plug 'drewtempelmeyer/palenight.vim'
+" Plug 'adrian5/oceanic-next-vim'
+" Plug 'lifepillar/vim-gruvbox8'
 
 " ------------------------
 "  operator
@@ -132,7 +130,6 @@ Plug 'Shougo/echodoc.vim',
 " Plug 'Shougo/denite.nvim'
 " Plug 'Shougo/defx.nvim'
 
-
 " deol
 Plug 'Shougo/deol.nvim'
 
@@ -154,7 +151,7 @@ Plug 'euclidianAce/BetterLua.vim'
 
 Plug 'neovim/nvim-lspconfig'
     " Plug 'jubnzv/virtual-types.nvim'
-    Plug 'h-michael/lsp-ext.nvim'
+    " Plug 'h-michael/lsp-ext.nvim'
     Plug 'nvim-lua/lsp-status.nvim'
     " Plug 'RishabhRD/nvim-lsputils'
     "     Plug 'RishabhRD/popfix'
@@ -165,10 +162,10 @@ Plug 'hrsh7th/nvim-compe'
 
 Plug 'liuchengxu/vista.vim'
 
+Plug 'mhartington/formatter.nvim'
+
 Plug 'nvim-lua/telescope.nvim'
-" Plug '/home/tamago324/.ghq/github.com/nvim-lua/telescope.nvim'
     Plug 'nvim-lua/popup.nvim'
-    " Plug '/home/tamago324/.ghq/github.com/nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'nvim-telescope/telescope-fzy-native.nvim'
@@ -178,10 +175,6 @@ Plug 'nvim-lua/telescope.nvim'
 "     Plug 'p00f/nvim-ts-rainbow'
 "     Plug 'nvim-treesitter/playground'
 
-" Plug 'glepnir/indent-guides.nvim'
-
-" Plug 'kyazdani42/nvim-web-devicons'
-" Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'norcalli/nvim-colorizer.lua'
 
@@ -195,6 +188,7 @@ Plug 'tjdevries/nlua.nvim'
 Plug 'rafcamlet/nvim-luapad'
 Plug 'bfredl/nvim-luadev'
 " Plug 'theHamsta/nvim_rocks'
+Plug 'Koihik/vscode-lua-format'   " binary のため
 
 Plug 'bakpakin/fennel.vim'
 
@@ -224,16 +218,12 @@ call plug#end()
 
 " Plug 'jiangmiao/auto-pairs'  -> cohama/lexima.vim
 
-
 " ---> lightline.vim
 " Plug 'tjdevries/express_line.nvim'
 "   Plug 'nvim-lua/plenary.nvim'
 "   Plug 'kyazdani42/nvim-web-devicons'
 
-
-
 " Plug 'Xuyuanp/scrollbar.nvim'     " => うまく表示できなかった。。。
-
 
 " -> nvim-compe
 " Plug 'nvim-lua/completion-nvim'
@@ -241,3 +231,14 @@ call plug#end()
 "     Plug 'kristijanhusak/completion-tags'
 "     Plug 'Shougo/neopairs.vim'
 "     " Plug 'nvim-treesitter/completion-treesitter'
+
+" Plug 'Yggdroot/indentLine'
+
+" Plug 'glepnir/indent-guides.nvim'
+
+" Plug 'kyazdani42/nvim-web-devicons'
+" Plug 'kyazdani42/nvim-tree.lua'
+
+" Plug 'mcchrish/nnn.vim'
+
+" Plug 'lambdalisue/gina.vim'

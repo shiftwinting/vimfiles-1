@@ -69,10 +69,10 @@ vnoremap <silent> <C-g><C-r>                :<C-u><C-r>=printf('Leaderf! rg --po
 " vnoremap <silent> <C-g><C-r>        :<C-u><C-r>=printf('Leaderf bufTag --regexMode --input %s', leaderf#Rg#getPattern(2)[1:-2])<CR><CR>
 
 
-nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! gtags -r %s --popup-width=%d', leaderf#Rg#getPattern(0), <SID>nice_width(200))<CR><CR>
-vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! gtags -r %s --popup-width=%d', leaderf#Rg#getPattern(2), <SID>nice_width(200))<CR><CR>
-nnoremap <silent> gd                :<C-u><C-r>=printf('Leaderf! gtags -d %s --popup-width=%d', leaderf#Rg#getPattern(0), <SID>nice_width(200))<CR><CR>
-vnoremap <silent> gd                :<C-u><C-r>=printf('Leaderf! gtags -d %s --popup-width=%d', leaderf#Rg#getPattern(2), <SID>nice_width(200))<CR><CR>
+" nnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! gtags -r %s --popup-width=%d', leaderf#Rg#getPattern(0), <SID>nice_width(200))<CR><CR>
+" vnoremap <silent> gr                :<C-u><C-r>=printf('Leaderf! gtags -r %s --popup-width=%d', leaderf#Rg#getPattern(2), <SID>nice_width(200))<CR><CR>
+" nnoremap <silent> gd                :<C-u><C-r>=printf('Leaderf! gtags -d %s --popup-width=%d', leaderf#Rg#getPattern(0), <SID>nice_width(200))<CR><CR>
+" vnoremap <silent> gd                :<C-u><C-r>=printf('Leaderf! gtags -d %s --popup-width=%d', leaderf#Rg#getPattern(2), <SID>nice_width(200))<CR><CR>
 
 function! s:leaderf_settings() abort
     silent! setlocal signcolumn=no

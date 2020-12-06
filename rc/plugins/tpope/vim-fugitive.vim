@@ -24,17 +24,4 @@ endfunction
 augroup MyFugitive
     autocmd!
     autocmd FileType fugitive call s:fugitive_my_settings()
-    autocmd FileType gitcommit call s:gitcommit_settings()
 augroup END
-
-function! s:fugitive_init_buffer_if_empty() abort
-    startinsert!
-endfunction
-
-function! s:gitcommit_settings() abort
-    setlocal textwidth=72
-    " 自動で折り返しを行う
-    setlocal formatoptions+=t
-
-    startinsert!
-endfunction
