@@ -195,18 +195,16 @@ endif
 
 
 
-" ====================
-" ====================
+" =============================================================================
 " FileType
 "   from https://zenn.dev/rapan931/articles/081a302ed06789
-" ====================
-" ====================
+" =============================================================================
 augroup my_filetypes
   autocmd!
   autocmd FileType * call <SID>autocmd_filetypes(expand('<amatch>'))
 augroup END
 function! s:autocmd_filetypes(ft) abort
-  if !empty(a:ft) && exists(printf('*s:ft_my_%s', a:ft))
+  if !empty(a:ft) && exists(printf('*s:my_ft_%s', a:ft))
     execute printf('call s:my_ft_%s()', a:ft)
   endif
 endfunction
@@ -390,8 +388,8 @@ endfunction
 
 function! s:my_ft_smlnj() abort
     nnoremap <buffer>         <Space>bl :<C-u>SmlFormat<CR>
-    vnoremap <silent><buffer> <Space>bl :<C-u>VSmlFormat<CR>
-    nnoremap <silent><buffer> <Space>re :<C-u>call <SID>start_sml()<CR>
+    vnoremap <buffer><silent> <Space>bl :<C-u>VSmlFormat<CR>
+    nnoremap <buffer><silent> <Space>re :<C-u>call <SID>start_sml()<CR>
 
     iabbrev <buffer> func fun
 
@@ -430,7 +428,7 @@ endfunction
 function! s:my_ft_diff() abort
     nnoremap <buffer><silent> <A-j> :<C-u>call search('^--- a', 'W')<CR>
     nnoremap <buffer><silent> <A-k> :<C-u>call search('^--- a', 'Wb')<CR>
-    nnoremap <silent><buffer> ? :<C-u>LeaderfPatchFiles<CR>
+    nnoremap <buffer><silent> ? :<C-u>LeaderfPatchFiles<CR>
 endfunction
 
 
@@ -467,7 +465,7 @@ endfunction
 " ====================
 function! s:my_ft_neosnippet() abort
     setlocal noexpandtab
-    nnoremap ? :<C-u>h neosnippet<CR> \| <C-w>L<CR>
+    nnoremap <buffer> ? :<C-u>h neosnippet<CR> \| <C-w>L<CR>
 endfunction
 
 
