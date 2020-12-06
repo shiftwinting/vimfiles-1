@@ -470,9 +470,9 @@ endfunction
 
 
 " ====================
-" gitconfig
+" gitcommit
 " ====================
-function! s:my_ft_gitconfig() abort
+function! s:my_ft_gitcommit() abort
   setlocal textwidth=72
   " 自動で折り返しを行う
   setlocal formatoptions+=t
