@@ -24,7 +24,8 @@ autocmd MyAutoCmd FileType php          setlocal sw=4 sts=4 ts=4 et
 autocmd MyAutoCmd FileType python       setlocal sw=4 sts=4 ts=4 et
 autocmd MyAutoCmd FileType scss         setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType typescript   setlocal sw=2 sts=2 ts=2 et
-autocmd MyAutoCmd FileType vim          setlocal sw=4 sts=4 ts=4 et
+" autocmd MyAutoCmd FileType vim          setlocal sw=4 sts=4 ts=4 et
+autocmd MyAutoCmd FileType vim          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType yaml         setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType markdown     setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
@@ -192,6 +193,25 @@ if has('persistent_undo')
 endif
 
 
+
+
+" ====================
+" ====================
+" FileType
+"   from https://zenn.dev/rapan931/articles/081a302ed06789
+" ====================
+" ====================
+augroup my_filetypes
+  autocmd!
+  autocmd FileType * call <SID>autocmd_filetypes(expand('<amatch>'))
+augroup END
+function! s:autocmd_filetypes(ft) abort
+  if !empty(a:ft) && exists(printf('*s:ft_my_%s', a:ft))
+    execute printf('call s:my_ft_%s()', a:ft)
+  endif
+endfunction
+
+
 " ====================
 " help
 " ====================
@@ -199,7 +219,6 @@ function! s:my_ft_help() abort
     " help を q で閉じれるようにする
     nnoremap <buffer> q <C-w>c
 endfunction
-autocmd MyAutoCmd FileType help call <SID>my_ft_help()
 
 
 " ====================
@@ -216,7 +235,6 @@ function! s:my_ft_qf() abort
     nnoremap <buffer><silent> gj gj
     nnoremap <buffer><silent> gk gk
 endfunction
-autocmd MyAutoCmd FileType qf call <SID>my_ft_qf()
 
 
 
@@ -228,7 +246,6 @@ function! s:my_ft_json() abort
     syntax match Comment +\/\/.\+$+
     setlocal concealcursor=nc
 endfunction
-autocmd MyAutoCmd FileType json call <SID>my_ft_json()
 
 
 " ====================
@@ -237,7 +254,6 @@ autocmd MyAutoCmd FileType json call <SID>my_ft_json()
 function! s:my_ft_gitconfig() abort
     setlocal noexpandtab
 endfunction
-autocmd MyAutoCmd FileType gitconfig call <SID>my_ft_gitconfig()
 
 
 " ====================
@@ -247,7 +263,6 @@ function! s:my_ft_scheme() abort
     let g:paredit_mode = 1
     call PareditInitBuffer()
 endfunction
-autocmd MyAutoCmd FileType scheme call <SID>my_ft_scheme()
 
 
 " ====================
@@ -293,8 +308,6 @@ function! s:my_ft_markdown() abort
     endif
 endfunction
 
-autocmd MyAutoCmd FileType markdown call s:my_ft_markdown()
-
 
 " ====================
 " python
@@ -323,7 +336,6 @@ function! s:my_ft_python() abort
     nnoremap <buffer><silent> ,f :<C-u>call deol#send(getline('.'))<CR>
     vnoremap <buffer><silent> ,f :<C-u>call <SID>python_send_lines()<CR>
 endfunction
-autocmd MyAutoCmd FileType python call s:my_ft_python()
 
 
 " ====================
@@ -336,7 +348,6 @@ function! s:my_ft_sql() abort
         vnoremap <Space>bl :NR<CR> \| :SQLFmt<CR> \| :write<CR> \| :close<CR>
     endif
 endfunction
-autocmd MyAutoCmd FileType sql call s:my_ft_sql()
 
 
 " ====================
@@ -377,7 +388,7 @@ function! s:start_sml() abort
 endfunction
 
 
-function! s:my_ft_sml() abort
+function! s:my_ft_smlnj() abort
     nnoremap <buffer>         <Space>bl :<C-u>SmlFormat<CR>
     vnoremap <silent><buffer> <Space>bl :<C-u>VSmlFormat<CR>
     nnoremap <silent><buffer> <Space>re :<C-u>call <SID>start_sml()<CR>
@@ -395,8 +406,6 @@ function! s:my_ft_sml() abort
     inoremap <buffer> ' '
 endfunction
 
-autocmd MyAutoCmd FileType smlnj call s:my_ft_sml()
-
 
 " ====================
 " c
@@ -410,7 +419,9 @@ function! s:my_ft_c() abort
         setlocal formatprg=clang-format\ -style=file
     endif
 endfunction
-autocmd MyAutoCmd FileType c,cpp call s:my_ft_c()
+function! s:my_ft_cpp() abort
+  call s:my_ft_c()
+endfunction
 
 
 " ====================
@@ -421,7 +432,6 @@ function! s:my_ft_diff() abort
     nnoremap <buffer><silent> <A-k> :<C-u>call search('^--- a', 'Wb')<CR>
     nnoremap <silent><buffer> ? :<C-u>LeaderfPatchFiles<CR>
 endfunction
-autocmd MyAutoCmd FileType diff call s:my_ft_diff()
 
 
 " ====================
@@ -439,13 +449,17 @@ augroup END
 function! s:my_ft_git() abort
     nnoremap <silent><buffer> ? :<C-u>LeaderfPatchFiles<CR>
 endfunction
-autocmd MyAutoCmd FileType git call s:my_ft_git()
 
+
+" ====================
+" lua
+" ====================
 function! s:my_ft_lua() abort
     nnoremap <buffer><silent> <Space>vs. :<C-u>luafile %<CR>
     " nnoremap <buffer><silent> <Space>rr  :<C-u>luafile %<CR>
+    nnoremap <buffer><silent> <Space>bl :<C-u>Format<CR>
+    xnoremap <buffer><silent> <Space>bl :Format<CR>
 endfunction
-autocmd MyAutoCmd FileType lua call s:my_ft_lua()
 
 
 " ====================
@@ -455,42 +469,3 @@ function! s:my_ft_neosnippet() abort
     setlocal noexpandtab
     nnoremap ? :<C-u>h neosnippet<CR> \| <C-w>L<CR>
 endfunction
-autocmd MyAutoCmd Filetype neosnippet call <SID>my_ft_neosnippet()
-
-" " 自動で読み込む
-" autocmd MyAutoCmd BufWritePost plugins.vim exec 'source ' .. expand('<afile>')
-
-
-function! s:my_ft_lir() abort
-    " nnoremap <buffer> l     <cmd>lua require'lir.actions'.edit()<CR>
-    " nnoremap <buffer> o     <cmd>lua require'lir.actions'.edit()<CR>
-    " nnoremap <buffer> <C-s> <cmd>lua require'lir.actions'.split()<CR>
-    " nnoremap <buffer> <C-v> <cmd>lua require'lir.actions'.vsplit()<CR>
-    " nnoremap <buffer> <C-t> <cmd>lua require'lir.actions'.tabopen()<CR>
-
-    nnoremap <buffer> l     <cmd>lua require'lir.float.actions'.edit()<CR>
-    nnoremap <buffer> o     <cmd>lua require'lir.float.actions'.edit()<CR>
-    nnoremap <buffer> <C-s> <cmd>lua require'lir.float.actions'.split()<CR>
-    nnoremap <buffer> <C-v> <cmd>lua require'lir.float.actions'.vsplit()<CR>
-    nnoremap <buffer> <C-t> <cmd>lua require'lir.float.actions'.tabopen()<CR>
-
-    nnoremap <buffer> h     <cmd>lua require'lir.actions'.up()<CR>
-    " nnoremap <buffer> q     <cmd>lua require'lir.actions'.quit()<CR>
-    nnoremap <buffer> q     <cmd>lua require'lir.float.actions'.quit()<CR>
-    " nnoremap <buffer> <C-e> <cmd>lua require'lir.actions'.quit()<CR>
-
-    nnoremap <buffer> K     <cmd>lua require'lir.actions'.mkdir()<CR>
-    " nnoremap <buffer> N     <cmd>lua require'lir.actions'.newfile()<CR>
-    nnoremap <buffer> N     <cmd>lua require'lir.float.actions'.newfile()<CR>
-    nnoremap <buffer> R     <cmd>lua require'lir.actions'.rename()<CR>
-    nnoremap <buffer> @     <cmd>lua require'lir.actions'.cd()<CR>
-    nnoremap <buffer> Y     <cmd>lua require'lir.actions'.yank_path()<CR>
-    nnoremap <buffer> .     <cmd>lua require'lir.actions'.toggle_show_hidden()<CR>
-
-    nnoremap <buffer> D     <cmd>lua require'vimrc.lir.gomi'.rm()<CR>
-endfunction
-
-augroup my-ft-lir
-    autocmd!
-    autocmd FileType lir call <SID>my_ft_lir()
-augroup END
