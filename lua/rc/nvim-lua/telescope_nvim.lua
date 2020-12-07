@@ -4,10 +4,10 @@ local map_command = require'vimrc.utils'.map_command
 
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
--- local pickers = require('telescope.pickers')
--- local finders = require('telescope.finders')
+local pickers = require('telescope.pickers')
+local finders = require('telescope.finders')
 local previewers = require('telescope.previewers')
--- local conf = require('telescope.config').values
+local conf = require('telescope.config').values
 
 vim.env.BAT_THEME = 'gruvbox-light'
 
@@ -83,41 +83,6 @@ local mappings = {
   -- command_history
   ['n<Space>f;'] = {function()
     require('telescope.builtin').command_history {}
-  end},
-
-  -- commands
-  ['n<A-x>'] = {function()
-    require('telescope.builtin').commands {
-      attach_mappings = function(prompt_bufnr, map)
-        actions.goto_file_selection_edit:replace(function()
-          local selection = actions.get_selected_entry()
-          actions.close(prompt_bufnr)
-          local val = selection.value
-          local cmd = string.format([[:%s ]], val.name)
-
-          if val.nargs == "0" or val.nargs == '*' or val.nargs == '?' then
-            vim.cmd(cmd)
-          else
-            vim.cmd [[stopinsert]]
-            vim.fn.feedkeys(cmd)
-          end
-        end)
-
-        local edit_command = function(prompt_bufnr)
-          local entry = actions.get_selected_entry()
-          actions.close(prompt_bufnr)
-          local val = entry.value
-          local cmd = string.format([[:%s ]], val.name)
-
-          vim.cmd [[stopinsert]]
-          vim.fn.feedkeys(cmd)
-        end
-
-        map('i', '<C-e>', edit_command)
-
-        return true
-      end
-    }
   end},
 
   -- help
@@ -202,5 +167,78 @@ local mappings = {
   end},
 
 }
+
+
+-- commands
+local function commands()
+  local function make_def_func(is_xmap)
+    return function(prompt_bufnr, map)
+      local selection = actions.get_selected_entry()
+      actions.close(prompt_bufnr)
+      local val = selection.value
+      local cmd = string.format([[:%s%s ]], (is_xmap and "'<.'>" or ''), val.name)
+
+      if val.nargs == "0" or val.nargs == '*' or val.nargs == '?' then
+        if is_xmap then
+          local cr = vim.api.nvim_replace_termcodes('<CR>', true, false, true)
+          vim.api.nvim_feedkeys(cmd .. cr, 'n', true)
+        else
+          vim.cmd(cmd)
+        end
+      else
+        vim.cmd [[stopinsert]]
+        vim.fn.feedkeys(cmd)
+      end
+    end
+  end
+
+  local function make_edit_command_func(is_xmap)
+    return function(prompt_bufnr)
+      local entry = actions.get_selected_entry()
+      actions.close(prompt_bufnr)
+      local val = entry.value
+      local cmd = string.format([[:%s%s ]], (is_xmap and "'<.'>" or ''), val.name)
+
+      vim.cmd [[stopinsert]]
+      vim.fn.feedkeys(cmd)
+    end
+  end
+
+  mappings['n<A-x>'] = {function()
+    require('telescope.builtin').commands {
+      attach_mappings = function(prompt_bufnr, map)
+
+        actions.goto_file_selection_edit:replace(make_def_func())
+
+        map('i', '<C-e>', make_edit_command_func())
+
+        return true
+      end
+    }
+  end}
+
+  mappings['x<A-x>'] = {function()
+    require('telescope.builtin').commands {
+      attach_mappings = function(prompt_bufnr, map)
+        actions.goto_file_selection_edit:replace(make_def_func(true))
+        map('i', '<C-e>', make_edit_command_func(true))
+        return true
+      end,
+
+      entry_maker = function(line)
+        return {
+          -- 範囲指定ができるもののみ
+          valid = line ~= "" and line.range,
+          value = line,
+          ordinal = line.name,
+          display = line.name
+        }
+      end
+    }
+  end}
+end
+
+commands()
+
 
 nvim_apply_mappings(mappings, {noremap = true, silent = true})
