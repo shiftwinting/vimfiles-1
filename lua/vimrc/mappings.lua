@@ -196,7 +196,7 @@ local mappings = {
   ["n<Space>i"] = {'i_<Esc>r'},
 
   ["n<Space>v."] = {function()
-    vim.fn['vimrc#drop_or_tabedit'](vim.env.MVIMRC)
+    vim.fn['vimrc#drop_or_tabedit'](vim.env.MYVIMRC)
   end},
   ['n<Space>v,'] = {function()
     vim.fn['vimrc#drop_or_tabedit'](vim.g.plug_script)
@@ -233,7 +233,6 @@ end
 
 map_option_toggle('<F2>', 'wrap')
 map_option_toggle('<F3>', 'readonly')
-
 
 
 nvim_apply_mappings(mappings, {silent = false; noremap = true})

@@ -6,7 +6,6 @@ local utils = require('vimrc.utils')
 
 utils.load_rc_files()
 
-
 -- https://github.com/tjdevries/config_manager/blob/49fe3dc80f077b051f3bfb958413ff6e74920f83/xdg_config/nvim/lua/init.lua
 -- 1回のみ実行する
 if false then

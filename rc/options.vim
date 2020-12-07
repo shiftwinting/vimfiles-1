@@ -84,22 +84,6 @@ else
     " reset
     set clipboard&
     set clipboard^=unnamedplus
-    " https://github.com/neovim/neovim/wiki/FAQ#how-to-use-the-windows-clipboard-from-wsl
-    " WSL用のクリップボード設定 (https://blog.himanoa.net/entries/20/)
-    " if system('uname -a | grep microsoft') !=# ''
-    "     let g:clipboard = {
-    "     \   'name': 'win32yank',
-    "     \   'copy': {
-    "     \      '+': 'win32yank.exe -i',
-    "     \      '*': 'win32yank.exe -i',
-    "     \    },
-    "     \   'paste': {
-    "     \      '+': 'win32yank.exe -o',
-    "     \      '*': 'win32yank.exe -o',
-    "     \   },
-    "     \   'cache_enabled': 1,
-    "     \ }
-    " endif
 endif
 
 " 余白文字を指定
@@ -207,28 +191,6 @@ set formatoptions+=j
 
 set formatoptions-=t
 
-" https://github.com/shanselman/cmd-colors-solarized
-
-" let g:terminal_ansi_colors = [
-" \   '#002b36',
-" \   '#cb4b16',
-" \   '#586e75',
-" \   '#657b83',
-" \   '#839496',
-" \   '#6c71c4',
-" \   '#93a1a1',
-" \   '#eee8d5',
-" \   '#073642',
-" \   '#dc322f',
-" \   '#859900',
-" \   '#b58900',
-" \   '#268bd2',
-" \   '#d33682',
-" \   '#2aa198',
-" \   '#fdf6e3',
-" \]
-"
-
 " terminal
 " prefix
 if !has('nvim')
@@ -238,15 +200,12 @@ endif
 set noshowmode
 set laststatus=2
 
-" execute 'set viewdir='.expand("~/_vimview")
-
 " パスとして = を含めない (set rtp=~/path/to/file で補完できるようにする)
 set isfname-==
 
 " 矩形選択の時、文字がない箇所も選択できるようにする
 set virtualedit=block
 
-" -------------------------------------------------------------
 " gf とかで相対パスを検索するときの基準となるディレクトリのリスト
 set path=
 " カレントファイルからの相対パス
@@ -260,10 +219,6 @@ set foldlevelstart=99
 
 " 表示できるところまで表示する
 set display=lastline
-
-" 重くなるため
-" " カーソル行をハイライト
-" set cursorline
 
 " マクロの実行が終わったら、描画する (高速化)
 set lazyredraw
@@ -312,7 +267,9 @@ endif
 
 set mouse+=n
 
-set inccommand=split
+if has('nvim')
+  set inccommand=split
+endif
 
 " lua ハイライトを ON
 let g:vimsyn_embed = 'l'
