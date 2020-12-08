@@ -221,6 +221,30 @@ local mappings = {
 
   ['n<Space>e'] = { function () vim.cmd[[e!]] end },
 
+  --- toggle quickfix
+  ['n<A-q>'] = {
+    function()
+      local function is_show_qf()
+        for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.api.nvim_buf_get_option(buf, 'buftype') == 'quickfix' then
+            return true
+          end
+        end
+        return false
+      end
+
+      if is_show_qf() then
+        if vim.bo.buftype == 'quickfix' then
+          vim.cmd('wincmd p')
+        end
+        vim.cmd('cclose')
+      else
+        vim.cmd('botright copen')
+      end
+    end
+  }
+
 }
 
 -- toggle options
