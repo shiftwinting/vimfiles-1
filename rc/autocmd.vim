@@ -38,6 +38,7 @@ autocmd MyAutoCmd FileType lua          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType smlnj        setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType sml          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType sql          setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType ocaml        setlocal sw=2 sts=2 ts=2 et
 
 
 " 拡張子をもとにファイルタイプを設定
@@ -45,7 +46,7 @@ autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini
 autocmd MyAutoCmd BufRead,BufWinEnter *.csv set filetype=csv
 autocmd MyAutoCmd BufRead,BufWinEnter *.jsx set filetype=javascript.jsx
 autocmd MyAutoCmd BufRead,BufWinEnter *.pl0 set filetype=pl0
-autocmd MyAutoCmd BufRead,BufWinEnter *.ml  set filetype=smlnj
+autocmd MyAutoCmd BufRead,BufWinEnter *.ml  set filetype=sml
 
 " ファイル名を元にファイルタイプを設定
 autocmd MyAutoCmd BufRead,BufWinEnter Vagrantfile set ft=ruby
@@ -404,6 +405,10 @@ function! s:my_ft_smlnj() abort
   inoremap <buffer> ' '
 endfunction
 
+function! s:my_ft_sml() abort
+  call s:my_ft_smlnj()
+endfunction
+
 
 " ====================
 " c
@@ -490,3 +495,20 @@ endfunction
 function! s:my_ft_vim() abort
   nnoremap <buffer><silent> <Space>bl :<C-u>call <SID>vim_format()<CR>
 endfunction
+
+
+let s:ahk_exe_path = '/mnt/c/Program Files/AutoHotkey/AutoHotkeyU64.exe'
+let s:im_disable_script_path = expand('<sfile>:h:h') .. '/ahk/imDisable.ahk'
+
+function! s:isWSL() abort
+  return filereadable('/proc/sys/fs/binfmt_misc/WSLInterop')
+endfunction
+
+if s:isWSL() && executable(s:ahk_exe_path)
+  augroup my-InsertLeave-ImDisable
+    autocmd!
+    autocmd InsertLeave * :call system(printf('%s "%s"', shellescape(s:ahk_exe_path), s:im_disable_script_path))
+    " autocmd CmdlineLeave * :call system(printf('%s "%s"', shellescape(s:ahk_exe_path), s:im_disable_script_path))
+  augroup END
+endif
+

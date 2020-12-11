@@ -14,7 +14,7 @@ let g:deol#prompt_pattern =
 \   '\)'
 
 " コマンドの履歴
-let g:deol#shell_history_path = $IS_WSL ? expand('~/.zsh_history') : expand('~/deol_history')
+let g:deol#shell_history_path = has('nvim') ? expand('~/.zsh_history') : expand('~/deol_history')
 
 " job_start() へのオプション
 let g:deol#extra_options = {

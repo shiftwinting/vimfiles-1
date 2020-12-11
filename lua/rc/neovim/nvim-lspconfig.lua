@@ -89,6 +89,12 @@ require('nlua.lsp.nvim').setup(lspconfig, {
 lspconfig.vimls.setup{}
 
 
+-- --- clangd
+-- -- install https://clangd.llvm.org/installation.html
+-- -- sudo apt-get install clangd-9
+-- -- sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
+-- lspconfig.clangd.setup {}
+
 
 -- --[[
 --   lsp_ext

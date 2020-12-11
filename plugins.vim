@@ -24,7 +24,7 @@ if !has('nvim')
     Plug 'markonm/traces.vim'
 endif
 Plug 'simeji/winresizer'
-Plug 'svermeulen/vim-cutlass'
+" Plug 'svermeulen/vim-cutlass'
 Plug 'tomtom/tcomment_vim'
 Plug 'voldikss/vim-translator'
 Plug 'ludovicchabant/vim-gutentags'
@@ -42,6 +42,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'rcmdnk/yankround.vim'
 
 Plug 'mattn/sonictemplate-vim'
+Plug 'mattn/vim-findroot'
 
 Plug 'lambdalisue/suda.vim'
 Plug 'lambdalisue/vim-protocol'
@@ -51,16 +52,19 @@ Plug 'lambdalisue/mr-quickfix.vim'
 " Plug 'lambdalisue/glyph-palette.vim'
 " Plug 'lambdalisue/nerdfont.vim'
 
-Plug 'lambdalisue/vim-quickrun-neovim-job'
+" Plug 'lambdalisue/vim-quickrun-neovim-job'
 Plug 'thinca/vim-quickrun'
 Plug 'thinca/vim-qfreplace'
 Plug 'thinca/vim-prettyprint'
 
 Plug 'tyru/capture.vim'
 Plug 'tyru/columnskip.vim'
-Plug 'tyru/eskk.vim'
+" Plug 'tyru/eskk.vim'
 Plug 'tyru/open-browser.vim'
     Plug 'tyru/open-browser-github.vim'
+" Plug 'tyru/vim-altercmd'
+
+Plug 'Shougo/junkfile.vim'
 
 " ------------------------
 "  git
@@ -155,7 +159,7 @@ Plug 'neovim/nvim-lspconfig'
     Plug 'nvim-lua/lsp-status.nvim'
     " Plug 'RishabhRD/nvim-lsputils'
     "     Plug 'RishabhRD/popfix'
-    Plug 'nvim-lua/lsp_extensions.nvim'
+    " Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'hrsh7th/nvim-compe'
     " Plug 'hrsh7th/vim-vsnip'
     " Plug 'hrsh7th/vim-vsnip-integ'
@@ -170,13 +174,13 @@ Plug 'nvim-lua/telescope.nvim'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'nvim-telescope/telescope-fzy-native.nvim'
 
-
 " Plug 'nvim-treesitter/nvim-treesitter'
 "     Plug 'p00f/nvim-ts-rainbow'
 "     Plug 'nvim-treesitter/playground'
 
-
 Plug 'norcalli/nvim-colorizer.lua'
+" Plug 'Xuyuanp/scrollbar.nvim'
+" Plug '/home/tamago324/.ghq/github.com/Xuyuanp/scrollbar.nvim'
 
 
 " ------------------------
@@ -185,8 +189,8 @@ Plug 'norcalli/nvim-colorizer.lua'
 
 " Lua
 Plug 'tjdevries/nlua.nvim'
-Plug 'rafcamlet/nvim-luapad'
-Plug 'bfredl/nvim-luadev'
+" Plug 'rafcamlet/nvim-luapad'
+" Plug 'bfredl/nvim-luadev'
 " Plug 'theHamsta/nvim_rocks'
 Plug 'Koihik/vscode-lua-format'   " binary のため
 
@@ -208,6 +212,18 @@ Plug 'Shougo/neoinclude.vim'
 "------------------------
 " Vim
 Plug 'machakann/vim-Verdin'
+
+
+"------------------------
+" AutoHotKey
+Plug 'linxinhong/Vim-AHK'
+
+
+"------------------------
+" ML
+" Plug 'cypok/vim-sml'
+" Plug 'javier-lopez/sml.vim'
+Plug 'tamago324/vim-better-sml'
 
 
 Plug '~/.ghq/github.com/tamago324/lir.nvim'

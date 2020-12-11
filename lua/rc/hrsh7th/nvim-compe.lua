@@ -12,5 +12,6 @@ require'compe'.setup {
     buffer = true,
     nvim_lsp = true,
     nvim_lua = true,
+    tags = true
   }
 }

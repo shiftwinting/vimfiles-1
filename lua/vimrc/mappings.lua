@@ -201,6 +201,9 @@ local mappings = {
   ['n<Space>v,'] = {function()
     vim.fn['vimrc#drop_or_tabedit'](vim.g.plug_script)
   end},
+  ['n<Space>v;'] = {function()
+    vim.fn['vimrc#drop_or_tabedit']('~/.zshrc')
+  end},
 
   ['nsf'] = {function()
     local ft = vim.api.nvim_eval([[input('FileType: ', '', 'filetype')]])

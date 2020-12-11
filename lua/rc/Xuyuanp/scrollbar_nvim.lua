@@ -6,7 +6,7 @@ vim.g.scrollbar_shape = {
   tail = ' '
 }
 
-vim.cmd([[hi! Scrollbar guibg=#ebdbb2]])
+vim.cmd([[hi! MyScrollbarHi guibg=#ebdbb2]])
 vim.g.scrollbar_highlight = {
   head = 'MyScrollbarHi',
   body = 'MyScrollbarHi',
@@ -19,6 +19,7 @@ vim.g.scrollbar_right_offset = 1
 
 vim.cmd([[augroup my-scrollbar]])
 vim.cmd([[  autocmd!]])
-vim.cmd([[  autocmd CursorMoved,BufEnter,WinEnter,CursorHold  * silent! lua require'scrollbar'.show()]])
-vim.cmd([[  autocmd BufLeave,WinLeave,QuitPre                 * silent! lua require'scrollbar'.clear()]])
+vim.cmd([[  autocmd CursorMoved,VimResized * silent! lua require'scrollbar'.show()]])
+vim.cmd([[  autocmd BufEnter,WinEnter,FocusGained  * silent! lua require'scrollbar'.show()]])
+vim.cmd([[  autocmd BufLeave,WinLeave,FocusLost,QuitPre  * silent! lua require'scrollbar'.clear()]])
 vim.cmd([[augroup end]])

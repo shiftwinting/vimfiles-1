@@ -81,7 +81,6 @@ augroup MyColorScheme
     autocmd ColorScheme * call s:define_my_highlight()
 augroup END
 
-
 let g:gruvbox_material_enable_italic = 0
 let g:gruvbox_material_disable_italic_comment = 1
 let g:gruvbox_material_background = 'medium'
