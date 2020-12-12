@@ -176,7 +176,7 @@ local function commands()
       local selection = actions.get_selected_entry()
       actions.close(prompt_bufnr)
       local val = selection.value
-      local cmd = string.format([[:%s%s ]], (is_xmap and "'<.'>" or ''), val.name)
+      local cmd = string.format([[:%s%s ]], (is_xmap and "'<,'>" or ''), val.name)
 
       if val.nargs == "0" or val.nargs == '*' or val.nargs == '?' then
         if is_xmap then
@@ -197,7 +197,7 @@ local function commands()
       local entry = actions.get_selected_entry()
       actions.close(prompt_bufnr)
       local val = entry.value
-      local cmd = string.format([[:%s%s ]], (is_xmap and "'<.'>" or ''), val.name)
+      local cmd = string.format([[:%s%s ]], (is_xmap and "'<,'>" or ''), val.name)
 
       vim.cmd [[stopinsert]]
       vim.fn.feedkeys(cmd)
