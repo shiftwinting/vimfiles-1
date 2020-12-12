@@ -71,7 +71,7 @@ local lspconfig = require'lspconfig'
 require('nlua.lsp.nvim').setup(lspconfig, {
   on_attach = on_attach,
   disabled_diagnostics = {"unused-local", "unused-vararg", "lowercase-global"},
-  globals = {'vimp', '_vimp', "pprint"},
+  globals = {"pprint"},
   library = {
     -- 再帰的に検索される
     [vim.fn.stdpath("config")] = true,

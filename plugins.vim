@@ -148,7 +148,6 @@ Plug 'Shougo/neosnippet.vim'
 " Plug 'neovim/nvimdev.nvim',
 "   Plug 'neomake/neomake'
 "   Plug 'tpope/vim-projectionist'
-Plug 'svermeulen/vimpeccable'
 Plug 'norcalli/nvim_utils'
 
 Plug 'euclidianAce/BetterLua.vim'
@@ -258,3 +257,5 @@ call plug#end()
 " Plug 'mcchrish/nnn.vim'
 
 " Plug 'lambdalisue/gina.vim'
+
+" Plug 'svermeulen/vimpeccable'

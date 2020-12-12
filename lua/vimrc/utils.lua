@@ -11,20 +11,4 @@ M.load_rc_files = function()
   end
 end
 
---[[
-  command! のように動作させる
-  _vimp._command_maps_by_id のなかで管理されているため、そこから消す
-]]
-M.map_command = function(name, handler)
-  for _, id in ipairs(vim.tbl_keys(_vimp._command_maps_by_id)) do
-    local map = _vimp._command_maps_by_id[id]
-    if map.name == name and (vim.fn.exists(':' .. name) == 2) then
-      map:remove_from_vim()
-      _vimp._command_maps_by_id[id] = nil
-    end
-  end
-
-  vimp.map_command(name, handler)
-end
-
 return M

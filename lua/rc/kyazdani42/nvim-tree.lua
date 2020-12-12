@@ -1,7 +1,6 @@
 if vim.api.nvim_call_function('FindPlugin', {'nvim-tree.lua'}) == 0 then do return end end
 
 local g = vim.g
--- vimp.nnoremap({'override'}, '<C-e>', ':LuaTreeToggle<CR>')
 
 g.lua_tree_show_icons = {
   git = 0,

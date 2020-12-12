@@ -15,12 +15,7 @@ vim.g.completion_matching_strategy_list = {'exact', 'substring', 'fuzzy'}
 -- ソート
 vim.g.completion_sorting = 'length'
 
--- <C-Space> で補完開始
-vimp.imap({'override', 'silent'}, '<C-Space>', '<Plug>(completion_trigger)')
-
 vim.g.completion_enable_auto_popup = 0
--- vimp.imap({'override'}, ' <tab>', ' <Plug>(completion_smart_tab)')
--- vimp.imap({'override'}, '<s-tab>', '<Plug>(completion_smart_s_tab)')
 
 vim.api.nvim_command([[augroup my-completion-nvim]])
 vim.api.nvim_command([[  autocmd!]])
