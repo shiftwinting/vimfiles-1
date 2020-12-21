@@ -29,19 +29,19 @@ set ignorecase          " 大文字小文字を区別しない
 set smartcase           " 大文字が入らない限り、大文字小文字は区別しない
 set cmdheight=2         " 2 で慣れてしまったため
 " if !has('nvim')
-    set ambiwidth=double    " 記号を正しく表示
-    " set ambiwidth=single    " 記号を正しく表示
+set ambiwidth=double    " 記号を正しく表示
+" set ambiwidth=single    " 記号を正しく表示
 " endif
 set timeoutlen=480      " マッピングの待機時間
 set nrformats-=octal    " 07 で CTRL-A しても、010 にならないようにする
 if has('nvim')
-    " set signcolumn=yes:2    " 常に表示 (幅を2にする)
-    set signcolumn=yes    " 常に表示 (幅を2にする)
+  " set signcolumn=yes:2    " 常に表示 (幅を2にする)
+  set signcolumn=yes    " 常に表示 (幅を2にする)
 else
-    set signcolumn=yes      " 常に表示
+  set signcolumn=yes      " 常に表示
 endif
 if !has('nvim')
-    set completeslash=slash " 補完時に使用する slash
+  set completeslash=slash " 補完時に使用する slash
 endif
 set nostartofline       " <C-v>で選択しているときに、上下移動しても、行頭に行かないようにする
 set autoread            " Vim の外でファイルを変更した時、自動で読み込む
@@ -79,12 +79,12 @@ set backspace=indent,eol,start
 
 " Windows の場合、 @* と @+ は同じになる
 if has('win32')
-    set clipboard=unnamed
+  set clipboard=unnamed
 else
-    " https://pocke.hatenablog.com/entry/2014/10/26/145646
-    " reset
-    set clipboard&
-    set clipboard^=unnamedplus
+  " https://pocke.hatenablog.com/entry/2014/10/26/145646
+  " reset
+  set clipboard&
+  set clipboard^=unnamedplus
 endif
 
 " 余白文字を指定
@@ -138,28 +138,28 @@ set shortmess+=c
 " algorithm:histogram: histogram差分アルゴリズム を使用する
 " indent-heuristic: 内部 diff のインデントヒューリスティック？を使う
 if !has('nvim')
-    set diffopt=internal,filler,algorithm:histogram,indent-heuristic
+  set diffopt=internal,filler,algorithm:histogram,indent-heuristic
 endif
 " 垂直に分割する
 set diffopt+=vertical
 
 " ファイル閉じても、undoできるようにする
 if has('persistent_undo')
-    if has('win32')
-        if !isdirectory($LOCALAPPDATA.'/vim')
-            call mkdir($LOCALAPPDATA.'/vim')
-        endif
-        set undodir=$LOCALAPPDATA\vim
-    else
-        if !isdirectory($HOME.'/.vim/undo')
-            call mkdir($HOME.'/.vim/undo')
-        endif
-        set undodir=$HOME/.vim/undo
+  if has('win32')
+    if !isdirectory($LOCALAPPDATA.'/vim')
+      call mkdir($LOCALAPPDATA.'/vim')
     endif
-    augroup MyAutoCmdUndofile
-        autocmd!
-        autocmd BufReadPre ~/* setlocal undofile
-    augroup END
+    set undodir=$LOCALAPPDATA\vim
+  else
+    if !isdirectory($HOME.'/.vim/undo')
+      call mkdir($HOME.'/.vim/undo')
+    endif
+    set undodir=$HOME/.vim/undo
+  endif
+  augroup MyAutoCmdUndofile
+    autocmd!
+    autocmd BufReadPre ~/* setlocal undofile
+  augroup END
 endif
 
 " " fold 折畳
@@ -195,7 +195,7 @@ set formatoptions-=t
 " terminal
 " prefix
 if !has('nvim')
-    set termwinkey=<C-w>
+  set termwinkey=<C-w>
 endif
 
 set noshowmode
@@ -268,7 +268,7 @@ let &showbreak=repeat(' ', 3)
 set linebreak
 
 if !has('gui_running')
-    set termguicolors
+  set termguicolors
 endif
 
 set mouse+=n

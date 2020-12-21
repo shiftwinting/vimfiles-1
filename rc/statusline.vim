@@ -1,9 +1,9 @@
 scriptencoding utf-8
 
 augroup StatusLine
-    autocmd!
-    autocmd WinEnter,BufEnter * setlocal statusline=%!ActiveLine()
-    autocmd WinLeave,BufLeave * setlocal statusline=%!InactiveLine()
+  autocmd!
+  autocmd WinEnter,BufEnter * setlocal statusline=%!ActiveLine()
+  autocmd WinLeave,BufLeave * setlocal statusline=%!InactiveLine()
 augroup END
 
 
@@ -49,39 +49,39 @@ augroup END
 " active
 " =============================
 function! ActiveLine() abort
-    let l:statusline = ""
+  let l:statusline = ""
 
-    " %#ハイライト# % とするとハイライトでカラーリングされる
-    " %{関数()} とすると実行した結果が設定される
+  " %#ハイライト# % とするとハイライトでカラーリングされる
+  " %{関数()} とすると実行した結果が設定される
 
-    " let l:statusline .= "%#Base#"
+  " let l:statusline .= "%#Base#"
 
-    " " モード
-    " let l:statusline .= "%#Mode# %{ModeCurrent_stl()}"
+  " " モード
+  " let l:statusline .= "%#Mode# %{ModeCurrent_stl()}"
 
-    " ファイル名
-    let l:statusline .= "%#Filename_stl# %{Filename_stl()} "
+  " ファイル名
+  let l:statusline .= "%#Filename_stl# %{Filename_stl()} "
 
-    " let l:statusline .= "%#Base#"
-    " git
-    let l:statusline .= " %{GitInfo_stl()}"
+  " let l:statusline .= "%#Base#"
+  " git
+  let l:statusline .= " %{GitInfo_stl()}"
 
-    " --------------------
-    " 区切り
-    " --------------------
-    " let l:statusline .= "%#Base#"
-    let l:statusline .= "%="
+  " --------------------
+  " 区切り
+  " --------------------
+  " let l:statusline .= "%#Base#"
+  let l:statusline .= "%="
 
-    let l:statusline .= "%{Filetype_stl()}"
+  let l:statusline .= "%{Filetype_stl()}"
 
-    " let l:statusline .= " %{FileFormat_stl()}"
-    " let l:statusline .= " %{FileEncoding_stl()} "
+  " let l:statusline .= " %{FileFormat_stl()}"
+  " let l:statusline .= " %{FileEncoding_stl()} "
 
-    let l:statusline .= "%#LineInfo#"
-    let l:statusline .= " %{Percent_stl()}"
-    let l:statusline .= " : %{LineInfo_stl()}"
+  let l:statusline .= "%#LineInfo#"
+  let l:statusline .= " %{Percent_stl()}"
+  let l:statusline .= " : %{LineInfo_stl()}"
 
-    return l:statusline
+  return l:statusline
 endfunction
 
 
@@ -89,8 +89,8 @@ endfunction
 " inactive
 " =============================
 function! InactiveLine() abort
-    let l:statusline = ""
-    return l:statusline
+  let l:statusline = ""
+  return l:statusline
 endfunction
 
 
@@ -129,11 +129,11 @@ endfunction
 " git
 " =============================
 function! GitInfo_stl() abort
-    let l:branch = exists('*FugitiveHead') && !empty(FugitiveHead())  ? ''.FugitiveHead() : ''
-    if empty(l:branch)
-        return ''
-    endif
-    return l:branch
+  let l:branch = exists('*FugitiveHead') && !empty(FugitiveHead())  ? ''.FugitiveHead() : ''
+  if empty(l:branch)
+    return ''
+  endif
+  return l:branch
 endfunction
 
 
@@ -141,13 +141,13 @@ endfunction
 " Filename:
 " =============================
 function! Filename_stl() abort
-    " 無名ファイルは %:t が '' となる
-    let l:res = exists('*WebDevIconsGetFileTypeSymbol') ? trim(WebDevIconsGetFileTypeSymbol()) : ''
-    let l:res .= '['
-    let l:res .= !empty(expand('%:t')) ? expand('%:t') : 'No Name'
-    let l:res .= ']'
-    let l:res .= &modifiable && &modified ? '[+]' : ''
-    return l:res
+  " 無名ファイルは %:t が '' となる
+  let l:res = exists('*WebDevIconsGetFileTypeSymbol') ? trim(WebDevIconsGetFileTypeSymbol()) : ''
+  let l:res .= '['
+  let l:res .= !empty(expand('%:t')) ? expand('%:t') : 'No Name'
+  let l:res .= ']'
+  let l:res .= &modifiable && &modified ? '[+]' : ''
+  return l:res
 endfunction
 
 
@@ -155,7 +155,7 @@ endfunction
 " Filetype:
 " =============================
 function! Filetype_stl()
-    return empty(&filetype) ? 'no ft' : &filetype
+  return empty(&filetype) ? 'no ft' : &filetype
 endfunction
 
 
@@ -163,7 +163,7 @@ endfunction
 " FileEncoding:
 " =============================
 function! FileEncoding_stl()
-    return empty(&fileencoding) ? '' : &fileencoding
+  return empty(&fileencoding) ? '' : &fileencoding
 endfunction
 
 
@@ -171,8 +171,8 @@ endfunction
 " Fileformat:
 " =============================
 function! FileFormat_stl()
-    return exists('*WebDevIconsGetFileFormatSymbol') ? trim(WebDevIconsGetFileFormatSymbol()) :
-    \       empty(&fileformat) ? '' : &fileformat
+  return exists('*WebDevIconsGetFileFormatSymbol') ? trim(WebDevIconsGetFileFormatSymbol()) :
+  \       empty(&fileformat) ? '' : &fileformat
 endfunction
 
 
@@ -180,7 +180,7 @@ endfunction
 " Percent:
 " =============================
 function! Percent_stl()
-    return printf('%3d', line('.') * 100 / line('$')) . '%'
+  return printf('%3d', line('.') * 100 / line('$')) . '%'
 endfunction
 
 
@@ -188,5 +188,5 @@ endfunction
 " LineInfo:
 " =============================
 function! LineInfo_stl() abort
-    return line('.') . '/' . line('$') . ' : ' . printf('%-3d', col('.'))
+  return line('.') . '/' . line('$') . ' : ' . printf('%-3d', col('.'))
 endfunction
