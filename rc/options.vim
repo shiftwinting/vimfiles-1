@@ -35,7 +35,8 @@ set cmdheight=2         " 2 で慣れてしまったため
 set timeoutlen=480      " マッピングの待機時間
 set nrformats-=octal    " 07 で CTRL-A しても、010 にならないようにする
 if has('nvim')
-    set signcolumn=yes:2    " 常に表示 (幅を2にする)
+    " set signcolumn=yes:2    " 常に表示 (幅を2にする)
+    set signcolumn=yes    " 常に表示 (幅を2にする)
 else
     set signcolumn=yes      " 常に表示
 endif
@@ -202,6 +203,10 @@ set laststatus=2
 
 " パスとして = を含めない (set rtp=~/path/to/file で補完できるようにする)
 set isfname-==
+" パスとして ' を含めない (set rtp='~/path/to/file' で補完できるようにする)
+set isfname-='
+" @,48-57,/,.,-,_,+,,,#,$,%,~
+" @,48-57,/,.,-,_,+,,,#,$,%,~,'
 
 " 矩形選択の時、文字がない箇所も選択できるようにする
 set virtualedit=block
@@ -223,15 +228,16 @@ set display=lastline
 " マクロの実行が終わったら、描画する (高速化)
 set lazyredraw
 
-" よく間違える文字をハイライト
-let s:misspell = [
-\   'pritn',
-\   'funciton',
-\   'fmg',
-\   'Prinln',
-\   'improt',
-\]
-exe printf('match Error /%s/', join(s:misspell, '\|'))
+" " よく間違える文字をハイライト
+" let s:misspell = [
+" \   'pritn',
+" \   'funciton',
+" \   'fmg',
+" \   'Prinln',
+" \   'improt',
+" \]
+" exe printf('match Error /%s/', join(s:misspell, '\|'))
+
 
 " .,w,b,u,t,i
 " include
@@ -276,3 +282,9 @@ let g:vimsyn_embed = 'l'
 
 " :h file-searching
 set tags=./tags;/
+
+" CursorHold の時間
+set updatetime=400
+
+" 
+" set showtabline=0

@@ -94,6 +94,23 @@ call add(s:rules, { 'filetype': ['python'], 'char': "'", 'at': 'r\%#',  'input':
 call add(s:rules, { 'filetype': ['vim'], 'char': '<', 'at': '^\s*\(autocmd\|.[nore]map\)\s*',  'input': "<>\<Left>" })
 
 
+" ====================
+" markdown
+" ====================
+" Thanks https://github.com/yukiycino-dotfiles/dotfiles/blob/1cdadb87170aa5b1f93bd06729442e420b9f13e6/.vimrc#L2049
+call add(s:rules, { 'filetype': 'markdown', 'char': '<Space>', 'at': '^\s*\%#',         'input': "*<Space>"         })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<Space>', 'at': '^\s*\%#',         'input': "*<Space>"         })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<Space>', 'at': '^\s*\*\s\%#',     'input': "<Home><Tab><End>" })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<Tab>',   'at': '^\s*\%#',         'input': "*<Space>"         })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<Tab>',   'at': '^\s*\*\s\%#',     'input': "<Home><Tab><End>" })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<Tab>',   'at': '^\s*\*\s\w.*\%#', 'input': "<Home><Tab><End>" })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<S-Tab>', 'at': '^\s\+\s\+\%#',    'input': "<C-d>"            })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<S-Tab>', 'at': '^\s\+\*\s\+\%#',  'input': "<C-d>"            })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<S-Tab>', 'at': '^\*\s\+\%#',      'input': ""                 })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<S-Tab>', 'at': '^\%#',            'input': ""                 })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<S-Tab>', 'at': '^\* \%#',         'input': "<C-w>"            })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<C-h>',   'at': '^\*\s\%#',        'input': "<C-w>"            })
+
 for s:rule in s:rules
     call lexima#add_rule(s:rule)
 endfor

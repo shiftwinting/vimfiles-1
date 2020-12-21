@@ -22,4 +22,6 @@ let g:openbrowser_search_engines = {
 \   'neovim-vim-patch': 'https://github.com/neovim/neovim/issues?q=is%3Aopen+sort%3Aupdated-desc+{query}',
 \   'vim/commits': 'https://github.com/vim/vim/search?q={query}&type=commits',
 \   'luaroks': 'https://luarocks.org/search?q={query}',
+\   'rust_doc_std': 'https://doc.rust-lang.org/std/index.html?search={query}',
+\   'crates.io': 'https://crates.io/search?q={query}',
 \}

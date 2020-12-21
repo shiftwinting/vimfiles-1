@@ -2,7 +2,7 @@ scriptencoding utf-8
 UsePlugin 'deoppet.nvim'
 
 call deoppet#initialize()
-call deoppet#custom#option('snippets_dirs', globpath(&runtimepath, 'neosnippets', 1, 1) + [expand('$MYVIMFILES/snippets')])
+call deoppet#custom#option('snippets', map(globpath(&runtimepath, 'neosnippets', 1, 1) + [expand('$MYVIMFILES/snippets')], "{ 'path': v:val }"))
 
-imap <C-k> <Plug>(deoppet_expand)
-imap <C-f> <Plug>(deoppet_jump_forward)
+imap <expr><C-k> deoppet#expandable()? '<Plug>(deoppet_expand)' : '<Plug>(deoppet_jump_forward)'
+smap <expr><C-k> deoppet#expandable()? '<Plug>(deoppet_expand)' : '<Plug>(deoppet_jump_forward)'

@@ -1,6 +1,8 @@
-require('vimrc.mappings')
-require('vimrc.commands')
-require('vimrc.lsp.diagnostic')
+require 'vimrc.mappings'
+require 'vimrc.commands'
+require 'vimrc.lsp.diagnostic'
+
+-- require 'vimrc.qfpreview'.setup()
 
 local utils = require('vimrc.utils')
 

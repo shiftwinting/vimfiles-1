@@ -2,12 +2,35 @@ if vim.api.nvim_call_function('FindPlugin', {'lir.nvim'}) == 0 then do return en
 
 local lvim = require 'lir.vim'
 
-local actions = require'lir.float.actions'
+local actions = require'lir.actions'
+
+local function esc_path(path)
+  return vim.fn.shellescape(vim.fn.fnamemodify(path, ':p'), true)
+end
 
 local function rm()
   local path = lvim.b.context.dir .. lvim.b.context:current()
-  local esc_path = vim.fn.shellescape(vim.fn.fnamemodify(path, ':p'), true)
-  vim.api.nvim_feedkeys(':!gomi ' .. esc_path, 'n', true)
+  vim.api.nvim_feedkeys(':!gomi ' .. esc_path(path), 'n', true)
+end
+
+local function mv()
+  local path = lvim.b.context.dir .. lvim.b.context:current()
+  local cmd = string.format([[:!mv %s %s]], esc_path(path), lvim.b.context.dir)
+  vim.api.nvim_feedkeys(cmd, 'n', true)
+end
+
+local function newfile_new()
+  if vim.w.lir_is_float then
+    vim.api.nvim_feedkeys(':close | :vnew ' .. lvim.b.context.dir, 'n', true)
+  else
+    vim.api.nvim_feedkeys(':vnew ' .. lvim.b.context.dir, 'n', true)
+  end
+end
+
+local function cp()
+  local path = lvim.b.context.dir .. lvim.b.context:current()
+  local cmd = string.format([[:!cp %s %s]], esc_path(path), esc_path(lvim.b.context.dir))
+  vim.api.nvim_feedkeys(cmd, 'n', true)
 end
 
 local function yank_win_path()
@@ -31,17 +54,19 @@ require 'lir'.setup {
 
     ['K']     = actions.mkdir,
     ['N']     = actions.newfile,
+    ['S']     = newfile_new,
     ['R']     = actions.rename,
+    ['C']     = cp,
+    ['M']     = mv,
     ['@']     = actions.cd,
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
     ['D']     = rm,
     ['~']     = function() vim.cmd('edit ' .. vim.fn.expand('$HOME')) end,
     ['W']     = yank_win_path,
+  },
+  float = {
+    size_percentage = 0.5,
+    winblend = 2,
   }
 }
-
-require 'lir.float'.setup({
-  size_percentage = 0.5,
-  winblend = 2,
-})

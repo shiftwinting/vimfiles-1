@@ -8,6 +8,7 @@ require('nvim-treesitter.configs').setup{
     'c',
     -- 'query',
     'javascript',
+    'rust',
   },
   highlight = {
     enable = true,

@@ -19,11 +19,12 @@ require'telescope'.load_extension('fzy_native')
 require'telescope'.setup{
   defaults = {
     borderchars = {'-', '|', '-', '|', '+', '+', '+', '+'},
+    -- borderchars = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
     winblend = 10,
 
-    prompt_position = "top",
-    sorting_strategy = "ascending",
-    layout_strategy = "center",
+    -- prompt_position = "top",
+    -- sorting_strategy = "ascending",
+    -- layout_strategy = "center",
 
     results_title = false,
     preview_title = false,
@@ -107,8 +108,16 @@ local mappings = {
           local val = selection.value
           vim.api.nvim_command(string.format('drop %s', val))
         end)
-        -- map('i', '<CR>', actions.goto_file_selection_edit)
-        -- map('n', '<CR>', actions.goto_file_selection_edit)
+
+        local function do_edit()
+          local selection = actions.get_selected_entry(prompt_bufnr)
+          actions.close(prompt_bufnr)
+          local val = selection.value
+          vim.api.nvim_command(string.format('edit %s', val))
+        end
+
+        map('i', '<C-g><C-g>', do_edit)
+        map('n', '<C-g><C-g>', do_edit)
 
         return true
       end,

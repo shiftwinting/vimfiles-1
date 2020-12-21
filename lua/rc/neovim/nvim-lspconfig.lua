@@ -83,9 +83,7 @@ require('nlua.lsp.nvim').setup(lspconfig, {
 })
 
 
---[[
-  Vim
-]]
+--- vim
 lspconfig.vimls.setup{}
 
 
@@ -100,3 +98,14 @@ lspconfig.vimls.setup{}
 --   lsp_ext
 -- ]]
 -- require'lsp_ext'.set_signature_help_autocmd()
+
+
+--- rust_analyzer
+lspconfig.rust_analyzer.setup{}
+
+--- pyls
+lspconfig.pyls.setup{}
+
+--- efm-langserver
+-- go get github.com/mattn/efm-langserver
+require'lspconfig'.efm.setup{}

@@ -39,6 +39,7 @@ autocmd MyAutoCmd FileType smlnj        setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType sml          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType sql          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType ocaml        setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType sh           setlocal sw=2 sts=2 ts=2 et
 
 
 " 拡張子をもとにファイルタイプを設定
@@ -102,7 +103,7 @@ function! CmdlineEnterSettings() abort
   set completeopt=menu
 
   " local options
-  setlocal signcolumn=no
+  " setlocal signcolumn=no
   setlocal nonumber
 
   " insertモードで開始
@@ -223,16 +224,52 @@ endfunction
 " ====================
 " quickfix
 " ====================
+" https://github.com/neovim/neovim/pull/13079 がマージされないといけない...
+function! s:colder() abort
+  if getqflist({'nr': 0}).nr ==# 1
+    " execute getqflist({'nr': '$'}).nr .. 'chistory'
+  else
+    execute 'colder'
+  endif
+endfunction
+
+function! s:cnewer() abort
+  if getqflist({'nr': 0}).nr ==# getqflist({'nr': '$'}).nr
+    " execute '1chistory'
+  else
+    execute 'cnewer'
+  endif
+endfunction
+
 function! s:my_ft_qf() abort
   nnoremap <buffer>         p         <CR>zz<C-w>p
   nnoremap <buffer><silent> q         :<C-u>quit<CR>
   nnoremap <buffer><silent> <C-q>     :<C-u>quit<CR>
-  resize 20
 
   nnoremap <buffer><silent> j  j
   nnoremap <buffer><silent> k  k
   nnoremap <buffer><silent> gj gj
   nnoremap <buffer><silent> gk gk
+
+  nnoremap <buffer><silent> <A-l> :<C-u>call <SID>cnewer()<CR>
+  nnoremap <buffer><silent> <A-h> :<C-u>call <SID>colder()<CR>
+
+  " nnoremap <Plug>(qfpreview-toggle-auto-show) :<C-u>lua require'vimrc.qfpreview'.toggle_auto_preview()<CR>
+  " nnoremap <Plug>(qfpreview-show)             :<C-u>lua require'vimrc.qfpreview'.show()<CR>
+  " nnoremap <Plug>(qfpreview-goto-preview-win) :<C-u>noautocmd call win_gotoid(bufwinid(t:qfpreview_bufnr))<CR>
+  "
+  " nmap <buffer>         <A-k> <Plug>(qfpreview-toggle-auto-show)
+  " nmap <buffer><silent> <A-f> <Plug>(qfpreview-show)
+  " nmap <buffer><silent> <A-p> <Plug>(qfpreview-goto-preview-win)
+  "
+  " command! -buffer ToggleQfPreview lua require'vimrc.qfpreview'.toggle_auto_preview()<CR>
+  "
+  " nnoremap <buffer><silent> <CR> :<C-u>lua require'vimrc.qfpreview'.edit()<CR>
+
+  resize 20
+  set signcolumn=no
+  set cursorline
+  set number
 endfunction
 
 
@@ -264,48 +301,49 @@ function! s:my_ft_scheme() abort
 endfunction
 
 
-" ====================
-" markdown
-" ====================
-function! s:my_ft_markdown() abort
-  function! s:markdown_space() abort
-    let l:col = getpos('.')[2]
-    " 先頭でリストではなかったら、* とする
-    if l:col ==# 1 && getline('.') !~# '^\s*\* .*'
-      return '* '
-    endif
-
-    " インデント
-    let l:line = getline('.')[:l:col]
-    if l:line =~# '\v^\s*\* \s*$'
-      return "\<C-t>"
-    endif
-    return "\<Space>"
-  endfunction
-
-  inoremap <buffer>        <Tab>   <C-t>
-  inoremap <buffer>        <S-Tab> <C-d>
-  inoremap <buffer> <expr> <Space> <SID>markdown_space()
-  " inoremap <buffer> <expr> <CR>    <SID>cr()
-
-  function! s:markdown_cr() abort
-    let l:line = getline('.')
-    let l:col = getpos('.')[2]
-    " 先頭が * and 末尾にカーソルがあるとき
-    if l:line =~# '\v^\s*\*' && l:line[l:col:] ==# ''
-      return "\<C-o>:InsertNewBullet\<CR>"
-    endif
-    return "\<CR>"
-  endfunction
-
-  if exists('g:loaded_bullets_vim')
-    inoremap <silent> <buffer> <expr> <CR> <SID>markdown_cr()
-    nnoremap <silent> <buffer> o    :<C-u>InsertNewBullet<CR>
-    " vnoremap <silent> <buffer> gN   <C-u>:RenumberSelection<CR>
-    " nnoremap <silent> <buffer> gN   <C-u>:RenumberList<CR>
-    " nnoremap <silent> <buffer> <Space>x <C-u>:ToggleCheckbox<CR>
-  endif
-endfunction
+" lexima を使ってやることにした
+" " ====================
+" " markdown
+" " ====================
+" function! s:my_ft_markdown() abort
+"   function! s:markdown_space() abort
+"     let l:col = getpos('.')[2]
+"     " 先頭でリストではなかったら、* とする
+"     if l:col ==# 1 && getline('.') !~# '^\s*\* .*'
+"       return '* '
+"     endif
+"
+"     " インデント
+"     let l:line = getline('.')[:l:col]
+"     if l:line =~# '\v^\s*\* \s*$'
+"       return "\<C-t>"
+"     endif
+"     return "\<Space>"
+"   endfunction
+"
+"   inoremap <buffer>        <Tab>   <C-t>
+"   inoremap <buffer>        <S-Tab> <C-d>
+"   inoremap <buffer> <expr> <Space> <SID>markdown_space()
+"   " inoremap <buffer> <expr> <CR>    <SID>cr()
+"
+"   function! s:markdown_cr() abort
+"     let l:line = getline('.')
+"     let l:col = getpos('.')[2]
+"     " 先頭が * and 末尾にカーソルがあるとき
+"     if l:line =~# '\v^\s*\*' && l:line[l:col:] ==# ''
+"       return "\<C-o>:InsertNewBullet\<CR>"
+"     endif
+"     return "\<CR>"
+"   endfunction
+"
+"   if exists('g:loaded_bullets_vim')
+"     inoremap <silent> <buffer> <expr> <CR> <SID>markdown_cr()
+"     nnoremap <silent> <buffer> o    :<C-u>InsertNewBullet<CR>
+"     " vnoremap <silent> <buffer> gN   <C-u>:RenumberSelection<CR>
+"     " nnoremap <silent> <buffer> gN   <C-u>:RenumberList<CR>
+"     " nnoremap <silent> <buffer> <Space>x <C-u>:ToggleCheckbox<CR>
+"   endif
+" endfunction
 
 
 " ====================
@@ -462,6 +500,10 @@ function! s:my_ft_lua() abort
   " nnoremap <buffer><silent> <Space>rr  :<C-u>luafile %<CR>
   nnoremap <buffer><silent> <Space>bl :<C-u>Format<CR>
   xnoremap <buffer><silent> <Space>bl :Format<CR>
+
+  " if exists(':AlterCommand')
+  "   call altercmd#define('<buffer>', 'so', 'luaf')
+  " endif
 endfunction
 
 
@@ -488,12 +530,17 @@ endfunction
 " vim
 " ====================
 function! s:vim_format() abort
-  let l:pos = getpos('.')
+  let l:winview = winsaveview()
   normal! ggVG=
-  call setpos('.', l:pos)
+  call winrestview(l:winview)
 endfunction
 function! s:my_ft_vim() abort
   nnoremap <buffer><silent> <Space>bl :<C-u>call <SID>vim_format()<CR>
+
+  " if exists(':AlterCommand')
+  "   call altercmd#define('<buffer>', 'so', 'so %')
+  " endif
+
 endfunction
 
 
@@ -512,3 +559,10 @@ if s:isWSL() && executable(s:ahk_exe_path)
   augroup END
 endif
 
+
+" ====================
+" rust
+" ====================
+function! s:my_ft_rust() abort
+  nnoremap <Space>bl :<C-u>RustFmt<CR>
+endfunction

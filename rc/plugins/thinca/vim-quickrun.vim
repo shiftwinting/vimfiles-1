@@ -38,6 +38,9 @@ let g:quickrun_config = {
 \   },
 \   'lua': {
 \       'type': 'lua/vim'
+\   },
+\   'rust': {
+\       'exec': 'cargo run'
 \   }
 \}
 

@@ -71,7 +71,14 @@ function! s:define_my_highlight() abort
             hi LspDiagnosticsVirtualTextInformation guifg=#e2cca9
             hi LspDiagnosticsVirtualTextHint        guifg=#b47109
         endif
+
+        " hi link ScrollView Pmenu
+
     endif
+    hi TelescopeBorder guifg=#7c6f64
+    hi link TelescopePromptBorder TelescopeBorder
+    hi link TelescopeResultsBorder TelescopeBorder
+    hi link TelescopePreviewBorder TelescopeBorder
 
 endfunction
 
@@ -81,9 +88,17 @@ augroup MyColorScheme
     autocmd ColorScheme * call s:define_my_highlight()
 augroup END
 
+" gruvbox
 let g:gruvbox_material_enable_italic = 0
 let g:gruvbox_material_disable_italic_comment = 1
-let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_background = 'soft'
+
+" nord
+let g:nord_uniform_diff_background = 1
+let g:nord_underline = 1
+let g:nord_bold_vertical_split_line = 1
 
 set bg=light
+" set bg=dark
 colorscheme gruvbox-material
+" colorscheme nord

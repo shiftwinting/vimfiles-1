@@ -1,7 +1,7 @@
-local M = {}
+local utils = {}
 
 -- lua/rc/ 以下を読み込む
-M.load_rc_files = function()
+function utils.load_rc_files()
   local files = vim.api.nvim_eval(
                     [[glob(g:lua_plugin_config_dir .. '/**/*.lua', '', v:true)]])
   for _, file in ipairs(files) do
@@ -11,4 +11,19 @@ M.load_rc_files = function()
   end
 end
 
-return M
+
+--- create_augroups
+-- Source: https://teukka.tech/luanvim.html
+function utils.create_augroups(definitions)
+  for group_name, definition in pairs(definitions) do
+    vim.api.nvim_command('augroup ' .. group_name)
+    vim.api.nvim_command('autocmd!')
+    for _, def in ipairs(definition) do
+      local command = table.concat(vim.tbl_flatten {'autocmd', def}, ' ')
+      vim.api.nvim_command(command)
+    end
+    vim.api.nvim_command('augroup END')
+  end
+end
+
+return utils

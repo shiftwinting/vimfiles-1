@@ -14,6 +14,15 @@ $ brew install ghq \
                ripgrep \
                bat \
                fd \
-               go
+               go \
+               zsh
+```
 
+
+## [Neovim](https://github.com/neovim/neovim/releases/nightly)
+
+```
+$ wget https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+$ chmod u+x nvim.appimage
+$ ./nvim.appimage
 ```

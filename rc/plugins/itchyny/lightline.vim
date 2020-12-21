@@ -82,80 +82,80 @@ function! VisibleRightComponent() abort
 endfunction
 
 let g:lightline.component_function = {
-\   't_mode': 'LightlineMode',
-\   't_filename': 'LightlineFilename',
-\   't_filetype': 'LightlineFiletype',
-\   't_fileencoding': 'LightlineFileEncoding',
-\   't_fileformat': 'LightlineFileFileFormat',
-\   't_percent': 'LightlinePercent',
-\   't_lineinfo': 'LightlineLineinfo',
-\   't_inactive_mode': 'LightlineInactiveMode',
-\   't_gitbranch': 'LightlineGitBranch',
-\   't_eskk_mode': 'LightlineSKKMode',
+\   't_mode': 'L_mode',
+\   't_filename': 'L_filename',
+\   't_filetype': 'L_filetype',
+\   't_fileencoding': 'L_fileEncoding',
+\   't_fileformat': 'L_fileFileFormat',
+\   't_percent': 'L_percent',
+\   't_lineinfo': 'L_lineinfo',
+\   't_inactive_mode': 'L_inactiveMode',
+\   't_gitbranch': 'L_gitBranch',
+\   't_eskk_mode': 'L_sKKMode',
 \   't_gitfetch': 'gitstatus#fetch_status',
-\   't_browsersync': 'LightlineBrowserSync',
-\   't_sasswatch': 'LightlineSassWatch',
+\   't_browsersync': 'L_browserSync',
+\   't_sasswatch': 'L_sassWatch',
 \}
 
-function! LightlineMode() abort
+function! L_mode() abort
     return &filetype ==# 'vaffle' ? 'Vaffle' :
     \       lightline#mode()
 endfunction
 
-function! LightlineFilename() abort
+function! L_filename() abort
     " 無名ファイルは %:t が '' となる
     return &filetype ==# 'molder' ? '[MOLDER] ' . expand('%:t') :
-    \       (expand('%:t') !=# '' ? expand('%:t') : 'No Name') .
-    \       (&modifiable && &modified ? '[+]' : '')
+    \       &filetype ==# 'qf' ? '[QuickFix]' :
+    \       (expand('%:t') !=# '' ? expand('%:t') : 'No Name') . (&modifiable && &modified ? '[+]' : '')
 endfunction
 
-function! LightlineFiletype()
+function! L_filetype()
     return  VisibleRightComponent() ?
     \       (strlen(&filetype) ? &filetype : 'no ft') :
     \       ''
 endfunction
 
-function! LightlineFileEncoding()
+function! L_fileEncoding()
     return  VisibleRightComponent() ?
     \       (&fileencoding !=# '' ? &fileencoding : &fileencoding) :
     \       ''
 endfunction
 
-function! LightlineFileFileFormat()
+function! L_fileFileFormat()
     return  VisibleRightComponent() ?
     \       &fileformat :
     \       ''
 endfunction
 
-function! LightlinePercent()
+function! L_percent()
     return  VisibleRightComponent() ?
     \       printf('%3d', line('.') * 100 / line('$')) . '%' :
     \       ''
 endfunction
 
-function! LightlineLineinfo() abort
+function! L_lineinfo() abort
     return  VisibleRightComponent() ?
     \       line('.') . ':' . printf('%-3d', col('.')) :
     \       ''
 endfunction
 
-function! LightlineInactiveMode() abort
+function! L_inactiveMode() abort
     return &filetype ==# 'denite-filter' ? 'FILTER' :
     \       &filetype ==# 'denite' ? 'Denite' :
     \       ''
 endfunction
 
-function! LightlineGitBranch() abort
+function! L_gitBranch() abort
     return exists('*FugitiveHead') && !empty(FugitiveHead())  ? ''.FugitiveHead() : ''
 endfunction
 
-function! LightlineBrowserSync() abort
+function! L_browserSync() abort
     " return !empty(browsersync#port()) ? '󿤺:'.browsersync#port() : ''
     if !exists('*browsersync#port') | return '' | endif
     return !empty(browsersync#port()) ? ':'.browsersync#port() : ''
 endfunction
 
-function! LightlineSassWatch() abort
+function! L_sassWatch() abort
     if !exists('*sasswatch#is_watching') | return '' | endif
     return sasswatch#is_watching(expand('%:p')) ? '' : ''
 endfunction

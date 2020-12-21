@@ -92,8 +92,10 @@ local mappings = {
 
   -- 上下の空白に移動
   -- https://twitter.com/Linda_pp/status/1108692192837533696
-  ["n<C-j>"] = {'}'},
-  ["n<C-k>"] = {'{'},
+  ["n<C-j>"] = {[[:<C-u>keepjumps normal! '}<CR>]]},
+  ["n<C-k>"] = {[[:<C-u>keepjumps normal! '{<CR>]]},
+  -- ["n<C-j>"] = {'}'},
+  -- ["n<C-k>"] = {'{'},
   ["x<C-j>"] = {'}'},
   ["x<C-k>"] = {'{'},
 
@@ -141,6 +143,7 @@ local mappings = {
   ["n/"] = {[[/\v]]},
 
   ["n<Space>/"] = {[[/\V<C-r>+<CR>]]},
+  ["n<Space>s/"] = {[[:vim //g %<Left><Left><Left><Left>]]},
 
   -- 置換
   ["n<Space>s<Space>"] = {[[:%s///g<Left><Left>]]},
@@ -222,7 +225,11 @@ local mappings = {
 
   ['c<C-x>'] = {[[<C-r>=expand('%:p')<CR>]], silent = false},
 
-  ['n<Space>e'] = { function () vim.cmd[[e!]] end },
+  ['n<Space>e'] = { function ()
+    local winview = vim.fn.winsaveview()
+    vim.cmd[[e!]]
+    vim.fn.winrestview(winview)
+  end },
 
   --- toggle quickfix
   ['n<A-q>'] = {
