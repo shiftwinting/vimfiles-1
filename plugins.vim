@@ -172,6 +172,7 @@ Plug 'nvim-lua/telescope.nvim'
     " Plug 'nvim-treesitter/playground'
 Plug 'norcalli/nvim-colorizer.lua'
 " Plug '~/.ghq/github.com/shoumodip/ido.nvim'
+Plug 'kevinhwang91/nvim-hlslens'
 
 " ------------------------
 "  Languages
