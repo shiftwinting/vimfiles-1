@@ -21,33 +21,24 @@ let g:deol#extra_options = {
 \   'term_kill': 'kill',
 \}
 
-let s:deol_term_command = 'zsh'
+nnoremap <silent><A-t> :<C-u>call DeolToggle()<CR>
+tnoremap <silent><A-t> <C-\><C-n>:<C-u>call DeolToggle()<CR>
 
-command! ShowDeol call <SID>show_deol(tabpagenr())
-
-nnoremap <silent><A-t> :<C-u>call ToggleDeol()<CR>
-tnoremap <silent><A-t> <C-\><C-n>:<C-u>call ToggleDeol()<CR>
 
 " ====================
-" deol を表示
-" 
-" s:show_deol(tabnr[, command])
+" deol の表示をトグル
 " ====================
-function! s:show_deol(tabnr, ...) abort
-    let l:command = get(a:, 1, &shell)
-    let l:filetype = get(a:, 2, 'deoledit')
-
+function! DeolToggle() abort
+  if s:is_show_deol()
+    " close
+    execute 'Deol -toggle'
+  else
+    " open
     botright 25new
     setlocal winfixheight
-
-    if !exists('t:deol') || !bufexists(t:deol.bufnr)
-        " 新規作成
-        execute 'Deol -edit -no-start-insert -command=' . l:command . ' -edit-filetype=' . l:filetype
-    else
-        Deol -edit -no-start-insert
-    endif
+    execute 'Deol -toggle -edit -no-start-insert -edit-filetype=deoledit -command=' . &shell
+  endif
 endfunction
-
 
 augroup MyDeol
     autocmd!
@@ -57,36 +48,18 @@ autocmd MyDeol Filetype   deol     call <SID>deol_settings()
 autocmd MyDeol Filetype   deoledit call <SID>deol_editor_settings()
 autocmd MyDeol DirChanged *        call <SID>deol_cd()
 
-
-" ====================
-" DirChanged:
-" ====================
-function! s:DirChanged(file) abort
-    call t:deol.cd(a:file)
+function! s:deol_cd() abort
+    call deol#cd(fnamemodify(expand('<afile>'), ':p:h'))
 endfunction
 
 function! s:deol_settings() abort
     if has('nvim')
         tnoremap <buffer><silent> <A-e> <C-\><C-N>:call deol#edit()<CR>
         inoremap <buffer><silent> <A-e> <C-\><C-N>:call deol#edit()<CR>
-        tnoremap <buffer>         <A-h> <C-\><C-N><C-w>h
-        tnoremap <buffer>         <A-j> <C-\><C-N><C-w>j
-        tnoremap <buffer>         <A-k> <C-\><C-N><C-w>k
-        tnoremap <buffer>         <A-l> <C-\><C-N><C-w>l
-        inoremap <buffer>         <A-h> <C-\><C-N><C-w>h
-        inoremap <buffer>         <A-j> <C-\><C-N><C-w>j
-        inoremap <buffer>         <A-k> <C-\><C-N><C-w>k
-        inoremap <buffer>         <A-l> <C-\><C-N><C-w>l
     else
-        tnoremap <buffer><silent>       <A-e> <C-w>:call         deol#edit()<CR>
+        tnoremap <buffer><silent>   <A-e> <C-w>:call deol#edit()<CR>
     endif
-    " nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>normal! i<CR>
     nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>call deol#edit()<CR>
-    nnoremap <buffer><silent>       <A-e> <Esc>:call         <SID>hide_deol(tabpagenr())<CR>
-
-    " " "\<Right>" じゃだめだった
-    " nnoremap <buffer><silent><expr> A     'i' . repeat("<Right>", len(getline('.')))
-    " nnoremap <buffer><silent><expr> I     'i' . repeat("<Left>",  len(getline('.')))
 
     " 不要なマッピングを削除
     nnoremap <buffer>               <C-o> <Nop>
@@ -95,74 +68,43 @@ function! s:deol_settings() abort
     nnoremap <buffer>               <C-z> <Nop>
     nnoremap <buffer>               e     e
 
-    " " :q --- QuitPre -> WinLeave
-    " autocmd MyDeol QuitPre  <buffer> call <SID>QuitPre()
-    " autocmd MyDeol WinLeave <buffer> call <SID>WinLeave()
-
     " git dirty とかで飛べるようにするため
     " setlocal path+=FugitiveWorkTree()
-
 endfunction
 
 
+function! s:exec_line(new_line) abort
+  exec "normal \<Plug>(deol_execute_line)"
+  if a:new_line
+    " 行挿入 (o)
+    call feedkeys('o', 'n')
+  endif
+endfunction
+
 function! s:deol_editor_settings() abort
-    command! -buffer -range -bang SendEditor call <SID>send_editor(<line1>, <line2>, <bang>0)
-
-    " if exists('t:deol_repl')
-    "     return
-    " endif
-
-    " autocmd MyDeol TextChangedI,TextChangedP <buffer> call <SID>sign_place()
+    command! -buffer -bang DeolExecuteLine call <SID>exec_line(<bang>0)
 
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
     nnoremap <buffer><silent> <A-e> :<C-u>call <SID>deol_kill_editor()<CR>
-    inoremap <buffer><silent> <A-t> <Esc>:call <SID>hide_deol(tabpagenr())<CR>
-    nnoremap <buffer><silent> <A-t> :<C-u>call <SID>hide_deol(tabpagenr())<CR>
+    inoremap <buffer><silent> <A-t> <Esc>:call <SID>hide_deol()<CR>
+    nnoremap <buffer><silent> <A-t> :<C-u>call <SID>hide_deol()<CR>
 
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
 
-    nnoremap <buffer><silent> <CR>  :<C-u>SendEditor<CR>
-    inoremap <buffer><silent> <CR>  <Esc>:SendEditor!<CR>
-    vnoremap <buffer><silent> <CR>  :SendEditor<CR>
+    nnoremap <buffer><silent> <CR> :<C-u>DeolExecuteLine<CR>
+    inoremap <buffer><silent> <CR>  <Esc>:DeolExecuteLine!<CR>
 
     nnoremap <buffer><silent> cd :<C-u>Leaderf fd_dir --popup<CR>
 
     resize 5
     setlocal winfixheight
-
-    " call s:sign_place()
-
     setlocal filetype=zsh
-
 endfunction
-
-
-function! s:deol_cd() abort
-    call deol#cd(fnamemodify(expand('<afile>'), ':p:h'))
-endfunction
-
-" ====================
-" 表示/非表示を切り替える
-" 
-" ToggleDeol([tabnr])
-" ====================
-function! ToggleDeol(...) abort
-    let l:tabnr = get(a:, 1, tabpagenr())
-
-    if s:is_show_deol(l:tabnr)
-        call s:hide_deol(l:tabnr)
-    else
-        call s:show_deol(l:tabnr, s:deol_term_command)
-    endif
-endfunction
-
 
 
 " ====================
 " deol-edit を削除
-"
-" s:deol_kill_editor()
 " ====================
 function! s:deol_kill_editor() abort
     if !exists('t:deol')
@@ -176,14 +118,10 @@ function! s:deol_kill_editor() abort
 endfunction
 
 
-
-
 " ====================
 " deol を非表示にする
-" 
-" s:hide_deol(tabnr)
 " ====================
-function! s:hide_deol(tabnr) abort
+function! s:hide_deol() abort
     if !exists('t:deol')
         " まだ、作られていない場合、終わり
         return
@@ -191,28 +129,12 @@ function! s:hide_deol(tabnr) abort
 
     if s:is_show_deol_edit()
         call s:deol_kill_editor()
-        " call deol#kill_editor()
     endif
 
     call win_gotoid(bufwinid(t:deol.bufnr))
     if t:deol.bufnr ==# bufnr()
         execute 'hide'
     endif
-
-endfunction
-
-
-function! s:is_show_deol(tabnr) abort
-    if !exists('t:deol')
-        " まだ、作られていない場合、終わり、表示すらされないため
-        return v:false
-    endif
-
-    if empty(win_findbuf(t:deol.bufnr))
-        " バッファが表示されているウィンドウが見つからない
-        return v:false
-    endif
-    return v:true
 endfunction
 
 
@@ -221,22 +143,16 @@ endfunction
 "
 " s:is_show_deol_edit([tabnr])
 " ====================
-function! s:is_show_deol_edit(...) abort
+function! s:is_show_deol_edit() abort
     if !exists('t:deol')
         " まだ、作られていない場合、終わり、表示すらされないため
         return v:false
     endif
 
-    " 全タブの edit_bufnr のウィンドウを返す
-    let l:winid_list = win_findbuf(t:deol.edit_bufnr)
-    " カレントタブのウィンドウを取得
-    call filter(l:winid_list, 'win_id2tabwin(v:val)[0] ==# tabpagenr()')
-    if empty(l:winid_list)
-        return v:false
-    endif
-
-    return l:winid_list[0] ==# t:deol.edit_winid
+    " バッファが表示されているウィンドウが見つかったら true
+    return !empty(win_findbuf(t:deol.edit_bufnr))
 endfunction
+
 
 " ====================
 " バッファがあれば、削除する
@@ -249,56 +165,70 @@ endfunction
 
 
 " ====================
-" editor の行を送信
-" 
-" s:send_editor([insert_mode])
+" Deol が表示されているか
 " ====================
-function! s:send_editor(line1, line2, new_line) abort
-    let l:lines = getline(a:line1, a:line2)
-
-    if !has('nvim')
-        for l:line in l:lines
-            call s:save_history_line(l:line)
-        endfor
+function! s:is_show_deol() abort
+    if !exists('t:deol')
+        " まだ、作られていない場合、終わり、表示すらされないため
+        return v:false
     endif
 
-    exec printf("%d,%dnormal \<Plug>(deol_execute_line)", a:line1, a:line2)
-
-    " 複数行なら、最後の行にジャンプ
-    if !empty(visualmode()) && a:line1 !=# a:line2
-        normal! '>
-    endif
-
-    if a:new_line
-        " 行挿入 (o)
-        call feedkeys('o', 'n')
-    else
-        if !empty(visualmode()) && a:line1 !=# a:line2
-            normal! '>j
-        endif
-    endif
+    " バッファが表示されているウィンドウが見つかったら true
+    return !empty(win_findbuf(t:deol.bufnr))
 endfunction
 
 
-" ====================
-" 履歴に保存
-" ====================
-function! s:save_history_line(line) abort
-    if empty(a:line)
-        return
-    endif
-
-    " すでに履歴にあったら末尾に移動する
-    let l:history = readfile(g:deol#shell_history_path)
-    if len(l:history) > g:deol#shell_history_max
-        " [1, 2, 3, 4, 5][-3:] ==# [3, 4, 5]
-        let l:history = l:history[-g:deol#shell_history_max:]
-    endif
-    let l:idx = index(l:history, a:line)
-    if l:idx > -1
-        " 削除
-        call remove(l:history, l:idx)
-    endif
-    call add(l:history, a:line)
-    call writefile(l:history, g:deol#shell_history_path)
-endfunction
+" " ====================
+" " editor の行を送信
+" " 
+" " s:send_editor([insert_mode])
+" " ====================
+" function! s:send_editor(line1, line2, new_line) abort
+"     let l:lines = getline(a:line1, a:line2)
+"
+"     if !has('nvim')
+"         for l:line in l:lines
+"             call s:save_history_line(l:line)
+"         endfor
+"     endif
+"
+"     exec printf("%d,%dnormal \<Plug>(deol_execute_line)", a:line1, a:line2)
+"
+"     " 複数行なら、最後の行にジャンプ
+"     if !empty(visualmode()) && a:line1 !=# a:line2
+"         normal! '>
+"     endif
+"
+"     if a:new_line
+"         " 行挿入 (o)
+"         call feedkeys('o', 'n')
+"     else
+"         if !empty(visualmode()) && a:line1 !=# a:line2
+"             normal! '>j
+"         endif
+"     endif
+" endfunction
+"
+"
+" " ====================
+" " 履歴に保存
+" " ====================
+" function! s:save_history_line(line) abort
+"     if empty(a:line)
+"         return
+"     endif
+"
+"     " すでに履歴にあったら末尾に移動する
+"     let l:history = readfile(g:deol#shell_history_path)
+"     if len(l:history) > g:deol#shell_history_max
+"         " [1, 2, 3, 4, 5][-3:] ==# [3, 4, 5]
+"         let l:history = l:history[-g:deol#shell_history_max:]
+"     endif
+"     let l:idx = index(l:history, a:line)
+"     if l:idx > -1
+"         " 削除
+"         call remove(l:history, l:idx)
+"     endif
+"     call add(l:history, a:line)
+"     call writefile(l:history, g:deol#shell_history_path)
+" endfunction
