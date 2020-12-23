@@ -72,6 +72,8 @@ local mappings = {
 
   -- 分割ウィンドウを開く
   ["nsn"] = {[[:<C-u>new<CR>]]},
+  ["nsp"] = {[[:<C-u>split<CR>]]},
+  ["nsv"] = {[[:<C-u>vsplit<CR>]]},
 
   -- カレントウィンドウを新規タブで開く
   ["nst"] = {'<C-w>T'},
