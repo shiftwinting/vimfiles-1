@@ -9,6 +9,8 @@ local finders = require('telescope.finders')
 local previewers = require('telescope.previewers')
 local conf = require('telescope.config').values
 
+local my_entry_maker = require('vimrc.telescope.make_entry')
+
 vim.env.BAT_THEME = 'gruvbox-light'
 
 local my_actions = require('vimrc.telescope.actions')
@@ -25,6 +27,7 @@ require'telescope'.setup{
     -- prompt_position = "top",
     -- sorting_strategy = "ascending",
     -- layout_strategy = "center",
+    layout_strategy = 'horizontal',
 
     results_title = false,
     preview_title = false,
@@ -100,6 +103,9 @@ local mappings = {
       shorten_path = false,
       show_all_buffers = true,
       previewer = false,
+      entry_maker = my_entry_maker.gen_from_buffer_like_leaderf(),
+      -- sorter = sorters.get_fuzzy_file(),
+      -- sorter = sorters.get_fzy_sorter(),
 
       attach_mappings = function(prompt_bufnr, map)
         actions.goto_file_selection_edit:replace(function ()
