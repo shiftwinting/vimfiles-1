@@ -255,7 +255,10 @@ local mappings = {
         vim.cmd('botright copen')
       end
     end
-  }
+  },
+
+  ['n<Space>9'] = {[[:cprev<CR>]]},
+  ['n<Space>0'] = {[[:cnext<CR>]]},
 
 }
 

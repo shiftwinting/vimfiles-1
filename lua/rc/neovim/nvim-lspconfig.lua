@@ -2,24 +2,25 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-lspconfig'}) == 0 then do ret
 
 local neorocks = require'plenary.neorocks'
 
---[[
-  lsp-status
-]]
-local lsp_status = require('lsp-status')
-lsp_status.config {
-  kind_labels = vim.g.completion_customize_lsp_label,
-  indicator_info = '',
-  status_symbol = ''
-}
-lsp_status.register_progress()
+-- --[[
+--   lsp-status
+-- ]]
+-- local lsp_status = require('lsp-status')
+-- lsp_status.config {
+--   kind_labels = vim.g.completion_customize_lsp_label,
+--   indicator_info = '',
+--   status_symbol = ''
+-- }
+-- lsp_status.register_progress()
 
 
 local on_attach = function(client)
   local mappings = {
-    ['n<C-]>'] = {'<cmd>lua vim.lsp.buf.definition()<CR>'}
+    -- ['n<C-]>'] = {'<cmd>lua vim.lsp.buf.definition()<CR>'}
+    ['nK'] = {':lua vim.lsp.buf.hover()<CR>'}
   }
   nvim_apply_mappings(mappings, {buffer = true})
-  lsp_status.on_attach(client)
+  -- lsp_status.on_attach(client)
 end
 
 local lspconfig = require'lspconfig'
@@ -101,7 +102,17 @@ lspconfig.vimls.setup{}
 
 
 --- rust_analyzer
-lspconfig.rust_analyzer.setup{}
+lspconfig.rust_analyzer.setup{
+  on_attach = on_attach,
+  handlers = {
+    ["textDocument/publishDiagnostics"] = vim.lsp.with(
+      vim.lsp.diagnostic.on_publish_diagnostics, {
+        -- Disable virtual_text
+        virtual_text = false,
+      }
+    )
+  },
+}
 
 --- pyls
 lspconfig.pyls.setup{}

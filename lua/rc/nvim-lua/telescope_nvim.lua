@@ -104,8 +104,6 @@ local mappings = {
       show_all_buffers = true,
       previewer = false,
       entry_maker = my_entry_maker.gen_from_buffer_like_leaderf(),
-      -- sorter = sorters.get_fuzzy_file(),
-      -- sorter = sorters.get_fzy_sorter(),
 
       attach_mappings = function(prompt_bufnr, map)
         actions.goto_file_selection_edit:replace(function ()
