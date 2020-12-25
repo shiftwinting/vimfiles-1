@@ -10,6 +10,8 @@ local make_entry = require('telescope.make_entry')
 local path = require('telescope.path')
 local previewers = require('telescope.previewers')
 
+local my_make_entry = require('vimrc.telescope.make_entry')
+
 local format = string.format
 
 -- -- from make_entry.lua
@@ -75,17 +77,19 @@ M.mru = function(opts)
   opts = opts or {}
   opts.shorten_path = opts.shorten_path or true
 
+  local results = vim.api.nvim_eval('mr#mru#list()[:100]')
+
   pickers.new(opts, {
     prompt_title = 'mru',
     finder = finders.new_table {
-      results = vim.api.nvim_eval('mr#mru#list()[:100]'),
-      entry_maker = make_entry.gen_from_file()
+      results = results,
+      -- entry_maker = make_entry.gen_from_file(),
+      entry_maker = my_make_entry.gen_from_mru_better({results = results}),
     },
     -- sortings.fuzzy_with_index_bias で順序が変らずに検索できる
     -- sorter = sorters.fuzzy_with_index_bias(),
     sorter = conf.file_sorter({}),
     -- previewer = previewers.cat.new({}),
-    previewer = false,
   }):find()
 end
 
