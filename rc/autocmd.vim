@@ -565,4 +565,5 @@ endif
 " ====================
 function! s:my_ft_rust() abort
   nnoremap <Space>bl :<C-u>RustFmt<CR>
+  nnoremap <Space>rr :<C-u>Crun<CR>
 endfunction

@@ -221,10 +221,6 @@ local mappings = {
     vim.bo.filetype = ft
   end },
 
-  -- lir.nvim
-  -- ['n<C-e>'] = {[[:<C-u>edit %:p:h<CR>]], silent = true},
-  ['n<C-e>'] = { require'lir.float'.toggle },
-
   ['c<C-x>'] = {[[<C-r>=expand('%:p')<CR>]], silent = false},
 
   ['n<Space>e'] = { function ()
@@ -259,6 +255,8 @@ local mappings = {
 
   ['n<Space>9'] = {[[:cprev<CR>]]},
   ['n<Space>0'] = {[[:cnext<CR>]]},
+
+  ['n;'] = {':'}
 
 }
 

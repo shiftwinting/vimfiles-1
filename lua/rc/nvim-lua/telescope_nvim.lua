@@ -105,23 +105,23 @@ local mappings = {
       previewer = false,
       entry_maker = my_entry_maker.gen_from_buffer_like_leaderf(),
 
+      -- <C-t> で他のバッファ
       attach_mappings = function(prompt_bufnr, map)
+        actions.goto_file_selection_tabedit:replace(function ()
+          local selection = actions.get_selected_entry(prompt_bufnr)
+          actions.close(prompt_bufnr)
+          local val = selection.value
+          vim.fn['vimrc#drop_or_tabedit'](val)
+          -- vim.api.nvim_command(string.format('drop %s', val))
+        end)
+
         actions.goto_file_selection_edit:replace(function ()
           local selection = actions.get_selected_entry(prompt_bufnr)
           actions.close(prompt_bufnr)
           local val = selection.value
-          vim.api.nvim_command(string.format('drop %s', val))
-        end)
-
-        local function do_edit()
-          local selection = actions.get_selected_entry(prompt_bufnr)
-          actions.close(prompt_bufnr)
-          local val = selection.value
+          print(val)
           vim.api.nvim_command(string.format('edit %s', val))
-        end
-
-        map('i', '<C-g><C-g>', do_edit)
-        map('n', '<C-g><C-g>', do_edit)
+        end)
 
         return true
       end,
@@ -173,10 +173,22 @@ local mappings = {
     require'telescope.builtin.lsp'.references {}
   end},
 
-
   -- git
   ['n<Space>gb'] = {function()
-    require'telescope.builtin.git'.branches {}
+    require'telescope.builtin.git'.branches {
+      attach_mappings = function(prompt_bufnr, map)
+        local function do_yank()
+          local selection = actions.get_selected_entry(prompt_bufnr)
+          actions.close(prompt_bufnr)
+          local val = selection.value
+          vim.fn.setreg(vim.v.register, val)
+          print('Yank branch name: ' .. val)
+        end
+
+        map('n', 'Y', do_yank)
+        return true
+      end
+    }
   end},
 
 }

@@ -30,13 +30,26 @@ local extend = function(a, b)
 end
 
 
--- buffers 
+-- buffers
+
+-- 表示したくないバッファ
+local invalid_regex_list = {'^term://', '^deol%-edit@'}
+
+local is_valid_bufnr = function(bufnr)
+  for _, re in ipairs(invalid_regex_list) do
+    if vim.api.nvim_buf_get_name(bufnr):match(re) then
+      return false
+    end
+  end
+  return true
+end
+
 function make_entry.gen_from_buffer_like_leaderf(opts)
   opts = opts or {}
   local default_icons, _ = devicons.get_icon('file', '', {default = true})
 
   local bufnrs = filter(function(b)
-    return 1 == vim.fn.buflisted(b)
+    return 1 == vim.fn.buflisted(b) and is_valid_bufnr(b)
   end, vim.api.nvim_list_bufs())
 
   local max_bufnr = math.max(unpack(bufnrs))
@@ -89,7 +102,7 @@ function make_entry.gen_from_buffer_like_leaderf(opts)
     local icons, highlight = devicons.get_icon(bufname, string.match(bufname, '%a+$'), { default = true })
 
     return {
-      valid = true,
+      valid = is_valid_bufnr(entry.bufnr),
 
       value = bufname,
       -- バッファ番号、ファイル名のみ、検索できるようにする

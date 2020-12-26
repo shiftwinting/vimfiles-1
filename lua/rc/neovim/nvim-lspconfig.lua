@@ -2,6 +2,27 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-lspconfig'}) == 0 then do ret
 
 local neorocks = require'plenary.neorocks'
 
+-- 診断結果の設定
+--   LSP の仕様: https://github.com/tennashi/lsp_spec_ja#publishdiagnostics-notification
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- INSERT モードのときは、更新しない
+    update_in_insert = false,
+    -- 下線を引く
+    underline = true,
+    virtual_text = false,
+    -- virtual_text = {
+    --   prefix = '',
+    --   spacing = 4
+    -- },
+  }
+)
+local mappings = {
+  ['n<A-j>'] = {':<C-u>lua vim.lsp.diagnostic.goto_next()<CR>'},
+  ['n<A-k>'] ={ ':<C-u>lua vim.lsp.diagnostic.goto_prev()<CR>'},
+}
+nvim_apply_mappings(mappings, {silent = true, noremap = true})
+
 -- --[[
 --   lsp-status
 -- ]]
@@ -92,7 +113,7 @@ lspconfig.vimls.setup{}
 -- -- install https://clangd.llvm.org/installation.html
 -- -- sudo apt-get install clangd-9
 -- -- sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
--- lspconfig.clangd.setup {}
+lspconfig.clangd.setup {}
 
 
 -- --[[
@@ -104,19 +125,11 @@ lspconfig.vimls.setup{}
 --- rust_analyzer
 lspconfig.rust_analyzer.setup{
   on_attach = on_attach,
-  handlers = {
-    ["textDocument/publishDiagnostics"] = vim.lsp.with(
-      vim.lsp.diagnostic.on_publish_diagnostics, {
-        -- Disable virtual_text
-        virtual_text = false,
-      }
-    )
-  },
 }
 
 --- pyls
 lspconfig.pyls.setup{}
 
---- efm-langserver
--- go get github.com/mattn/efm-langserver
-require'lspconfig'.efm.setup{}
+-- --- efm-langserver
+-- -- go get github.com/mattn/efm-langserver
+-- require'lspconfig'.efm.setup{}

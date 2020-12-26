@@ -70,3 +70,14 @@ require 'lir'.setup {
     winblend = 2,
   }
 }
+
+nvim_apply_mappings({
+  ['n<C-e>'] = { function()
+    local dir = nil
+    local bufname = vim.fn.bufname()
+    if bufname:match('deol%-edit@') or bufname:match('term://') then
+      dir = vim.fn.getcwd()
+    end
+    require'lir.float'.toggle(dir)
+  end },
+}, {silent = true; noremap = true})

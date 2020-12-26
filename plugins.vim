@@ -13,7 +13,7 @@ Plug 'vim-jp/syntax-vim-ex'
 Plug 'vim-jp/vital.vim'
 Plug 'rbtnn/vim-gloaded'
 " Plug 'y0za/vim-reading-vimrc'
-Plug '~/.ghq/github.com/tamago324/vim-reading-vimrc'
+" Plug '~/.ghq/github.com/tamago324/vim-reading-vimrc'
 
 Plug 'andymass/vim-matchup'
 Plug 'glidenote/memolist.vim'
@@ -30,6 +30,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'voldikss/vim-translator'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-grepper'
+" Plug 'tsuyoshicho/vim-fg'
 " Plug 'mtth/scratch.vim'
 " Plug 'bfrg/vim-qf-preview'
 " Plug 'romainl/vim-qf'
@@ -93,6 +94,7 @@ Plug 'gisphm/vim-gitignore'
 Plug 'tpope/vim-fugitive',
     Plug 'junegunn/gv.vim'
     Plug 'tpope/vim-dispatch'
+" Plug 'skanehira/gh.vim'
 
 " ------------------------
 "  colorscheme
@@ -110,8 +112,8 @@ Plug 'sainnhe/gruvbox-material'
 " Plug 'drewtempelmeyer/palenight.vim'
 " Plug 'adrian5/oceanic-next-vim'
 " Plug 'lifepillar/vim-gruvbox8'
-Plug 'sainnhe/edge'
-Plug 'arcticicestudio/nord-vim'
+" Plug 'sainnhe/edge'
+" Plug 'arcticicestudio/nord-vim'
 
 " ------------------------
 "  operator
@@ -133,7 +135,7 @@ Plug 'Yggdroot/LeaderF',
 " ------------------------
 "  dark power
 " ------------------------
-Plug 'Shougo/echodoc.vim',
+" Plug 'Shougo/echodoc.vim',
 " Plug 'Shougo/denite.nvim'
 " Plug 'Shougo/defx.nvim'
 Plug 'Shougo/deol.nvim'
@@ -152,7 +154,7 @@ Plug 'euclidianAce/BetterLua.vim'
 Plug 'neovim/nvim-lspconfig'
     " Plug 'jubnzv/virtual-types.nvim'
     " Plug 'h-michael/lsp-ext.nvim'
-    Plug 'nvim-lua/lsp-status.nvim'
+    " Plug 'nvim-lua/lsp-status.nvim'
     " Plug 'RishabhRD/nvim-lsputils'
     "     Plug 'RishabhRD/popfix'
     " Plug 'nvim-lua/lsp_extensions.nvim'
@@ -161,7 +163,8 @@ Plug 'hrsh7th/nvim-compe'
     " Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'liuchengxu/vista.vim'
 Plug 'mhartington/formatter.nvim'
-Plug 'nvim-lua/telescope.nvim'
+" Plug 'nvim-lua/telescope.nvim'
+Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'
     Plug 'nvim-lua/popup.nvim'
     " Plug '/home/tamago324/.ghq/github.com/nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'
@@ -172,7 +175,8 @@ Plug 'nvim-lua/telescope.nvim'
     " Plug 'nvim-treesitter/playground'
 Plug 'norcalli/nvim-colorizer.lua'
 " Plug '~/.ghq/github.com/shoumodip/ido.nvim'
-Plug 'kevinhwang91/nvim-hlslens'
+" Plug 'kevinhwang91/nvim-hlslens'
+" Plug 'pwntester/octo.nvim'
 
 " ------------------------
 "  Languages
@@ -180,7 +184,7 @@ Plug 'kevinhwang91/nvim-hlslens'
 
 " Lua
 Plug 'tjdevries/nlua.nvim'
-Plug 'Koihik/vscode-lua-format'   " binary のため
+" Plug 'Koihik/vscode-lua-format'   " binary のため
 
 " Plug 'bakpakin/fennel.vim'
 

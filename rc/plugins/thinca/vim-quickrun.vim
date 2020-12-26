@@ -39,13 +39,13 @@ let g:quickrun_config = {
 \   'lua': {
 \       'type': 'lua/vim'
 \   },
-\   'rust': {
-\       'exec': 'cargo run'
-\   }
 \}
 
 " \   'c': {
 " \       'exec': 'clang.exe %s && a'
+" \   }
+" \   'rust': {
+" \       'exec': 'cargo run'
 " \   }
 
 nmap <Space>rr <Plug>(quickrun)
