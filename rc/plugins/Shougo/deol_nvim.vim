@@ -64,7 +64,7 @@ function! s:deol_settings() abort
     " 不要なマッピングを削除
     nnoremap <buffer>               <C-o> <Nop>
     nnoremap <buffer>               <C-i> <Nop>
-    nnoremap <buffer>               <C-e> <Nop>
+    " nnoremap <buffer>               <C-e> <Nop>
     nnoremap <buffer>               <C-z> <Nop>
     nnoremap <buffer>               e     e
 
@@ -79,6 +79,18 @@ function! s:exec_line(new_line) abort
     " 行挿入 (o)
     call feedkeys('o', 'n')
   endif
+
+  " 最終行に移動する (この関数の実行が終わるまで、スクロールされない？)
+  " From https://github.com/hrsh7th/vim-vital-vs/blob/b27285abeefa55bc6cdc90e59e496b28ea5053c4/autoload/vital/__vital__/VS/Vim/Window.vim#L24
+  let l:curwin = nvim_get_current_win()
+  noautocmd keepalt keepjumps call win_gotoid(bufwinid(t:deol.bufnr))
+  try
+    normal! G
+  catch /.*/
+    echomsg string({ 'exception': v:exception, 'throwpoint': v:throwpoint })
+  endtry
+  noautocmd keepalt keepjumps call win_gotoid(l:curwin)
+
 endfunction
 
 function! s:deol_editor_settings() abort
@@ -94,8 +106,6 @@ function! s:deol_editor_settings() abort
 
     nnoremap <buffer><silent> <CR> :<C-u>DeolExecuteLine<CR>
     inoremap <buffer><silent> <CR>  <Esc>:DeolExecuteLine!<CR>
-
-    nnoremap <buffer><silent> cd :<C-u>Leaderf fd_dir --popup<CR>
 
     resize 5
     setlocal winfixheight

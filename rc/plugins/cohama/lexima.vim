@@ -95,6 +95,14 @@ call add(s:rules, { 'filetype': ['vim'], 'char': '<', 'at': '^\s*\(autocmd\|.[no
 
 
 " ====================
+" rust
+" ====================
+call add(s:rules, { 'filetype': ['rust'], 'char': "'",                'input': "''\<Left>" })
+call add(s:rules, { 'filetype': ['rust'], 'char': "'", 'at': 'b\%#',  'input': "''\<Left>" })
+
+
+
+" ====================
 " markdown
 " ====================
 " Thanks https://github.com/yukiycino-dotfiles/dotfiles/blob/1cdadb87170aa5b1f93bd06729442e420b9f13e6/.vimrc#L2049
@@ -110,6 +118,11 @@ call add(s:rules, { 'filetype': 'markdown', 'char': '<S-Tab>', 'at': '^\*\s\+\%#
 call add(s:rules, { 'filetype': 'markdown', 'char': '<S-Tab>', 'at': '^\%#',            'input': ""                 })
 call add(s:rules, { 'filetype': 'markdown', 'char': '<S-Tab>', 'at': '^\* \%#',         'input': "<C-w>"            })
 call add(s:rules, { 'filetype': 'markdown', 'char': '<C-h>',   'at': '^\*\s\%#',        'input': "<C-w>"            })
+
+" なぜか、二回 <CR> が必要
+call add(s:rules, { 'filetype': 'markdown', 'char': '<CR>', 'at': '^\*\s\%#',     'input': "<C-u><C-u><CR><CR>" })
+call add(s:rules, { 'filetype': 'markdown', 'char': '<CR>', 'at': '^\s\+\*\s\%#', 'input': "<C-u><C-u><CR>"     })
+
 
 for s:rule in s:rules
     call lexima#add_rule(s:rule)

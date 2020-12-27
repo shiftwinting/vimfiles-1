@@ -22,7 +22,7 @@ require'telescope'.setup{
   defaults = {
     borderchars = {'-', '|', '-', '|', '+', '+', '+', '+'},
     -- borderchars = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-    winblend = 10,
+    winblend = 0,
 
     -- prompt_position = "top",
     -- sorting_strategy = "ascending",

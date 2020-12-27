@@ -61,15 +61,45 @@ function! s:define_my_highlight() abort
       " orange
       hi rainbowcol4 guifg=#c35e0a
 
-      hi LspDiagnosticsError                  guifg=#c14a4a
-      hi LspDiagnosticsWarning                guifg=#c35e0a
-      hi LspDiagnosticsInformation            guifg=#e2cca9
-      hi LspDiagnosticsHint                   guifg=#b47109
+      let l:colors = {
+      \ 'error': '#c14a4a',
+      \ 'warn':  '#b47109',
+      \ 'info':  '#45707a',
+      \ 'hint':  '#4c7a5d',
+      \}
 
-      hi LspDiagnosticsVirtualTextError       guifg=#c14a4a
-      hi LspDiagnosticsVirtualTextWarning     guifg=#c35e0a
-      hi LspDiagnosticsVirtualTextInformation guifg=#e2cca9
-      hi LspDiagnosticsVirtualTextHint        guifg=#b47109
+      let l:signs = {}
+      let l:signs.error = nr2char('0xffb8a') " 󿮊
+      let l:signs.warn  = nr2char('0xf071')  " 
+      let l:signs.info  = 'I'
+      " let l:signs.hint  = nr2char('0xffbe6') " 󿯦
+      let l:signs.hint  = nr2char('0xffbe7') " 󿯧
+
+
+      exec 'hi LspDiagnosticsError       guifg='..l:colors.error
+      exec 'hi LspDiagnosticsWarning     guifg='..l:colors.warn
+      exec 'hi LspDiagnosticsInformation guifg='..l:colors.info
+      exec 'hi LspDiagnosticsHint        guifg='..l:colors.hint
+
+      exec 'hi LspDiagnosticsVirtualTextError       guifg='..l:colors.error
+      exec 'hi LspDiagnosticsVirtualTextWarning     guifg='..l:colors.warn
+      exec 'hi LspDiagnosticsVirtualTextInformation guifg='..l:colors.info
+      exec 'hi LspDiagnosticsVirtualTextHint        guifg='..l:colors.hint
+
+      exec 'hi LspDiagnosticsUnderlineError       gui=undercurl guifg='..l:colors.error
+      exec 'hi LspDiagnosticsUnderlineWarning     gui=undercurl guifg='..l:colors.warn
+      exec 'hi LspDiagnosticsUnderlineInformation gui=undercurl guifg='..l:colors.info
+      exec 'hi LspDiagnosticsUnderlineHint        gui=undercurl guifg='..l:colors.hint
+
+      exec 'sign define LspDiagnosticsSignError texthl=LspDiagnosticsSignError linehl= numhl= text='..l:signs.error
+      exec 'sign define LspDiagnosticsSignWarning texthl=LspDiagnosticsSignWarning linehl= numhl= text='..l:signs.warn
+      exec 'sign define LspDiagnosticsSignInformation texthl=LspDiagnosticsSignInformation linehl= numhl= text='..l:signs.info
+      exec 'sign define LspDiagnosticsSignHint texthl=LspDiagnosticsSignHint linehl= numhl= text='..l:signs.hint
+
+      hi GitSignAdd    gui=bold guifg=#00AD00
+      hi GitSignChange gui=bold guifg=#00AD00
+      hi GitSignDelete gui=bold guifg=#AF0000
+
     endif
 
     " hi link ScrollView Pmenu

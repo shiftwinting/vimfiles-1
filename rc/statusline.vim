@@ -66,10 +66,15 @@ function! ActiveLine() abort
   " git
   let l:statusline .= " %{GitInfo_stl()}"
 
+  " lsp
+  let l:statusline .= "%{LspStatusLine()}"
+
+  " let l:statusline .= "%#Base#"
+
   " --------------------
   " 区切り
   " --------------------
-  " let l:statusline .= "%#Base#"
+
   let l:statusline .= "%="
 
   let l:statusline .= "%{Filetype_stl()}"
@@ -189,4 +194,39 @@ endfunction
 " =============================
 function! LineInfo_stl() abort
   return line('.') . '/' . line('$') . ' : ' . printf('%-3d', col('.'))
+endfunction
+
+
+" =============================
+" LspDiagnostics:
+" =============================
+let s:icon_warnings = nr2char('0xf071')  " 
+let s:icon_errors   = nr2char('0xffb8a') " 󿮊
+" let s:icon_errors   = nr2char('0xff9a2') " 󿦢
+" let s:icon_errors   = nr2char('0xffaac') " 󿪬
+" let s:icon_errors   = nr2char('0xffbc7') " 󿯇
+let s:icon_ok       = nr2char('0xf00c')  " 
+
+function! LspStatusLine() abort
+  if luaeval('vim.tbl_isempty(vim.lsp.buf_get_clients())')
+    return ''
+  endif
+
+  " let l:progress_messages = luaeval("require'rc/neovim/nvim-lspconfig'.lsp_progress_messages()")
+  " if !empty(l:progress_messages)
+  "   echomsg l:progress_messages
+  "   return '  ' .. l:progress_messages
+  " endif
+
+  let l:errors = luaeval("vim.lsp.diagnostic.get_count(0, [[Error]])")
+  let l:warnings = luaeval("vim.lsp.diagnostic.get_count(0, [[Warning]])")
+  if l:errors + l:warnings == 0
+    return '  ' .. s:icon_ok
+  endif
+
+  " Errors / Warnings
+  let l:res = '  '
+  let l:res .= s:icon_errors .. l:errors
+  let l:res .= s:icon_warnings .. l:warnings
+  return l:res
 endfunction

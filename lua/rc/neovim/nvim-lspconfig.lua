@@ -23,16 +23,73 @@ local mappings = {
 }
 nvim_apply_mappings(mappings, {silent = true, noremap = true})
 
--- --[[
---   lsp-status
--- ]]
--- local lsp_status = require('lsp-status')
--- lsp_status.config {
---   kind_labels = vim.g.completion_customize_lsp_label,
---   indicator_info = '',
---   status_symbol = ''
--- }
--- lsp_status.register_progress()
+--[[
+  lsp-status
+]]
+local lsp_status = require('lsp-status')
+lsp_status.config {
+  -- kind_labels = vim.g.completion_customize_lsp_label,
+  -- indicator_info = '',
+  -- status_symbol = ''
+}
+lsp_status.register_progress()
+
+
+-- =================
+-- progress messages
+-- =================
+
+-- From: https://github.com/nvim-lua/lsp-status.nvim/blob/0a272e823e30b55aa559a89baa0d9f3197502e4e/lua/lsp-status/statusline.lua#L46-L81
+-- LSP の仕様: https://github.com/tennashi/lsp_spec_ja#work-done-progress
+-- 以下の部分で処理している
+--  https://github.com/nvim-lua/lsp-status.nvim/blob/0a272e823e30b55aa559a89baa0d9f3197502e4e/lua/lsp-status/messaging.lua#L13-L47
+local messages = require('lsp-status/messaging').messages
+local spinners = { '⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷' }
+local lsp_progress_messages = function()
+  local msgs = {}
+  local buf_messages = messages()
+  for _, msg in ipairs(buf_messages) do
+    local name = msg.name
+    local client_name = '[' .. name .. ']'
+    local contents = ''
+
+    if msg.progress then
+      -- 読込中の場合
+      contents = msg.title
+      if msg.message then
+        contents = contents .. ' ' .. msg.message
+      end
+
+      if msg.percentage then
+        contents = contents .. ' (' .. msg.percentage .. ')'
+      end
+
+      if msg.spinner then
+        contents = spinners[(msg.spinner % #spinners) + 1] .. ' ' .. contents
+      end
+    elseif msg.status then
+      contents = msg.content
+      if msg.uri then
+        local filename = vim.uri_to_fname(msg.uri)
+        filename = vim.fn.fnamemodify(filename, ':~:.')
+        local space = math.min(60, math.floor(0.6 * vim.fn.winwidth(0)))
+        if #filename > space then
+          filename = vim.fn.pathshorten(filename)
+        end
+
+        contents = '(' .. filename .. ') ' .. contents
+      end
+    else
+      contents = msg.content
+    end
+
+    table.insert(msgs, client_name .. ' ' .. contents)
+  end
+
+  return table.concat(msgs, ' ')
+end
+
+---------------------
 
 
 local on_attach = function(client)
@@ -41,14 +98,13 @@ local on_attach = function(client)
     ['nK'] = {':lua vim.lsp.buf.hover()<CR>'}
   }
   nvim_apply_mappings(mappings, {buffer = true})
-  -- lsp_status.on_attach(client)
+  lsp_status.on_attach(client)
 end
 
 local lspconfig = require'lspconfig'
 
 --[[
   lua
-
   cmd のデフォルト値はないため、:LspInstallInfo で確認する
 ]]
 
@@ -106,14 +162,18 @@ require('nlua.lsp.nvim').setup(lspconfig, {
 
 
 --- vim
-lspconfig.vimls.setup{}
+lspconfig.vimls.setup{
+  on_attach = on_attach,
+}
 
 
 -- --- clangd
 -- -- install https://clangd.llvm.org/installation.html
 -- -- sudo apt-get install clangd-9
 -- -- sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
-lspconfig.clangd.setup {}
+lspconfig.clangd.setup {
+  on_attach = on_attach,
+}
 
 
 -- --[[
@@ -128,8 +188,15 @@ lspconfig.rust_analyzer.setup{
 }
 
 --- pyls
-lspconfig.pyls.setup{}
+lspconfig.pyls.setup{
+  on_attach = on_attach,
+}
 
 -- --- efm-langserver
 -- -- go get github.com/mattn/efm-langserver
 -- require'lspconfig'.efm.setup{}
+
+
+return {
+  lsp_progress_messages = lsp_progress_messages
+}

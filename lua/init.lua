@@ -1,6 +1,5 @@
 require 'vimrc.mappings'
 require 'vimrc.commands'
-require 'vimrc.lsp.diagnostic'
 
 -- require 'vimrc.qfpreview'.setup()
 
