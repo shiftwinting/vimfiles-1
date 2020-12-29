@@ -89,7 +89,7 @@ function! s:define_my_highlight() abort
 
     endif
 
-    " hi link ScrollView Pmenu
+    hi ScrollView guibg=#a96b2c
 
   endif
   hi TelescopeBorder guifg=#7c6f64

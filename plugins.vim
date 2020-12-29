@@ -179,6 +179,7 @@ Plug 'norcalli/nvim-colorizer.lua'
 " Plug '~/.ghq/github.com/shoumodip/ido.nvim'
 " Plug 'kevinhwang91/nvim-hlslens'
 " Plug 'pwntester/octo.nvim'
+Plug 'dstein64/nvim-scrollview'
 
 " ------------------------
 "  Languages
@@ -262,7 +263,6 @@ call plug#end()
 " Plug 'svermeulen/vimpeccable'
 
 " Plug 'Xuyuanp/scrollbar.nvim'
-" Plug 'dstein64/nvim-scrollview'
 
 "  Plug 'Shougo/deoplete.nvim'
 "    Plug 'Shougo/deoplete-zsh',
