@@ -22,7 +22,7 @@ Plug 'haya14busa/vim-asterisk'
 Plug 'cohama/lexima.vim'
 Plug 'junegunn/vim-easy-align'
 if !has('nvim')
-    Plug 'markonm/traces.vim'
+  Plug 'markonm/traces.vim'
 endif
 Plug 'simeji/winresizer'
 Plug 'svermeulen/vim-cutlass'
@@ -65,7 +65,7 @@ Plug 'tyru/capture.vim'
 Plug 'tyru/columnskip.vim'
 " Plug 'tyru/eskk.vim'
 Plug 'tyru/open-browser.vim'
-    Plug 'tyru/open-browser-github.vim'
+Plug 'tyru/open-browser-github.vim'
 Plug 'tyru/vim-altercmd'
 
 " Plug 'Shougo/junkfile.vim'
@@ -81,21 +81,21 @@ Plug 'tyru/vim-altercmd'
 " ------------------------
 " gist
 Plug 'mattn/vim-gist'
-    Plug 'mattn/webapi-vim'
+Plug 'mattn/webapi-vim'
 
 " yank github link
 Plug 'knsh14/vim-github-link'
 
 " sign
 Plug 'lewis6991/gitsigns.nvim'
-  Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-lua/plenary.nvim'
 
 Plug 'gisphm/vim-gitignore'
 
 " fugitive
 Plug 'tpope/vim-fugitive',
-    Plug 'junegunn/gv.vim'
-    Plug 'tpope/vim-dispatch'
+Plug 'junegunn/gv.vim'
+Plug 'tpope/vim-dispatch'
 " Plug 'skanehira/gh.vim'
 
 " ------------------------
@@ -121,17 +121,17 @@ Plug 'sainnhe/gruvbox-material'
 "  operator
 " ------------------------
 Plug 'kana/vim-operator-user',
-    Plug 'kana/vim-operator-replace'
+Plug 'kana/vim-operator-replace'
 
 " ------------------------
 "  LeaderF
 " ------------------------
 Plug 'Yggdroot/LeaderF',
-  Plug 'tamago324/LeaderF-openbrowser',
-  Plug 'tamago324/LeaderF-neosnippet',
-  " Plug 'tamago324/LeaderF-packadd',
-  Plug 'tamago324/LeaderF-sonictemplate',
-  " Plug 'tamago324/LeaderF-filer',
+Plug 'tamago324/LeaderF-openbrowser',
+Plug 'tamago324/LeaderF-neosnippet',
+" Plug 'tamago324/LeaderF-packadd',
+Plug 'tamago324/LeaderF-sonictemplate',
+" Plug 'tamago324/LeaderF-filer',
 
 
 " ------------------------
@@ -143,7 +143,7 @@ Plug 'Yggdroot/LeaderF',
 Plug 'Shougo/deol.nvim'
 " Plug 'Shougo/deoppet.nvim'
 Plug 'Shougo/neosnippet.vim'
-  Plug 'Shougo/neosnippet-snippets'
+Plug 'Shougo/neosnippet-snippets'
 
 " ------------------------
 "  Neovim
@@ -154,27 +154,27 @@ Plug 'Shougo/neosnippet.vim'
 Plug 'norcalli/nvim_utils'
 Plug 'euclidianAce/BetterLua.vim'
 Plug 'neovim/nvim-lspconfig'
-    " Plug 'jubnzv/virtual-types.nvim'
-    " Plug 'h-michael/lsp-ext.nvim'
-    Plug 'nvim-lua/lsp-status.nvim'
-    Plug 'RishabhRD/nvim-lsputils'
-    "     Plug 'RishabhRD/popfix'
-    " Plug 'nvim-lua/lsp_extensions.nvim'
+" Plug 'jubnzv/virtual-types.nvim'
+" Plug 'h-michael/lsp-ext.nvim'
+Plug 'nvim-lua/lsp-status.nvim'
+Plug 'RishabhRD/nvim-lsputils'
+"     Plug 'RishabhRD/popfix'
+" Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
-    " Plug 'hrsh7th/vim-vsnip'
-    " Plug 'hrsh7th/vim-vsnip-integ'
+" Plug 'hrsh7th/vim-vsnip'
+" Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'liuchengxu/vista.vim'
 Plug 'mhartington/formatter.nvim'
 Plug 'nvim-lua/telescope.nvim'
-    Plug 'nvim-lua/popup.nvim'
-    " Plug '/home/tamago324/.ghq/github.com/nvim-lua/popup.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'kyazdani42/nvim-web-devicons'
-    Plug 'nvim-telescope/telescope-fzy-native.nvim'
+Plug 'nvim-lua/popup.nvim'
+" Plug '/home/tamago324/.ghq/github.com/nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
-    " Plug 'p00f/nvim-ts-rainbow'
-    " Plug 'nvim-treesitter/playground'
+" Plug 'p00f/nvim-ts-rainbow'
+" Plug 'nvim-treesitter/playground'
 Plug 'norcalli/nvim-colorizer.lua'
 " Plug '~/.ghq/github.com/shoumodip/ido.nvim'
 " Plug 'kevinhwang91/nvim-hlslens'
