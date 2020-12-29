@@ -28,6 +28,7 @@ call lexima#set_default_rules()
 " 閉じ括弧も削除
 call add(s:rules, { 'char': '<C-h>', 'at': '(\%#)',  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': '(\%#)',  'input': '<BS><Del>' })
+call add(s:rules, { 'char': '<C-w>', 'at': '(\%#)',  'input': '<BS><Del>' })
 
 
 " ====================
@@ -36,6 +37,7 @@ call add(s:rules, { 'char': '<BS>',  'at': '(\%#)',  'input': '<BS><Del>' })
 " 閉じ括弧も削除
 call add(s:rules, { 'char': '<C-h>', 'at': '{\%#}',  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': '{\%#}',  'input': '<BS><Del>' })
+call add(s:rules, { 'char': '<C-w>', 'at': '{\%#}',  'input': '<BS><Del>' })
 
 
 
@@ -45,6 +47,7 @@ call add(s:rules, { 'char': '<BS>',  'at': '{\%#}',  'input': '<BS><Del>' })
 " 閉じ括弧も削除
 call add(s:rules, { 'char': '<C-h>', 'at': '\[\%#\]',  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': '\[\%#\]',  'input': '<BS><Del>' })
+call add(s:rules, { 'char': '<C-w>', 'at': '\[\%#\]',  'input': '<BS><Del>' })
 
 
 
@@ -54,6 +57,7 @@ call add(s:rules, { 'char': '<BS>',  'at': '\[\%#\]',  'input': '<BS><Del>' })
 " 閉じクオートも削除
 call add(s:rules, { 'char': '<C-h>', 'at': "'\\%#'",  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': "'\\%#'",  'input': '<BS><Del>' })
+call add(s:rules, { 'char': '<C-w>', 'at': "'\\%#'",  'input': '<BS><Del>' })
 
 
 " ====================
@@ -62,6 +66,7 @@ call add(s:rules, { 'char': '<BS>',  'at': "'\\%#'",  'input': '<BS><Del>' })
 " 閉じクオートも削除
 call add(s:rules, { 'char': '<C-h>', 'at': '"\%#"',  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': '"\%#"',  'input': '<BS><Del>' })
+call add(s:rules, { 'char': '<C-w>', 'at': '"\%#"',  'input': '<BS><Del>' })
 
 
 
@@ -71,6 +76,7 @@ call add(s:rules, { 'char': '<BS>',  'at': '"\%#"',  'input': '<BS><Del>' })
 " 閉じクオートも削除
 call add(s:rules, { 'char': '<C-h>', 'at': '`\%#`',  'input': '<BS><Del>' })
 call add(s:rules, { 'char': '<BS>',  'at': '`\%#`',  'input': '<BS><Del>' })
+call add(s:rules, { 'char': '<C-w>', 'at': '`\%#`',  'input': '<BS><Del>' })
 
 
 
