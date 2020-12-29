@@ -60,14 +60,14 @@ function! ActiveLine() abort
   " let l:statusline .= "%#Mode# %{ModeCurrent_stl()}"
 
   " ファイル名
-  let l:statusline .= "%#Filename_stl# %{Filename_stl()} "
+  let l:statusline .= " %{Filename_stl()} "
 
   " let l:statusline .= "%#Base#"
   " git
   let l:statusline .= " %{GitInfo_stl()}"
 
-  " lsp
-  let l:statusline .= "%{LspStatusLine()}"
+  " " lsp
+  " let l:statusline .= "%{LspStatusLine()}"
 
   " let l:statusline .= "%#Base#"
 
@@ -95,6 +95,7 @@ endfunction
 " =============================
 function! InactiveLine() abort
   let l:statusline = ""
+  let l:statusline .= ' %{Filename_stl()}'
   return l:statusline
 endfunction
 
@@ -147,9 +148,13 @@ endfunction
 " =============================
 function! Filename_stl() abort
   " 無名ファイルは %:t が '' となる
-  let l:res = exists('*WebDevIconsGetFileTypeSymbol') ? trim(WebDevIconsGetFileTypeSymbol()) : ''
+  let l:res = ''
+
+  let l:fname = expand('%:t')
+  " let l:res .= exists('*WebDevIconsGetFileTypeSymbol') ? trim(WebDevIconsGetFileTypeSymbol()) : ''
   let l:res .= '['
-  let l:res .= !empty(expand('%:t')) ? expand('%:t') : 'No Name'
+  let l:res .= FindPlugin('nvim-web-devicons') ? luaeval("require'nvim-web-devicons'.get_icon(_A[1], _A[2], { default = true })", [l:fname, fnamemodify(l:fname, ':e')]) : ''
+  let l:res .= !empty(l:fname) ? l:fname : 'No Name'
   let l:res .= ']'
   let l:res .= &modifiable && &modified ? '[+]' : ''
   return l:res

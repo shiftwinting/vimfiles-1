@@ -74,6 +74,8 @@ Plug 'tyru/vim-altercmd'
 " Plug 'rbtnn/vim-coloredit'
 " Plug 'cocopon/colorswatch.vim'
 
+" Plug 'chrisbra/vim-autosave' " only vim?
+
 " ------------------------
 "  git
 " ------------------------
@@ -155,16 +157,16 @@ Plug 'neovim/nvim-lspconfig'
     " Plug 'jubnzv/virtual-types.nvim'
     " Plug 'h-michael/lsp-ext.nvim'
     Plug 'nvim-lua/lsp-status.nvim'
-    " Plug 'RishabhRD/nvim-lsputils'
+    Plug 'RishabhRD/nvim-lsputils'
     "     Plug 'RishabhRD/popfix'
     " Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
     " Plug 'hrsh7th/vim-vsnip'
     " Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'liuchengxu/vista.vim'
 Plug 'mhartington/formatter.nvim'
-" Plug 'nvim-lua/telescope.nvim'
-Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'
+Plug 'nvim-lua/telescope.nvim'
     Plug 'nvim-lua/popup.nvim'
     " Plug '/home/tamago324/.ghq/github.com/nvim-lua/popup.nvim'
     Plug 'nvim-lua/plenary.nvim'

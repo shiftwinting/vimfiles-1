@@ -9,7 +9,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     -- INSERT モードのときは、更新しない
     update_in_insert = false,
     -- 下線を引く
-    underline = true,
+    underline = false,
     virtual_text = false,
     -- virtual_text = {
     --   prefix = '',
@@ -34,6 +34,11 @@ lsp_status.config {
 }
 lsp_status.register_progress()
 
+--[[
+  h-michael/lsp-ext.nvim
+]]
+-- コマンド定義を実行するため
+require 'lsp_ext'
 
 -- =================
 -- progress messages
@@ -89,15 +94,29 @@ local lsp_progress_messages = function()
   return table.concat(msgs, ' ')
 end
 
+local define_lsp_sign = function()
+  local signs = {
+    error = vim.fn.nr2char('0xffb8a'), -- 󿮊
+    warn  = vim.fn.nr2char('0xf071'),  -- 
+    info  = 'I',
+    hint  = vim.fn.nr2char('0xffbe7')  -- 󿯧
+  }
+  vim.api.nvim_command('sign define LspDiagnosticsSignError texthl=LspDiagnosticsSignError linehl= numhl= text='..signs.error)
+  vim.api.nvim_command('sign define LspDiagnosticsSignWarning texthl=LspDiagnosticsSignWarning linehl= numhl= text='..signs.warn)
+  vim.api.nvim_command('sign define LspDiagnosticsSignInformation texthl=LspDiagnosticsSignInformation linehl= numhl= text='..signs.info)
+  vim.api.nvim_command('sign define LspDiagnosticsSignHint texthl=LspDiagnosticsSignHint linehl= numhl= text='..signs.hint)
+end
+
+define_lsp_sign()
 ---------------------
 
 
 local on_attach = function(client)
-  local mappings = {
+  local _mappings = {
     -- ['n<C-]>'] = {'<cmd>lua vim.lsp.buf.definition()<CR>'}
     ['nK'] = {':lua vim.lsp.buf.hover()<CR>'}
   }
-  nvim_apply_mappings(mappings, {buffer = true})
+  nvim_apply_mappings(_mappings, {buffer = true})
   lsp_status.on_attach(client)
 end
 
@@ -185,6 +204,17 @@ lspconfig.clangd.setup {
 --- rust_analyzer
 lspconfig.rust_analyzer.setup{
   on_attach = on_attach,
+  capabilities = vim.tbl_deep_extend('keep', vim.lsp.protocol.make_client_capabilities(), {
+    textDocument = {
+      completion = {
+        completionItem = {
+          resolveSupport = {
+            properties = { 'additionalTextEdits' }
+          }
+        }
+      }
+    }
+  }),
 }
 
 --- pyls

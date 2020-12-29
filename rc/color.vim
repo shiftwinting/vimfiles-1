@@ -68,14 +68,6 @@ function! s:define_my_highlight() abort
       \ 'hint':  '#4c7a5d',
       \}
 
-      let l:signs = {}
-      let l:signs.error = nr2char('0xffb8a') " 󿮊
-      let l:signs.warn  = nr2char('0xf071')  " 
-      let l:signs.info  = 'I'
-      " let l:signs.hint  = nr2char('0xffbe6') " 󿯦
-      let l:signs.hint  = nr2char('0xffbe7') " 󿯧
-
-
       exec 'hi LspDiagnosticsError       guifg='..l:colors.error
       exec 'hi LspDiagnosticsWarning     guifg='..l:colors.warn
       exec 'hi LspDiagnosticsInformation guifg='..l:colors.info
@@ -91,14 +83,9 @@ function! s:define_my_highlight() abort
       exec 'hi LspDiagnosticsUnderlineInformation gui=undercurl guifg='..l:colors.info
       exec 'hi LspDiagnosticsUnderlineHint        gui=undercurl guifg='..l:colors.hint
 
-      exec 'sign define LspDiagnosticsSignError texthl=LspDiagnosticsSignError linehl= numhl= text='..l:signs.error
-      exec 'sign define LspDiagnosticsSignWarning texthl=LspDiagnosticsSignWarning linehl= numhl= text='..l:signs.warn
-      exec 'sign define LspDiagnosticsSignInformation texthl=LspDiagnosticsSignInformation linehl= numhl= text='..l:signs.info
-      exec 'sign define LspDiagnosticsSignHint texthl=LspDiagnosticsSignHint linehl= numhl= text='..l:signs.hint
-
-      hi GitSignAdd    gui=bold guifg=#00AD00
-      hi GitSignChange gui=bold guifg=#00AD00
-      hi GitSignDelete gui=bold guifg=#AF0000
+      hi GitSignAdd    gui=bold guifg=#00AD00 guibg=#ebdbb2
+      hi GitSignChange gui=bold guifg=#00AD00 guibg=#ebdbb2
+      hi GitSignDelete gui=bold guifg=#AF0000 guibg=#ebdbb2
 
     endif
 
