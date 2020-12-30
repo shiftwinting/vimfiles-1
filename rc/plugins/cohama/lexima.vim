@@ -129,7 +129,6 @@ call add(s:rules, { 'filetype': 'markdown', 'char': '<C-h>',   'at': '^\*\s\%#',
 call add(s:rules, { 'filetype': 'markdown', 'char': '<CR>', 'at': '^\*\s\%#',     'input': "<C-u><C-u><CR><CR>" })
 call add(s:rules, { 'filetype': 'markdown', 'char': '<CR>', 'at': '^\s\+\*\s\%#', 'input': "<C-u><C-u><CR>"     })
 
-
 for s:rule in s:rules
     call lexima#add_rule(s:rule)
 endfor

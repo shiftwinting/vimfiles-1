@@ -18,22 +18,15 @@ Plug 'rbtnn/vim-gloaded'
 Plug 'andymass/vim-matchup'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk'
-" Plug 'itchyny/lightline.vim'
 Plug 'cohama/lexima.vim'
 Plug 'junegunn/vim-easy-align'
-if !has('nvim')
-  Plug 'markonm/traces.vim'
-endif
+Plug 'markonm/traces.vim'
 Plug 'simeji/winresizer'
 Plug 'svermeulen/vim-cutlass'
 Plug 'tomtom/tcomment_vim'
 Plug 'voldikss/vim-translator'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-grepper'
-" Plug 'tsuyoshicho/vim-fg'
-" Plug 'mtth/scratch.vim'
-" Plug 'bfrg/vim-qf-preview'
-" Plug 'romainl/vim-qf'
 
 Plug 'kana/vim-repeat'
 
@@ -51,9 +44,6 @@ Plug 'lambdalisue/suda.vim'
 Plug 'lambdalisue/vim-protocol'
 Plug 'lambdalisue/mr.vim'
 Plug 'lambdalisue/mr-quickfix.vim'
-" Plug 'lambdalisue/fern.vim'
-" Plug 'lambdalisue/glyph-palette.vim'
-" Plug 'lambdalisue/nerdfont.vim'
 " Plug 'lambdalisue/fin.vim'
 
 " Plug 'lambdalisue/vim-quickrun-neovim-job'
@@ -63,18 +53,9 @@ Plug 'thinca/vim-prettyprint'
 
 Plug 'tyru/capture.vim'
 Plug 'tyru/columnskip.vim'
-" Plug 'tyru/eskk.vim'
 Plug 'tyru/open-browser.vim'
 Plug 'tyru/open-browser-github.vim'
 Plug 'tyru/vim-altercmd'
-
-" Plug 'Shougo/junkfile.vim'
-
-" Plug 'ryanoasis/vim-devicons'
-" Plug 'rbtnn/vim-coloredit'
-" Plug 'cocopon/colorswatch.vim'
-
-" Plug 'chrisbra/vim-autosave' " only vim?
 
 " ------------------------
 "  git
@@ -102,20 +83,6 @@ Plug 'tpope/vim-dispatch'
 "  colorscheme
 " ------------------------
 Plug 'sainnhe/gruvbox-material'
-" Plug 'cocopon/iceberg.vim'
-" Plug 'koron/vim-monochromenote'
-" Plug 'jsit/toast.vim'
-" Plug 'rakr/vim-one'
-" Plug 'zefei/cake16'
-" Plug 'fabi1cazenave/kalahari.vim'
-" Plug 'yasukotelin/shirotelin'
-" Plug 'mhartington/oceanic-next'
-" Plug 'rigellute/shades-of-purple.vim'
-" Plug 'drewtempelmeyer/palenight.vim'
-" Plug 'adrian5/oceanic-next-vim'
-" Plug 'lifepillar/vim-gruvbox8'
-" Plug 'sainnhe/edge'
-" Plug 'arcticicestudio/nord-vim'
 
 " ------------------------
 "  operator
@@ -128,22 +95,15 @@ Plug 'kana/vim-operator-replace'
 " ------------------------
 Plug 'Yggdroot/LeaderF',
 Plug 'tamago324/LeaderF-openbrowser',
-Plug 'tamago324/LeaderF-neosnippet',
+" Plug 'tamago324/LeaderF-neosnippet',
 " Plug 'tamago324/LeaderF-packadd',
 Plug 'tamago324/LeaderF-sonictemplate',
-" Plug 'tamago324/LeaderF-filer',
 
 
 " ------------------------
 "  dark power
 " ------------------------
-" Plug 'Shougo/echodoc.vim',
-" Plug 'Shougo/denite.nvim'
-" Plug 'Shougo/defx.nvim'
 Plug 'Shougo/deol.nvim'
-" Plug 'Shougo/deoppet.nvim'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
 
 " ------------------------
 "  Neovim
@@ -155,20 +115,17 @@ Plug 'norcalli/nvim_utils'
 Plug 'euclidianAce/BetterLua.vim'
 Plug 'neovim/nvim-lspconfig'
 " Plug 'jubnzv/virtual-types.nvim'
-" Plug 'h-michael/lsp-ext.nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'RishabhRD/nvim-lsputils'
-"     Plug 'RishabhRD/popfix'
+Plug 'RishabhRD/popfix'
 " Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
-" Plug 'hrsh7th/vim-vsnip'
-" Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'hrsh7th/vim-vsnip'
 Plug 'liuchengxu/vista.vim'
 Plug 'mhartington/formatter.nvim'
 Plug 'nvim-lua/telescope.nvim'
 Plug 'nvim-lua/popup.nvim'
-" Plug '/home/tamago324/.ghq/github.com/nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
@@ -176,9 +133,6 @@ Plug 'nvim-treesitter/nvim-treesitter'
 " Plug 'p00f/nvim-ts-rainbow'
 " Plug 'nvim-treesitter/playground'
 Plug 'norcalli/nvim-colorizer.lua'
-" Plug '~/.ghq/github.com/shoumodip/ido.nvim'
-" Plug 'kevinhwang91/nvim-hlslens'
-" Plug 'pwntester/octo.nvim'
 Plug 'dstein64/nvim-scrollview'
 
 " ------------------------
@@ -216,9 +170,7 @@ Plug 'linxinhong/Vim-AHK'
 
 "------------------------
 " ML
-" Plug 'cypok/vim-sml'
-" Plug 'javier-lopez/sml.vim'
-Plug 'tamago324/vim-better-sml', {'branch': 'simple'}
+" Plug 'tamago324/vim-better-sml', {'branch': 'simple'}
 
 
 "------------------------
@@ -228,7 +180,6 @@ Plug 'rust-lang/rust.vim'
 
 Plug '~/.ghq/github.com/tamago324/lir.nvim'
 " Plug '~/.ghq/github.com/tamago324/lir-float.nvim'
-" Plug '~/.ghq/github.com/tamago324/vim-gaming-line'
 
 call plug#end()
 
@@ -273,3 +224,63 @@ call plug#end()
 " Plug 'rafcamlet/nvim-luapad'
 " Plug 'bfredl/nvim-luadev'
 " Plug 'theHamsta/nvim_rocks'
+
+" Plug 'cypok/vim-sml'
+" Plug 'javier-lopez/sml.vim'
+
+" Plug '~/.ghq/github.com/tamago324/vim-gaming-line'
+
+" Plug 'Shougo/deoppet.nvim'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
+" Plug 'Shougo/echodoc.vim',
+" Plug 'Shougo/denite.nvim'
+" Plug 'Shougo/defx.nvim'
+
+" Plug 'tamago324/LeaderF-filer',
+
+
+" Plug 'Shougo/junkfile.vim'
+
+" Plug 'ryanoasis/vim-devicons'
+" Plug 'rbtnn/vim-coloredit'
+" Plug 'cocopon/colorswatch.vim'
+
+" Plug 'chrisbra/vim-autosave' " only vim?
+
+" Plug 'lambdalisue/fern.vim'
+" Plug 'lambdalisue/glyph-palette.vim'
+" Plug 'lambdalisue/nerdfont.vim'
+
+" Plug 'itchyny/lightline.vim'
+
+" Plug 'tsuyoshicho/vim-fg'
+" Plug 'mtth/scratch.vim'
+" Plug 'bfrg/vim-qf-preview'
+" Plug 'romainl/vim-qf'
+
+" Plug 'tyru/eskk.vim'
+
+" ============
+" colorscheme
+" ============
+" Plug 'cocopon/iceberg.vim'
+" Plug 'koron/vim-monochromenote'
+" Plug 'jsit/toast.vim'
+" Plug 'rakr/vim-one'
+" Plug 'zefei/cake16'
+" Plug 'fabi1cazenave/kalahari.vim'
+" Plug 'yasukotelin/shirotelin'
+" Plug 'mhartington/oceanic-next'
+" Plug 'rigellute/shades-of-purple.vim'
+" Plug 'drewtempelmeyer/palenight.vim'
+" Plug 'adrian5/oceanic-next-vim'
+" Plug 'lifepillar/vim-gruvbox8'
+" Plug 'sainnhe/edge'
+" Plug 'arcticicestudio/nord-vim'
+
+" Plug 'hrsh7th/vim-vsnip-integ'
+
+" Plug '~/.ghq/github.com/shoumodip/ido.nvim'
+" Plug 'kevinhwang91/nvim-hlslens'
+" Plug 'pwntester/octo.nvim'

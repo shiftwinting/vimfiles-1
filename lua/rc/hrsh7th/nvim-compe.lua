@@ -13,6 +13,7 @@ require'compe'.setup {
     nvim_lsp = true,
     nvim_lua = true,
     -- rust はなんか重くなる...
-    tags = {ignored_filetypes = {'rust', 'markdown', 'md'}}
+    tags = {ignored_filetypes = {'rust', 'markdown', 'md'}},
+    vsnip = true,
   }
 }

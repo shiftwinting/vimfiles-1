@@ -84,7 +84,7 @@ function! s:define_my_highlight() abort
       exec 'hi LspDiagnosticsUnderlineHint        gui=undercurl guifg='..l:colors.hint
 
       hi GitSignAdd    gui=bold guifg=#00AD00 guibg=#ebdbb2
-      hi GitSignChange gui=bold guifg=#00AD00 guibg=#ebdbb2
+      hi GitSignChange gui=bold guifg=#b47109 guibg=#ebdbb2
       hi GitSignDelete gui=bold guifg=#AF0000 guibg=#ebdbb2
 
     endif

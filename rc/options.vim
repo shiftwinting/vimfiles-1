@@ -288,3 +288,5 @@ set updatetime=400
 
 " 
 " set showtabline=0
+
+set cursorline

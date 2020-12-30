@@ -7,12 +7,11 @@ augroup StatusLine
 augroup END
 
 
-" function! s:hi(group, fg, bg, attr, ...) abort
-"     let l:bang = get(a:, 1, v:false) ? '!' : ''
-"     exec printf('hi%s %s guifg=%s guibg=%s gui=%s', l:bang, a:group, a:fg, a:bg, a:attr)
-" endfunction
-"
-"
+function! s:hi(group, fg, bg, attr, ...) abort
+    let l:bang = get(a:, 1, v:false) ? '!' : ''
+    exec printf('hi%s %s guifg=%s guibg=%s gui=%s', l:bang, a:group, a:fg, a:bg, a:attr)
+endfunction
+
 " " from lightline one.vim
 " let s:blue   = '#61afef'
 " let s:green  = '#98c379'
@@ -29,6 +28,7 @@ augroup END
 " " group, fg, bg, attr
 " call s:hi('Base',     '#494b53', s:glay2, 'none')
 " call s:hi('Filename_stl', '#494b53', s:glay3, 'none')
+call s:hi('Base', '#654735', '#d4be98', 'none')
 "
 " " mode() : [表示, highlightの種類]
 " let g:stl_mode_map = {
@@ -54,7 +54,7 @@ function! ActiveLine() abort
   " %#ハイライト# % とするとハイライトでカラーリングされる
   " %{関数()} とすると実行した結果が設定される
 
-  " let l:statusline .= "%#Base#"
+  let l:statusline .= "%#Base#"
 
   " " モード
   " let l:statusline .= "%#Mode# %{ModeCurrent_stl()}"
@@ -82,7 +82,7 @@ function! ActiveLine() abort
   " let l:statusline .= " %{FileFormat_stl()}"
   " let l:statusline .= " %{FileEncoding_stl()} "
 
-  let l:statusline .= "%#LineInfo#"
+  " let l:statusline .= "%#LineInfo#"
   let l:statusline .= " %{Percent_stl()}"
   let l:statusline .= " : %{LineInfo_stl()}"
 
@@ -159,7 +159,6 @@ function! Filename_stl() abort
   let l:res .= &modifiable && &modified ? '[+]' : ''
   return l:res
 endfunction
-
 
 " =============================
 " Filetype:

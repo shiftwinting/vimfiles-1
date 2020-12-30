@@ -13,8 +13,6 @@ local my_entry_maker = require('vimrc.telescope.make_entry')
 
 vim.env.BAT_THEME = 'gruvbox-light'
 
-local my_actions = require('vimrc.telescope.actions')
-
 require'telescope'.load_extension('fzy_native')
 
 -- https://github.com/nvim-lua/telescope.nvim/blob/d32d4a6e0f0c571941f1fd37759ca1ebbdd5f488/lua/telescope/init.lua
@@ -80,7 +78,8 @@ local mappings = {
   ['n<Space>fv'] = {function()
     require'telescope.builtin'.find_files{
       cwd = vim.g.vimfiles_path,
-      file_ignore_patterns = { "_config/.*" }
+      file_ignore_patterns = { "_config/.*" },
+      previewer = previewers.cat.new({}),
     }
   end},
 
@@ -92,7 +91,7 @@ local mappings = {
   -- help
   ['n<Space>fh'] = {function()
     require('telescope.builtin').help_tags {
-      previewer = false,
+      -- previewer = false,
       sorter = sorters.get_fzy_sorter(),
     }
   end},
@@ -102,7 +101,7 @@ local mappings = {
     require('telescope.builtin').buffers {
       shorten_path = false,
       show_all_buffers = true,
-      previewer = false,
+      previewer = previewers.cat.new({}),
       entry_maker = my_entry_maker.gen_from_buffer_like_leaderf(),
 
       -- <C-t> で他のバッファ
