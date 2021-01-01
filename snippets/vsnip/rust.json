@@ -85,5 +85,13 @@
     "body": [
       "Option<${1:()}>$2"
     ]
+  },
+  "struct": {
+    "prefix": "struct",
+    "body": [
+      "struct ${1:name} {",
+      "\t$2",
+      "}"
+    ]
   }
 }
