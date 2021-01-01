@@ -579,5 +579,6 @@ endif
 function! s:my_ft_rust() abort
   nnoremap <Space>bl :<C-u>RustFmt<CR>
   nnoremap <Space>rr :<C-u>QCargoRun<CR>
-  nnoremap <A-d> :<C-u>OpenBrowserSmartSearch -rust_doc_std 
+  nnoremap <A-h> :<C-u>OpenBrowserSmartSearch -rust_doc_std 
+  xnoremap <A-h> "hy:<C-u>OpenBrowserSmartSearch -rust_doc_std <C-r>h<CR>
 endfunction
