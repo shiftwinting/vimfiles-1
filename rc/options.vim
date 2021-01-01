@@ -91,7 +91,8 @@ endif
 "   vert: 垂直分割の区切り文字
 "   fold: 折畳の余白
 "   diff: diffの余白
-set fillchars=vert:\ ,fold:\ ,diff:\ 
+" set fillchars=vert:\ ,fold:\ ,diff:\ 
+set fillchars=vert:\|,fold:\ ,diff:\ 
 
 " バックアップファイル(~)を作成しない(defaut: off)
 set nobackup
