@@ -215,9 +215,22 @@ endfunction
 " ====================
 " help
 " ====================
+function! VimDocFormat() abort
+  for l:lnum in range(1, line('$'))
+    let l:line = getline(l:lnum)
+    if l:line =~# '\*$'
+      let l:space_cnt = &textwidth - strdisplaywidth(substitute(l:line, '\v\s+', '', 'g'))
+      let l:new_line = substitute(l:line, '\v^[[:graph:]]+\zs\s+', repeat(' ', l:space_cnt), '')
+      call setline(l:lnum, l:new_line)
+    endif
+  endfor
+  echo '[VimDocFormat] Formatted!'
+endfunction
+
 function! s:my_ft_help() abort
   " help を q で閉じれるようにする
   nnoremap <buffer> q <C-w>c
+  nnoremap <buffer> <Space>bl :<C-u> call VimDocFormat()<CR>
 endfunction
 
 
