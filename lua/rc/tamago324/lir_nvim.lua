@@ -1,6 +1,6 @@
 if vim.api.nvim_call_function('FindPlugin', {'lir.nvim'}) == 0 then do return end end
 
-local lvim = require 'lir.vim'
+local lir = require 'lir'
 
 local actions = require'lir.actions'
 
@@ -9,32 +9,32 @@ local function esc_path(path)
 end
 
 local function rm()
-  local path = lvim.b.context.dir .. lvim.b.context:current()
+  local path = lir.get_context().dir .. lir.get_context():current_value()
   vim.api.nvim_feedkeys(':!gomi ' .. esc_path(path), 'n', true)
 end
 
 local function mv()
-  local path = lvim.b.context.dir .. lvim.b.context:current()
-  local cmd = string.format([[:!mv %s %s]], esc_path(path), lvim.b.context.dir)
+  local path = lir.get_context().dir .. lir.get_context():current_value()
+  local cmd = string.format([[:!mv %s %s]], esc_path(path), lir.get_context().dir)
   vim.api.nvim_feedkeys(cmd, 'n', true)
 end
 
 local function newfile_new()
   if vim.w.lir_is_float then
-    vim.api.nvim_feedkeys(':close | :vnew ' .. lvim.b.context.dir, 'n', true)
+    vim.api.nvim_feedkeys(':close | :vnew ' .. lir.get_context().dir, 'n', true)
   else
-    vim.api.nvim_feedkeys(':vnew ' .. lvim.b.context.dir, 'n', true)
+    vim.api.nvim_feedkeys(':vnew ' .. lir.get_context().dir, 'n', true)
   end
 end
 
 local function cp()
-  local path = lvim.b.context.dir .. lvim.b.context:current()
-  local cmd = string.format([[:!cp %s %s]], esc_path(path), esc_path(lvim.b.context.dir))
+  local path = lir.get_context().dir .. lir.get_context():current_value()
+  local cmd = string.format([[:!cp %s %s]], esc_path(path), esc_path(lir.get_context().dir))
   vim.api.nvim_feedkeys(cmd, 'n', true)
 end
 
 local function yank_win_path()
-  local path = vim.fn.expand(lvim.b.context.dir .. lvim.b.context:current())
+  local path = vim.fn.expand(lir.get_context().dir .. lir.get_context():current_value())
   local winpath = [[\\wsl$\Ubuntu-18.04]] .. path:gsub('/', '\\')
   vim.fn.setreg(vim.v.register, winpath)
   print('Yank path: ' .. winpath)
