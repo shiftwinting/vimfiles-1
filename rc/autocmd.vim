@@ -536,6 +536,7 @@ function! s:my_ft_gitcommit() abort
   setlocal textwidth=72
   " 自動で折り返しを行う
   setlocal formatoptions+=t
+  setlocal spell spelllang=en_us
   startinsert!
 endfunction
 
