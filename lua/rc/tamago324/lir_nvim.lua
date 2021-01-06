@@ -8,6 +8,8 @@ local utils = require 'lir.utils'
 local uv = vim.loop
 
 
+local mmv = require 'vimrc.lir.mmv'.mmv
+
 local actions = require'lir.actions'
 
 local function esc_path(path)
@@ -86,7 +88,7 @@ require 'lir'.setup {
     ['N']     = newfile,
     ['R']     = actions.rename,
     ['C']     = cp,
-    ['M']     = mv,
+    ['M']     = mmv,
     ['@']     = actions.cd,
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
