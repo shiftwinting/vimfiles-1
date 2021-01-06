@@ -68,7 +68,8 @@ Plug 'mattn/webapi-vim'
 Plug 'knsh14/vim-github-link'
 
 " sign
-Plug 'lewis6991/gitsigns.nvim'
+" Plug 'lewis6991/gitsigns.nvim'
+Plug '~/.ghq/github.com/lewis6991/gitsigns.nvim'
 Plug 'nvim-lua/plenary.nvim'
 
 Plug 'gisphm/vim-gitignore'
@@ -104,6 +105,9 @@ Plug 'tamago324/LeaderF-sonictemplate',
 "  dark power
 " ------------------------
 Plug 'Shougo/deol.nvim'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+
 
 " ------------------------
 "  Neovim
@@ -121,7 +125,7 @@ Plug 'RishabhRD/popfix'
 " Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
-Plug 'hrsh7th/vim-vsnip'
+" Plug 'hrsh7th/vim-vsnip'
 Plug 'liuchengxu/vista.vim'
 Plug 'mhartington/formatter.nvim'
 Plug 'nvim-lua/telescope.nvim'
@@ -133,7 +137,8 @@ Plug 'nvim-treesitter/nvim-treesitter'
 " Plug 'p00f/nvim-ts-rainbow'
 " Plug 'nvim-treesitter/playground'
 Plug 'norcalli/nvim-colorizer.lua'
-Plug 'dstein64/nvim-scrollview'
+" Plug 'dstein64/nvim-scrollview'
+Plug '/home/tamago324/.ghq/github.com/dstein64/nvim-scrollview'
 
 " ------------------------
 "  Languages
@@ -178,8 +183,11 @@ Plug 'linxinhong/Vim-AHK'
 Plug 'rust-lang/rust.vim'
 
 
+Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
 Plug '~/.ghq/github.com/tamago324/lir.nvim'
+" Plug 'tamago324/lir.nvim'
 " Plug '~/.ghq/github.com/tamago324/lir-float.nvim'
+" Plug '~/.ghq/github.com/tamago324/vim-browsersync'
 
 call plug#end()
 
@@ -231,8 +239,6 @@ call plug#end()
 " Plug '~/.ghq/github.com/tamago324/vim-gaming-line'
 
 " Plug 'Shougo/deoppet.nvim'
-" Plug 'Shougo/neosnippet.vim'
-" Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/echodoc.vim',
 " Plug 'Shougo/denite.nvim'
 " Plug 'Shougo/defx.nvim'
