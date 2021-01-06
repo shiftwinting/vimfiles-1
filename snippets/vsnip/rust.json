@@ -46,14 +46,26 @@
       "format!($0);"
     ]
   },
-  "print!": {
+  "print": {
     "prefix": "print",
     "body": [
       "print!($0);"
     ]
   },
-  "println!": {
+  "print!": {
+    "prefix": "print!",
+    "body": [
+      "print!($0);"
+    ]
+  },
+  "println": {
     "prefix": "println",
+    "body": [
+      "println!($0);"
+    ]
+  },
+  "println!": {
+    "prefix": "println!",
     "body": [
       "println!($0);"
     ]
@@ -91,6 +103,34 @@
     "body": [
       "struct ${1:name} {",
       "\t$2",
+      "}"
+    ]
+  },
+  "vec![]": {
+    "prefix": "vec",
+    "body": [
+      "vec![$1]"
+    ]
+  },
+  "#[derive(...)]": {
+    "prefix": "derive",
+    "body": [
+      "#[derive($1)]"
+    ]
+  },
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "enum $1 {",
+      "\t$2",
+      "}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for $1 in $2 {",
+      "\t$3",
       "}"
     ]
   }

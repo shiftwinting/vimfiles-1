@@ -1,6 +1,12 @@
 if vim.api.nvim_call_function('FindPlugin', {'lir.nvim'}) == 0 then do return end end
 
+local a = vim.api
+
 local lir = require 'lir'
+local float = require 'lir.float'
+local utils = require 'lir.utils'
+local uv = vim.loop
+
 
 local actions = require'lir.actions'
 
@@ -8,37 +14,61 @@ local function esc_path(path)
   return vim.fn.shellescape(vim.fn.fnamemodify(path, ':p'), true)
 end
 
-local function rm()
-  local path = lir.get_context().dir .. lir.get_context():current_value()
-  vim.api.nvim_feedkeys(':!gomi ' .. esc_path(path), 'n', true)
+local function rm(context)
+  local path = context.dir .. context:current_value()
+  a.nvim_feedkeys(':!gomi ' .. esc_path(path), 'n', true)
 end
 
-local function mv()
-  local path = lir.get_context().dir .. lir.get_context():current_value()
-  local cmd = string.format([[:!mv %s %s]], esc_path(path), lir.get_context().dir)
-  vim.api.nvim_feedkeys(cmd, 'n', true)
+local function mv(context)
+  local path = context.dir .. context:current_value()
+  local cmd = string.format([[:!mv %s %s]], esc_path(path), context.dir)
+  a.nvim_feedkeys(cmd, 'n', true)
 end
 
-local function newfile_new()
-  if vim.w.lir_is_float then
-    vim.api.nvim_feedkeys(':close | :vnew ' .. lir.get_context().dir, 'n', true)
-  else
-    vim.api.nvim_feedkeys(':vnew ' .. lir.get_context().dir, 'n', true)
-  end
+-- local function newfile_new()
+--   if vim.w.lir_is_float then
+--     a.nvim_feedkeys(':close | :vnew ' .. lir.get_context().dir, 'n', true)
+--   else
+--     a.nvim_feedkeys(':vnew ' .. lir.get_context().dir, 'n', true)
+--   end
+-- end
+--
+local function cp(context)
+  local path = context.dir .. context:current_value()
+  local cmd = string.format([[:!cp %s %s]], esc_path(path), esc_path(context.dir))
+  a.nvim_feedkeys(cmd, 'n', true)
 end
 
-local function cp()
-  local path = lir.get_context().dir .. lir.get_context():current_value()
-  local cmd = string.format([[:!cp %s %s]], esc_path(path), esc_path(lir.get_context().dir))
-  vim.api.nvim_feedkeys(cmd, 'n', true)
-end
-
-local function yank_win_path()
-  local path = vim.fn.expand(lir.get_context().dir .. lir.get_context():current_value())
+local function yank_win_path(context)
+  local path = vim.fn.expand(context.dir .. context:current_value())
   local winpath = [[\\wsl$\Ubuntu-18.04]] .. path:gsub('/', '\\')
   vim.fn.setreg(vim.v.register, winpath)
   print('Yank path: ' .. winpath)
 end
+
+local function newfile(context)
+  local name = vim.fn.input('New file: ', '', 'file')
+  if name == '' then
+    return
+  end
+
+  if name == '.' or name == '..' or string.match(name, '[/\\]') then
+    utils.error('Invalid file name: ' .. name)
+    return
+  end
+
+  local function touch(path)
+    local f = uv.fs_open(path, 'w', tonumber('644', 8))
+    uv.fs_close(f)
+  end
+  touch(context.dir .. name)
+
+  actions.reload()
+
+  local lnum = lir.get_context():indexof(name)
+  vim.cmd(tostring(lnum))
+end
+
 
 require 'lir'.setup {
   show_hidden_files = false,
@@ -53,8 +83,7 @@ require 'lir'.setup {
     ['q']     = actions.quit,
 
     ['K']     = actions.mkdir,
-    ['N']     = actions.newfile,
-    ['S']     = newfile_new,
+    ['N']     = newfile,
     ['R']     = actions.rename,
     ['C']     = cp,
     ['M']     = mv,

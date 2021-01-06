@@ -93,6 +93,15 @@ function! s:exec_line(new_line) abort
 
 endfunction
 
+function! s:tldr_line() abort
+  if !executable('tldr')
+    echomsg '[deol] require tldr'
+    return
+  endif
+
+  call deol#send('tldr ' .. getline('.'))
+endfunction
+
 function! s:deol_editor_settings() abort
     command! -buffer -bang DeolExecuteLine call <SID>exec_line(<bang>0)
 
@@ -106,6 +115,8 @@ function! s:deol_editor_settings() abort
 
     nnoremap <buffer><silent> <CR> :<C-u>DeolExecuteLine<CR>
     inoremap <buffer><silent> <CR>  <Esc>:DeolExecuteLine!<CR>
+
+    nnoremap <buffer><silent> <A-h> :<C-u>call <SID>tldr_line()<CR>
 
     resize 5
     setlocal winfixheight

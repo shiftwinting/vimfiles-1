@@ -14,7 +14,7 @@ endfunction
 " -------------------------------------------------
 " バッファが表示されているか返す
 " -------------------------------------------------
-function! s:find_visible_file(path) abort
+function! vimrc#find_visible_file(path) abort
     for l:buf in getbufinfo({'buflisted': 1})
         if vimrc#get_fullpath(l:buf.name) ==# a:path &&
         \   !empty(l:buf.windows)
@@ -30,7 +30,7 @@ endfunction
 " =================================================
 function! vimrc#drop_or_tabedit(path) abort
     let l:path = vimrc#get_fullpath(a:path)
-    if s:find_visible_file(l:path)
+    if vimrc#find_visible_file(l:path)
         execute 'drop ' . l:path
     else
         execute 'tabedit ' . l:path

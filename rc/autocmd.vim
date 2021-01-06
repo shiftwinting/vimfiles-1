@@ -577,8 +577,8 @@ endif
 " rust
 " ====================
 function! s:my_ft_rust() abort
-  nnoremap <Space>bl :<C-u>RustFmt<CR>
-  nnoremap <Space>rr :<C-u>QCargoRun<CR>
-  nnoremap <A-h> :<C-u>OpenBrowserSmartSearch -rust_doc_std 
-  xnoremap <A-h> "hy:<C-u>OpenBrowserSmartSearch -rust_doc_std <C-r>h<CR>
+  nnoremap <buffer> <Space>bl :<C-u>RustFmt<CR>
+  nnoremap <buffer> <Space>rr :<C-u>QCargoRun<CR>
+  nnoremap <buffer> <A-h> :<C-u>OpenBrowserSmartSearch -rust_doc_std 
+  xnoremap <buffer> <A-h> "hy:<C-u>OpenBrowserSmartSearch -rust_doc_std <C-r>h<CR>
 endfunction

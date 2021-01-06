@@ -103,8 +103,13 @@ call add(s:rules, { 'filetype': ['vim'], 'char': '<', 'at': '^\s*\(autocmd\|.[no
 " ====================
 " rust
 " ====================
-call add(s:rules, { 'filetype': ['rust'], 'char': "'",                'input': "''\<Left>" })
-call add(s:rules, { 'filetype': ['rust'], 'char': "'", 'at': 'b\%#',  'input': "''\<Left>" })
+call add(s:rules, { 'filetype': ['rust'], 'char': "'",                         'input': "''\<Left>"    })
+call add(s:rules, { 'filetype': ['rust'], 'char': "'", 'at':    'b\%#',        'input': "''\<Left>" })
+call add(s:rules, { 'filetype': ['rust'], 'char': "<", 'at':    'Vec\%#',      'input': "<>\<Left>" })
+call add(s:rules, { 'filetype': ['rust'], 'char': "<", 'at':    'struct.*\%#', 'input': "<>\<Left>" })
+call add(s:rules, { 'filetype': ['rust'], 'char': "<", 'at':    '::\%#',       'input': "<>\<Left>" })
+call add(s:rules, { 'filetype': ['rust'], 'char': "<", 'at':    'Box\%#',      'input': "<>\<Left>" })
+call add(s:rules, { 'filetype': ['rust'], 'char': "<", 'at':    'Some\%#',     'input': "<>\<Left>" })
 
 
 

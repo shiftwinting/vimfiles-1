@@ -8,10 +8,12 @@ local pickers = require('telescope.pickers')
 local finders = require('telescope.finders')
 local previewers = require('telescope.previewers')
 local conf = require('telescope.config').values
+local transform_mod = require('telescope.actions.mt').transform_mod
 
 local my_entry_maker = require('vimrc.telescope.make_entry')
 
-vim.env.BAT_THEME = 'gruvbox-light'
+-- vim.env.BAT_THEME = 'gruvbox-light'
+vim.env.BAT_THEME = 'gruvbox-dark'
 
 require'telescope'.load_extension('fzy_native')
 
@@ -38,6 +40,13 @@ require'telescope'.setup{
         -- 閉じる
         ["<C-c>"] = actions.close,
         ["<C-q>"] = actions.close,
+        ["<Esc>"] = actions.close,
+
+        -- switch normal mode
+        ["<Tab>"] = function(_, _)
+          local key = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+          vim.api.nvim_feedkeys(key, 'n', true)
+        end,
 
         -- カーソル移動
         ["<C-j>"] = actions.move_selection_next,
@@ -59,12 +68,26 @@ require'telescope'.setup{
         ["k"] = actions.move_selection_previous,
 
         ["q"] = actions.close,
+        ["<Esc>"] = actions.close,
 
         -- 開く
         ["<C-t>"] = actions.goto_file_selection_tabedit,
         ["<C-s>"] = actions.goto_file_selection_split,
         ["<C-v>"] = actions.goto_file_selection_vsplit,
         ["<CR>"]  = actions.goto_file_selection_edit,
+
+        -- switch insert mode
+        ["<Tab>"] = function(_, _)
+          vim.api.nvim_feedkeys('i', 'n', true)
+        end,
+
+
+        -- -- 選択して、カーソル移動
+        -- ["<Space>"]  = actions.add_selection + transform_mod({
+        --   x = function()
+        --     vim.cmd('normal! k')
+        --   end
+        -- }),
       },
     },
     color_devicons = true,
@@ -121,6 +144,15 @@ local mappings = {
           print(val)
           vim.api.nvim_command(string.format('edit %s', val))
         end)
+
+        local function delete_buffer()
+          local selection = actions.get_selected_entry(prompt_bufnr)
+          pcall(vim.cmd, string.format([[silent bdelete! %s]], selection.bufnr))
+
+          -- TODO: refresh
+        end
+
+        map('n', 'D', delete_buffer)
 
         return true
       end,
@@ -197,9 +229,9 @@ local mappings = {
 local function commands()
   local function make_def_func(is_xmap)
     return function(prompt_bufnr, map)
-      local selection = actions.get_selected_entry()
+      local entry = actions.get_selected_entry()
       actions.close(prompt_bufnr)
-      local val = selection.value
+      local val = entry.value
       local cmd = string.format([[:%s%s ]], (is_xmap and "'<,'>" or ''), val.name)
 
       if val.nargs == "0" or val.nargs == '*' or val.nargs == '?' then
@@ -207,6 +239,7 @@ local function commands()
           local cr = vim.api.nvim_replace_termcodes('<CR>', true, false, true)
           vim.api.nvim_feedkeys(cmd .. cr, 'n', true)
         else
+          vim.fn.histadd("cmd", cmd)
           vim.cmd(cmd)
         end
       else

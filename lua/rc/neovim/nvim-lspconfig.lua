@@ -181,15 +181,17 @@ require('nlua.lsp.nvim').setup(lspconfig, {
 
 
 --- vim
+-- https://github.com/iamcco/vim-language-server
+-- $ npm install -g vim-language-server
 lspconfig.vimls.setup{
   on_attach = on_attach,
 }
 
 
--- --- clangd
--- -- install https://clangd.llvm.org/installation.html
--- -- sudo apt-get install clangd-9
--- -- sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
+--- clangd
+-- https://clangd.llvm.org/installation.html
+-- $ sudo apt-get install clangd-9
+-- $ sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
 lspconfig.clangd.setup {
   on_attach = on_attach,
 }
@@ -204,17 +206,17 @@ lspconfig.clangd.setup {
 --- rust_analyzer
 lspconfig.rust_analyzer.setup{
   on_attach = on_attach,
-  capabilities = vim.tbl_deep_extend('keep', vim.lsp.protocol.make_client_capabilities(), {
-    textDocument = {
-      completion = {
-        completionItem = {
-          resolveSupport = {
-            properties = { 'additionalTextEdits' }
-          }
-        }
-      }
-    }
-  }),
+  -- capabilities = vim.tbl_deep_extend('keep', vim.lsp.protocol.make_client_capabilities(), {
+  --   textDocument = {
+  --     completion = {
+  --       completionItem = {
+  --         resolveSupport = {
+  --           properties = { 'additionalTextEdits' }
+  --         }
+  --       }
+  --     }
+  --   }
+  -- }),
 }
 
 --- pyls

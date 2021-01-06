@@ -92,6 +92,16 @@ function! s:define_my_highlight() abort
     endif
 
     hi ScrollView guibg=#a96b2c
+  else
+    
+    hi ScrollView guibg=#ddc7a1
+
+    " green
+    hi GitSignAdd    gui=bold guifg=#6c782e guibg=#3c3836
+    " yellow
+    hi GitSignChange gui=bold guifg=#d8a657 guibg=#3c3836
+    " red
+    hi GitSignDelete gui=bold guifg=#ea6962 guibg=#3c3836
 
   endif
   hi TelescopeBorder guifg=#7c6f64
@@ -117,7 +127,7 @@ let g:nord_uniform_diff_background = 1
 let g:nord_underline = 1
 let g:nord_bold_vertical_split_line = 1
 
-set bg=light
-" set bg=dark
+" set bg=light
+set bg=dark
 colorscheme gruvbox-material
 " colorscheme nord

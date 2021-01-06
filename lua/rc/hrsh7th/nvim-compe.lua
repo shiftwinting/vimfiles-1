@@ -15,5 +15,6 @@ require'compe'.setup {
     -- rust はなんか重くなる...
     tags = {ignored_filetypes = {'rust', 'markdown', 'md'}},
     vsnip = true,
+    neosnippet = true,
   }
 }

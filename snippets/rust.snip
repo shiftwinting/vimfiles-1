@@ -9,3 +9,27 @@ snippet     echo
 abbr        println!("|");
 options     head
 	println!("${0}");
+
+snippet     vec
+abbr        vec![...]
+alias		vec!
+	vec![${1}]
+
+snippet     print
+abbr        print!(...);
+alias		print!
+	print!("{${1}}", ${2});
+
+
+snippet     println
+abbr        println!(...);
+alias		println!
+	println!("{${1}}", ${2});
+
+snippet     fn
+abbr        fn fn_name(args) { ... }
+options     head
+alias		fun func
+    fn ${1:#:func_name}(${2:#:args}) {
+        ${0:TARGET}
+    }

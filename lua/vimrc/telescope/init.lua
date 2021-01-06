@@ -77,7 +77,7 @@ M.mru = function(opts)
   opts = opts or {}
   opts.shorten_path = opts.shorten_path or true
 
-  local results = vim.api.nvim_eval('mr#mru#list()[:100]')
+  local results = vim.api.nvim_eval('mr#mru#list()[:999]')
 
   pickers.new(opts, {
     prompt_title = 'mru',
