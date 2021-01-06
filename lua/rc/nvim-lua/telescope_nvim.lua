@@ -12,10 +12,24 @@ local transform_mod = require('telescope.actions.mt').transform_mod
 
 local my_entry_maker = require('vimrc.telescope.make_entry')
 
+-- $ bat --list-themes で確認できる
 -- vim.env.BAT_THEME = 'gruvbox-light'
-vim.env.BAT_THEME = 'gruvbox-dark'
+vim.env.BAT_THEME = 'gruvbox'
 
-require'telescope'.load_extension('fzy_native')
+-------------------
+-- load extensions
+-------------------
+local extensions = {
+  'fzy_native',
+  'ghq'
+}
+local function load_extensions(extensions)
+  for i, ext in ipairs(extensions) do
+    require'telescope'.load_extension(ext)
+  end
+end
+load_extensions(extensions)
+
 
 -- https://github.com/nvim-lua/telescope.nvim/blob/d32d4a6e0f0c571941f1fd37759ca1ebbdd5f488/lua/telescope/init.lua
 require'telescope'.setup{
@@ -179,8 +193,26 @@ local mappings = {
 
   -- ghq
   ['n<Space>fq'] = {function()
-    require('vimrc.telescope').ghq{
+    local ghq_root = vim.env.GHQ_ROOT
+    require('telescope.builtin').ghq_list{
       sorter = sorters.get_fzy_sorter(),
+      entry_maker = function(line)
+        return {
+          value = line,
+          ordinal = line,
+          display = string.sub(line, #ghq_root + #'/github.com/' + 1),
+        }
+      end,
+      attach_mappings = function(prompt_bufnr, map)
+        actions.goto_file_selection_edit:replace(function(prompt_bufnr)
+          local val = actions.get_selected_entry(prompt_bufnr).value
+          actions.close(prompt_bufnr)
+          a.nvim_command('tabnew')
+          a.nvim_command(format('tcd %s | edit .', val))
+          -- a.nvim_command(format([[tcd %s | lua require'lir.float'.toggle()]], val))
+        end)
+        return true
+      end
     }
   end},
 

@@ -127,43 +127,6 @@ M.mrr = function(opts)
 end
 
 
---[[
-  ghq
-    from telescope/make_entry.lua の make_entry.gen_from_buffer() からもらった
-]]
-M.ghq = function(opts)
-  local ghq_root = vim.env.GHQ_ROOT
-  pickers.new(opts, {
-    prompt_title = 'ghq',
-    finder = finders.new_oneshot_job(
-      {'ghq', 'list', '--full-path'}, {
-        entry_maker = function(line)
-          return {
-            value = line,
-            ordinal = line,
-            display = string.sub(line, #ghq_root + #'/github.com/' + 1),
-          }
-        end
-      }
-    ),
-    sorter = sorters.get_fzy_sorter(),
-    attach_mappings = function(prompt_bufnr, map)
-      local tabedit = function()
-        local val = actions.get_selected_entry(prompt_bufnr).value
-        actions.close(prompt_bufnr)
-        a.nvim_command('tabnew')
-        -- a.nvim_command(format('tcd %s | edit .', val))
-        a.nvim_command(format([[tcd %s | lua require'lir.float'.toggle()]], val))
-      end
-
-      map('i', '<CR>', tabedit)
-      map('n', '<CR>', tabedit)
-
-      -- true を返さないと、mapping が上書きされてしまう？
-      return true
-    end
-  }):find()
-end
 
 
 --[[
