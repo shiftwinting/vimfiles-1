@@ -212,6 +212,10 @@ local mappings = {
 
   ['nsf'] = {function()
     local ft = vim.api.nvim_eval([[input('FileType: ', '', 'filetype')]])
+    if ft == '' then
+      print('Cancel.')
+      return
+    end
     -- もし空ならそのバッファを使う
     if vim.fn.line('$') == 1 and vim.fn.getline(1) and not vim.bo.modified then
       vim.api.nvim_command('e ' .. os.tmpname())

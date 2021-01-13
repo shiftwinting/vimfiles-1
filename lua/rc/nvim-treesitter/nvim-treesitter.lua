@@ -9,6 +9,7 @@ require('nvim-treesitter.configs').setup{
     -- 'query',
     'javascript',
     'rust',
+    'bash',
   },
   highlight = {
     enable = true,
@@ -16,10 +17,10 @@ require('nvim-treesitter.configs').setup{
   -- indent = {
   --   enable = true,
   -- }
-  rainbow = {
-    enable = true
-  },
-  playground = {
-    enable = true
-  }
+  -- rainbow = {
+  --   enable = true
+  -- },
+  -- playground = {
+  --   enable = true
+  -- }
 }

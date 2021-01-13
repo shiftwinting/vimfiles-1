@@ -28,5 +28,6 @@ let g:Lf_openbrowser_bookmarks = {
 \   'lua manual': 'http://milkpot.sakura.ne.jp/lua/lua51_manual_ja.html',
 \   'luv vim.loop': 'https://github.com/luvit/luv/blob/master/docs.md',
 \   'luarocks.org': 'luarocks.org',
+\   'exercism_lua': 'https://exercism.io/my/tracks/lua',
 \}
 

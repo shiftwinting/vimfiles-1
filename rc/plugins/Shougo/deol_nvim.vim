@@ -46,11 +46,11 @@ augroup END
 
 autocmd MyDeol Filetype   deol     call <SID>deol_settings()
 autocmd MyDeol Filetype   deoledit call <SID>deol_editor_settings()
-autocmd MyDeol DirChanged *        call <SID>deol_cd()
+" autocmd MyDeol DirChanged *        call <SID>deol_cd()
 
-function! s:deol_cd() abort
-    call deol#cd(fnamemodify(expand('<afile>'), ':p:h'))
-endfunction
+" function! s:deol_cd() abort
+"     call deol#cd(fnamemodify(expand('<afile>'), ':p:h'))
+" endfunction
 
 function! s:deol_settings() abort
     if has('nvim')
@@ -117,6 +117,8 @@ function! s:deol_editor_settings() abort
     inoremap <buffer><silent> <CR>  <Esc>:DeolExecuteLine!<CR>
 
     nnoremap <buffer><silent> <A-h> :<C-u>call <SID>tldr_line()<CR>
+
+    inoremap <buffer><silent><expr> <TAB> pumvisible() ? "\<C-n>" : compe#complete()
 
     resize 5
     setlocal winfixheight

@@ -8,13 +8,16 @@ require'compe'.setup {
   allow_prefix_unmatch = false,
 
   source = {
-    path = true,
-    buffer = true,
+    path = {ignored_filetypes = {'zsh'}},
+    buffer = {ignored_filetypes = {'zsh'}},
     nvim_lsp = true,
     nvim_lua = true,
     -- rust はなんか重くなる...
-    tags = {ignored_filetypes = {'rust', 'markdown', 'md'}},
-    vsnip = true,
-    neosnippet = true,
+    tags = {ignored_filetypes = {'rust', 'markdown', 'md', 'zsh'}},
+    -- vsnip = true,
+    neosnippet = {ignored_filetypes = {'zsh'}},
+    zsh = {filetypes = {'zsh'}},
   }
 }
+
+vim.api.nvim_set_keymap('i', '<C-Space>', 'compe#complete()', {silent = true, expr = true})

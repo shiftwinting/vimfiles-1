@@ -1,6 +1,7 @@
 if vim.api.nvim_call_function('FindPlugin', {'nvim-lspconfig'}) == 0 then do return end end
 
 local neorocks = require'plenary.neorocks'
+local util = require 'lspconfig/util'
 
 -- 診断結果の設定
 --   LSP の仕様: https://github.com/tennashi/lsp_spec_ja#publishdiagnostics-notification
@@ -206,6 +207,21 @@ lspconfig.clangd.setup {
 --- rust_analyzer
 lspconfig.rust_analyzer.setup{
   on_attach = on_attach,
+  root_dir = function(fname)
+    local cargo_metadata = vim.fn.system("cargo metadata --format-version 1")
+    local cargo_root = nil
+    if vim.v.shell_handler == 0 then
+      cargo_root = vim.fn.json_decode(cargo_metadata)["workspace_root"]
+    end
+    return cargo_root or
+      -- util.find_git_ancestor(fname) or
+      -- util.root_pattern("rust-project.json")(fname)
+
+      -- Cargo.toml があったら、そこを root_dir にする
+      util.root_pattern("Cargo.toml")(fname) or
+      util.find_git_ancestor(fname) or
+      util.root_pattern("rust-project.json")(fname)
+  end,
   -- capabilities = vim.tbl_deep_extend('keep', vim.lsp.protocol.make_client_capabilities(), {
   --   textDocument = {
   --     completion = {

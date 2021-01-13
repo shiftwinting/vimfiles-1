@@ -194,7 +194,7 @@ local mappings = {
   -- ghq
   ['n<Space>fq'] = {function()
     local ghq_root = vim.env.GHQ_ROOT
-    require('telescope.builtin').ghq_list{
+    require'telescope'.extensions.ghq.list{
       sorter = sorters.get_fzy_sorter(),
       entry_maker = function(line)
         return {
@@ -207,9 +207,9 @@ local mappings = {
         actions.goto_file_selection_edit:replace(function(prompt_bufnr)
           local val = actions.get_selected_entry(prompt_bufnr).value
           actions.close(prompt_bufnr)
-          a.nvim_command('tabnew')
-          a.nvim_command(format('tcd %s | edit .', val))
-          -- a.nvim_command(format([[tcd %s | lua require'lir.float'.toggle()]], val))
+          vim.api.nvim_command('tabnew')
+          vim.api.nvim_command(string.format('tcd %s | edit .', val))
+          -- vim.api.nvim_command(string.format([[tcd %s | lua require'lir.float'.toggle()]], val))
         end)
         return true
       end

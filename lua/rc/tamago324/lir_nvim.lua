@@ -8,7 +8,8 @@ local utils = require 'lir.utils'
 local uv = vim.loop
 
 
-local mmv = require 'vimrc.lir.mmv'.mmv
+local mmv = require 'lir.mmv.actions'.mmv
+local b_actions = require 'lir.bookmark.actions'
 
 local actions = require'lir.actions'
 
@@ -18,23 +19,10 @@ end
 
 local function rm(context)
   local path = context.dir .. context:current_value()
-  a.nvim_feedkeys(':!gomi ' .. esc_path(path), 'n', true)
+  vim.fn.system('gomi ' .. esc_path(path))
+  actions.reload()
 end
 
-local function mv(context)
-  local path = context.dir .. context:current_value()
-  local cmd = string.format([[:!mv %s %s]], esc_path(path), context.dir)
-  a.nvim_feedkeys(cmd, 'n', true)
-end
-
--- local function newfile_new()
---   if vim.w.lir_is_float then
---     a.nvim_feedkeys(':close | :vnew ' .. lir.get_context().dir, 'n', true)
---   else
---     a.nvim_feedkeys(':vnew ' .. lir.get_context().dir, 'n', true)
---   end
--- end
---
 local function cp(context)
   local path = context.dir .. context:current_value()
   local cmd = string.format([[:!cp %s %s]], esc_path(path), esc_path(context.dir))
@@ -68,9 +56,15 @@ local function newfile(context)
   actions.reload()
 
   local lnum = lir.get_context():indexof(name)
-  vim.cmd(tostring(lnum))
+  if lnum then
+    vim.cmd(tostring(lnum))
+  end
 end
 
+function cd(context)
+  actions.cd(context)
+  vim.fn['deol#cd'](context.dir)
+end
 
 require 'lir'.setup {
   show_hidden_files = false,
@@ -89,16 +83,31 @@ require 'lir'.setup {
     ['R']     = actions.rename,
     ['C']     = cp,
     ['M']     = mmv,
-    ['@']     = actions.cd,
+    ['@']     = cd,
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
     ['D']     = rm,
     ['~']     = function() vim.cmd('edit ' .. vim.fn.expand('$HOME')) end,
     ['W']     = yank_win_path,
+    ['B']     = b_actions.list,
+    ['ba']    = b_actions.add,
   },
   float = {
     size_percentage = 0.5,
     winblend = 2,
+  }
+}
+
+require'lir.bookmark'.setup {
+  bookmark_path = '~/.lir_bookmark',
+  mappings = {
+    ['l']     = b_actions.edit,
+    ['<C-s>'] = b_actions.split,
+    ['<C-v>'] = b_actions.vsplit,
+    ['<C-t>'] = b_actions.tabedit,
+    ['<C-e>'] = b_actions.open_lir,
+    ['B']     = b_actions.open_lir,
+    ['q']     = b_actions.open_lir,
   }
 }
 

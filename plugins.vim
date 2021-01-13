@@ -68,8 +68,8 @@ Plug 'mattn/webapi-vim'
 Plug 'knsh14/vim-github-link'
 
 " sign
-" Plug 'lewis6991/gitsigns.nvim'
-Plug '~/.ghq/github.com/lewis6991/gitsigns.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+" Plug '~/.ghq/github.com/lewis6991/gitsigns.nvim'
 Plug 'nvim-lua/plenary.nvim'
 
 Plug 'gisphm/vim-gitignore'
@@ -80,10 +80,14 @@ Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-dispatch'
 " Plug 'skanehira/gh.vim'
 
+" prefix complete
+Plug 'gotchane/vim-git-commit-prefix'
+
 " ------------------------
 "  colorscheme
 " ------------------------
 Plug 'sainnhe/gruvbox-material'
+Plug 'habamax/vim-gruvbit'
 
 " ------------------------
 "  operator
@@ -138,8 +142,9 @@ Plug 'nvim-treesitter/nvim-treesitter'
 " Plug 'p00f/nvim-ts-rainbow'
 " Plug 'nvim-treesitter/playground'
 Plug 'norcalli/nvim-colorizer.lua'
-" Plug 'dstein64/nvim-scrollview'
-Plug '/home/tamago324/.ghq/github.com/dstein64/nvim-scrollview'
+Plug 'dstein64/nvim-scrollview'
+" Plug '/home/tamago324/.ghq/github.com/dstein64/nvim-scrollview'
+Plug 'monaqa/dial.nvim'
 
 " ------------------------
 "  Languages
@@ -185,7 +190,12 @@ Plug 'rust-lang/rust.vim'
 
 
 Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
+Plug '~/.ghq/github.com/tamago324/compe-zsh'
+Plug 'Shougo/deoplete-zsh'
+
 Plug '~/.ghq/github.com/tamago324/lir.nvim'
+Plug '~/.ghq/github.com/tamago324/lir-mmv.nvim'
+Plug '~/.ghq/github.com/tamago324/lir-bookmark.nvim'
 " Plug 'tamago324/lir.nvim'
 " Plug '~/.ghq/github.com/tamago324/lir-float.nvim'
 " Plug '~/.ghq/github.com/tamago324/vim-browsersync'
