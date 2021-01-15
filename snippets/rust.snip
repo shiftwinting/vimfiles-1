@@ -5,11 +5,6 @@ options     head
 		${0}
 	}
 
-snippet     echo
-abbr        println!("|");
-options     head
-	println!("${0}");
-
 snippet     vec
 abbr        vec![...]
 alias		vec!
@@ -39,3 +34,28 @@ snippet     match
 		${2:Some(expr)} => ${3:expr},
 		${4:None} => ${5:expr},
 	}
+
+snippet     iflet
+abbr        if let pattern = expr { ... }
+	if let ${1:#:pattern} = ${2:#:value} {
+		${0}
+	}
+
+snippet     loop
+abbr        loop { ... }
+	loop {
+		${0}
+	}
+
+snippet     while
+abbr        while condition { ... }
+	while ${1:#:condition} {
+	    ${0}
+	}
+
+snippet     whilelet
+abbr        while let pattern = expr { ... }
+	while let ${1:#:pattern} = ${2:#:value} {
+		${0}
+	}
+

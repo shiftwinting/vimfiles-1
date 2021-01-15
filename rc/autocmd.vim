@@ -280,9 +280,9 @@ function! s:my_ft_qf() abort
   " nnoremap <buffer><silent> <CR> :<C-u>lua require'vimrc.qfpreview'.edit()<CR>
 
   resize 20
-  set signcolumn=no
-  set cursorline
-  set number
+  setlocal signcolumn=no
+  setlocal cursorline
+  setlocal number
 endfunction
 
 
@@ -561,6 +561,10 @@ function! s:my_ft_vim() abort
 endfunction
 
 
+
+" ====================
+" IME を自動で OFF
+" ====================
 let s:ahk_exe_path = '/mnt/c/Program Files/AutoHotkey/AutoHotkeyU64.exe'
 let s:im_disable_script_path = expand('<sfile>:h:h') .. '/ahk/imDisable.ahk'
 
@@ -572,10 +576,8 @@ if s:isWSL() && executable(s:ahk_exe_path)
   augroup my-InsertLeave-ImDisable
     autocmd!
     autocmd InsertLeave * :call system(printf('%s "%s"', shellescape(s:ahk_exe_path), s:im_disable_script_path))
-    " autocmd CmdlineLeave * :call system(printf('%s "%s"', shellescape(s:ahk_exe_path), s:im_disable_script_path))
   augroup END
 endif
-
 
 " ====================
 " rust
@@ -586,3 +588,13 @@ function! s:my_ft_rust() abort
   nnoremap <buffer> <A-h> :<C-u>OpenBrowserSmartSearch -rust_doc_std 
   xnoremap <buffer> <A-h> "hy:<C-u>OpenBrowserSmartSearch -rust_doc_std <C-r>h<CR>
 endfunction
+
+
+" ====================
+" zsh
+" ====================
+function! s:my_ft_zsh() abort
+  " treesitter を使ってしまうと、入らないため
+  " setlocal iskeyword+=-
+endfunction
+

@@ -134,7 +134,7 @@ local mappings = {
   end},
 
   -- buffers
-  ['n<Space>fj'] = {function()
+  ['nfj'] = {function()
     require('telescope.builtin').buffers {
       shorten_path = false,
       show_all_buffers = true,
@@ -188,6 +188,16 @@ local mappings = {
     require('vimrc.telescope').mru{
       file_ignore_patterns = { "^/tmp" },
       previewer = previewers.cat.new({}),
+      attach_mappings = function(prompt_bufnr, map)
+        actions.goto_file_selection_tabedit:replace(function ()
+          local selection = actions.get_selected_entry(prompt_bufnr)
+          actions.close(prompt_bufnr)
+          local val = selection.value
+          vim.fn['vimrc#drop_or_tabedit'](val)
+          -- vim.api.nvim_command(string.format('drop %s', val))
+        end)
+        return true
+      end
     }
   end},
 

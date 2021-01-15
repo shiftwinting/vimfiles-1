@@ -86,8 +86,11 @@ Plug 'gotchane/vim-git-commit-prefix'
 " ------------------------
 "  colorscheme
 " ------------------------
+Plug 'tjdevries/colorbuddy.vim'
+
 Plug 'sainnhe/gruvbox-material'
-Plug 'habamax/vim-gruvbit'
+Plug 'bkegley/gloombuddy'
+Plug 'Th3Whit3Wolf/spacebuddy'
 
 " ------------------------
 "  operator
@@ -103,6 +106,7 @@ Plug 'tamago324/LeaderF-openbrowser',
 " Plug 'tamago324/LeaderF-neosnippet',
 " Plug 'tamago324/LeaderF-packadd',
 Plug 'tamago324/LeaderF-sonictemplate',
+Plug '~/.ghq/github.com/tamago324/LeaderF-filer',
 
 
 " ------------------------
@@ -295,6 +299,7 @@ call plug#end()
 " Plug 'lifepillar/vim-gruvbox8'
 " Plug 'sainnhe/edge'
 " Plug 'arcticicestudio/nord-vim'
+" Plug 'habamax/vim-gruvbit'
 
 " Plug 'hrsh7th/vim-vsnip-integ'
 

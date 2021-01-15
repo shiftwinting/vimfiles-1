@@ -264,9 +264,9 @@ set complete-=u
 " endif
 
 " 
-set breakindent
-let &showbreak=repeat(' ', 3)
-set linebreak
+" set breakindent
+" let &showbreak=repeat(' ', 3)
+" set linebreak
 
 if !has('gui_running')
   set termguicolors
