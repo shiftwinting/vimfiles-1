@@ -1,7 +1,4 @@
 scriptencoding utf-8
-
-if empty(globpath(&rtp, 'autoload/{{_expr_:expand("%:t:r")}}.vim'))
-    finish
-endif
+UsePlugin '{{_expr_:expand("%:t:r")}}'
 
 {{_cursor_}}

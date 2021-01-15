@@ -40,6 +40,7 @@ function! s:get_shorten_url(token, groupid, long_url) abort
     \       'group_guid': a:groupid,
     \       'long_url': a:long_url,
     \   }),
+    \   'client': 'curl'
     \})
     if !l:res.success
         echohl ErrorMsg

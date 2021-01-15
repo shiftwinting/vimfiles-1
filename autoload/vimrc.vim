@@ -14,7 +14,7 @@ endfunction
 " -------------------------------------------------
 " バッファが表示されているか返す
 " -------------------------------------------------
-function! s:find_visible_file(path) abort
+function! vimrc#find_visible_file(path) abort
     for l:buf in getbufinfo({'buflisted': 1})
         if vimrc#get_fullpath(l:buf.name) ==# a:path &&
         \   !empty(l:buf.windows)
@@ -30,7 +30,7 @@ endfunction
 " =================================================
 function! vimrc#drop_or_tabedit(path) abort
     let l:path = vimrc#get_fullpath(a:path)
-    if s:find_visible_file(l:path)
+    if vimrc#find_visible_file(l:path)
         execute 'drop ' . l:path
     else
         execute 'tabedit ' . l:path
@@ -155,7 +155,12 @@ endfunction
 
 
 function! vimrc#on_out(line, ...) abort
-    echo a:line
+    if type(a:line) ==# v:t_list
+        " neovim の jobstart に対応
+        echo join(a:line, ' ')
+    else
+        echo a:line
+    endif
 endfunction
 
 
@@ -177,11 +182,19 @@ function! vimrc#job_start(cmd, ...) abort
     \   'close_cb': function('s:on_close')
     \}
     let l:opts = extend(l:default_opts, get(a:, 1, {}))
-    let s:job = job_start([&shell, &shellcmdflag, a:cmd], {
-    \   'out_cb': { job_id, data -> l:opts.out_cb(data, l:buf)},
-    \   'err_cb': { job_id, data -> l:opts.err_cb(data, l:buf)},
-    \   'close_cb': l:opts.close_cb,
-    \})
+    if has('nvim')
+        let s:job = jobstart([&shell, &shellcmdflag, a:cmd], {
+        \   'on_stdout': { job_id, data -> l:opts.out_cb(data, l:buf)},
+        \   'on_stderr': { job_id, data -> l:opts.err_cb(data, l:buf)},
+        \   'on_exit': l:opts.close_cb,
+        \})
+    else
+        let s:job = job_start([&shell, &shellcmdflag, a:cmd], {
+        \   'out_cb': { job_id, data -> l:opts.out_cb(data, l:buf)},
+        \   'err_cb': { job_id, data -> l:opts.err_cb(data, l:buf)},
+        \   'close_cb': l:opts.close_cb,
+        \})
+    endif
 endfunction
 
 " =================================================

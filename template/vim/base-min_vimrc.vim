@@ -8,19 +8,12 @@ set nocompatible
 
 call plug#begin('~/vimfiles/plugged')
 
-" use plugins
-
 call plug#end()
 
-" no backup
 set nobackup
 set nowritebackup
-
-" no swap
 set noswapfile
 set updatecount=0
-
-" 消せる文字
 set backspace=indent,eol,start
 
 nnoremap <silent> <Space>q :<C-u>quit<CR>

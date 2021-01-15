@@ -20,16 +20,21 @@ options     head
 snippet     ft_autocmd
 abbr        filetype autocmd
 options     head
-	function! s:my_ft_${1:filetype}() abort
+	" ====================
+	" ${1:filetype}
+	" ====================
+	function! s:my_ft_$1() abort
 		${2}
 	endfunction
-
-	augroup my-ft-$1
-		autocmd!
-		autocmd FileType $1 call s:my_ft_$1()
-	augroup END
 
 snippet     else
 options     head
 	else
 		${0}
+
+snippet     nvim
+abbr        has('nvim')
+options     head
+	if ${1:!}has('nvim')
+		${0}
+	endif

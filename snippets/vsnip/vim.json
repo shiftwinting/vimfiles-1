@@ -1,0 +1,69 @@
+{
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition}",
+      "\t${2}",
+      "endif"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for ${1:var} in ${2:list}",
+      "\t$3",
+      "endfor"
+    ]
+  },
+  "function": {
+    "prefix": "func",
+    "body": [
+      "function! ${1:func_name}($2) abort",
+      "\t${3}",
+      "endfunction"
+    ]
+  },
+  "command": {
+    "prefix": "command",
+    "body": [
+      "command! ${1:command_name} call ${2:func_name}"
+    ]
+  },
+  "augroup": {
+    "prefix": "augroup",
+    "body": [
+      "augroup ${1:augroup_name}",
+      "\t autocmd!",
+      "\tautocmd ${2:event}",
+      "augroup END"
+    ]
+  },
+  "lua": {
+    "prefix": "lua",
+    "body": [
+      "lua << EOF",
+      "$1",
+      "EOF"
+    ]
+  },
+  "try endtry": {
+    "prefix": "try",
+    "body": [
+      "try",
+      "\t$1",
+      "catch /${2:.*}/",
+      "\t$3",
+      "endtry"
+    ]
+  },
+  "try ... finally ... endtry": {
+    "prefix": "tryfinally",
+    "body": [
+      "try",
+      "\t$1",
+      "finally",
+      "\t$2",
+      "endtry"
+    ]
+  }
+}

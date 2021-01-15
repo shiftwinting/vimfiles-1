@@ -105,4 +105,6 @@ function! gitstatus#init() abort
     let s:timer_fetch_status = timer_start(1000, {timer_id -> gitstatus#fetch_job_start()}, { 'repeat': -1 })
 endfunction
 
-call gitstatus#init()
+if !has('nvim')
+    call gitstatus#init()
+endif

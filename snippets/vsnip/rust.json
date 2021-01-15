@@ -1,0 +1,137 @@
+{
+  "if let": {
+    "prefix": "if let",
+    "body": [
+      "if let ${1:pattern} = ${2:value} {",
+      "\t$3",
+      "}"
+    ]
+  },
+  "iflet": {
+    "prefix": "iflet",
+    "body": [
+      "if let ${1:pattern} = ${2:value} {",
+      "\t$3",
+      "}"
+    ]
+  },
+  "match": {
+    "prefix": "match",
+    "body": [
+      "match ${1:expr} {",
+      "\t${2:Some(expr)} => ${4:expr},",
+      "\t${5:None} => ${6:expr},",
+      "}"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition} {",
+      "\t$2",
+      "}"
+    ]
+  },
+  "else": {
+    "prefix": "else",
+    "body": [
+      "else {",
+      "\t$0",
+      "}"
+    ]
+  },
+  "format!": {
+    "prefix": "format",
+    "body": [
+      "format!($0);"
+    ]
+  },
+  "print": {
+    "prefix": "print",
+    "body": [
+      "print!($0);"
+    ]
+  },
+  "print!": {
+    "prefix": "print!",
+    "body": [
+      "print!($0);"
+    ]
+  },
+  "println": {
+    "prefix": "println",
+    "body": [
+      "println!($0);"
+    ]
+  },
+  "println!": {
+    "prefix": "println!",
+    "body": [
+      "println!($0);"
+    ]
+  },
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:name}(${2:args}) {",
+      "\t$3",
+      "}"
+    ]
+  },
+  "fn-": {
+    "prefix": "fn-",
+    "body": [
+      "fn ${1:name}(${2:args}) -> ${3:()} {",
+      "\t$4",
+      "}"
+    ]
+  },
+  "Result": {
+    "prefix": "res",
+    "body": [
+      "Result<${1:~str}, ${2:()}>$3"
+    ]
+  },
+  "Option": {
+    "prefix": "opt",
+    "body": [
+      "Option<${1:()}>$2"
+    ]
+  },
+  "struct": {
+    "prefix": "struct",
+    "body": [
+      "struct ${1:name} {",
+      "\t$2",
+      "}"
+    ]
+  },
+  "vec![]": {
+    "prefix": "vec",
+    "body": [
+      "vec![$1]"
+    ]
+  },
+  "#[derive(...)]": {
+    "prefix": "derive",
+    "body": [
+      "#[derive($1)]"
+    ]
+  },
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "enum $1 {",
+      "\t$2",
+      "}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for $1 in $2 {",
+      "\t$3",
+      "}"
+    ]
+  }
+}
