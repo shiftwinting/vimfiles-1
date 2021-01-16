@@ -134,7 +134,7 @@ local mappings = {
   end},
 
   -- buffers
-  ['nfj'] = {function()
+  ['n<Space>fj'] = {function()
     require('telescope.builtin').buffers {
       shorten_path = false,
       show_all_buffers = true,

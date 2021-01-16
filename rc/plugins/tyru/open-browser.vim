@@ -9,6 +9,10 @@ let g:openbrowser_default_search = 'duckduckgo'
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 
+" devdocs
+xnoremap <A-d> :<C-u>execute printf('OpenBrowserSmartSearch -devdocs %s %s', &filetype, vimrc#getwords_last_visual())<CR>
+nnoremap <A-d> :<C-r>=printf('OpenBrowserSmartSearch -devdocs %s ', &filetype)<CR>
+
 " 追加
 let g:openbrowser_search_engines = {
 \   'devdocs': 'http://devdocs.io/#q={query}',

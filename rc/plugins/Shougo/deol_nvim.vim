@@ -59,7 +59,10 @@ function! s:deol_settings() abort
     else
         tnoremap <buffer><silent>   <A-e> <C-w>:call deol#edit()<CR>
     endif
-    nnoremap <buffer><silent>       <A-e> <Esc>:<C-u>call deol#edit()<CR>
+    nnoremap <buffer><silent> <A-e> <Esc>:<C-u>call deol#edit()<CR>
+
+    nnoremap <buffer><silent> <A-k> <Plug>(deol_previous_prompt)
+    nnoremap <buffer><silent> <A-j> <Plug>(deol_next_prompt)
 
     " 不要なマッピングを削除
     nnoremap <buffer>               <C-o> <Nop>

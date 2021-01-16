@@ -17,6 +17,7 @@ require'compe'.setup {
     -- vsnip = true,
     neosnippet = {ignored_filetypes = {'zsh'}},
     zsh = {filetypes = {'zsh'}},
+    necosyntax = {filetypes = {'make'}}
   }
 }
 

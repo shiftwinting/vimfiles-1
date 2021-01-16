@@ -514,9 +514,6 @@ function! s:my_ft_lua() abort
   nnoremap <buffer><silent> <Space>bl :<C-u>Format<CR>
   xnoremap <buffer><silent> <Space>bl :Format<CR>
 
-  xnoremap <buffer> <A-h> :<C-u>execute 'OpenBrowserSmartSearch -devdocs lua ' .. vimrc#getwords_last_visual()<CR>
-  nnoremap <buffer> <A-h> :OpenBrowserSmartSearch -devdocs lua 
-
   " if exists(':AlterCommand')
   "   call altercmd#define('<buffer>', 'so', 'luaf')
   " endif
@@ -585,8 +582,6 @@ endif
 function! s:my_ft_rust() abort
   nnoremap <buffer> <Space>bl :<C-u>RustFmt<CR>
   nnoremap <buffer> <Space>rr :<C-u>QCargoRun<CR>
-  nnoremap <buffer> <A-h> :<C-u>OpenBrowserSmartSearch -rust_doc_std 
-  xnoremap <buffer> <A-h> "hy:<C-u>OpenBrowserSmartSearch -rust_doc_std <C-r>h<CR>
 endfunction
 
 
