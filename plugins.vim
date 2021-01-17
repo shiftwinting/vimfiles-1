@@ -106,7 +106,7 @@ Plug 'tamago324/LeaderF-openbrowser',
 " Plug 'tamago324/LeaderF-neosnippet',
 " Plug 'tamago324/LeaderF-packadd',
 Plug 'tamago324/LeaderF-sonictemplate',
-Plug '~/.ghq/github.com/tamago324/LeaderF-filer',
+" Plug '~/.ghq/github.com/tamago324/LeaderF-filer',
 
 
 " ------------------------
@@ -126,7 +126,7 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'norcalli/nvim_utils'
 Plug 'euclidianAce/BetterLua.vim'
 Plug 'neovim/nvim-lspconfig'
-Plug 'mattn/vim-lsp-settings'
+" Plug 'mattn/vim-lsp-settings'
 " Plug 'jubnzv/virtual-types.nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'RishabhRD/nvim-lsputils'
@@ -196,6 +196,10 @@ Plug 'linxinhong/Vim-AHK'
 "------------------------
 " Rust
 Plug 'rust-lang/rust.vim'
+
+"------------------------
+" Markdown
+" Plug 'plasticboy/vim-markdown'
 
 
 Plug '~/.ghq/github.com/tamago324/lir.nvim'
@@ -271,8 +275,11 @@ call plug#end()
 " Plug 'chrisbra/vim-autosave' " only vim?
 
 " Plug 'lambdalisue/fern.vim'
+" Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+" Plug 'lambdalisue/fern-bookmark.vim'
 " Plug 'lambdalisue/glyph-palette.vim'
 " Plug 'lambdalisue/nerdfont.vim'
+" Plug 'antoinemadec/FixCursorHold.nvim'  " Neovim 用 CursorHold のパフォーマンス改善
 
 " Plug 'itchyny/lightline.vim'
 

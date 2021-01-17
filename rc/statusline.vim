@@ -63,8 +63,8 @@ function! ActiveLine() abort
   let l:statusline .= " %{Filename_stl()} "
 
   " let l:statusline .= "%#Base#"
-  " git
-  let l:statusline .= " %{GitInfo_stl()}"
+  " " git
+  " let l:statusline .= " %{GitInfo_stl()}"
 
   " " lsp
   " let l:statusline .= "%{LspStatusLine()}"

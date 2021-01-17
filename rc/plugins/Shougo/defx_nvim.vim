@@ -8,15 +8,15 @@ UsePlugin 'defx.nvim'
 " \   `expand('%:p:h')`
 " \   <CR>
 
-call defx#custom#column('icon', {
-\   'directory_icon': '▸',
-\   'opened_icon': '▾',
-\   'root_icon': ' ',
-\})
-
-call defx#custom#option('_', {
-\   'columns': 'mark:indent:icons:filename',
-\})
+" call defx#custom#column('icon', {
+" \   'directory_icon': '▸',
+" \   'opened_icon': '▾',
+" \   'root_icon': ' ',
+" \})
+"
+" call defx#custom#option('_', {
+" \   'columns': 'mark:indent:icons:filename',
+" \})
 
 let g:defx_icons_column_length = 1
 

@@ -95,7 +95,8 @@ require 'lir'.setup {
   float = {
     size_percentage = 0.5,
     winblend = 2,
-  }
+  },
+  hide_cursor = true
 }
 
 require'lir.bookmark'.setup {

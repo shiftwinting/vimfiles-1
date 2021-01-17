@@ -357,6 +357,12 @@ endfunction
 "     " nnoremap <silent> <buffer> <Space>x <C-u>:ToggleCheckbox<CR>
 "   endif
 " endfunction
+" ====================
+" markdown
+" ====================
+function! s:my_ft_markdown() abort
+  setlocal concealcursor=n
+endfunction
 
 
 " ====================
@@ -593,3 +599,10 @@ function! s:my_ft_zsh() abort
   " setlocal iskeyword+=-
 endfunction
 
+
+" ====================
+" make
+" ====================
+function! s:my_ft_make() abort
+  setlocal iskeyword+=-
+endfunction

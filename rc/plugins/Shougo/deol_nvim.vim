@@ -2,16 +2,19 @@ scriptencoding utf-8
 
 UsePlugin 'deol.nvim'
 
-" \%(\) : 部分正規表現として保存しない :help /\%(\)
-let g:deol#prompt_pattern = 
-\   '^\%(PS \)\?' .
-\   '[^#>$ ]\{-}' .
-\   '\%(' .
-\       '> \?'  . '\|' .
-\       '# \? ' . '\|' . 
-\       '\$' .
-\       '\$ ' .
-\   '\)'
+" " \%(\) : 部分正規表現として保存しない :help /\%(\)
+" let g:deol#prompt_pattern = 
+" \   '^\%(PS \)\?' .
+" \   '[^#>$ ]\{-}' .
+" \   '\%(' .
+" \       '> \?'  . '\|' .
+" \       '# \? ' . '\|' . 
+" \       '\$ \?' . '\|' . 
+" \       '❯ \?' .
+" \   '\)'
+
+" starship
+let g:deol#prompt_pattern = '^❯ \?'
 
 " コマンドの履歴
 let g:deol#shell_history_path = has('nvim') ? expand('~/.zsh_history') : expand('~/deol_history')
@@ -61,8 +64,8 @@ function! s:deol_settings() abort
     endif
     nnoremap <buffer><silent> <A-e> <Esc>:<C-u>call deol#edit()<CR>
 
-    nnoremap <buffer><silent> <A-k> <Plug>(deol_previous_prompt)
-    nnoremap <buffer><silent> <A-j> <Plug>(deol_next_prompt)
+    nmap <buffer><silent> <A-k> <Plug>(deol_previous_prompt)
+    nmap <buffer><silent> <A-j> <Plug>(deol_next_prompt)
 
     " 不要なマッピングを削除
     nnoremap <buffer>               <C-o> <Nop>
@@ -115,6 +118,9 @@ function! s:deol_editor_settings() abort
 
     nnoremap <buffer>         <C-o> <Nop>
     nnoremap <buffer>         <C-i> <Nop>
+    
+    inoremap <buffer>         <C-h> <C-h>
+    inoremap <buffer>         <BS>  <BS>
 
     nnoremap <buffer><silent> <CR> :<C-u>DeolExecuteLine<CR>
     inoremap <buffer><silent> <CR>  <Esc>:DeolExecuteLine!<CR>

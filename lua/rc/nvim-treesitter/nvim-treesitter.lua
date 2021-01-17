@@ -10,6 +10,7 @@ require('nvim-treesitter.configs').setup{
     'javascript',
     'rust',
     'bash',
+    'toml',
   },
   highlight = {
     enable = true,
