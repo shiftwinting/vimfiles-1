@@ -13,7 +13,11 @@ UsePlugin 'deol.nvim'
 " \       '❯ \?' .
 " \   '\)'
 
-" starship
+
+" ウィンドウを閉じたら、完全に消される
+let $GIT_EDITOR = 'nvr --remote-tab-wait-silent +"set bufhidden=wipe"'
+
+" p10k
 let g:deol#prompt_pattern = '^❯ \?'
 
 " コマンドの履歴
@@ -24,8 +28,8 @@ let g:deol#extra_options = {
 \   'term_kill': 'kill',
 \}
 
-nnoremap <silent><A-t> :<C-u>call DeolToggle()<CR>
-tnoremap <silent><A-t> <C-\><C-n>:<C-u>call DeolToggle()<CR>
+nnoremap <silent><A-t> <Cmd>call DeolToggle()<CR>
+tnoremap <silent><A-t> <C-\><C-n><Cmd>call DeolToggle()<CR>
 
 
 " ====================
@@ -49,23 +53,46 @@ augroup END
 
 autocmd MyDeol Filetype   deol     call <SID>deol_settings()
 autocmd MyDeol Filetype   deoledit call <SID>deol_editor_settings()
-" autocmd MyDeol DirChanged *        call <SID>deol_cd()
 
-" function! s:deol_cd() abort
-"     call deol#cd(fnamemodify(expand('<afile>'), ':p:h'))
-" endfunction
+" dstein64/nvim-scrollview を使っていると、deol バッファで再描画してしまうため、対策
+if exists(':ScrollView*')
+  " pause
+  function! s:scrollview_pause(bufnr) abort
+    if !exists('t:deol')
+      return
+    endif
+
+    if t:deol.bufnr ==# a:bufnr
+      ScrollViewDisable
+    endif
+  endfunction
+
+  " restart
+  function! s:scrollview_restart(bufnr) abort
+    if !exists('t:deol')
+      return
+    endif
+
+    if t:deol.bufnr ==# a:bufnr
+      ScrollViewEnable
+    endif
+  endfunction
+
+  autocmd MyDeol WinEnter * call <SID>scrollview_pause(expand('<abuf>'))
+  autocmd MyDeol WinLeave * call <SID>scrollview_restart(expand('<abuf>'))
+endif
+
 
 function! s:deol_settings() abort
-    if has('nvim')
-        tnoremap <buffer><silent> <A-e> <C-\><C-N>:call deol#edit()<CR>
-        inoremap <buffer><silent> <A-e> <C-\><C-N>:call deol#edit()<CR>
-    else
-        tnoremap <buffer><silent>   <A-e> <C-w>:call deol#edit()<CR>
-    endif
-    nnoremap <buffer><silent> <A-e> <Esc>:<C-u>call deol#edit()<CR>
+    tnoremap <buffer><silent> <A-e> <C-\><C-N><Cmd>call deol#edit()<CR>
+    inoremap <buffer><silent> <A-e> <C-\><C-N><Cmd>call deol#edit()<CR>
+    nnoremap <buffer><silent> <A-e> <Cmd>call deol#edit()<CR>
 
     nmap <buffer><silent> <A-k> <Plug>(deol_previous_prompt)
     nmap <buffer><silent> <A-j> <Plug>(deol_next_prompt)
+    nmap <buffer><silent> <C-k> <Plug>(deol_previous_prompt)
+    nmap <buffer><silent> <C-j> <Plug>(deol_next_prompt)
+
 
     " 不要なマッピングを削除
     nnoremap <buffer>               <C-o> <Nop>
@@ -79,14 +106,8 @@ function! s:deol_settings() abort
 endfunction
 
 
-function! s:exec_line(new_line) abort
-  exec "normal \<Plug>(deol_execute_line)"
-  if a:new_line
-    " 行挿入 (o)
-    call feedkeys('o', 'n')
-  endif
-
-  " 最終行に移動する (この関数の実行が終わるまで、スクロールされない？)
+" 最終行に移動する (呼び出し元の関数の実行が終わるまで、スクロールされない？)
+function! s:goto_bottom() abort
   " From https://github.com/hrsh7th/vim-vital-vs/blob/b27285abeefa55bc6cdc90e59e496b28ea5053c4/autoload/vital/__vital__/VS/Vim/Window.vim#L24
   let l:curwin = win_getid()
   noautocmd keepalt keepjumps call win_gotoid(bufwinid(t:deol.bufnr))
@@ -96,7 +117,28 @@ function! s:exec_line(new_line) abort
     echomsg string({ 'exception': v:exception, 'throwpoint': v:throwpoint })
   endtry
   noautocmd keepalt keepjumps call win_gotoid(l:curwin)
+endfunction
 
+" deol#send() して、そのあと、末尾に移動
+function! s:send(cmd) abort
+  call deol#send(a:cmd)
+  call s:goto_bottom()
+endfunction
+
+function! s:exec_line() abort
+  exec "normal \<Plug>(deol_execute_line)"
+  echomsg mode()
+  if mode() ==# 'i'
+    " 行挿入 (o)
+    call feedkeys("\<C-o>o", 'n')
+  endif
+
+  call s:goto_bottom()
+endfunction
+
+function! s:set_line(cmd) abort
+  call append(line('$'), a:cmd)
+  normal! G$
 endfunction
 
 function! s:tldr_line() abort
@@ -109,29 +151,46 @@ function! s:tldr_line() abort
 endfunction
 
 function! s:deol_editor_settings() abort
-    command! -buffer -bang DeolExecuteLine call <SID>exec_line(<bang>0)
 
-    inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
-    nnoremap <buffer><silent> <A-e> :<C-u>call <SID>deol_kill_editor()<CR>
-    inoremap <buffer><silent> <A-t> <Esc>:call <SID>hide_deol()<CR>
-    nnoremap <buffer><silent> <A-t> :<C-u>call <SID>hide_deol()<CR>
+    inoremap <buffer><silent> <A-e> <Cmd>call <SID>deol_kill_editor()<CR>
+    nnoremap <buffer><silent> <A-e> <Cmd>call <SID>deol_kill_editor()<CR>
+    inoremap <buffer><silent> <A-t> <Cmd>call <SID>hide_deol()<CR>
+    nnoremap <buffer><silent> <A-t> <Cmd>call <SID>hide_deol()<CR>
 
-    nnoremap <buffer>         <C-o> <Nop>
-    nnoremap <buffer>         <C-i> <Nop>
-    
-    inoremap <buffer>         <C-h> <C-h>
-    inoremap <buffer>         <BS>  <BS>
+    nnoremap <buffer><silent> <CR> <Cmd>call <SID>exec_line()<CR>
+    inoremap <buffer><silent> <CR> <Cmd>call <SID>exec_line()<CR>
 
-    nnoremap <buffer><silent> <CR> :<C-u>DeolExecuteLine<CR>
-    inoremap <buffer><silent> <CR>  <Esc>:DeolExecuteLine!<CR>
+    nnoremap <buffer><silent> <A-h> <Cmd>call <SID>tldr_line()<CR>
 
-    nnoremap <buffer><silent> <A-h> :<C-u>call <SID>tldr_line()<CR>
+    inoremap <buffer><silent> <C-k> <Esc>k
+    inoremap <buffer><silent> <C-j> <Esc>:noautocmd keepalt keepjumps call win_gotoid(bufwinid(t:deol.bufnr))<CR>
+    nnoremap <buffer><silent> <C-j> :noautocmd keepalt keepjumps call win_gotoid(bufwinid(t:deol.bufnr))<CR>
 
+    " nvim-compe
     inoremap <buffer><silent><expr> <TAB> pumvisible() ? "\<C-n>" : compe#complete()
+
+    " git
+    nnoremap <buffer><silent> gcc <Cmd>call <SID>send('git commit')<CR>
+    nnoremap <buffer><silent> gca <Cmd>call <SID>send('git commit --amend')<CR>
+    nnoremap <buffer><silent> gp  <Cmd>call <SID>set_line('git push')<CR>
+    nnoremap <buffer><silent> gP  <Cmd>call <SID>set_line('git push --force')<CR>
+    nnoremap <buffer><silent> gl  <Cmd>call <SID>set_line('git pull')<CR>
+
+    " もとに戻す
+    nnoremap <buffer> <C-o> <Nop>
+    nnoremap <buffer> <C-i> <Nop>
+    
+    inoremap <buffer> <C-h> <C-h>
+    inoremap <buffer> <BS>  <BS>
+    nnoremap <buffer> <BS>  <BS>
+
+    nnoremap <buffer> <C-k> k
+    " nnoremap <buffer> <C-j> j
 
     resize 5
     setlocal winfixheight
-    setlocal filetype=zsh
+    setlocal syntax=zsh
+    " setlocal filetype=deol-edit
 endfunction
 
 

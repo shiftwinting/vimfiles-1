@@ -257,8 +257,8 @@ local mappings = {
     end
   },
 
-  ['n<Space>9'] = {[[:cprev<CR>]]},
-  ['n<Space>0'] = {[[:cnext<CR>]]},
+  ['n[q'] = {[[:cprev<CR>]]},
+  ['n]q'] = {[[:cnext<CR>]]},
 
   ['n;'] = {':'}
 

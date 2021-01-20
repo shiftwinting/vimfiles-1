@@ -8,15 +8,15 @@ require'compe'.setup {
   allow_prefix_unmatch = false,
 
   source = {
-    path = {ignored_filetypes = {'zsh'}},
-    buffer = {ignored_filetypes = {'zsh'}},
+    path = {ignored_filetypes = {'deoledit'}},
+    buffer = {ignored_filetypes = {'deoledit'}},
     nvim_lsp = true,
     nvim_lua = true,
     -- rust はなんか重くなる...
-    tags = {ignored_filetypes = {'rust', 'markdown', 'md', 'zsh'}},
+    tags = {ignored_filetypes = {'rust', 'markdown', 'md', 'deoledit'}},
     -- vsnip = true,
-    neosnippet = {ignored_filetypes = {'zsh'}},
-    zsh = {filetypes = {'zsh'}},
+    neosnippet = {ignored_filetypes = {'deoledit'}},
+    zsh = {filetypes = {'deoledit'}},
     necosyntax = {filetypes = {'make'}}
   }
 }

@@ -27,6 +27,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'voldikss/vim-translator'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-grepper'
+Plug 'delphinus/vim-auto-cursorline'
 
 Plug 'kana/vim-repeat'
 
@@ -144,6 +145,8 @@ Plug 'mhartington/formatter.nvim'
 Plug 'nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
+  Plug 'nvim-telescope/telescope-frecency.nvim'
+  Plug 'tami5/sql.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -154,6 +157,7 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'dstein64/nvim-scrollview'
 " Plug '/home/tamago324/.ghq/github.com/dstein64/nvim-scrollview'
 Plug 'monaqa/dial.nvim'
+" Plug 'gelguy/wilder.nvim'
 
 " ------------------------
 "  Languages

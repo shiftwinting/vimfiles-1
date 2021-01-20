@@ -588,6 +588,9 @@ endif
 function! s:my_ft_rust() abort
   nnoremap <buffer> <Space>bl :<C-u>RustFmt<CR>
   nnoremap <buffer> <Space>rr :<C-u>QCargoRun<CR>
+
+  xnoremap <buffer> <A-d> :<C-u>execute printf('OpenBrowserSmartSearch -rust_doc_std %s', vimrc#getwords_last_visual())<CR>
+  nnoremap <buffer> <A-d> :<C-r>=printf('OpenBrowserSmartSearch -rust_doc_std ')<CR>
 endfunction
 
 

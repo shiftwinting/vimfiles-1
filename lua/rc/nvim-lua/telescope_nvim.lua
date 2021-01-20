@@ -21,7 +21,8 @@ vim.env.BAT_THEME = 'gruvbox'
 -------------------
 local extensions = {
   'fzy_native',
-  'ghq'
+  'ghq',
+  'frecency',
 }
 local function load_extensions(extensions)
   for i, ext in ipairs(extensions) do
@@ -196,6 +197,31 @@ local mappings = {
           vim.fn['vimrc#drop_or_tabedit'](val)
           -- vim.api.nvim_command(string.format('drop %s', val))
         end)
+        return true
+      end
+    }
+  end},
+
+  -- frecency
+  ['n,,'] = {function()
+    require('telescope').extensions.frecency.frecency  {
+      attach_mappings = function(prompt_bufnr, map)
+        actions.goto_file_selection_tabedit:replace(function ()
+          local selection = actions.get_selected_entry(prompt_bufnr)
+          actions.close(prompt_bufnr)
+          local val = selection.value
+          vim.fn['vimrc#drop_or_tabedit'](val)
+          -- vim.api.nvim_command(string.format('drop %s', val))
+        end)
+
+        actions.goto_file_selection_edit:replace(function ()
+          local selection = actions.get_selected_entry(prompt_bufnr)
+          actions.close(prompt_bufnr)
+          local val = selection.value
+          print(val)
+          vim.api.nvim_command(string.format('edit %s', val))
+        end)
+
         return true
       end
     }
