@@ -35,7 +35,7 @@ nnoremap <silent> <Space>fo        :<C-u>Leaderf  openbrowser<CR>
 " nnoremap <silent> <A-x> :<C-u>Leaderf command --run-immediately --fuzzy<CR>
 " -> defx.nvim
 " nnoremap <silent> <C-e>            :<C-u><C-r>=printf("Leaderf filer '%s'", substitute(expand('%:p:h'), '\\', '/', 'g'))<CR><CR>
-nnoremap <silent> <Space>;t        :<C-u>Leaderf sonictemplate<CR>
+" nnoremap <silent> <Space>;t        :<C-u>Leaderf sonictemplate<CR>
 " nnoremap <silent> <Space>ml         :<C-u>Leaderf filer ~/memo<CR>
 " nnoremap <silent> <Space>fc        :<C-u>Leaderf switch<CR>
 " nnoremap <silent> <Space>fd        :<C-u>Leaderf dirty<CR>

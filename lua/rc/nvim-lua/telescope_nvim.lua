@@ -23,6 +23,7 @@ local extensions = {
   'fzy_native',
   'ghq',
   'frecency',
+  'sonictemplate',
 }
 local function load_extensions(extensions)
   for i, ext in ipairs(extensions) do
@@ -289,6 +290,10 @@ local mappings = {
       end
     }
   end},
+
+  ['n;t'] = {function()
+    require'telescope'.extensions.sonictemplate.templates {}
+  end}
 
 }
 

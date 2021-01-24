@@ -1,34 +1,34 @@
-snippet     vio
-abbr        vim.o.|
-options     head
-	vim.o.${0}
+# snippet     vio
+# abbr        vim.o.|
+# options     head
+# 	vim.o.${0}
+#
+# snippet     vic
+# abbr        vim.api.nvim_command(|)
+# options     head
+# 	vim.api.nvim_command(${0})
+#
+# snippet     init_module
+# abbr        local M = {} ... return M
+# options     head
+# 	local M = {}
+#
+# 	${0}
+#
+# 	return M
 
-snippet     vic
-abbr        vim.api.nvim_command(|)
-options     head
-	vim.api.nvim_command(${0})
-
-snippet     init_module
-abbr        local M = {} ... return M
-options     head
-	local M = {}
-
-	${0}
-
-	return M
-
-snippet     map
-abbr        vimp.?map({'override'}, ...)
-options     head
-	vimp.${1}noremap({'override'}, ${0})
-
-snippet     plug
-abbr        pcall(require, ...)
-options     head
-	local ok, ${1} = pcall(require, '$1')
-	if not ok then do return end end
-
-	${0}
+# snippet     map
+# abbr        vimp.?map({'override'}, ...)
+# options     head
+# 	vimp.${1}noremap({'override'}, ${0})
+#
+# snippet     plug
+# abbr        pcall(require, ...)
+# options     head
+# 	local ok, ${1} = pcall(require, '$1')
+# 	if not ok then do return end end
+#
+# 	${0}
 
 snippet     lam
 abbr        function(${1}) ... end
@@ -44,22 +44,22 @@ abbr        for i = n, end do ... end
 
 snippet     foreach
 abbr        for i, v in ipairs({$1}) do ...
-	for i, v in ipairs(${1}) do
+	for ${1:_}, ${2:v} in ipairs(${3}) do
 		${0}
 	end
 
-snippet     ncmd
-abbr        vim.api.nvim_command(...)
-	vim.api.nvim_command(${0})
-
-
-snippet     ncall
-abbr        vim.api.nvim_call_function(...)
-	vim.api.nvim_command(${0})
-
-snippet     echo
-abbr        print(vim.inspect(|))
-	print(vim.inspect(${0}))
+# snippet     ncmd
+# abbr        vim.api.nvim_command(...)
+# 	vim.api.nvim_command(${0})
+#
+#
+# snippet     ncall
+# abbr        vim.api.nvim_call_function(...)
+# 	vim.api.nvim_command(${0})
+#
+# snippet     echo
+# abbr        print(vim.inspect(|))
+# 	print(vim.inspect(${0}))
 
 
 snippet     lfunc
@@ -88,3 +88,18 @@ abbr        for line in s:gmatch("[^\r\n]+") do ...
 	for line in ${1:#:text}:gmatch("[^\r\n]+") do
 		${0}
 	end
+
+snippet     a
+abbr        vim.api.
+	vim.api.
+
+snippet     require
+abbr        require '...'
+alias		req
+	require'${0}'
+
+snippet     elseif
+abbr        elseif ... then
+options     head
+	elseif ${0} then
+

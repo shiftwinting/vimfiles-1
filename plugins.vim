@@ -27,7 +27,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'voldikss/vim-translator'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhinz/vim-grepper'
-Plug 'delphinus/vim-auto-cursorline'
+" Plug 'delphinus/vim-auto-cursorline'
 
 Plug 'kana/vim-repeat'
 
@@ -106,7 +106,7 @@ Plug 'Yggdroot/LeaderF',
 Plug 'tamago324/LeaderF-openbrowser',
 " Plug 'tamago324/LeaderF-neosnippet',
 " Plug 'tamago324/LeaderF-packadd',
-Plug 'tamago324/LeaderF-sonictemplate',
+" Plug 'tamago324/LeaderF-sonictemplate',
 " Plug '~/.ghq/github.com/tamago324/LeaderF-filer',
 
 
@@ -143,10 +143,12 @@ Plug 'Shougo/neco-syntax'
 Plug 'liuchengxu/vista.vim'
 Plug 'mhartington/formatter.nvim'
 Plug 'nvim-lua/telescope.nvim'
+" Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug 'nvim-telescope/telescope-frecency.nvim'
   Plug 'tami5/sql.nvim'
+  Plug 'tamago324/telescope-sonictemplate.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -158,6 +160,7 @@ Plug 'dstein64/nvim-scrollview'
 " Plug '/home/tamago324/.ghq/github.com/dstein64/nvim-scrollview'
 Plug 'monaqa/dial.nvim'
 " Plug 'gelguy/wilder.nvim'
+" Plug 'dsummersl/nvim-sluice'
 
 " ------------------------
 "  Languages
@@ -165,7 +168,8 @@ Plug 'monaqa/dial.nvim'
 
 " Lua
 Plug 'tjdevries/nlua.nvim'
-" Plug 'Koihik/vscode-lua-format'   " binary のため
+Plug 'Koihik/vscode-lua-format'   " binary のため
+Plug 'teal-language/vim-teal'
 
 " Plug 'bakpakin/fennel.vim'
 
@@ -206,6 +210,7 @@ Plug 'rust-lang/rust.vim'
 " Plug 'plasticboy/vim-markdown'
 
 
+" Plug '~/.ghq/github.com/tamago324/telescope-sonictemplate'
 Plug '~/.ghq/github.com/tamago324/lir.nvim'
 Plug '~/.ghq/github.com/tamago324/lir-mmv.nvim'
 Plug '~/.ghq/github.com/tamago324/lir-bookmark.nvim'
