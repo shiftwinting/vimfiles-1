@@ -10,13 +10,17 @@ UsePlugin 'vim-sandwich'
 " vi'  -> 周りの ' の中を選択
 
 augroup sandwich-ft-python
-    autocmd Filetype python let b:sandwich_magicchar_f_patterns = [
-    \   {
-    \       'header' : '\<\%(\h\k*\.\)*\h\k*',
-    \       'bra'    : '(',
-    \       'ket'    : ')',
-    \       'footer' : '',
-    \   },
-    \]
+  autocmd!
+  autocmd Filetype python let b:sandwich_magicchar_f_patterns = [
+  \   {
+  \       'header' : '\<\%(\h\k*\.\)*\h\k*',
+  \       'bra'    : '(',
+  \       'ket'    : ')',
+  \       'footer' : '',
+  \   },
+  \]
 augroup END
 
+" vib とかで選択できる
+omap ib <Plug>(textobj-sandwich-auto-i)
+xmap ab <Plug>(textobj-sandwich-auto-a)
