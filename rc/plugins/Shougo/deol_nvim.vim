@@ -152,9 +152,9 @@ endfunction
 
 function! s:deol_editor_settings() abort
 
-    inoremap <buffer><silent> <A-e> <Cmd>call <SID>deol_kill_editor()<CR>
+    inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
     nnoremap <buffer><silent> <A-e> <Cmd>call <SID>deol_kill_editor()<CR>
-    inoremap <buffer><silent> <A-t> <Cmd>call <SID>hide_deol()<CR>
+    inoremap <buffer><silent> <A-t> <Esc>:call <SID>hide_deol()<CR>
     nnoremap <buffer><silent> <A-t> <Cmd>call <SID>hide_deol()<CR>
 
     nnoremap <buffer><silent> <CR> <Cmd>call <SID>exec_line()<CR>
