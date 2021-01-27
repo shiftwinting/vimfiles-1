@@ -16,21 +16,6 @@ local my_entry_maker = require('vimrc.telescope.make_entry')
 -- vim.env.BAT_THEME = 'gruvbox-light'
 vim.env.BAT_THEME = 'gruvbox'
 
--------------------
--- load extensions
--------------------
-local extensions = {
-  'fzy_native',
-  'ghq',
-  'frecency',
-  'sonictemplate',
-}
-local function load_extensions(extensions)
-  for i, ext in ipairs(extensions) do
-    require'telescope'.load_extension(ext)
-  end
-end
-load_extensions(extensions)
 
 
 -- https://github.com/nvim-lua/telescope.nvim/blob/d32d4a6e0f0c571941f1fd37759ca1ebbdd5f488/lua/telescope/init.lua
@@ -107,11 +92,42 @@ require'telescope'.setup{
       },
     },
     color_devicons = true,
+  },
+  extensions = {
+    openbrowser = {
+      bookmarks = {
+        ['cica'] = 'https://miiton.github.io/Cica/',
+        ['lua manual'] = 'http://milkpot.sakura.ne.jp/lua/lua51_manual_ja.html',
+        ['luv vim.loop'] = 'https://github.com/luvit/luv/blob/master/docs.md',
+        ['luarocks.org'] = 'luarocks.org',
+        ['exercism_lua'] = 'https://exercism.io/my/tracks/lua',
+        ['nvim repo'] = 'https://github.com/search?l=Lua&o=desc&q=nvim&s=updated&type=Repositories',
+        ['color-picker'] = 'https://www.w3schools.com/colors/colors_picker.asp',
+      }
+    }
   }
 }
 
+-------------------
+-- load extensions
+-------------------
+local extensions = {
+  'fzy_native',
+  'ghq',
+  -- 'frecency',
+  'sonictemplate',
+  'openbrowser',
+}
+local function load_extensions(extensions)
+  for i, ext in ipairs(extensions) do
+    require'telescope'.load_extension(ext)
+  end
+end
+load_extensions(extensions)
+
+
 local mappings = {
-  ['n//'] = {[[:<C-u>Telescope current_buffer_fuzzy_find<CR>]], silent = false},
+  -- ['n//'] = {[[:<C-u>Telescope current_buffer_fuzzy_find<CR>]], silent = false},
 
   -- find_files
   ['n<Space>fv'] = {function()
@@ -122,10 +138,10 @@ local mappings = {
     }
   end},
 
-  -- command_history
-  ['n<Space>f;'] = {function()
-    require('telescope.builtin').command_history {}
-  end},
+  -- -- command_history
+  -- ['n<Space>f;'] = {function()
+  --   require('telescope.builtin').command_history {}
+  -- end},
 
   -- help
   ['n<Space>fh'] = {function()
@@ -203,30 +219,30 @@ local mappings = {
     }
   end},
 
-  -- frecency
-  ['n,,'] = {function()
-    require('telescope').extensions.frecency.frecency  {
-      attach_mappings = function(prompt_bufnr, map)
-        actions.goto_file_selection_tabedit:replace(function ()
-          local selection = actions.get_selected_entry(prompt_bufnr)
-          actions.close(prompt_bufnr)
-          local val = selection.value
-          vim.fn['vimrc#drop_or_tabedit'](val)
-          -- vim.api.nvim_command(string.format('drop %s', val))
-        end)
-
-        actions.goto_file_selection_edit:replace(function ()
-          local selection = actions.get_selected_entry(prompt_bufnr)
-          actions.close(prompt_bufnr)
-          local val = selection.value
-          print(val)
-          vim.api.nvim_command(string.format('edit %s', val))
-        end)
-
-        return true
-      end
-    }
-  end},
+  -- -- frecency
+  -- ['n,,'] = {function()
+  --   require('telescope').extensions.frecency.frecency  {
+  --     attach_mappings = function(prompt_bufnr, map)
+  --       actions.goto_file_selection_tabedit:replace(function ()
+  --         local selection = actions.get_selected_entry(prompt_bufnr)
+  --         actions.close(prompt_bufnr)
+  --         local val = selection.value
+  --         vim.fn['vimrc#drop_or_tabedit'](val)
+  --         -- vim.api.nvim_command(string.format('drop %s', val))
+  --       end)
+  --
+  --       actions.goto_file_selection_edit:replace(function ()
+  --         local selection = actions.get_selected_entry(prompt_bufnr)
+  --         actions.close(prompt_bufnr)
+  --         local val = selection.value
+  --         print(val)
+  --         vim.api.nvim_command(string.format('edit %s', val))
+  --       end)
+  --
+  --       return true
+  --     end
+  --   }
+  -- end},
 
   -- ghq
   ['n<Space>fq'] = {function()
@@ -253,46 +269,59 @@ local mappings = {
     }
   end},
 
-  -- reloader
-  ['n<Space>fl'] = {function()
-    require'telescope.builtin'.reloader{
-      sorter = sorters.get_fzy_sorter(),
-    }
-  end},
+  -- -- reloader
+  -- ['n<Space>fl'] = {function()
+  --   require'telescope.builtin'.reloader{
+  --     sorter = sorters.get_fzy_sorter(),
+  --   }
+  -- end},
 
-  -- plug_names
-  ['n<Space>fp'] = {function()
-    require('vimrc.telescope').plug_names{}
-  end},
+  -- -- plug_names
+  -- ['n<Space>fp'] = {function()
+  --   require('vimrc.telescope').plug_names{}
+  -- end},
 
   ['n<Space>fs'] = {function()
     require'telescope.builtin'.current_buffer_tags {}
   end},
 
-  ['ngr'] = {function()
-    require'telescope.builtin.lsp'.references {}
-  end},
+  -- ['ngr'] = {function()
+  --   require'telescope.builtin.lsp'.references {}
+  -- end},
 
-  -- git
-  ['n<Space>gb'] = {function()
-    require'telescope.builtin.git'.branches {
-      attach_mappings = function(prompt_bufnr, map)
-        local function do_yank()
-          local selection = actions.get_selected_entry(prompt_bufnr)
-          actions.close(prompt_bufnr)
-          local val = selection.value
-          vim.fn.setreg(vim.v.register, val)
-          print('Yank branch name: ' .. val)
-        end
-
-        map('n', 'Y', do_yank)
-        return true
-      end
-    }
-  end},
+  -- -- git
+  -- ['n<Space>gb'] = {function()
+  --   require'telescope.builtin.git'.branches {
+  --     attach_mappings = function(prompt_bufnr, map)
+  --       local function do_yank()
+  --         local selection = actions.get_selected_entry(prompt_bufnr)
+  --         actions.close(prompt_bufnr)
+  --         local val = selection.value
+  --         vim.fn.setreg(vim.v.register, val)
+  --         print('Yank branch name: ' .. val)
+  --       end
+  --
+  --       map('n', 'Y', do_yank)
+  --       return true
+  --     end
+  --   }
+  -- end},
 
   ['n;t'] = {function()
     require'telescope'.extensions.sonictemplate.templates {}
+  end},
+  
+  ['n<Space>fo'] = {function()
+    require'telescope'.extensions.openbrowser.list {
+      -- bookmarks = {
+      --   ['cica'] = 'https://miiton.github.io/Cica/',
+      --   ['lua manual'] = 'http://milkpot.sakura.ne.jp/lua/lua51_manual_ja.html',
+      --   ['luv vim.loop'] = 'https://github.com/luvit/luv/blob/master/docs.md',
+      --   ['luarocks.org'] = 'luarocks.org',
+      --   ['exercism_lua'] = 'https://exercism.io/my/tracks/lua',
+      --   ['nvim repo'] = 'https://github.com/search?l=Lua&o=desc&q=nvim&s=updated&type=Repositories'
+      -- }
+    }
   end}
 
 }

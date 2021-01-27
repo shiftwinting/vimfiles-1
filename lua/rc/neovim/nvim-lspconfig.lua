@@ -27,16 +27,16 @@ local mappings = {
 }
 nvim_apply_mappings(mappings, {silent = true, noremap = true})
 
---[[
-  lsp-status
-]]
-local lsp_status = require('lsp-status')
-lsp_status.config {
-  -- kind_labels = vim.g.completion_customize_lsp_label,
-  -- indicator_info = '',
-  -- status_symbol = ''
-}
-lsp_status.register_progress()
+-- --[[
+--   lsp-status
+-- ]]
+-- local lsp_status = require('lsp-status')
+-- lsp_status.config {
+--   -- kind_labels = vim.g.completion_customize_lsp_label,
+--   -- indicator_info = '',
+--   -- status_symbol = ''
+-- }
+-- lsp_status.register_progress()
 
 --[[
   h-michael/lsp-ext.nvim
@@ -121,10 +121,7 @@ local on_attach = function(client)
     ['nK'] = {':lua vim.lsp.buf.hover()<CR>'}
   }
   nvim_apply_mappings(_mappings, {buffer = true})
-  lsp_status.on_attach(client)
-end
-
-local is_installed_server = function(name)
+  -- lsp_status.on_attach(client)
 end
 
 local install_server = function(name)
@@ -153,8 +150,6 @@ lspconfig.sumneko_lua.setup{
   cmd = {
     vim.fn.expand('~/.local/share/vim-lsp-settings/servers/sumneko-lua-language-server/extension/server/bin/Linux/lua-language-server'),
     '-E',
-    '-e',
-    'LANG-en',
     vim.fn.expand('~/.local/share/vim-lsp-settings/servers/sumneko-lua-language-server/extension/server/main.lua')
   },
   settings = {
@@ -264,6 +259,6 @@ lspconfig.pyls.setup{
 -- require'lspconfig'.efm.setup{}
 
 
-return {
-  lsp_progress_messages = lsp_progress_messages
-}
+-- return {
+--   lsp_progress_messages = lsp_progress_messages
+-- }

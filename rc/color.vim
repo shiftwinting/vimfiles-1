@@ -103,6 +103,11 @@ function! s:define_my_highlight() abort
     " red
     hi GitSignDelete gui=bold guifg=#ea6962 guibg=#3c3836
 
+    " #504945 
+    hi LirFloatNormal guibg=#32302f
+    hi LirFloatBorder guifg=#7c6f64
+
+
   endif
   hi TelescopeBorder guifg=#7c6f64
   hi link TelescopePromptBorder TelescopeBorder
@@ -121,11 +126,14 @@ augroup END
 let g:gruvbox_material_enable_italic = 0
 let g:gruvbox_material_disable_italic_comment = 1
 let g:gruvbox_material_background = 'soft'
+let g:gruvbox_material_cursor = 'fg0'
 
-" nord
-let g:nord_uniform_diff_background = 1
-let g:nord_underline = 1
-let g:nord_bold_vertical_split_line = 1
+" " nord
+" let g:nord_uniform_diff_background = 1
+" let g:nord_underline = 1
+" let g:nord_bold_vertical_split_line = 1
+
+set termguicolors
 
 " set bg=light
 set bg=dark

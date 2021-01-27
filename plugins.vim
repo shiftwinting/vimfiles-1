@@ -46,6 +46,7 @@ Plug 'lambdalisue/vim-protocol'
 Plug 'lambdalisue/mr.vim'
 Plug 'lambdalisue/mr-quickfix.vim'
 " Plug 'lambdalisue/fin.vim'
+Plug 'lambdalisue/edita.vim'
 
 " Plug 'lambdalisue/vim-quickrun-neovim-job'
 Plug 'thinca/vim-quickrun'
@@ -53,25 +54,25 @@ Plug 'thinca/vim-qfreplace'
 Plug 'thinca/vim-prettyprint'
 
 Plug 'tyru/capture.vim'
-Plug 'tyru/columnskip.vim'
+" Plug 'tyru/columnskip.vim'
 Plug 'tyru/open-browser.vim'
 Plug 'tyru/open-browser-github.vim'
-Plug 'tyru/vim-altercmd'
+" Plug 'tyru/vim-altercmd'
 
 " ------------------------
 "  git
 " ------------------------
-" gist
-Plug 'mattn/vim-gist'
-Plug 'mattn/webapi-vim'
+" " gist
+" Plug 'mattn/vim-gist'
+" Plug 'mattn/webapi-vim'
 
 " yank github link
 Plug 'knsh14/vim-github-link'
 
 " sign
-" Plug 'lewis6991/gitsigns.nvim'
-Plug '~/.ghq/github.com/lewis6991/gitsigns.nvim'
-Plug 'nvim-lua/plenary.nvim'
+Plug 'lewis6991/gitsigns.nvim'
+" Plug '~/.ghq/github.com/lewis6991/gitsigns.nvim'
+" Plug 'nvim-lua/plenary.nvim'
 
 Plug 'gisphm/vim-gitignore'
 
@@ -87,11 +88,11 @@ Plug 'gotchane/vim-git-commit-prefix'
 " ------------------------
 "  colorscheme
 " ------------------------
-Plug 'tjdevries/colorbuddy.vim'
+" Plug 'tjdevries/colorbuddy.vim'
 
 Plug 'sainnhe/gruvbox-material'
-Plug 'bkegley/gloombuddy'
-Plug 'Th3Whit3Wolf/spacebuddy'
+" Plug 'bkegley/gloombuddy'
+" Plug 'Th3Whit3Wolf/spacebuddy'
 
 " ------------------------
 "  operator
@@ -102,8 +103,8 @@ Plug 'kana/vim-operator-replace'
 " ------------------------
 "  LeaderF
 " ------------------------
-Plug 'Yggdroot/LeaderF',
-Plug 'tamago324/LeaderF-openbrowser',
+" Plug 'Yggdroot/LeaderF',
+" Plug 'tamago324/LeaderF-openbrowser',
 " Plug 'tamago324/LeaderF-neosnippet',
 " Plug 'tamago324/LeaderF-packadd',
 " Plug 'tamago324/LeaderF-sonictemplate',
@@ -129,9 +130,9 @@ Plug 'euclidianAce/BetterLua.vim'
 Plug 'neovim/nvim-lspconfig'
 " Plug 'mattn/vim-lsp-settings'
 " Plug 'jubnzv/virtual-types.nvim'
-Plug 'nvim-lua/lsp-status.nvim'
-Plug 'RishabhRD/nvim-lsputils'
-Plug 'RishabhRD/popfix'
+" Plug 'nvim-lua/lsp-status.nvim'
+" Plug 'RishabhRD/nvim-lsputils'
+" Plug 'RishabhRD/popfix'
 " Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
@@ -149,8 +150,10 @@ Plug 'nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-frecency.nvim'
   Plug 'tami5/sql.nvim'
   Plug 'tamago324/telescope-sonictemplate.nvim'
+  Plug 'tamago324/telescope-openbrowser.nvim'
 Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+Plug '~/.ghq/github.com/nvim-lua/plenary.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter'
 " Plug 'p00f/nvim-ts-rainbow'
@@ -210,10 +213,11 @@ Plug 'rust-lang/rust.vim'
 " Plug 'plasticboy/vim-markdown'
 
 
-" Plug '~/.ghq/github.com/tamago324/telescope-sonictemplate'
+" Plug '~/.ghq/github.com/tamago324/telescope-openbrowser.nvim'
 Plug '~/.ghq/github.com/tamago324/lir.nvim'
 Plug '~/.ghq/github.com/tamago324/lir-mmv.nvim'
 Plug '~/.ghq/github.com/tamago324/lir-bookmark.nvim'
+Plug '~/.ghq/github.com/tamago324/lir-mark.nvim'
 " Plug 'tamago324/lir.nvim'
 " Plug '~/.ghq/github.com/tamago324/lir-float.nvim'
 " Plug '~/.ghq/github.com/tamago324/vim-browsersync'
