@@ -44,10 +44,10 @@ end
 vim.cmd([[command! -nargs=1 PackGet lua _PackGet(<f-args>)]])
 
 
---- GhqGet
-function _G._GhqGet(url)
-  vim.cmd('botright 10new')
-  vim.api.nvim_buf_set_keymap(0, 'n', 'q', ':quit!<CR>', { silent = true })
-  vim.fn.termopen({'ghq', 'get', url})
-end
-vim.cmd([[command! -nargs=1 GhqGet lua _G._GhqGet(<f-args>)]])
+-- --- GhqGet
+-- function _G._GhqGet(url)
+--   vim.cmd('botright 10new')
+--   vim.api.nvim_buf_set_keymap(0, 'n', 'q', ':quit!<CR>', { silent = true })
+--   vim.fn.termopen({'ghq', 'get', url})
+-- end
+-- vim.cmd([[command! -nargs=1 GhqGet lua _G._GhqGet(<f-args>)]])

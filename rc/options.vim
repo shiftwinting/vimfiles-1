@@ -144,25 +144,6 @@ endif
 " 垂直に分割する
 set diffopt+=vertical
 
-" ファイル閉じても、undoできるようにする
-if has('persistent_undo')
-  if has('win32')
-    if !isdirectory($LOCALAPPDATA.'/vim')
-      call mkdir($LOCALAPPDATA.'/vim')
-    endif
-    set undodir=$LOCALAPPDATA\vim
-  else
-    if !isdirectory($HOME.'/.vim/undo')
-      call mkdir($HOME.'/.vim/undo')
-    endif
-    set undodir=$HOME/.vim/undo
-  endif
-  augroup MyAutoCmdUndofile
-    autocmd!
-    autocmd BufReadPre ~/* setlocal undofile
-  augroup END
-endif
-
 " " fold 折畳
 " function! MyFoldText() abort "
 "     let marker_start = strpart(&foldmarker, 0, 3)

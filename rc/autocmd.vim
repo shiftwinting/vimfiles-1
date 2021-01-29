@@ -195,6 +195,24 @@ if has('persistent_undo')
 endif
 
 
+" ====================
+" IME を自動で OFF
+" ====================
+let s:ahk_exe_path = '/mnt/c/Program Files/AutoHotkey/AutoHotkeyU64.exe'
+let s:im_disable_script_path = expand('<sfile>:h:h') .. '/ahk/imDisable.ahk'
+
+function! s:isWSL() abort
+  return filereadable('/proc/sys/fs/binfmt_misc/WSLInterop')
+endfunction
+
+if s:isWSL() && executable(s:ahk_exe_path)
+  augroup my-InsertLeave-ImDisable
+    autocmd!
+    autocmd InsertLeave * :call system(printf('%s "%s"', shellescape(s:ahk_exe_path), s:im_disable_script_path))
+  augroup END
+endif
+
+
 
 
 " =============================================================================
@@ -564,23 +582,6 @@ function! s:my_ft_vim() abort
 endfunction
 
 
-
-" ====================
-" IME を自動で OFF
-" ====================
-let s:ahk_exe_path = '/mnt/c/Program Files/AutoHotkey/AutoHotkeyU64.exe'
-let s:im_disable_script_path = expand('<sfile>:h:h') .. '/ahk/imDisable.ahk'
-
-function! s:isWSL() abort
-  return filereadable('/proc/sys/fs/binfmt_misc/WSLInterop')
-endfunction
-
-if s:isWSL() && executable(s:ahk_exe_path)
-  augroup my-InsertLeave-ImDisable
-    autocmd!
-    autocmd InsertLeave * :call system(printf('%s "%s"', shellescape(s:ahk_exe_path), s:im_disable_script_path))
-  augroup END
-endif
 
 " ====================
 " rust

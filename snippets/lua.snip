@@ -103,3 +103,7 @@ abbr        elseif ... then
 options     head
 	elseif ${0} then
 
+
+snippet     feedkey
+abbr        nvim_feedkeys()
+	a.nvim_feedkeys(a.nvim_replace_termcodes("${1:key}", true, false, true), 'n', true)
