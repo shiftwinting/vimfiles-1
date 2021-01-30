@@ -32,21 +32,21 @@
 
 snippet     lam
 abbr        function(${1}) ... end
-    function(${1})
-    	${0}
-    end
+	function(${1})
+		${0}
+	end
 
 snippet     for
 abbr        for i = n, end do ... end
-    for ${1:i} = ${2:1}, ${3:end} do
-    	${0}
-    end
+	for ${1:i} = ${2:1}, ${3:end} do
+		${0}
+	end
 
 snippet     foreach
 abbr        for i, v in ipairs({$1}) do ...
-    for ${1:_}, ${2:v} in ipairs(${3}) do
-    	${0}
-    end
+	for ${1:_}, ${2:v} in ipairs(${3}) do
+		${0}
+	end
 
 # snippet     ncmd
 # abbr        vim.api.nvim_command(...)
@@ -65,45 +65,45 @@ abbr        for i, v in ipairs({$1}) do ...
 snippet     lfunc
 abbr        local funciton(...)
 alias       localfunction,localfunc
-    local ${1:func} = function(${2:#:args})
-    	${0}
-    end
+	local ${1:func} = function(${2:#:args})
+		${0}
+	end
 
 
 snippet     function
 abbr        funciton name(...)
 alias       func
-    function ${1:#:name}(${2:#:args})
-    	${0}
-    end
+	function ${1:#:name}(${2:#:args})
+		${0}
+	end
 
 snippet     else
 abbr        else ...
 options     head
-    else
-    	${0}
+	else
+		${0}
 
 snippet     splitlines
 abbr        for line in s:gmatch("[^\r\n]+") do ...
-    for line in ${1:#:text}:gmatch("[^\r\n]+") do
-    	${0}
-    end
+	for line in ${1:#:text}:gmatch("[^\r\n]+") do
+		${0}
+	end
 
 snippet     a
 abbr        vim.api.
-    vim.api.
+	vim.api.
 
 snippet     require
 abbr        require '...'
 alias		req
-    require'${0}'
+	require'${0}'
 
 snippet     elseif
 abbr        elseif ... then
 options     head
-    elseif ${0} then
+	elseif ${0} then
 
 
 snippet     feedkey
 abbr        nvim_feedkeys()
-    a.nvim_feedkeys(a.nvim_replace_termcodes("${1:key}", true, false, true), 'n', true)
+	a.nvim_feedkeys(a.nvim_replace_termcodes("${1:key}", true, false, true), 'n', true)
