@@ -4,13 +4,13 @@ options     head
     scriptencoding utf-8
 snippet     mode
 abbr        modeline
-	print(${0})
+    print(${0})
 
 snippet     autocmd
 abbr        autocmd
 alias       aucmd
 options     head
-	autocmd ${1:#:group} ${2:#:event}
+    autocmd ${1:#:group} ${2:#:event}
 
 # snippet		MyPlug
 # alias		plug
@@ -20,21 +20,21 @@ options     head
 snippet     ft_autocmd
 abbr        filetype autocmd
 options     head
-	" ====================
-	" ${1:filetype}
-	" ====================
-	function! s:my_ft_$1() abort
-		${2}
-	endfunction
+    " ====================
+    " ${1:filetype}
+    " ====================
+    function! s:my_ft_$1() abort
+    	${2}
+    endfunction
 
 snippet     else
 options     head
-	else
-		${0}
+    else
+    	${0}
 
 snippet     nvim
 abbr        has('nvim')
 options     head
-	if ${1:!}has('nvim')
-		${0}
-	endif
+    if ${1:!}has('nvim')
+    	${0}
+    endif

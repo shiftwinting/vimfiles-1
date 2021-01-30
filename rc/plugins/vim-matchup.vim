@@ -14,3 +14,6 @@ let g:matchup_matchparen_nomode = 'i'
 
 " popup で表示する
 let g:matchup_matchparen_offscreen = {'method': 'popup'}
+
+" retrun にマッチしないようにする
+let g:matchup_delim_noskips = 1

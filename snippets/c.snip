@@ -1,24 +1,24 @@
 snippet     echo
-	printf("${1}\n"${2});
+    printf("${1}\n"${2});
 
 snippet     //
 abbr        /* ... */
 options     head
-	/* ${0} */
+    /* ${0} */
 
 
 snippet     ///
 abbr        /* \n ... \n */
 options     head
-	/*
-	    ${0}
-	*/
+    /*
+        ${0}
+    */
 
 snippet     switch
 options     head
 abbr        switch () {}
-	switch (${1:#:var}) {
-	case ${2:#:val}:
-		${0:TARGET}
-		break;
-	}
+    switch (${1:#:var}) {
+    case ${2:#:val}:
+    	${0:TARGET}
+    	break;
+    }

@@ -107,6 +107,7 @@ function! s:define_my_highlight() abort
     hi LirFloatNormal guibg=#32302f
     hi LirFloatBorder guifg=#7c6f64
 
+    hi TSDefinition guibg=#504945
 
   endif
   hi TelescopeBorder guifg=#7c6f64

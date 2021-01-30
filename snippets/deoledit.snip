@@ -2,28 +2,28 @@ snippet     gitcommit
 abbr        git commit -m ""
 alias       gc gitc
 options     head
-	git commit -m "${1}"
+    git commit -m "${1}"
 
 snippet     gitammend
 abbr        git commit --ammend -m ""
 alias       gca gitca
 options     head
-	git commit --amend -m "${1}"
+    git commit --amend -m "${1}"
 
 snippet     sass
 abbr        sass --watch scss/style.scss css/style.css
 alias       scss
 options     head
-	sass --watch ${1:scss/style.scss} ${2:css/style.css}
+    sass --watch ${1:scss/style.scss} ${2:css/style.css}
 
 snippet     gget
 options     head
-	ghq get ${1}
+    ghq get ${1}
 
 snippet     pip
 options     head
-	py -3 -m pip ${1}
+    py -3 -m pip ${1}
 
 snippet     py3
 options     head
-	py -3 ${1}
+    py -3 ${1}

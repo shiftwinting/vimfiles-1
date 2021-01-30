@@ -535,8 +535,10 @@ endfunction
 function! s:my_ft_lua() abort
   nnoremap <buffer><silent> <Space>vs. :<C-u>luafile %<CR>
   " nnoremap <buffer><silent> <Space>rr  :<C-u>luafile %<CR>
-  nnoremap <buffer><silent> <Space>bl :<C-u>Format<CR>
-  xnoremap <buffer><silent> <Space>bl :Format<CR>
+  nnoremap <buffer><silent> <Space>bl <Cmd>call <SID>equal_format()<CR>
+  xnoremap <buffer><silent> <Space>bl <Cmd>call <SID>equal_format()<CR>
+
+  nnoremap <buffer><silent> <Space>bf :<C-u>silent lmake\| lopen<CR>
 
   " if exists(':AlterCommand')
   "   call altercmd#define('<buffer>', 'so', 'luaf')
@@ -548,7 +550,7 @@ endfunction
 " neosnippet
 " ====================
 function! s:my_ft_neosnippet() abort
-  setlocal noexpandtab
+  " setlocal noexpandtab
   nnoremap <buffer> ? :<C-u>h neosnippet<CR> \| <C-w>L<CR>
 endfunction
 
@@ -567,13 +569,17 @@ endfunction
 " ====================
 " vim
 " ====================
-function! s:vim_format() abort
+function! s:equal_format() abort
   let l:winview = winsaveview()
-  normal! ggVG=
+  if mode() =~? 'v'
+    normal! =
+  else
+    normal! ggVG=
+  endif
   call winrestview(l:winview)
 endfunction
 function! s:my_ft_vim() abort
-  nnoremap <buffer><silent> <Space>bl :<C-u>call <SID>vim_format()<CR>
+  nnoremap <buffer><silent> <Space>bl <Cmd>call <SID>equal_format()<CR>
 
   " if exists(':AlterCommand')
   "   call altercmd#define('<buffer>', 'so', 'so %')
