@@ -16,5 +16,4 @@ let g:lua_plugin_config_dir = g:vimfiles_path .. '/lua/plugins'
 let g:vim_plugin_config_dir = g:vimfiles_path .. '/_config/plugins'
 
 runtime! _config/**/*.vim
-
 lua require('init')

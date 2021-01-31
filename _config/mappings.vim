@@ -138,7 +138,7 @@ inoremap <C-l><C-s> <C-x><C-s>
 inoremap <C-l><C-p> <C-x><C-p>
 
 " plugins.vim を開く
-nnoremap <Space>v, <Cmd>call vimrc#drop_or_tabedit(vim.g.plug_script)<CR>
+nnoremap <Space>v, <Cmd>call vimrc#drop_or_tabedit(g:plug_script)<CR>
 
 " new tempfile
 nnoremap sf <Cmd>call <SID>new_tmp_file()<CR>
