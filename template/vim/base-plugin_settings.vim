@@ -1,4 +1,4 @@
 scriptencoding utf-8
-UsePlugin '{{_expr_:expand("%:t:r")}}'
+UsePlugin '{{_cursor_}}'
 
-{{_cursor_}}
+" TODO: Telescope plus_names list

@@ -115,6 +115,7 @@ local extensions = {
   -- 'frecency',
   'sonictemplate',
   'openbrowser',
+  'plug_names'
 }
 local function load_extensions(exps)
   for i, ext in ipairs(exps) do
