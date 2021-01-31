@@ -145,7 +145,7 @@ nnoremap sf <Cmd>call <SID>new_tmp_file()<CR>
 function! s:new_tmp_file() abort
   let l:ft = input('FileType: ', '', 'filetype')
   if l:ft ==# ''
-    print('Cancel.')
+    echo 'Cancel.'
     return
   endif
 

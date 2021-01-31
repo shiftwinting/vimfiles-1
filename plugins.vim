@@ -35,6 +35,7 @@ Plug 'hrsh7th/vim-eft'
 
 Plug 'machakann/vim-sandwich'
 Plug 'machakann/vim-highlightedyank'
+Plug 'machakann/vim-swap'
 
 Plug 'rcmdnk/yankround.vim'
 
@@ -155,8 +156,8 @@ Plug 'nvim-lua/telescope.nvim'
   Plug 'tamago324/telescope-sonictemplate.nvim'
   Plug 'tamago324/telescope-openbrowser.nvim'
 Plug 'nvim-lua/popup.nvim'
-" Plug 'nvim-lua/plenary.nvim'
-Plug '~/.ghq/github.com/nvim-lua/plenary.nvim'
+Plug 'nvim-lua/plenary.nvim'
+" Plug '~/.ghq/github.com/nvim-lua/plenary.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter'
 " Plug 'p00f/nvim-ts-rainbow'
@@ -170,6 +171,7 @@ Plug 'dstein64/nvim-scrollview'
 Plug 'monaqa/dial.nvim'
 " Plug 'gelguy/wilder.nvim'
 " Plug 'dsummersl/nvim-sluice'
+" Plug 'b3nj5m1n/kommentary'
 
 " ------------------------
 "  Languages

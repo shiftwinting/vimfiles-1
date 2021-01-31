@@ -6,7 +6,7 @@ local lir = require 'lir'
 local float = require 'lir.float'
 local utils = require 'lir.utils'
 local uv = vim.loop
-
+local Path = require 'plenary.path'
 
 local mmv = require 'lir.mmv.actions'.mmv
 local b_actions = require 'lir.bookmark.actions'
@@ -18,6 +18,10 @@ local actions = require'lir.actions'
 
 local function esc_path(path)
   return vim.fn.shellescape(vim.fn.fnamemodify(path, ':p'), true)
+end
+
+local lcd = function(path)
+  vim.cmd(string.format([[silent execute (haslocaldir() ? 'lcd' : 'cd') '%s']], path))
 end
 
 -- local function feedkeys(key)
@@ -39,22 +43,42 @@ local function yank_win_path(context)
 end
 
 local function newfile()
+  local save_curdir = vim.fn.getcwd()
+  lcd(lir.get_context().dir)
   local name = vim.fn.input('New file: ', '', 'file')
+  lcd(save_curdir)
+
   if name == '' then
     return
   end
 
-  if name == '.' or name == '..' or string.match(name, '[/\\]') then
+  if name == '.' or name == '..' then
     utils.error('Invalid file name: ' .. name)
     return
   end
 
-  local function touch(path)
-    local f = uv.fs_open(path, 'w', tonumber('644', 8))
-    uv.fs_close(f)
+  local path = Path:new(lir.get_context().dir .. name)
+  local err
+  if string.match(name, '/$') then
+    -- mkdir()
+    name = name:gsub('/$', '')
+    _, err = pcall(path:mkdir({
+      parents = true,
+      mode = tonumber('700', 8),
+      exists_ok = false
+    }))
+  else
+    -- touch()
+    _, err = path:touch({
+      parents = true,
+      mode = tonumber('644', 8),
+    })
   end
 
-  touch(lir.get_context().dir .. name)
+  if err then
+    utils.error(err)
+    return
+  end
 
   actions.reload()
 
@@ -157,8 +181,8 @@ require 'lir'.setup {
     ['h']     = actions.up,
     ['q']     = actions.quit,
 
-    ['K']     = actions.mkdir,
-    ['O']     = newfile,
+    ['K']     = newfile,
+    -- ['O']     = newfile,
     ['R']     = actions.rename,
     -- ['C']     = cp,
     ['M']     = mmv,
