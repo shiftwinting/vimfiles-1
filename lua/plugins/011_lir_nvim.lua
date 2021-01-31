@@ -75,10 +75,11 @@ function rm()
   -- 選択されているものを取得する
   local marked_items = mark_utils.get_marked_items(ctx)
   if #marked_items == 0 then
-    -- 選択されていなければ、カレント行を削除
-    local path = ctx.dir .. ctx:current_value()
-    vim.fn.system('gomi ' .. esc_path(path))
-    actions.reload()
+    utils.error('Please mark one or more.')
+    -- -- 選択されていなければ、カレント行を削除
+    -- local path = ctx.dir .. ctx:current_value()
+    -- vim.fn.system('gomi ' .. esc_path(path))
+    -- actions.reload()
     return
   end
 
@@ -114,7 +115,7 @@ function nop()
 end
 
 function _G.LirSettings()
-  a.nvim_buf_set_keymap(0, 'x', '*', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
+  a.nvim_buf_set_keymap(0, 'x', 'J', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
   -- a.nvim_buf_set_keymap(0, 'n', 'J', ':<C-u>call v:lua.LirToggleMark("n")<CR>', {noremap = true, silent = true})
 end
 
@@ -164,7 +165,6 @@ require 'lir'.setup {
     ['@']     = cd,
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
-    ['D']     = rm,
     ['~']     = function() vim.cmd('edit ' .. vim.fn.expand('$HOME')) end,
     ['W']     = yank_win_path,
     ['B']     = b_actions.list,
@@ -172,11 +172,11 @@ require 'lir'.setup {
 
     -- ['u']    = m_actions.mark,
     -- ['U']    = m_actions.unmark,
-    ['*'] = mark_actions.toggle_mark,
-    -- ['J'] = function()
-    --   mark_actions.toggle_mark(lir.get_context())
-    --   vim.cmd('normal! j')
-    -- end,
+    -- ['*'] = mark_actions.toggle_mark,
+    ['J'] = function()
+      mark_actions.toggle_mark(lir.get_context())
+      vim.cmd('normal! j')
+    end,
     -- ['K'] = function(context)
     --   mark_actions.toggle_mark(context)
     --   vim.cmd('normal! k')
@@ -185,6 +185,7 @@ require 'lir'.setup {
     ['C'] = clipboard_actions.copy,
     ['X'] = clipboard_actions.cut,
     ['P'] = clipboard_actions.paste,
+    ['D'] = rm,
 
     ['A'] = argadd_marked_items,
   },

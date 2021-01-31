@@ -1,7 +1,5 @@
 if vim.api.nvim_call_function('FindPlugin', {'telescope.nvim'}) == 0 then do return end end
 
-local map_command = require'vimrc.utils'.map_command
-
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
 local pickers = require('telescope.pickers')
@@ -118,8 +116,8 @@ local extensions = {
   'sonictemplate',
   'openbrowser',
 }
-local function load_extensions(extensions)
-  for i, ext in ipairs(extensions) do
+local function load_extensions(exps)
+  for i, ext in ipairs(exps) do
     require'telescope'.load_extension(ext)
   end
 end
@@ -133,7 +131,6 @@ local mappings = {
   ['n<Space>fv'] = {function()
     require'telescope.builtin'.find_files{
       cwd = vim.g.vimfiles_path,
-      file_ignore_patterns = { "_config/.*" },
       previewer = previewers.cat.new({}),
     }
   end},
@@ -307,10 +304,10 @@ local mappings = {
   --   }
   -- end},
 
-  ['n;t'] = {function()
+  ['n<Space>;t'] = {function()
     require'telescope'.extensions.sonictemplate.templates {}
   end},
-  
+
   ['n<Space>fo'] = {function()
     require'telescope'.extensions.openbrowser.list {
       -- bookmarks = {

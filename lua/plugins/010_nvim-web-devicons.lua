@@ -5,7 +5,7 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-web-devicons'}) == 0 then do 
 require'nvim-web-devicons'.setup({
   default = true,
   override = {
-    ["lir_folder_iconzz"] = {
+    ["lir_folder_icon"] = {
       icon = "",
       color = "#7ebae4",
       name = "FolderNode"

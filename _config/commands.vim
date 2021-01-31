@@ -35,3 +35,33 @@ function! GetSynInfo() abort
   echo 'link to'
   echo 'name: ' . linked_syn.name
 endfunction
+
+
+" ====================
+" TouchPluginLua:
+" ====================
+command! -nargs=1 TouchPluginLua call TouchPlugin(<f-args>, 'lua')
+command! -nargs=1 TouchPluginVim call TouchPlugin(<f-args>, 'vim')
+
+function! TouchPlugin(name, type) abort
+  let l:dir = a:type ==# 'vim' ? g:vim_plugin_config_dir : g:lua_plugin_config_dir
+  call vimrc#drop_or_tabedit(printf('%s/%s.%s', l:dir, a:name, a:type))
+endfunction
+
+" ====================
+" PackGet:
+" ====================
+command! -nargs=1 PackGet call PackGet(<f-args>)
+function! PackGet(name) abort
+  let l:url = a:name =~# '^http' ? a:name : 'https://github.com/' .. a:name
+  let l:plug_name = matchstr(a:name, '[^/]\+$')
+  let l:dist = printf('%s/pack/plugs/opt/%s', g:vimfiles_path, l:plug_name)
+  if isdirectory(l:dist)
+    call nvim_echo([[printf("[PackGet] Already exists. '%s'", l:plug_name), 'WarningMsg']], v:false, {})
+    return
+  endif
+
+  botright 10new
+  nnoremap <silent><buffer> q <Cmd>quit!<CR>
+  call termopen(['git', 'clone', l:url, l:dist])
+endfunction

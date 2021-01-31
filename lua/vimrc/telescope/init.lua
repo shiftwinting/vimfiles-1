@@ -180,22 +180,4 @@ M.plug_names = function(opts)
 end
 
 
-M.openbrowser = function(opts)
-  local results = vim.tbl_extend('keep', vim.g.openbrowser_search_engines or {}, {})
-  pickers.new(opts, {
-    prompt_title = 'Openbrowser',
-    finder = finders.new_table {
-      results = results,
-      entry_maker = function(line)
-        return {
-          value = line,
-          ordinal = line,
-          display = pprint(line),
-        }
-      end
-    },
-  }):find()
-end
-
-
 return M
