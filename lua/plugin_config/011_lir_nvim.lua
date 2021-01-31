@@ -114,7 +114,7 @@ function nop()
 end
 
 function _G.LirSettings()
-  a.nvim_buf_set_keymap(0, 'x', '*', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
+  a.nvim_buf_set_keymap(0, 'x', 'J', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
   -- a.nvim_buf_set_keymap(0, 'n', 'J', ':<C-u>call v:lua.LirToggleMark("n")<CR>', {noremap = true, silent = true})
 end
 
@@ -172,11 +172,11 @@ require 'lir'.setup {
 
     -- ['u']    = m_actions.mark,
     -- ['U']    = m_actions.unmark,
-    ['*'] = mark_actions.toggle_mark,
-    -- ['J'] = function()
-    --   mark_actions.toggle_mark(lir.get_context())
-    --   vim.cmd('normal! j')
-    -- end,
+    -- ['*'] = mark_actions.toggle_mark,
+    ['J'] = function()
+      mark_actions.toggle_mark(lir.get_context())
+      vim.cmd('normal! j')
+    end,
     -- ['K'] = function(context)
     --   mark_actions.toggle_mark(context)
     --   vim.cmd('normal! k')

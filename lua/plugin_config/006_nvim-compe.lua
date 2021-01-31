@@ -10,7 +10,7 @@ require'compe'.setup {
   source = {
     path = {ignored_filetypes = {'deoledit'}},
     buffer = {ignored_filetypes = {'deoledit'}},
-    -- nvim_lsp = true,
+    nvim_lsp = true,
     nvim_lua = {filetypes = {'lua', 'teal'}},
     -- rust はなんか重くなる...
     tags = {ignored_filetypes = {'rust', 'markdown', 'md', 'deoledit'}},
@@ -22,3 +22,4 @@ require'compe'.setup {
 }
 
 vim.api.nvim_set_keymap('i', '<C-Space>', 'compe#complete()', {silent = true, expr = true})
+vim.api.nvim_set_keymap('i', '<CR>', [[compe#confirm(lexima#expand('<LT>CR>', 'i'))]], {silent = true, expr = true})

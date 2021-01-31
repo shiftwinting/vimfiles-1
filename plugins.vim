@@ -117,6 +117,8 @@ Plug 'kana/vim-operator-replace'
 Plug 'Shougo/deol.nvim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
+" Plug '~/.ghq/github.com/tamago324/neosnippet-snippets'
+" Plug 'Shougo/deoppet.nvim'
 
 
 " ------------------------
@@ -136,6 +138,7 @@ Plug 'neovim/nvim-lspconfig'
 " Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
+" Plug '~/.ghq/github.com/hrsh7th/nvim-compe'
 Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
 Plug '~/.ghq/github.com/tamago324/compe-zsh'
 Plug '~/.ghq/github.com/tamago324/compe-necosyntax'
@@ -157,7 +160,10 @@ Plug '~/.ghq/github.com/nvim-lua/plenary.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter'
 " Plug 'p00f/nvim-ts-rainbow'
-" Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'dstein64/nvim-scrollview'
 " Plug '/home/tamago324/.ghq/github.com/dstein64/nvim-scrollview'
@@ -271,7 +277,6 @@ call plug#end()
 
 " Plug '~/.ghq/github.com/tamago324/vim-gaming-line'
 
-" Plug 'Shougo/deoppet.nvim'
 " Plug 'Shougo/echodoc.vim',
 " Plug 'Shougo/denite.nvim'
 " Plug 'Shougo/defx.nvim'

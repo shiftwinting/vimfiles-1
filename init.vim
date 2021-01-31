@@ -12,9 +12,9 @@ function! FindPlugin(name) abort
 endfunction
 command! -nargs=1 UsePlugin if !FindPlugin(<args>) | finish | endif
 
-let g:lua_plugin_config_dir = g:vimfiles_path .. '/lua/rc'
-let g:vim_plugin_config_dir = g:vimfiles_path .. '/rc/plugins'
+let g:lua_plugin_config_dir = g:vimfiles_path .. '/lua/plugin_config'
+let g:vim_plugin_config_dir = g:vimfiles_path .. '/_config/plugins'
 
-runtime! rc/**/*.vim
+runtime! _config/**/*.vim
 
 lua require('init')

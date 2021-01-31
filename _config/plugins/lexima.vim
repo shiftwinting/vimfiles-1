@@ -101,6 +101,11 @@ call add(s:rules, { 'filetype': ['vim'], 'char': '<', 'at': '^\s*\(autocmd\|.[no
 
 
 " ====================
+" telescope
+" ====================
+" call add(s:rules, { 'filetype': ['TelescopePrompt'], 'char': "'", 'input': "\<Del>" })
+
+" ====================
 " rust
 " ====================
 call add(s:rules, { 'filetype': ['rust'], 'char': "'",                         'input': "''\<Left>"    })
