@@ -75,10 +75,11 @@ function rm()
   -- 選択されているものを取得する
   local marked_items = mark_utils.get_marked_items(ctx)
   if #marked_items == 0 then
-    -- 選択されていなければ、カレント行を削除
-    local path = ctx.dir .. ctx:current_value()
-    vim.fn.system('gomi ' .. esc_path(path))
-    actions.reload()
+    utils.error('Please mark one or more.')
+    -- -- 選択されていなければ、カレント行を削除
+    -- local path = ctx.dir .. ctx:current_value()
+    -- vim.fn.system('gomi ' .. esc_path(path))
+    -- actions.reload()
     return
   end
 
@@ -164,7 +165,6 @@ require 'lir'.setup {
     ['@']     = cd,
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
-    ['D']     = rm,
     ['~']     = function() vim.cmd('edit ' .. vim.fn.expand('$HOME')) end,
     ['W']     = yank_win_path,
     ['B']     = b_actions.list,
@@ -185,6 +185,7 @@ require 'lir'.setup {
     ['C'] = clipboard_actions.copy,
     ['X'] = clipboard_actions.cut,
     ['P'] = clipboard_actions.paste,
+    ['D'] = rm,
 
     ['A'] = argadd_marked_items,
   },

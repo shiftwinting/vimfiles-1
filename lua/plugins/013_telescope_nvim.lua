@@ -1,7 +1,5 @@
 if vim.api.nvim_call_function('FindPlugin', {'telescope.nvim'}) == 0 then do return end end
 
-local map_command = require'vimrc.utils'.map_command
-
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
 local pickers = require('telescope.pickers')
@@ -306,7 +304,7 @@ local mappings = {
   --   }
   -- end},
 
-  ['n;t'] = {function()
+  ['n<Space>;t'] = {function()
     require'telescope'.extensions.sonictemplate.templates {}
   end},
 
