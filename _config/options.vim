@@ -52,7 +52,8 @@ set nosplitbelow        " 横分割した時、カレントウィンドウの上
 " popup:    info を popup で表示
 " noselect: 自動で候補を表示しない
 " noinsert: 自動で候補を挿入しない
-set completeopt=menuone,noselect,noinsert
+" set completeopt=menuone,noselect,noinsert
+set completeopt=menu,menuone,noselect
 set pumheight=15
 
 set expandtab

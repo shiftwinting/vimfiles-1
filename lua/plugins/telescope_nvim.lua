@@ -391,6 +391,10 @@ commands()
 
 
 -- Sorter using the fzy algorithm
+
+local find = function(needle, haystack)
+end
+
 M.get_fzy_use_history_sorter = function(opts)
   opts = opts or {}
   local fzy = require('telescope.algos.fzy')

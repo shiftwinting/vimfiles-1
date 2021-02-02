@@ -121,10 +121,11 @@ local init = function()
   }
 
   -- use { 'mhartington/formatter.nvim' }
-  use { 'kyazdani42/nvim-web-devicons', setup = function() require('plugins/nvim-web-devicons') end }
-  use { 'norcalli/nvim-colorizer.lua',  config = function() require'colorizer'.setup() end }
-  use { 'dstein64/nvim-scrollview',     config = function() require('plugins/scrollview') end }
-  use { 'monaqa/dial.nvim',             setup = function() require('plugins/dial_nvim') end }
+  use { 'kyazdani42/nvim-web-devicons', setup  = function() require('plugins/nvim-web-devicons') end }
+  use { 'norcalli/nvim-colorizer.lua',  config = function() require'colorizer'.setup()           end }
+  use { 'dstein64/nvim-scrollview',     config = function() require('plugins/scrollview')        end }
+  use { 'monaqa/dial.nvim',             setup  = function() require('plugins/dial_nvim')         end }
+  use { 'glepnir/prodoc.nvim',          setup  = function() require('plugins/prodoc_nvim')       end }
 
   --------------------
   -- git

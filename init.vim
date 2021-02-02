@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 let g:vimfiles_path = expand('<sfile>:h')
-let g:plug_script = expand('<sfile>:h').'/lua/plugins.lua'
+let g:plug_script = expand('<sfile>:h').'/lua/packers.lua'
 let $MYVIMFILES = g:vimfiles_path
 
 " install packer.nvim
