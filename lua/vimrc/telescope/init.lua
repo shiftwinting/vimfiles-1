@@ -1,5 +1,3 @@
-if vim.api.nvim_call_function('FindPlugin', {'telescope.nvim'}) == 0 then do return end end
-
 local actions = require('telescope.actions')
 local pickers = require('telescope.pickers')
 local sorters = require('telescope.sorters')

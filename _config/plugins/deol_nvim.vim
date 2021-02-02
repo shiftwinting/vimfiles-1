@@ -1,7 +1,5 @@
 scriptencoding utf-8
 
-UsePlugin 'deol.nvim'
-
 " " \%(\) : 部分正規表現として保存しない :help /\%(\)
 " let g:deol#prompt_pattern = 
 " \   '^\%(PS \)\?' .
@@ -13,9 +11,9 @@ UsePlugin 'deol.nvim'
 " \       '❯ \?' .
 " \   '\)'
 
-
-" ウィンドウを閉じたら、完全に消される
-let $GIT_EDITOR = 'nvr --remote-tab-wait-silent +"set bufhidden=wipe"'
+" use lambdalisue/edita.vim
+" " ウィンドウを閉じたら、完全に消される
+" let $GIT_EDITOR = 'nvr --remote-tab-wait-silent +"set bufhidden=wipe"'
 
 " p10k
 let g:deol#prompt_pattern = '^❯ \?'
@@ -55,32 +53,30 @@ autocmd MyDeol Filetype   deol     call <SID>deol_settings()
 autocmd MyDeol Filetype   deoledit call <SID>deol_editor_settings()
 
 " dstein64/nvim-scrollview を使っていると、deol バッファで再描画してしまうため、対策
-if exists(':ScrollView*')
-  " pause
-  function! s:scrollview_pause(bufnr) abort
-    if !exists('t:deol')
-      return
-    endif
+" pause
+function! s:scrollview_pause(bufnr) abort
+  if !exists('t:deol')
+    return
+  endif
 
-    if t:deol.bufnr ==# a:bufnr
-      ScrollViewDisable
-    endif
-  endfunction
+  if t:deol.bufnr ==# a:bufnr
+    ScrollViewDisable
+  endif
+endfunction
 
-  " restart
-  function! s:scrollview_restart(bufnr) abort
-    if !exists('t:deol')
-      return
-    endif
+" restart
+function! s:scrollview_restart(bufnr) abort
+  if !exists('t:deol')
+    return
+  endif
 
-    if t:deol.bufnr ==# a:bufnr
-      ScrollViewEnable
-    endif
-  endfunction
+  if t:deol.bufnr ==# a:bufnr
+    ScrollViewEnable
+  endif
+endfunction
 
-  autocmd MyDeol WinEnter * call <SID>scrollview_pause(expand('<abuf>'))
-  autocmd MyDeol WinLeave * call <SID>scrollview_restart(expand('<abuf>'))
-endif
+autocmd MyDeol WinEnter * call <SID>scrollview_pause(expand('<abuf>'))
+autocmd MyDeol WinLeave * call <SID>scrollview_restart(expand('<abuf>'))
 
 
 function! s:deol_settings() abort
@@ -186,6 +182,9 @@ function! s:deol_editor_settings() abort
 
     nnoremap <buffer> <C-k> k
     " nnoremap <buffer> <C-j> j
+
+    " compe
+    call compe#setup({ 'preselect': 'disable' }, 0)
 
     resize 5
     setlocal winfixheight

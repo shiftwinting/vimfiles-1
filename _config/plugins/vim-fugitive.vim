@@ -1,5 +1,4 @@
 scriptencoding utf-8
-UsePlugin 'vim-fugitive'
 
 " タブで開く
 function! s:gstatus() abort
@@ -27,7 +26,7 @@ function! s:gstatus() abort
   endif
 endfunction
 " nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>\|:wincmd T<CR>
-nnoremap <silent> <Space>gs :<C-u>call <SID>gstatus()<CR>
+nnoremap <silent> <Space>gs <Cmd>call <SID>gstatus()<CR>
 
 " Gstatus のウィンドウ内で実行できるマッピング
 " > , < diff の表示

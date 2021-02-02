@@ -272,3 +272,6 @@ set updatetime=400
 " set showtabline=0
 
 " set cursorline
+
+set conceallevel=2
+set concealcursor=niv

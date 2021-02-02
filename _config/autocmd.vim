@@ -332,54 +332,16 @@ function! s:my_ft_scheme() abort
 endfunction
 
 
-" lexima を使ってやることにした
-" " ====================
-" " markdown
-" " ====================
-" function! s:my_ft_markdown() abort
-"   function! s:markdown_space() abort
-"     let l:col = getpos('.')[2]
-"     " 先頭でリストではなかったら、* とする
-"     if l:col ==# 1 && getline('.') !~# '^\s*\* .*'
-"       return '* '
-"     endif
-"
-"     " インデント
-"     let l:line = getline('.')[:l:col]
-"     if l:line =~# '\v^\s*\* \s*$'
-"       return "\<C-t>"
-"     endif
-"     return "\<Space>"
-"   endfunction
-"
-"   inoremap <buffer>        <Tab>   <C-t>
-"   inoremap <buffer>        <S-Tab> <C-d>
-"   inoremap <buffer> <expr> <Space> <SID>markdown_space()
-"   " inoremap <buffer> <expr> <CR>    <SID>cr()
-"
-"   function! s:markdown_cr() abort
-"     let l:line = getline('.')
-"     let l:col = getpos('.')[2]
-"     " 先頭が * and 末尾にカーソルがあるとき
-"     if l:line =~# '\v^\s*\*' && l:line[l:col:] ==# ''
-"       return "\<C-o>:InsertNewBullet\<CR>"
-"     endif
-"     return "\<CR>"
-"   endfunction
-"
-"   if exists('g:loaded_bullets_vim')
-"     inoremap <silent> <buffer> <expr> <CR> <SID>markdown_cr()
-"     nnoremap <silent> <buffer> o    :<C-u>InsertNewBullet<CR>
-"     " vnoremap <silent> <buffer> gN   <C-u>:RenumberSelection<CR>
-"     " nnoremap <silent> <buffer> gN   <C-u>:RenumberList<CR>
-"     " nnoremap <silent> <buffer> <Space>x <C-u>:ToggleCheckbox<CR>
-"   endif
-" endfunction
 " ====================
 " markdown
 " ====================
 function! s:my_ft_markdown() abort
   setlocal concealcursor=n
+  command! PreviewGlow call PreviewGlow(expand('%:p'))
+endfunction
+function! PreviewGlow(path) abort
+  exec 'terminal glow ' .. shellescape(a:path)
+  nnoremap <buffer> q <C-^>
 endfunction
 
 
