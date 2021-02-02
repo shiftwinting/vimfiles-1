@@ -370,8 +370,41 @@ local function commands()
     end
   end
 
+  -- @Summary リストを反転する
+  -- @Description リストを反転する
+  -- @Param  t リスト
+  local reverse = function(t)
+    local n = #t
+    for i = 1, n/2 do
+      t[i], t[n] = t[n], t[i]
+      n = n - 1
+    end
+    return t
+  end
+
+  -- @Summary commands の Sorter を生成
+  -- @Description 履歴をもとにして、ソートする Sorter を生成して返す
+  local function get_commands_sorter()
+    local list = {}
+    -- :history cmd で取れるやつを取得する
+    local history_string = vim.fn.execute('history cmd')
+    local history_list = reverse(vim.split(history_string, "\n"))
+    for _, line in ipairs(history_list) do
+      --                  ^\>?\s+\d+\s+([^ !]+)
+      local cmd = line:match('^>?%s+%d+%s+([^ !]+)')
+      if cmd then
+        table.insert(list, cmd)
+      end
+    end
+
+    return M.get_fzy_sorter_use_list({
+      list = list,
+    })
+  end
+
   mappings['n<A-x>'] = {function()
     require('telescope.builtin').commands {
+      sorter = get_commands_sorter(),
       attach_mappings = function(prompt_bufnr, map)
 
         actions.goto_file_selection_edit:replace(make_def_func())
@@ -385,6 +418,7 @@ local function commands()
 
   mappings['x<A-x>'] = {function()
     require('telescope.builtin').commands {
+      sorter = get_commands_sorter(),
       attach_mappings = function(prompt_bufnr, map)
         actions.goto_file_selection_edit:replace(make_def_func(true))
         map('i', '<C-e>', make_edit_command_func(true))
@@ -466,6 +500,7 @@ M.get_fzy_sorter_use_list = function(opts)
       -- so that all values are positive, then invert to match the
       -- telescope.Sorter "smaller is better" convention. Note that for exact
       -- matches, fzy returns +inf, which when inverted becomes 0.
+      -- リストの先頭が最高のスコアになるように足し込む (小さい方が高スコアだから)
       return (1 / (fzy_score + OFFSET)) + find(get_needle(entry), list)
     end,
 
