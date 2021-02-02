@@ -1,16 +1,13 @@
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
-local pickers = require('telescope.pickers')
-local finders = require('telescope.finders')
+-- local pickers = require('telescope.pickers')
+-- local finders = require('telescope.finders')
 local previewers = require('telescope.previewers')
-local conf = require('telescope.config').values
-local transform_mod = require('telescope.actions.mt').transform_mod
+-- local conf = require('telescope.config').values
+-- local transform_mod = require('telescope.actions.mt').transform_mod
 
 local my_entry_maker = require('vimrc.telescope.make_entry')
 
--- $ bat --list-themes で確認できる
--- vim.env.BAT_THEME = 'gruvbox-light'
-vim.env.BAT_THEME = 'gruvbox'
 
 local M = {}
 
@@ -79,7 +76,6 @@ require'telescope'.setup{
           vim.api.nvim_feedkeys('i', 'n', true)
         end,
 
-
         -- -- 選択して、カーソル移動
         -- ["<Space>"]  = actions.add_selection + transform_mod({
         --   x = function()
@@ -89,6 +85,12 @@ require'telescope'.setup{
       },
     },
     color_devicons = true,
+
+    set_env = {
+      ['COLORTERM'] = 'truecolor',
+      -- $ bat --list-themes で確認できる
+      ['BAT_THEME'] = 'gruvbox',
+    },
   },
   extensions = {
     openbrowser = {
@@ -114,10 +116,12 @@ local extensions = {
   -- 'frecency',
   'sonictemplate',
   'openbrowser',
-  'plug_names'
+
+  'plug_names',
+  'mru',
 }
 local function load_extensions(exps)
-  for i, ext in ipairs(exps) do
+  for _, ext in ipairs(exps) do
     require'telescope'.load_extension(ext)
   end
 end
@@ -129,11 +133,18 @@ local mappings = {
 
   -- find_files
   ['n<Space>fv'] = {function()
+    local cwd = vim.g.vimfiles_path
+    local files = vim.tbl_map(function(v)
+      -- /path/to/file .. '/'
+      return v:sub(#cwd + 2)
+    end, vim.fn['mr#filter'](vim.fn['mr#mru#list'](), cwd))
+
     require'telescope.builtin'.find_files{
-      cwd = vim.g.vimfiles_path,
+      cwd = cwd,
       previewer = previewers.cat.new({}),
-      -- previewer = false,
-      sorter = M.get_fzy_use_history_sorter(),
+      sorter = M.get_fzy_sorter_use_list({
+        list = files
+      })
     }
   end},
 
@@ -201,10 +212,16 @@ local mappings = {
 
   -- mru
   ['n<Space>fk'] = {function()
-    require('vimrc.telescope').mru{
+    require('telescope').extensions.mru.list {
       file_ignore_patterns = { "^/tmp" },
       previewer = previewers.cat.new({}),
-      attach_mappings = function(prompt_bufnr, map)
+      sorter = M.get_fzy_sorter_use_list({
+        list = vim.fn['mr#mru#list'](),
+        get_needle = function(entry)
+          return entry.filename
+        end
+      }),
+      attach_mappings = function(prompt_bufnr, _)
         actions.goto_file_selection_tabedit:replace(function ()
           local selection = actions.get_selected_entry(prompt_bufnr)
           actions.close(prompt_bufnr)
@@ -256,7 +273,7 @@ local mappings = {
         }
       end,
       attach_mappings = function(prompt_bufnr, map)
-        actions.goto_file_selection_edit:replace(function(prompt_bufnr)
+        actions.goto_file_selection_edit:replace(function()
           local val = actions.get_selected_entry(prompt_bufnr).value
           actions.close(prompt_bufnr)
           vim.api.nvim_command('tabnew')
@@ -391,12 +408,33 @@ commands()
 
 
 -- Sorter using the fzy algorithm
-
 local find = function(needle, haystack)
+  for i = 1, #haystack do
+    if needle == haystack[i] then
+      return i
+    end
+  end
+  -- 見つからなかったら、最悪なスコアを返す
+  return #haystack
 end
 
-M.get_fzy_use_history_sorter = function(opts)
-  opts = opts or {}
+-- telescope の sorters.get_fzy_sorter() をもとに作成
+-- @Summary なにかしらのリストを使って、ソートをいい感じにする
+-- @Description MRUなどのリストを渡す (1が高スコア、#listが低スコア)
+-- @Param  opts
+--    opts.list ファイルのリスト (entry.ordinal と一致する要素を含むリスト)
+--    opts.get_needle  entry から needle となる値を取得する関数
+M.get_fzy_sorter_use_list = function(opts)
+  vim.validate {
+    opts = { opts, 'table', false }
+  }
+  vim.validate {
+    ['opts.list'] = { opts.list, 'table', false },
+    ['opts.get_needle'] = { opts.get_needle, 'function', true },
+  }
+  local list = opts.list
+  local get_needle = opts.get_needle or (function(v) return v.ordinal end)
+
   local fzy = require('telescope.algos.fzy')
   -- すべての文字列 prompt, line において、
   --  fzy.get_score_min() ～ fzy.get_score_max() の間になく、
@@ -408,7 +446,8 @@ M.get_fzy_use_history_sorter = function(opts)
   return sorters.Sorter:new{
     discard = true,
 
-    scoring_function = function(_, prompt, line)
+    -- line == ordinal
+    scoring_function = function(_, prompt, line, entry)
       -- まず、マッチするかをチェックする
       if not fzy.has_match(prompt, line) then
         return -1
@@ -420,14 +459,14 @@ M.get_fzy_use_history_sorter = function(opts)
       -- 最悪のスコアである 1 を返す
       -- また、この関数は、0 ~ 1 の間のスコアを返す
       if fzy_score == fzy.get_score_min() then
-        return 1
+        return 1 + #list
       end
 
       -- Poor non-empty matches can also have negative values. Offset the score
       -- so that all values are positive, then invert to match the
       -- telescope.Sorter "smaller is better" convention. Note that for exact
       -- matches, fzy returns +inf, which when inverted becomes 0.
-      return (1 / (fzy_score + OFFSET))
+      return (1 / (fzy_score + OFFSET)) + find(get_needle(entry), list)
     end,
 
     -- The fzy.positions function, which returns an array of string indices, is
