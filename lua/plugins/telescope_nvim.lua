@@ -8,7 +8,6 @@ local previewers = require('telescope.previewers')
 
 local my_entry_maker = require('vimrc.telescope.make_entry')
 
-
 local M = {}
 
 
@@ -19,15 +18,23 @@ require'telescope'.setup{
     -- borderchars = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
     winblend = 0,
 
-    -- prompt_position = "top",
+    prompt_position = "bottom",
     -- sorting_strategy = "ascending",
-    -- layout_strategy = "center",
-    layout_strategy = 'horizontal',
+
+    -- https://github.com/nvim-telescope/telescope.nvim/issues/425
+    layout_strategy = 'vertical',
+    layout_defaults = {
+      vertical = {
+        width_padding = 0.05,
+        height_padding = 10,
+        preview_height = 0.7,
+      }
+    },
 
     results_title = false,
     preview_title = false,
-    width = 0.8,
-    results_height = 40,
+    -- width = 0.8,
+    -- results_height = 30,
 
     mappings = {
       -- insert mode のマッピング
@@ -95,13 +102,14 @@ require'telescope'.setup{
   extensions = {
     openbrowser = {
       bookmarks = {
-        ['cica'] = 'https://miiton.github.io/Cica/',
-        ['lua manual'] = 'http://milkpot.sakura.ne.jp/lua/lua51_manual_ja.html',
-        ['luv vim.loop'] = 'https://github.com/luvit/luv/blob/master/docs.md',
-        ['luarocks.org'] = 'luarocks.org',
-        ['exercism_lua'] = 'https://exercism.io/my/tracks/lua',
-        ['nvim repo'] = 'https://github.com/search?l=Lua&o=desc&q=nvim&s=updated&type=Repositories',
-        ['color-picker'] = 'https://www.w3schools.com/colors/colors_picker.asp',
+        ['cica']                   = 'https://miiton.github.io/Cica/',
+        ['lua manual']             = 'http://milkpot.sakura.ne.jp/lua/lua51_manual_ja.html',
+        ['luv vim.loop']           = 'https://github.com/luvit/luv/blob/master/docs.md',
+        ['luarocks.org']           = 'luarocks.org',
+        ['exercism_lua']           = 'https://exercism.io/my/tracks/lua',
+        ['nvim repo']              = 'https://github.com/search?l=Lua&o=desc&q=nvim&s=updated&type=Repositories',
+        ['color-picker']           = 'https://www.w3schools.com/colors/colors_picker.asp',
+        ['nanotee/nvim-lua-guide'] = 'https://github.com/nanotee/nvim-lua-guide',
       }
     }
   }
@@ -223,7 +231,7 @@ local mappings = {
       }),
       attach_mappings = function(prompt_bufnr, _)
         actions.goto_file_selection_tabedit:replace(function ()
-          local selection = actions.get_selected_entry(prompt_bufnr)
+          local selection = actions.get_selected_entry()
           actions.close(prompt_bufnr)
           local val = selection.value
           vim.fn['vimrc#drop_or_tabedit'](val)
@@ -263,7 +271,6 @@ local mappings = {
   ['n<Space>fq'] = {function()
     local ghq_root = vim.env.GHQ_ROOT
     require'telescope'.extensions.ghq.list{
-      previewer = false,
       sorter = sorters.get_fzy_sorter(),
       entry_maker = function(line)
         return {
@@ -274,7 +281,7 @@ local mappings = {
       end,
       attach_mappings = function(prompt_bufnr, map)
         actions.goto_file_selection_edit:replace(function()
-          local val = actions.get_selected_entry(prompt_bufnr).value
+          local val = actions.get_selected_entry().value
           actions.close(prompt_bufnr)
           vim.api.nvim_command('tabnew')
           vim.api.nvim_command(string.format('tcd %s | edit .', val))
@@ -298,7 +305,9 @@ local mappings = {
   -- end},
 
   ['n<Space>fs'] = {function()
-    require'telescope.builtin'.current_buffer_tags {}
+    require'telescope.builtin'.current_buffer_tags {
+      layout_strategy = 'horizontal',
+    }
   end},
 
   -- ['ngr'] = {function()
