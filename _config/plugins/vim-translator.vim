@@ -1,5 +1,4 @@
 scriptencoding utf-8
-UsePlugin 'vim-translator'
 
 let g:translator_window_borderchars = ['-', '|', '-', '|', '+', '+', '+', '+']
 

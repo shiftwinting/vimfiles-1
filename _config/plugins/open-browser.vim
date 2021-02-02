@@ -1,5 +1,4 @@
 scriptencoding utf-8
-UsePlugin 'open-browser.vim'
 
 " netrw の gx のマッピングをさせない
 let g:netrw_nogx = 1

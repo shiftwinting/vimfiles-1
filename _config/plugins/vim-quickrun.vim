@@ -1,5 +1,4 @@
 scriptencoding utf-8
-UsePlugin 'vim-quickrun'
 
 let g:quickrun_config = {}
 

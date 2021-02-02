@@ -153,7 +153,7 @@ function! Filename_stl() abort
   let l:fname = expand('%:t')
   " let l:res .= exists('*WebDevIconsGetFileTypeSymbol') ? trim(WebDevIconsGetFileTypeSymbol()) : ''
   let l:res .= '['
-  let l:res .= FindPlugin('nvim-web-devicons') ? luaeval("require'nvim-web-devicons'.get_icon(_A[1], _A[2], { default = true })", [l:fname, fnamemodify(l:fname, ':e')]) : ''
+  " let l:res .= FindPlugin('nvim-web-devicons') ? luaeval("require'nvim-web-devicons'.get_icon(_A[1], _A[2], { default = true })", [l:fname, fnamemodify(l:fname, ':e')]) : ''
   let l:res .= !empty(l:fname) ? l:fname : 'No Name'
   let l:res .= ']'
   let l:res .= &readonly ? '[RO]' : ''

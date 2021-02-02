@@ -109,6 +109,10 @@ function! s:define_my_highlight() abort
 
     hi TSDefinition guibg=#504945
 
+    hi link LspSagaContent NormalFloat
+    hi link LspFloatWinBorder NormalFloat
+    hi link LspSagaBorderTitle NormalFloat
+
   endif
   hi TelescopeBorder guifg=#7c6f64
   hi link TelescopePromptBorder TelescopeBorder

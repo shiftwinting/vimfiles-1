@@ -10,5 +10,6 @@ vimspector_config/gadgets/*
 tags
 /undo/
 
-_config/LeaderF-github-stars.vim
 .config/
+
+plugin/packer_compiled.vim
