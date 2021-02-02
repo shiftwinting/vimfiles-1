@@ -505,6 +505,7 @@ function! s:my_ft_lua() abort
   " if exists(':AlterCommand')
   "   call altercmd#define('<buffer>', 'so', 'luaf')
   " endif
+  setlocal formatoptions-=o
 endfunction
 
 
@@ -585,6 +586,7 @@ function! QCrun() abort
 endfunction
 
 function! s:my_ft_rust() abort
+  setlocal formatoptions-=o
   nnoremap <buffer>         <Space>bl :<C-u>RustFmt<CR>
   nnoremap <buffer><silent> <Space>rr :<C-u>QCargoRun<CR>
 

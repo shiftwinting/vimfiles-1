@@ -256,9 +256,7 @@ endif
 
 set mouse+=n
 
-if has('nvim')
-  set inccommand=split
-endif
+set inccommand=split
 
 " lua ハイライトを ON
 let g:vimsyn_embed = 'l'

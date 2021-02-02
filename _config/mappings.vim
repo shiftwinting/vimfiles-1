@@ -109,6 +109,9 @@ nnoremap / /\v
 " クリップボード内の文字列をそのまま検索
 nnoremap <Space>/ /\V<C-r>+<CR>
 
+" vimgrep でカレントバッファを検索
+nnoremap <Space>gg :vimgrep /\v/ %:p<Left><Left><Left><Left><Left>
+
 " 全行で置換
 nnoremap <Space>s<Space> :<C-u>%s///g<Left><Left>
 

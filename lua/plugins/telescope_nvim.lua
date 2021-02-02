@@ -5,6 +5,7 @@ local sorters = require('telescope.sorters')
 local previewers = require('telescope.previewers')
 -- local conf = require('telescope.config').values
 -- local transform_mod = require('telescope.actions.mt').transform_mod
+local make_entry = require('telescope.make_entry')
 
 local my_entry_maker = require('vimrc.telescope.make_entry')
 
@@ -41,7 +42,7 @@ require'telescope'.setup{
       i = {
         -- 閉じる
         ["<C-c>"] = actions.close,
-        ["<C-q>"] = actions.close,
+        ["<C-q>"] = actions.send_to_qflist,
         ["<Esc>"] = actions.close,
 
         -- switch normal mode
@@ -176,7 +177,7 @@ local mappings = {
       shorten_path = false,
       show_all_buffers = true,
       previewer = previewers.cat.new({}),
-      entry_maker = my_entry_maker.gen_from_buffer_like_leaderf(),
+      -- entry_maker = my_entry_maker.gen_from_buffer_like_leaderf(),
 
       -- <C-t> で他のバッファ
       attach_mappings = function(prompt_bufnr, map)
@@ -210,11 +211,22 @@ local mappings = {
     }
   end},
 
+  ['n<Space>fg'] = {function()
+    require'telescope.builtin'.grep_string {
+      layout_strategy = 'horizontal',
+      layout_config = {
+        preview_width = 0.6,
+      },
+      search = vim.fn.input("Grep String > "),
+    }
+  end},
+
   -- git_files
   ['n<Space>ff'] = {function()
     require'telescope.builtin'.git_files{
       layout_strategy = 'horizontal',
       -- TOOD: LeaderF みたいに使いやすくする
+      cwd = require('lspconfig.util').root_pattern(".git")(vim.fn.expand("%:p")),
     }
   end},
 
@@ -234,6 +246,7 @@ local mappings = {
           return entry.filename
         end
       }),
+      -- entry_maker = make_entry.gen_from_file(),
       attach_mappings = function(prompt_bufnr, _)
         actions.goto_file_selection_tabedit:replace(function ()
           local selection = actions.get_selected_entry()
@@ -522,7 +535,7 @@ M.get_fzy_sorter_use_list = function(opts)
       -- telescope.Sorter "smaller is better" convention. Note that for exact
       -- matches, fzy returns +inf, which when inverted becomes 0.
       -- リストの先頭が最高のスコアになるように足し込む (小さい方が高スコアだから)
-      pprint(find(get_needle(entry), list))
+      -- pprint(find(get_needle(entry), list))
       return (1 / (fzy_score + OFFSET)) + find(get_needle(entry), list)
     end,
 

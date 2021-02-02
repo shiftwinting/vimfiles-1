@@ -83,7 +83,7 @@ local list = function(opts)
     prompt_title = 'MRU',
     finder = finders.new_table {
       results = results,
-      entry_maker = gen_from_mru_better({results = results}),
+      entry_maker = opts.entry_maker or gen_from_mru_better({results = results}),
     },
     sorter = opts.sorter or sorters.get_generic_fuzzy_sorter(),
     attach_mappings = function(prompt_bufnr)

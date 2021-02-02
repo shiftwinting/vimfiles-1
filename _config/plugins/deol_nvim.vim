@@ -41,7 +41,9 @@ function! DeolToggle() abort
     " open
     botright 25new
     setlocal winfixheight
-    execute 'Deol -toggle -edit -no-start-insert -edit-filetype=deoledit -command=' . &shell
+    " execute 'Deol -toggle -edit -no-start-insert -edit-filetype=deoledit -command=' . &shell
+    execute 'Deol -toggle -edit-filetype=deoledit -command=' . &shell
+    startinsert!
   endif
 endfunction
 

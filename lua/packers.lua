@@ -53,7 +53,7 @@ local init = function()
   use { 'simeji/winresizer',             setup = function() require('plugins/winresizer') end }
   use { 'svermeulen/vim-cutlass',        setup = function() require('plugins/vim-cutlass') end }
   use { 'voldikss/vim-translator',       config = function() require('plugins/vim-translator') end }
-  use { 'mhinz/vim-grepper',             config = function() require('plugins/vim-grepper') end }
+  -- use { 'mhinz/vim-grepper',             config = function() require('plugins/vim-grepper') end }
   use { 'hrsh7th/vim-eft',               setup = function() require('plugins/vim-eft') end,
     keys = {
       '<Plug>(eft-f-repeatable)',
@@ -199,8 +199,7 @@ local init = function()
     requires = {
       { 'nvim-telescope/telescope-ghq.nvim' },
       { 'nvim-telescope/telescope-fzy-native.nvim' },
-      {
-        'nvim-telescope/telescope-frecency.nvim', requires = { 'tami5/sql.nvim' } },
+      -- { 'nvim-telescope/telescope-frecency.nvim', requires = { 'tami5/sql.nvim' } },
       { 'tamago324/telescope-sonictemplate.nvim' },
       { 'tamago324/telescope-openbrowser.nvim' },
     }
