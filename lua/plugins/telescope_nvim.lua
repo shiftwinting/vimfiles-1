@@ -26,8 +26,8 @@ require'telescope'.setup{
     layout_defaults = {
       vertical = {
         width_padding = 0.05,
-        height_padding = 10,
-        preview_height = 0.7,
+        height_padding = 3,
+        preview_height = 0.6,
       }
     },
 
@@ -149,6 +149,7 @@ local mappings = {
 
     require'telescope.builtin'.find_files{
       cwd = cwd,
+      layout_strategy = 'horizontal',
       previewer = previewers.cat.new({}),
       sorter = M.get_fzy_sorter_use_list({
         list = files
@@ -165,6 +166,7 @@ local mappings = {
   ['n<Space>fh'] = {function()
     require('telescope.builtin').help_tags {
       sorter = sorters.get_generic_fuzzy_sorter(),
+      layout_strategy = 'horizontal',
     }
   end},
 
@@ -210,7 +212,10 @@ local mappings = {
 
   -- git_files
   ['n<Space>ff'] = {function()
-    require'telescope.builtin'.git_files{}
+    require'telescope.builtin'.git_files{
+      layout_strategy = 'horizontal',
+      -- TOOD: LeaderF みたいに使いやすくする
+    }
   end},
 
   -- filetypes
@@ -271,12 +276,19 @@ local mappings = {
   ['n<Space>fq'] = {function()
     local ghq_root = vim.env.GHQ_ROOT
     require'telescope'.extensions.ghq.list{
-      sorter = sorters.get_fzy_sorter(),
+      previewer = false,
+      sorter = M.get_fzy_sorter_use_list({
+        list = vim.fn['mr#mrr#list'](),
+        get_needle = function(entry)
+          return entry.value
+        end
+      }),
       entry_maker = function(line)
+        local short_name = string.sub(line, #ghq_root + #'/github.com/' + 1)
         return {
           value = line,
-          ordinal = line,
-          display = string.sub(line, #ghq_root + #'/github.com/' + 1),
+          ordinal = short_name,
+          display = short_name,
         }
       end,
       attach_mappings = function(prompt_bufnr, map)
@@ -510,6 +522,7 @@ M.get_fzy_sorter_use_list = function(opts)
       -- telescope.Sorter "smaller is better" convention. Note that for exact
       -- matches, fzy returns +inf, which when inverted becomes 0.
       -- リストの先頭が最高のスコアになるように足し込む (小さい方が高スコアだから)
+      pprint(find(get_needle(entry), list))
       return (1 / (fzy_score + OFFSET)) + find(get_needle(entry), list)
     end,
 
