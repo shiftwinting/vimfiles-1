@@ -1,7 +1,7 @@
 local devicons = require'nvim-web-devicons'
 local entry_display = require('telescope.pickers.entry_display')
-local path = require('telescope.path')
-local utils = require('telescope.utils')
+-- local path = require('telescope.path')
+-- local utils = require('telescope.utils')
 
 local filter = vim.tbl_filter
 local map = vim.tbl_map
@@ -9,25 +9,12 @@ local map = vim.tbl_map
 local make_entry = {}
 
 
-function make_entry.gen_from_openbrowser(opts)
-  opts = opts or {}
-
-  return function(entry)
-    return {
-      value = entry.url,
-      ordinal = entry.name .. ' ' .. entry.url,
-      display = entry.name .. ' ' .. entry.url,
-    }
-  end
-end
-
-
-local extend = function(a, b)
-  for i = 1, #b do
-    table.insert(a, b[i])
-  end
-  return a
-end
+-- local extend = function(a, b)
+--   for i = 1, #b do
+--     table.insert(a, b[i])
+--   end
+--   return a
+-- end
 
 
 -- buffers
@@ -121,70 +108,5 @@ function make_entry.gen_from_buffer_like_leaderf(opts)
     }
   end
 end
-
-
--- mru
-function make_entry.gen_from_mru_better(opts)
-  opts = opts or {}
-  local default_icons, _ = devicons.get_icon('file', '', {default = true})
-  local results = opts.results
-  local cwd = vim.fn.expand(opts.cwd or vim.fn.getcwd())
-
-  local max_filename = math.max(
-    unpack(
-      map(function(filepath)
-        return vim.fn.strdisplaywidth(vim.fn.fnamemodify(filepath, ':p:t'))
-      end, opts.results)
-    )
-  )
-
-  local displayer = entry_display.create {
-    separator = " ",
-    items = {
-      { width = vim.fn.strwidth(default_icons) },
-      { width = max_filename },
-      { remaining = true },
-    },
-  }
-
-  -- local cwd = vim.fn.expand(opts.cwd or vim.fn.getcwd())
-
-  -- リストの場合、ハイライトする
-  local make_display = function(entry)
-    return displayer {
-      {entry.devicons, entry.devicons_highlight},
-      entry.file_name,
-      {entry.dir_name, "Comment"}
-      }
-  end
-
-  return function(entry)
-
-    local dir_name = vim.fn.fnamemodify(entry, ':p:h')
-    local file_name = vim.fn.fnamemodify(entry, ':p:t')
-
-    local icons, highlight = devicons.get_icon(entry, string.match(entry, '%a+$'), { default = true })
-
-    return {
-      valid = true,
-      cwd = cwd,
-
-      filename = entry,
-      value = entry,
-      -- バッファ番号、ファイル名のみ、検索できるようにする
-      ordinal = file_name,
-      display = make_display,
-
-      bufnr = entry.bufnr,
-
-      devicons = icons,
-      devicons_highlight = highlight,
-
-      file_name = file_name,
-      dir_name = dir_name,
-    }
-  end
-end
-
 
 return make_entry
