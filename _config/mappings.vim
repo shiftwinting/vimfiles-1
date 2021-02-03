@@ -16,7 +16,7 @@ inoremap <C-b> <Left>
 xnoremap . :normal! .<CR>
 
 " シンボリックリンクの先に移動する
-nnoremap cd <Cmd>exec 'lcd ' .. resolve(expand('%:p:h')) \| pwd<CR>
+nnoremap cd <Cmd>exec 'lcd ' .. fnamemodify(resolve(expand('%:p')), ':h') \| pwd<CR>
 
 nnoremap <silent><expr> <Space>vs. (&filetype ==# 'lua' ? '<Cmd>luafile %<CR>' : '<Cmd>source %<CR>')
 

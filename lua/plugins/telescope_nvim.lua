@@ -7,6 +7,8 @@ local previewers = require('telescope.previewers')
 -- local transform_mod = require('telescope.actions.mt').transform_mod
 local make_entry = require('telescope.make_entry')
 
+local Path = require'plenary.path'
+
 local my_entry_maker = require('vimrc.telescope.make_entry')
 
 local M = {}
@@ -137,241 +139,284 @@ end
 load_extensions(extensions)
 
 
-local mappings = {
-  -- ['n//'] = {[[:<C-u>Telescope current_buffer_fuzzy_find<CR>]], silent = false},
+-------------------
+-- 便利関数
+-------------------
 
-  -- find_files
-  ['n<Space>fv'] = {function()
-    local cwd = vim.g.vimfiles_path
-    local files = vim.tbl_map(function(v)
-      -- /path/to/file .. '/'
-      return v:sub(#cwd + 2)
-    end, vim.fn['mr#filter'](vim.fn['mr#mru#list'](), cwd))
+-- @Summary path から一番近い markers を含むディレクトリを返す
+-- @Description
+-- @Param  markers ファイル名かディレクトリ名のリスト
+-- @Param  path 起点となるパス
+local nearest_ancestor = function(markers, path)
+  local root = '/'
+  local p = Path:new(path)
 
-    require'telescope.builtin'.find_files{
-      cwd = cwd,
-      layout_strategy = 'horizontal',
-      previewer = previewers.cat.new({}),
-      sorter = M.get_fzy_sorter_use_list({
-        list = files
-      })
-    }
-  end},
+  -- / になるまで、上に遡る
+  while p:absolute() ~= root do
+    for _, name in ipairs(markers) do
+      if p:joinpath(name):exists() then
+        pprint(p:absolute())
+        return p:absolute()
+      end
+    end
 
-  -- -- command_history
-  -- ['n<Space>f;'] = {function()
-  --   require('telescope.builtin').command_history {}
-  -- end},
+    -- /home の parents() は nil になるため
+    if p:parents() == nil then
+      p = Path:new('/')
+    else
+      p = Path:new(p:parents())
+    end
 
-  -- help
-  ['n<Space>fh'] = {function()
-    require('telescope.builtin').help_tags {
-      sorter = sorters.get_generic_fuzzy_sorter(),
-      layout_strategy = 'horizontal',
-    }
-  end},
+  end
 
-  -- buffers
-  ['n<Space>fj'] = {function()
-    require('telescope.builtin').buffers {
-      shorten_path = false,
-      show_all_buffers = true,
-      previewer = previewers.cat.new({}),
-      -- entry_maker = my_entry_maker.gen_from_buffer_like_leaderf(),
+  -- /.git とかを探す
+  for _, name in ipairs(markers) do
+    if p:joinpath(name):exists() then
+      return p:absolute()
+    end
+  end
 
-      -- <C-t> で他のバッファ
-      attach_mappings = function(prompt_bufnr, map)
-        actions.goto_file_selection_tabedit:replace(function ()
-          local selection = actions.get_selected_entry(prompt_bufnr)
-          actions.close(prompt_bufnr)
-          local val = selection.value
-          vim.fn['vimrc#drop_or_tabedit'](val)
-          -- vim.api.nvim_command(string.format('drop %s', val))
-        end)
+  return ''
+end
 
-        actions.goto_file_selection_edit:replace(function ()
-          local selection = actions.get_selected_entry(prompt_bufnr)
-          actions.close(prompt_bufnr)
-          local val = selection.value
-          print(val)
-          vim.api.nvim_command(string.format('edit %s', val))
-        end)
 
-        local function delete_buffer()
-          local selection = actions.get_selected_entry(prompt_bufnr)
-          pcall(vim.cmd, string.format([[silent bdelete! %s]], selection.bufnr))
+-------------------
+-- マッピング用の関数を定義
+-------------------
 
-          -- TODO: refresh
-        end
+-- @Summary vimfies から探す
+-- @Description
+local find_vimfiles = function()
+  local cwd = vim.g.vimfiles_path
+  local files = vim.tbl_map(function(v)
+    -- /path/to/file .. '/'
+    return v:sub(#cwd + 2)
+  end, vim.fn['mr#filter'](vim.fn['mr#mru#list'](), cwd))
 
-        map('n', 'D', delete_buffer)
+  require'telescope.builtin'.find_files{
+    cwd = cwd,
+    layout_strategy = 'horizontal',
+    previewer = previewers.cat.new({}),
+    sorter = M.get_fzy_sorter_use_list({
+      list = files
+    })
+  }
+end
 
-        return true
-      end,
-    }
-  end},
 
-  ['n<Space>fg'] = {function()
+-- @Summary help tagas
+-- @Description
+local help_tags = function()
+  require('telescope.builtin').help_tags {
+    sorter = sorters.get_generic_fuzzy_sorter(),
+    layout_strategy = 'horizontal',
+  }
+end
+
+
+-- @Summary buffers
+-- @Description
+local buffers = function()
+  require('telescope.builtin').buffers {
+    shorten_path = false,
+    show_all_buffers = true,
+    previewer = previewers.cat.new({}),
+    -- entry_maker = my_entry_maker.gen_from_buffer_like_leaderf(),
+
+    -- <C-t> で他のバッファ
+    attach_mappings = function(prompt_bufnr, map)
+      actions.goto_file_selection_tabedit:replace(function ()
+        local selection = actions.get_selected_entry(prompt_bufnr)
+        actions.close(prompt_bufnr)
+        local val = selection.value
+        vim.fn['vimrc#drop_or_tabedit'](val)
+        -- vim.api.nvim_command(string.format('drop %s', val))
+      end)
+
+      actions.goto_file_selection_edit:replace(function ()
+        local selection = actions.get_selected_entry(prompt_bufnr)
+        actions.close(prompt_bufnr)
+        local val = selection.value
+        vim.api.nvim_command(string.format('edit %s', val))
+      end)
+
+      local function delete_buffer()
+        local selection = actions.get_selected_entry(prompt_bufnr)
+        pcall(vim.cmd, string.format([[silent bdelete! %s]], selection.bufnr))
+
+        -- TODO: refresh
+      end
+
+      map('n', 'D', delete_buffer)
+
+      return true
+    end,
+  }
+end
+
+
+-- @Summary grep_string
+-- @Description
+local gen_grep_string = function()
+
+  -- @Summary cwd を返す
+  -- @Description LeaderF の g:Lf_WorkingDirectoryMode のような感じで返す
+  --              カレントファイルに近い markers があるディレクトリ (もし、marker が見つからなければ cwd)
+  local get_working_dir = function(markers, path)
+    if path ~= '' then
+      return nearest_ancestor(markers, path)
+    else
+      return vim.fn.getcwd()
+    end
+  end
+
+  return function()
+    local input = vim.fn.input("Grep String > ")
+    if input == '' then
+      vim.api.nvim_echo({{'Cancel.', 'WarningMsg'}}, false, {})
+      return
+    end
+
     require'telescope.builtin'.grep_string {
       layout_strategy = 'horizontal',
       layout_config = {
         preview_width = 0.6,
       },
-      search = vim.fn.input("Grep String > "),
+      shorten_path = true,
+      -- LeaderF の A のようにする
+      -- カレントファイルに近い g:Lf_RootMarkers があるディレクトリ (もし、marker が見つからなければ cwd)
+      cwd = get_working_dir({'.git', '.gitignore'}, vim.fn.expand('%:p')),
+      search = input,
     }
-  end},
+  end
+end
 
-  -- git_files
-  ['n<Space>ff'] = {function()
+
+-- @Summary filetypes
+-- @Description
+local filetypes = function()
+  require'telescope.builtin'.current_buffer_tags {
+    layout_strategy = 'horizontal',
+  }
+end
+
+
+-- @Summary git_files か find_files
+-- @Description
+local find_files = function()
+  local marker_dir = nearest_ancestor({'.git', '.gitignore'}, Path:new(vim.fn.expand('%:p')):absolute())
+  if marker_dir ~= '' then
     require'telescope.builtin'.git_files{
       layout_strategy = 'horizontal',
-      -- TOOD: LeaderF みたいに使いやすくする
-      cwd = require('lspconfig.util').root_pattern(".git")(vim.fn.expand("%:p")),
+      cwd = marker_dir,
     }
-  end},
-
-  -- filetypes
-  ['n<Space>ft'] = {function()
-    require'telescope.builtin'.filetypes{}
-  end},
-
-  -- mru
-  ['n<Space>fk'] = {function()
-    require('telescope').extensions.mru.list {
-      file_ignore_patterns = { "^/tmp" },
-      previewer = previewers.cat.new({}),
-      sorter = M.get_fzy_sorter_use_list({
-        list = vim.fn['mr#mru#list'](),
-        get_needle = function(entry)
-          return entry.filename
-        end
-      }),
-      -- entry_maker = make_entry.gen_from_file(),
-      attach_mappings = function(prompt_bufnr, _)
-        actions.goto_file_selection_tabedit:replace(function ()
-          local selection = actions.get_selected_entry()
-          actions.close(prompt_bufnr)
-          local val = selection.value
-          vim.fn['vimrc#drop_or_tabedit'](val)
-          -- vim.api.nvim_command(string.format('drop %s', val))
-        end)
-        return true
-      end
-    }
-  end},
-
-  -- -- frecency
-  -- ['n,,'] = {function()
-  --   require('telescope').extensions.frecency.frecency  {
-  --     attach_mappings = function(prompt_bufnr, map)
-  --       actions.goto_file_selection_tabedit:replace(function ()
-  --         local selection = actions.get_selected_entry(prompt_bufnr)
-  --         actions.close(prompt_bufnr)
-  --         local val = selection.value
-  --         vim.fn['vimrc#drop_or_tabedit'](val)
-  --         -- vim.api.nvim_command(string.format('drop %s', val))
-  --       end)
-  --
-  --       actions.goto_file_selection_edit:replace(function ()
-  --         local selection = actions.get_selected_entry(prompt_bufnr)
-  --         actions.close(prompt_bufnr)
-  --         local val = selection.value
-  --         print(val)
-  --         vim.api.nvim_command(string.format('edit %s', val))
-  --       end)
-  --
-  --       return true
-  --     end
-  --   }
-  -- end},
-
-  -- ghq
-  ['n<Space>fq'] = {function()
-    local ghq_root = vim.env.GHQ_ROOT
-    require'telescope'.extensions.ghq.list{
-      previewer = false,
-      sorter = M.get_fzy_sorter_use_list({
-        list = vim.fn['mr#mrr#list'](),
-        get_needle = function(entry)
-          return entry.value
-        end
-      }),
-      entry_maker = function(line)
-        local short_name = string.sub(line, #ghq_root + #'/github.com/' + 1)
-        return {
-          value = line,
-          ordinal = short_name,
-          display = short_name,
-        }
-      end,
-      attach_mappings = function(prompt_bufnr, map)
-        actions.goto_file_selection_edit:replace(function()
-          local val = actions.get_selected_entry().value
-          actions.close(prompt_bufnr)
-          vim.api.nvim_command('tabnew')
-          vim.api.nvim_command(string.format('tcd %s | edit .', val))
-          -- vim.api.nvim_command(string.format([[tcd %s | lua require'lir.float'.toggle()]], val))
-        end)
-        return true
-      end
-    }
-  end},
-
-  -- -- reloader
-  -- ['n<Space>fl'] = {function()
-  --   require'telescope.builtin'.reloader{
-  --     sorter = sorters.get_fzy_sorter(),
-  --   }
-  -- end},
-
-  -- -- plug_names
-  -- ['n<Space>fp'] = {function()
-  --   require('vimrc.telescope').plug_names{}
-  -- end},
-
-  ['n<Space>fs'] = {function()
-    require'telescope.builtin'.current_buffer_tags {
+  else
+    require'telescope.builtin'.find_files{
       layout_strategy = 'horizontal',
+      cwd = vim.fn.getcwd(),
     }
-  end},
+  end
+end
 
-  -- ['ngr'] = {function()
-  --   require'telescope.builtin.lsp'.references {}
-  -- end},
+-- @Summary mru
+-- @Description
+local mru = function()
+  require('telescope').extensions.mru.list {
+    file_ignore_patterns = { "^/tmp" },
+    previewer = previewers.cat.new({}),
+    sorter = M.get_fzy_sorter_use_list({
+      list = vim.fn['mr#mru#list'](),
+      get_needle = function(entry)
+        return entry.filename
+      end
+    }),
+    -- entry_maker = make_entry.gen_from_file(),
+    attach_mappings = function(prompt_bufnr, _)
+      actions.goto_file_selection_tabedit:replace(function ()
+        local selection = actions.get_selected_entry()
+        actions.close(prompt_bufnr)
+        local val = selection.value
+        vim.fn['vimrc#drop_or_tabedit'](val)
+        -- vim.api.nvim_command(string.format('drop %s', val))
+      end)
+      return true
+    end
+  }
+end
 
-  -- -- git
-  -- ['n<Space>gb'] = {function()
-  --   require'telescope.builtin.git'.branches {
-  --     attach_mappings = function(prompt_bufnr, map)
-  --       local function do_yank()
-  --         local selection = actions.get_selected_entry(prompt_bufnr)
-  --         actions.close(prompt_bufnr)
-  --         local val = selection.value
-  --         vim.fn.setreg(vim.v.register, val)
-  --         print('Yank branch name: ' .. val)
-  --       end
-  --
-  --       map('n', 'Y', do_yank)
-  --       return true
-  --     end
-  --   }
-  -- end},
+-- @Summary ghq
+-- @Description
+local ghq = function()
+  local ghq_root = vim.env.GHQ_ROOT
+  require'telescope'.extensions.ghq.list{
+    previewer = false,
+    sorter = M.get_fzy_sorter_use_list({
+      list = vim.fn['mr#mrr#list'](),
+      get_needle = function(entry)
+        return entry.value
+      end
+    }),
+    entry_maker = function(line)
+      local short_name = string.sub(line, #ghq_root + #'/github.com/' + 1)
+      return {
+        value = line,
+        ordinal = short_name,
+        display = short_name,
+      }
+    end,
+    attach_mappings = function(prompt_bufnr, _)
+      actions.goto_file_selection_edit:replace(function()
+        local val = actions.get_selected_entry().value
+        actions.close(prompt_bufnr)
+        vim.api.nvim_command('tabnew')
+        vim.api.nvim_command(string.format('tcd %s | edit .', val))
+        -- vim.api.nvim_command(string.format([[tcd %s | lua require'lir.float'.toggle()]], val))
+      end)
+      return true
+    end
+  }
+end
 
-  ['n<Space>;t'] = {function()
-    require'telescope'.extensions.sonictemplate.templates {}
-  end},
 
-  ['n<Space>fo'] = {function()
-    require'telescope'.extensions.openbrowser.list {}
-  end}
+-- @Summary current_buffer_tags
+-- @Description
+local current_buffer_tags = function()
+  require'telescope.builtin'.current_buffer_tags {
+    layout_strategy = 'horizontal',
+  }
+end
 
+-- @Summary sonictemplate
+-- @Description
+local sonictemplate = function()
+  require'telescope'.extensions.sonictemplate.templates {}
+end
+
+-- @Summary openbrowser
+-- @Description
+local openbrowser = function()
+  require'telescope'.extensions.openbrowser.list {}
+end
+
+
+local mappings = {
+  ['n<Space>fv'] = {find_vimfiles},
+  ['n<Space>fh'] = {help_tags},
+  ['n<Space>fj'] = {buffers},
+  ['n<Space>fg'] = {gen_grep_string()},
+  ['n<Space>ff'] = {find_files},
+  ['n<Space>ft'] = {filetypes},
+  ['n<Space>fk'] = {mru},
+  ['n<Space>fq'] = {ghq},
+  ['n<Space>fs'] = {current_buffer_tags},
+  ['n<Space>;t'] = {sonictemplate},
+  ['n<Space>fo'] = {openbrowser}
 }
-
 
 -- commands
 local function commands()
   local function make_def_func(is_xmap)
-    return function(prompt_bufnr, map)
+    return function(prompt_bufnr, _)
       local entry = actions.get_selected_entry()
       actions.close(prompt_bufnr)
       local val = entry.value
