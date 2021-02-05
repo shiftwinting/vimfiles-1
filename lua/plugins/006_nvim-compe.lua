@@ -2,8 +2,8 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-compe'}) == 0 then do return 
 
 require'compe'.setup {
   enabled = true,
-  min_length = 1,
-  auto_preselect = 'disable',
+  min_length = 2,
+  preselect = 'always',
 
   allow_prefix_unmatch = false,
 
@@ -17,7 +17,8 @@ require'compe'.setup {
     -- vsnip = true,
     neosnippet = {ignored_filetypes = {'deoledit'}},
     zsh = {filetypes = {'deoledit'}},
-    necosyntax = {filetypes = {'make', 'teal'}}
+    necosyntax = {filetypes = {'make', 'teal'}},
+    nvim_treesitter = {filetypes = {'lua'}}
   }
 }
 

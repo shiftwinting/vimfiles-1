@@ -153,16 +153,16 @@ autocmd MyAutoCmd BufReadPost *
 \   endif
 
 
-" ====================
-" diffthis しているときにテキスト更新したら diffupdate
-" http://bit.ly/2wxMnCa
-" ====================
-function! s:auto_diffupdate() abort
-  if &diff
-    diffupdate
-  endif
-endfunction
-autocmd MyAutoCmd TextChanged * call s:auto_diffupdate()
+" " ====================
+" " diffthis しているときにテキスト更新したら diffupdate
+" " http://bit.ly/2wxMnCa
+" " ====================
+" function! s:auto_diffupdate() abort
+"   if &diff
+"     diffupdate
+"   endif
+" endfunction
+" autocmd MyAutoCmd TextChanged * call s:auto_diffupdate()
 
 
 " ====================

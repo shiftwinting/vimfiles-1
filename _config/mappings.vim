@@ -112,9 +112,12 @@ nnoremap <Space>/ /\V<C-r>+<CR>
 " 全行で置換
 nnoremap <Space>s<Space> :<C-u>%s///g<Left><Left>
 
+" カレントバッファを検索
+nnoremap <Space>gg :vimgrep /\v/ %:p<Left><Left><Left><Left><Left>
+
 " help
 xnoremap <A-h> "hy:help <C-r>h<CR>
-nnoremap <A-h> :h
+nnoremap <A-h> :h 
 xnoremap K     <Nop>
 
 " クリップボードの貼り付け

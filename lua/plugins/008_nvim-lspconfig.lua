@@ -42,7 +42,7 @@ nvim_apply_mappings(mappings, {silent = true, noremap = true})
   h-michael/lsp-ext.nvim
 ]]
 -- コマンド定義を実行するため
-require 'lsp_ext'
+-- require 'lsp_ext'
 
 -- -- =================
 -- -- progress messages
