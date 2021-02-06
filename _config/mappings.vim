@@ -167,7 +167,7 @@ function! s:reopen() abort
 endfunction
 
 " quickfix をトグル
-nnoremap <A-q> <Cmd>call <SID>toggle_quickfix<CR>
+nnoremap <A-q> <Cmd>call <SID>toggle_quickfix()<CR>
 function! s:toggle_quickfix() abort
   let l:is_show_qf = v:false
   for l:win in nvim_tabpage_list_wins(0)

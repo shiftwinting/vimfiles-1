@@ -13,12 +13,12 @@ require'compe'.setup {
     nvim_lsp = true,
     nvim_lua = {filetypes = {'lua', 'teal'}},
     -- rust はなんか重くなる...
-    tags = {ignored_filetypes = {'rust', 'markdown', 'md', 'deoledit'}},
+    tags = {ignored_filetypes = {'rust', 'markdown', 'md', 'deoledit', 'vim'}},
     -- vsnip = true,
     neosnippet = {ignored_filetypes = {'deoledit'}},
-    zsh = {filetypes = {'deoledit'}},
-    necosyntax = {filetypes = {'make', 'teal'}},
-    nvim_treesitter = {filetypes = {'lua'}}
+    -- zsh = {filetypes = {'deoledit'}},
+    -- necosyntax = {filetypes = {'make', 'teal'}},
+    -- nvim_treesitter = {filetypes = {'lua'}},
   }
 }
 

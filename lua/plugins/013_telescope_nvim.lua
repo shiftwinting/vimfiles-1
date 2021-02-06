@@ -113,6 +113,7 @@ require'telescope'.setup{
         ['nvim repo']              = 'https://github.com/search?l=Lua&o=desc&q=nvim&s=updated&type=Repositories',
         ['color-picker']           = 'https://www.w3schools.com/colors/colors_picker.asp',
         ['nanotee/nvim-lua-guide'] = 'https://github.com/nanotee/nvim-lua-guide',
+        ['doc.rust-jp.rs']         = 'https://doc.rust-jp.rs/',
       }
     }
   }

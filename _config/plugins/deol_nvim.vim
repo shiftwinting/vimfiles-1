@@ -89,6 +89,9 @@ function! s:deol_settings() abort
     inoremap <buffer><silent> <A-e> <C-\><C-N><Cmd>call deol#edit()<CR>
     nnoremap <buffer><silent> <A-e> <Cmd>call deol#edit()<CR>
 
+    tnoremap <buffer><silent> <A-w> <C-\><C-N><Cmd>normal! <C-w>_<CR>
+    nnoremap <buffer><silent> <A-w> <Cmd>normal! <C-w>_<CR>
+
     nmap <buffer><silent> <A-k> <Plug>(deol_previous_prompt)
     nmap <buffer><silent> <A-j> <Plug>(deol_next_prompt)
     nmap <buffer><silent> <C-k> <Plug>(deol_previous_prompt)

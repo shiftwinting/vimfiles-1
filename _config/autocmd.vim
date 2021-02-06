@@ -593,7 +593,10 @@ endfunction
 " rust
 " ====================
 command! QCargoRun call QCrun()
-function! QCrun() abort
+command! QCargoTest call QCrun({'type': 'test'})
+function! QCrun(...) abort
+  let l:opts = get(a:, 1, {})
+
   let l:curwin = win_getid()
   let l:result_bufnr = v:null
   for l:win in nvim_tabpage_list_wins(0)
@@ -607,9 +610,17 @@ function! QCrun() abort
     endif
   endfor
 
+  let l:cmd = 'run'
   let l:args = ''
-  if expand('%:p:h:t') ==# 'examples'
-    let l:args = ' --example ' .. substitute(expand('%:p:t'), '.rs', '', '')
+
+  " cmd
+  if get(l:opts, 'type', '') ==# 'test'
+    let l:cmd = 'test'
+  else
+    " args
+    if expand('%:p:h:t') ==# 'examples'
+      let l:args = ' --example ' .. substitute(expand('%:p:t'), '.rs', '', '')
+    endif
   endif
 
   if l:result_bufnr == v:null
@@ -618,13 +629,14 @@ function! QCrun() abort
     execute printf('noautocmd %d wincmd w', bufwinnr(l:bufnr))
   endif
 
-  execute 'terminal cargo run' .. l:args
+  execute printf('terminal cargo %s %s', l:cmd, l:args)
   call win_gotoid(l:curwin)
 endfunction
 
 function! s:my_ft_rust() abort
   nnoremap <buffer>         <Space>bl :<C-u>RustFmt<CR>
   nnoremap <buffer><silent> <Space>rr :<C-u>QCargoRun<CR>
+  nnoremap <buffer><silent> <Space>rt :<C-u>QCargoTest<CR>
 
   xnoremap <buffer> <A-d> :<C-u>execute printf('OpenBrowserSmartSearch -rust_doc_std %s', vimrc#getwords_last_visual())<CR>
   nnoremap <buffer> <A-d> :<C-r>=printf('OpenBrowserSmartSearch -rust_doc_std ')<CR>

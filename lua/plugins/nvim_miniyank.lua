@@ -2,7 +2,7 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-miniyank'}) == 0 then do retu
 
 map = vim.api.nvim_set_keymap
 
-map('n', 'p',     '<Plug>(miniyank-startput)',  {})
-map('n', 'P',     '<Plug>(miniyank-startPut)',  {})
+map('n', 'p',     '<Plug>(miniyank-autoput)',  {})
+map('n', 'P',     '<Plug>(miniyank-autoPut)',  {})
 map('n', '<C-p>', '<Plug>(miniyank-cycle)',     {})
 map('n', '<C-n>', '<Plug>(miniyank-cycleback)', {})

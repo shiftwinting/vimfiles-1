@@ -15,10 +15,10 @@ Plug 'vim-jp/syntax-vim-ex'
 Plug 'rbtnn/vim-gloaded'
 
 Plug 'andymass/vim-matchup'
-Plug 'glidenote/memolist.vim', { 'on': 'MemoNew' }
+Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk', { 'on': ['<Plug>(asterisk-gz*)', '<Plug>(asterisk-z*)'] }
 Plug 'cohama/lexima.vim'
-Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
+Plug 'junegunn/vim-easy-align'
 Plug 'markonm/traces.vim'
 Plug 'simeji/winresizer'
 Plug 'svermeulen/vim-cutlass'
@@ -27,12 +27,7 @@ Plug 'voldikss/vim-translator', { 'on': ['TranslateW', 'TranslateR', 'Translate'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
 Plug 'kana/vim-repeat'
-Plug 'hrsh7th/vim-eft', { 'on': [
-\ '<Plug>(eft-f-repeatable)',
-\ '<Plug>(eft-F-repeatable)',
-\ '<Plug>(eft-t-repeatable)',
-\ '<Plug>(eft-T-repeatable)',
-\]}
+Plug 'hrsh7th/vim-eft'
 Plug 'machakann/vim-sandwich'
 Plug 'machakann/vim-highlightedyank'
 Plug 'mattn/sonictemplate-vim'
@@ -45,7 +40,7 @@ Plug 'lambdalisue/mr-quickfix.vim', { 'on': ['Mru', 'Mrw'] }
 Plug 'lambdalisue/edita.vim'
 
 " Plug 'lambdalisue/vim-quickrun-neovim-job'
-Plug 'thinca/vim-quickrun', { 'on': 'QuickRun' }
+Plug 'thinca/vim-quickrun'
 Plug 'thinca/vim-qfreplace', { 'on': 'Qfreplace' }
 Plug 'thinca/vim-prettyprint', { 'on': ['PP', 'PrettyPrint'] }
 
@@ -80,6 +75,8 @@ Plug 'tpope/vim-dispatch'
 
 " prefix complete
 Plug 'gotchane/vim-git-commit-prefix'
+
+Plug 'rhysd/git-messenger.vim'
 
 " ------------------------
 "  colorscheme
@@ -122,7 +119,7 @@ Plug 'neovim/nvim-lspconfig'
 " Plug 'RishabhRD/nvim-lsputils'
 " Plug 'RishabhRD/popfix'
 " Plug 'nvim-lua/lsp_extensions.nvim'
-" Plug 'h-michael/lsp-ext.nvim'
+Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
 " Plug '~/.ghq/github.com/hrsh7th/nvim-compe'
 Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
@@ -147,7 +144,6 @@ Plug 'nvim-treesitter/nvim-treesitter'
   " Plug 'p00f/nvim-ts-rainbow'
   Plug 'nvim-treesitter/playground'
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'dstein64/nvim-scrollview'
@@ -156,6 +152,7 @@ Plug 'monaqa/dial.nvim'
 " Plug 'dsummersl/nvim-sluice'
 " Plug 'b3nj5m1n/kommentary'
 Plug 'bfredl/nvim-miniyank'
+Plug '~/.ghq/github.com/glepnir/lspsaga.nvim'
 
 " ------------------------
 "  Languages
@@ -199,7 +196,8 @@ Plug 'machakann/vim-Verdin', { 'for': 'vim' }
 
 "------------------------
 " Rust
-Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+Plug 'rust-lang/rust.vim'
+" Plug 'rhysd/rust-doc.vim'
 
 "------------------------
 " Markdown

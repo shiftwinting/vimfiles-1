@@ -22,8 +22,8 @@ function! s:gstatus() abort
   " カーソル移動して、 diff を表示
   if l:cur_path =~# '^' .. l:repo_path
     call search(l:cur_path[len(l:repo_path)+1:] .. '$')
-    " diff を表示
-    normal >
+    " " diff を表示
+    " normal >
   endif
 endfunction
 " nnoremap <silent> <Space>gs :<C-u>Gstatus<CR>\|:wincmd T<CR>

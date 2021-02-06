@@ -57,32 +57,36 @@ local function newfile()
     return
   end
 
+  -- . が入っていない or / が入っていないなら
+  -- ディレクトリとして入力したかもしれないから、確認する
+  if not name:match('%.') and not name:match('/') then
+    if vim.fn.confirm("Directory?", "&Yes\n&No", 2) == 1 then
+      -- ディレクトリ
+      name = name .. '/'
+    end
+  end
+
   local path = Path:new(lir.get_context().dir .. name)
-  local err
   if string.match(name, '/$') then
     -- mkdir()
     name = name:gsub('/$', '')
-    _, err = pcall(path:mkdir({
+    path:mkdir({
       parents = true,
       mode = tonumber('700', 8),
       exists_ok = false
-    }))
+    })
   else
     -- touch()
-    _, err = path:touch({
+    path:touch({
       parents = true,
       mode = tonumber('644', 8),
     })
   end
 
-  if err then
-    utils.error(err)
-    return
-  end
-
   actions.reload()
 
-  local lnum = lir.get_context():indexof(name)
+  -- このディレクトリ配下にあう名前を取得する
+  local lnum = lir.get_context():indexof(name:match('^[^/]+'))
   if lnum then
     vim.cmd(tostring(lnum))
   end
