@@ -22,6 +22,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
+-- signature_help を表示する
+require'lsp.signature_help'.setup()
+
 
 local on_attach = function(client)
   local map = vim.api.nvim_buf_set_keymap
@@ -36,6 +39,8 @@ end
 require'lspsaga'.init_lsp_saga {
   border_style = 4
 }
+
+pcall(require, 'lsp_ext')
 
 -- local install_server = function(name)
 --   a.nvim_command('LspInstallServer ' .. name)
@@ -75,6 +80,10 @@ lspconfig.sumneko_lua.setup{
         globals = {'vim', 'describe', 'it', 'before_earch', 'after_each', 'vimp', '_vimp'},
         disable = {"unused-local", "unused-vararg", "lowercase-global"}
       },
+      completion = {
+        -- snippet いらない
+        keywordSnippet = "Disable",
+      },
       workspace = {
         -- library = {
         --   [vim.fn.expand("$VIMRUNTIME/lua")] = true,
@@ -83,9 +92,9 @@ lspconfig.sumneko_lua.setup{
         library = {
           [vim.fn.expand("$VIMRUNTIME")] = true,
           [vim.fn.stdpath("config")] = true,
-          -- ["/home/tamago324/.cache/nvim/plenary_hererocks/2.1.0-beta3"] = true,
-          -- neorocks のライブラリを追加
-          [neorocks._hererocks_install_location.filename .. '/share/lua/' .. neorocks._lua_version.lua] = true
+          -- -- ["/home/tamago324/.cache/nvim/plenary_hererocks/2.1.0-beta3"] = true,
+          -- -- neorocks のライブラリを追加
+          -- [neorocks._hererocks_install_location.filename .. '/share/lua/' .. neorocks._lua_version.lua] = true
         }
       }
     }
