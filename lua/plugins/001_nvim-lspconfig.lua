@@ -22,9 +22,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
--- signature_help を表示する
-require'lsp.signature_help'.setup()
-
 
 local on_attach = function(client)
   local map = vim.api.nvim_buf_set_keymap
@@ -34,6 +31,9 @@ local on_attach = function(client)
   map( 0, 'n', '<A-k>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>]], { silent = true, noremap = true })
   map( 0, 'n', '<A-j>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>]], { silent = true, noremap = true })
   -- lsp_status.on_attach(client)
+
+  -- signature_help を表示する
+  require'lsp.signature_help'.setup_autocmds()
 end
 
 require'lspsaga'.init_lsp_saga {

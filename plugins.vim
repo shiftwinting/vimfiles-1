@@ -1,6 +1,5 @@
 scriptencoding utf-8
 
-
 let g:plug_install_dir = expand('$MYVIMFILES/.plugged')
 
 packadd cfilter
@@ -123,11 +122,11 @@ Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
 " Plug '~/.ghq/github.com/hrsh7th/nvim-compe'
 Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
-" Plug '~/.ghq/github.com/tamago324/compe-zsh'
+Plug '~/.ghq/github.com/tamago324/compe-zsh'
 " Plug '~/.ghq/github.com/tamago324/compe-necosyntax'
 " Plug 'Shougo/neco-syntax'
 " Plug 'hrsh7th/vim-vsnip'
-" Plug 'liuchengxu/vista.vim'
+Plug 'liuchengxu/vista.vim'
 " Plug 'mhartington/formatter.nvim'
 Plug 'nvim-lua/telescope.nvim'
 " Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'

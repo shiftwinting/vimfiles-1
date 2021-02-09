@@ -50,8 +50,8 @@ local open_floating_window = function(text, line, col)
   a.nvim_buf_set_lines(bufnr, 0, -1, true, {text})
   if M._winnr == nil or not a.nvim_win_is_valid(M._winnr) then
     M._winnr = a.nvim_open_win(bufnr, false, opts)
-    local events = {"BufHidden", "BufLeave"}
 
+    local events = {"BufHidden", "BufLeave"}
     a.nvim_command [[augroup my-signature-help-close]]
     a.nvim_command [[  autocmd!]]
     a.nvim_command(("  autocmd %s <buffer> ++once lua pcall(vim.api.nvim_win_close, %s, true)"):format(table.concat(events, ','), M._winnr))
@@ -136,6 +136,9 @@ local args_node_idx_at_cursor = function()
   end
 
   local args = arguments_node_at_cursor()
+  if args == nil then
+    return -1
+  end
 
   local before_arg_end_col = nil
   local idx = -1
@@ -233,6 +236,10 @@ local make_position_params = function(line, col)
 end
 
 local show_signature_help = function()
+  if not string.find(a.nvim_get_mode().mode, 'i') then
+    -- insert mode じゃない場合、終わり
+    return
+  end
   -- :h lua-treesitter
   -- カーソル位置のargumentsノードを取得
   local args_node = arguments_node_at_cursor()
@@ -270,17 +277,22 @@ end
 
 
 -- From nvim-treesitter-playground/utils.lua
-local timer = vim.loop.new_timer()
+local timer = nil
 
 M._on_timer = function()
-  timer:stop()
+  if timer ~= nil then
+    timer:stop()
+    timer:close()
+  end
+  timer = vim.loop.new_timer()
 
   local delay = 100
   local interval = 100
 
   -- vim.schedule_wrap() を使うことで、 vim.api~を使える
   -- start(timeout, repeat, callback)
-  -- 300 ミリ秒後に、300ミリ秒ごとに、 show_signature_help() を実行する
+  -- delay ミリ秒後に、show_signature_help() を実行する。
+  -- また、interval ミリ秒ごとに show_signature_help() を実行する
   timer:start(delay, interval, vim.schedule_wrap(show_signature_help))
 end
 
@@ -295,11 +307,13 @@ M._clear = function()
 end
 
 -- echodoc.vim と nvim-treesitter/playglound を参考にする
-M.setup = function()
+
+-- on_attach() で呼び出す想定
+M.setup_autocmds = function()
   vim.cmd [[augroup my-signature-help]]
   vim.cmd [[  autocmd!]]
-  vim.cmd [[  autocmd InsertEnter,CursorMovedI * lua require'lsp.signature_help'._on_timer()]]
-  vim.cmd [[  autocmd InsertLeave,CursorMoved * lua require'lsp.signature_help'._clear()]]
+  vim.cmd [[  autocmd InsertEnter,CursorMovedI <buffer> lua require'lsp.signature_help'._on_timer()]]
+  vim.cmd [[  autocmd InsertLeave              <buffer> lua require'lsp.signature_help'._clear()]]
   vim.cmd [[augroup END]]
 end
 

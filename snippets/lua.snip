@@ -107,3 +107,9 @@ options     head
 snippet     feedkey
 abbr        nvim_feedkeys()
 	a.nvim_feedkeys(a.nvim_replace_termcodes("${1:key}", true, false, true), 'n', true)
+
+snippet     while
+abbr        while ... do
+	while ${1:cond} do
+		${0}
+	end

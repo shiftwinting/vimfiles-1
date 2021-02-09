@@ -327,8 +327,8 @@ endfunction
 " scheme
 " ====================
 function! s:my_ft_scheme() abort
-  let g:paredit_mode = 1
-  call PareditInitBuffer()
+  " let g:paredit_mode = 1
+  " call PareditInitBuffer()
 endfunction
 
 

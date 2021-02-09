@@ -193,9 +193,9 @@ local find = function(needle, haystack)
 end
 
 -- telescope の sorters.get_fzy_sorter() をもとに作成
--- @Summary なにかしらのリストを使って、ソートをいい感じにする
--- @Description MRUなどのリストを渡す (1が高スコア、#listが低スコア)
--- @Param  opts
+--@Summary なにかしらのリストを使って、ソートをいい感じにする
+--@Description MRUなどのリストを渡す (1が高スコア、#listが低スコア)
+--@Param  opts
 --    opts.list ファイルのリスト (entry.ordinal と一致する要素を含むリスト)
 --    opts.get_needle  entry から needle となる値を取得する関数
 get_fzy_sorter_use_list = function(opts)
@@ -338,11 +338,15 @@ local gen_grep_string = function()
   -- @Summary cwd を返す
   -- @Description LeaderF の g:Lf_WorkingDirectoryMode のような感じで返す
   --              カレントファイルに近い markers があるディレクトリ (もし、marker が見つからなければ cwd)
-  local get_working_dir = function(markers, path)
+  local get_working_dir = function(markers, path, default)
+    default = default or vim.fn.getcwd()
+    if vim.bo.filetype == 'lir' then
+      return require'lir'.get_context().dir
+    end
     if path ~= '' then
       return nearest_ancestor(markers, path)
     else
-      return vim.fn.getcwd()
+      return default
     end
   end
 
