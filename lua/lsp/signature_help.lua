@@ -23,7 +23,7 @@ local request = function(method, params, handler)
 end
 
 local highlight_params = function(bufnr, start_col, end_col)
-  a.nvim_buf_add_highlight(bufnr, ns, 'Identifier', 0, start_col, end_col)
+  a.nvim_buf_add_highlight(bufnr, ns, 'TSText', 0, start_col, end_col)
 end
 
 --- ウィンドウの一番上に表示されているカレントバッファの行の番号 (1 base-index)
@@ -51,11 +51,11 @@ local open_floating_window = function(text, line, col)
   if M._winnr == nil or not a.nvim_win_is_valid(M._winnr) then
     M._winnr = a.nvim_open_win(bufnr, false, opts)
 
-    local events = {"BufHidden", "BufLeave"}
-    a.nvim_command [[augroup my-signature-help-close]]
-    a.nvim_command [[  autocmd!]]
-    a.nvim_command(("  autocmd %s <buffer> ++once lua pcall(vim.api.nvim_win_close, %s, true)"):format(table.concat(events, ','), M._winnr))
-    a.nvim_command [[augroup END]]
+    -- local events = {"BufHidden", "BufLeave"}
+    -- a.nvim_command [[augroup my-signature-help-close]]
+    -- a.nvim_command [[  autocmd!]]
+    -- a.nvim_command(("  autocmd %s <buffer> ++once lua pcall(vim.api.nvim_win_close, %s, true)"):format(table.concat(events, ','), M._winnr))
+    -- a.nvim_command [[augroup END]]
   else
     a.nvim_win_set_config(M._winnr, opts)
     a.nvim_win_set_buf(M._winnr, bufnr)
@@ -143,16 +143,26 @@ local args_node_idx_at_cursor = function()
   local before_arg_end_col = nil
   local idx = -1
   local cursor_row, cursor_col = unpack(a.nvim_win_get_cursor(0))
+  local valid_node_cnt = 0
   for i = 1, args:named_child_count() do
     -- 範囲内にいれば、それ
     local arg_node = args:named_child(i-1)
     -- local _, start_col, _, end_col = arg_node:range()
     -- pprint(arg_node:type() .. ' ' .. start_col .. ' ' .. end_col)
-
-    if _is_in_node_range(args:named_child(i-1), cursor_row-1, cursor_col, before_arg_end_col) then
+    if _is_in_node_range(arg_node, cursor_row-1, cursor_col, before_arg_end_col) then
       idx = i
     end
     _, _, _, before_arg_end_col = arg_node:range()
+    if arg_node:type() ~= 'ERROR' then
+      valid_node_cnt = valid_node_cnt + 1
+    end
+  end
+
+  -- pprint(idx .. tostring(ts_utils.is_in_node_range(args, cursor_row-1, cursor_col)))
+  -- もし、最後なら、大目に見る
+  if idx == -1 and ts_utils.is_in_node_range(args, cursor_row-1, cursor_col) then
+    -- argments の中に入っていたら、最後の引数とする
+    idx = valid_node_cnt + 1
   end
   return idx
 end
