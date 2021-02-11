@@ -285,6 +285,8 @@ function! s:my_ft_qf() abort
   nnoremap <buffer><silent> <A-l> :<C-u>call <SID>cnewer()<CR>
   nnoremap <buffer><silent> <A-h> :<C-u>call <SID>colder()<CR>
 
+  nnoremap <buffer><silent> <Space>fq <Cmd>Telescope quickfix<CR>
+
   " nnoremap <Plug>(qfpreview-toggle-auto-show) :<C-u>lua require'vimrc.qfpreview'.toggle_auto_preview()<CR>
   " nnoremap <Plug>(qfpreview-show)             :<C-u>lua require'vimrc.qfpreview'.show()<CR>
   " nnoremap <Plug>(qfpreview-goto-preview-win) :<C-u>noautocmd call win_gotoid(bufwinid(t:qfpreview_bufnr))<CR>
@@ -301,7 +303,13 @@ function! s:my_ft_qf() abort
   setlocal signcolumn=no
   setlocal cursorline
   setlocal number
+  setlocal nowrap
 endfunction
+
+" augroup my-quickfix-cmd-post
+"   autocmd!
+"   autocmd QuickFixCmdPost *grep* cwindow
+" augroup END
 
 
 

@@ -12,7 +12,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     -- INSERT モードのときは、更新しない
     update_in_insert = false,
-    -- 下線を引く
+    -- 下線を引かない
     underline = false,
     virtual_text = false,
     -- virtual_text = {
@@ -22,23 +22,39 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
+local setup_lspsaga = function()
+  require'lspsaga'.init_lsp_saga {
+    border_style = 4,
+    code_action_icon = '󿯦 '
+  }
+end
+
 
 local on_attach = function(client)
-  local map = vim.api.nvim_buf_set_keymap
-  map( 0, 'n', 'K',         [[<Cmd>lua require('lspsaga.hover').render_hover_doc()<CR>]],            { silent = true, noremap = true })
-  map( 0, 'n', '<Space>fl', [[<Cmd>lua require'lspsaga.provider'.lsp_finder()<CR>]],                 { silent = true, noremap = true })
-  map( 0, 'n', 'gd',        [[<cmd>lua require'lspsaga.provider'.preview_definition()<CR>]],         { silent = true, noremap = true })
-  map( 0, 'n', '<A-k>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>]], { silent = true, noremap = true })
-  map( 0, 'n', '<A-j>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>]], { silent = true, noremap = true })
+  local map = function(mode, lhs, rhs)
+    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, { silent = true, noremap = true })
+  end
+
+  map( 'n', 'K',         [[<Cmd>lua require('lspsaga.hover').render_hover_doc()<CR>]])
+  map( 'n', '<Space>fl', [[<Cmd>lua require'lspsaga.provider'.lsp_finder()<CR>]])
+  map( 'n', 'gd',        [[<cmd>lua require'lspsaga.provider'.preview_definition()<CR>]])
+  map( 'n', '<A-k>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>]])
+  map( 'n', '<A-j>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>]])
+  map( 'n', '<Space>fa', [[<cmd>Lspsaga code_action<CR>]])
+  -- map( 0, 'n', '<A-l>',     [[<Cmd>lua vim.lsp.diagnostics.set_loclist()<CR>]],                      { silent = true, noremap = true })
+
+  vim.cmd [[command! -buffer LspDiagnosticSetLoclist lua vim.lsp.diagnostic.set_loclist()]]
   -- lsp_status.on_attach(client)
 
   -- signature_help を表示する
-  require'lsp.signature_help'.setup_autocmds()
+  local bufnr = a.nvim_get_current_buf()
+  require'lsp.signature_help'.setup_autocmds(bufnr)
+  require'lsp.codeaction_virtualtext'.setup_autocmds(bufnr)
+
+  setup_lspsaga()
+  -- setup_lightbulb()
 end
 
-require'lspsaga'.init_lsp_saga {
-  border_style = 4
-}
 
 pcall(require, 'lsp_ext')
 

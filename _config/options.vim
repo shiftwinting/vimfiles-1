@@ -54,6 +54,7 @@ set nosplitbelow        " 横分割した時、カレントウィンドウの上
 " noinsert: 自動で候補を挿入しない
 " set completeopt=menuone,noselect,noinsert
 set completeopt=menu,menuone,noselect
+" 補完候補の最大表示数
 set pumheight=15
 
 set expandtab
@@ -128,8 +129,6 @@ set listchars+=precedes:<
 " 行末のスペース
 set listchars+=trail:\ 
 
-" 補完候補の最大表示数
-set pumheight=15
 " 補完のメッセージを表示しない
 set shortmess+=c
 
@@ -273,3 +272,10 @@ set updatetime=400
 " set showtabline=0
 
 " set cursorline
+
+
+if executable("rg")
+  " set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --glob\ "!*/.mypy_cache/*"\ "!.node_modules/*"\ "!tags*"
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif

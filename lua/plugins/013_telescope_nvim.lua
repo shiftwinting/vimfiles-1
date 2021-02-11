@@ -29,7 +29,7 @@ require'telescope'.setup{
     layout_defaults = {
       vertical = {
         width_padding = 0.05,
-        height_padding = 3,
+        height_padding = 1,
         preview_height = 0.6,
       }
     },
@@ -44,7 +44,7 @@ require'telescope'.setup{
       i = {
         -- 閉じる
         ["<C-c>"] = actions.close,
-        ["<C-q>"] = actions.send_to_qflist,
+        ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
         ["<Esc>"] = actions.close,
 
         -- switch normal mode
@@ -296,6 +296,12 @@ local buffers = function()
     layout_strategy = 'vertical',
     shorten_path = false,
     show_all_buffers = true,
+    sorter = get_fzy_sorter_use_list({
+      list = vim.fn['mr#mru#list'](),
+      get_needle = function(entry)
+        return vim.fn.expand(entry.filename)
+      end
+    }),
     previewer = previewers.cat.new({}),
     -- entry_maker = my_entry_maker.gen_from_buffer_like_leaderf(),
 
@@ -331,44 +337,44 @@ local buffers = function()
 end
 
 
--- @Summary grep_string
--- @Description
-local gen_grep_string = function()
-
-  -- @Summary cwd を返す
-  -- @Description LeaderF の g:Lf_WorkingDirectoryMode のような感じで返す
-  --              カレントファイルに近い markers があるディレクトリ (もし、marker が見つからなければ cwd)
-  local get_working_dir = function(markers, path, default)
-    default = default or vim.fn.getcwd()
-    if vim.bo.filetype == 'lir' then
-      return require'lir'.get_context().dir
-    end
-    if path ~= '' then
-      return nearest_ancestor(markers, path)
-    else
-      return default
-    end
-  end
-
-  return function()
-    local input = vim.fn.input("Grep String > ")
-    if input == '' then
-      vim.api.nvim_echo({{'Cancel.', 'WarningMsg'}}, false, {})
-      return
-    end
-
-    require'telescope.builtin'.grep_string {
-      layout_config = {
-        preview_width = 0.6,
-      },
-      shorten_path = true,
-      -- LeaderF の A のようにする
-      -- カレントファイルに近い g:Lf_RootMarkers があるディレクトリ (もし、marker が見つからなければ cwd)
-      cwd = get_working_dir({'.git', '.gitignore'}, vim.fn.expand('%:p')),
-      search = input,
-    }
-  end
-end
+-- -- @Summary grep_string
+-- -- @Description
+-- local gen_grep_string = function()
+--
+--   -- @Summary cwd を返す
+--   -- @Description LeaderF の g:Lf_WorkingDirectoryMode のような感じで返す
+--   --              カレントファイルに近い markers があるディレクトリ (もし、marker が見つからなければ cwd)
+--   local get_working_dir = function(markers, path, default)
+--     default = default or vim.fn.getcwd()
+--     if vim.bo.filetype == 'lir' then
+--       return require'lir'.get_context().dir
+--     end
+--     if path ~= '' then
+--       return nearest_ancestor(markers, path)
+--     else
+--       return default
+--     end
+--   end
+--
+--   return function()
+--     local input = vim.fn.input("Grep String > ")
+--     if input == '' then
+--       vim.api.nvim_echo({{'Cancel.', 'WarningMsg'}}, false, {})
+--       return
+--     end
+--
+--     require'telescope.builtin'.grep_string {
+--       layout_config = {
+--         preview_width = 0.6,
+--       },
+--       shorten_path = true,
+--       -- LeaderF の A のようにする
+--       -- カレントファイルに近い g:Lf_RootMarkers があるディレクトリ (もし、marker が見つからなければ cwd)
+--       cwd = get_working_dir({'.git', '.gitignore'}, vim.fn.expand('%:p')),
+--       search = input,
+--     }
+--   end
+-- end
 
 
 -- @Summary git_files か find_files
@@ -421,12 +427,12 @@ local ghq = function()
   local ghq_root = vim.env.GHQ_ROOT
   require'telescope'.extensions.ghq.list{
     previewer = false,
-    sorter = get_fzy_sorter_use_list({
-      list = vim.fn['mr#mrr#list'](),
-      get_needle = function(entry)
-        return entry.value
-      end
-    }),
+    -- sorter = get_fzy_sorter_use_list({
+    --   list = vim.fn['mr#mrr#list'](),
+    --   get_needle = function(entry)
+    --     return entry.value
+    --   end
+    -- }),
     entry_maker = function(line)
       local short_name = string.sub(line, #ghq_root + #'/github.com/' + 1)
       return {
@@ -455,19 +461,32 @@ local filetypes = function()
   require'telescope.builtin'.filetypes {}
 end
 
+--
+-- -- @Summary current_buffer_tags
+-- -- @Description
+-- local current_buffer_tags = function()
+--   local tagfiles = vim.fn.tagfiles()
+--   if #tagfiles > 0 then
+--     tagfile = tagfiles[1]
+--   else
+--     tagfile = nil
+--   end
+--   print(tagfile)
+--   require'telescope.builtin'.current_buffer_tags {
+--     ctags_file = tagfile
+--   }
+-- end
 
--- @Summary current_buffer_tags
--- @Description
-local current_buffer_tags = function()
-  local tagfiles = vim.fn.tagfiles()
-  if #tagfiles > 0 then
-    tagfile = tagfiles[1]
-  else
-    tagfile = nil
-  end
-  print(tagfile)
-  require'telescope.builtin'.current_buffer_tags {
-    ctags_file = tagfile
+local lsp_document_symbols = function()
+  -- TODO: LSP が使えない場合、 current_buffer_tags を使うようにする
+  require'telescope.builtin'.lsp_document_symbols {
+    layout_strategy = 'horizontal',
+    layout_config = {
+      -- width_padding =  -- "How many cells to pad the width",
+      -- height_padding -- "How many cells to pad the height",
+      preview_width = 0.6 -- "(Resolvable): Determine preview width",
+    },
+    show_line = false,
   }
 end
 
@@ -597,12 +616,13 @@ local mappings = {
   ['n<Space>fv'] = {find_vimfiles},
   ['n<Space>fh'] = {help_tags},
   ['n<Space>fj'] = {buffers},
-  ['n<Space>fg'] = {gen_grep_string()},
+  -- ['n<Space>fg'] = {gen_grep_string()},
   ['n<Space>ff'] = {find_files},
   ['n<Space>ft'] = {filetypes},
   ['n<Space>fk'] = {mru},
   ['n<Space>fq'] = {ghq},
-  ['n<Space>fs'] = {current_buffer_tags},
+  -- ['n<Space>fs'] = {current_buffer_tags},
+  ['n<Space>fs'] = {lsp_document_symbols},
   ['n<Space>;t'] = {sonictemplate},
   ['n<Space>fo'] = {openbrowser},
   ['n<A-x>']     = {n_commands},

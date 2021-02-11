@@ -3,7 +3,7 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-compe'}) == 0 then do return 
 require'compe'.setup {
   enabled = true,
   min_length = 1,
-  preselect = 'always',
+  preselect = 'enable',
 
   allow_prefix_unmatch = false,
 

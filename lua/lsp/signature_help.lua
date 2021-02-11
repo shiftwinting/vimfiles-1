@@ -1,5 +1,5 @@
 --[[
-  InsertMode に入ると、signature help を表示する
+InsertMode に入ると、signature help を表示する
 ]]
 
 local a = vim.api
@@ -23,7 +23,7 @@ local request = function(method, params, handler)
 end
 
 local highlight_params = function(bufnr, start_col, end_col)
-  a.nvim_buf_add_highlight(bufnr, ns, 'TSText', 0, start_col, end_col)
+  a.nvim_buf_add_highlight(bufnr, ns, 'SigHelpParam', 0, start_col, end_col)
 end
 
 --- ウィンドウの一番上に表示されているカレントバッファの行の番号 (1 base-index)
@@ -32,6 +32,7 @@ local win_topline_lnum = function()
 end
 
 local open_floating_window = function(text, line, col)
+  -- pprint(text)
   local width, height = lsp_util._make_floating_popup_size({text})
   local bufnr = a.nvim_create_buf(false, true)
   local wininfo = vim.fn.getwininfo(vim.fn.win_getid())[1]
@@ -47,6 +48,7 @@ local open_floating_window = function(text, line, col)
     height = height,
     width = width,
   }
+  -- pprint('width: '..width)
   a.nvim_buf_set_lines(bufnr, 0, -1, true, {text})
   if M._winnr == nil or not a.nvim_win_is_valid(M._winnr) then
     M._winnr = a.nvim_open_win(bufnr, false, opts)
@@ -84,19 +86,60 @@ local get_active_param_range = function(signature_label, parameter_label)
   return {s, e}
 end
 
+-- local get_node_at_cursor = function()
+--   local cursor_row, cursor_col = unpack(a.nvim_win_get_cursor(0))
+--   local _root = parsers.get_parser():parse()[1]:root()
+--
+--   local _get_node_at_cursor
+--   _get_node_at_cursor= function(root, results, depth)
+--     results = results or {}
+--     depth = depth or 1
+--
+--     for i = 1, root:named_child_count() do
+--       -- 範囲内にいれば、それ
+--       local x = root:named_child(i-1)
+--       if x ~= nil then
+--         print(x:type())
+--       end
+--     end
+--     -- for node, _ in root:iter_children() do
+--     --   if node:named() then
+--     --     if ts_utils.is_in_node_range(node, cursor_row-1, cursor_col) then
+--     --       -- カーソル位置に入っていたら入れる
+--     --       table.insert(results, node)
+--     --     end
+--     --     -- depth = depth + 1
+--     --     _get_node_at_cursor(node, results, depth)
+--     --   end
+--     -- end
+--     return results
+--   end
+--   -- ts_utils.get_node_at_cursor() だと、うまくとれなかったため
+--   -- token_tree みたいなのをとってしまった
+--   -- 深い方を取る
+--   _get_node_at_cursor(_root)
+--   return ts_utils.get_node_at_cursor()
+-- end
+
 local arguments_node_at_cursor = function()
   local node = ts_utils.get_node_at_cursor()
+  -- local node = get_node_at_cursor()
   local args_node = nil
   -- function_call になるまでのぼる
   -- 関数名っぽいのを取得、また、関数呼び出しの引数の中かをチェックする？
   local idx = 0
-  while node and node:type() ~= 'program' and args_node == nil do
+  while node and node:type() ~= 'program' do
+    local s_row, s_col, e_row, e_col = ts_utils.get_node_range(node)
+    -- pprint(string.format("%s [%d, %d] - [%d, %d]", node:type(), s_row, s_col, e_row, e_col))
+
     if node:type() == 'arguments' then
-      args_node = node
+      -- args_node = node
+      return node
     end
+
     node = node:parent()
     idx = idx + 1
-    if idx > 10 then
+    if idx > 1000 then
       node = nil
     end
   end
@@ -105,7 +148,6 @@ end
 
 -- カーソル下の arguments ノードの引数の位置を返す (1始まり)
 local args_node_idx_at_cursor = function()
-  -- TODO: 引数の数以降のどーするか
   --@param node
   --@param line 0 base
   --@param col 0 base
@@ -139,6 +181,7 @@ local args_node_idx_at_cursor = function()
   if args == nil then
     return -1
   end
+  -- pprint(ts_utils.get_node_range(args))
 
   local before_arg_end_col = nil
   local idx = -1
@@ -174,6 +217,7 @@ end
 local make_signature_help_handler = function(funcname, line, col, args_node)
   funcname = funcname or ''
   return function(_, method, result)
+    -- pprint(result)
     if not (result and type(result) == 'table' and result.signatures and result.signatures[1]) then
       -- print('No signature help available')
       return
@@ -204,12 +248,33 @@ local make_signature_help_handler = function(funcname, line, col, args_node)
     if text == '' then
       return
     end
-    -- 関数名より前を消す (別名を付けられていたら、うまく消せない)
-    -- local signature_text = text:gsub('^.*' .. funcname, funcname)
-    -- '-' は最短一致
-    local pre_text, signature_text = text:match(string.format('^(.-)(%s.*)', funcname))
+
+    -- 左にずらす数
+    local offset_x = #funcname * -1
+
+    -- XXX: もしかしたら、public とかもラベルに入っているかもしれない！？
+    -- シグニチャヘルプの関数名より前のテキスト
+    -- function func1(a, b, c)
+    -- ^^^^^^^^^ このぶぶん
+    local pre_text = ''
+    -- 関数部分
+    -- function func1(a, b, c)
+    --          ^^^^^^^^^^^^^^ このぶぶん
+    local signature_text = text
+    if funcname ~= '' then
+      -- 関数名より前を消す (別名を付けられていたら、うまく消せない)
+      -- local signature_text = text:gsub('^.*' .. funcname, funcname)
+      -- '-' は最短一致
+      pre_text, signature_text = text:match(string.format('^(.-)(%s.*)', funcname))
+      -- もし、うまく取れなかったら、もとに戻す
+      if not signature_text then
+        pre_text = ''
+        signature_text = text
+        offset_x = 0
+      end
+    end
     -- 1は微調整
-    col = col - #funcname + 1
+    col = col + offset_x + 1
     local _, bufnr = open_floating_window(signature_text, line, col)
 
     -- ハイライトする
@@ -299,7 +364,7 @@ M._on_timer = function()
   local delay = 100
   local interval = 100
 
-  -- vim.schedule_wrap() を使うことで、 vim.api~を使える
+  -- vim.schedule_wrap() を使うことで、 vim.~()を使える
   -- start(timeout, repeat, callback)
   -- delay ミリ秒後に、show_signature_help() を実行する。
   -- また、interval ミリ秒ごとに show_signature_help() を実行する
@@ -307,24 +372,22 @@ M._on_timer = function()
 end
 
 M._clear = function()
-  vim.defer_fn(function()
-    if M._winnr and a.nvim_win_is_valid(M._winnr) then
-      a.nvim_win_close(M._winnr, true)
-      M._winnr = nil
-      timer:stop()
-    end
-  end, 30)
+  if M._winnr and a.nvim_win_is_valid(M._winnr) then
+    a.nvim_win_close(M._winnr, true)
+    M._winnr = nil
+    timer:stop()
+  end
 end
 
 -- echodoc.vim と nvim-treesitter/playglound を参考にする
 
 -- on_attach() で呼び出す想定
-M.setup_autocmds = function()
-  vim.cmd [[augroup my-signature-help]]
-  vim.cmd [[  autocmd!]]
-  vim.cmd [[  autocmd InsertEnter,CursorMovedI <buffer> lua require'lsp.signature_help'._on_timer()]]
-  vim.cmd [[  autocmd InsertLeave              <buffer> lua require'lsp.signature_help'._clear()]]
-  vim.cmd [[augroup END]]
+M.setup_autocmds = function(bufnr)
+  vim.cmd( [[augroup my-signature-help]])
+  vim.cmd( [[  autocmd!]])
+  vim.cmd(([[  autocmd InsertEnter,CursorMovedI <buffer=%d> lua require'lsp.signature_help'._on_timer()]]):format(bufnr))
+  vim.cmd(([[  autocmd InsertLeave              <buffer=%d> lua require'lsp.signature_help'._clear()]]):format(bufnr))
+  vim.cmd( [[augroup END]])
 end
 
 return M

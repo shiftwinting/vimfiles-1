@@ -197,3 +197,16 @@ function! s:toggle_option(key, opt) abort
 endfunction
 call s:toggle_option('<F2>', 'wrap')
 call s:toggle_option('<F3>', 'readonly')
+
+function! s:ripgrep() abort
+  let l:input = input(printf("%s\nGrep string> ", getcwd()))
+  " let l:input = input(printf("Grep string> "))
+  if empty(l:input)
+    call nvim_echo([['Calcel.', 'WarningMsg']], v:false, [])
+    return
+  endif
+
+  execute printf('silent grep %s *.*', l:input)
+endfunction
+nnoremap <Space>fg <Cmd>call <SID>ripgrep()<CR>
+

@@ -10,7 +10,6 @@ function load_rc_files()
 end
 load_rc_files()
 
-
 function _G.pprint(...)
   local objects = vim.tbl_map(vim.inspect, {...})
   print(unpack(objects))

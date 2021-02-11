@@ -109,6 +109,20 @@ function! s:define_my_highlight() abort
 
     hi TSDefinition guibg=#504945
 
+    " " =============================
+    " " p00f/nvim-ts-rainbow
+    " " =============================
+    " " from ~/.ghq/github.com/sainnhe/gruvbox-material/autoload/gruvbox_material.vim
+    " " blue
+    " hi rainbowcol1 guifg=#45707a
+    " " purple (magenta)
+    " hi rainbowcol2 guifg=#945e80
+    " " red
+    " hi rainbowcol3 guifg=#c14a4a
+    " " orange
+    " hi rainbowcol4 guifg=#c35e0a
+
+    hi SigHelpParam gui=bold,underline guifg=#d8a657
   endif
   hi TelescopeBorder guifg=#7c6f64
   hi link TelescopePromptBorder TelescopeBorder

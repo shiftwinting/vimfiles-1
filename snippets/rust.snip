@@ -22,52 +22,53 @@ alias		println!
 	println!("{${1}}", ${2});
 
 snippet     fn
-abbr        fn fn_name(args) { ... }
+abbr        fn~
 options     head
 alias		fun func
-	fn ${1:#:func_name}(${2:#:args}) {
+	fn ${1:#:fname}(${2:#:args}) ${3} {
 		${0:TARGET}
 	}
 
 snippet     match
+abbr        match~
 	match ${1:TARGET} {
-		${2:Some(expr)} => ${3:expr},
-		${4:None} => ${5:expr},
+		${2:#:Some(expr)} => ${3:#:expr},
+		${4:#:None} => ${5:#:expr},
 	}
 
 snippet     iflet
-abbr        if let pattern = expr { ... }
+abbr        iflet~
 	if let ${1:#:pattern} = ${2:#:value} {
 		${0}
 	}
 
 snippet     loop
-abbr        loop { ... }
+abbr        loop~
 	loop {
 		${0}
 	}
 
 snippet     while
-abbr        while condition { ... }
+abbr        while~
 	while ${1:#:condition} {
 	    ${0}
 	}
 
 snippet     whilelet
-abbr        while let pattern = expr { ... }
+abbr        whilelet~
 	while let ${1:#:pattern} = ${2:#:value} {
 		${0}
 	}
 
 
 snippet     struct
-abbr        struct name { ... }
-	struct ${1:name} {
+abbr        struct~
+	struct ${1:#:name} {
 		${0}
 	}
 
 snippet     where
-abbr        where: ...
+abbr        where~
 options     head
 	where
 		${1}: ${2},

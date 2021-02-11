@@ -28,4 +28,5 @@ let g:openbrowser_search_engines = {
 \   'luaroks': 'https://luarocks.org/search?q={query}',
 \   'rust_doc_std': 'https://doc.rust-lang.org/std/index.html?search={query}',
 \   'crates.io': 'https://crates.io/search?q={query}',
+\   'utf8-icons': 'https://www.utf8icons.com/search?query={query}',
 \}

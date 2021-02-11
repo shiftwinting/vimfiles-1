@@ -7,7 +7,7 @@ require('nvim-treesitter.configs').setup{
     'python',
     'json',
     'c',
-    -- 'query',
+    'query',
     'javascript',
     'rust',
     'bash',
@@ -61,5 +61,5 @@ require('nvim-treesitter.configs').setup{
   -- },
   playground = {
     enable = true
-  }
+  },
 }

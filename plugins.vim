@@ -61,8 +61,6 @@ Plug 'knsh14/vim-github-link', { 'on': ['GetCurrentCommitLink', 'GetCurrentBranc
 
 " sign
 Plug 'lewis6991/gitsigns.nvim'
-" Plug '~/.ghq/github.com/lewis6991/gitsigns.nvim'
-" Plug 'nvim-lua/plenary.nvim'
 
 Plug 'gisphm/vim-gitignore'
 
@@ -106,34 +104,19 @@ Plug 'Shougo/neosnippet-snippets'
 " ------------------------
 "  Neovim
 " ------------------------
-" Plug 'neovim/nvimdev.nvim',
-"   Plug 'neomake/neomake'
-"   Plug 'tpope/vim-projectionist'
-" Plug 'norcalli/nvim_utils'
-" Plug 'euclidianAce/BetterLua.vim'
 Plug 'neovim/nvim-lspconfig'
-" Plug 'mattn/vim-lsp-settings'
-" Plug 'jubnzv/virtual-types.nvim'
-" Plug 'nvim-lua/lsp-status.nvim'
-" Plug 'RishabhRD/nvim-lsputils'
-" Plug 'RishabhRD/popfix'
-" Plug 'nvim-lua/lsp_extensions.nvim'
 Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
-" Plug '~/.ghq/github.com/hrsh7th/nvim-compe'
-Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
-Plug '~/.ghq/github.com/tamago324/compe-zsh'
-" Plug '~/.ghq/github.com/tamago324/compe-necosyntax'
-" Plug 'Shougo/neco-syntax'
-" Plug 'hrsh7th/vim-vsnip'
+  Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
+  Plug '~/.ghq/github.com/tamago324/compe-zsh'
+  " Plug '~/.ghq/github.com/tamago324/compe-necosyntax'
+  " Plug 'Shougo/neco-syntax'
+  " Plug 'hrsh7th/vim-vsnip'
 Plug 'liuchengxu/vista.vim'
-" Plug 'mhartington/formatter.nvim'
 Plug 'nvim-lua/telescope.nvim'
 " Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
-  " Plug 'nvim-telescope/telescope-frecency.nvim'
-  " Plug 'tami5/sql.nvim'
   Plug 'tamago324/telescope-sonictemplate.nvim'
   Plug 'tamago324/telescope-openbrowser.nvim'
 Plug 'nvim-lua/popup.nvim'
@@ -144,14 +127,33 @@ Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'nvim-treesitter/playground'
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'nvim-treesitter/nvim-treesitter-refactor'
+  " Plug 'nvim-treesitter/nvim-tree-docs'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'dstein64/nvim-scrollview'
 Plug 'monaqa/dial.nvim'
+Plug 'bfredl/nvim-miniyank'
+Plug 'glepnir/lspsaga.nvim'
+" Plug 'antoinemadec/FixCursorHold.nvim' -> input() で改行が使えなくなる問題がある
+
+" Plug 'kosayoda/nvim-lightbulb' -> 表示だけ欲しかったから、移植した
 " Plug 'gelguy/wilder.nvim'
 " Plug 'dsummersl/nvim-sluice'
 " Plug 'b3nj5m1n/kommentary'
-Plug 'bfredl/nvim-miniyank'
-Plug '~/.ghq/github.com/glepnir/lspsaga.nvim'
+  " Plug 'nvim-telescope/telescope-frecency.nvim' -> おそいから
+  " Plug 'tami5/sql.nvim'
+" Plug 'neovim/nvimdev.nvim',
+"   Plug 'neomake/neomake'
+"   Plug 'tpope/vim-projectionist'
+" Plug 'norcalli/nvim_utils'
+" Plug 'euclidianAce/BetterLua.vim'
+" Plug 'mhartington/formatter.nvim'
+
+" Plug 'mattn/vim-lsp-settings'
+" Plug 'jubnzv/virtual-types.nvim'
+" Plug 'nvim-lua/lsp-status.nvim'
+" Plug 'RishabhRD/nvim-lsputils'
+" Plug 'RishabhRD/popfix'
+" Plug 'nvim-lua/lsp_extensions.nvim'
 
 " ------------------------
 "  Languages

@@ -9,18 +9,6 @@ local map = vim.tbl_map
 local make_entry = {}
 
 
-function make_entry.gen_from_openbrowser(opts)
-  opts = opts or {}
-
-  return function(entry)
-    return {
-      value = entry.url,
-      ordinal = entry.name .. ' ' .. entry.url,
-      display = entry.name .. ' ' .. entry.url,
-    }
-  end
-end
-
 
 local extend = function(a, b)
   for i = 1, #b do
