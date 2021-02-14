@@ -217,7 +217,7 @@ end
 local make_signature_help_handler = function(funcname, line, col, args_node)
   funcname = funcname or ''
   return function(_, method, result)
-    -- pprint(result)
+    pprint(result)
     if not (result and type(result) == 'table' and result.signatures and result.signatures[1]) then
       -- print('No signature help available')
       return
@@ -385,8 +385,8 @@ end
 M.setup_autocmds = function(bufnr)
   vim.cmd( [[augroup my-signature-help]])
   vim.cmd( [[  autocmd!]])
-  vim.cmd(([[  autocmd InsertEnter,CursorMovedI <buffer=%d> lua require'lsp.signature_help'._on_timer()]]):format(bufnr))
-  vim.cmd(([[  autocmd InsertLeave              <buffer=%d> lua require'lsp.signature_help'._clear()]]):format(bufnr))
+  vim.cmd(([[  autocmd InsertEnter,CursorMovedI <buffer=%d> lua require'xlsp.signature_help'._on_timer()]]):format(bufnr))
+  vim.cmd(([[  autocmd InsertLeave              <buffer=%d> lua require'xlsp.signature_help'._clear()]]):format(bufnr))
   vim.cmd( [[augroup END]])
 end
 

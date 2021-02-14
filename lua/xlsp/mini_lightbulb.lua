@@ -7,7 +7,7 @@ local lsp_util = vim.lsp.util
 -----------------------------
 -- Private
 -----------------------------
-local ns = a.nvim_create_namespace('codeaction_virtualtext')
+local ns = a.nvim_create_namespace('mini_lightbulb')
 
 
 -----------------------------
@@ -43,11 +43,11 @@ end
 -- on_attach() で呼び出す想定
 -- From: nvim-treesitter/nvim-treesitter-refactor
 M.setup_autocmds = function(bufnr)
-  vim.cmd( [[augroup my-codeaction_virtualtext]])
+  vim.cmd( [[augroup mini_lightbulb]])
   vim.cmd( [[  autocmd!]])
-  vim.cmd(([[  autocmd CursorHold <buffer=%d> lua require'lsp.codeaction_virtualtext'.set_virtual_text(%d)]]):format(bufnr, bufnr))
-  vim.cmd(([[  autocmd CursorMoved <buffer=%d> lua require'lsp.codeaction_virtualtext'.clear_virtual_text(%d)]]):format(bufnr, bufnr))
-  vim.cmd(([[  autocmd InsertEnter <buffer=%d> lua require'lsp.codeaction_virtualtext'.clear_virtual_text(%d)]]):format(bufnr, bufnr))
+  vim.cmd(([[  autocmd CursorHold <buffer=%d> lua require'xlsp.mini_lightbulb'.set_virtual_text(%d)]]):format(bufnr, bufnr))
+  vim.cmd(([[  autocmd CursorMoved <buffer=%d> lua require'xlsp.mini_lightbulb'.clear_virtual_text(%d)]]):format(bufnr, bufnr))
+  vim.cmd(([[  autocmd InsertEnter <buffer=%d> lua require'xlsp.mini_lightbulb'.clear_virtual_text(%d)]]):format(bufnr, bufnr))
   vim.cmd( [[augroup END]])
 end
 
