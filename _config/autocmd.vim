@@ -40,6 +40,7 @@ autocmd MyAutoCmd FileType sml          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType sql          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType ocaml        setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType sh           setlocal sw=2 sts=2 ts=2 et
+autocmd MyAutoCmd FileType rust         setlocal sw=4 sts=4 ts=4 et
 
 
 " 拡張子をもとにファイルタイプを設定
@@ -306,10 +307,11 @@ function! s:my_ft_qf() abort
   setlocal nowrap
 endfunction
 
-" augroup my-quickfix-cmd-post
-"   autocmd!
-"   autocmd QuickFixCmdPost *grep* cwindow
-" augroup END
+augroup my-quickfix-cmd-post
+  autocmd!
+  " grepし終わったら、quickfix ウィンドウを開く
+  autocmd QuickFixCmdPost *grep* cwindow
+augroup END
 
 
 

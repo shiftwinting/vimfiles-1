@@ -1,5 +1,7 @@
 require'nvim_mappings'
 
+vim.cmd [[packadd packer.nvim]]
+
 function load_rc_files()
   local files = vim.api.nvim_eval([[sort(glob(g:lua_plugin_config_dir .. '/**/*.lua', '', v:true))]])
   for _, file in ipairs(files) do

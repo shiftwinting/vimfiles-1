@@ -119,7 +119,7 @@ function rm()
   --     -- 確認する
   --     -- "これ以降、同じ" みたいなこともしたい
   -- end
-  if vim.fn.confirm("Delete files?", "&Yes\n&No", 2) == 2 then
+  if vim.fn.confirm("Delete files?", "&Yes\n&No", 2) ~= 1 then
     return
   end
   vim.fn.system('gomi ' .. vim.fn.join(path_list))

@@ -198,15 +198,30 @@ endfunction
 call s:toggle_option('<F2>', 'wrap')
 call s:toggle_option('<F3>', 'readonly')
 
-function! s:ripgrep() abort
-  let l:input = input(printf("%s\nGrep string> ", getcwd()))
-  " let l:input = input(printf("Grep string> "))
-  if empty(l:input)
-    call nvim_echo([['Calcel.', 'WarningMsg']], v:false, [])
+function! s:ripgrep(text) abort
+  " let l:regex = input("Grep string> ")
+  " " let l:input = input(printf("Grep string> "))
+  " if empty(l:regex)
+  "   call nvim_echo([['Calcel.', 'WarningMsg']], v:false, [])
+  "   return
+  " endif
+
+  let l:cwd = input("cwd> ", getcwd(), 'dir')
+  if !isdirectory(l:cwd)
+    call nvim_echo([[printf('Not exists "%s"', l:cwd), 'WarningMsg']], v:false, [])
     return
   endif
 
-  execute printf('silent grep %s *.*', l:input)
+  let l:save_cwd = getcwd()
+  try
+    noautocmd execute 'lcd ' .. l:cwd
+    " ! をつけると、最初のマッチにジャンプしなくなる
+    execute printf("silent grep! '%s'", a:text)
+  catch /.*/
+    noautocmd execute 'lcd ' .. l:save_cwd
+  endtry
 endfunction
-nnoremap <Space>fg <Cmd>call <SID>ripgrep()<CR>
+
+command! -nargs=1 Rg call <SID>ripgrep(<q-args>)
+nnoremap <Space>fg :<C-u>Rg 
 

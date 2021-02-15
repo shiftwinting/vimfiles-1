@@ -18,7 +18,7 @@ require('nvim-treesitter.configs').setup{
   },
   -- indent = {
   --   enable = true,
-  --   disable_filetypes = {'rust'}
+  --   disable = {'rust'},
   -- },
   textobjects = {
     select = {
@@ -62,4 +62,7 @@ require('nvim-treesitter.configs').setup{
   playground = {
     enable = true
   },
+  -- tree_docs = {
+  --   enable = true,
+  -- }
 }

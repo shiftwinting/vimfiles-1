@@ -53,7 +53,7 @@ set nosplitbelow        " 横分割した時、カレントウィンドウの上
 " noselect: 自動で候補を表示しない
 " noinsert: 自動で候補を挿入しない
 " set completeopt=menuone,noselect,noinsert
-set completeopt=menu,menuone,noselect
+set completeopt=menuone,noselect
 " 補完候補の最大表示数
 set pumheight=15
 

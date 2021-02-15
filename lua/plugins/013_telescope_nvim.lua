@@ -114,6 +114,8 @@ require'telescope'.setup{
         ['color-picker']           = 'https://www.w3schools.com/colors/colors_picker.asp',
         ['nanotee/nvim-lua-guide'] = 'https://github.com/nanotee/nvim-lua-guide',
         ['doc.rust-jp.rs']         = 'https://doc.rust-jp.rs/',
+        ['rust-analyzer manual']   = 'https://rust-analyzer.github.io/manual.html',
+        ['luadoc']                 = 'https://keplerproject.github.io/luadoc/',
       }
     }
   }
