@@ -94,7 +94,7 @@ end
 
 function cd()
   local ctx = lir.get_context()
-  actions.cd(ctx)
+  actions.cd()
   vim.fn['deol#cd'](ctx.dir)
 end
 

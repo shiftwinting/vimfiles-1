@@ -225,3 +225,5 @@ endfunction
 command! -nargs=1 Rg call <SID>ripgrep(<q-args>)
 nnoremap <Space>fg :<C-u>Rg 
 
+
+nnoremap <Space>d. <Cmd>call vimrc#drop_or_tabedit('~/dict')<CR>

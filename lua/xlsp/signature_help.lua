@@ -148,13 +148,21 @@ end
 
 -- カーソル下の arguments ノードの引数の位置を返す (1始まり)
 local args_node_idx_at_cursor = function()
-  --@param node
-  --@param line 0 base
-  --@param col 0 base
-  --@param before_arg_end_col nilなら、start_colを使う (1つ目の引数はnilを想定)
-  local _is_in_node_range = function(node, line, col, before_arg_end_col)
+
+  --- line/col が node:range() の中か？
+  ---@param node node
+  ---@param line number
+  ---@param col number
+  ---@param before_arg_end_line number 1つ前の引数の行
+  ---@param before_arg_end_col number 1つ前の引数の桁
+  ---@return boolean
+  local _is_in_node_range = function(node, line, col, before_arg_end_line, before_arg_end_col)
     local start_line, start_col, end_line, end_col = node:range()
-    start_col = (before_arg_end_col and before_arg_end_col + 1) or start_col
+
+    -- もし、同じ行なら、前の引数の後ろから見る
+    if before_arg_end_line == start_line then
+      start_col = before_arg_end_col + 1
+    end
 
     -- まずは、大雑把に確認
     if line >= start_line and line <= end_line then
@@ -183,6 +191,7 @@ local args_node_idx_at_cursor = function()
   end
   -- pprint(ts_utils.get_node_range(args))
 
+  local before_arg_end_line = nil
   local before_arg_end_col = nil
   local idx = -1
   local cursor_row, cursor_col = unpack(a.nvim_win_get_cursor(0))
@@ -192,10 +201,10 @@ local args_node_idx_at_cursor = function()
     local arg_node = args:named_child(i-1)
     -- local _, start_col, _, end_col = arg_node:range()
     -- pprint(arg_node:type() .. ' ' .. start_col .. ' ' .. end_col)
-    if _is_in_node_range(arg_node, cursor_row-1, cursor_col, before_arg_end_col) then
+    if _is_in_node_range(arg_node, cursor_row-1, cursor_col, before_arg_end_line, before_arg_end_col) then
       idx = i
     end
-    _, _, _, before_arg_end_col = arg_node:range()
+    _, _, before_arg_end_line, before_arg_end_col = arg_node:range()
     if arg_node:type() ~= 'ERROR' then
       valid_node_cnt = valid_node_cnt + 1
     end
@@ -210,11 +219,11 @@ local args_node_idx_at_cursor = function()
   return idx
 end
 
--- @param funcname (string)
--- @param line (number)
--- @param col (number)
--- see https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_signatureHelp
-local make_signature_help_handler = function(funcname, line, col, args_node)
+--- See https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_signatureHelp
+-- @param funcname string
+-- @param line number 0 base index
+-- @return function
+local make_signature_help_handler = function(funcname, line)
   funcname = funcname or ''
   return function(_, method, result)
     pprint(result)
@@ -238,19 +247,22 @@ local make_signature_help_handler = function(funcname, line, col, args_node)
     if idx == -1 then
       idx = 1
     end
+
+    pprint(idx)
     local parameter = signature.parameters[idx]
     if not parameter then
       return
     end
 
+    print('h')
+    pprint(parameter)
     -- active param column
     local text = signature.label
     if text == '' then
       return
     end
 
-    -- 左にずらす数
-    local offset_x = #funcname * -1
+    -- pprint(signature.label)
 
     -- XXX: もしかしたら、public とかもラベルに入っているかもしれない！？
     -- シグニチャヘルプの関数名より前のテキスト
@@ -270,16 +282,16 @@ local make_signature_help_handler = function(funcname, line, col, args_node)
       if not signature_text then
         pre_text = ''
         signature_text = text
-        offset_x = 0
       end
     end
-    -- 1は微調整
-    col = col + offset_x + 1
+
+    -- 関数がある行に表示する
+    local _, col = unpack(a.nvim_win_get_cursor(0))
     local _, bufnr = open_floating_window(signature_text, line, col)
 
     -- ハイライトする
     local p_start, p_end = unpack(get_active_param_range(signature.label, parameter.label))
-    if p_start == -1 then
+    if p_start == -1 or p_end == -1 then
       return
     end
     p_start, p_end = p_start - #pre_text, p_end - #pre_text
@@ -311,7 +323,9 @@ local make_position_params = function(line, col)
 end
 
 local show_signature_help = function()
-  if not string.find(a.nvim_get_mode().mode, 'i') then
+  if not string.find(a.nvim_get_mode().mode, 'i') or
+      not vim.b.xlsp_signature_help_enable then
+  -- if not string.find(a.nvim_get_mode().mode, 'i') then
     -- insert mode じゃない場合、終わり
     return
   end
@@ -331,19 +345,20 @@ local show_signature_help = function()
   col = col + 1
 
   -- 関数呼び出しのノードを取得する
-  -- local fcall_node = nil
-  -- while node and node:type() ~= 'program' and not fcall_node do
-  --   if node:type() == 'function_call' then
-  --     fcall_node = node
-  --   end
-  --   node = node:parent()
-  -- end
+  local fcall_node = nil
+  while node and node:type() ~= 'program' and not fcall_node do
+    if node:type() == 'function_call' then
+      fcall_node = node
+    end
+    node = node:parent()
+  end
 
   -- 現在、表示中の関数呼び出しのノードと異なる or シグニチャが表示されていない
   -- if M.args_node ~= args_node or M._winnr == nil then
   --   M.args_node = args_node
   local params = make_position_params(line, col)
-  request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, line, col, args_node))
+  request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, line))
+
   -- else
   --   -- 引数のハイライト
   --   highlight_params()
@@ -371,12 +386,41 @@ M._on_timer = function()
   timer:start(delay, interval, vim.schedule_wrap(show_signature_help))
 end
 
+
 M._clear = function()
   if M._winnr and a.nvim_win_is_valid(M._winnr) then
     a.nvim_win_close(M._winnr, true)
     M._winnr = nil
     timer:stop()
   end
+end
+
+
+M.toggle = function()
+  -- シグニチャヘルプを一時的に非表示にしたいときとかに使う
+  if vim.b.xlsp_signature_help_enable then
+    M.disable()
+  else
+    M.enable()
+  end
+end
+
+
+---
+---@param is_echo boolean echoするか？
+M.enable = function(is_echo)
+  is_echo = vim.F.if_nil(is_echo, true)
+  vim.b.xlsp_signature_help_enable = true
+  if is_echo then
+    a.nvim_echo({{'signature help enabled', 'WarningMsg'}}, false, {})
+  end
+end
+
+
+M.disable = function()
+  M._clear()
+  vim.b.xlsp_signature_help_enable = false
+  a.nvim_echo({{'signature help disabled', 'WarningMsg'}}, false, {})
 end
 
 -- echodoc.vim と nvim-treesitter/playglound を参考にする
@@ -387,7 +431,10 @@ M.setup_autocmds = function(bufnr)
   vim.cmd( [[  autocmd!]])
   vim.cmd(([[  autocmd InsertEnter,CursorMovedI <buffer=%d> lua require'xlsp.signature_help'._on_timer()]]):format(bufnr))
   vim.cmd(([[  autocmd InsertLeave              <buffer=%d> lua require'xlsp.signature_help'._clear()]]):format(bufnr))
+  vim.cmd(([[  autocmd InsertEnter              <buffer=%d> lua require'xlsp.signature_help'.enable(false)]]):format(bufnr))
   vim.cmd( [[augroup END]])
+
+  a.nvim_buf_set_var(bufnr, 'xlsp_signature_help_enable', true)
 end
 
 return M

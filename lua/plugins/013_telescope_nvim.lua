@@ -116,6 +116,7 @@ require'telescope'.setup{
         ['doc.rust-jp.rs']         = 'https://doc.rust-jp.rs/',
         ['rust-analyzer manual']   = 'https://rust-analyzer.github.io/manual.html',
         ['luadoc']                 = 'https://keplerproject.github.io/luadoc/',
+        ['awesome lua']            = 'https://github.com/uhub/awesome-lua',
       }
     }
   }

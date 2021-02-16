@@ -30,6 +30,14 @@ M.set_virtual_text = function(bufnr)
     end
     if actions and not vim.tbl_isempty(actions) then
       a.nvim_buf_set_virtual_text(bufnr, ns, params.range.start.line, {{'  󿯦', 'Yellow'}}, {})
+      -- from vim/lsp/util.lua
+      vim.cmd (
+        (
+          [[autocmd CursorMoved,CursorMovedI,BufHidden,BufLeave <buffer=%d> ++once lua require'xlsp.mini_lightbulb'.clear_virtual_text(%d)]]
+        ):format(
+          bufnr, bufnr
+        )
+      )
     end
   end
 
@@ -46,8 +54,6 @@ M.setup_autocmds = function(bufnr)
   vim.cmd( [[augroup mini_lightbulb]])
   vim.cmd( [[  autocmd!]])
   vim.cmd(([[  autocmd CursorHold <buffer=%d> lua require'xlsp.mini_lightbulb'.set_virtual_text(%d)]]):format(bufnr, bufnr))
-  vim.cmd(([[  autocmd CursorMoved <buffer=%d> lua require'xlsp.mini_lightbulb'.clear_virtual_text(%d)]]):format(bufnr, bufnr))
-  vim.cmd(([[  autocmd InsertEnter <buffer=%d> lua require'xlsp.mini_lightbulb'.clear_virtual_text(%d)]]):format(bufnr, bufnr))
   vim.cmd( [[augroup END]])
 end
 

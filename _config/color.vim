@@ -123,6 +123,12 @@ function! s:define_my_highlight() abort
     " hi rainbowcol4 guifg=#c35e0a
 
     hi SigHelpParam gui=bold,underline guifg=#d8a657
+
+    hi link LightBulbVirtualText Yellow
+
+    " lspsaga
+    hi LspSagaDiagnosticBorder guifg=#d8a657
+    hi LspSagaDiagnostcTruncateLine guifg=#d8a657
   endif
   hi TelescopeBorder guifg=#7c6f64
   hi link TelescopePromptBorder TelescopeBorder
