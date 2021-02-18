@@ -150,6 +150,7 @@ Plug 'antoinemadec/FixCursorHold.nvim' " -> input() で改行が使えなくな�
 " Plug 'glepnir/prodoc.nvim'
 " Plug 'jbyuki/monolithic.nvim'
 Plug '~/.ghq/github.com/tamago324/emmylua-annot-nvim-api'
+Plug 'onsails/lspkind-nvim'
 
 Plug '~/.ghq/github.com/kosayoda/nvim-lightbulb'
 " Plug 'gelguy/wilder.nvim'
@@ -214,6 +215,10 @@ Plug 'machakann/vim-Verdin', { 'for': 'vim' }
 " Rust
 Plug 'rust-lang/rust.vim'
 " Plug 'rhysd/rust-doc.vim'
+
+"------------------------
+" RON
+Plug 'ron-rs/ron.vim'
 
 "------------------------
 " Markdown

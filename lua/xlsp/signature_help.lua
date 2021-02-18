@@ -7,8 +7,17 @@ local lsp_util = require'vim.lsp.util'
 local ts_utils = require'nvim-treesitter.ts_utils'
 local parsers = require'nvim-treesitter.parsers'
 
+-- 前回の情報
+local last_sig_info = {
+  -- 結果
+  signature = {},
+  -- 関数呼び出しのnode
+  fcall_node = nil
+}
+
 local M = {
   -- _winnr,
+  -- _bufnr,
 }
 
 local ns = a.nvim_create_namespace('my_signature_help')
@@ -22,15 +31,17 @@ local request = function(method, params, handler)
   return vim.lsp.buf_request(0, method, params, handler)
 end
 
-local highlight_params = function(bufnr, start_col, end_col)
-  a.nvim_buf_add_highlight(bufnr, ns, 'SigHelpParam', 0, start_col, end_col)
-end
-
 --- ウィンドウの一番上に表示されているカレントバッファの行の番号 (1 base-index)
 local win_topline_lnum = function()
   return vim.fn.line('.') - vim.fn.winline() + 1
 end
 
+---
+---@param text string 表示するテキスト
+---@param line number バッファ内の行番号 (この値をもとに、表示する位置を計算する)
+---@param col number float window を表示する位置の桁
+---@return number winnr
+---@return number bufnr
 local open_floating_window = function(text, line, col)
   -- pprint(text)
   local width, height = lsp_util._make_floating_popup_size({text})
@@ -69,7 +80,8 @@ end
 ---@param signature_label string シグニチャヘルプのテキスト
 ---@param parameter_label string|number[] ラベルのテキスト or 引数のラベルのタプル(start, end)
 ---@param arg_idx number 引数のidx
----@return number[]
+---@return number start_pos
+---@return number end_pos
 local get_active_param_range = function(signature_label, parameter_label, arg_idx)
   -- string | [uinteger, uinteger]
   if type(parameter_label) == 'table' then
@@ -224,6 +236,82 @@ local args_node_idx_at_cursor = function()
   return idx
 end
 
+---カーソル下のパラメータに対応する signature.parameters の要素を返す
+---@param parameters table signature.parameters
+---@return table parameter カーソル下に対応する parameter
+local get_param_at_cursor = function(parameters)
+    -- 現在のargsの位置 (前から何個目か) を取得
+    local idx = args_node_idx_at_cursor()
+    if idx == -1 then
+      idx = 1
+    end
+    return parameters[idx]
+end
+
+---
+---@param label string signature.label
+---@param funcname string 呼び出している関数名
+---@return string pre_text 関数名よりも前のテキスト
+---@return string signature_text 関数名以降のテキスト
+local split_signature_label = function(label, funcname)
+  if funcname == '' then
+    return '', label
+  end
+
+  -- XXX: もしかしたら、public とかもラベルに入っているかもしれない！？
+
+  -- シグニチャヘルプの関数名より前のテキスト
+  -- function func1(a, b, c)
+  -- ^^^^^^^^^ この部分
+  local pre_text = ''
+
+  -- 関数部分
+  -- function func1(a, b, c)
+  --          ^^^^^^^^^^^^^^ この部分
+  local signature_text = label
+
+  -- 関数名より前を消す (別名を付けられていたら、うまく消せない)
+  -- '-' は最短一致
+  pre_text, signature_text = label:match(string.format('^(.-)(%s.*)', funcname))
+  -- もし、うまく取れなかったら、もとに戻す
+  if not signature_text then
+    pre_text = ''
+    signature_text = label
+  end
+
+  return pre_text, signature_text
+end
+
+--- signature help のパラメータのハイライトを更新する
+---@param signature table signature
+---@param funcname string 呼び出している関数名
+---@param bufnr number float window の bufnr
+local update_highlight_param = function(signature, funcname, bufnr)
+    -- カーソル下のパラメータを取得
+    local parameter = get_param_at_cursor(signature.parameters)
+    if not parameter then return end
+
+    -- 関数名より前と、それ以降に分割
+    local pre_text, _ = split_signature_label(signature.label, funcname)
+
+    local start_col, end_col = unpack(get_active_param_range(signature.label, parameter.label))
+    if start_col == -1 or end_col == -1 then
+      return
+    end
+    start_col, end_col = start_col - #pre_text, end_col - #pre_text
+    a.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+    a.nvim_buf_add_highlight(bufnr, ns, 'SigHelpParam', 0, start_col, end_col)
+end
+
+
+local update_winpos_sig_help = function()
+  -- 横の位置だけ変更する
+  local win_config = a.nvim_win_get_config(M._winnr)
+  local _, col = unpack(a.nvim_win_get_cursor(0))
+  win_config.col = col
+  a.nvim_win_set_config(M._winnr, win_config)
+end
+
 --- See https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_signatureHelp
 ---@param funcname string
 ---@param line number 0 base index
@@ -237,70 +325,33 @@ local make_signature_help_handler = function(funcname, line)
       return
     end
 
+    -- activeSignature よくわからん
     local active_signature = result.activeSignature or 0
-    -- If the activeSignature is not inside the valid range, then clip it.
     if active_signature >= #result.signatures then
       active_signature = 0
     end
+
     local signature = result.signatures[active_signature + 1]
-    if not signature then
+    if not signature or signature.label == '' then
       return
     end
 
-    -- 現在のargsの位置 (前から何個目か) を取得
-    local idx = args_node_idx_at_cursor()
-    if idx == -1 then
-      idx = 1
-    end
+    last_sig_info.signature = signature
 
-    -- pprint(idx)
-    local parameter = signature.parameters[idx]
-    if not parameter then
-      return
-    end
+    -- カーソル下のパラメータを取得
+    local parameter = get_param_at_cursor(signature.parameters)
+    if not parameter then return end
 
-    -- print('h')
-    -- pprint(parameter)
-    -- active param column
-    local text = signature.label
-    if text == '' then
-      return
-    end
+    -- 関数名より前と、それ以降に分割
+    local pre_text, signature_text = split_signature_label(signature.label, funcname)
 
-    -- pprint(signature.label)
-
-    -- XXX: もしかしたら、public とかもラベルに入っているかもしれない！？
-    -- シグニチャヘルプの関数名より前のテキスト
-    -- function func1(a, b, c)
-    -- ^^^^^^^^^ このぶぶん
-    local pre_text = ''
-    -- 関数部分
-    -- function func1(a, b, c)
-    --          ^^^^^^^^^^^^^^ このぶぶん
-    local signature_text = text
-    if funcname ~= '' then
-      -- 関数名より前を消す (別名を付けられていたら、うまく消せない)
-      -- local signature_text = text:gsub('^.*' .. funcname, funcname)
-      -- '-' は最短一致
-      pre_text, signature_text = text:match(string.format('^(.-)(%s.*)', funcname))
-      -- もし、うまく取れなかったら、もとに戻す
-      if not signature_text then
-        pre_text = ''
-        signature_text = text
-      end
-    end
-
-    -- 関数がある行に表示する
+    -- 関数がある行にfloat windowを表示する
     local _, col = unpack(a.nvim_win_get_cursor(0))
     local _, bufnr = open_floating_window(signature_text, line, col)
 
-    -- ハイライトする
-    local p_start, p_end = unpack(get_active_param_range(signature.label, parameter.label))
-    if p_start == -1 or p_end == -1 then
-      return
-    end
-    p_start, p_end = p_start - #pre_text, p_end - #pre_text
-    highlight_params(bufnr, p_start, p_end)
+    -- パラメータをハイライトする
+    update_highlight_param(signature, funcname, bufnr)
+    M._bufnr = bufnr
   end
 end
 
@@ -344,7 +395,7 @@ local show_signature_help = function()
   end
   local funcname = get_funcname(args_node)
   local line, col, _, _ = ts_utils.get_node_range(args_node)
-  -- 0 base-index のため、1を加算
+  -- get_node_range() が返すのは、 0 base-index のため、1を加算
   col = col + 1
 
   -- 関数呼び出しのノードを取得する
@@ -356,8 +407,17 @@ local show_signature_help = function()
     node = node:parent()
   end
 
-  local params = make_position_params(line, col)
-  request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, line))
+  -- もし、前のnodeと違う or ウィンドウがない場合、signatureHelp を呼び出す
+  if last_sig_info.fcall_node ~= fcall_node or
+      not (M._winnr and a.nvim_win_is_valid(M._winnr)) then
+    local params = make_position_params(line, col)
+    request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, line))
+    last_sig_info.fcall_node = fcall_node
+  else
+    -- 同じなら、ただ単に、ウィンドウを動かして、ハイライトを変えるだけ
+    update_winpos_sig_help()
+    update_highlight_param(last_sig_info.signature, funcname, M._bufnr)
+  end
 end
 
 
@@ -365,20 +425,20 @@ end
 local timer = nil
 
 M._on_timer = function()
+  local delay = 50
+
+  -- delayミリ秒後に、show_signature_help() を実行する。
+  -- もし、delay ミリ秒内に再度、_on_timer() が呼ばれたら、もう一回、delayミリ秒数える
   if timer ~= nil then
     timer:stop()
     timer:close()
   end
   timer = vim.loop.new_timer()
-
-  local delay = 100
-  local interval = 100
+  -- local interval = 100
 
   -- vim.schedule_wrap() を使うことで、 vim.~()を使える
   -- start(timeout, repeat, callback)
-  -- delay ミリ秒後に、show_signature_help() を実行する。
-  -- また、interval ミリ秒ごとに show_signature_help() を実行する
-  timer:start(delay, interval, vim.schedule_wrap(show_signature_help))
+  timer:start(delay, 0, vim.schedule_wrap(show_signature_help))
 end
 
 

@@ -32,8 +32,45 @@ end
 vim.cmd [[augroup my-lightbulb]]
 vim.cmd [[  autocmd!]]
 vim.cmd [[  autocmd CursorHold * lua require'nvim-lightbulb'.update_lightbulb { sign = { enabled = false }, virtual_text = { enabled = true, text = "  󿯦" }}]]
+-- vim.cmd [[  autocmd CursorHold * lua require'nvim-lightbulb'.update_lightbulb { sign = { enabled = false }, virtual_text = { enabled = true, text = "  !!" }}]]
 vim.cmd [[augroup END]]
 
+local setup_lspkind = function()
+  local has_lspkind, lspkind = pcall(require, 'lspkind')
+  if not has_lspkind then
+    return
+  end
+  -- アイコンの画像がある
+  -- https://github.com/Microsoft/vscode/issues/2628#issuecomment-297566399
+  lspkind.init({
+    with_text = true,
+    symbol_map = {
+      Text = '',
+      Method = '',
+      Function = '',
+      Constructor = '󿚦',
+      Variable = '󿰩',
+      Field = '󿰩',
+      Class = '󿯟',
+      Interface = '󿨡',
+      Module = '󿙨',
+      Property = '󿪶',
+      Unit = '󿴵',
+      Value = '󿰩',
+      Enum = '',
+      Keyword = '󿨅',
+      Snippet = '󿨀',
+      Color = '󿣗',
+      File = '󿢚',
+      Folder = '',
+      EnumMember = '',
+      Constant = '󿡛',
+      Struct = '󿩭',
+      Event = '󿝀',
+    },
+  })
+
+end
 
 local on_attach = function(client)
   local map = function(mode, lhs, rhs)
@@ -57,10 +94,9 @@ local on_attach = function(client)
   local bufnr = a.nvim_get_current_buf()
   -- signature_help を表示する
   require'xlsp.signature_help'.setup_autocmds(bufnr)
-  -- require'xlsp.mini_lightbulb'.setup_autocmds(bufnr)
 
   setup_lspsaga()
-  -- setup_lightbulb()
+  setup_lspkind()
 end
 
 
