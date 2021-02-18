@@ -1,6 +1,6 @@
 if vim.api.nvim_call_function('FindPlugin', {'nvim-lspconfig'}) == 0 then do return end end
 
-local neorocks = require'plenary.neorocks'
+-- local neorocks = require'plenary.neorocks'
 local util = require 'lspconfig/util'
 local f = vim.fn
 local Path = require 'plenary.path'
@@ -25,17 +25,14 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 local setup_lspsaga = function()
   require'lspsaga'.init_lsp_saga {
     border_style = 4,
-    code_action_icon = '󿯦 '
+    code_action_icon = ' 󿯦 '
   }
 end
 
-
-local setup_lightbulb = function()
-  vim.cmd [[augroup my-lightbulb]]
-  vim.cmd [[  autocmd!]]
-  vim.cmd [[  autocmd CursorHold <buffer> lua require'nvim-lightbulb'.update_lightbulb { sign = { enabled = false }, virtual_text = { enabled = true, text = "󿯦" }}]]
-  vim.cmd [[augroup END]]
-end
+vim.cmd [[augroup my-lightbulb]]
+vim.cmd [[  autocmd!]]
+vim.cmd [[  autocmd CursorHold * lua require'nvim-lightbulb'.update_lightbulb { sign = { enabled = false }, virtual_text = { enabled = true, text = "  󿯦" }}]]
+vim.cmd [[augroup END]]
 
 
 local on_attach = function(client)
@@ -63,7 +60,7 @@ local on_attach = function(client)
   -- require'xlsp.mini_lightbulb'.setup_autocmds(bufnr)
 
   setup_lspsaga()
-  setup_lightbulb()
+  -- setup_lightbulb()
 end
 
 
@@ -78,6 +75,8 @@ lspconfig.sumneko_lua.setup{
     vim.fn.expand('~/.local/share/vim-lsp-settings/servers/sumneko-lua-language-server/extension/server/bin/Linux/lua-language-server'),
     '-E',
     vim.fn.expand('~/.local/share/vim-lsp-settings/servers/sumneko-lua-language-server/extension/server/main.lua'),
+    -- meta file を指定
+    '--metapath=' .. vim.fn['emmylua_annot_nvim_api#get_meta_path']()
   },
   settings = {
     Lua = {

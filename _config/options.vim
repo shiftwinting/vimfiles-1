@@ -266,7 +266,7 @@ let g:vimsyn_embed = 'l'
 set tags=./tags;/
 
 " CursorHold の時間
-set updatetime=400
+set updatetime=100
 
 " 
 " set showtabline=0

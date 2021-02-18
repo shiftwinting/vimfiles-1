@@ -65,14 +65,19 @@ local open_floating_window = function(text, line, col)
   return M._winnr, bufnr
 end
 
--- From vim/lsp/util.lua
--- @return (start, end)
-local get_active_param_range = function(signature_label, parameter_label)
+--- From vim/lsp/util.lua
+---@param signature_label string シグニチャヘルプのテキスト
+---@param parameter_label string|number[] ラベルのテキスト or 引数のラベルのタプル(start, end)
+---@param arg_idx number 引数のidx
+---@return number[]
+local get_active_param_range = function(signature_label, parameter_label, arg_idx)
   -- string | [uinteger, uinteger]
   if type(parameter_label) == 'table' then
     -- [uinteger, uinteger] なら、そのまま返す
     return parameter_label
   end
+
+  -- TODO: うまいこと、
 
   -- signature_label のなかで、探す
   -- \V を使って、リテラル文字で検索する
@@ -220,13 +225,13 @@ local args_node_idx_at_cursor = function()
 end
 
 --- See https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_signatureHelp
--- @param funcname string
--- @param line number 0 base index
--- @return function
+---@param funcname string
+---@param line number 0 base index
+---@return function
 local make_signature_help_handler = function(funcname, line)
   funcname = funcname or ''
   return function(_, method, result)
-    pprint(result)
+    -- pprint(result)
     if not (result and type(result) == 'table' and result.signatures and result.signatures[1]) then
       -- print('No signature help available')
       return
@@ -248,14 +253,14 @@ local make_signature_help_handler = function(funcname, line)
       idx = 1
     end
 
-    pprint(idx)
+    -- pprint(idx)
     local parameter = signature.parameters[idx]
     if not parameter then
       return
     end
 
-    print('h')
-    pprint(parameter)
+    -- print('h')
+    -- pprint(parameter)
     -- active param column
     local text = signature.label
     if text == '' then
@@ -323,9 +328,7 @@ local make_position_params = function(line, col)
 end
 
 local show_signature_help = function()
-  if not string.find(a.nvim_get_mode().mode, 'i') or
-      not vim.b.xlsp_signature_help_enable then
-  -- if not string.find(a.nvim_get_mode().mode, 'i') then
+  if not string.find(a.nvim_get_mode().mode, 'i') then
     -- insert mode じゃない場合、終わり
     return
   end
@@ -353,16 +356,8 @@ local show_signature_help = function()
     node = node:parent()
   end
 
-  -- 現在、表示中の関数呼び出しのノードと異なる or シグニチャが表示されていない
-  -- if M.args_node ~= args_node or M._winnr == nil then
-  --   M.args_node = args_node
   local params = make_position_params(line, col)
   request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, line))
-
-  -- else
-  --   -- 引数のハイライト
-  --   highlight_params()
-  -- end
 end
 
 
@@ -395,34 +390,6 @@ M._clear = function()
   end
 end
 
-
-M.toggle = function()
-  -- シグニチャヘルプを一時的に非表示にしたいときとかに使う
-  if vim.b.xlsp_signature_help_enable then
-    M.disable()
-  else
-    M.enable()
-  end
-end
-
-
----
----@param is_echo boolean echoするか？
-M.enable = function(is_echo)
-  is_echo = vim.F.if_nil(is_echo, true)
-  vim.b.xlsp_signature_help_enable = true
-  if is_echo then
-    a.nvim_echo({{'signature help enabled', 'WarningMsg'}}, false, {})
-  end
-end
-
-
-M.disable = function()
-  M._clear()
-  vim.b.xlsp_signature_help_enable = false
-  a.nvim_echo({{'signature help disabled', 'WarningMsg'}}, false, {})
-end
-
 -- echodoc.vim と nvim-treesitter/playglound を参考にする
 
 -- on_attach() で呼び出す想定
@@ -431,10 +398,7 @@ M.setup_autocmds = function(bufnr)
   vim.cmd( [[  autocmd!]])
   vim.cmd(([[  autocmd InsertEnter,CursorMovedI <buffer=%d> lua require'xlsp.signature_help'._on_timer()]]):format(bufnr))
   vim.cmd(([[  autocmd InsertLeave              <buffer=%d> lua require'xlsp.signature_help'._clear()]]):format(bufnr))
-  vim.cmd(([[  autocmd InsertEnter              <buffer=%d> lua require'xlsp.signature_help'.enable(false)]]):format(bufnr))
   vim.cmd( [[augroup END]])
-
-  a.nvim_buf_set_var(bufnr, 'xlsp_signature_help_enable', true)
 end
 
 return M

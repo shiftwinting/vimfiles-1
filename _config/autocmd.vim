@@ -419,6 +419,7 @@ function! s:my_ft_python() abort
 
   nnoremap <buffer><silent> ,f :<C-u>call deol#send(getline('.'))<CR>
   vnoremap <buffer><silent> ,f :<C-u>call <SID>python_send_lines()<CR>
+  vnoremap <buffer><silent> <Space>bl :<C-u>silent !black %<CR>
 endfunction
 
 
@@ -640,6 +641,7 @@ function! QCrun(...) abort
   endif
 
   execute printf('terminal cargo %s %s', l:cmd, l:args)
+  setlocal nobuflisted
   call win_gotoid(l:curwin)
 endfunction
 

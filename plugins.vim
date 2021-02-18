@@ -2,6 +2,17 @@ scriptencoding utf-8
 
 let g:plug_install_dir = expand('$MYVIMFILES/.plugged')
 
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+
+" autocmd VimEnter *
+" \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+" \|   PlugInstall --sync | q
+" \| endif
+
 packadd cfilter
 
 call plug#begin(g:plug_install_dir)
@@ -104,6 +115,8 @@ Plug 'Shougo/neosnippet-snippets'
 " ------------------------
 "  Neovim
 " ------------------------
+" Plug 'mattn/vim-lsp-settings'
+" Plug '~/.ghq/github.com/mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
 Plug 'h-michael/lsp-ext.nvim'
 Plug 'hrsh7th/nvim-compe'
@@ -114,7 +127,6 @@ Plug 'hrsh7th/nvim-compe'
   " Plug 'hrsh7th/vim-vsnip'
 Plug 'liuchengxu/vista.vim'
 Plug 'nvim-lua/telescope.nvim'
-" Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug 'tamago324/telescope-sonictemplate.nvim'
@@ -133,9 +145,13 @@ Plug 'dstein64/nvim-scrollview'
 Plug 'monaqa/dial.nvim'
 Plug 'bfredl/nvim-miniyank'
 Plug 'glepnir/lspsaga.nvim'
-" Plug 'antoinemadec/FixCursorHold.nvim' -> input() で改行が使えなくなる問題がある
+Plug 'antoinemadec/FixCursorHold.nvim' " -> input() で改行が使えなくなる問題がある? -> そういうわけでもなかった
+" Plug 'wbthomason/packer.nvim'
+" Plug 'glepnir/prodoc.nvim'
+" Plug 'jbyuki/monolithic.nvim'
+Plug '~/.ghq/github.com/tamago324/emmylua-annot-nvim-api'
 
-" Plug 'kosayoda/nvim-lightbulb' -> 表示だけ欲しかったから、移植した
+Plug '~/.ghq/github.com/kosayoda/nvim-lightbulb'
 " Plug 'gelguy/wilder.nvim'
 " Plug 'dsummersl/nvim-sluice'
 " Plug 'b3nj5m1n/kommentary'
@@ -148,7 +164,6 @@ Plug 'glepnir/lspsaga.nvim'
 " Plug 'euclidianAce/BetterLua.vim'
 " Plug 'mhartington/formatter.nvim'
 
-" Plug 'mattn/vim-lsp-settings'
 " Plug 'jubnzv/virtual-types.nvim'
 " Plug 'nvim-lua/lsp-status.nvim'
 " Plug 'RishabhRD/nvim-lsputils'
