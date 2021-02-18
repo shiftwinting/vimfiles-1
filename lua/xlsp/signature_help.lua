@@ -12,7 +12,7 @@ local last_sig_info = {
   -- 結果
   signature = {},
   -- 関数呼び出しのnode
-  fcall_node = nil
+  fcall_node_range = nil
 }
 
 local M = {
@@ -21,6 +21,35 @@ local M = {
 }
 
 local ns = a.nvim_create_namespace('my_signature_help')
+
+local NODE_NAME_MAP = {
+  lua = {
+    funccall = 'function_call',
+    arguments = 'arguments',
+  },
+  rust = {
+    funccall = 'call_expression',
+    arguments = 'arguments',
+  },
+  python = {
+    funccall = 'call',
+    arguments = 'argument_list',
+  },
+}
+
+--- Is the type of node a function call?
+---@param node node
+---@return string
+local is_type_funccall = function(node)
+  return node:type() == NODE_NAME_MAP[vim.bo.filetype].funccall
+end
+
+--- Is the type of node a arguments?
+---@param node node
+---@return string
+local is_type_arguments = function(node)
+  return node:type() == NODE_NAME_MAP[vim.bo.filetype].arguments
+end
 
 -- From vim/lsp/buf.lua
 local request = function(method, params, handler)
@@ -39,15 +68,16 @@ end
 ---
 ---@param text string 表示するテキスト
 ---@param line number バッファ内の行番号 (この値をもとに、表示する位置を計算する)
----@param col number float window を表示する位置の桁
 ---@return number winnr
 ---@return number bufnr
-local open_floating_window = function(text, line, col)
-  -- pprint(text)
+local open_floating_window = function(text, line)
   local width, height = lsp_util._make_floating_popup_size({text})
-  local bufnr = a.nvim_create_buf(false, true)
   local wininfo = vim.fn.getwininfo(vim.fn.win_getid())[1]
   local row = line - win_topline_lnum() + 1
+  local _, col = unpack(a.nvim_win_get_cursor(0))
+
+  local bufnr = a.nvim_create_buf(false, true)
+  a.nvim_buf_set_lines(bufnr, 0, -1, true, {text})
 
   local opts = {
     -- 南西 (左下) を起点
@@ -58,22 +88,19 @@ local open_floating_window = function(text, line, col)
     style = 'minimal',
     height = height,
     width = width,
+    focusable = false,
   }
-  -- pprint('width: '..width)
-  a.nvim_buf_set_lines(bufnr, 0, -1, true, {text})
-  if M._winnr == nil or not a.nvim_win_is_valid(M._winnr) then
-    M._winnr = a.nvim_open_win(bufnr, false, opts)
 
-    -- local events = {"BufHidden", "BufLeave"}
-    -- a.nvim_command [[augroup my-signature-help-close]]
-    -- a.nvim_command [[  autocmd!]]
-    -- a.nvim_command(("  autocmd %s <buffer> ++once lua pcall(vim.api.nvim_win_close, %s, true)"):format(table.concat(events, ','), M._winnr))
-    -- a.nvim_command [[augroup END]]
+  local winnr = M._winnr
+  if winnr == nil or not a.nvim_win_is_valid(winnr) then
+    -- ウィンドウがないなら、作る
+    winnr = a.nvim_open_win(bufnr, false, opts)
   else
-    a.nvim_win_set_config(M._winnr, opts)
-    a.nvim_win_set_buf(M._winnr, bufnr)
+    -- もし、ウィンドウがあれば、それを使う
+    a.nvim_win_set_config(winnr, opts)
+    a.nvim_win_set_buf(winnr, bufnr)
   end
-  return M._winnr, bufnr
+  return winnr, bufnr
 end
 
 --- From vim/lsp/util.lua
@@ -89,13 +116,9 @@ local get_active_param_range = function(signature_label, parameter_label, arg_id
     return parameter_label
   end
 
-  -- TODO: うまいこと、
-
   -- signature_label のなかで、探す
-  -- \V を使って、リテラル文字で検索する
-  -- TODO: うまく検索できない...
-  -- local re = vim.regex(string.format(([[\v<\V%s\v>]]), parameter_label))
-  local re = vim.regex(parameter_label)
+  -- TODO: うまく検索できない...?
+  local re = vim.regex(([[\<%s\>]]):format(parameter_label))
   local s, e = re:match_str(signature_label)
   if e == nil then
     return {-1, -1}
@@ -138,29 +161,40 @@ end
 --   return ts_utils.get_node_at_cursor()
 -- end
 
+local get_node_at_cursor = function()
+  if not parsers.has_parser() then return end
+  local cursor = a.nvim_win_get_cursor(winnr or 0)
+  local root = parsers.get_parser():parse()[1]:root()
+  -- return root:named_descendant_for_range(cursor[1]-1,cursor[2],cursor[1]-1,cursor[2])
+
+  -- もし、カーソル下のnodeの親が関数呼び出しの場合、 +1 する
+  -- arguments の範囲がちょっとだけ大きいため、微調整
+  local start_col = cursor[2]
+  if is_type_funccall(ts_utils.get_node_at_cursor()) then
+    start_col = start_col + 1
+  end
+  return root:named_descendant_for_range(cursor[1]-1, start_col, cursor[1]-1, cursor[2])
+end
+
 local arguments_node_at_cursor = function()
-  local node = ts_utils.get_node_at_cursor()
-  -- local node = get_node_at_cursor()
-  local args_node = nil
+  -- local node = ts_utils.get_node_at_cursor()
+  local node = get_node_at_cursor()
+
   -- function_call になるまでのぼる
   -- 関数名っぽいのを取得、また、関数呼び出しの引数の中かをチェックする？
   local idx = 0
   while node and node:type() ~= 'program' do
     local s_row, s_col, e_row, e_col = ts_utils.get_node_range(node)
-    -- pprint(string.format("%s [%d, %d] - [%d, %d]", node:type(), s_row, s_col, e_row, e_col))
+    pprint(string.format("%s [%d, %d] - [%d, %d]", node:type(), s_row, s_col, e_row, e_col))
 
-    if node:type() == 'arguments' then
-      -- args_node = node
+    if is_type_arguments(node) then
+      pprint('hi')
       return node
     end
 
     node = node:parent()
-    idx = idx + 1
-    if idx > 1000 then
-      node = nil
-    end
   end
-  return args_node
+  return nil
 end
 
 -- カーソル下の arguments ノードの引数の位置を返す (1始まり)
@@ -186,6 +220,7 @@ local args_node_idx_at_cursor = function()
       if line == start_line and line == end_line then
         -- 1行内で収まっている
         --  前の引数のcol以降で、範囲内か
+        print('col: ' .. col .. ', start_col: ' .. start_col)
         return col >= start_col and col <= end_col
       elseif line == start_line then
         -- 複数行で、最初の行にカーソルがある
@@ -217,7 +252,7 @@ local args_node_idx_at_cursor = function()
     -- 範囲内にいれば、それ
     local arg_node = args:named_child(i-1)
     -- local _, start_col, _, end_col = arg_node:range()
-    -- pprint(arg_node:type() .. ' ' .. start_col .. ' ' .. end_col)
+    -- pprint(arg_node:type() .. cursor_col .. ' ' .. start_col .. ' ' .. end_col)
     if _is_in_node_range(arg_node, cursor_row-1, cursor_col, before_arg_end_line, before_arg_end_col) then
       idx = i
     end
@@ -227,7 +262,6 @@ local args_node_idx_at_cursor = function()
     end
   end
 
-  -- pprint(idx .. tostring(ts_utils.is_in_node_range(args, cursor_row-1, cursor_col)))
   -- もし、最後なら、大目に見る
   if idx == -1 and ts_utils.is_in_node_range(args, cursor_row-1, cursor_col) then
     -- argments の中に入っていたら、最後の引数とする
@@ -240,12 +274,12 @@ end
 ---@param parameters table signature.parameters
 ---@return table parameter カーソル下に対応する parameter
 local get_param_at_cursor = function(parameters)
-    -- 現在のargsの位置 (前から何個目か) を取得
-    local idx = args_node_idx_at_cursor()
-    if idx == -1 then
-      idx = 1
-    end
-    return parameters[idx]
+  -- 現在のargsの位置 (前から何個目か) を取得
+  local idx = args_node_idx_at_cursor()
+  if idx == -1 then
+    idx = 1
+  end
+  return parameters[idx]
 end
 
 ---
@@ -287,20 +321,20 @@ end
 ---@param funcname string 呼び出している関数名
 ---@param bufnr number float window の bufnr
 local update_highlight_param = function(signature, funcname, bufnr)
-    -- カーソル下のパラメータを取得
-    local parameter = get_param_at_cursor(signature.parameters)
-    if not parameter then return end
+  -- カーソル下のパラメータを取得
+  local parameter = get_param_at_cursor(signature.parameters)
+  if not parameter then return end
 
-    -- 関数名より前と、それ以降に分割
-    local pre_text, _ = split_signature_label(signature.label, funcname)
+  -- 関数名より前と、それ以降に分割
+  local pre_text, _ = split_signature_label(signature.label, funcname)
 
-    local start_col, end_col = unpack(get_active_param_range(signature.label, parameter.label))
-    if start_col == -1 or end_col == -1 then
-      return
-    end
-    start_col, end_col = start_col - #pre_text, end_col - #pre_text
-    a.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
-    a.nvim_buf_add_highlight(bufnr, ns, 'SigHelpParam', 0, start_col, end_col)
+  local start_col, end_col = unpack(get_active_param_range(signature.label, parameter.label))
+  if start_col == -1 or end_col == -1 then
+    return
+  end
+  start_col, end_col = start_col - #pre_text, end_col - #pre_text
+  a.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+  a.nvim_buf_add_highlight(bufnr, ns, 'SigHelpParam', 0, start_col, end_col)
 end
 
 
@@ -315,11 +349,12 @@ end
 --- See https://microsoft.github.io/language-server-protocol/specifications/specification-current/#textDocument_signatureHelp
 ---@param funcname string
 ---@param line number 0 base index
+---@param fcall_node node 
 ---@return function
-local make_signature_help_handler = function(funcname, line)
+local make_signature_help_handler = function(funcname, line, fcall_node)
   funcname = funcname or ''
   return function(_, method, result)
-    -- pprint(result)
+    pprint(result)
     if not (result and type(result) == 'table' and result.signatures and result.signatures[1]) then
       -- print('No signature help available')
       return
@@ -346,12 +381,10 @@ local make_signature_help_handler = function(funcname, line)
     local pre_text, signature_text = split_signature_label(signature.label, funcname)
 
     -- 関数がある行にfloat windowを表示する
-    local _, col = unpack(a.nvim_win_get_cursor(0))
-    local _, bufnr = open_floating_window(signature_text, line, col)
+    M._winnr, M._bufnr = open_floating_window(signature_text, line)
+    update_highlight_param(signature, funcname, M._bufnr)
 
-    -- パラメータをハイライトする
-    update_highlight_param(signature, funcname, bufnr)
-    M._bufnr = bufnr
+    last_sig_info.fcall_node_range = table.concat({fcall_node:range()}, '')
   end
 end
 
@@ -386,6 +419,7 @@ local show_signature_help = function()
   -- :h lua-treesitter
   -- カーソル位置のargumentsノードを取得
   local args_node = arguments_node_at_cursor()
+  pprint(args_node)
 
   -- 関数呼び出しの中ではない場合、終わり
   if args_node == nil then
@@ -393,26 +427,32 @@ local show_signature_help = function()
     M._clear()
     return
   end
+
   local funcname = get_funcname(args_node)
   local line, col, _, _ = ts_utils.get_node_range(args_node)
   -- get_node_range() が返すのは、 0 base-index のため、1を加算
   col = col + 1
 
   -- 関数呼び出しのノードを取得する
+  local node = args_node
   local fcall_node = nil
-  while node and node:type() ~= 'program' and not fcall_node do
-    if node:type() == 'function_call' then
+  while node and node:type() ~= 'program' and fcall_node == nil do
+    if is_type_funccall(node) then
       fcall_node = node
     end
     node = node:parent()
   end
+  pprint(fcall_node)
+
+  if fcall_node == nil then
+    return
+  end
 
   -- もし、前のnodeと違う or ウィンドウがない場合、signatureHelp を呼び出す
-  if last_sig_info.fcall_node ~= fcall_node or
+  if last_sig_info.fcall_node_range ~= table.concat({fcall_node:range()}, '') or
       not (M._winnr and a.nvim_win_is_valid(M._winnr)) then
     local params = make_position_params(line, col)
-    request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, line))
-    last_sig_info.fcall_node = fcall_node
+    request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, line, fcall_node))
   else
     -- 同じなら、ただ単に、ウィンドウを動かして、ハイライトを変えるだけ
     update_winpos_sig_help()
@@ -425,7 +465,7 @@ end
 local timer = nil
 
 M._on_timer = function()
-  local delay = 50
+  local delay = 100
 
   -- delayミリ秒後に、show_signature_help() を実行する。
   -- もし、delay ミリ秒内に再度、_on_timer() が呼ばれたら、もう一回、delayミリ秒数える
@@ -434,7 +474,6 @@ M._on_timer = function()
     timer:close()
   end
   timer = vim.loop.new_timer()
-  -- local interval = 100
 
   -- vim.schedule_wrap() を使うことで、 vim.~()を使える
   -- start(timeout, repeat, callback)
