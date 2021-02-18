@@ -20,7 +20,7 @@ local M = {
   -- _bufnr,
 }
 
-local ns = a.nvim_create_namespace('my_signature_help')
+local ns = a.nvim_create_namespace('lspsignicha')
 
 -- nvim-treesitter-textobjects を参考にしてみる
 local NODE_NAME_MAP = {
@@ -417,6 +417,7 @@ local show_signature_help = function()
     -- insert mode じゃない場合、終わり
     return
   end
+
   -- :h lua-treesitter
   -- カーソル位置のargumentsノードを取得
   local args_node = arguments_node_at_cursor()
@@ -462,7 +463,6 @@ local show_signature_help = function()
 end
 
 
--- From nvim-treesitter-playground/utils.lua
 local timer = nil
 
 M._on_timer = function()
@@ -496,8 +496,8 @@ end
 M.setup_autocmds = function(bufnr)
   vim.cmd( [[augroup my-signature-help]])
   vim.cmd( [[  autocmd!]])
-  vim.cmd(([[  autocmd InsertEnter,CursorMovedI <buffer=%d> lua require'xlsp.signature_help'._on_timer()]]):format(bufnr))
-  vim.cmd(([[  autocmd InsertLeave              <buffer=%d> lua require'xlsp.signature_help'._clear()]]):format(bufnr))
+  vim.cmd(([[  autocmd InsertEnter,CursorMovedI <buffer=%d> lua require'lspsignicha'._on_timer()]]):format(bufnr))
+  vim.cmd(([[  autocmd InsertLeave              <buffer=%d> lua require'lspsignicha'._clear()]]):format(bufnr))
   vim.cmd( [[augroup END]])
 end
 
