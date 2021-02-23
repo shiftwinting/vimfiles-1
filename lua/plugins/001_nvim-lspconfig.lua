@@ -2,8 +2,6 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-lspconfig'}) == 0 then do ret
 
 -- local neorocks = require'plenary.neorocks'
 local util = require 'lspconfig/util'
-local f = vim.fn
-local Path = require 'plenary.path'
 local a = vim.api
 
 -- 診断結果の設定
@@ -22,20 +20,17 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
-local setup_lspsaga = function()
+-- lspsaga
+do
   require'lspsaga'.init_lsp_saga {
     border_style = 4,
     code_action_icon = ' 󿯦 '
   }
 end
 
-vim.cmd [[augroup my-lightbulb]]
-vim.cmd [[  autocmd!]]
-vim.cmd [[  autocmd CursorHold * lua require'nvim-lightbulb'.update_lightbulb { sign = { enabled = false }, virtual_text = { enabled = true, text = "  󿯦" }}]]
--- vim.cmd [[  autocmd CursorHold * lua require'nvim-lightbulb'.update_lightbulb { sign = { enabled = false }, virtual_text = { enabled = true, text = "  !!" }}]]
-vim.cmd [[augroup END]]
 
-local setup_lspkind = function()
+-- lspkind
+do
   local has_lspkind, lspkind = pcall(require, 'lspkind')
   if not has_lspkind then
     return
@@ -45,32 +40,32 @@ local setup_lspkind = function()
   lspkind.init({
     with_text = true,
     symbol_map = {
-      Text = '',
-      Method = '',
-      Function = '',
+      Text        = '',
+      Method      = '',
+      Function    = '',
       Constructor = '󿚦',
-      Variable = '󿰩',
-      Field = '󿰩',
-      Class = '󿯟',
-      Interface = '󿨡',
-      Module = '󿙨',
-      Property = '󿪶',
-      Unit = '󿴵',
-      Value = '󿰩',
-      Enum = '',
-      Keyword = '󿨅',
-      Snippet = '󿨀',
-      Color = '󿣗',
-      File = '󿢚',
-      Folder = '',
-      EnumMember = '',
-      Constant = '󿡛',
-      Struct = '󿩭',
-      Event = '󿝀',
+      Variable    = '󿰩',
+      Field       = '󿰩',
+      Class       = '󿯟',
+      Interface   = '󿨡',
+      Module      = '󿙨',
+      Property    = '󿪶',
+      Unit        = '󿴵',
+      Value       = '󿰩',
+      Enum        = '',
+      Keyword     = '󿨅',
+      Snippet     = '󿨀',
+      Color       = '󿣗',
+      File        = '󿢚',
+      Folder      = '',
+      EnumMember  = '',
+      Constant    = '󿡛',
+      Struct      = '󿩭',
+      Event       = '󿝀',
     },
   })
-
 end
+
 
 local on_attach = function(client)
   local map = function(mode, lhs, rhs)
@@ -78,7 +73,8 @@ local on_attach = function(client)
   end
 
   map( 'n', 'K',         [[<Cmd>lua require('lspsaga.hover').render_hover_doc()<CR>]])
-  map( 'n', '<Space>fl', [[<Cmd>lua require'lspsaga.provider'.lsp_finder()<CR>]])
+  -- map( 'n', '<Space>fl', [[<Cmd>lua require'lspsaga.provider'.lsp_finder()<CR>]])
+  map( 'n', '<Space>fl', [[<Cmd>lua require'plugins.telescope_nvim'.lsp_references()<CR>]])
   map( 'n', 'gd',        [[<cmd>lua require'lspsaga.provider'.preview_definition()<CR>]])
   map( 'n', '<A-k>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>]])
   map( 'n', '<A-j>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>]])
@@ -93,14 +89,16 @@ local on_attach = function(client)
 
   local bufnr = a.nvim_get_current_buf()
   -- signature_help を表示する
-  require'xlsp.signature_help'.setup_autocmds(bufnr)
+  require'xlsp/lspsignicha'.setup_autocmds(bufnr)
+  -- require'lspsignicha_ver2'.setup_autocmds(bufnr)
 
-  setup_lspsaga()
-  setup_lspkind()
+  require'xlsp/lightbulb'.on_attach()
 end
 
 
-pcall(require, 'lsp_ext')
+do
+  pcall(require, 'lsp_ext')
+end
 
 local lspconfig = require'lspconfig'
 
@@ -122,7 +120,7 @@ lspconfig.sumneko_lua.setup{
       diagnostics = {
         enable = true,
         globals = {'vim', 'describe', 'it', 'before_earch', 'after_each', 'vimp', '_vimp'},
-        disable = {"unused-local", "unused-vararg", "lowercase-global"}
+        disable = {"unused-local", "unused-vararg", "lowercase-global", "undefined-field"}
       },
       completion = {
         keywordSnippet = "Enable",
