@@ -40,6 +40,7 @@ Plug 'kana/vim-repeat'
 Plug 'hrsh7th/vim-eft'
 Plug 'machakann/vim-sandwich'
 Plug 'machakann/vim-highlightedyank'
+Plug 'machakann/vim-swap'
 Plug 'mattn/sonictemplate-vim'
 Plug 'mattn/vim-findroot'
 " Plug 'lambdalisue/suda.vim'
@@ -60,6 +61,8 @@ Plug 'tyru/open-browser.vim'
 Plug 'tyru/open-browser-github.vim'
 " Plug 'tyru/vim-altercmd'
 
+" Plug 'osyo-manga/vim-milfeulle'
+
 " ------------------------
 "  git
 " ------------------------
@@ -69,6 +72,7 @@ Plug 'tyru/open-browser-github.vim'
 
 " yank github link
 Plug 'knsh14/vim-github-link', { 'on': ['GetCurrentCommitLink', 'GetCurrentBranchLink', 'GetCommitLink'] }
+Plug 'cohama/agit.vim'
 
 " sign
 Plug 'lewis6991/gitsigns.nvim'
@@ -99,7 +103,8 @@ Plug 'sainnhe/gruvbox-material'
 "  operator
 " ------------------------
 Plug 'kana/vim-operator-user',
-Plug 'kana/vim-operator-replace'
+" Plug 'kana/vim-operator-replace'
+Plug 'yuki-yano/vim-operator-replace'
 
 
 " ------------------------
@@ -108,7 +113,6 @@ Plug 'kana/vim-operator-replace'
 Plug 'Shougo/deol.nvim', { 'on': ['Deol'] }
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-" Plug '~/.ghq/github.com/tamago324/neosnippet-snippets'
 " Plug 'Shougo/deoppet.nvim'
 
 
@@ -119,14 +123,19 @@ Plug 'Shougo/neosnippet-snippets'
 " Plug '~/.ghq/github.com/mattn/vim-lsp-settings'
 Plug 'neovim/nvim-lspconfig'
 Plug 'h-michael/lsp-ext.nvim'
+Plug 'weilbith/nvim-lsp-smag' " set tagfunc
+Plug 'glepnir/lspsaga.nvim'
+
 Plug 'hrsh7th/nvim-compe'
   Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
   Plug '~/.ghq/github.com/tamago324/compe-zsh'
   " Plug '~/.ghq/github.com/tamago324/compe-necosyntax'
   " Plug 'Shougo/neco-syntax'
   " Plug 'hrsh7th/vim-vsnip'
+  Plug 'onsails/lspkind-nvim'
 Plug 'liuchengxu/vista.vim'
-Plug 'nvim-lua/telescope.nvim'
+" Plug 'nvim-lua/telescope.nvim'
+Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug 'tamago324/telescope-sonictemplate.nvim'
@@ -135,6 +144,7 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'nvim-treesitter/nvim-treesitter'
+" Plug '~/.ghq/github.com/nvim-treesitter/nvim-treesitter'
   " Plug 'p00f/nvim-ts-rainbow'
   Plug 'nvim-treesitter/playground'
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -144,15 +154,14 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'dstein64/nvim-scrollview'
 Plug 'monaqa/dial.nvim'
 Plug 'bfredl/nvim-miniyank'
-Plug 'glepnir/lspsaga.nvim'
 Plug 'antoinemadec/FixCursorHold.nvim' " -> input() で改行が使えなくなる問題がある? -> そういうわけでもなかった
+Plug '~/.ghq/github.com/tamago324/emmylua-annot-nvim-api'
+Plug 'kosayoda/nvim-lightbulb'
+Plug 'notomo/lreload.nvim'
+
 " Plug 'wbthomason/packer.nvim'
 " Plug 'glepnir/prodoc.nvim'
 " Plug 'jbyuki/monolithic.nvim'
-Plug '~/.ghq/github.com/tamago324/emmylua-annot-nvim-api'
-Plug 'onsails/lspkind-nvim'
-
-Plug '~/.ghq/github.com/kosayoda/nvim-lightbulb'
 " Plug 'gelguy/wilder.nvim'
 " Plug 'dsummersl/nvim-sluice'
 " Plug 'b3nj5m1n/kommentary'
@@ -218,21 +227,19 @@ Plug 'rust-lang/rust.vim'
 
 "------------------------
 " RON
-Plug 'ron-rs/ron.vim'
+" Plug 'ron-rs/ron.vim'
 
 "------------------------
 " Markdown
 " Plug 'plasticboy/vim-markdown'
 
 
-" Plug '~/.ghq/github.com/tamago324/telescope-openbrowser.nvim'
 Plug '~/.ghq/github.com/tamago324/lir.nvim'
 Plug '~/.ghq/github.com/tamago324/lir-mmv.nvim'
 Plug '~/.ghq/github.com/tamago324/lir-bookmark.nvim'
 Plug '~/.ghq/github.com/tamago324/lir-mark.nvim'
-" Plug 'tamago324/lir.nvim'
-" Plug '~/.ghq/github.com/tamago324/lir-float.nvim'
-" Plug '~/.ghq/github.com/tamago324/vim-browsersync'
+
+Plug '~/.ghq/github.com/tamago324/lua-gameoflife.nvim'
 
 call plug#end()
 
@@ -353,6 +360,5 @@ call plug#end()
 " Plug 'mhinz/vim-grepper'  -> telescope
 " Plug 'delphinus/vim-auto-cursorline'
 " Plug 'y0za/vim-reading-vimrc'
-" Plug 'machakann/vim-swap'
 
 " Plug 'rcmdnk/yankround.vim' -> nvim-miniyank

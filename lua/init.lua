@@ -10,6 +10,7 @@ function plenary_luarocks()
     neorocks.install('penlight', 'pl')
     neorocks.install('microlight', 'ml')
     neorocks.install('moses')
+    -- neorocks.install('Lua-cURL')
 
     -- local pl = require'pl' で使える！
   end

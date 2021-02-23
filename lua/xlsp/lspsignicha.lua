@@ -17,10 +17,10 @@ local last_sig_info = {
 
 local M = {
   -- _winnr,
-  -- _bufnr,
+  _bufnr = a.nvim_create_buf(false, true),
 }
 
-local ns = a.nvim_create_namespace('my_signature_help')
+local ns = a.nvim_create_namespace('lspsignicha')
 
 -- nvim-treesitter-textobjects を参考にしてみる
 local NODE_NAME_MAP = {
@@ -36,6 +36,11 @@ local NODE_NAME_MAP = {
     funccall = 'call',
     arguments = 'argument_list',
   },
+  -- vim = {
+  --   funccall = 'call_expression',
+  --   -- わからん
+  --   arguments = '_expression',
+  -- },
 }
 
 --- Is the type of node a function call?
@@ -68,24 +73,24 @@ end
 
 ---
 ---@param text string 表示するテキスト
----@param line number バッファ内の行番号 (この値をもとに、表示する位置を計算する)
 ---@return number winnr
----@return number bufnr
-local open_floating_window = function(text, line)
-  local width, height = lsp_util._make_floating_popup_size({text})
+local open_floating_window = function(text)
+  local width, height = lsp_util._make_floating_popup_size(text)
   local wininfo = vim.fn.getwininfo(vim.fn.win_getid())[1]
-  local row = line - win_topline_lnum() + 1
-  local _, col = unpack(a.nvim_win_get_cursor(0))
+  -- local row = line - win_topline_lnum() + 1
+  -- local _, col = unpack(a.nvim_win_get_cursor(0))
 
-  local bufnr = a.nvim_create_buf(false, true)
-  a.nvim_buf_set_lines(bufnr, 0, -1, true, {text})
+  a.nvim_buf_set_lines(M._bufnr, 0, -1, true, text)
 
   local opts = {
     -- 南西 (左下) を起点
     anchor = 'SW',
-    row = row,
-    col = col,
-    relative = 'win',
+    -- row = row,
+    -- col = col,
+    -- relative = 'win',
+    row = 0,
+    col = 0,
+    relative = 'cursor',
     style = 'minimal',
     height = height,
     width = width,
@@ -95,13 +100,13 @@ local open_floating_window = function(text, line)
   local winnr = M._winnr
   if winnr == nil or not a.nvim_win_is_valid(winnr) then
     -- ウィンドウがないなら、作る
-    winnr = a.nvim_open_win(bufnr, false, opts)
+    winnr = a.nvim_open_win(M._bufnr, false, opts)
   else
     -- もし、ウィンドウがあれば、それを使う
     a.nvim_win_set_config(winnr, opts)
-    a.nvim_win_set_buf(winnr, bufnr)
+    a.nvim_win_set_buf(winnr, M._bufnr)
   end
-  return winnr, bufnr
+  return winnr
 end
 
 --- From vim/lsp/util.lua
@@ -164,16 +169,16 @@ end
 
 local get_node_at_cursor = function()
   if not parsers.has_parser() then return end
-  local cursor = a.nvim_win_get_cursor(winnr or 0)
+  local cursor = a.nvim_win_get_cursor(0)
   local root = parsers.get_parser():parse()[1]:root()
   -- return root:named_descendant_for_range(cursor[1]-1,cursor[2],cursor[1]-1,cursor[2])
 
+  local start_col = cursor[2]
   -- もし、カーソル下のnodeの親が関数呼び出しの場合、 +1 する
   -- arguments の範囲がちょっとだけ大きいため、微調整
-  local start_col = cursor[2]
-  if is_type_funccall(ts_utils.get_node_at_cursor()) then
-    start_col = start_col + 1
-  end
+  -- if is_type_funccall(ts_utils.get_node_at_cursor()) then
+  --   start_col = start_col + 1
+  -- end
   return root:named_descendant_for_range(cursor[1]-1, start_col, cursor[1]-1, cursor[2])
 end
 
@@ -185,11 +190,10 @@ local arguments_node_at_cursor = function()
   -- 関数名っぽいのを取得、また、関数呼び出しの引数の中かをチェックする？
   local idx = 0
   while node and node:type() ~= 'program' do
-    local s_row, s_col, e_row, e_col = ts_utils.get_node_range(node)
-    pprint(string.format("%s [%d, %d] - [%d, %d]", node:type(), s_row, s_col, e_row, e_col))
+    -- local s_row, s_col, e_row, e_col = ts_utils.get_node_range(node)
+    -- pprint(string.format("%s [%d, %d] - [%d, %d]", node:type(), s_row, s_col, e_row, e_col))
 
     if is_type_arguments(node) then
-      pprint('hi')
       return node
     end
 
@@ -221,7 +225,7 @@ local args_node_idx_at_cursor = function()
       if line == start_line and line == end_line then
         -- 1行内で収まっている
         --  前の引数のcol以降で、範囲内か
-        print('col: ' .. col .. ', start_col: ' .. start_col)
+        -- print('col: ' .. col .. ', start_col: ' .. start_col)
         return col >= start_col and col <= end_col
       elseif line == start_line then
         -- 複数行で、最初の行にカーソルがある
@@ -340,10 +344,10 @@ end
 
 
 local update_winpos_sig_help = function()
-  -- 横の位置だけ変更する
   local win_config = a.nvim_win_get_config(M._winnr)
-  local _, col = unpack(a.nvim_win_get_cursor(0))
-  win_config.col = col
+  local row, col = unpack(a.nvim_win_get_cursor(0))
+  win_config.row = row - win_topline_lnum()
+  win_config.col = col + 2
   a.nvim_win_set_config(M._winnr, win_config)
 end
 
@@ -352,7 +356,7 @@ end
 ---@param line number 0 base index
 ---@param fcall_node node 
 ---@return function
-local make_signature_help_handler = function(funcname, line, fcall_node)
+local make_signature_help_handler = function(funcname, fcall_node)
   funcname = funcname or ''
   return function(_, method, result)
     -- pprint(result)
@@ -382,7 +386,7 @@ local make_signature_help_handler = function(funcname, line, fcall_node)
     local pre_text, signature_text = split_signature_label(signature.label, funcname)
 
     -- 関数がある行にfloat windowを表示する
-    M._winnr, M._bufnr = open_floating_window(signature_text, line)
+    M._winnr= open_floating_window({signature_text})
     update_highlight_param(signature, funcname, M._bufnr)
 
     last_sig_info.fcall_node_range = table.concat({fcall_node:range()}, '')
@@ -412,11 +416,8 @@ local make_position_params = function(line, col)
   }
 end
 
-local show_signature_help = function()
-  if not string.find(a.nvim_get_mode().mode, 'i') then
-    -- insert mode じゃない場合、終わり
-    return
-  end
+--- tree-sitter を使って、いい感じに表示する
+local show_sighelp_use_ts = function()
   -- :h lua-treesitter
   -- カーソル位置のargumentsノードを取得
   local args_node = arguments_node_at_cursor()
@@ -443,7 +444,7 @@ local show_signature_help = function()
     end
     node = node:parent()
   end
-  pprint(fcall_node)
+  -- pprint(fcall_node)
 
   if fcall_node == nil then
     return
@@ -453,11 +454,113 @@ local show_signature_help = function()
   if last_sig_info.fcall_node_range ~= table.concat({fcall_node:range()}, '') or
       not (M._winnr and a.nvim_win_is_valid(M._winnr)) then
     local params = make_position_params(line, col)
-    request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, line, fcall_node))
+    request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, fcall_node))
   else
     -- 同じなら、ただ単に、ウィンドウを動かして、ハイライトを変えるだけ
     update_winpos_sig_help()
     update_highlight_param(last_sig_info.signature, funcname, M._bufnr)
+  end
+end
+
+--- trigger chars のリストを取得
+---@return string[]
+local get_signature_help_trigger_chars = function()
+  local trigger_chars = vim.F.if_nil(vim.b.lspsignicha_trigger_chars, {})
+
+  if vim.tbl_isempty(trigger_chars) then
+    -- なければ作る
+    for _, client in ipairs(vim.lsp.buf_get_clients(0)) do
+      local capabilities = client.resolved_capabilities
+      if capabilities.signature_help then
+        vim.list_extend(trigger_chars, capabilities.signature_help_trigger_characters)
+      end
+    end
+  end
+
+  return trigger_chars
+end
+
+--- trigger_characters がある行
+---@return boolean 
+local get_lnum_trigger_chars = function()
+  local trigger_chars = get_signature_help_trigger_chars()
+
+  if trigger_chars == {} then
+    return false
+  end
+
+  local _, col = unpack(a.nvim_win_get_cursor(0))
+  local line = nil
+  local lnum = vim.fn.line('.')
+
+  while lnum ~= 0 do
+    if line == nil then
+      line = string.gsub(string.sub(a.nvim_get_current_line(), 1, col), '^%s+', '')
+    else
+      line = string.gsub(a.nvim_buf_get_lines(0, lnum, lnum + 1, false)[1], '^%s+', '')
+    end
+    for _, char in ipairs(trigger_chars) do
+      -- リテラル文字で検索
+      if string.find(line, char, 1, true) then
+        return true
+      end
+    end
+    lnum = lnum - 1
+  end
+
+  return false
+end
+
+local show_signature_help = function()
+  if not string.find(a.nvim_get_mode().mode, 'i') then
+    -- insert mode じゃない場合、終わり
+    return
+  end
+
+  -- if parsers.has_parser() and vim.bo.filetype ~= 'vim' then
+  if parsers.has_parser() then
+    return show_sighelp_use_ts()
+  end
+
+  -- signature_help の機能だけを使って、表示する
+  local triggered = get_lnum_trigger_chars()
+
+  if triggered then
+    local params = lsp_util.make_position_params()
+    request('textDocument/signatureHelp', params, function(_, _, result)
+      if not (result and type(result) == 'table' and result.signatures and result.signatures[1]) then
+        -- print('No signature help available')
+        return
+      end
+
+      -- activeSignature よくわからん
+      local active_signature = result.activeSignature or 0
+      if active_signature >= #result.signatures then
+        active_signature = 0
+      end
+
+      local signature = result.signatures[active_signature + 1]
+      if not signature then
+        return
+      end
+
+      local contents = {}
+      vim.list_extend(contents, vim.split(signature.label, '\n', true))
+      M._winnr = open_floating_window(contents)
+
+      -- TODO: highlight
+
+      -- if signature.parameters and #signature.parameters > 0 then
+      --   local active_parameter = signature_help.activeParameter or 0
+      --   if active_parameter >= #signature.parameters then
+      --     active_parameter = 0
+      --   end
+      --   local parameter = signature.parameters[active_parameter + 1]
+      --   if parameter then
+      --   end
+      -- end
+
+    end)
   end
 end
 
@@ -494,10 +597,10 @@ end
 
 -- on_attach() で呼び出す想定
 M.setup_autocmds = function(bufnr)
-  vim.cmd( [[augroup my-signature-help]])
+  vim.cmd( [[augroup lspsignicha]])
   vim.cmd( [[  autocmd!]])
-  vim.cmd(([[  autocmd InsertEnter,CursorMovedI <buffer=%d> lua require'xlsp.signature_help'._on_timer()]]):format(bufnr))
-  vim.cmd(([[  autocmd InsertLeave              <buffer=%d> lua require'xlsp.signature_help'._clear()]]):format(bufnr))
+  vim.cmd(([[  autocmd InsertEnter,CursorMovedI <buffer=%d> lua require'xlsp.lspsignicha'._on_timer()]]):format(bufnr))
+  vim.cmd(([[  autocmd InsertLeave              <buffer=%d> lua require'xlsp.lspsignicha'._clear()]]):format(bufnr))
   vim.cmd( [[augroup END]])
 end
 

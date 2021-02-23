@@ -45,6 +45,10 @@ HIGHLIGHTS                                  *{{_input_:plugin name}}-functions*
 
 TODO
 
+Xxxxxx                                                *Xxxxxx*
+
+    Default: `highlight default Xxxxxx guifg=Black guibg=Black`
+
 
 ==============================================================================
 EXAMPLES                                  *{{_input_:plugin name}}-examples*

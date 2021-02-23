@@ -25,7 +25,8 @@ local gen_from_mru_better = function(opts)
     separator = " ",
     items = {
       { width = vim.fn.strwidth(default_icons) },
-      { width = max_filename },
+      -- { width = max_filename },
+      { width = 35 },
       { remaining = true },
     },
   }

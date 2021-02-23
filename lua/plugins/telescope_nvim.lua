@@ -21,8 +21,9 @@ require'telescope'.setup{
     -- borderchars = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
     winblend = 0,
 
-    prompt_position = "bottom",
-    -- sorting_strategy = "ascending",
+    -- prompt_position = "bottom",
+    prompt_position = "top",
+    sorting_strategy = "ascending",
 
     -- https://github.com/nvim-telescope/telescope.nvim/issues/425
     layout_strategy = 'horizontal',
@@ -31,7 +32,12 @@ require'telescope'.setup{
         width_padding = 0.05,
         height_padding = 1,
         preview_height = 0.6,
-      }
+      },
+      horizontal = {
+        -- width_padding =  -- "How many cells to pad the width",
+        height_padding = 10, -- "How many cells to pad the height",
+        preview_width = 0.6 -- "(Resolvable): Determine preview width",
+      },
     },
 
     results_title = false,
@@ -401,9 +407,10 @@ end
 -- @Description
 local mru = function()
   require('telescope').extensions.mru.list {
-    layout_strategy = 'vertical',
+    -- layout_strategy = 'vertical',
     file_ignore_patterns = { "^/tmp" },
-    previewer = previewers.cat.new({}),
+    -- previewer = previewers.cat.new({}),
+    previewer = false,
     sorter = get_fzy_sorter_use_list({
       list = vim.fn['mr#mru#list'](),
       get_needle = function(entry)
@@ -483,12 +490,6 @@ end
 local lsp_document_symbols = function()
   -- TODO: LSP が使えない場合、 current_buffer_tags を使うようにする
   require'telescope.builtin'.lsp_document_symbols {
-    layout_strategy = 'horizontal',
-    layout_config = {
-      -- width_padding =  -- "How many cells to pad the width",
-      -- height_padding -- "How many cells to pad the height",
-      preview_width = 0.6 -- "(Resolvable): Determine preview width",
-    },
     show_line = false,
   }
 end
@@ -634,4 +635,19 @@ local mappings = {
 
 nvim_apply_mappings(mappings, {noremap = true, silent = true})
 
+local lsp_references = function()
+  require'telescope.builtin'.lsp_references {
+    sorting_strategy = "ascending",
+    prompt_position = 'top',
 
+    layout_config = {
+      -- width_padding =  -- "How many cells to pad the width",
+      height_padding = 10, -- "How many cells to pad the height",
+      preview_width = 0.6 -- "(Resolvable): Determine preview width",
+    },
+  }
+end
+
+return {
+  lsp_references = lsp_references
+}

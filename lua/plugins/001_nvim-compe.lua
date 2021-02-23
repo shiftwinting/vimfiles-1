@@ -25,3 +25,8 @@ require'compe'.setup {
 vim.api.nvim_set_keymap('i', '<C-Space>', 'compe#complete()',                             {silent = true, expr = true})
 vim.api.nvim_set_keymap('i', '<CR>',      "compe#confirm(lexima#expand('<LT>CR>', 'i'))", {silent = true, expr = true})
 -- vim.api.nvim_set_keymap('i', '<C-e>',     "compe#close('<C-e>')",                         {silent = true, expr = true, noremap = true})
+
+
+if vim.api.nvim_call_function('FindPlugin', {'echodoc.vim'}) == 1 then
+  vim.api.nvim_set_var('echodoc#type', 'floating')
+end

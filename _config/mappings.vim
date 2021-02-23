@@ -104,7 +104,8 @@ cnoremap <C-n> <Down>
 cnoremap <expr> / getcmdtype() ==# '/' ? '\/' : '/'
 
 " :h magic
-nnoremap / /\v
+" markonm/traces.vim のバグ？で、 set incsearch が消えるため
+nnoremap / :<C-u>set incsearch<CR>/\v
 
 " クリップボード内の文字列をそのまま検索
 nnoremap <Space>/ /\V<C-r>+<CR>
@@ -227,3 +228,16 @@ nnoremap <Space>fg :<C-u>Rg
 
 
 nnoremap <Space>d. <Cmd>call vimrc#drop_or_tabedit('~/dict')<CR>
+
+" カレントバッファのパスを入力
+cnoremap <C-x> <C-r>%
+
+nnoremap x "_x
+
+" 便利
+onoremap ( t(
+onoremap ) t)
+onoremap [ t[
+onoremap ] t]
+onoremap { t{
+onoremap } t}

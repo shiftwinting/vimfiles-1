@@ -12,6 +12,7 @@ require('nvim-treesitter.configs').setup{
     'rust',
     'bash',
     'toml',
+    -- 'vim'
   },
   highlight = {
     enable = true,
@@ -30,6 +31,8 @@ require('nvim-treesitter.configs').setup{
         -- ['ib'] = '@block.inner',
         ['ac'] = '@call.outer',
         ['ic'] = '@call.inner',
+        ['a,'] = '@parameter.outer',
+        ['i,'] = '@parameter.inner',
       }
     },
     swap = {
