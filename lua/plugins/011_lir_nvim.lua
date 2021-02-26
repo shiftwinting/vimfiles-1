@@ -8,7 +8,7 @@ local utils = require 'lir.utils'
 local uv = vim.loop
 local Path = require 'plenary.path'
 
-local mmv = require 'lir.mmv.actions'.mmv
+-- local mmv = require 'lir.mmv.actions'.mmv
 local b_actions = require 'lir.bookmark.actions'
 local mark_actions = require 'lir.mark.actions'
 local mark_utils = require 'lir.mark.utils'
@@ -156,40 +156,28 @@ require 'lir'.setup {
   show_hidden_files = false,
   devicons_enable = true,
   mappings = {
+    ['u']     = nop,
+    ['U']     = nop,
+    ['o']     = nop,
+    ['r']     = nop,
+    ['p']     = nop,
+    ['i']     = nop,
+    ['I']     = nop,
+    ['x']     = nop,
+    ['s']     = nop,
+    ['S']     = nop,
+
     ['l']     = actions.edit,
     ['<C-s>'] = actions.split,
     ['<C-v>'] = actions.vsplit,
     ['<C-t>'] = actions.tabedit,
 
-    -- ['j'] = function()
-    --   if vim.fn.line('.') == vim.fn.line('$') then
-    --     feedkeys('gg')
-    --   else
-    --     feedkeys('j')
-    --   end
-    -- end,
-    --
-    -- ['k'] = function()
-    --   if vim.fn.line('.') == 1 then
-    --     feedkeys('G')
-    --   else
-    --     feedkeys('k')
-    --   end
-    -- end,
-    --
-    ['u']     = nop,
-    ['U']     = nop,
-    ['o']     = nop,
-    ['r']     = nop,
-
     ['h']     = actions.up,
     ['q']     = actions.quit,
 
     ['K']     = newfile,
-    -- ['O']     = newfile,
     ['R']     = actions.rename,
-    -- ['C']     = cp,
-    ['M']     = mmv,
+    -- ['M']     = mmv,
     ['@']     = cd,
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
@@ -198,18 +186,10 @@ require 'lir'.setup {
     ['B']     = b_actions.list,
     ['ba']    = b_actions.add,
 
-    -- ['u']    = m_actions.mark,
-    -- ['U']    = m_actions.unmark,
-    -- ['*'] = mark_actions.toggle_mark,
     ['J'] = function()
-      mark_actions.toggle_mark(lir.get_context())
+      mark_actions.toggle_mark()
       vim.cmd('normal! j')
     end,
-    -- ['K'] = function(context)
-    --   mark_actions.toggle_mark(context)
-    --   vim.cmd('normal! k')
-    -- end,
-
     ['C'] = clipboard_actions.copy,
     ['X'] = clipboard_actions.cut,
     ['P'] = clipboard_actions.paste,

@@ -24,8 +24,18 @@ nnoremap <silent><expr> <Space>vs. (&filetype ==# 'lua' ? '<Cmd>luafile %<CR>' :
 " update は変更があったときのみ保存するコマンド
 nnoremap <Space>w <Cmd>update<CR>
 nnoremap <Space>W <Cmd>update!<CR>
-nnoremap <Space>q <Cmd>quit<CR>
-nnoremap <Space>Q <Cmd>quit!<CR>
+
+function! s:quit(...) abort
+  let l:bang = get(a:, 1, v:false) ? '!' : ''
+  try
+    execute 'quit' .. l:bang
+  catch /E5601/
+    " Neovimでタブの最後のウィンドウで、float window があると、エラーになるため
+    execute 'tabclose' .. l:bang
+  endtry
+endfunction
+nnoremap <Space>q <Cmd>call <SID>quit()<CR>
+nnoremap <Space>Q <Cmd>call <SID>quit(v:true)<CR>
 
 " window 操作
 nnoremap sh <C-w>h

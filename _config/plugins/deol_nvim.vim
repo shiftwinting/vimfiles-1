@@ -154,6 +154,20 @@ function! s:tldr_line() abort
   call deol#send('tldr ' .. getline('.'))
 endfunction
 
+let s:shortcuts = {
+\ 'gcc': 'git commit',
+\ 'gca': 'git commit --ammend',
+\ 'gp':  'git push',
+\ 'gP':  'git push --force',
+\ 'gl':  'git pull'
+\}
+
+function! s:apply_shortcut_mappings() abort
+  for [l:lhs, l:cmd] in items(s:shortcuts)
+    exec printf('nnoremap <buffer><silent> %s <Cmd>call <SID>send("%s")<CR>', l:lhs, l:cmd)
+  endfor
+endfunction
+
 function! s:deol_editor_settings() abort
 
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
@@ -173,12 +187,9 @@ function! s:deol_editor_settings() abort
     " nvim-compe
     inoremap <buffer><silent><expr> <TAB> pumvisible() ? "\<C-n>" : compe#complete()
 
-    " git
-    nnoremap <buffer><silent> gcc <Cmd>call <SID>send('git commit')<CR>
-    nnoremap <buffer><silent> gca <Cmd>call <SID>send('git commit --amend')<CR>
-    nnoremap <buffer><silent> gp  <Cmd>call <SID>send('git push')<CR>
-    nnoremap <buffer><silent> gP  <Cmd>call <SID>set_line('git push --force')<CR>
-    nnoremap <buffer><silent> gl  <Cmd>call <SID>set_line('git pull')<CR>
+    call s:apply_shortcut_mappings()
+
+    nnoremap <buffer><silent> ? <Cmd>call <SID>open_help()<CR>
 
     " もとに戻す
     nnoremap <buffer> <C-o> <Nop>
