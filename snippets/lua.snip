@@ -113,3 +113,8 @@ abbr        while ... do
 	while ${1:cond} do
 		${0}
 	end
+
+snippet     log
+abbr        log.xxx~
+options     head
+	local _ = log.${1}() and log.$1(${0})

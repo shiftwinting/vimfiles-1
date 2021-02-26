@@ -286,7 +286,7 @@ function! s:my_ft_qf() abort
   nnoremap <buffer><silent> <A-l> :<C-u>call <SID>cnewer()<CR>
   nnoremap <buffer><silent> <A-h> :<C-u>call <SID>colder()<CR>
 
-  nnoremap <buffer><silent> <Space>fq <Cmd>Telescope quickfix<CR>
+  nnoremap <buffer><silent> <Space>fq <Cmd>lua require'plugins.telescope_nvim'.quickfix_in_qflist()<CR>
 
   " nnoremap <Plug>(qfpreview-toggle-auto-show) :<C-u>lua require'vimrc.qfpreview'.toggle_auto_preview()<CR>
   " nnoremap <Plug>(qfpreview-show)             :<C-u>lua require'vimrc.qfpreview'.show()<CR>
@@ -596,6 +596,9 @@ function! s:my_ft_vim() abort
   "   call altercmd#define('<buffer>', 'so', 'so %')
   " endif
 
+  " tagfunc を初期設定にする
+  setlocal tagfunc&
+
 endfunction
 
 
@@ -670,3 +673,19 @@ endfunction
 function! s:my_ft_make() abort
   setlocal iskeyword+=-
 endfunction
+
+
+" ====================
+" nlsp.log 用
+" ====================
+function! s:nlsp_log() abort
+  syntax match Green /^\[ \zsDEBUG\ze \]/
+  syntax match Yellow /^\[ \zsWARN\ze \]/
+  syntax match Aqua /^\[ \zsINFO\ze \]/
+  syntax match Red /^\[ \zsERROR\ze \]/
+
+  " syntax match Underlined /\v^[^\t]+\ze\t/
+  syntax match Red /^\[ ERROR \] .*/
+endfunction
+
+autocmd MyAutoCmd BufRead,BufWinEnter nlsp.log,lsp.log call <SID>nlsp_log()

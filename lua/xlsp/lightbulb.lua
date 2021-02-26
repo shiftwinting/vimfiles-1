@@ -1,10 +1,17 @@
+local a = vim.api
+local lightbulb = require'nvim-lightbulb'
+
 local M = {}
 
 local timer = nil
-local lightbulb = require'nvim-lightbulb'
 local LIGHTBULB_VIRTUAL_TEXT_NS = vim.api.nvim_create_namespace("nvim-lightbulb")
 
 local update_lightbulb = function()
+  local mode = a.nvim_get_mode().mode
+  if mode == '[is]' then
+    -- insert or select なら、表示しない
+    return
+  end
   lightbulb.update_lightbulb {
     sign = { enabled = false },
     virtual_text = { enabled = true, text = "  󿯦" }
@@ -38,7 +45,7 @@ end
 M.on_attach = function(bufnr)
   vim.cmd [[augroup my-lightbulb]]
   vim.cmd [[  autocmd!]]
-  vim.cmd [[  autocmd CursorMoved,CursorMovedI <buffer> lua require'xlsp.lightbulb'.on_timer()]]
+  vim.cmd [[  autocmd CursorMoved,CursorMovedI,InsertLeave <buffer> lua require'xlsp.lightbulb'.on_timer()]]
   vim.cmd [[augroup END]]
 end
 

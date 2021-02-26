@@ -62,6 +62,10 @@ Plug 'tyru/open-browser-github.vim'
 " Plug 'tyru/vim-altercmd'
 
 " Plug 'osyo-manga/vim-milfeulle'
+" Plug 'mattn/vim-nyancat'
+" Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
+Plug 'Yggdroot/indentLine'
 
 " ------------------------
 "  git
@@ -124,7 +128,8 @@ Plug 'Shougo/neosnippet-snippets'
 Plug 'neovim/nvim-lspconfig'
 Plug 'h-michael/lsp-ext.nvim'
 Plug 'weilbith/nvim-lsp-smag' " set tagfunc
-Plug 'glepnir/lspsaga.nvim'
+" Plug 'glepnir/lspsaga.nvim'
+Plug '~/.ghq/github.com/glepnir/lspsaga.nvim'
 
 Plug 'hrsh7th/nvim-compe'
   Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
@@ -134,12 +139,12 @@ Plug 'hrsh7th/nvim-compe'
   " Plug 'hrsh7th/vim-vsnip'
   Plug 'onsails/lspkind-nvim'
 Plug 'liuchengxu/vista.vim'
-" Plug 'nvim-lua/telescope.nvim'
-Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'
+Plug 'nvim-lua/telescope.nvim'
+" Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
-  Plug 'tamago324/telescope-sonictemplate.nvim'
-  Plug 'tamago324/telescope-openbrowser.nvim'
+  Plug '~/.ghq/github.com/tamago324/telescope-sonictemplate.nvim'
+  Plug '~/.ghq/github.com/tamago324/telescope-openbrowser.nvim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
@@ -150,13 +155,14 @@ Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   Plug 'nvim-treesitter/nvim-treesitter-refactor'
   " Plug 'nvim-treesitter/nvim-tree-docs'
+  Plug 'romgrk/nvim-treesitter-context'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'dstein64/nvim-scrollview'
 Plug 'monaqa/dial.nvim'
 Plug 'bfredl/nvim-miniyank'
 Plug 'antoinemadec/FixCursorHold.nvim' " -> input() で改行が使えなくなる問題がある? -> そういうわけでもなかった
 Plug '~/.ghq/github.com/tamago324/emmylua-annot-nvim-api'
-Plug 'kosayoda/nvim-lightbulb'
+" Plug 'kosayoda/nvim-lightbulb'
 Plug 'notomo/lreload.nvim'
 
 " Plug 'wbthomason/packer.nvim'
@@ -240,6 +246,8 @@ Plug '~/.ghq/github.com/tamago324/lir-bookmark.nvim'
 Plug '~/.ghq/github.com/tamago324/lir-mark.nvim'
 
 Plug '~/.ghq/github.com/tamago324/lua-gameoflife.nvim'
+
+" Plug '~/.ghq/github.com/tamago324/lua-nlsp'
 
 call plug#end()
 

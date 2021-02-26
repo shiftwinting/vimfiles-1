@@ -1,4 +1,5 @@
 local actions = require 'telescope.actions'
+local actions_state = require 'telescope.actions.state'
 local pickers = require 'telescope.pickers'
 local sorters = require 'telescope.sorters'
 local finders = require 'telescope.finders'
@@ -29,8 +30,8 @@ local list = function(opts)
     -- previewer = nil,
     sorter = sorters.get_fzy_sorter(),
     attach_mappings = function(prompt_bufnr)
-      actions.goto_file_selection_edit:replace(function()
-        local entry = actions.get_selected_entry()
+      actions.select_default:replace(function()
+        local entry = actions_state.get_selected_entry()
         actions.close(prompt_bufnr)
         vim.fn.setreg(vim.v.register, entry.value)
         print('Yank: ' .. entry.value)

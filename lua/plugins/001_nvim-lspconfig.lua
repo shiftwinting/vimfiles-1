@@ -72,7 +72,7 @@ local on_attach = function(client)
     vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, { silent = true, noremap = true })
   end
 
-  map( 'n', 'K',         [[<Cmd>lua require('lspsaga.hover').render_hover_doc()<CR>]])
+  map( 'n', 'K',         [[<Cmd>lua require'xlsp.lspsaga'.render_or_into_hover_doc()<CR>]])
   -- map( 'n', '<Space>fl', [[<Cmd>lua require'lspsaga.provider'.lsp_finder()<CR>]])
   map( 'n', '<Space>fl', [[<Cmd>lua require'plugins.telescope_nvim'.lsp_references()<CR>]])
   map( 'n', 'gd',        [[<cmd>lua require'lspsaga.provider'.preview_definition()<CR>]])
@@ -92,7 +92,7 @@ local on_attach = function(client)
   require'xlsp/lspsignicha'.setup_autocmds(bufnr)
   -- require'lspsignicha_ver2'.setup_autocmds(bufnr)
 
-  require'xlsp/lightbulb'.on_attach()
+  -- require'xlsp/lightbulb'.on_attach()
 end
 
 
@@ -101,6 +101,9 @@ do
 end
 
 local lspconfig = require'lspconfig'
+
+-- ログレベルを TRACE に設定
+vim.lsp.set_log_level(vim.log.levels.TRACE)
 
 -- lua
 lspconfig.sumneko_lua.setup{

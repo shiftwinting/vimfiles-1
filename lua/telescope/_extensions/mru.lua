@@ -1,4 +1,6 @@
 local actions = require 'telescope.actions'
+local actions_set = require 'telescope.actions.set'
+local actions_state = require 'telescope.actions.state'
 local pickers = require 'telescope.pickers'
 local sorters = require 'telescope.sorters'
 local finders = require 'telescope.finders'
@@ -79,6 +81,10 @@ local list = function(opts)
   opts = opts or {}
 
   local results = vim.api.nvim_eval('mr#mru#list()[:3000]')
+  results = vim.tbl_filter(function(x)
+    -- カレントバッファは除く
+    return x ~= vim.fn.expand('%:p')
+  end, results)
 
   pickers.new(opts, {
     prompt_title = 'MRU',
@@ -87,15 +93,15 @@ local list = function(opts)
       entry_maker = opts.entry_maker or gen_from_mru_better({results = results}),
     },
     sorter = opts.sorter or sorters.get_generic_fuzzy_sorter(),
-    attach_mappings = function(prompt_bufnr)
-      actions.goto_file_selection_edit:replace(function()
-        local entry = actions.get_selected_entry()
-        actions.close(prompt_bufnr)
-
-        print(entry.value)
-      end)
-      return true
-    end
+    -- attach_mappings = function(prompt_bufnr)
+    --   actions.select_default:replace(function()
+    --     local entry = actions_state.get_selected_entry()
+    --     actions.close(prompt_bufnr)
+    --
+    --     print(entry.value)
+    --   end)
+    --   return true
+    -- end
   }):find()
 end
 

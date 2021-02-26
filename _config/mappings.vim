@@ -1,5 +1,6 @@
 scriptencoding utf-8
 
+" nnoremap <C-z> <Nop>
 
 " " insert mode で細かく undo できるようにする
 " inoremap <Del> <C-g>u<Del>
@@ -241,3 +242,6 @@ onoremap [ t[
 onoremap ] t]
 onoremap { t{
 onoremap } t}
+onoremap " t"
+onoremap ' t'
+onoremap ` t`

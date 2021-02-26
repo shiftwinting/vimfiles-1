@@ -1,6 +1,8 @@
 if vim.api.nvim_call_function('FindPlugin', {'telescope.nvim'}) == 0 then do return end end
 
 local actions = require('telescope.actions')
+local actions_set = require'telescope.actions.set'
+local actions_state = require'telescope.actions.state'
 local sorters = require('telescope.sorters')
 -- local pickers = require('telescope.pickers')
 -- local finders = require('telescope.finders')
@@ -12,6 +14,7 @@ local entry_display = require('telescope.pickers.entry_display')
 local devicons = require'nvim-web-devicons'
 
 local Path = require'plenary.path'
+local a = vim.api
 
 -- local my_entry_maker = require('vimrc.telescope.make_entry')
 
@@ -66,10 +69,10 @@ require'telescope'.setup{
         ["<C-k>"] = actions.move_selection_previous,
 
         -- 開く
-        ["<C-t>"] = actions.goto_file_selection_tabedit,
-        ["<C-s>"] = actions.goto_file_selection_split,
-        ["<C-v>"] = actions.goto_file_selection_vsplit,
-        ["<CR>"]  = actions.goto_file_selection_edit,
+        ["<C-t>"] = actions.select_tab,
+        ["<C-s>"] = actions.select_horizontal,
+        ["<C-v>"] = actions.select_vertical,
+        ["<CR>"]  = actions.select_default,
 
         -- TODO:
       },
@@ -84,10 +87,10 @@ require'telescope'.setup{
         ["<Esc>"] = actions.close,
 
         -- 開く
-        ["<C-t>"] = actions.goto_file_selection_tabedit,
-        ["<C-s>"] = actions.goto_file_selection_split,
-        ["<C-v>"] = actions.goto_file_selection_vsplit,
-        ["<CR>"]  = actions.goto_file_selection_edit,
+        ["<C-t>"] = actions.select_tab,
+        ["<C-s>"] = actions.select_horizontal,
+        ["<C-v>"] = actions.select_vertical,
+        ["<CR>"]  = actions.select_default,
 
         -- switch insert mode
         ["<Tab>"] = function(_, _)
@@ -125,6 +128,8 @@ require'telescope'.setup{
         ['rust-analyzer manual']   = 'https://rust-analyzer.github.io/manual.html',
         ['luadoc']                 = 'https://keplerproject.github.io/luadoc/',
         ['awesome lua']            = 'https://github.com/uhub/awesome-lua',
+        ['lsp specification']      = 'https://microsoft.github.io/language-server-protocol/specifications/specification-current/',
+        ['git.io']                 = 'https://git.io/',
       }
     }
   }
@@ -167,7 +172,6 @@ local nearest_ancestor = function(markers, path)
   while p:absolute() ~= root do
     for _, name in ipairs(markers) do
       if p:joinpath(name):exists() then
-        pprint(p:absolute())
         return p:absolute()
       end
     end
@@ -315,12 +319,18 @@ local buffers = function()
     return true
   end
 
+  local ignore_current_buffer = true
+
   local gen_from_buffer_like_leaderf = function(opts)
     opts = opts or {}
     local default_icons, _ = devicons.get_icon('file', '', {default = true})
 
     local bufnrs = vim.tbl_filter(function(b)
-      return 1 == vim.fn.buflisted(b) and is_valid_bufnr(b)
+      -- if ignore_current_buffer and (b == vim.api.nvim_get_current_buf()) then
+      --   -- もし、カレントバッファだったらだめ
+      --   return false
+      -- end
+      return vim.fn.buflisted(b) == 1 and is_valid_bufnr(b)
     end, vim.api.nvim_list_bufs())
 
     local max_bufnr = math.max(unpack(bufnrs))
@@ -339,6 +349,7 @@ local buffers = function()
       items = {
         { width = bufnr_width },
         { width = 4 },
+        { width = 1 }, -- 同じプロジェクト内かどうか？
         { width = vim.fn.strwidth(default_icons) },
         { width = max_bufname },
         { remaining = true },
@@ -352,10 +363,20 @@ local buffers = function()
       return displayer {
         {entry.bufnr, "TelescopeResultsNumber"},
         {entry.indicator, "TelescopeResultsComment"},
+        entry.mark_in_same_project,
         {entry.devicons, entry.devicons_highlight},
         entry.file_name,
         {entry.dir_name, "Comment"}
       }
+    end
+
+    local root_dir
+    do
+      local dir = vim.fn.expand('%:p')
+      if dir == '' then
+        dir = vim.fn.getcwd()
+      end
+      root_dir = nearest_ancestor({'.git/'}, dir)
     end
 
     return function(entry)
@@ -370,6 +391,13 @@ local buffers = function()
       local file_name = vim.fn.fnamemodify(bufname, ':p:t')
 
       local icons, highlight = devicons.get_icon(bufname, string.match(bufname, '%a+$'), { default = true })
+
+      -- プロジェクト内のファイルなら、印をつける
+      -- 現在のバッファのプロジェクトを見つける
+      local mark_in_same_project = ''
+      if bufname:match('^'..root_dir) then
+        mark_in_same_project = '*'
+      end
 
       return {
         valid = is_valid_bufnr(entry.bufnr),
@@ -388,6 +416,8 @@ local buffers = function()
 
         file_name = file_name,
         dir_name = dir_name,
+
+        mark_in_same_project = mark_in_same_project,
       }
     end
   end
@@ -396,6 +426,7 @@ local buffers = function()
     -- layout_strategy = 'vertical',
     shorten_path = false,
     show_all_buffers = true,
+    ignore_current_buffer = ignore_current_buffer,
     sorter = get_fzy_sorter_use_list({
       list = vim.fn['mr#mru#list'](),
       get_needle = function(entry)
@@ -408,23 +439,15 @@ local buffers = function()
 
     -- <C-t> で他のバッファ
     attach_mappings = function(prompt_bufnr, map)
-      actions.goto_file_selection_tabedit:replace(function ()
-        local selection = actions.get_selected_entry(prompt_bufnr)
+      actions.select_default:replace(function ()
+        local selection = actions_state.get_selected_entry()
         actions.close(prompt_bufnr)
         local val = selection.value
-        vim.fn['vimrc#drop_or_tabedit'](val)
-        -- vim.api.nvim_command(string.format('drop %s', val))
-      end)
-
-      actions.goto_file_selection_edit:replace(function ()
-        local selection = actions.get_selected_entry(prompt_bufnr)
-        actions.close(prompt_bufnr)
-        local val = selection.value
-        vim.api.nvim_command(string.format('edit %s', val))
+        vim.api.nvim_command(string.format('drop %s', val))
       end)
 
       local function delete_buffer()
-        local selection = actions.get_selected_entry(prompt_bufnr)
+        local selection = actions_state.get_selected_entry(prompt_bufnr)
         pcall(vim.cmd, string.format([[silent bdelete! %s]], selection.bufnr))
 
         -- TODO: refresh
@@ -511,12 +534,12 @@ local mru = function()
     }),
     -- entry_maker = make_entry.gen_from_file(),
     attach_mappings = function(prompt_bufnr, _)
-      actions.goto_file_selection_tabedit:replace(function ()
-        local selection = actions.get_selected_entry()
+      actions.select_default:replace(function ()
+        local selection = actions_state.get_selected_entry()
         actions.close(prompt_bufnr)
         local val = selection.value
-        vim.fn['vimrc#drop_or_tabedit'](val)
-        -- vim.api.nvim_command(string.format('drop %s', val))
+        -- vim.fn['vimrc#drop_or_tabedit'](val)
+        vim.api.nvim_command(string.format('drop %s', val))
       end)
       return true
     end
@@ -544,8 +567,8 @@ local ghq = function()
       }
     end,
     attach_mappings = function(prompt_bufnr, _)
-      actions.goto_file_selection_edit:replace(function()
-        local val = actions.get_selected_entry().value
+      actions.select_default:replace(function()
+        local val = actions_state.get_selected_entry().value
         actions.close(prompt_bufnr)
         vim.api.nvim_command('tabnew')
         vim.api.nvim_command(string.format('tcd %s | edit .', val))
@@ -604,7 +627,7 @@ end
 local function commands()
   local function make_def_func(is_xmap)
     return function(prompt_bufnr, _)
-      local entry = actions.get_selected_entry()
+      local entry = actions_state.get_selected_entry()
       actions.close(prompt_bufnr)
       local val = entry.value
       local cmd = string.format([[%s%s ]], (is_xmap and "'<,'>" or ''), val.name)
@@ -626,7 +649,7 @@ local function commands()
 
   local function make_edit_command_func(is_xmap)
     return function(prompt_bufnr)
-      local entry = actions.get_selected_entry()
+      local entry = actions_state.get_selected_entry()
       actions.close(prompt_bufnr)
       local val = entry.value
       local cmd = string.format([[:%s%s ]], (is_xmap and "'<,'>" or ''), val.name)
@@ -673,7 +696,7 @@ local function commands()
       sorter = get_commands_sorter(),
       attach_mappings = function(prompt_bufnr, map)
 
-        actions.goto_file_selection_edit:replace(make_def_func())
+        actions.select_default:replace(make_def_func())
 
         map('i', '<C-e>', make_edit_command_func())
 
@@ -686,7 +709,7 @@ local function commands()
     require('telescope.builtin').commands {
       sorter = get_commands_sorter(),
       attach_mappings = function(prompt_bufnr, map)
-        actions.goto_file_selection_edit:replace(make_def_func(true))
+        actions.select_default:replace(make_def_func(true))
         map('i', '<C-e>', make_edit_command_func(true))
         return true
       end,
@@ -707,6 +730,12 @@ local function commands()
 end
 
 local n_commands, x_commands = commands()
+
+local quickfix_in_qflist = function()
+  require'telescope.builtin.internal'.quickfix {
+    default_selection_index = vim.fn.line('.')
+  }
+end
 
 local mappings = {
   ['n<Space>fv'] = {find_vimfiles},
@@ -741,5 +770,6 @@ local lsp_references = function()
 end
 
 return {
-  lsp_references = lsp_references
+  lsp_references = lsp_references,
+  quickfix_in_qflist = quickfix_in_qflist,
 }
