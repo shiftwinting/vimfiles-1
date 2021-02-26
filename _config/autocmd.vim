@@ -677,6 +677,14 @@ endfunction
 
 
 " ====================
+" TelescopePrompt
+" ====================
+function! s:my_ft_TelescopePrompt() abort
+  inoremap <buffer> <C-o> <C-r>+
+endfunction
+
+
+" ====================
 " nlsp.log 用
 " ====================
 function! s:nlsp_log() abort
@@ -688,5 +696,4 @@ function! s:nlsp_log() abort
   " syntax match Underlined /\v^[^\t]+\ze\t/
   syntax match Red /^\[ ERROR \] .*/
 endfunction
-
 autocmd MyAutoCmd BufRead,BufWinEnter nlsp.log,lsp.log call <SID>nlsp_log()

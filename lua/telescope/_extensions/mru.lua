@@ -7,6 +7,8 @@ local finders = require 'telescope.finders'
 local entry_display = require 'telescope.pickers.entry_display'
 local devicons = require'nvim-web-devicons'
 
+local nearest_ancestor = require'xpath'.nearest_ancestor
+
 -----------------------------
 -- Private
 -----------------------------
@@ -23,9 +25,19 @@ local gen_from_mru_better = function(opts)
     )
   )
 
+  local root_dir
+  do
+    local dir = vim.fn.expand('%:p')
+    if dir == '' then
+      dir = vim.fn.getcwd()
+    end
+    root_dir = nearest_ancestor({'.git/'}, dir)
+  end
+
   local displayer = entry_display.create {
     separator = " ",
     items = {
+      { width = 1 },
       { width = vim.fn.strwidth(default_icons) },
       -- { width = max_filename },
       { width = 35 },
@@ -38,6 +50,7 @@ local gen_from_mru_better = function(opts)
   -- リストの場合、ハイライトする
   local make_display = function(entry)
     return displayer {
+      entry.mark_in_same_project,
       {entry.devicons, entry.devicons_highlight},
       entry.file_name,
       {entry.dir_name, "Comment"}
@@ -50,6 +63,13 @@ local gen_from_mru_better = function(opts)
     local file_name = vim.fn.fnamemodify(entry, ':p:t')
 
     local icons, highlight = devicons.get_icon(entry, string.match(entry, '%a+$'), { default = true })
+
+    -- プロジェクト内のファイルなら、印をつける
+    -- 現在のバッファのプロジェクトを見つける
+    local mark_in_same_project = ' '
+    if root_dir ~= '' and entry:match('^'..root_dir) then
+      mark_in_same_project = '*'
+    end
 
     return {
       valid = true,
@@ -68,6 +88,8 @@ local gen_from_mru_better = function(opts)
 
       file_name = file_name,
       dir_name = dir_name,
+
+      mark_in_same_project = mark_in_same_project,
     }
   end
 end
