@@ -185,6 +185,7 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer> <C-i> <Nop>
     
     inoremap <buffer> <C-h> <C-h>
+    nnoremap <buffer> <C-h> <C-h>
     inoremap <buffer> <BS>  <BS>
     nnoremap <buffer> <BS>  <BS>
 

@@ -300,6 +300,7 @@ function! s:my_ft_qf() abort
   "
   " nnoremap <buffer><silent> <CR> :<C-u>lua require'vimrc.qfpreview'.edit()<CR>
 
+  wincmd J
   resize 20
   setlocal signcolumn=no
   setlocal cursorline

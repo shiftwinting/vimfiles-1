@@ -320,27 +320,30 @@ local buffers = function()
   end
 
   local ignore_current_buffer = true
+  local current_bufnr = a.nvim_get_current_buf()
 
   local gen_from_buffer_like_leaderf = function(opts)
     opts = opts or {}
     local default_icons, _ = devicons.get_icon('file', '', {default = true})
 
     local bufnrs = vim.tbl_filter(function(b)
-      -- if ignore_current_buffer and (b == vim.api.nvim_get_current_buf()) then
+      -- if ignore_current_buffer and (b == current_bufnr) then
       --   -- もし、カレントバッファだったらだめ
       --   return false
       -- end
       return vim.fn.buflisted(b) == 1 and is_valid_bufnr(b)
     end, vim.api.nvim_list_bufs())
 
-    local max_bufnr = math.max(unpack(bufnrs))
-    local bufnr_width = #tostring(max_bufnr)
+    local bufnr_width = #tostring(math.max(unpack(bufnrs)))
 
     local max_bufname = math.max(
       unpack(
-        vim.tbl_map(function(bufnr)
-          return vim.fn.strdisplaywidth(vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':p:t'))
-        end, bufnrs)
+        vim.list_extend(
+          {vim.fn.strdisplaywidth('[No Name]')},
+          vim.tbl_map(function(bufnr)
+            return vim.fn.strdisplaywidth(vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':p:t'))
+          end, bufnrs)
+        )
       )
     )
 
@@ -348,7 +351,7 @@ local buffers = function()
       separator = " ",
       items = {
         { width = bufnr_width },
-        { width = 4 },
+        -- { width = 4 },
         { width = 1 }, -- 同じプロジェクト内かどうか？
         { width = vim.fn.strwidth(default_icons) },
         { width = max_bufname },
@@ -362,7 +365,7 @@ local buffers = function()
     local make_display = function(entry)
       return displayer {
         {entry.bufnr, "TelescopeResultsNumber"},
-        {entry.indicator, "TelescopeResultsComment"},
+        -- {entry.indicator, "TelescopeResultsComment"},
         entry.mark_in_same_project,
         {entry.devicons, entry.devicons_highlight},
         entry.file_name,
@@ -382,10 +385,10 @@ local buffers = function()
     return function(entry)
       local bufname = entry.info.name ~= "" and entry.info.name or '[No Name]'
 
-      local hidden = entry.info.hidden == 1 and 'h' or 'a'
-      local readonly = vim.api.nvim_buf_get_option(entry.bufnr, 'readonly') and '=' or ' '
-      local changed = entry.info.changed == 1 and '+' or ' '
-      local indicator = entry.flag .. hidden .. readonly .. changed
+      -- local hidden = entry.info.hidden == 1 and 'h' or 'a'
+      -- local readonly = vim.api.nvim_buf_get_option(entry.bufnr, 'readonly') and '=' or ' '
+      -- local changed = entry.info.changed == 1 and '+' or ' '
+      -- local indicator = entry.flag .. hidden .. readonly .. changed
 
       local dir_name = vim.fn.fnamemodify(bufname, ':p:h')
       local file_name = vim.fn.fnamemodify(bufname, ':p:t')
@@ -410,7 +413,7 @@ local buffers = function()
         bufnr = entry.bufnr,
 
         lnum = entry.info.lnum ~= 0 and entry.info.lnum or 1,
-        indicator = indicator,
+        -- indicator = indicator,
         devicons = icons,
         devicons_highlight = highlight,
 

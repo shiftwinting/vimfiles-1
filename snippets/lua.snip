@@ -118,3 +118,14 @@ snippet     log
 abbr        log.xxx~
 options     head
 	local _ = log.${1}() and log.$1(${0})
+
+snippet     do
+abbr        do~
+options     head
+	do
+		${0}
+	end
+
+snippet     fmt
+abbr        fmt~
+	string.format('${0}', )
