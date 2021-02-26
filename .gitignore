@@ -12,3 +12,5 @@ tags
 
 _config/LeaderF-github-stars.vim
 .config/
+
+.emmylua_annot_nvim_api/

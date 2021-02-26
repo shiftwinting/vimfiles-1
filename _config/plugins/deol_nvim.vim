@@ -176,7 +176,7 @@ function! s:deol_editor_settings() abort
     " git
     nnoremap <buffer><silent> gcc <Cmd>call <SID>send('git commit')<CR>
     nnoremap <buffer><silent> gca <Cmd>call <SID>send('git commit --amend')<CR>
-    nnoremap <buffer><silent> gp  <Cmd>call <SID>set_line('git push')<CR>
+    nnoremap <buffer><silent> gp  <Cmd>call <SID>send('git push')<CR>
     nnoremap <buffer><silent> gP  <Cmd>call <SID>set_line('git push --force')<CR>
     nnoremap <buffer><silent> gl  <Cmd>call <SID>set_line('git pull')<CR>
 
