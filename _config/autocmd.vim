@@ -688,12 +688,19 @@ endfunction
 " nlsp.log 用
 " ====================
 function! s:nlsp_log() abort
-  syntax match Green /^\[ \zsDEBUG\ze \]/
-  syntax match Yellow /^\[ \zsWARN\ze \]/
-  syntax match Aqua /^\[ \zsINFO\ze \]/
-  syntax match Red /^\[ \zsERROR\ze \]/
+  syntax match Green /\v^..DEBUG[^\t]+\ze\t/
+  syntax match Yellow /\v^..WARN[^\t]+\ze\t/
+  syntax match Aqua /\v^..INFO[^\t]+\ze\t/
+  syntax match Red /\v^..ERROR[^\t]+\ze\t/
 
   " syntax match Underlined /\v^[^\t]+\ze\t/
-  syntax match Red /^\[ ERROR \] .*/
+  " syntax match Red /^\[ ERROR \] .*/
+  syntax match Comment ?\v.*"\$/status/report".*?
+  syntax match Title /client <--- server/
 endfunction
 autocmd MyAutoCmd BufRead,BufWinEnter nlsp.log,lsp.log call <SID>nlsp_log()
+
+" augroup MyNlsp
+"   autocmd!
+"   autocmd User NLspProgressUpdate echomsg 'hello'
+" augroup END

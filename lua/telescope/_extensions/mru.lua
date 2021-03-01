@@ -67,7 +67,7 @@ local gen_from_mru_better = function(opts)
     -- プロジェクト内のファイルなら、印をつける
     -- 現在のバッファのプロジェクトを見つける
     local mark_in_same_project = ' '
-    if root_dir ~= '' and entry:match('^'..root_dir) then
+    if root_dir ~= '' and vim.startswith(entry, root_dir) then
       mark_in_same_project = '*'
     end
 

@@ -103,7 +103,7 @@ end
 local lspconfig = require'lspconfig'
 
 -- ログレベルを TRACE に設定
-vim.lsp.set_log_level(vim.log.levels.TRACE)
+vim.lsp.set_log_level(vim.log.levels.DEBUG)
 
 -- lua
 lspconfig.sumneko_lua.setup{

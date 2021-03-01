@@ -276,6 +276,6 @@ set updatetime=500
 
 if executable("rg")
   " set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --glob\ "!*/.mypy_cache/*"\ "!.node_modules/*"\ "!tags*"
-  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+  set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --glob\ '!tags*'
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif

@@ -31,10 +31,12 @@
 # 	${0}
 
 snippet     lam
-abbr        function(${1}) ... end
+abbr        lam~
+options     word
 	function(${1})
 		${0}
 	end
+
 
 snippet     for
 abbr        for i = n, end do ... end
@@ -129,3 +131,15 @@ options     head
 snippet     fmt
 abbr        fmt~
 	string.format('${0}', )
+
+snippet     forin
+abbr        forin~
+	for ${1} in ${2} do
+		${0}
+    end
+
+snippet     if
+abbr        if~
+	if ${1} then
+		${0}
+	end

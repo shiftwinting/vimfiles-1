@@ -22,7 +22,6 @@ Plug 'junegunn/vim-plug'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'vim-jp/syntax-vim-ex'
 " Plug 'vim-jp/vital.vim'
-Plug 'rbtnn/vim-gloaded'
 
 Plug 'andymass/vim-matchup'
 Plug 'glidenote/memolist.vim'
@@ -35,12 +34,12 @@ Plug 'svermeulen/vim-cutlass'
 Plug 'tomtom/tcomment_vim'
 Plug 'voldikss/vim-translator', { 'on': ['TranslateW', 'TranslateR', 'Translate'] }
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
+" Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
 Plug 'kana/vim-repeat'
 Plug 'hrsh7th/vim-eft'
 Plug 'machakann/vim-sandwich'
 Plug 'machakann/vim-highlightedyank'
-Plug 'machakann/vim-swap'
+" Plug 'machakann/vim-swap'
 Plug 'mattn/sonictemplate-vim'
 Plug 'mattn/vim-findroot'
 " Plug 'lambdalisue/suda.vim'
@@ -76,7 +75,7 @@ Plug 'Yggdroot/indentLine'
 
 " yank github link
 Plug 'knsh14/vim-github-link', { 'on': ['GetCurrentCommitLink', 'GetCurrentBranchLink', 'GetCommitLink'] }
-Plug 'cohama/agit.vim'
+Plug 'cohama/agit.vim', { 'on': ['Agit', 'AgitFile'] }
 
 " sign
 Plug 'lewis6991/gitsigns.nvim'
@@ -84,7 +83,7 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'gisphm/vim-gitignore'
 
 " fugitive
-Plug 'tpope/vim-fugitive',
+Plug 'tpope/vim-fugitive'
 " Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-dispatch'
 " Plug 'skanehira/gh.vim'

@@ -13,10 +13,14 @@ local previewers = require('telescope.previewers')
 local entry_display = require('telescope.pickers.entry_display')
 local devicons = require'nvim-web-devicons'
 
+local parsers = require('nvim-treesitter.parsers')
+
 local Path = require'plenary.path'
 local a = vim.api
 
 local nearest_ancestor = require'xpath'.nearest_ancestor
+local get_default = require'telescope.utils'.get_default
+local utils = require'telescope.utils'
 
 -- local my_entry_maker = require('vimrc.telescope.make_entry')
 
@@ -286,7 +290,7 @@ local buffers = function()
   end
 
   local ignore_current_buffer = true
-  local current_bufnr = a.nvim_get_current_buf()
+  -- local current_bufnr = a.nvim_get_current_buf()
 
   local gen_from_buffer_like_leaderf = function(opts)
     opts = opts or {}
@@ -341,7 +345,7 @@ local buffers = function()
 
     local root_dir
     do
-      local dir = vim.fn.expand('%:p')
+      local dir = vim.fn.expand('%:p:h')
       if dir == '' then
         dir = vim.fn.getcwd()
       end
@@ -364,7 +368,7 @@ local buffers = function()
       -- プロジェクト内のファイルなら、印をつける
       -- 現在のバッファのプロジェクトを見つける
       local mark_in_same_project = ''
-      if bufname:match('^'..root_dir) then
+      if root_dir ~= '' and vim.startswith(bufname, root_dir) then
         mark_in_same_project = '*'
       end
 
@@ -536,13 +540,16 @@ local ghq = function()
       }
     end,
     attach_mappings = function(prompt_bufnr, _)
-      actions.select_default:replace(function()
+      local tabnew = function()
         local val = actions_state.get_selected_entry().value
         actions.close(prompt_bufnr)
         vim.api.nvim_command('tabnew')
         vim.api.nvim_command(string.format('tcd %s | edit .', val))
         -- vim.api.nvim_command(string.format([[tcd %s | lua require'lir.float'.toggle()]], val))
-      end)
+      end
+
+      actions.select_default:replace(tabnew)
+      actions.select_tab:replace(tabnew)
       return true
     end
   }
@@ -555,29 +562,167 @@ local filetypes = function()
   require'telescope.builtin'.filetypes {}
 end
 
---
--- -- @Summary current_buffer_tags
--- -- @Description
--- local current_buffer_tags = function()
---   local tagfiles = vim.fn.tagfiles()
---   if #tagfiles > 0 then
---     tagfile = tagfiles[1]
---   else
---     tagfile = nil
---   end
---   print(tagfile)
---   require'telescope.builtin'.current_buffer_tags {
---     ctags_file = tagfile
---   }
--- end
 
-local lsp_document_symbols = function()
-  -- TODO: LSP が使えない場合、 current_buffer_tags を使うようにする
-  require'telescope.builtin'.lsp_document_symbols {
-    show_line = false,
+-- @Summary current_buffer_tags
+-- @Description
+local current_buffer_tags = function()
+  local tagfiles = vim.fn.tagfiles()
+  if #tagfiles > 0 then
+    tagfile = tagfiles[1]
+  else
+    tagfile = nil
+  end
+  print(tagfile)
+  require'telescope.builtin'.current_buffer_tags {
+    ctags_file = tagfile
   }
 end
 
+
+local lsp_type_highlight = {
+  ["Class"]    = "TelescopeResultsClass",
+  ["Constant"] = "TelescopeResultsConstant",
+  ["Field"]    = "TelescopeResultsField",
+  ["Function"] = "TelescopeResultsFunction",
+  ["Method"]   = "TelescopeResultsMethod",
+  ["Property"] = "TelescopeResultsOperator",
+  ["Struct"]   = "TelescopeResultsStruct",
+  ["Variable"] = "TelescopeResultsVariable",
+}
+
+
+---
+---@param opts table
+---       opts.bufnr
+---       opts.ignore_filename
+---       opts.show_line
+---       opts.tail_path
+---       opts.hide_filename
+---       opts.shorten_path
+---       opts.symbol_highlights
+---       opts.only_method_or_func
+local gen_from_lsp_symbols = function(opts)
+  opts = opts or {}
+  local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
+
+  local display_items = {
+    { width = 25 },       -- symbol
+    { width = 8 },        -- symbol type
+    { remaining = true }, -- filename{:optional_lnum+col} OR content preview
+  }
+
+  if opts.ignore_filename and opts.show_line then
+    table.insert(display_items, 2, { width = 6 })
+  end
+
+  local displayer = entry_display.create {
+    separator = " ",
+    hl_chars = { ['['] = 'TelescopeBorder', [']'] = 'TelescopeBorder' },
+    items = display_items
+  }
+
+  local make_display = function(entry)
+    local msg
+
+    -- what to show in the last column: filename or symbol information
+    if opts.ignore_filename then -- ignore the filename and show line preview instead
+      -- TODO: fixme - if ignore_filename is set for workspace, bufnr will be incorrect
+      msg = vim.api.nvim_buf_get_lines(
+          bufnr,
+          entry.lnum - 1,
+          entry.lnum,
+          false
+        )[1] or ''
+      msg = vim.trim(msg)
+    else
+      local filename = ""
+      opts.tail_path = get_default(opts.tail_path, true)
+
+      if not opts.hide_filename then -- hide the filename entirely
+        filename = entry.filename
+        if opts.tail_path then
+          filename = utils.path_tail(filename)
+        elseif opts.shorten_path then
+          filename = utils.path_shorten(filename)
+        end
+      end
+
+      if opts.show_line then -- show inline line info
+        filename = filename .. " [" ..entry.lnum .. ":" .. entry.col .. "]"
+      end
+      msg = filename
+    end
+
+    local type_highlight = opts.symbol_highlights or lsp_type_highlight
+    local display_columns = {
+      entry.symbol_name,
+      {entry.symbol_type:lower(), type_highlight[entry.symbol_type], type_highlight[entry.symbol_type]},
+      msg,
+    }
+
+    if opts.ignore_filename and opts.show_line then
+      table.insert(display_columns, 2, {entry.lnum .. ":" .. entry.col, "TelescopeResultsLineNr"})
+    end
+
+    return displayer(display_columns)
+  end
+
+  return function(entry)
+    local filename = entry.filename or vim.api.nvim_buf_get_name(entry.bufnr)
+    local symbol_msg = entry.text:gsub(".* | ", "")
+    local symbol_type, symbol_name = symbol_msg:match("%[(.+)%]%s+(.*)")
+
+    local ordinal = ""
+    if not opts.ignore_filename and filename then
+      ordinal = filename .. " "
+    end
+    ordinal = ordinal ..  symbol_name .. " " .. symbol_type
+
+    -- もし、メソッドか関数のみの指定があったら、絞り込む
+    local is_valid = true
+    if get_default(opts.only_method_or_func, false) then
+      is_valid = symbol_type == 'Function' or symbol_type == 'Method'
+    end
+
+    return {
+      valid = is_valid,
+
+      value = entry,
+      ordinal = ordinal,
+      display = make_display,
+
+      filename = filename,
+      lnum = entry.lnum,
+      col = entry.col,
+      symbol_name = symbol_name,
+      symbol_type = symbol_type,
+      start = entry.start,
+      finish = entry.finish,
+    }
+  end
+end
+
+local lsp_document_symbols = function()
+  require'telescope.builtin'.lsp_document_symbols {
+    show_line = false,
+    entry_maker = gen_from_lsp_symbols{
+      only_method_or_func = true,
+      hide_filename = true,
+    }
+  }
+end
+
+
+-- local treesitter_or_current_buffer_tags = function()
+--   if parsers.has_parser() then
+--     require('telescope.builtin.files').treesitter {
+--       show_line = false
+--     }
+--   else
+--     -- もし、treesitter がなければ、 ctags を使う
+--     current_buffer_tags()
+--   end
+-- end
 
 -- @Summary sonictemplate
 -- @Description
@@ -717,6 +862,7 @@ local mappings = {
   ['n<Space>fq'] = {ghq},
   -- ['n<Space>fs'] = {current_buffer_tags},
   ['n<Space>fs'] = {lsp_document_symbols},
+  -- ['n<Space>fs'] = {treesitter_or_current_buffer_tags},
   ['n<Space>;t'] = {sonictemplate},
   ['n<Space>fo'] = {openbrowser},
   ['n<A-x>']     = {n_commands},

@@ -18,6 +18,10 @@ local last_sig_info = {
 local M = {
   -- _winnr,
   _bufnr = a.nvim_create_buf(false, true),
+  --- リクエストをキャンセルするための関数
+  _cancel_func = nil,
+  -- リクエストをキャンセルしたか？ (ウィンドウを表示したくないため)
+  _canceled = false,
 }
 
 local ns = a.nvim_create_namespace('lspsignicha')
@@ -385,6 +389,10 @@ local make_signature_help_handler = function(funcname, fcall_node)
     -- 関数名より前と、それ以降に分割
     local pre_text, signature_text = split_signature_label(signature.label, funcname)
 
+    if M._canceled then
+      return
+    end
+
     -- 関数がある行にfloat windowを表示する
     M._winnr= open_floating_window({signature_text})
     update_highlight_param(signature, funcname, M._bufnr)
@@ -454,7 +462,7 @@ local show_sighelp_use_ts = function()
   if last_sig_info.fcall_node_range ~= table.concat({fcall_node:range()}, '') or
       not (M._winnr and a.nvim_win_is_valid(M._winnr)) then
     local params = make_position_params(line, col)
-    request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, fcall_node))
+    _, M._cancel_func = request('textDocument/signatureHelp', params, make_signature_help_handler(funcname, fcall_node))
   else
     -- 同じなら、ただ単に、ウィンドウを動かして、ハイライトを変えるだけ
     update_winpos_sig_help()
@@ -516,6 +524,8 @@ local show_signature_help = function()
     -- insert mode じゃない場合、終わり
     return
   end
+
+  M._canceled = false
 
   -- if parsers.has_parser() and vim.bo.filetype ~= 'vim' then
   if parsers.has_parser() then
@@ -586,6 +596,14 @@ end
 
 
 M._clear = function()
+  if M._cancel_func then
+    -- リクエストをキャンセル
+    M._cancel_func()
+    M._cancel_func = nil
+    -- last_sig_info.fcall_node_range どうしようかな
+    M._canceled = true
+  end
+
   if M._winnr and a.nvim_win_is_valid(M._winnr) then
     a.nvim_win_close(M._winnr, true)
     M._winnr = nil

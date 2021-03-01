@@ -38,6 +38,8 @@ nnoremap <Space>q <Cmd>call <SID>quit()<CR>
 nnoremap <Space>Q <Cmd>call <SID>quit(v:true)<CR>
 
 " window 操作
+nnoremap s <Nop>
+
 nnoremap sh <C-w>h
 nnoremap sj <C-w>j
 nnoremap sk <C-w>k
@@ -238,7 +240,7 @@ command! -nargs=1 Rg call <SID>ripgrep(<q-args>)
 nnoremap <Space>fg :<C-u>Rg 
 
 
-nnoremap <Space>d. <Cmd>call vimrc#drop_or_tabedit('~/dict')<CR>
+" nnoremap <Space>d. <Cmd>call vimrc#drop_or_tabedit('~/dict')<CR>
 
 " カレントバッファのパスを入力
 cnoremap <C-x> <C-r>%
@@ -255,3 +257,6 @@ onoremap } t}
 onoremap " t"
 onoremap ' t'
 onoremap ` t`
+
+nnoremap <Space>dt <Cmd>windo diffthis<CR>
+nnoremap <Space>do <Cmd>windo diffoff<CR>
