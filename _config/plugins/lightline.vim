@@ -75,6 +75,7 @@ endfunction
 function! L_filename() abort
     " 無名ファイルは %:t が '' となる
     return &filetype ==# 'qf' ? '[QuickFix]' :
+    \       &filetype ==# 'deoledit' ? fnamemodify(getcwd(), ':~') :
     \       (expand('%:t') !=# '' ? expand('%:t') : 'No Name') . (&modifiable && &modified ? '[+]' : '')
 endfunction
 

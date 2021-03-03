@@ -2,16 +2,11 @@ scriptencoding utf-8
 
 let g:plug_install_dir = expand('$MYVIMFILES/.plugged')
 
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
-endif
-
-" autocmd VimEnter *
-" \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-" \|   PlugInstall --sync | q
-" \| endif
+" if empty(glob('~/.config/nvim/autoload/plug.vim'))
+"   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+"     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"   autocmd VimEnter * PlugInstall | source $MYVIMRC
+" endif
 
 packadd cfilter
 
@@ -43,7 +38,7 @@ Plug 'machakann/vim-highlightedyank'
 " Plug 'machakann/vim-swap'
 Plug 'mattn/sonictemplate-vim'
 Plug 'mattn/vim-findroot'
-" Plug 'lambdalisue/suda.vim'
+Plug 'lambdalisue/suda.vim'
 " Plug 'lambdalisue/vim-protocol'
 Plug 'lambdalisue/mr.vim'
 Plug 'lambdalisue/mr-quickfix.vim', { 'on': ['Mru', 'Mrw'] }
