@@ -519,25 +519,14 @@ local get_lnum_trigger_chars = function()
   return false
 end
 
-local show_signature_help = function()
-  if not string.find(a.nvim_get_mode().mode, 'i') then
-    -- insert mode じゃない場合、終わり
-    return
-  end
 
-  M._canceled = false
-
-  -- if parsers.has_parser() and vim.bo.filetype ~= 'vim' then
-  if parsers.has_parser() then
-    return show_sighelp_use_ts()
-  end
-
+local show_sighelp = function()
   -- signature_help の機能だけを使って、表示する
   local triggered = get_lnum_trigger_chars()
 
   if triggered then
     local params = lsp_util.make_position_params()
-    request('textDocument/signatureHelp', params, function(_, _, result)
+    _, M._cancel_func = request('textDocument/signatureHelp', params, function(_, _, result)
       if not (result and type(result) == 'table' and result.signatures and result.signatures[1]) then
         -- print('No signature help available')
         return
@@ -571,6 +560,23 @@ local show_signature_help = function()
       -- end
 
     end)
+  end
+end
+
+local show_signature_help = function()
+  if not string.find(a.nvim_get_mode().mode, 'i') then
+    -- insert mode じゃない場合、終わり
+    return
+  end
+
+  M._canceled = false
+
+  -- if parsers.has_parser() and vim.bo.filetype ~= 'vim' then
+  if parsers.has_parser() then
+    return show_sighelp_use_ts()
+  else
+    -- TODO
+    return show_sighelp()
   end
 end
 

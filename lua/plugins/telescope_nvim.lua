@@ -135,7 +135,7 @@ require'telescope'.setup{
         ['luadoc']                 = 'https://keplerproject.github.io/luadoc/',
         ['awesome lua']            = 'https://github.com/uhub/awesome-lua',
         ['lsp specification']      = 'https://microsoft.github.io/language-server-protocol/specifications/specification-current/',
-        ['git.io']                 = 'https://git.io/',
+        -- ['git.io']                 = 'https://git.io/',
       }
     }
   }
@@ -147,6 +147,7 @@ require'telescope'.setup{
 local extensions = {
   'fzy_native',
   'ghq',
+  -- 'gh',
   -- 'frecency',
   'sonictemplate',
   'openbrowser',
@@ -323,7 +324,8 @@ local buffers = function()
         { width = bufnr_width },
         -- { width = 4 },
         { width = 1 }, -- 同じプロジェクト内かどうか？
-        { width = vim.fn.strwidth(default_icons) },
+        { width = utils.strdisplaywidth(default_icons) },
+        { width = utils.strdisplaywidth(default_icons) },
         { width = max_bufname },
         { remaining = true },
       },
@@ -337,6 +339,7 @@ local buffers = function()
         {entry.bufnr, "TelescopeResultsNumber"},
         -- {entry.indicator, "TelescopeResultsComment"},
         entry.mark_in_same_project,
+        {entry.mark_display_in_win, 'WarningMsg'},
         {entry.devicons, entry.devicons_highlight},
         entry.file_name,
         {entry.dir_name, "Comment"}
@@ -372,12 +375,21 @@ local buffers = function()
         mark_in_same_project = '*'
       end
 
+      -- もし、いずれかのウィンドウに表示されていたら、印をつける
+      -- 󿩋󿫼󿫌󿨯󿧽󿥚󿦕󿥙󿠦󿟆󿝀󿔾
+      local mark_display_in_win = ''
+      local bufinfo = vim.fn.getbufinfo(entry.bufnr)
+      if not vim.tbl_isempty(bufinfo) and not vim.tbl_isempty(bufinfo[1].windows) then
+        mark_display_in_win = '󿠦'
+      end
+
       return {
         valid = is_valid_bufnr(entry.bufnr),
 
         value = bufname,
-        -- バッファ番号、ファイル名のみ、検索できるようにする
-        ordinal = entry.bufnr .. " : " .. file_name,
+        -- -- バッファ番号、ファイル名のみ、検索できるようにする
+        -- ordinal = entry.bufnr .. " : " .. file_name,
+        ordinal = file_name,
         display = make_display,
 
         bufnr = entry.bufnr,
@@ -391,6 +403,7 @@ local buffers = function()
         dir_name = dir_name,
 
         mark_in_same_project = mark_in_same_project,
+        mark_display_in_win = mark_display_in_win,
       }
     end
   end
@@ -420,7 +433,7 @@ local buffers = function()
       end)
 
       local function delete_buffer()
-        local selection = actions_state.get_selected_entry(prompt_bufnr)
+        local selection = actions_state.get_selected_entry()
         pcall(vim.cmd, string.format([[silent bdelete! %s]], selection.bufnr))
 
         -- TODO: refresh

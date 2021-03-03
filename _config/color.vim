@@ -134,6 +134,8 @@ function! s:define_my_highlight() abort
   hi link TelescopePromptBorder TelescopeBorder
   hi link TelescopeResultsBorder TelescopeBorder
   hi link TelescopePreviewBorder TelescopeBorder
+  hi link TelescopeSelection CursorLine
+  hi link TelescopeSelectionCaret TelescopeSelection
 
 endfunction
 

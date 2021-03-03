@@ -112,8 +112,8 @@ lspconfig.sumneko_lua.setup{
     vim.fn.expand('~/.local/share/vim-lsp-settings/servers/sumneko-lua-language-server/extension/server/bin/Linux/lua-language-server'),
     '-E',
     vim.fn.expand('~/.local/share/vim-lsp-settings/servers/sumneko-lua-language-server/extension/server/main.lua'),
-    -- meta file を指定
-    '--metapath=' .. vim.fn['emmylua_annot_nvim_api#get_meta_path']()
+    -- -- meta file を指定
+    -- '--metapath=' .. vim.fn['emmylua_annot_nvim_api#get_meta_path']()
   },
   settings = {
     Lua = {

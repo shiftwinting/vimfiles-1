@@ -1,6 +1,11 @@
 scriptencoding utf-8
 UsePlugin 'vim-operator-user'
 
-if !empty(globpath(&rtp, 'autoload/operator/replace.vim'))
-    map R <Plug>(operator-replace)
+
+if FindPlugin('vim-operator-replace')
+  map R <Plug>(operator-replace)
+endif
+
+if FindPlugin('vim-operator-convert-case')
+  nmap ,c <Plug>(convert-case-loop)
 endif
