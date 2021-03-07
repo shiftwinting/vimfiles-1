@@ -203,6 +203,16 @@ lspconfig.pyls.setup{
   on_attach = on_attach,
 }
 
--- --- efm-langserver
--- -- go get github.com/mattn/efm-langserver
--- require'lspconfig'.efm.setup{}
+--- efm
+-- 設定の例 : https://github.com/search?q=lspconfig+efm+language%3ALua&type=Code&ref=advsearch&l=&l=
+lspconfig.efm.setup {
+  init_options = { documentFormatting = true },
+  cmd = {
+    'efm-langserver', '-c', vim.fn['efm_langserver_settings#config_path']()
+  },
+  -- filetypes = vim.fn['efm_langserver_settings#whitelist'](),
+  filetypes = { 'json' },
+  settings = {
+    rootMarkers = { '.git/' },
+  }
+}

@@ -234,8 +234,9 @@ endfunction
 " ====================
 " help
 " ====================
-function! VimDocFormat() abort
-  for l:lnum in range(1, line('$'))
+function! VimDocFormat() abort range
+  " range をつけると、 a:firstline と a:lastline が使える
+  for l:lnum in range(a:firstline, a:lastline)
     let l:line = getline(l:lnum)
     if l:line =~# '\*$'
       let l:space_cnt = &textwidth - strdisplaywidth(substitute(l:line, '\v\s+', '', 'g'))
@@ -249,7 +250,10 @@ endfunction
 function! s:my_ft_help() abort
   " help を q で閉じれるようにする
   nnoremap <buffer> q <C-w>c
-  nnoremap <buffer> <Space>bl :<C-u> call VimDocFormat()<CR>
+
+  command! -range VimDocFormat <line1>,<line2>call VimDocFormat()
+  nnoremap <buffer> <Space>bl :<C-u>%VimDocFormat<CR>
+  xnoremap <buffer> <Space>bl :VimDocFormat<CR>
 endfunction
 
 

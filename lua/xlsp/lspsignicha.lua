@@ -424,9 +424,23 @@ local make_position_params = function(line, col)
   }
 end
 
+--- カーソル位置がコメントか？
+---
+---@return boolean is_comment_node
+local is_comment_node_at_cursor = function()
+  return ts_utils.get_node_at_cursor():type() == "comment"
+end
+
 --- tree-sitter を使って、いい感じに表示する
 local show_sighelp_use_ts = function()
   -- :h lua-treesitter
+
+  if is_comment_node_at_cursor() then
+    -- ついでに消しておく
+    M._clear()
+    return
+  end
+
   -- カーソル位置のargumentsノードを取得
   local args_node = arguments_node_at_cursor()
   -- pprint(args_node)

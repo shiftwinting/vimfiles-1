@@ -2,13 +2,13 @@ if vim.api.nvim_call_function('FindPlugin', {'telescope.nvim'}) == 0 then do ret
 
 local actions = require('telescope.actions')
 local actions_set = require'telescope.actions.set'
-local actions_state = require'telescope.actions.state'
+local action_state = require'telescope.actions.state'
 local sorters = require('telescope.sorters')
 -- local pickers = require('telescope.pickers')
 -- local finders = require('telescope.finders')
 local previewers = require('telescope.previewers')
 -- local conf = require('telescope.config').values
--- local transform_mod = require('telescope.actions.mt').transform_mod
+local transform_mod = require('telescope.actions.mt').transform_mod
 -- local make_entry = require('telescope.make_entry')
 local entry_display = require('telescope.pickers.entry_display')
 local devicons = require'nvim-web-devicons'
@@ -103,12 +103,8 @@ require'telescope'.setup{
           vim.api.nvim_feedkeys('i', 'n', true)
         end,
 
-        -- -- 選択して、カーソル移動
-        -- ["<Space>"]  = actions.add_selection + transform_mod({
-        --   x = function()
-        --     vim.cmd('normal! k')
-        --   end
-        -- }),
+        -- 選択して、カーソル移動
+        ["J"]  = actions.toggle_selection + actions.move_selection_next,
       },
     },
     color_devicons = true,
@@ -240,6 +236,36 @@ get_fzy_sorter_use_list = function(opts)
       return fzy.positions(prompt, display)
     end,
   }
+end
+
+
+--- 選択しているときとしていないときの両方でひらけるようにした
+---
+---@param prompt_bufnr number
+---@param first_open_cmd string 最初のアイテムを開くコマンド
+---@param other_open_cmd string 2つ目以降のアイテムを開くコマンド
+---@return function
+local smart_open = function(prompt_bufnr, first_open_cmd, other_open_cmd)
+  first_open_cmd = first_open_cmd or 'drop'
+  other_open_cmd = other_open_cmd or 'hide edit'
+
+  return function()
+    local current_picker = action_state.get_current_picker(prompt_bufnr)
+    local selections = current_picker:get_multi_selection()
+    actions.close(prompt_bufnr)
+
+    if not next(selections) then
+      -- 選択してなかったら、カーソル下のアイテムを開く
+      local val = action_state.get_selected_entry().value
+      vim.api.nvim_command(string.format('%s %s', first_open_cmd, val))
+    else
+      for i, selection in ipairs(selections) do
+        local cmd = (i == 1 and first_open_cmd) or other_open_cmd
+        local val = selection.value
+        vim.api.nvim_command(string.format('%s %s', cmd, val))
+      end
+    end
+  end
 end
 
 
@@ -423,17 +449,11 @@ local buffers = function()
     previewer = false,
     entry_maker = gen_from_buffer_like_leaderf(),
 
-    -- <C-t> で他のバッファ
     attach_mappings = function(prompt_bufnr, map)
-      actions.select_default:replace(function ()
-        local selection = actions_state.get_selected_entry()
-        actions.close(prompt_bufnr)
-        local val = selection.value
-        vim.api.nvim_command(string.format('drop %s', val))
-      end)
+      actions.select_default:replace(smart_open(prompt_bufnr, 'drop', 'hide edit'))
 
       local function delete_buffer()
-        local selection = actions_state.get_selected_entry()
+        local selection = action_state.get_selected_entry()
         pcall(vim.cmd, string.format([[silent bdelete! %s]], selection.bufnr))
 
         -- TODO: refresh
@@ -520,13 +540,7 @@ local mru = function()
     }),
     -- entry_maker = make_entry.gen_from_file(),
     attach_mappings = function(prompt_bufnr, _)
-      actions.select_default:replace(function ()
-        local selection = actions_state.get_selected_entry()
-        actions.close(prompt_bufnr)
-        local val = selection.value
-        -- vim.fn['vimrc#drop_or_tabedit'](val)
-        vim.api.nvim_command(string.format('drop %s', val))
-      end)
+      actions.select_default:replace(smart_open(prompt_bufnr, 'drop'))
       return true
     end
   }
@@ -555,7 +569,7 @@ local ghq = function()
     end,
     attach_mappings = function(prompt_bufnr, map)
       local tabnew = function()
-        local val = actions_state.get_selected_entry().value
+        local val = action_state.get_selected_entry().value
         actions.close(prompt_bufnr)
         vim.api.nvim_command('tabnew')
         vim.api.nvim_command(string.format('tcd %s | edit .', val))
@@ -564,7 +578,7 @@ local ghq = function()
 
       -- ブラウザで開く
       local open_browser = function()
-        local entry = actions_state.get_selected_entry()
+        local entry = action_state.get_selected_entry()
         actions.close(prompt_bufnr)
         vim.fn['openbrowser#open'](string.format('https://github.com/%s', entry.short_name))
       end
@@ -587,152 +601,25 @@ local filetypes = function()
 end
 
 
--- @Summary current_buffer_tags
--- @Description
-local current_buffer_tags = function()
-  local tagfiles = vim.fn.tagfiles()
-  if #tagfiles > 0 then
-    tagfile = tagfiles[1]
-  else
-    tagfile = nil
-  end
-  print(tagfile)
-  require'telescope.builtin'.current_buffer_tags {
-    ctags_file = tagfile
-  }
-end
+-- -- @Summary current_buffer_tags
+-- -- @Description
+-- local current_buffer_tags = function()
+--   local tagfiles = vim.fn.tagfiles()
+--   if #tagfiles > 0 then
+--     tagfile = tagfiles[1]
+--   else
+--     tagfile = nil
+--   end
+--   print(tagfile)
+--   require'telescope.builtin'.current_buffer_tags {
+--     ctags_file = tagfile
+--   }
+-- end
 
-
-local lsp_type_highlight = {
-  ["Class"]    = "TelescopeResultsClass",
-  ["Constant"] = "TelescopeResultsConstant",
-  ["Field"]    = "TelescopeResultsField",
-  ["Function"] = "TelescopeResultsFunction",
-  ["Method"]   = "TelescopeResultsMethod",
-  ["Property"] = "TelescopeResultsOperator",
-  ["Struct"]   = "TelescopeResultsStruct",
-  ["Variable"] = "TelescopeResultsVariable",
-}
-
-
----
----@param opts table
----       opts.bufnr
----       opts.ignore_filename
----       opts.show_line
----       opts.tail_path
----       opts.hide_filename
----       opts.shorten_path
----       opts.symbol_highlights
----       opts.only_method_or_func
-local gen_from_lsp_symbols = function(opts)
-  opts = opts or {}
-  local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
-
-  local display_items = {
-    { width = 25 },       -- symbol
-    { width = 8 },        -- symbol type
-    { remaining = true }, -- filename{:optional_lnum+col} OR content preview
-  }
-
-  if opts.ignore_filename and opts.show_line then
-    table.insert(display_items, 2, { width = 6 })
-  end
-
-  local displayer = entry_display.create {
-    separator = " ",
-    hl_chars = { ['['] = 'TelescopeBorder', [']'] = 'TelescopeBorder' },
-    items = display_items
-  }
-
-  local make_display = function(entry)
-    local msg
-
-    -- what to show in the last column: filename or symbol information
-    if opts.ignore_filename then -- ignore the filename and show line preview instead
-      -- TODO: fixme - if ignore_filename is set for workspace, bufnr will be incorrect
-      msg = vim.api.nvim_buf_get_lines(
-          bufnr,
-          entry.lnum - 1,
-          entry.lnum,
-          false
-        )[1] or ''
-      msg = vim.trim(msg)
-    else
-      local filename = ""
-      opts.tail_path = get_default(opts.tail_path, true)
-
-      if not opts.hide_filename then -- hide the filename entirely
-        filename = entry.filename
-        if opts.tail_path then
-          filename = utils.path_tail(filename)
-        elseif opts.shorten_path then
-          filename = utils.path_shorten(filename)
-        end
-      end
-
-      if opts.show_line then -- show inline line info
-        filename = filename .. " [" ..entry.lnum .. ":" .. entry.col .. "]"
-      end
-      msg = filename
-    end
-
-    local type_highlight = opts.symbol_highlights or lsp_type_highlight
-    local display_columns = {
-      entry.symbol_name,
-      {entry.symbol_type:lower(), type_highlight[entry.symbol_type], type_highlight[entry.symbol_type]},
-      msg,
-    }
-
-    if opts.ignore_filename and opts.show_line then
-      table.insert(display_columns, 2, {entry.lnum .. ":" .. entry.col, "TelescopeResultsLineNr"})
-    end
-
-    return displayer(display_columns)
-  end
-
-  return function(entry)
-    local filename = entry.filename or vim.api.nvim_buf_get_name(entry.bufnr)
-    local symbol_msg = entry.text:gsub(".* | ", "")
-    local symbol_type, symbol_name = symbol_msg:match("%[(.+)%]%s+(.*)")
-
-    local ordinal = ""
-    if not opts.ignore_filename and filename then
-      ordinal = filename .. " "
-    end
-    ordinal = ordinal ..  symbol_name .. " " .. symbol_type
-
-    -- もし、メソッドか関数のみの指定があったら、絞り込む
-    local is_valid = true
-    if get_default(opts.only_method_or_func, false) then
-      is_valid = symbol_type == 'Function' or symbol_type == 'Method'
-    end
-
-    return {
-      valid = is_valid,
-
-      value = entry,
-      ordinal = ordinal,
-      display = make_display,
-
-      filename = filename,
-      lnum = entry.lnum,
-      col = entry.col,
-      symbol_name = symbol_name,
-      symbol_type = symbol_type,
-      start = entry.start,
-      finish = entry.finish,
-    }
-  end
-end
 
 local lsp_document_symbols = function()
   require'telescope.builtin'.lsp_document_symbols {
     show_line = false,
-    entry_maker = gen_from_lsp_symbols{
-      only_method_or_func = true,
-      hide_filename = true,
-    }
   }
 end
 
@@ -765,7 +652,7 @@ end
 local function commands()
   local function make_def_func(is_xmap)
     return function(prompt_bufnr, _)
-      local entry = actions_state.get_selected_entry()
+      local entry = action_state.get_selected_entry()
       actions.close(prompt_bufnr)
       local val = entry.value
       local cmd = string.format([[%s%s ]], (is_xmap and "'<,'>" or ''), val.name)
@@ -787,7 +674,7 @@ local function commands()
 
   local function make_edit_command_func(is_xmap)
     return function(prompt_bufnr)
-      local entry = actions_state.get_selected_entry()
+      local entry = action_state.get_selected_entry()
       actions.close(prompt_bufnr)
       local val = entry.value
       local cmd = string.format([[:%s%s ]], (is_xmap and "'<,'>" or ''), val.name)

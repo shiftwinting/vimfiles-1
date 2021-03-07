@@ -17,6 +17,11 @@ let g:lightline.tabline = {
 \   'right': [ [] ],
 \}
 
+let g:lightline.tab = {
+\ 'active': ['tabnum'],
+\ 'inactive': ['tabnum'],
+\}
+
 " \             [ 'coc_errors', 'coc_warnings', 'coc_ok'],
 let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste'],
@@ -26,7 +31,7 @@ let g:lightline.active = {
 \}
 
 let g:lightline.inactive = {
-\   'left': [ [ 't_inactive_mode', 't_filename' ] ],
+\   'left': [ [ 't_filename' ] ],
 \   'right': [ [ 't_percent', 't_lineinfo' ] ],
 \}
 
