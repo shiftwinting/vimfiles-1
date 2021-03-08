@@ -90,6 +90,7 @@ local on_attach = function(client)
   local bufnr = a.nvim_get_current_buf()
   -- signature_help を表示する
   require'xlsp/lspsignicha'.setup_autocmds(bufnr)
+  require'xlsp/document_highlight'.setup_autocmds(bufnr)
   -- require'lspsignicha_ver2'.setup_autocmds(bufnr)
 
   -- require'xlsp/lightbulb'.on_attach()
