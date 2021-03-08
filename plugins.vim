@@ -12,241 +12,128 @@ packadd cfilter
 
 call plug#begin(g:plug_install_dir)
 
-" Plug 'junegunn/vim-plug'
-
-Plug 'vim-jp/vimdoc-ja'
-Plug 'vim-jp/syntax-vim-ex'
-" Plug 'vim-jp/vital.vim'
-
-Plug 'itchyny/lightline.vim'
+Plug 'sainnhe/gruvbox-material'
 Plug 'andymass/vim-matchup'
+Plug 'cohama/lexima.vim'
 Plug 'glidenote/memolist.vim'
 Plug 'haya14busa/vim-asterisk', { 'on': ['<Plug>(asterisk-gz*)', '<Plug>(asterisk-z*)'] }
-Plug 'cohama/lexima.vim'
+Plug 'hrsh7th/vim-eft'
+Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-plug'
+Plug 'lambdalisue/edita.vim'
+Plug 'lambdalisue/mr-quickfix.vim', { 'on': ['Mru', 'Mrw'] }
+Plug 'lambdalisue/mr.vim'
+Plug 'lambdalisue/suda.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'machakann/vim-highlightedyank'
+Plug 'machakann/vim-sandwich'
 Plug 'markonm/traces.vim'
+Plug 'mattn/sonictemplate-vim'
 Plug 'simeji/winresizer'
 Plug 'svermeulen/vim-cutlass'
-Plug 'tomtom/tcomment_vim'
-Plug 'voldikss/vim-translator', { 'on': ['TranslateW', 'TranslateR', 'Translate'] }
-Plug 'ludovicchabant/vim-gutentags'
-" Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
-" Plug 'kana/vim-repeat'
-Plug 'hrsh7th/vim-eft'
-Plug 'machakann/vim-sandwich'
-Plug 'machakann/vim-highlightedyank'
-" Plug 'machakann/vim-swap'
-Plug 'mattn/sonictemplate-vim'
-Plug 'mattn/vim-findroot'
-Plug 'lambdalisue/suda.vim'
-" Plug 'lambdalisue/vim-protocol'
-Plug 'lambdalisue/mr.vim'
-Plug 'lambdalisue/mr-quickfix.vim', { 'on': ['Mru', 'Mrw'] }
-" Plug 'lambdalisue/fin.vim'
-" Plug 'lambdalisue/edita.vim'
-
-" Plug 'lambdalisue/vim-quickrun-neovim-job'
-Plug 'thinca/vim-quickrun'
-Plug 'thinca/vim-qfreplace', { 'on': 'Qfreplace' }
 Plug 'thinca/vim-prettyprint', { 'on': ['PP', 'PrettyPrint'] }
-
+Plug 'thinca/vim-qfreplace', { 'on': 'Qfreplace' }
+Plug 'thinca/vim-quickrun'
+Plug 'tomtom/tcomment_vim'
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
-" Plug 'tyru/columnskip.vim'
-Plug 'tyru/open-browser.vim'
 Plug 'tyru/open-browser-github.vim'
-" Plug 'tyru/vim-altercmd'
+Plug 'tyru/open-browser.vim'
+Plug 'vim-jp/syntax-vim-ex'
+Plug 'vim-jp/vimdoc-ja'
+Plug 'voldikss/vim-translator', { 'on': ['TranslateW', 'TranslateR', 'Translate'] }
 
-" Plug 'osyo-manga/vim-milfeulle'
-" Plug 'mattn/vim-nyancat'
-" Plug 'ctrlpvim/ctrlp.vim'
-" Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
-" Plug 'Yggdroot/indentLine'
-
-" ------------------------
-"  git
-" ------------------------
-" " gist
-" Plug 'mattn/vim-gist'
-" Plug 'mattn/webapi-vim'
-
-" yank github link
 Plug 'knsh14/vim-github-link', { 'on': ['GetCurrentCommitLink', 'GetCurrentBranchLink', 'GetCommitLink'] }
 Plug 'cohama/agit.vim', { 'on': ['Agit', 'AgitFile'] }
-
-" sign
 Plug 'lewis6991/gitsigns.nvim'
-
 Plug 'gisphm/vim-gitignore'
-
-" fugitive
 Plug 'tpope/vim-fugitive'
-" Plug 'junegunn/gv.vim'
 Plug 'tpope/vim-dispatch'
-" Plug 'skanehira/gh.vim'
-
-" prefix complete
 Plug 'gotchane/vim-git-commit-prefix'
 
-Plug 'rhysd/git-messenger.vim'
-
-" ------------------------
-"  colorscheme
-" ------------------------
-" Plug 'tjdevries/colorbuddy.vim'
-
-Plug 'sainnhe/gruvbox-material'
-" Plug 'bkegley/gloombuddy'
-" Plug 'Th3Whit3Wolf/spacebuddy'
-
-" ------------------------
-"  operator
-" ------------------------
 Plug 'kana/vim-operator-user',
-" Plug 'kana/vim-operator-replace'
 Plug 'yuki-yano/vim-operator-replace'
 Plug 'mopp/vim-operator-convert-case'
 
-
-" ------------------------
-"  dark power
-" ------------------------
 Plug 'Shougo/deol.nvim', { 'on': ['Deol'] }
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-" Plug 'Shougo/deoppet.nvim'
 
-
-" ------------------------
-"  Neovim
-" ------------------------
-" Plug 'mattn/vim-lsp-settings'
-" Plug '~/.ghq/github.com/mattn/vim-lsp-settings'
-Plug 'neovim/nvim-lspconfig'
-Plug 'h-michael/lsp-ext.nvim'
-Plug 'weilbith/nvim-lsp-smag' " set tagfunc
-Plug 'glepnir/lspsaga.nvim'
-" Plug '~/.ghq/github.com/glepnir/lspsaga.nvim'
-
-Plug 'hrsh7th/nvim-compe'
-  Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
-  Plug '~/.ghq/github.com/tamago324/compe-zsh'
-  " Plug '~/.ghq/github.com/tamago324/compe-necosyntax'
-  " Plug 'Shougo/neco-syntax'
-  " Plug 'hrsh7th/vim-vsnip'
-  Plug 'onsails/lspkind-nvim'
-Plug 'liuchengxu/vista.vim'
-" Plug 'nvim-lua/telescope.nvim'
-Plug '~/.ghq/github.com/nvim-lua/telescope.nvim'
-  Plug 'nvim-telescope/telescope-ghq.nvim'
-  " Plug 'nvim-telescope/telescope-github.nvim'
-  Plug 'nvim-telescope/telescope-fzy-native.nvim'
-  Plug '~/.ghq/github.com/tamago324/telescope-sonictemplate.nvim'
-  Plug '~/.ghq/github.com/tamago324/telescope-openbrowser.nvim'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
+" Neovim
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'nvim-treesitter/nvim-treesitter'
-" Plug '~/.ghq/github.com/nvim-treesitter/nvim-treesitter'
-  " Plug 'p00f/nvim-ts-rainbow'
-  " Plug 'nvim-treesitter/playground'
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-  " Plug 'nvim-treesitter/nvim-treesitter-refactor'
-  " Plug 'nvim-treesitter/nvim-tree-docs'
-  " Plug 'romgrk/nvim-treesitter-context'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'dstein64/nvim-scrollview'
 Plug 'monaqa/dial.nvim'
 Plug 'bfredl/nvim-miniyank'
-Plug 'antoinemadec/FixCursorHold.nvim' " -> input() で改行が使えなくなる問題がある? -> そういうわけでもなかった
-" Plug '~/.ghq/github.com/tamago324/emmylua-annot-nvim-api'
-" Plug 'kosayoda/nvim-lightbulb'
-" Plug 'notomo/lreload.nvim'
+Plug 'antoinemadec/FixCursorHold.nvim'
 
-" Plug 'wbthomason/packer.nvim'
-" Plug 'glepnir/prodoc.nvim'
-" Plug 'jbyuki/monolithic.nvim'
-" Plug 'gelguy/wilder.nvim'
-" Plug 'dsummersl/nvim-sluice'
-" Plug 'b3nj5m1n/kommentary'
-  " Plug 'nvim-telescope/telescope-frecency.nvim' -> おそいから
-  " Plug 'tami5/sql.nvim'
-" Plug 'neovim/nvimdev.nvim',
-"   Plug 'neomake/neomake'
-"   Plug 'tpope/vim-projectionist'
-" Plug 'norcalli/nvim_utils'
-" Plug 'euclidianAce/BetterLua.vim'
-" Plug 'mhartington/formatter.nvim'
+" Plug 'mattn/vim-lsp-settings'
+" Plug '~/.ghq/github.com/mattn/vim-lsp-settings'
+" Plug '~/.ghq/github.com/tamago324/lua-nlsp'
+Plug 'neovim/nvim-lspconfig'
+  Plug 'h-michael/lsp-ext.nvim'
+  Plug 'weilbith/nvim-lsp-smag'
+  Plug 'glepnir/lspsaga.nvim'
+  Plug 'mattn/vim-findroot'
+  Plug 'liuchengxu/vista.vim'
+  Plug 'tsuyoshicho/vim-efm-langserver-settings'
 
-" Plug 'jubnzv/virtual-types.nvim'
-" Plug 'nvim-lua/lsp-status.nvim'
-" Plug 'RishabhRD/nvim-lsputils'
-" Plug 'RishabhRD/popfix'
-" Plug 'nvim-lua/lsp_extensions.nvim'
+Plug 'hrsh7th/nvim-compe'
+  Plug '~/.ghq/github.com/tamago324/compe-zsh'
+  " Plug '~/.ghq/github.com/tamago324/compe-necosyntax'
+  " Plug 'Shougo/neco-syntax'
+  " Plug 'onsails/lspkind-nvim'
+  Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
+  Plug 'Shougo/neosnippet.vim'
+  Plug 'Shougo/neosnippet-snippets'
 
-" ------------------------
-"  Languages
-" ------------------------
+Plug 'nvim-lua/popup.nvim'
+" Plug 'nvim-lua/plenary.nvim'
+Plug '~/.ghq/github.com/nvim-lua/plenary.nvim'
+Plug 'nvim-lua/telescope.nvim'
+  Plug 'nvim-telescope/telescope-ghq.nvim'
+  Plug 'nvim-telescope/telescope-fzy-native.nvim'
+  Plug '~/.ghq/github.com/tamago324/telescope-sonictemplate.nvim'
+  Plug '~/.ghq/github.com/tamago324/telescope-openbrowser.nvim'
 
-" ------------------------
-" Lua
-" Plug 'tjdevries/nlua.nvim'
-" Plug 'Koihik/vscode-lua-format'   " binary のため
-" Plug 'teal-language/vim-teal'
+Plug 'nvim-treesitter/nvim-treesitter'
+  Plug 'nvim-treesitter/playground'
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 
-" Plug 'bakpakin/fennel.vim'
-
-
-" ------------------------
-"  C
-" Plug 'vim-jp/vim-cpp'
-" Plug 'Shougo/neoinclude.vim'
-" .c -> .c
-" Plug 'vim-scripts/a.vim'
-
-"------------------------
-" Python
-" Plug 'vim-python/python-syntax'
-
-
-"------------------------
-" Vim
-" Plug 'machakann/vim-Verdin', { 'for': 'vim' }
-
-
-"------------------------
-" AutoHotKey
-" Plug 'linxinhong/Vim-AHK'
-
-
-"------------------------
-" ML
-" Plug 'tamago324/vim-better-sml', {'branch': 'simple'}
-
-
-"------------------------
 " Rust
 Plug 'rust-lang/rust.vim'
-" Plug 'rhysd/rust-doc.vim'
-
-"------------------------
-" RON
-" Plug 'ron-rs/ron.vim'
-
-"------------------------
-" Markdown
-" Plug 'plasticboy/vim-markdown'
-
 
 Plug '~/.ghq/github.com/tamago324/lir.nvim'
-" Plug '~/.ghq/github.com/tamago324/lir-mmv.nvim'
 Plug '~/.ghq/github.com/tamago324/lir-bookmark.nvim'
-Plug '~/.ghq/github.com/tamago324/lir-mark.nvim'
-
-" Plug '~/.ghq/github.com/tamago324/lua-gameoflife.nvim'
-
-" Plug '~/.ghq/github.com/tamago324/lua-nlsp'
 
 call plug#end()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 " Plug 'jiangmiao/auto-pairs'  -> cohama/lexima.vim
@@ -365,3 +252,121 @@ call plug#end()
 " Plug 'y0za/vim-reading-vimrc'
 
 " Plug 'rcmdnk/yankround.vim' -> nvim-miniyank
+
+" Plug 'rhysd/git-messenger.vim'
+
+"------------------------
+" RON
+" Plug 'ron-rs/ron.vim'
+
+"------------------------
+" Markdown
+" Plug 'plasticboy/vim-markdown'
+" Plug 'rhysd/rust-doc.vim'
+
+" Plug 'wbthomason/packer.nvim'
+" Plug 'glepnir/prodoc.nvim'
+" Plug 'jbyuki/monolithic.nvim'
+" Plug 'gelguy/wilder.nvim'
+" Plug 'dsummersl/nvim-sluice'
+" Plug 'b3nj5m1n/kommentary'
+  " Plug 'nvim-telescope/telescope-frecency.nvim' -> おそいから
+  " Plug 'tami5/sql.nvim'
+" Plug 'neovim/nvimdev.nvim',
+"   Plug 'neomake/neomake'
+"   Plug 'tpope/vim-projectionist'
+" Plug 'norcalli/nvim_utils'
+" Plug 'euclidianAce/BetterLua.vim'
+" Plug 'mhartington/formatter.nvim'
+
+" Plug 'jubnzv/virtual-types.nvim'
+" Plug 'nvim-lua/lsp-status.nvim'
+" Plug 'RishabhRD/nvim-lsputils'
+" Plug 'RishabhRD/popfix'
+" Plug 'nvim-lua/lsp_extensions.nvim'
+
+" ------------------------
+"  Languages
+" ------------------------
+
+" ------------------------
+" Lua
+" Plug 'tjdevries/nlua.nvim'
+" Plug 'Koihik/vscode-lua-format'   " binary のため
+" Plug 'teal-language/vim-teal'
+
+" Plug 'bakpakin/fennel.vim'
+
+
+" ------------------------
+"  C
+" Plug 'vim-jp/vim-cpp'
+" Plug 'Shougo/neoinclude.vim'
+" .c -> .c
+" Plug 'vim-scripts/a.vim'
+
+"------------------------
+" Python
+" Plug 'vim-python/python-syntax'
+
+
+"------------------------
+" Vim
+" Plug 'machakann/vim-Verdin', { 'for': 'vim' }
+
+
+"------------------------
+" AutoHotKey
+" Plug 'linxinhong/Vim-AHK'
+
+
+"------------------------
+" ML
+" Plug 'tamago324/vim-better-sml', {'branch': 'simple'}
+
+" Plug '~/.ghq/github.com/tamago324/emmylua-annot-nvim-api'
+" Plug 'kosayoda/nvim-lightbulb'
+" Plug 'notomo/lreload.nvim'
+
+" Plug 'Shougo/deoppet.nvim'
+  " Plug 'nvim-telescope/telescope-github.nvim'
+" Plug '~/.ghq/github.com/nvim-treesitter/nvim-treesitter'
+  " Plug 'p00f/nvim-ts-rainbow'
+  " Plug 'nvim-treesitter/nvim-treesitter-refactor'
+  " Plug 'nvim-treesitter/nvim-tree-docs'
+  " Plug 'romgrk/nvim-treesitter-context'
+" Plug 'vim-jp/vital.vim'
+" Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
+" Plug 'kana/vim-repeat'
+" Plug 'machakann/vim-swap'
+" Plug 'lambdalisue/vim-protocol'
+" Plug 'lambdalisue/fin.vim'
+" Plug 'lambdalisue/vim-quickrun-neovim-job'
+
+" Plug 'osyo-manga/vim-milfeulle'
+" Plug 'mattn/vim-nyancat'
+" Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
+" Plug 'Yggdroot/indentLine'
+
+" ------------------------
+"  git
+" ------------------------
+" " gist
+" Plug 'mattn/vim-gist'
+" Plug 'mattn/webapi-vim'
+
+" Plug 'junegunn/gv.vim'
+" Plug 'skanehira/gh.vim'
+" ------------------------
+"  colorscheme
+" ------------------------
+" Plug 'tjdevries/colorbuddy.vim'
+
+" Plug 'bkegley/gloombuddy'
+" Plug 'Th3Whit3Wolf/spacebuddy'
+
+" Plug 'kana/vim-operator-replace'
+
+" Plug 'tyru/vim-altercmd'
+" Plug 'phaazon/hop.nvim'

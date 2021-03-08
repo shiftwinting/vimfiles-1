@@ -2,7 +2,12 @@ if vim.api.nvim_call_function('FindPlugin', {'lua-nlsp'}) == 0 then do return en
 
 local nlsp = require'nlsp.lspconfig'
 
+local on_attach = function(client_id, bufnr)
+  require'xlsp.document_highlight'.setup_autocmds(bufnr)
+end
+
 nlsp.sumneko_lua.setup {
+  on_attach = on_attach,
   cmd = {
     vim.fn.expand('~/.local/share/vim-lsp-settings/servers/sumneko-lua-language-server/extension/server/bin/Linux/lua-language-server'),
     '-E',
@@ -28,5 +33,18 @@ nlsp.sumneko_lua.setup {
         }
       }
     }
+  }
+}
+
+--- efm
+nlsp.efm.setup {
+  init_options = { documentFormatting = true },
+  cmd = {
+    'efm-langserver', '-c', vim.fn['efm_langserver_settings#config_path']()
+  },
+  -- filetypes = vim.fn['efm_langserver_settings#whitelist'](),
+  filetypes = { 'json' },
+  settings = {
+    rootMarkers = { '.git/' },
   }
 }

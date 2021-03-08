@@ -137,6 +137,10 @@ function! s:define_my_highlight() abort
   hi link TelescopeSelection CursorLine
   hi link TelescopeSelectionCaret TelescopeSelection
 
+  hi link NLspReferenceText LspReferenceText
+  hi link NLspReferenceRead LspReferenceRead
+  hi link NLspReferenceWrite LspReferenceWrite
+
 endfunction
 
 

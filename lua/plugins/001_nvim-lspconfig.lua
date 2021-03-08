@@ -22,48 +22,50 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 
 -- lspsaga
 do
-  require'lspsaga'.init_lsp_saga {
-    border_style = 4,
-    code_action_icon = ' 󿯦 '
-  }
+  local has_lspsaga, lspsaga = pcall(require, 'lspsaga')
+  if has_lspsaga then
+    lspsaga.init_lsp_saga {
+      border_style = 4,
+      code_action_icon = ' 󿯦 '
+    }
+  end
 end
 
 
 -- lspkind
 do
   local has_lspkind, lspkind = pcall(require, 'lspkind')
-  if not has_lspkind then
-    return
+  if has_lspkind then
+    -- アイコンの画像がある
+    -- https://github.com/Microsoft/vscode/issues/2628#issuecomment-297566399
+    lspkind.init({
+      with_text = true,
+      symbol_map = {
+        Text        = '',
+        Method      = '',
+        Function    = '',
+        Constructor = '󿚦',
+        Variable    = '󿰩',
+        Field       = '󿰩',
+        Class       = '󿯟',
+        Interface   = '󿨡',
+        Module      = '󿙨',
+        Property    = '󿪶',
+        Unit        = '󿴵',
+        Value       = '󿰩',
+        Enum        = '',
+        Keyword     = '󿨅',
+        Snippet     = '󿨀',
+        Color       = '󿣗',
+        File        = '󿢚',
+        Folder      = '',
+        EnumMember  = '',
+        Constant    = '󿡛',
+        Struct      = '󿩭',
+        Event       = '󿝀',
+      },
+    })
   end
-  -- アイコンの画像がある
-  -- https://github.com/Microsoft/vscode/issues/2628#issuecomment-297566399
-  lspkind.init({
-    with_text = true,
-    symbol_map = {
-      Text        = '',
-      Method      = '',
-      Function    = '',
-      Constructor = '󿚦',
-      Variable    = '󿰩',
-      Field       = '󿰩',
-      Class       = '󿯟',
-      Interface   = '󿨡',
-      Module      = '󿙨',
-      Property    = '󿪶',
-      Unit        = '󿴵',
-      Value       = '󿰩',
-      Enum        = '',
-      Keyword     = '󿨅',
-      Snippet     = '󿨀',
-      Color       = '󿣗',
-      File        = '󿢚',
-      Folder      = '',
-      EnumMember  = '',
-      Constant    = '󿡛',
-      Struct      = '󿩭',
-      Event       = '󿝀',
-    },
-  })
 end
 
 

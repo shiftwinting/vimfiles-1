@@ -260,3 +260,5 @@ onoremap ` t`
 
 nnoremap <Space>dt <Cmd>windo diffthis<CR>
 nnoremap <Space>do <Cmd>windo diffoff<CR>
+
+nnoremap ; g;
