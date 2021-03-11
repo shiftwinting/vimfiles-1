@@ -26,7 +26,10 @@ do
   if has_lspsaga then
     lspsaga.init_lsp_saga {
       border_style = 4,
-      code_action_icon = ' 󿯦 '
+      code_action_icon = ' 󿯦 ',
+      code_action_prompt = {
+        enable = false
+      }
     }
   end
 end
