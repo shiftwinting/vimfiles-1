@@ -17,7 +17,7 @@ require'compe'.setup {
     -- vsnip = true,
     neosnippet = {ignored_filetypes = {'deoledit'}},
     zsh = {filetypes = {'deoledit'}},
-    -- necosyntax = {filetypes = {'make', 'teal'}},
+    necosyntax = {filetypes = {'make', 'teal'}},
     -- nvim_treesitter = {filetypes = {'lua'}},
   }
 }

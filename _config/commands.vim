@@ -65,3 +65,9 @@ function! PackGet(name) abort
   nnoremap <silent><buffer> q <Cmd>quit!<CR>
   call termopen(['git', 'clone', l:url, l:dist])
 endfunction
+
+command! PLUGINSTALL call <SID>plug_install()
+function! s:plug_install() abort
+  exec 'source ' .. g:plug_script
+  PlugInstall
+endfunction

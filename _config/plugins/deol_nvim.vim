@@ -131,7 +131,6 @@ endfunction
 
 function! s:exec_line() abort
   exec "normal \<Plug>(deol_execute_line)"
-  echomsg mode()
   if mode() ==# 'i'
     " 行挿入 (o)
     call feedkeys("\<C-o>o", 'n')

@@ -2,17 +2,19 @@ scriptencoding utf-8
 
 let g:plug_install_dir = expand('$MYVIMFILES/.plugged')
 
-" if empty(glob('~/.config/nvim/autoload/plug.vim'))
-"   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-"     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-"   autocmd VimEnter * PlugInstall | source $MYVIMRC
-" endif
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 
 packadd cfilter
 
 call plug#begin(g:plug_install_dir)
 
 Plug 'sainnhe/gruvbox-material'
+Plug 'savq/melange'
+
 Plug 'andymass/vim-matchup'
 Plug 'cohama/lexima.vim'
 Plug 'glidenote/memolist.vim'
@@ -64,6 +66,8 @@ Plug 'dstein64/nvim-scrollview'
 Plug 'monaqa/dial.nvim'
 Plug 'bfredl/nvim-miniyank'
 Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'tversteeg/registers.nvim'
+" Plug '/home/tamago324/ghq/github.com/tversteeg/registers.nvim'
 
 " Plug 'mattn/vim-lsp-settings'
 " Plug '~/.ghq/github.com/mattn/vim-lsp-settings'
@@ -77,22 +81,21 @@ Plug 'neovim/nvim-lspconfig'
   Plug 'tsuyoshicho/vim-efm-langserver-settings'
 
 Plug 'hrsh7th/nvim-compe'
-  Plug '~/.ghq/github.com/tamago324/compe-zsh'
-  " Plug '~/.ghq/github.com/tamago324/compe-necosyntax'
-  " Plug 'Shougo/neco-syntax'
+  Plug '~/ghq/github.com/tamago324/compe-zsh'
+  Plug 'tamago324/compe-necosyntax'
+  Plug 'Shougo/neco-syntax'
   " Plug 'onsails/lspkind-nvim'
-  Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
+  " Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
   Plug 'Shougo/neosnippet.vim'
   Plug 'Shougo/neosnippet-snippets'
 
 Plug 'nvim-lua/popup.nvim'
-" Plug 'nvim-lua/plenary.nvim'
-Plug '~/.ghq/github.com/nvim-lua/plenary.nvim'
+Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
-  Plug '~/.ghq/github.com/tamago324/telescope-sonictemplate.nvim'
-  Plug '~/.ghq/github.com/tamago324/telescope-openbrowser.nvim'
+  Plug 'tamago324/telescope-sonictemplate.nvim'
+  Plug 'tamago324/telescope-openbrowser.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'nvim-treesitter/playground'
@@ -101,8 +104,8 @@ Plug 'nvim-treesitter/nvim-treesitter'
 " Rust
 Plug 'rust-lang/rust.vim'
 
-Plug '~/.ghq/github.com/tamago324/lir.nvim'
-Plug '~/.ghq/github.com/tamago324/lir-bookmark.nvim'
+Plug 'tamago324/lir.nvim'
+Plug 'tamago324/lir-bookmark.nvim'
 
 call plug#end()
 
