@@ -28,6 +28,12 @@ let g:deol#extra_options = {
 \   'term_kill': 'kill',
 \}
 
+let g:deol#password_pattern =
+\ '\[sudo] \w のパスワード'
+" \   '\%(Enter \|Repeat \|[Oo]ld \|[Nn]ew \|login ' .
+" \   '\|Kerberos \|EncFS \|CVS \|UNIX \| SMB \|LDAP \|\[sudo] ' .
+" \   '\|^\|\n\|''s \)\%([Pp]assword\|[Pp]assphrase\)\>'
+
 nnoremap <silent><A-t> <Cmd>call DeolToggle()<CR>
 tnoremap <silent><A-t> <C-\><C-n><Cmd>call DeolToggle()<CR>
 
@@ -88,14 +94,16 @@ function! s:deol_settings() abort
     tnoremap <buffer><silent> <A-e> <C-\><C-N><Cmd>call deol#edit()<CR>
     inoremap <buffer><silent> <A-e> <C-\><C-N><Cmd>call deol#edit()<CR>
     nnoremap <buffer><silent> <A-e> <Cmd>call deol#edit()<CR>
+    tnoremap <buffer><silent> <C-k> <C-\><C-N><Cmd>call deol#edit()<CR>
+    nnoremap <buffer><silent> <C-k> <Cmd>call deol#edit()<CR>
 
     tnoremap <buffer><silent> <A-w> <C-\><C-N><Cmd>normal! <C-w>_<CR>
     nnoremap <buffer><silent> <A-w> <Cmd>normal! <C-w>_<CR>
 
     nmap <buffer><silent> <A-k> <Plug>(deol_previous_prompt)
     nmap <buffer><silent> <A-j> <Plug>(deol_next_prompt)
-    nmap <buffer><silent> <C-k> <Plug>(deol_previous_prompt)
-    nmap <buffer><silent> <C-j> <Plug>(deol_next_prompt)
+    " nmap <buffer><silent> <C-k> <Plug>(deol_previous_prompt)
+    " nmap <buffer><silent> <C-j> <Plug>(deol_next_prompt)
 
 
     " 不要なマッピングを削除
@@ -189,6 +197,8 @@ function! s:deol_editor_settings() abort
     call s:apply_shortcut_mappings()
 
     nnoremap <buffer><silent> ? <Cmd>call <SID>open_help()<CR>
+
+    " inoremap <buffer><silent><nowait> <C-r> <Cmd>Telescope current_buffer_fuzzy_find<CR>
 
     " もとに戻す
     nnoremap <buffer> <C-o> <Nop>

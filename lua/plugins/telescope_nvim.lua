@@ -13,7 +13,7 @@ local transform_mod = require('telescope.actions.mt').transform_mod
 local entry_display = require('telescope.pickers.entry_display')
 local devicons = require'nvim-web-devicons'
 
-local parsers = require('nvim-treesitter.parsers')
+-- local parsers = require('nvim-treesitter.parsers')
 
 local Path = require'plenary.path'
 local a = vim.api
@@ -134,6 +134,7 @@ require'telescope'.setup{
         -- ['git.io']                  = 'https://git.io/',
         ['AUR (Arch user repository)'] = 'https://aur.archlinux.org/',
         ['Arch Linux Packages']        = 'https://archlinux.org/packages/',
+        ["i3 User's Guide"]            = 'https://i3wm.org/docs/userguide.html',
       }
     }
   }
@@ -249,7 +250,7 @@ end
 ---@return function
 local smart_open = function(prompt_bufnr, first_open_cmd, other_open_cmd)
   first_open_cmd = first_open_cmd or 'drop'
-  other_open_cmd = other_open_cmd or 'hide edit'
+  other_open_cmd = other_open_cmd or first_open_cmd
 
   return function()
     local current_picker = action_state.get_current_picker(prompt_bufnr)
@@ -453,6 +454,9 @@ local buffers = function()
 
     attach_mappings = function(prompt_bufnr, map)
       actions.select_default:replace(smart_open(prompt_bufnr, 'drop', 'hide edit'))
+      actions.select_horizontal:replace(smart_open(prompt_bufnr, 'new'))
+      actions.select_vertical:replace(smart_open(prompt_bufnr, 'vnew'))
+      actions.select_tab:replace(smart_open(prompt_bufnr, 'tabedit'))
 
       local function delete_buffer()
         local selection = action_state.get_selected_entry()
@@ -542,7 +546,10 @@ local mru = function()
     }),
     -- entry_maker = make_entry.gen_from_file(),
     attach_mappings = function(prompt_bufnr, _)
-      actions.select_default:replace(smart_open(prompt_bufnr, 'drop'))
+      actions.select_default:replace(smart_open(prompt_bufnr, 'drop', 'hide edit'))
+      actions.select_horizontal:replace(smart_open(prompt_bufnr, 'new'))
+      actions.select_vertical:replace(smart_open(prompt_bufnr, 'vnew'))
+      actions.select_tab:replace(smart_open(prompt_bufnr, 'tabedit'))
       return true
     end
   }

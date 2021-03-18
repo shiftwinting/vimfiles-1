@@ -26,13 +26,14 @@ let g:lightline.tab = {
 let g:lightline.active = {
 \   'left': [ [ 't_mode', 'paste'],
 \             [ 'readonly', 't_filename' ],
+\             [ 't_filetype' ],
 \   ],
-\   'right': [[ 't_filetype', 't_percent', 't_lineinfo' ]]
+\   'right': []
 \}
 
 let g:lightline.inactive = {
 \   'left': [ [ 't_filename' ] ],
-\   'right': [ [ 't_percent', 't_lineinfo' ] ],
+\   'right': [],
 \}
 
 " let g:lightline.separator = {

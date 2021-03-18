@@ -167,3 +167,9 @@ set bg=dark
 colorscheme gruvbox-material
 " colorscheme nautilus
 " colorscheme nord
+" colorscheme edge
+
+" lua << EOF
+" local colorscheme = require'colorscheme'
+" colorscheme.setup('gruvbox-dark-medium')
+" EOF
