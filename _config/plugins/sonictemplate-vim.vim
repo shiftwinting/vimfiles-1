@@ -8,4 +8,4 @@ let g:sonictemplate_vim_template_dir = [
 " nnoremap <Space>;t :<C-u>Template 
 
 
-imap <expr> <C-j> pumvisible() ? '<C-e><plug>(sonictemplate-postfix)' : '<plug>(sonictemplate-postfix)'
+" imap <expr> <C-j> pumvisible() ? '<C-e><plug>(sonictemplate-postfix)' : '<plug>(sonictemplate-postfix)'

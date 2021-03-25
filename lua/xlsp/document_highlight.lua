@@ -63,7 +63,7 @@ local in_highlight_range = function(bufnr)
 end
 
 local clear_highlight = function()
-  if not in_highlight_range(bufnr) then
+  if not in_highlight_range() then
     lsp_buf.clear_references()
   end
 end

@@ -4,6 +4,7 @@ local nlsp = require'nlsp.lspconfig'
 
 local on_attach = function(client_id, bufnr)
   require'xlsp.document_highlight'.setup_autocmds(bufnr)
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.nlsp_omnifunc')
 end
 
 nlsp.sumneko_lua.setup {
@@ -24,7 +25,8 @@ nlsp.sumneko_lua.setup {
         disable = {"unused-local", "unused-vararg", "lowercase-global", "undefined-field"}
       },
       completion = {
-        keywordSnippet = "Enable",
+        keywordSnippet = "Both",
+        callSnippet = 'Both',
       },
       workspace = {
         library = {
@@ -36,15 +38,15 @@ nlsp.sumneko_lua.setup {
   }
 }
 
---- efm
-nlsp.efm.setup {
-  init_options = { documentFormatting = true },
-  cmd = {
-    'efm-langserver', '-c', vim.fn['efm_langserver_settings#config_path']()
-  },
-  -- filetypes = vim.fn['efm_langserver_settings#whitelist'](),
-  filetypes = { 'json' },
-  settings = {
-    rootMarkers = { '.git/' },
-  }
-}
+-- --- efm
+-- nlsp.efm.setup {
+--   init_options = { documentFormatting = true },
+--   cmd = {
+--     'efm-langserver', '-c', vim.fn['efm_langserver_settings#config_path']()
+--   },
+--   -- filetypes = vim.fn['efm_langserver_settings#whitelist'](),
+--   filetypes = { 'json' },
+--   settings = {
+--     rootMarkers = { '.git/' },
+--   }
+-- }

@@ -29,7 +29,7 @@ function! s:quit(...) abort
   let l:bang = get(a:, 1, v:false) ? '!' : ''
   try
     execute 'quit' .. l:bang
-  catch /E5601/
+  catch /\v(E5601|E37)/
     " Neovimでタブの最後のウィンドウで、float window があると、エラーになるため
     execute 'tabclose' .. l:bang
   endtry
@@ -262,3 +262,5 @@ nnoremap <Space>dt <Cmd>windo diffthis<CR>
 nnoremap <Space>do <Cmd>windo diffoff<CR>
 
 nnoremap ; g;
+
+nnoremap sa <Cmd>:tabo<CR>

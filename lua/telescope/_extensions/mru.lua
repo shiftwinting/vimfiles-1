@@ -7,6 +7,7 @@ local finders = require 'telescope.finders'
 local entry_display = require 'telescope.pickers.entry_display'
 local devicons = require'nvim-web-devicons'
 
+local utils = require'telescope.utils'
 local nearest_ancestor = require'xpath'.nearest_ancestor
 
 -----------------------------
@@ -38,7 +39,8 @@ local gen_from_mru_better = function(opts)
     separator = " ",
     items = {
       { width = 1 },
-      { width = vim.fn.strwidth(default_icons) },
+      -- { width = utils.strdisplaywidth(default_icons) },
+      { width = utils.strdisplaywidth(default_icons) },
       -- { width = max_filename },
       { width = 35 },
       { remaining = true },
@@ -51,10 +53,11 @@ local gen_from_mru_better = function(opts)
   local make_display = function(entry)
     return displayer {
       entry.mark_in_same_project,
+      -- {entry.mark_win_info, 'WarningMsg'},
       {entry.devicons, entry.devicons_highlight},
       entry.file_name,
       {entry.dir_name, "Comment"}
-      }
+    }
   end
 
   return function(entry)
@@ -71,6 +74,14 @@ local gen_from_mru_better = function(opts)
       mark_in_same_project = '*'
     end
 
+    -- local mark_win_info = ''
+    -- local bufinfo = vim.fn.getbufinfo(entry.bufnr)
+    -- if entry.bufnr == vim.api.nvim_get_current_buf() then
+    --   mark_win_info = '󿕅'
+    -- elseif not vim.tbl_isempty(bufinfo) and not vim.tbl_isempty(bufinfo[1].windows) then
+    --   mark_win_info = '󿠦'
+    -- end
+
     return {
       valid = true,
       cwd = cwd,
@@ -81,7 +92,7 @@ local gen_from_mru_better = function(opts)
       ordinal = file_name,
       display = make_display,
 
-      bufnr = entry.bufnr,
+      -- bufnr = entry.bufnr,
 
       devicons = icons,
       devicons_highlight = highlight,
@@ -90,6 +101,7 @@ local gen_from_mru_better = function(opts)
       dir_name = dir_name,
 
       mark_in_same_project = mark_in_same_project,
+      -- mark_win_info = mark_win_info,
     }
   end
 end
@@ -103,10 +115,10 @@ local list = function(opts)
   opts = opts or {}
 
   local results = vim.api.nvim_eval('mr#mru#list()[:3000]')
-  results = vim.tbl_filter(function(x)
-    -- カレントバッファは除く
-    return x ~= vim.fn.expand('%:p')
-  end, results)
+  -- results = vim.tbl_filter(function(x)
+  --   -- カレントバッファは除く
+  --   return x ~= vim.fn.expand('%:p')
+  -- end, results)
 
   pickers.new(opts, {
     prompt_title = 'MRU',

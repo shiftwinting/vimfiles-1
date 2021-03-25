@@ -1,0 +1,4 @@
+{
+  "pyls.plugins.jedi_completion.enabled": true,
+  "pyls.plugins.jedi_completion.fuzzy": true
+}

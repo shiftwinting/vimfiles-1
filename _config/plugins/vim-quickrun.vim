@@ -19,7 +19,7 @@ let g:quickrun_config = {
 \       'hook/output_encode/encoding': '&fileencoding',
 \   },
 \   'python': {
-\       'exec': has('win32') ? 'py -3 %s %a' : 'python3.8 %s %a',
+\       'exec': has('win32') ? 'py -3 %s %a' : 'python3.9 %s %a',
 \       'hook/output_encode/encoding': '&fileencoding',
 \   },
 \   'scheme': {

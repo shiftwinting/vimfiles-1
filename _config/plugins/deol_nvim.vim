@@ -37,6 +37,12 @@ let g:deol#password_pattern =
 nnoremap <silent><A-t> <Cmd>call DeolToggle()<CR>
 tnoremap <silent><A-t> <C-\><C-n><Cmd>call DeolToggle()<CR>
 
+function! DeolOpen() abort
+  botright 25new
+  setlocal winfixheight
+  execute 'Deol -edit -no-start-insert -edit-filetype=deoledit -command=' . &shell
+  " execute 'Deol -toggle -edit-filetype=deoledit -command=' . &shell
+endfunction
 
 " ====================
 " deol の表示をトグル
@@ -46,11 +52,7 @@ function! DeolToggle() abort
     " close
     execute 'Deol -toggle'
   else
-    " open
-    botright 25new
-    setlocal winfixheight
-    execute 'Deol -toggle -edit -no-start-insert -edit-filetype=deoledit -command=' . &shell
-    " execute 'Deol -toggle -edit-filetype=deoledit -command=' . &shell
+    call DeolOpen()
   endif
 endfunction
 
@@ -205,7 +207,8 @@ function! s:deol_editor_settings() abort
     nnoremap <buffer> <C-i> <Nop>
     
     inoremap <buffer> <C-h> <C-h>
-    nnoremap <buffer> <C-h> <C-h>
+    " nnoremap <buffer> <C-h> <C-h>
+    nnoremap <buffer> <C-h> gT
     inoremap <buffer> <BS>  <BS>
     nnoremap <buffer> <BS>  <BS>
 

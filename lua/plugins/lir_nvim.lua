@@ -219,13 +219,12 @@ require'lir.bookmark'.setup {
   }
 }
 
-nvim_apply_mappings({
-  ['n<C-e>'] = { function()
-    local dir = nil
-    local bufname = vim.fn.bufname()
-    if bufname:match('deol%-edit@') or bufname:match('term://') then
-      dir = vim.fn.getcwd()
-    end
-    require'lir.float'.toggle(dir)
-  end },
-}, {silent = true; noremap = true})
+_G.x_lir_init =  function()
+  local dir = nil
+  local bufname = vim.fn.bufname()
+  if bufname:match('deol%-edit@') or bufname:match('term://') then
+    dir = vim.fn.getcwd()
+  end
+  require'lir.float'.toggle(dir)
+end 
+vim.api.nvim_set_keymap('n', '<C-e>', '<Cmd>lua _G.x_lir_init()<CR>', {silent = true; noremap = true})

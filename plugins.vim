@@ -55,7 +55,9 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'gisphm/vim-gitignore'
 Plug 'tpope/vim-fugitive'
 " Plug 'tpope/vim-dispatch'
-" Plug 'gotchane/vim-git-commit-prefix'
+Plug 'gotchane/vim-git-commit-prefix'
+Plug 'mattn/vim-gist'
+Plug 'mattn/webapi-vim'
 
 Plug 'kana/vim-operator-user',
 " Plug 'yuki-yano/vim-operator-replace'
@@ -67,16 +69,16 @@ Plug 'Shougo/deol.nvim', { 'on': ['Deol'] }
 " Neovim
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'norcalli/nvim-colorizer.lua'
-" Plug 'dstein64/nvim-scrollview'
+Plug 'dstein64/nvim-scrollview'
 " Plug 'monaqa/dial.nvim'
 Plug 'bfredl/nvim-miniyank'
 Plug 'antoinemadec/FixCursorHold.nvim'
 " Plug 'tversteeg/registers.nvim'
 " Plug 'edluffy/specs.nvim'
 
+" Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
-" Plug '~/.ghq/github.com/mattn/vim-lsp-settings'
-" Plug '~/.ghq/github.com/tamago324/lua-nlsp'
+" Plug '~/ghq/github.com/tamago324/lua-nlsp'
 Plug 'neovim/nvim-lspconfig'
   Plug 'h-michael/lsp-ext.nvim'
   Plug 'weilbith/nvim-lsp-smag'
@@ -87,13 +89,13 @@ Plug 'neovim/nvim-lspconfig'
 
 Plug 'hrsh7th/nvim-compe'
   Plug 'tamago324/compe-zsh'
-  " Plug 'hrsh7th/vim-vsnip'
+  Plug 'hrsh7th/vim-vsnip'
   " Plug 'tamago324/compe-necosyntax'
   " Plug 'Shougo/neco-syntax'
   Plug 'onsails/lspkind-nvim'
-  Plug '~/.ghq/github.com/tamago324/compe-neosnippet'
-  Plug 'Shougo/neosnippet.vim'
-  Plug 'Shougo/neosnippet-snippets'
+  " Plug '~/ghq/github.com/tamago324/compe-neosnippet'
+  " Plug 'Shougo/neosnippet.vim'
+  " Plug 'Shougo/neosnippet-snippets'
 
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -103,19 +105,25 @@ Plug 'nvim-lua/telescope.nvim'
   Plug 'tamago324/telescope-sonictemplate.nvim'
   Plug 'tamago324/telescope-openbrowser.nvim'
 
+
 Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'nvim-treesitter/playground'
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-  Plug 'JoosepAlviste/nvim-ts-context-commentstring'
 
 " Rust
 Plug 'rust-lang/rust.vim'
+
+" HTML
+Plug 'mattn/emmet-vim'
 
 " i3
 Plug 'mboughaba/i3config.vim'
 
 Plug 'tamago324/lir.nvim'
 Plug 'tamago324/lir-bookmark.nvim'
+Plug '~/ghq/github.com/tamago324/nlsp-settings.nvim'
+
+" Plug 'spinks/vim-leader-guide'
 
 call plug#end()
 

@@ -1,7 +1,7 @@
 if vim.api.nvim_call_function('FindPlugin', {'telescope.nvim'}) == 0 then do return end end
 
 local actions = require('telescope.actions')
-local actions_set = require'telescope.actions.set'
+local action_set = require'telescope.actions.set'
 local action_state = require'telescope.actions.state'
 local sorters = require('telescope.sorters')
 -- local pickers = require('telescope.pickers')
@@ -153,6 +153,7 @@ local extensions = {
 
   'plug_names',
   'mru',
+  'deol',
 }
 local function load_extensions(exps)
   for _, ext in ipairs(exps) do
@@ -319,7 +320,8 @@ local buffers = function()
     return true
   end
 
-  local ignore_current_buffer = true
+  -- local ignore_current_buffer = true
+  local ignore_current_buffer = false
   -- local current_bufnr = a.nvim_get_current_buf()
 
   local gen_from_buffer_like_leaderf = function(opts)
@@ -368,7 +370,7 @@ local buffers = function()
         {entry.bufnr, "TelescopeResultsNumber"},
         -- {entry.indicator, "TelescopeResultsComment"},
         entry.mark_in_same_project,
-        {entry.mark_display_in_win, 'WarningMsg'},
+        {entry.mark_win_info, 'WarningMsg'},
         {entry.devicons, entry.devicons_highlight},
         entry.file_name,
         {entry.dir_name, "Comment"}
@@ -406,10 +408,12 @@ local buffers = function()
 
       -- もし、いずれかのウィンドウに表示されていたら、印をつける
       -- 󿩋󿫼󿫌󿨯󿧽󿥚󿦕󿥙󿠦󿟆󿝀󿔾
-      local mark_display_in_win = ''
+      local mark_win_info = ''
       local bufinfo = vim.fn.getbufinfo(entry.bufnr)
-      if not vim.tbl_isempty(bufinfo) and not vim.tbl_isempty(bufinfo[1].windows) then
-        mark_display_in_win = '󿠦'
+      if entry.bufnr == vim.api.nvim_get_current_buf() then
+        mark_win_info = '󿕅'
+      elseif not vim.tbl_isempty(bufinfo) and not vim.tbl_isempty(bufinfo[1].windows) then
+        mark_win_info = '󿠦'
       end
 
       return {
@@ -432,7 +436,7 @@ local buffers = function()
         dir_name = dir_name,
 
         mark_in_same_project = mark_in_same_project,
-        mark_display_in_win = mark_display_in_win,
+        mark_win_info = mark_win_info,
       }
     end
   end
@@ -767,8 +771,12 @@ local n_commands, x_commands = commands()
 
 local quickfix_in_qflist = function()
   require'telescope.builtin.internal'.quickfix {
-    default_selection_index = vim.fn.line('.')
+    default_selection_index = vim.fn.line('.'),
   }
+end
+
+local deol = function()
+  require('telescope').extensions.deol.list {}
 end
 
 local mappings = {
@@ -787,6 +795,7 @@ local mappings = {
   ['n<Space>fo'] = {openbrowser},
   ['n<A-x>']     = {n_commands},
   ['x<A-x>']     = {x_commands},
+  ['n<Space>fd'] = {deol},
 }
 
 nvim_apply_mappings(mappings, {noremap = true, silent = true})
