@@ -4,6 +4,11 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-lspconfig'}) == 0 then do ret
 local util = require 'lspconfig/util'
 local a = vim.api
 
+local nlspsettings = require'nlspsettings'
+nlspsettings.setup({
+  -- config_home = vim.fn.stdpath('config') .. '/nslp'
+})
+
 -- 診断結果の設定
 --   LSP の仕様: https://github.com/tennashi/lsp_spec_ja#publishdiagnostics-notification
 --- lua の設定はここに書いてある https://github.com/sumneko/lua-language-server/blob/9bde1d4431a466e894a81b533a3a037b9e574305/script/config.lua#L115-L191
@@ -80,8 +85,8 @@ end
 
 
 local on_attach = function(client)
-  local map = function(mode, lhs, rhs)
-    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, { silent = true, noremap = true })
+  local map = function(mode, lhs, rhs, opts)
+    vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, vim.tbl_extend('keep', opts or {}, { silent = true, noremap = true }))
   end
 
   map( 'n', 'K',         [[<Cmd>lua require'xlsp.lspsaga'.render_or_into_hover_doc()<CR>]])
@@ -115,6 +120,8 @@ local on_attach = function(client)
   end
   -- require'lspsignicha_ver2'.setup_autocmds(bufnr)
 
+  map( 'n', '<Space>vl', '<Plug>(nlsp-buf-config)', { noremap = false })
+
   -- require'xlsp/lightbulb'.on_attach()
 end
 
@@ -122,11 +129,6 @@ end
 do
   pcall(require, 'lsp_ext')
 end
-
-local nlspsettings = require'nlspsettings'
-nlspsettings.setup({
-  -- config_home = vim.fn.stdpath('config') .. '/nslp'
-})
 
 local servers = require'xlsp.servers'
 
@@ -139,7 +141,7 @@ vim.lsp.set_log_level(vim.log.levels.DEBUG)
 lspconfig.sumneko_lua.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('sumneko_lua'),
-  settings = nlspsettings.sumneko_lua.get {
+  settings = {
     Lua = {
       workspace = {
         library = {
@@ -151,9 +153,10 @@ lspconfig.sumneko_lua.setup{
         --     [vim.fn.stdpath("config") .. '/lua'] = true,
         --     -- vim-plug で管理しているプラグインの /lua を入れる
         -- }, vim.fn.PlugLuaLibraries())
-        }
       }
     }
+  },
+  on_new_config = nlspsettings.make_on_new_config()
 }
 
 
@@ -162,7 +165,8 @@ lspconfig.sumneko_lua.setup{
 -- $ npm install -g vim-language-server
 lspconfig.vimls.setup{
   on_attach = on_attach,
-  cmd = servers.get_cmd('vimls')
+  cmd = servers.get_cmd('vimls'),
+  on_new_config = nlspsettings.make_on_new_config()
 }
 
 
@@ -195,14 +199,16 @@ lspconfig.rust_analyzer.setup{
   end,
 
   -- https://rust-analyzer.github.io/manual.html#configuration
-  settings = nlspsettings.rust_analyzer.get()
+  on_new_config = nlspsettings.make_on_new_config()
+
 }
 
---- pyls
-lspconfig.pyls.setup{
+
+--- pyright-langserver
+lspconfig.pyright.setup{
   on_attach = on_attach,
-  cmd = servers.get_cmd('pyls'),
-  settings = nlspsettings.pyls.get()
+  cmd = servers.get_cmd('pyright'),
+  on_new_config = nlspsettings.make_on_new_config()
 }
 
 --- efm
@@ -227,7 +233,7 @@ lspconfig.efm.setup {
 lspconfig.jsonls.setup {
   on_attach = on_attach,
   cmd = servers.get_cmd('jsonls'),
-  settings = nlspsettings.jsonls.get {
+  settings = {
     json = {
       schemas = require'nlspsettings.jsonls'.get_default_schemas()
     }
@@ -245,13 +251,13 @@ lspconfig.jsonls.setup {
 lspconfig.bashls.setup {
   on_attach = on_attach,
   cmd = servers.get_cmd('bashls'),
-  settings = nlspsettings.bashls.get()
+  on_new_config = nlspsettings.make_on_new_config()
 }
 
 lspconfig.gopls.setup {
   on_attach = on_attach,
   cmd = servers.get_cmd('gopls'),
-  settings = nlspsettings.gopls.get()
+  on_new_config = nlspsettings.make_on_new_config()
 }
 
 -- lspconfig.angularls.setup{
@@ -268,16 +274,23 @@ lspconfig.gopls.setup {
 lspconfig.cssls.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('cssls'),
-  settings = nlspsettings.cssls.get(),
+  on_new_config = nlspsettings.make_on_new_config()
 }
 
 lspconfig.html.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('html'),
-  settings = nlspsettings.html.get(),
+  on_new_config = nlspsettings.make_on_new_config(),
   capabilities = (function()
     local capa = vim.lsp.protocol.make_client_capabilities()
     capa.textDocument.completion.completionItem.snippetSupport = true
     return capa
   end)()
+}
+
+
+lspconfig.yamlls.setup{
+  on_attach = on_attach,
+  cmd = servers.get_cmd('yamlls'),
+  on_new_config = nlspsettings.make_on_new_config()
 }

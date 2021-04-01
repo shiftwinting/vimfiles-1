@@ -75,5 +75,11 @@
     "body": [
       "local _ = log.${1}() and log.$1(${0})"
     ]
+  },
+  "fmt": {
+    "prefix": "fmt",
+    "body": [
+      "string.format('${1}', ${2})"
+    ]
   }
 }

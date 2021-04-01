@@ -13,6 +13,7 @@ require('nvim-treesitter.configs').setup{
     'bash',
     'toml',
     'comment',
+    'typescript',
     -- 'vim'
   },
   highlight = {

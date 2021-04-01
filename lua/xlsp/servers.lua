@@ -44,6 +44,15 @@ local server_cmd_list = {
   },
   html = {
     server_dir .. '/html-languageserver/html-languageserver', '--stdio'
+  },
+  yamlls = {
+    server_dir .. '/yaml-language-server/yaml-language-server', '--stdio'
+  },
+  jedi_language_server = {
+    server_dir .. '/jedi-language-server/jedi-language-server'
+  },
+  pyright = {
+    server_dir .. '/pyright-langserver/pyright-langserver', '--stdio'
   }
 }
 

@@ -84,7 +84,7 @@ Plug 'neovim/nvim-lspconfig'
   Plug 'weilbith/nvim-lsp-smag'
   Plug 'glepnir/lspsaga.nvim'
   Plug 'mattn/vim-findroot'
-  " Plug 'liuchengxu/vista.vim'
+  Plug 'liuchengxu/vista.vim'
   Plug 'tsuyoshicho/vim-efm-langserver-settings'
 
 Plug 'hrsh7th/nvim-compe'
@@ -109,6 +109,7 @@ Plug 'nvim-lua/telescope.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'nvim-treesitter/playground'
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+  " Plug 'code-biscuits/nvim-biscuits'
 
 " Rust
 Plug 'rust-lang/rust.vim'

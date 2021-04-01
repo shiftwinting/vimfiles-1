@@ -141,6 +141,8 @@ function! s:define_my_highlight() abort
   hi link NLspReferenceRead LspReferenceRead
   hi link NLspReferenceWrite LspReferenceWrite
 
+  hi link BiscuitColor Comment
+
 endfunction
 
 
