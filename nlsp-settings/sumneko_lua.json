@@ -7,6 +7,6 @@
   "Lua.diagnostics.disable": [
     "unused-local", "unused-vararg", "lowercase-global", "undefined-field"
   ],
-  "Lua.completion.callSnippet": "Replace",
+  "Lua.completion.callSnippet": "Disable",
   "Lua.completion.keywordSnippet": "Replace"
 }

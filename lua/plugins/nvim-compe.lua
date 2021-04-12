@@ -10,14 +10,14 @@ require'compe'.setup {
   source = {
     path = {ignored_filetypes = {'deoledit'}},
     buffer = {ignored_filetypes = {'deoledit'}},
-    nvim_lsp = true,
+    nvim_lsp = { sort = false },
     -- nvim_lua = {filetypes = {'lua', 'teal'}},
     -- rust はなんか重くなる...
     -- tags = {ignored_filetypes = {'rust', 'markdown', 'md', 'deoledit', 'vim', 'stpl'}},
     vsnip = true,
     -- neosnippet = {ignored_filetypes = {'deoledit'}},
     zsh = {filetypes = {'deoledit'}},
-    -- necosyntax = {filetypes = {'make', 'teal'}},
+    necosyntax = {filetypes = {'make', 'teal', 'zig'}},
     -- nvim_treesitter = {filetypes = {'lua'}},
     -- vim_lsp = true
   }

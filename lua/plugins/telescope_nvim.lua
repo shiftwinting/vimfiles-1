@@ -18,7 +18,7 @@ local devicons = require'nvim-web-devicons'
 local Path = require'plenary.path'
 local a = vim.api
 
-local nearest_ancestor = require'xpath'.nearest_ancestor
+local find_git_ancestor = require'lspconfig.util'.find_git_ancestor
 local get_default = require'telescope.utils'.get_default
 local utils = require'telescope.utils'
 
@@ -31,7 +31,6 @@ require'telescope'.setup{
     borderchars = {'-', '|', '-', '|', '+', '+', '+', '+'},
     -- borderchars = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
     winblend = 0,
-
     -- prompt_position = "bottom",
     prompt_position = "top",
     sorting_strategy = "ascending",
@@ -135,6 +134,8 @@ require'telescope'.setup{
         ['AUR (Arch user repository)'] = 'https://aur.archlinux.org/',
         ['Arch Linux Packages']        = 'https://archlinux.org/packages/',
         ["i3 User's Guide"]            = 'https://i3wm.org/docs/userguide.html',
+        ['zig documentation']          = 'https://ziglang.org/documentation/master/',
+        ['ziglings']                   = 'https://zenn.dev/tamago324/scraps/b072e8ae70907f'
       }
     }
   }
@@ -383,7 +384,7 @@ local buffers = function()
       if dir == '' then
         dir = vim.fn.getcwd()
       end
-      root_dir = nearest_ancestor({'.git/'}, dir)
+      root_dir = find_git_ancestor(dir)
     end
 
     return function(entry)
@@ -402,7 +403,7 @@ local buffers = function()
       -- プロジェクト内のファイルなら、印をつける
       -- 現在のバッファのプロジェクトを見つける
       local mark_in_same_project = ''
-      if root_dir ~= '' and vim.startswith(bufname, root_dir) then
+      if root_dir and root_dir ~= '' and vim.startswith(bufname, root_dir) then
         mark_in_same_project = '*'
       end
 
@@ -520,8 +521,8 @@ end
 -- @Summary git_files か find_files
 -- @Description
 local find_files = function()
-  local marker_dir = nearest_ancestor({'.git', '.gitignore'}, Path:new(vim.fn.expand('%:p')):absolute())
-  if marker_dir ~= '' then
+  local marker_dir = find_git_ancestor(Path:new(vim.fn.expand('%:p')):absolute())
+  if marker_dir and marker_dir ~= '' then
     require'telescope.builtin'.git_files{
       layout_strategy = 'horizontal',
       cwd = marker_dir,
@@ -775,8 +776,19 @@ local quickfix_in_qflist = function()
   }
 end
 
-local deol = function()
-  require('telescope').extensions.deol.list {}
+-- local deol = function()
+--   require('telescope').extensions.deol.list {}
+-- end
+
+-- local oldfiles = function()
+--   require'telescope.builtin.internal'.oldfiles {
+--     previewer = false
+--   }
+-- end
+
+local current_buffer_line = function()
+  require('telescope.builtin.files').current_buffer_fuzzy_find {
+  }
 end
 
 local mappings = {
@@ -785,17 +797,19 @@ local mappings = {
   ['n<Space>fj'] = {buffers},
   -- ['n<Space>fg'] = {gen_grep_string()},
   ['n<Space>ff'] = {find_files},
-  ['n<Space>ft'] = {filetypes},
+  -- ['n<Space>ft'] = {filetypes},
   ['n<Space>fk'] = {mru},
+  -- ['n<Space>fk'] = {oldfiles},
   ['n<Space>fq'] = {ghq},
   -- ['n<Space>fs'] = {current_buffer_tags},
   ['n<Space>fs'] = {lsp_document_symbols},
   -- ['n<Space>fs'] = {treesitter_or_current_buffer_tags},
-  ['n<Space>;t'] = {sonictemplate},
+  -- ['n<Space>;t'] = {sonictemplate},
   ['n<Space>fo'] = {openbrowser},
   ['n<A-x>']     = {n_commands},
   ['x<A-x>']     = {x_commands},
-  ['n<Space>fd'] = {deol},
+  ['n<Space>fn'] = {current_buffer_line},
+  -- ['n<Space>fd'] = {deol},
 }
 
 nvim_apply_mappings(mappings, {noremap = true, silent = true})

@@ -53,6 +53,15 @@ local server_cmd_list = {
   },
   pyright = {
     server_dir .. '/pyright-langserver/pyright-langserver', '--stdio'
+  },
+  dockerls = {
+    server_dir .. '/docker-langserver/docker-langserver', '--stdio'
+  },
+  vuels = {
+    server_dir .. '/vls/vls'
+  },
+  efm = {
+    server_dir .. '/efm-langserver/efm-langserver', '-c', vim.fn['efm_langserver_settings#config_path']()
   }
 }
 

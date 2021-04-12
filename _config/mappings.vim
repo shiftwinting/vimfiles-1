@@ -266,3 +266,4 @@ nnoremap ; g;
 nnoremap sa <Cmd>tabo<CR>
 
 nnoremap sc <Cmd>tabclose<CR>
+" nnoremap sl <Cmd>only<CR>

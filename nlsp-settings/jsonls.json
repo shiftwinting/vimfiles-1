@@ -1,16 +1,3 @@
 {
-  "json.schemas": [
-    {
-      "fileMatch": ["tsconfig.json", "tsconfig.*.json"],
-      "url": "http://json.schemastore.org/tsconfig"
-    },
-    {
-      "fileMatch": [".eslintrc.json", ".eslintrc"],
-      "url": "http://json.schemastore.org/eslintrc"
-    },
-    {
-      "fileMatch": [".prettierrc", ".prettierrc.json", "prettier.config.json"],
-      "url": "http://json.schemastore.org/prettierrc"
-    }
-  ]
+
 }

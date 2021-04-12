@@ -8,7 +8,7 @@ local entry_display = require 'telescope.pickers.entry_display'
 local devicons = require'nvim-web-devicons'
 
 local utils = require'telescope.utils'
-local nearest_ancestor = require'xpath'.nearest_ancestor
+local find_git_ancestor = require'lspconfig.util'.find_git_ancestor
 
 -----------------------------
 -- Private
@@ -32,14 +32,14 @@ local gen_from_mru_better = function(opts)
     if dir == '' then
       dir = vim.fn.getcwd()
     end
-    root_dir = nearest_ancestor({'.git/'}, dir)
+    root_dir = find_git_ancestor(dir)
   end
 
   local displayer = entry_display.create {
     separator = " ",
     items = {
       { width = 1 },
-      -- { width = utils.strdisplaywidth(default_icons) },
+      { width = utils.strdisplaywidth(default_icons) },
       { width = utils.strdisplaywidth(default_icons) },
       -- { width = max_filename },
       { width = 35 },
@@ -53,7 +53,7 @@ local gen_from_mru_better = function(opts)
   local make_display = function(entry)
     return displayer {
       entry.mark_in_same_project,
-      -- {entry.mark_win_info, 'WarningMsg'},
+      {entry.mark_win_info, 'WarningMsg'},
       {entry.devicons, entry.devicons_highlight},
       entry.file_name,
       {entry.dir_name, "Comment"}
@@ -70,17 +70,17 @@ local gen_from_mru_better = function(opts)
     -- プロジェクト内のファイルなら、印をつける
     -- 現在のバッファのプロジェクトを見つける
     local mark_in_same_project = ' '
-    if root_dir ~= '' and vim.startswith(entry, root_dir) then
+    if root_dir and root_dir ~= '' and vim.startswith(entry, root_dir) then
       mark_in_same_project = '*'
     end
 
-    -- local mark_win_info = ''
-    -- local bufinfo = vim.fn.getbufinfo(entry.bufnr)
-    -- if entry.bufnr == vim.api.nvim_get_current_buf() then
-    --   mark_win_info = '󿕅'
-    -- elseif not vim.tbl_isempty(bufinfo) and not vim.tbl_isempty(bufinfo[1].windows) then
-    --   mark_win_info = '󿠦'
-    -- end
+    local mark_win_info = ''
+    local bufinfo = vim.fn.getbufinfo(entry.bufnr)
+    if entry.bufnr == vim.api.nvim_get_current_buf() then
+      mark_win_info = '󿕅'
+    elseif not vim.tbl_isempty(bufinfo) and not vim.tbl_isempty(bufinfo[1].windows) then
+      mark_win_info = '󿠦'
+    end
 
     return {
       valid = true,
@@ -101,7 +101,7 @@ local gen_from_mru_better = function(opts)
       dir_name = dir_name,
 
       mark_in_same_project = mark_in_same_project,
-      -- mark_win_info = mark_win_info,
+      mark_win_info = mark_win_info,
     }
   end
 end

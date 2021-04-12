@@ -226,5 +226,5 @@ _G.x_lir_init =  function()
     dir = vim.fn.getcwd()
   end
   require'lir.float'.toggle(dir)
-end 
+end
 vim.api.nvim_set_keymap('n', '<C-e>', '<Cmd>lua _G.x_lir_init()<CR>', {silent = true; noremap = true})

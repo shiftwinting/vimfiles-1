@@ -41,6 +41,7 @@ Plug 'svermeulen/vim-cutlass'
 " Plug 'thinca/vim-prettyprint', { 'on': ['PP', 'PrettyPrint'] }
 " Plug 'thinca/vim-qfreplace', { 'on': 'Qfreplace' }
 Plug 'thinca/vim-quickrun'
+Plug 'lambdalisue/vim-quickrun-neovim-job'
 Plug 'tomtom/tcomment_vim'
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
 Plug 'tyru/open-browser-github.vim'
@@ -48,6 +49,8 @@ Plug 'tyru/open-browser.vim'
 Plug 'vim-jp/syntax-vim-ex'
 Plug 'vim-jp/vimdoc-ja'
 Plug 'voldikss/vim-translator', { 'on': ['TranslateW', 'TranslateR', 'Translate'] }
+" Plug 'itchyny/vim-winfix'
+Plug 'kana/vim-niceblock'
 
 Plug 'knsh14/vim-github-link', { 'on': ['GetCurrentCommitLink', 'GetCurrentBranchLink', 'GetCommitLink'] }
 Plug 'cohama/agit.vim', { 'on': ['Agit', 'AgitFile'] }
@@ -75,23 +78,28 @@ Plug 'bfredl/nvim-miniyank'
 Plug 'antoinemadec/FixCursorHold.nvim'
 " Plug 'tversteeg/registers.nvim'
 " Plug 'edluffy/specs.nvim'
+Plug 'notomo/curstr.nvim'
 
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
 " Plug '~/ghq/github.com/tamago324/lua-nlsp'
 Plug 'neovim/nvim-lspconfig'
+" Plug '~/ghq/github.com/neovim/nvim-lspconfig'
+" Plug 'kabouzeid/nvim-lspinstall'
   Plug 'h-michael/lsp-ext.nvim'
   Plug 'weilbith/nvim-lsp-smag'
   Plug 'glepnir/lspsaga.nvim'
   Plug 'mattn/vim-findroot'
   Plug 'liuchengxu/vista.vim'
   Plug 'tsuyoshicho/vim-efm-langserver-settings'
+  " Plug 'nanotee/nvim-lua-annotations'
 
 Plug 'hrsh7th/nvim-compe'
-  Plug 'tamago324/compe-zsh'
+  " Plug 'tamago324/compe-zsh'
+  Plug '~/ghq/github.com/tamago324/compe-zsh'
   Plug 'hrsh7th/vim-vsnip'
-  " Plug 'tamago324/compe-necosyntax'
-  " Plug 'Shougo/neco-syntax'
+  Plug 'tamago324/compe-necosyntax'
+  Plug 'Shougo/neco-syntax'
   Plug 'onsails/lspkind-nvim'
   " Plug '~/ghq/github.com/tamago324/compe-neosnippet'
   " Plug 'Shougo/neosnippet.vim'
@@ -105,14 +113,23 @@ Plug 'nvim-lua/telescope.nvim'
   Plug 'tamago324/telescope-sonictemplate.nvim'
   Plug 'tamago324/telescope-openbrowser.nvim'
 
+" Plug 'vim-denops/denops.vim'
+" Plug 'yutkat/dps-coding-now.nvim'
 
 Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'nvim-treesitter/playground'
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   " Plug 'code-biscuits/nvim-biscuits'
+  " Plug 'tjdevries/tree-sitter-lua'
+
+Plug 'ido-nvim/core', { 'as': 'ido' }
+" Plug 'ido-nvim/files', { 'as': 'ido_files' }
 
 " Rust
 Plug 'rust-lang/rust.vim'
+
+" zig
+Plug 'ziglang/zig.vim'
 
 " HTML
 Plug 'mattn/emmet-vim'
@@ -122,7 +139,8 @@ Plug 'mboughaba/i3config.vim'
 
 Plug 'tamago324/lir.nvim'
 Plug 'tamago324/lir-bookmark.nvim'
-Plug '~/ghq/github.com/tamago324/nlsp-settings.nvim'
+" Plug '~/ghq/github.com/tamago324/nlsp-settings.nvim'
+Plug 'tamago324/nlsp-settings.nvim'
 
 " Plug 'spinks/vim-leader-guide'
 
@@ -363,7 +381,6 @@ call plug#end()
 " Plug 'machakann/vim-swap'
 " Plug 'lambdalisue/vim-protocol'
 " Plug 'lambdalisue/fin.vim'
-" Plug 'lambdalisue/vim-quickrun-neovim-job'
 
 " Plug 'osyo-manga/vim-milfeulle'
 " Plug 'mattn/vim-nyancat'

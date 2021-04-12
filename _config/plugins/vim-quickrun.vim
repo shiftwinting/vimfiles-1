@@ -8,7 +8,7 @@ let g:quickrun_config = {}
 " hook/output_encode/encoding で encoding の from:to を指定できる
 let g:quickrun_config = {
 \   '_': {
-\       'runner': has('nvim') ? 'system' : 'job',
+\       'runner': has('nvim') ? 'neovim_job' : 'job',
 \       'hook/output_encode/encoding': has('win32') ? 'cp932' : 'utf-8',
 \       'outputter/buffer/close_on_empty': 1,
 \   },
@@ -38,6 +38,9 @@ let g:quickrun_config = {
 \   },
 \   'lua': {
 \       'type': 'lua/vim'
+\   },
+\   'zig': {
+\       'exec': 'zig run %s'
 \   },
 \}
 

@@ -106,7 +106,7 @@ local on_attach = function(client)
 
   local bufnr = a.nvim_get_current_buf()
   -- signature_help を表示する
-  if client.resolved_capabilities.signature_help then
+  if client.resolved_capabilities.signature_help and client.name ~= 'zls' then
     require'xlsp/lspsignicha'.setup_autocmds(bufnr)
   end
 
@@ -114,10 +114,14 @@ local on_attach = function(client)
     require'xlsp/document_highlight'.setup_autocmds(bufnr)
   end
 
-  if client.resolved_capabilities.document_range_formatting then
+  if client.resolved_capabilities.document_formatting then
+    map('n', '<Space>bl', '<Cmd>lua vim.lsp.buf.formatting({})<CR>')
+
+  elseif client.resolved_capabilities.document_range_formatting then
     vim.cmd [[command! -buffer LspFormat lua require'xlsp/document_range_formatting'.format()]]
-    vim.api.nvim_buf_set_keymap(0, 'n', '<Space>bl', '<Cmd>LspFormat<CR>', {noremap = true, silent = true})
+    map('n', '<Space>bl', '<Cmd>LspFormat<CR>')
   end
+
   -- require'lspsignicha_ver2'.setup_autocmds(bufnr)
 
   map( 'n', '<Space>vl', '<Plug>(nlsp-buf-config)', { noremap = false })
@@ -138,25 +142,25 @@ local lspconfig = require'lspconfig'
 vim.lsp.set_log_level(vim.log.levels.DEBUG)
 
 -- lua
+-- local annotations_path = vim.fn.expand('$HOME') .. '/tmpdir/nvim-lua-annotations.lua'
+-- if vim.fn.filereadable(annotations_path) == 0 then
+--   require'nvim-lua-annotations'.write_to_file(annotations_path)
+-- end
+
 lspconfig.sumneko_lua.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('sumneko_lua'),
   settings = {
     Lua = {
       workspace = {
-        library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-          [vim.fn.stdpath("config") .. '/lua'] = true,
-        }
-        -- library = vim.tbl_extend('force', {
-        --     [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-        --     [vim.fn.stdpath("config") .. '/lua'] = true,
-        --     -- vim-plug で管理しているプラグインの /lua を入れる
-        -- }, vim.fn.PlugLuaLibraries())
+        library = vim.tbl_extend('force', {
+            [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+            [vim.fn.stdpath("config") .. '/lua'] = true,
+        -- vim-plug で管理しているプラグインの /lua を入れる
+        }, vim.fn.PlugLuaLibraries())
       }
     }
   },
-  on_new_config = nlspsettings.make_on_new_config()
 }
 
 
@@ -166,7 +170,6 @@ lspconfig.sumneko_lua.setup{
 lspconfig.vimls.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('vimls'),
-  on_new_config = nlspsettings.make_on_new_config()
 }
 
 
@@ -199,7 +202,6 @@ lspconfig.rust_analyzer.setup{
   end,
 
   -- https://rust-analyzer.github.io/manual.html#configuration
-  on_new_config = nlspsettings.make_on_new_config()
 
 }
 
@@ -208,34 +210,60 @@ lspconfig.rust_analyzer.setup{
 lspconfig.pyright.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('pyright'),
-  on_new_config = nlspsettings.make_on_new_config()
 }
 
 --- efm
 -- 設定の例 : https://github.com/search?q=lspconfig+efm+language%3ALua&type=Code&ref=advsearch&l=&l=
 lspconfig.efm.setup {
   init_options = { documentFormatting = true },
-  cmd = {
-    'efm-langserver', '-c', vim.fn['efm_langserver_settings#config_path']()
-  },
+  cmd = servers.get_cmd('efm'),
   -- filetypes = vim.fn['efm_langserver_settings#whitelist'](),
-  filetypes = { 'json' },
+  filetypes = { 'zig' },
   settings = {
     rootMarkers = { '.git/' },
+    languages = {
+      zig = {
+        formatCommand = 'zig fmt --stdin',
+        formatStdin = true,
+      }
+    }
+  },
+  commands = {
+    Format = {
+      function()
+        vim.lsp.buf.formatting_sync({})
+      end
+    }
   }
 }
+
+-- vim.cmd [[augroup my-efm-langserver]]
+-- vim.cmd [[  autocmd!]]
+-- vim.cmd [[  autocmd BufWritePre *.zig lua vim.lsp.buf.formatting_sync({}, 1000)]]
+-- vim.cmd [[augroup END]]
 
 ---------
 -- jsonls
 ---------
 -- https://github.com/ekadas/Devenv/blob/ba55bd221e9e0d37c8f70e0f752fcfee146e7d64/tools/nvim/lua/lsp.lua#L83-L99
 -- https://github.com/JoosepAlviste/dotfiles/blob/65b325e7804831ad014942b78e943022f43a2456/config/nvim/lua/j/plugins/lsp.lua#L158-L170
+local jsonls_schemas = {
+  {
+    fileMatch = {"dockerls.json"},
+    url = "file:///home/tamago324/ghq/github.com/tamago324/nlsp-settings.nvim/schemas/dockerls.json"
+  }
+}
+for _, v in ipairs(vim.deepcopy(require'nlspsettings.jsonls'.get_default_schemas())) do
+  table.insert(jsonls_schemas, v)
+end
+
+
 lspconfig.jsonls.setup {
   on_attach = on_attach,
   cmd = servers.get_cmd('jsonls'),
   settings = {
     json = {
-      schemas = require'nlspsettings.jsonls'.get_default_schemas()
+      schemas = jsonls_schemas
     }
   },
   -- Format というコマンドを定義する
@@ -251,13 +279,11 @@ lspconfig.jsonls.setup {
 lspconfig.bashls.setup {
   on_attach = on_attach,
   cmd = servers.get_cmd('bashls'),
-  on_new_config = nlspsettings.make_on_new_config()
 }
 
 lspconfig.gopls.setup {
   on_attach = on_attach,
   cmd = servers.get_cmd('gopls'),
-  on_new_config = nlspsettings.make_on_new_config()
 }
 
 -- lspconfig.angularls.setup{
@@ -274,13 +300,11 @@ lspconfig.gopls.setup {
 lspconfig.cssls.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('cssls'),
-  on_new_config = nlspsettings.make_on_new_config()
 }
 
 lspconfig.html.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('html'),
-  on_new_config = nlspsettings.make_on_new_config(),
   capabilities = (function()
     local capa = vim.lsp.protocol.make_client_capabilities()
     capa.textDocument.completion.completionItem.snippetSupport = true
@@ -292,5 +316,16 @@ lspconfig.html.setup{
 lspconfig.yamlls.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('yamlls'),
-  on_new_config = nlspsettings.make_on_new_config()
 }
+
+lspconfig.zls.setup{
+  on_attach = on_attach,
+  cmd = { vim.fn.expand('$HOME/.cache/zls/zls') },
+}
+
+
+lspconfig.vuels.setup{
+  on_attach = on_attach,
+  cmd = servers.get_cmd('vuels'),
+}
+

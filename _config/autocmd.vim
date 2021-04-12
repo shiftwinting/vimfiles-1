@@ -236,14 +236,17 @@ endfunction
 " ====================
 function! VimDocFormat() abort range
   " range をつけると、 a:firstline と a:lastline が使える
+  let l:pos = getcurpos()
   for l:lnum in range(a:firstline, a:lastline)
     let l:line = getline(l:lnum)
     if l:line =~# '\*$'
-      let l:space_cnt = &textwidth - strdisplaywidth(substitute(l:line, '\v\s+', '', 'g'))
-      let l:new_line = substitute(l:line, '\v^[[:graph:]]+\zs\s+', repeat(' ', l:space_cnt), '')
+      let l:space_cnt = &textwidth - strdisplaywidth(substitute(l:line, '\v\s*\ze\*[^*]+\*$', '', 'g'))
+      " let l:new_line = substitute(l:line, '\v^[[:graph:]]+\zs\s+', repeat(' ', l:space_cnt), '')
+      let l:new_line = substitute(l:line, '\v\s+\ze\*[^*]+\*$', repeat(' ', l:space_cnt), '')
       call setline(l:lnum, l:new_line)
     endif
   endfor
+  call setpos('.', l:pos)
   echo '[VimDocFormat] Formatted!'
 endfunction
 
@@ -708,3 +711,36 @@ autocmd MyAutoCmd BufRead,BufWinEnter nlsp.log,lsp.log call <SID>nlsp_log()
 "   autocmd!
 "   autocmd User NLspProgressUpdate echomsg 'hello'
 " augroup END
+
+
+command! QZigTest call QZigTest()
+function! QZigTest() abort
+  let l:curwin = win_getid()
+  let l:result_bufnr = v:null
+  for l:win in nvim_tabpage_list_wins(0)
+    let l:bufnr = nvim_win_get_buf(l:win)
+
+    " 100:cargo run みたいなバッファを探す
+    if bufname(l:bufnr) =~# '\v\d+:zig '
+      " もし、あれば移動する
+      let l:result_bufnr = l:bufnr
+      break
+    endif
+  endfor
+
+  let l:fname = expand('%:p')
+
+  if l:result_bufnr == v:null
+    execute '15 new'
+  else
+    execute printf('noautocmd %d wincmd w', bufwinnr(l:bufnr))
+  endif
+
+  execute printf('terminal zig test %s', l:fname)
+  setlocal nobuflisted
+  call win_gotoid(l:curwin)
+endfunction
+
+function! s:my_ft_zig() abort
+  nnoremap <buffer> <Space>rt <Cmd>QZigTest<CR>
+endfunction

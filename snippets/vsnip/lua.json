@@ -38,6 +38,13 @@
       "\t${0}"
     ]
   },
+  "elseif": {
+    "prefix": "elseif",
+    "body": [
+      "elseif ${1} then",
+      "\t${0}"
+    ]
+  },
   "while": {
     "prefix": "while",
     "body": [

@@ -10,5 +10,10 @@ require'nvim-web-devicons'.setup({
       color = "#7ebae4",
       name = "FolderNode"
     },
+    ["vue"] = {
+      icon = "󿵂",
+      color = "#8dc149",
+      name = "Vue"
+    },
   }
 })

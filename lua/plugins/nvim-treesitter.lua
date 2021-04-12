@@ -14,6 +14,7 @@ require('nvim-treesitter.configs').setup{
     'toml',
     'comment',
     'typescript',
+    -- 'zig',
     -- 'vim'
   },
   highlight = {
@@ -48,9 +49,9 @@ require('nvim-treesitter.configs').setup{
     },
   },
   refactor = {
-    highlight_definitions = {
-      enable = true,
-    },
+    -- highlight_definitions = {
+    --   enable = true,
+    -- },
     -- highlight_current_scope = {
     --   enable = true
     -- },

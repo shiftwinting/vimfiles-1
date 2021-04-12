@@ -1,0 +1,81 @@
+{
+  "fn": {
+    "prefix": "fn",
+    "body": [
+      "fn ${1:name}(${2}) ${3:void} {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if (${1}) {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "else": {
+    "prefix": "else",
+    "body": [
+      "else {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "elseif": {
+    "prefix": "elseif",
+    "body": [
+      "elseif ${1} {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "switch": {
+    "prefix": "switch",
+    "body": [
+      "switch (${1}) {",
+      "\t${2} => ${3},",
+      "\telse => ${4}",
+      "}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for (${1:arr}) |${2:val}| {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "while": {
+    "prefix": "while",
+    "body": [
+      "while (${1}) {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "print": {
+    "prefix": "print",
+    "body": [
+      "std.debug.print(\"{}${1}\", .{${0}});"
+    ]
+  },
+  "enum": {
+    "prefix": "enum",
+    "body": [
+      "enum {",
+      "\t${0}",
+      "};"
+    ]
+  },
+  "struct": {
+    "prefix": "struct",
+    "body": [
+      "struct {",
+      "\t${0}",
+      "};"
+    ]
+  }
+}
