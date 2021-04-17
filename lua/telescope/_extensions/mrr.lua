@@ -3,15 +3,19 @@ local pickers = require 'telescope.pickers'
 local sorters = require 'telescope.sorters'
 local finders = require 'telescope.finders'
 
+local Path = require'plenary.path'
+
 local a = vim.api
 
 local list = function(opts)
   opts = opts or {}
 
-  local results = {}
+  local results = vim.tbl_map(function(v)
+    return Path:new(v):normalize()
+  end, vim.api.nvim_eval('mr#mrr#list()[:3000]'))
 
   pickers.new(opts, {
-    prompt_title = 'TODO: Title',
+    prompt_title = 'MRR',
     finder = finders.new_table {
     results = results,
     entry_maker = function(entry)
@@ -27,8 +31,7 @@ local list = function(opts)
       actions.select_default:replace(function()
         local entry = actions.get_selected_entry()
         actions.close(prompt_bufnr)
-
-        print(entry.value)
+        vim.cmd('edit ' .. entry.value)
       end)
       return true
     end
@@ -36,10 +39,8 @@ local list = function(opts)
 end
 
 
-
 return require'telescope'.register_extension {
   exports = {
     list = list
   }
 }
-

@@ -267,3 +267,44 @@ nnoremap sa <Cmd>tabo<CR>
 
 nnoremap sc <Cmd>tabclose<CR>
 " nnoremap sl <Cmd>only<CR>
+
+let s:float_tmp = {}
+let s:float_tmp.buf = v:null
+let s:float_tmp.win = v:null
+
+function! s:hide_floating_tmp() abort
+  call nvim_win_hide(s:float_tmp.win)
+endfunction
+
+function! s:open_floating_tmp() abort
+  " カーソルの近くに使い捨てのフローティングウィンドウを表示する
+  if s:float_tmp.buf ==# v:null
+    let s:float_tmp.buf = nvim_create_buf(v:false, v:true)
+  endif
+
+  " cursor って使えないの？
+  let s:float_tmp.win = nvim_open_win(s:float_tmp.buf, v:true, {
+  \ 'relative': 'cursor',
+  \ 'width': 40,
+  \ 'height': 15,
+  \ 'col': 10,
+  \ 'row': 3,
+  \ 'focusable': v:true,
+  \ 'style': 'minimal',
+  \ 'border': 'shadow',
+  \})
+
+  call nvim_win_set_option(s:float_tmp.win, 'winhl', 'Normal:LirFloatNormal,EndOfBuffer:LirFloatNormal')
+
+  setlocal cursorline
+  setlocal number
+
+  nnoremap <buffer> q  <Cmd>call <SID>hide_floating_tmp()<CR>
+  nnoremap <buffer> si <Cmd>call <SID>hide_floating_tmp()<CR>
+
+  augroup FloatTmp
+     autocmd!
+    autocmd WinLeave <buffer> call <SID>hide_floating_tmp()
+  augroup END
+endfunction
+nnoremap si <Cmd>call <SID>open_floating_tmp()<CR>

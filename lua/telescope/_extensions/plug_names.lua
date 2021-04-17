@@ -4,15 +4,6 @@ local pickers = require 'telescope.pickers'
 local sorters = require 'telescope.sorters'
 local finders = require 'telescope.finders'
 
------------------------------
--- Private
------------------------------
-
-
-
------------------------------
--- Export
------------------------------
 local list = function(opts)
   opts = opts or {}
   pickers.new(opts, {

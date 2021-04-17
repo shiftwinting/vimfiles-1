@@ -32,7 +32,7 @@ do
   local has_lspsaga, lspsaga = pcall(require, 'lspsaga')
   if has_lspsaga then
     lspsaga.init_lsp_saga {
-      border_style = 4,
+      border_style = 'plus',
       code_action_icon = ' 󿯦 ',
       code_action_prompt = {
         enable = false
@@ -106,7 +106,8 @@ local on_attach = function(client)
 
   local bufnr = a.nvim_get_current_buf()
   -- signature_help を表示する
-  if client.resolved_capabilities.signature_help and client.name ~= 'zls' then
+  -- if client.resolved_capabilities.signature_help and client.name ~= 'zls' then
+  if false then
     require'xlsp/lspsignicha'.setup_autocmds(bufnr)
   end
 
@@ -137,6 +138,23 @@ end
 local servers = require'xlsp.servers'
 
 local lspconfig = require'lspconfig'
+
+
+local global_capabilities = vim.lsp.protocol.make_client_capabilities()
+global_capabilities.textDocument.completion.completionItem.snippetSupport = true
+global_capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = {
+    'documentation',
+    'detail',
+    'additionalTextEdits',
+  }
+}
+
+lspconfig.util.default_config = vim.tbl_extend(
+  "force",
+  lspconfig.util.default_config,
+  { capabilities = global_capabilities }
+)
 
 -- ログレベルを TRACE に設定
 vim.lsp.set_log_level(vim.log.levels.DEBUG)
@@ -305,11 +323,6 @@ lspconfig.cssls.setup{
 lspconfig.html.setup{
   on_attach = on_attach,
   cmd = servers.get_cmd('html'),
-  capabilities = (function()
-    local capa = vim.lsp.protocol.make_client_capabilities()
-    capa.textDocument.completion.completionItem.snippetSupport = true
-    return capa
-  end)()
 }
 
 

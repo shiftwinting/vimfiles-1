@@ -59,7 +59,7 @@
   "print": {
     "prefix": "print",
     "body": [
-      "std.debug.print(\"{}${1}\", .{${0}});"
+      "std.debug.print(\"{}${1}\\n\", .{${0}});"
     ]
   },
   "enum": {
@@ -76,6 +76,14 @@
       "struct {",
       "\t${0}",
       "};"
+    ]
+  },
+  "test": {
+    "prefix": "test",
+    "body": [
+      "test \"${1}\" {",
+      "\t${0}",
+      "}"
     ]
   }
 }

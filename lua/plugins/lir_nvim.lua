@@ -145,6 +145,7 @@ end
 function _G.LirSettings()
   a.nvim_buf_set_keymap(0, 'x', 'J', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
   -- a.nvim_buf_set_keymap(0, 'n', 'J', ':<C-u>call v:lua.LirToggleMark("n")<CR>', {noremap = true, silent = true})
+  vim.api.nvim_echo({{vim.fn.expand('%:p'), 'Normal'}}, false, {})
 end
 
 vim.cmd [[augroup lir-settings]]
@@ -194,14 +195,17 @@ require 'lir'.setup {
     ['X'] = clipboard_actions.cut,
     ['P'] = clipboard_actions.paste,
     ['D'] = rm,
+    ['Q'] = require'plugins/telescope_nvim'.lir_mrr
 
-    ['A'] = argadd_marked_items,
+    -- ['A'] = argadd_marked_items,
   },
   float = {
     size_percentage = 0.5,
     winblend = 2,
     border = true,
-    borderchars = {"-" , "|" , "-" , "|" , "+" , "+" , "+" , "+"},
+    -- borderchars = {"-" , "|" , "-" , "|" , "+" , "+" , "+" , "+"},
+    -- borderchars = {'+', '-', '+', '|', '+', '-', '+', '|'},
+    shadow = true
   },
   hide_cursor = true
 }

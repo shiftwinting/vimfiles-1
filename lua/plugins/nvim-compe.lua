@@ -17,16 +17,15 @@ require'compe'.setup {
     vsnip = true,
     -- neosnippet = {ignored_filetypes = {'deoledit'}},
     zsh = {filetypes = {'deoledit'}},
-    necosyntax = {filetypes = {'make', 'teal', 'zig'}},
+    necosyntax = {filetypes = {'make', 'teal', 'zig', 'i3config'}},
     -- nvim_treesitter = {filetypes = {'lua'}},
     -- vim_lsp = true
   }
 }
 
-vim.api.nvim_set_keymap('i', '<C-Space>', 'compe#complete()',                             {silent = true, expr = true})
-vim.api.nvim_set_keymap('i', '<CR>',      "compe#confirm(lexima#expand('<LT>CR>', 'i'))", {silent = true, expr = true})
+vim.api.nvim_set_keymap('i', '<C-Space>', 'compe#complete()',                             {silent = true, expr = true, noremap = true})
+vim.api.nvim_set_keymap('i', '<CR>',      "compe#confirm(lexima#expand('<LT>CR>', 'i'))", {silent = true, expr = true, noremap = true})
 -- vim.api.nvim_set_keymap('i', '<C-e>',     "compe#close('<C-e>')",                         {silent = true, expr = true, noremap = true})
-
 
 -- if vim.api.nvim_call_function('FindPlugin', {'echodoc.vim'}) == 1 then
 --   vim.api.nvim_set_var('echodoc#type', 'floating')

@@ -39,33 +39,36 @@ M.filetypes = function()
   }
 end
 
-M.sonictemplate = function()
-  local input = ido.start {
-    items = vim.fn['sonictemplate#complete']('', '', ''),
-  }
-  if input == nil or #input == 0 then
-    return
-  end
-  vim.cmd('Template ' .. input)
-end
+---------------------------
+--- wilder.nvim でいいため
+---------------------------
+-- M.sonictemplate = function()
+--   local input = ido.start {
+--     items = vim.fn['sonictemplate#complete']('', '', ''),
+--   }
+--   if input == nil or #input == 0 then
+--     return
+--   end
+--   vim.cmd('Template ' .. input)
+-- end
 
-M.deol_commands = function()
-  local commands = {
-    ['new branch'] = 'git switch -c '
-  }
-  local input = ido.start {
-    items = vim.tbl_keys(commands)
-  }
-  if input == nil or #input == 0 then
-    return
-  end
-
-  vim.fn.setline(vim.fn.line('.'), commands[input])
-  vim.cmd 'startinsert!'
-end
+-- M.deol_commands = function()
+--   local commands = {
+--     ['new branch'] = 'git switch -c '
+--   }
+--   local input = ido.start {
+--     items = vim.tbl_keys(commands)
+--   }
+--   if input == nil or #input == 0 then
+--     return
+--   end
+--
+--   vim.fn.setline(vim.fn.line('.'), commands[input])
+--   vim.cmd 'startinsert!'
+-- end
 
 map('n', '<Space>ft', '<Cmd>lua require"plugins/ido_nvim".filetypes()<CR>')
-map('n', '<Space>;t', '<Cmd>lua require"plugins/ido_nvim".sonictemplate()<CR>')
-map('n', '<Space><Space>', '<Cmd>lua require"plugins/ido_nvim".deol_commands()<CR>')
+-- map('n', '<Space>;t', '<Cmd>lua require"plugins/ido_nvim".sonictemplate()<CR>')
+-- map('n', '<Space><Space>', '<Cmd>lua require"plugins/ido_nvim".deol_commands()<CR>')
 
 return M

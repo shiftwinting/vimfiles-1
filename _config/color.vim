@@ -104,7 +104,9 @@ function! s:define_my_highlight() abort
     hi GitSignDelete gui=bold guifg=#ea6962 guibg=#3c3836
 
     " #504945 
-    hi LirFloatNormal guibg=#32302f
+    " hi LirFloatNormal guibg=#32302f
+    hi LirFloatNormal guibg=#423f3e
+
     hi LirFloatBorder guifg=#7c6f64
 
     hi TSDefinition guibg=#504945

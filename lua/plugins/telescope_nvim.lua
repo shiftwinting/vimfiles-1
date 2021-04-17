@@ -137,6 +137,10 @@ require'telescope'.setup{
         ['zig documentation']          = 'https://ziglang.org/documentation/master/',
         ['ziglings']                   = 'https://zenn.dev/tamago324/scraps/b072e8ae70907f'
       }
+    },
+    fzy_native = {
+      override_generic_sorter = true,
+      override_file_sorter = true,
     }
   }
 }
@@ -155,6 +159,7 @@ local extensions = {
   'plug_names',
   'mru',
   'deol',
+  'mrr',
 }
 local function load_extensions(exps)
   for _, ext in ipairs(exps) do
@@ -827,7 +832,20 @@ local lsp_references = function()
   }
 end
 
+local lir_mrr = function()
+  require('telescope').extensions.mrr.list {
+    previewer = false,
+    file_ignore_patterns = { "%.plugged" },
+
+    sorter = get_fzy_sorter_use_list({
+      list = vim.fn['mr#mrr#list'](),
+    }),
+  }
+end
+
+
 return {
   lsp_references = lsp_references,
   quickfix_in_qflist = quickfix_in_qflist,
+  lir_mrr = lir_mrr,
 }

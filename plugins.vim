@@ -56,11 +56,12 @@ Plug 'knsh14/vim-github-link', { 'on': ['GetCurrentCommitLink', 'GetCurrentBranc
 Plug 'cohama/agit.vim', { 'on': ['Agit', 'AgitFile'] }
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'gisphm/vim-gitignore'
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 " Plug 'tpope/vim-dispatch'
 Plug 'gotchane/vim-git-commit-prefix'
 Plug 'mattn/vim-gist'
 Plug 'mattn/webapi-vim'
+Plug 'TimUntersberger/neogit'
 
 Plug 'kana/vim-operator-user',
 " Plug 'yuki-yano/vim-operator-replace'
@@ -79,6 +80,7 @@ Plug 'antoinemadec/FixCursorHold.nvim'
 " Plug 'tversteeg/registers.nvim'
 " Plug 'edluffy/specs.nvim'
 Plug 'notomo/curstr.nvim'
+" Plug 'kevinhwang91/nvim-hlslens'
 
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
@@ -112,6 +114,7 @@ Plug 'nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
   Plug 'tamago324/telescope-sonictemplate.nvim'
   Plug 'tamago324/telescope-openbrowser.nvim'
+  " Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 " Plug 'vim-denops/denops.vim'
 " Plug 'yutkat/dps-coding-now.nvim'
@@ -121,6 +124,10 @@ Plug 'nvim-treesitter/nvim-treesitter'
   Plug 'nvim-treesitter/nvim-treesitter-textobjects'
   " Plug 'code-biscuits/nvim-biscuits'
   " Plug 'tjdevries/tree-sitter-lua'
+" Plug 'tversteeg/registers.nvim'
+
+" python3 -m pip install --user --upgrade pynvim
+Plug 'gelguy/wilder.nvim'
 
 Plug 'ido-nvim/core', { 'as': 'ido' }
 " Plug 'ido-nvim/files', { 'as': 'ido_files' }
@@ -137,7 +144,7 @@ Plug 'mattn/emmet-vim'
 " i3
 Plug 'mboughaba/i3config.vim'
 
-Plug 'tamago324/lir.nvim'
+Plug '~/ghq/github.com/tamago324/lir.nvim'
 Plug 'tamago324/lir-bookmark.nvim'
 " Plug '~/ghq/github.com/tamago324/nlsp-settings.nvim'
 Plug 'tamago324/nlsp-settings.nvim'
