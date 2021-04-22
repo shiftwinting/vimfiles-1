@@ -36,6 +36,10 @@ local NODE_NAME_MAP = {
     funccall = 'call_expression',
     arguments = 'arguments',
   },
+  zig = {
+    funccall = 'call_expression',
+    arguments = 'arguments',
+  },
   python = {
     funccall = 'call',
     arguments = 'argument_list',

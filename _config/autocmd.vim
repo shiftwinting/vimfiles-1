@@ -743,4 +743,5 @@ endfunction
 
 function! s:my_ft_zig() abort
   nnoremap <buffer> <Space>rt <Cmd>QZigTest<CR>
+  nnoremap <buffer> <Space>rm <Cmd>Make<CR>
 endfunction

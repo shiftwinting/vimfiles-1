@@ -15,4 +15,5 @@ let g:findroot_patterns = [
 \ 'manifest.json',
 \ '*.csproj',
 \ '*.sln',
+\ 'build.zig',
 \]

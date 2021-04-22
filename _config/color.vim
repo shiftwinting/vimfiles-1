@@ -1,6 +1,5 @@
 scriptencoding utf-8
 
-
 function! s:define_my_highlight() abort
   if !exists('g:colors_name') | return | endif
 
@@ -94,45 +93,58 @@ function! s:define_my_highlight() abort
     hi ScrollView guibg=#a96b2c
   else
     
-    hi ScrollView guibg=#ddc7a1
 
-    " green
-    hi GitSignAdd    gui=bold guifg=#6c782e guibg=#3c3836
-    " yellow
-    hi GitSignChange gui=bold guifg=#d8a657 guibg=#3c3836
-    " red
-    hi GitSignDelete gui=bold guifg=#ea6962 guibg=#3c3836
+    " dark
 
-    " #504945 
-    " hi LirFloatNormal guibg=#32302f
-    hi LirFloatNormal guibg=#423f3e
 
-    hi LirFloatBorder guifg=#7c6f64
 
-    hi TSDefinition guibg=#504945
 
-    " " =============================
-    " " p00f/nvim-ts-rainbow
-    " " =============================
-    " " from ~/.ghq/github.com/sainnhe/gruvbox-material/autoload/gruvbox_material.vim
-    " " blue
-    " hi rainbowcol1 guifg=#45707a
-    " " purple (magenta)
-    " hi rainbowcol2 guifg=#945e80
-    " " red
-    " hi rainbowcol3 guifg=#c14a4a
-    " " orange
-    " hi rainbowcol4 guifg=#c35e0a
 
-    hi SigHelpParam gui=bold,underline guifg=#d8a657
 
-    hi link LightBulbVirtualText Yellow
+    if get(g:, 'colors_name', '') =~# 'gruvbox'
+      hi ScrollView guibg=#ddc7a1
 
-    " lspsaga
-    hi LspSagaDiagnosticBorder guifg=#d8a657
-    hi LspSagaDiagnostcTruncateLine guifg=#d8a657
+      " green
+      hi GitSignAdd    gui=bold guifg=#6c782e guibg=#3c3836
+      " yellow
+      hi GitSignChange gui=bold guifg=#d8a657 guibg=#3c3836
+      " red
+      hi GitSignDelete gui=bold guifg=#ea6962 guibg=#3c3836
+
+      " #504945 
+      " hi LirFloatNormal guibg=#32302f
+      hi LirFloatNormal guibg=#423f3e
+
+      hi LirFloatBorder guifg=#7c6f64
+
+      hi TSDefinition guibg=#504945
+
+      " " =============================
+      " " p00f/nvim-ts-rainbow
+      " " =============================
+      " " from ~/.ghq/github.com/sainnhe/gruvbox-material/autoload/gruvbox_material.vim
+      " " blue
+      " hi rainbowcol1 guifg=#45707a
+      " " purple (magenta)
+      " hi rainbowcol2 guifg=#945e80
+      " " red
+      " hi rainbowcol3 guifg=#c14a4a
+      " " orange
+      " hi rainbowcol4 guifg=#c35e0a
+
+      hi SigHelpParam gui=bold,underline guifg=#d8a657
+
+      hi link LightBulbVirtualText Yellow
+
+      " lspsaga
+      hi LspSagaDiagnosticBorder guifg=#d8a657
+      hi LspSagaDiagnostcTruncateLine guifg=#d8a657
+
+      hi link LspFloatWinNormal Normal
+    endif
   endif
-  hi TelescopeBorder guifg=#7c6f64
+  " hi TelescopeBorder guifg=#7c6f64
+  hi link TelescopeBorder StatusLineNC
   hi link TelescopePromptBorder TelescopeBorder
   hi link TelescopeResultsBorder TelescopeBorder
   hi link TelescopePreviewBorder TelescopeBorder
@@ -169,9 +181,18 @@ set termguicolors
 " set bg=light
 set bg=dark
 colorscheme gruvbox-material
+
 " colorscheme nautilus
 " colorscheme nord
 " colorscheme edge
+
+let g:tokyonight_style = "storm"
+let g:tokyonight_italic_comments = v:false
+let g:tokyonight_italic_keywords = v:false
+let g:tokyonight_italic_functions = v:false
+let g:tokyonight_sidebars = ['quickfix']
+
+" colorscheme tokyonight
 
 " lua << EOF
 " local colorscheme = require'colorscheme'

@@ -28,15 +28,16 @@ local utils = require'telescope.utils'
 -- https://github.com/nvim-lua/telescope.nvim/blob/d32d4a6e0f0c571941f1fd37759ca1ebbdd5f488/lua/telescope/init.lua
 require'telescope'.setup{
   defaults = {
-    borderchars = {'-', '|', '-', '|', '+', '+', '+', '+'},
-    -- borderchars = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+    -- borderchars = {'-', '|', '-', '|', '+', '+', '+', '+'},
+    borderchars = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
     winblend = 0,
     -- prompt_position = "bottom",
     prompt_position = "top",
     sorting_strategy = "ascending",
 
     -- https://github.com/nvim-telescope/telescope.nvim/issues/425
-    layout_strategy = 'horizontal',
+    -- layout_strategy = 'horizontal',
+    layout_strategy = 'bottom_pane',
     layout_defaults = {
       vertical = {
         width_padding = 0.05,
@@ -48,6 +49,9 @@ require'telescope'.setup{
         height_padding = 10, -- "How many cells to pad the height",
         preview_width = 0.6 -- "(Resolvable): Determine preview width",
       },
+      bottom_pane = {
+        height = 20,
+      }
     },
 
     results_title = false,
@@ -135,7 +139,8 @@ require'telescope'.setup{
         ['Arch Linux Packages']        = 'https://archlinux.org/packages/',
         ["i3 User's Guide"]            = 'https://i3wm.org/docs/userguide.html',
         ['zig documentation']          = 'https://ziglang.org/documentation/master/',
-        ['ziglings']                   = 'https://zenn.dev/tamago324/scraps/b072e8ae70907f'
+        ['ziglings']                   = 'https://zenn.dev/tamago324/scraps/b072e8ae70907f',
+        ['zig learn']                  = 'https://ziglearn.org/',
       }
     },
     fzy_native = {
@@ -155,6 +160,7 @@ local extensions = {
   -- 'frecency',
   'sonictemplate',
   'openbrowser',
+  -- 'session_manager',
 
   'plug_names',
   'mru',
@@ -526,18 +532,19 @@ end
 -- @Summary git_files か find_files
 -- @Description
 local find_files = function()
-  local marker_dir = find_git_ancestor(Path:new(vim.fn.expand('%:p')):absolute())
+  -- local marker_dir = find_git_ancestor(Path:new(vim.fn.expand('%:p')):absolute())
+  local marker_dir = find_git_ancestor(vim.fn.expand('%:p'))
+  local cwd
   if marker_dir and marker_dir ~= '' then
-    require'telescope.builtin'.git_files{
-      layout_strategy = 'horizontal',
-      cwd = marker_dir,
-    }
+    cwd = marker_dir
   else
-    require'telescope.builtin'.find_files{
-      layout_strategy = 'horizontal',
-      cwd = vim.fn.getcwd(),
-    }
+    cwd = vim.fn.getcwd()
   end
+
+  require'telescope.builtin'.find_files{
+    -- layout_strategy = 'horizontal',
+    cwd = cwd,
+  }
 end
 
 -- @Summary mru
@@ -778,6 +785,7 @@ local n_commands, x_commands = commands()
 local quickfix_in_qflist = function()
   require'telescope.builtin.internal'.quickfix {
     default_selection_index = vim.fn.line('.'),
+    layout_strategy = 'horizontal',
   }
 end
 
@@ -802,14 +810,14 @@ local mappings = {
   ['n<Space>fj'] = {buffers},
   -- ['n<Space>fg'] = {gen_grep_string()},
   ['n<Space>ff'] = {find_files},
-  -- ['n<Space>ft'] = {filetypes},
+  ['n<Space>ft'] = {filetypes},
   ['n<Space>fk'] = {mru},
   -- ['n<Space>fk'] = {oldfiles},
   ['n<Space>fq'] = {ghq},
   -- ['n<Space>fs'] = {current_buffer_tags},
   ['n<Space>fs'] = {lsp_document_symbols},
   -- ['n<Space>fs'] = {treesitter_or_current_buffer_tags},
-  -- ['n<Space>;t'] = {sonictemplate},
+  ['n<Space>;t'] = {sonictemplate},
   ['n<Space>fo'] = {openbrowser},
   ['n<A-x>']     = {n_commands},
   ['x<A-x>']     = {x_commands},

@@ -25,17 +25,19 @@ nnoremap <silent><expr> <Space>vs. (&filetype ==# 'lua' ? '<Cmd>luafile %<CR>' :
 nnoremap <Space>w <Cmd>update<CR>
 nnoremap <Space>W <Cmd>update!<CR>
 
-function! s:quit(...) abort
-  let l:bang = get(a:, 1, v:false) ? '!' : ''
-  try
-    execute 'quit' .. l:bang
-  catch /\v(E5601|E37)/
-    " Neovimでタブの最後のウィンドウで、float window があると、エラーになるため
-    execute 'tabclose' .. l:bang
-  endtry
-endfunction
-nnoremap <Space>q <Cmd>call <SID>quit()<CR>
-nnoremap <Space>Q <Cmd>call <SID>quit(v:true)<CR>
+" function! s:quit(...) abort
+"   let l:bang = get(a:, 1, v:false) ? '!' : ''
+"   try
+"     execute 'quit' .. l:bang
+"   catch /\v(E5601|E37)/
+"     " Neovimでタブの最後のウィンドウで、float window があると、エラーになるため
+"     execute 'tabclose' .. l:bang
+"   endtry
+" endfunction
+" nnoremap <Space>q <Cmd>call <SID>quit()<CR>
+" nnoremap <Space>Q <Cmd>call <SID>quit(v:true)<CR>
+nnoremap <Space>q <Cmd>quit<CR>
+nnoremap <Space>Q <Cmd>quit!<CR>
 
 " window 操作
 nnoremap s <Nop>
@@ -272,6 +274,18 @@ let s:float_tmp = {}
 let s:float_tmp.buf = v:null
 let s:float_tmp.win = v:null
 
+" function! s:glow_width() abort
+"   " 横幅を広げる
+"   let l:len = len(line('.'))
+"   echo l:len
+"   let l:width = nvim_win_get_config(s:float_tmp.win).width
+"   if l:len > l:width
+"     call nvim_win_set_config(s:float_tmp.win, {
+"     \ 'width': l:len - l:width
+"     \})
+"   endif
+" endfunction
+
 function! s:hide_floating_tmp() abort
   call nvim_win_hide(s:float_tmp.win)
 endfunction
@@ -303,8 +317,9 @@ function! s:open_floating_tmp() abort
   nnoremap <buffer> si <Cmd>call <SID>hide_floating_tmp()<CR>
 
   augroup FloatTmp
-     autocmd!
+    autocmd!
     autocmd WinLeave <buffer> call <SID>hide_floating_tmp()
+    " autocmd InsertLeave <buffer> call <SID>glow_width()
   augroup END
 endfunction
 nnoremap si <Cmd>call <SID>open_floating_tmp()<CR>

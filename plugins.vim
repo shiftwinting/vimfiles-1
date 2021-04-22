@@ -12,12 +12,14 @@ packadd cfilter
 
 call plug#begin(g:plug_install_dir)
 
+Plug 'vim-jp/vital.vim'
 Plug 'sainnhe/gruvbox-material'
 " Plug 'savq/melange'
 " Plug 'mhartington/oceanic-next'
 " Plug 'bluz71/vim-nightfly-guicolors'
 " Plug 'sainnhe/edge'
 Plug 'RRethy/nvim-base16'
+Plug 'folke/tokyonight.nvim'
 
 Plug 'andymass/vim-matchup'
 Plug 'cohama/lexima.vim'
@@ -51,13 +53,14 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'voldikss/vim-translator', { 'on': ['TranslateW', 'TranslateR', 'Translate'] }
 " Plug 'itchyny/vim-winfix'
 Plug 'kana/vim-niceblock'
+Plug 'tpope/vim-obsession'
 
 Plug 'knsh14/vim-github-link', { 'on': ['GetCurrentCommitLink', 'GetCurrentBranchLink', 'GetCommitLink'] }
 Plug 'cohama/agit.vim', { 'on': ['Agit', 'AgitFile'] }
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'gisphm/vim-gitignore'
-" Plug 'tpope/vim-fugitive'
-" Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-dispatch'
 Plug 'gotchane/vim-git-commit-prefix'
 Plug 'mattn/vim-gist'
 Plug 'mattn/webapi-vim'
@@ -79,8 +82,10 @@ Plug 'bfredl/nvim-miniyank'
 Plug 'antoinemadec/FixCursorHold.nvim'
 " Plug 'tversteeg/registers.nvim'
 " Plug 'edluffy/specs.nvim'
-Plug 'notomo/curstr.nvim'
+" Plug 'notomo/curstr.nvim'
 " Plug 'kevinhwang91/nvim-hlslens'
+" Plug 'Shatur95/neovim-session-manager'
+" Plug 'thaerkh/vim-workspace'
 
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
@@ -90,15 +95,16 @@ Plug 'neovim/nvim-lspconfig'
 " Plug 'kabouzeid/nvim-lspinstall'
   Plug 'h-michael/lsp-ext.nvim'
   Plug 'weilbith/nvim-lsp-smag'
-  Plug 'glepnir/lspsaga.nvim'
+  Plug '~/ghq/github.com/glepnir/lspsaga.nvim'
   Plug 'mattn/vim-findroot'
   Plug 'liuchengxu/vista.vim'
   Plug 'tsuyoshicho/vim-efm-langserver-settings'
   " Plug 'nanotee/nvim-lua-annotations'
+  Plug 'folke/lsp-trouble.nvim'
 
 Plug 'hrsh7th/nvim-compe'
   " Plug 'tamago324/compe-zsh'
-  Plug '~/ghq/github.com/tamago324/compe-zsh'
+  Plug 'tamago324/compe-zsh'
   Plug 'hrsh7th/vim-vsnip'
   Plug 'tamago324/compe-necosyntax'
   Plug 'Shougo/neco-syntax'
@@ -107,12 +113,15 @@ Plug 'hrsh7th/nvim-compe'
   " Plug 'Shougo/neosnippet.vim'
   " Plug 'Shougo/neosnippet-snippets'
 
+
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-lua/telescope.nvim'
+" Plug 'nvim-lua/telescope.nvim'
+Plug '~/ghq/github.com/nvim-lua/telescope.nvim'
   Plug 'nvim-telescope/telescope-ghq.nvim'
   Plug 'nvim-telescope/telescope-fzy-native.nvim'
-  Plug 'tamago324/telescope-sonictemplate.nvim'
+  " Plug 'tamago324/telescope-sonictemplate.nvim'
   Plug 'tamago324/telescope-openbrowser.nvim'
   " Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
@@ -129,7 +138,11 @@ Plug 'nvim-treesitter/nvim-treesitter'
 " python3 -m pip install --user --upgrade pynvim
 Plug 'gelguy/wilder.nvim'
 
-Plug 'ido-nvim/core', { 'as': 'ido' }
+Plug 'sunjon/Shade.nvim'
+
+Plug 'delphinus/mappy.nvim'
+
+" Plug 'ido-nvim/core', { 'as': 'ido' }
 " Plug 'ido-nvim/files', { 'as': 'ido_files' }
 
 " Rust
@@ -139,7 +152,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'ziglang/zig.vim'
 
 " HTML
-Plug 'mattn/emmet-vim'
+" Plug 'mattn/emmet-vim'
 
 " i3
 Plug 'mboughaba/i3config.vim'
@@ -391,7 +404,6 @@ call plug#end()
 
 " Plug 'osyo-manga/vim-milfeulle'
 " Plug 'mattn/vim-nyancat'
-" Plug 'ctrlpvim/ctrlp.vim'
 " Plug 'lukas-reineke/indent-blankline.nvim', { 'branch': 'lua' }
 " Plug 'Yggdroot/indentLine'
 
