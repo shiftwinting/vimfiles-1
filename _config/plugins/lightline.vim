@@ -3,7 +3,8 @@ UsePlugin 'lightline.vim'
 
 let g:lightline = {}
 let s:colors = [
-\   ['^gruvbox', 'gruvbox_material']
+\   ['^gruvbox', 'gruvbox_material'],
+\   ['^tokyonight', 'tokyonight']
 \]
 
 for s:color in s:colors
@@ -30,6 +31,7 @@ let g:lightline.active = {
 \   ],
 \   'right': []
 \}
+" \             [ 't_kaomoji' ],
 
 let g:lightline.inactive = {
 \   'left': [ [ 't_filename' ] ],
@@ -72,6 +74,7 @@ let g:lightline.component_function = {
 \   't_percent': 'L_percent',
 \   't_lineinfo': 'L_lineinfo',
 \   't_inactive_mode': 'L_inactiveMode',
+\   't_kaomoji': 'L_kaomoji',
 \}
 
 function! L_mode() abort
@@ -121,3 +124,6 @@ function! L_inactiveMode() abort
     \       ''
 endfunction
 
+function! L_kaomoji() abort
+  return '     (੭ु ›ω‹ )੭ु⁾⁾♡'
+endfunction

@@ -260,7 +260,7 @@ if has('nvim')
 endif
 
 " lua ハイライトを ON
-let g:vimsyn_embed = 'l'
+" let g:vimsyn_embed = 'l'
 
 " :h file-searching
 set tags=./tags;/

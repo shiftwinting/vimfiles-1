@@ -508,8 +508,6 @@ endfunction
 " c
 " ====================
 function! s:my_ft_c() abort
-  nnoremap <buffer> - :<C-u>A<CR>
-
   " https://github.com/neovim/neovim/blob/master/CONTRIBUTING.md#style
   " Neovim のため
   if !empty(findfile('.clang-format', ';'))
@@ -582,7 +580,11 @@ function! s:my_ft_gitcommit() abort
   " 自動で折り返しを行う
   setlocal formatoptions+=t
   setlocal spell spelllang=en_us
+
+  inoremap <C-l><C-o> <Cmd>lua require'plugins.telescope_nvim'.git_commit_prefix()<CR>
+
   startinsert!
+  call feedkeys("\<C-l>\<C-o>")
 endfunction
 
 " ====================

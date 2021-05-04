@@ -4,7 +4,7 @@ let g:plug_install_dir = expand('$MYVIMFILES/.plugged')
 
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
@@ -18,13 +18,12 @@ Plug 'sainnhe/gruvbox-material'
 " Plug 'mhartington/oceanic-next'
 " Plug 'bluz71/vim-nightfly-guicolors'
 " Plug 'sainnhe/edge'
-Plug 'RRethy/nvim-base16'
-Plug 'folke/tokyonight.nvim'
+" Plug 'RRethy/nvim-base16'
+" Plug 'folke/tokyonight.nvim'
 
 Plug 'andymass/vim-matchup'
 Plug 'cohama/lexima.vim'
 Plug 'glidenote/memolist.vim'
-Plug 'haya14busa/vim-asterisk', { 'on': ['<Plug>(asterisk-gz*)', '<Plug>(asterisk-z*)'] }
 Plug 'hrsh7th/vim-eft'
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/vim-easy-align'
@@ -40,8 +39,8 @@ Plug 'markonm/traces.vim'
 Plug 'mattn/sonictemplate-vim'
 Plug 'simeji/winresizer'
 Plug 'svermeulen/vim-cutlass'
-" Plug 'thinca/vim-prettyprint', { 'on': ['PP', 'PrettyPrint'] }
-" Plug 'thinca/vim-qfreplace', { 'on': 'Qfreplace' }
+Plug 'thinca/vim-prettyprint', { 'on': ['PP', 'PrettyPrint'] }
+Plug 'thinca/vim-qfreplace', { 'on': 'Qfreplace' }
 Plug 'thinca/vim-quickrun'
 Plug 'lambdalisue/vim-quickrun-neovim-job'
 Plug 'tomtom/tcomment_vim'
@@ -54,6 +53,12 @@ Plug 'voldikss/vim-translator', { 'on': ['TranslateW', 'TranslateR', 'Translate'
 " Plug 'itchyny/vim-winfix'
 Plug 'kana/vim-niceblock'
 Plug 'tpope/vim-obsession'
+" Plug 'osyo-manga/vim-over'
+
+" saerch
+Plug 'haya14busa/vim-asterisk'
+" Plug 'haya14busa/is.vim' " 自動でハイライトを消すやつとか
+Plug 'inside/vim-search-pulse'
 
 Plug 'knsh14/vim-github-link', { 'on': ['GetCurrentCommitLink', 'GetCurrentBranchLink', 'GetCommitLink'] }
 Plug 'cohama/agit.vim', { 'on': ['Agit', 'AgitFile'] }
@@ -61,19 +66,67 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'gisphm/vim-gitignore'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
-Plug 'gotchane/vim-git-commit-prefix'
+" Plug 'gotchane/vim-git-commit-prefix'
 Plug 'mattn/vim-gist'
 Plug 'mattn/webapi-vim'
-Plug 'TimUntersberger/neogit'
 
 Plug 'kana/vim-operator-user',
 " Plug 'yuki-yano/vim-operator-replace'
 Plug 'kana/vim-operator-replace'
 " Plug 'mopp/vim-operator-convert-case'
-
 Plug 'Shougo/deol.nvim', { 'on': ['Deol'] }
 
 " Neovim
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
+" Plug '~/ghq/github.com/tamago324/lua-nlsp'
+Plug 'neovim/nvim-lspconfig'
+" Plug '~/ghq/github.com/neovim/nvim-lspconfig'
+" Plug 'kabouzeid/nvim-lspinstall'
+Plug 'h-michael/lsp-ext.nvim'
+Plug 'weilbith/nvim-lsp-smag'
+Plug '~/ghq/github.com/glepnir/lspsaga.nvim'
+Plug 'mattn/vim-findroot'
+" Plug 'liuchengxu/vista.vim'
+Plug 'tsuyoshicho/vim-efm-langserver-settings'
+" Plug 'nanotee/nvim-lua-annotations'
+Plug 'folke/lsp-trouble.nvim'
+" Plug '~/ghq/github.com/folke/lsp-trouble.nvim'
+Plug 'simrat39/symbols-outline.nvim'
+
+" Plug 'mfussenegger/nvim-dap'
+" Plug 'rcarriga/nvim-dap-ui'
+" Plug 'puremourning/vimspector', { 'do': 'python3 install_gadget.py --enable-c'} " vscode-cpptools のため
+" Plug 'nvim-telescope/telescope-dap.nvim'
+
+Plug 'hrsh7th/nvim-compe'
+Plug 'tamago324/compe-zsh'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'tamago324/compe-necosyntax'
+Plug 'Shougo/neco-syntax'
+Plug 'onsails/lspkind-nvim'
+
+" Plug 'ctrlpvim/ctrlp.vim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+" Plug 'nvim-lua/telescope.nvim'
+Plug '~/ghq/github.com/nvim-lua/telescope.nvim'
+Plug 'nvim-telescope/telescope-ghq.nvim'
+Plug 'nvim-telescope/telescope-fzy-native.nvim'
+" Plug 'tamago324/telescope-sonictemplate.nvim'
+Plug 'tamago324/telescope-openbrowser.nvim'
+" Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+" Plug 'dhruvmanila/telescope-bookmarks.nvim'
+
+" Plug 'vim-denops/denops.vim'
+" Plug 'yutkat/dps-coding-now.nvim'
+
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+" Plug 'code-biscuits/nvim-biscuits'
+" Plug 'tjdevries/tree-sitter-lua'
+
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'dstein64/nvim-scrollview'
@@ -86,61 +139,11 @@ Plug 'antoinemadec/FixCursorHold.nvim'
 " Plug 'kevinhwang91/nvim-hlslens'
 " Plug 'Shatur95/neovim-session-manager'
 " Plug 'thaerkh/vim-workspace'
-
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
-" Plug '~/ghq/github.com/tamago324/lua-nlsp'
-Plug 'neovim/nvim-lspconfig'
-" Plug '~/ghq/github.com/neovim/nvim-lspconfig'
-" Plug 'kabouzeid/nvim-lspinstall'
-  Plug 'h-michael/lsp-ext.nvim'
-  Plug 'weilbith/nvim-lsp-smag'
-  Plug '~/ghq/github.com/glepnir/lspsaga.nvim'
-  Plug 'mattn/vim-findroot'
-  Plug 'liuchengxu/vista.vim'
-  Plug 'tsuyoshicho/vim-efm-langserver-settings'
-  " Plug 'nanotee/nvim-lua-annotations'
-  Plug 'folke/lsp-trouble.nvim'
-
-Plug 'hrsh7th/nvim-compe'
-  " Plug 'tamago324/compe-zsh'
-  Plug 'tamago324/compe-zsh'
-  Plug 'hrsh7th/vim-vsnip'
-  Plug 'tamago324/compe-necosyntax'
-  Plug 'Shougo/neco-syntax'
-  Plug 'onsails/lspkind-nvim'
-  " Plug '~/ghq/github.com/tamago324/compe-neosnippet'
-  " Plug 'Shougo/neosnippet.vim'
-  " Plug 'Shougo/neosnippet-snippets'
-
-
-" Plug 'ctrlpvim/ctrlp.vim'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-" Plug 'nvim-lua/telescope.nvim'
-Plug '~/ghq/github.com/nvim-lua/telescope.nvim'
-  Plug 'nvim-telescope/telescope-ghq.nvim'
-  Plug 'nvim-telescope/telescope-fzy-native.nvim'
-  " Plug 'tamago324/telescope-sonictemplate.nvim'
-  Plug 'tamago324/telescope-openbrowser.nvim'
-  " Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-
-" Plug 'vim-denops/denops.vim'
-" Plug 'yutkat/dps-coding-now.nvim'
-
-Plug 'nvim-treesitter/nvim-treesitter'
-  Plug 'nvim-treesitter/playground'
-  Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-  " Plug 'code-biscuits/nvim-biscuits'
-  " Plug 'tjdevries/tree-sitter-lua'
-" Plug 'tversteeg/registers.nvim'
-
-" python3 -m pip install --user --upgrade pynvim
-Plug 'gelguy/wilder.nvim'
-
-Plug 'sunjon/Shade.nvim'
-
-Plug 'delphinus/mappy.nvim'
+Plug 'gelguy/wilder.nvim' " python3 -m pip install --user --upgrade pynvim
+" Plug 'sunjon/Shade.nvim'
+Plug 'haringsrob/nvim_context_vt'
+" Plug '~/ghq/github.com/haringsrob/nvim_context_vt'
+Plug 'folke/which-key.nvim'
 
 " Plug 'ido-nvim/core', { 'as': 'ido' }
 " Plug 'ido-nvim/files', { 'as': 'ido_files' }
@@ -163,6 +166,16 @@ Plug 'tamago324/lir-bookmark.nvim'
 Plug 'tamago324/nlsp-settings.nvim'
 
 " Plug 'spinks/vim-leader-guide'
+
+
+" 様子見
+" Plug 'delphinus/mappy.nvim'
+" Plug 'Vhyrro/neorg' " orgmode
+" Plug 'kdav5758/TrueZen.nvim' " goyo みたいなやつ
+Plug 'tversteeg/registers.nvim'
+" Plug 'TimUntersberger/neogit'
+" Plug 'steelsojka/pears.nvim' " <C-h> で消したい
+" Plug 'windwp/nvim-autopairs' " <C-h> で消したい
 
 call plug#end()
 
@@ -330,8 +343,8 @@ call plug#end()
 " Plug 'gelguy/wilder.nvim'
 " Plug 'dsummersl/nvim-sluice'
 " Plug 'b3nj5m1n/kommentary'
-  " Plug 'nvim-telescope/telescope-frecency.nvim' -> おそいから
-  " Plug 'tami5/sql.nvim'
+" Plug 'nvim-telescope/telescope-frecency.nvim' -> おそいから
+" Plug 'tami5/sql.nvim'
 " Plug 'neovim/nvimdev.nvim',
 "   Plug 'neomake/neomake'
 "   Plug 'tpope/vim-projectionist'
@@ -389,12 +402,12 @@ call plug#end()
 " Plug 'notomo/lreload.nvim'
 
 " Plug 'Shougo/deoppet.nvim'
-  " Plug 'nvim-telescope/telescope-github.nvim'
+" Plug 'nvim-telescope/telescope-github.nvim'
 " Plug '~/.ghq/github.com/nvim-treesitter/nvim-treesitter'
-  " Plug 'p00f/nvim-ts-rainbow'
-  " Plug 'nvim-treesitter/nvim-treesitter-refactor'
-  " Plug 'nvim-treesitter/nvim-tree-docs'
-  " Plug 'romgrk/nvim-treesitter-context'
+" Plug 'p00f/nvim-ts-rainbow'
+" Plug 'nvim-treesitter/nvim-treesitter-refactor'
+" Plug 'nvim-treesitter/nvim-tree-docs'
+" Plug 'romgrk/nvim-treesitter-context'
 " Plug 'vim-jp/vital.vim'
 " Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
 " Plug 'kana/vim-repeat'
@@ -428,3 +441,7 @@ call plug#end()
 
 " Plug 'tyru/vim-altercmd'
 " Plug 'phaazon/hop.nvim'
+
+" Plug '~/ghq/github.com/tamago324/compe-neosnippet'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'

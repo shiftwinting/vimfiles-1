@@ -16,6 +16,10 @@ local clipboard_actions = require'lir.clipboard.actions'
 
 local actions = require'lir.actions'
 
+local states = {
+  -- last_buf_ft
+}
+
 local function esc_path(path)
   return vim.fn.shellescape(vim.fn.fnamemodify(path, ':p'), true)
 end
@@ -24,9 +28,9 @@ local lcd = function(path)
   vim.cmd(string.format([[silent execute (haslocaldir() ? 'lcd' : 'cd') '%s']], path))
 end
 
--- local function feedkeys(key)
---   a.nvim_feedkeys(a.nvim_replace_termcodes(key, true, false, true), 'n', true)
--- end
+local function feedkeys(key)
+  a.nvim_feedkeys(a.nvim_replace_termcodes(key, true, false, true), 'n', true)
+end
 --
 -- local function cp(context)
 --   local path = context.dir .. context:current_value()
@@ -101,7 +105,7 @@ end
 function rm()
   local ctx = lir.get_context()
   -- 選択されているものを取得する
-  local marked_items = mark_utils.get_marked_items(ctx)
+  local marked_items = ctx:get_marked_items()
   if #marked_items == 0 then
     utils.error('Please mark one or more.')
     -- -- 選択されていなければ、カレント行を削除
@@ -126,26 +130,26 @@ function rm()
   actions.reload()
 end
 
-function argadd_marked_items()
-  local ctx = lir.get_context()
-
-  -- arg リストの全てを削除
-  vim.cmd [[%argdelete]]
-  -- マークされているものを追加する
-  local marked_items = mark_utils.get_marked_items(ctx)
-
-  for _, v in ipairs(marked_items) do
-    vim.cmd('argadd ' .. v.fullpath)
-  end
+function nop()
 end
 
-function nop()
+function edit_or_split()
+  if states.last_buf_ft == 'deoledit' or states.last_buf_ft == 'deol' then
+    actions.split()
+  else
+    actions.edit()
+  end
 end
 
 function _G.LirSettings()
   a.nvim_buf_set_keymap(0, 'x', 'J', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
   -- a.nvim_buf_set_keymap(0, 'n', 'J', ':<C-u>call v:lua.LirToggleMark("n")<CR>', {noremap = true, silent = true})
   vim.api.nvim_echo({{vim.fn.expand('%:p:h:h') .. '/', 'Normal'}, {vim.fn.expand('%:p:h:t'), 'Title'}}, false, {})
+
+  -- vim.cmd [[augroup LirCloseOnWinLeave]]
+  -- vim.cmd [[  autocmd!]]
+  -- vim.cmd [[  autocmd WinLeave <buffer>  if get(w:, 'lir_is_float', v:false) | call nvim_win_close(0, v:true) | endif]]
+  -- vim.cmd [[augroup END]]
 end
 
 vim.cmd [[augroup lir-settings]]
@@ -169,16 +173,29 @@ require 'lir'.setup {
     ['S']     = nop,
 
     ['l']     = actions.edit,
+    -- ['l']     = edit_or_split,
     ['<C-s>'] = actions.split,
     ['<C-v>'] = actions.vsplit,
     ['<C-t>'] = actions.tabedit,
 
+    -- ['l'] = function()
+    --   local ctx = lir.get_context()
+    --   local current = ctx:current()
+    --   if string.match(current.value, '[^.]+$') == 'mp4' then
+    --     vim.fn.system('xdg-open ' .. current.fullpath)
+    --     return
+    --   end
+    --   actions.edit()
+    -- end,
+
     ['h']     = actions.up,
     ['q']     = actions.quit,
 
+    ['cd']    = function()
+      feedkeys(':e ')
+    end,
     ['K']     = newfile,
     ['R']     = actions.rename,
-    -- ['M']     = mmv,
     ['@']     = cd,
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
@@ -195,16 +212,13 @@ require 'lir'.setup {
     ['X'] = clipboard_actions.cut,
     ['P'] = clipboard_actions.paste,
     ['D'] = rm,
-    ['Q'] = require'plugins/telescope_nvim'.lir_mrr
-
-    -- ['A'] = argadd_marked_items,
   },
   float = {
     size_percentage = 0.5,
-    winblend = 2,
+    winblend = 0,
     border = true,
     -- borderchars = {"-" , "|" , "-" , "|" , "+" , "+" , "+" , "+"},
-    -- borderchars = {'+', '-', '+', '|', '+', '-', '+', '|'},
+    borderchars = {'+', '-', '+', '|', '+', '-', '+', '|'},
     shadow = true
   },
   hide_cursor = true
@@ -226,6 +240,7 @@ require'lir.bookmark'.setup {
 _G.x_lir_init =  function()
   local dir = nil
   local bufname = vim.fn.bufname()
+  states.last_buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
   if bufname:match('deol%-edit@') or bufname:match('term://') then
     dir = vim.fn.getcwd()
   end

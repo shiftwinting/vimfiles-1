@@ -1,6 +1,6 @@
 <!-- Before reporting: search existing issues and check the FAQ. -->
 
-- `nvim --version`:
+- `nvim --version`: systemlist('nvim --version')[0]
 - `vim -u DEFAULTS` (version: ) behaves differently?
 - Operating system/version:
 - Terminal name/version:

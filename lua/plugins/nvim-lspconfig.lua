@@ -83,8 +83,42 @@ do
   end
 end
 
+do
+  local has_symbols, symbols = pcall(require, 'symbols-outline/symbols')
+  if has_symbols then
+    symbols = {
+      File = {icon = "󿢚", hl = "TSURI"},
+      Module = {icon = "󿙨", hl = "TSNamespace"},
+      Namespace = {icon = "", hl = "TSNamespace"},
+      Package = {icon = "", hl = "TSNamespace"},
+      Class = {icon = "󿯟", hl = "TSType"},
+      Method = {icon = "", hl = "TSMethod"},
+      Property = {icon = "󿪶", hl = "TSMethod"},
+      Field = {icon = "󿰩", hl = "TSField"},
+      Constructor = {icon = "󿚦", hl = "TSConstructor"},
+      Enum = {icon = "", hl = "TSType"},
+      Interface = {icon = "󿨡", hl = "TSType"},
+      Function = {icon = "", hl = "TSFunction"},
+      Variable = {icon = "󿰩", hl = "TSConstant"},
+      Constant = {icon = "󿡛", hl = "TSConstant"},
+      String = {icon = "𝓐", hl = "TSString"},
+      Number = {icon = "#", hl = "TSNumber"},
+      Boolean = {icon = "⊨", hl = "TSBoolean"},
+      Array = {icon = "", hl = "TSConstant"},
+      Object = {icon = "⦿", hl = "TSType"},
+      Key = {icon = "🔐", hl = "TSType"},
+      Null = {icon = "NULL", hl = "TSType"},
+      EnumMember = {icon = "", hl = "TSField"},
+      Struct = {icon = "󿩭", hl = "TSType"},
+      Event = {icon = "󿝀", hl = "TSType"},
+      Operator = {icon = "+", hl = "TSOperator"},
+      TypeParameter = {icon = "𝙏", hl = "TSParameter"},
+    }
+  end
+end
 
-local on_attach = function(client)
+
+function on_attach(client)
   local map = function(mode, lhs, rhs, opts)
     vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, vim.tbl_extend('keep', opts or {}, { silent = true, noremap = true }))
   end
@@ -106,9 +140,11 @@ local on_attach = function(client)
 
   local bufnr = a.nvim_get_current_buf()
   -- signature_help を表示する
-  -- if client.resolved_capabilities.signature_help and client.name ~= 'zls' then
-  if false then
-    require'xlsp/lspsignicha'.setup_autocmds(bufnr)
+  if client.resolved_capabilities.signature_help and client.name ~= 'zls' then
+    if vim.tbl_contains({'lua'}, vim.bo.filetype) then
+      require'xlsp/lspsignicha'.setup_autocmds(bufnr)
+    end
+  -- if false then
   end
 
   if client.resolved_capabilities.document_highlight then
@@ -195,8 +231,11 @@ lspconfig.vimls.setup{
 -- https://clangd.llvm.org/installation.html
 -- $ sudo apt-get install clangd-9
 -- $ sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-9 100
+
+-- $ yay -S libz3.so
 lspconfig.clangd.setup {
   on_attach = on_attach,
+  cmd = servers.get_cmd('clangd'),
 }
 
 
@@ -269,6 +308,10 @@ local jsonls_schemas = {
   {
     fileMatch = {"dockerls.json"},
     url = "file:///home/tamago324/ghq/github.com/tamago324/nlsp-settings.nvim/schemas/dockerls.json"
+  },
+  {
+    fileMatch = {"zls.json"},
+    url = "file:///home/tamago324/ghq/github.com/tamago324/vimfiles/data/zls_schema.json",
   }
 }
 for _, v in ipairs(vim.deepcopy(require'nlspsettings.jsonls'.get_default_schemas())) do

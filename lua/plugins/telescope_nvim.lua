@@ -4,10 +4,10 @@ local actions = require('telescope.actions')
 local action_set = require'telescope.actions.set'
 local action_state = require'telescope.actions.state'
 local sorters = require('telescope.sorters')
--- local pickers = require('telescope.pickers')
--- local finders = require('telescope.finders')
+local pickers = require('telescope.pickers')
+local finders = require('telescope.finders')
 local previewers = require('telescope.previewers')
--- local conf = require('telescope.config').values
+local conf = require('telescope.config').values
 local transform_mod = require('telescope.actions.mt').transform_mod
 -- local make_entry = require('telescope.make_entry')
 local entry_display = require('telescope.pickers.entry_display')
@@ -50,7 +50,8 @@ require'telescope'.setup{
         preview_width = 0.6 -- "(Resolvable): Determine preview width",
       },
       bottom_pane = {
-        height = 20,
+        -- height = 20,
+        height = 30,
       }
     },
 
@@ -83,6 +84,8 @@ require'telescope'.setup{
         ["<C-v>"] = actions.select_vertical,
         ["<CR>"]  = actions.select_default,
 
+        ["<C-x>"]  = require("trouble.providers.telescope").open_with_trouble,
+
         -- TODO:
       },
 
@@ -105,6 +108,8 @@ require'telescope'.setup{
         ["<Tab>"] = function(_, _)
           vim.api.nvim_feedkeys('i', 'n', true)
         end,
+
+        ["<C-x>"]  = require("trouble.providers.telescope").open_with_trouble,
 
         -- 選択して、カーソル移動
         ["J"]  = actions.toggle_selection + actions.move_selection_next,
@@ -158,13 +163,14 @@ local extensions = {
   'ghq',
   -- 'gh',
   -- 'frecency',
-  'sonictemplate',
+  -- 'sonictemplate',
   'openbrowser',
   -- 'session_manager',
+  -- 'dap',
 
   'plug_names',
   'mru',
-  'deol',
+  -- 'deol',
   'mrr',
 }
 local function load_extensions(exps)
@@ -300,10 +306,10 @@ local find_vimfiles = function()
 
   require'telescope.builtin'.find_files{
     cwd = cwd,
-    previewer = previewers.cat.new({}),
-    sorter = get_fzy_sorter_use_list({
-      list = files
-    })
+    -- previewer = previewers.cat.new({}),
+    -- sorter = get_fzy_sorter_use_list({
+    --   list = files
+    -- })
   }
 end
 
@@ -421,7 +427,7 @@ local buffers = function()
       -- もし、いずれかのウィンドウに表示されていたら、印をつける
       -- 󿩋󿫼󿫌󿨯󿧽󿥚󿦕󿥙󿠦󿟆󿝀󿔾
       local mark_win_info = ''
-      local bufinfo = vim.fn.getbufinfo(entry.bufnr)
+      local bufinfo = vim.fn.getbufinfo(entry.bufnr or 0)
       if entry.bufnr == vim.api.nvim_get_current_buf() then
         mark_win_info = '󿕅'
       elseif not vim.tbl_isempty(bufinfo) and not vim.tbl_isempty(bufinfo[1].windows) then
@@ -646,6 +652,13 @@ end
 local lsp_document_symbols = function()
   require'telescope.builtin'.lsp_document_symbols {
     show_line = false,
+
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:enhance{
+        post = actions.center
+      }
+      return true
+    end,
   }
 end
 
@@ -664,7 +677,33 @@ end
 -- @Summary sonictemplate
 -- @Description
 local sonictemplate = function()
-  require'telescope'.extensions.sonictemplate.templates {}
+  local opts = {}
+  local results = {}
+
+  pickers.new(opts, {
+    prompt_title = 'Template',
+    finder = finders.new_table {
+      results = vim.fn['sonictemplate#complete']('', '', ''),
+      entry_maker = function(entry)
+        return {
+          value = entry,
+          display = entry,
+          ordinal = entry,
+        }
+      end
+    },
+    sorter = conf.generic_sorter(opts),
+    attach_mappings = function(prompt_bufnr)
+      actions.select_default:replace(
+      function()
+        local selection = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+        vim.fn['sonictemplate#apply'](selection.value, 'n')
+      end)
+
+      return true
+    end,
+  }):find()
 end
 
 -- @Summary openbrowser
@@ -825,6 +864,23 @@ local mappings = {
   -- ['n<Space>fd'] = {deol},
 }
 
+-- require'which-key'.register({
+--   ['<Space>f'] = {
+--     name = "+Fuzzy Finder",
+--     f = { "Find file" },
+--     v = { "Find vim iles" },
+--     h = { "Search help" },
+--     j = { "Open buffer" },
+--     t = { "Set filetype" },
+--     q = { "Open ghq reposigoty" },
+--     s = { "Lsp document/symbol" },
+--     o = { "Open browser bookmarks" },
+--     n = { "Ssearch current buffer line" },
+--     k = { "Open MRU file" },
+--     g = { "ripgrep" },
+--   }
+-- })
+
 nvim_apply_mappings(mappings, {noremap = true, silent = true})
 
 local lsp_references = function()
@@ -851,9 +907,100 @@ local lir_mrr = function()
   }
 end
 
+local reverse = function(t)
+  local res = {}
+  for i = #t, 1, -1 do
+    table.insert(res, t[i])
+  end
+  return res
+end
+local deol_history = function()
+  local opts = {}
+  -- local lnum = vim.fn.line('.')
+  -- local text = vim.api.nvim_buf_get_lines(0, lnum-1, lnum, false)[1]
+
+  local results = reverse(vim.fn['deol#_get_histories']())
+  pickers.new(opts, {
+    prompt_title = 'Deol',
+    -- 最初から、入力するには？？
+    -- default_text = text,
+    finder = finders.new_table {
+      results = results,
+    },
+    sorter = get_fzy_sorter_use_list({
+      list = results,
+    }),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        local entry = actions.get_selected_entry()
+        actions.close(prompt_bufnr)
+        vim.fn['deol#send'](entry.value)
+      end)
+
+      local edit = function()
+        local selection = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+        vim.api.nvim_buf_set_lines(0, vim.fn.line('.')-1, vim.fn.line('.')-1, false, {selection.value})
+
+        vim.api.nvim_feedkeys(a.nvim_replace_termcodes("k", true, false, true), 'n', true)
+        vim.api.nvim_feedkeys(a.nvim_replace_termcodes("A", true, false, true), 'n', true)
+      end
+
+      map('i', '<C-e>', edit)
+      map('n', '<C-e>', edit)
+      map('i', '<C-l>', actions.close)
+      map('n', '<C-l>', actions.close)
+
+      return true
+    end
+  }):find()
+end
+
+local git_commit_prefix = function()
+  local results = {
+    { 'feat', '新機能', },
+    { 'fix', 'バグ修正', },
+    { 'docs', 'ドキュメントのみの変更', },
+    { 'style', 'コードの動作に影響しない変更（スペース・フォーマット・セミコロン等）', },
+    { 'refactor', 'リファクタリング（機能追加やバグ修正を含まない変更）', },
+    { 'perf', 'パフォーマンス改善のための変更', },
+    { 'test', '不足テストの追加や既存テストの修正', },
+    { 'chore', 'その他、補助ツール・ドキュメント生成など、ソースやテストの変更を含まない変更' },
+  }
+
+  pickers.new({}, {
+    prompt_title = 'prefix',
+    finder = finders.new_table {
+      results = results,
+      entry_maker = function(entry)
+        return {
+          value = entry[1],
+          display = entry[1] .. ' ' .. entry[2],
+          ordinal = entry[1],
+        }
+      end
+    },
+    sorter = conf.generic_sorter({}),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        local entry = actions.get_selected_entry()
+        actions.close(prompt_bufnr)
+
+        local text = entry.value .. ': '
+        vim.api.nvim_buf_set_lines(0, 0, 1, false, {text})
+        vim.cmd [[ startinsert! ]]
+      end)
+
+      return true
+    end,
+  }):find()
+end
+
 
 return {
   lsp_references = lsp_references,
   quickfix_in_qflist = quickfix_in_qflist,
   lir_mrr = lir_mrr,
+  deol_history = deol_history,
+  git_commit_prefix = git_commit_prefix,
 }

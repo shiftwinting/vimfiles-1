@@ -12,13 +12,14 @@ require('nvim-treesitter.configs').setup{
     'rust',
     'bash',
     'toml',
-    'comment',
+    -- 'comment',
     'typescript',
-    -- 'zig',
+    'zig',
     -- 'vim'
   },
   highlight = {
     enable = true,
+    disable = {'markdown', 'zig'},
   },
   -- indent = {
   --   enable = true,

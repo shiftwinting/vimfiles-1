@@ -75,7 +75,7 @@ local gen_from_mru_better = function(opts)
     end
 
     local mark_win_info = ''
-    local bufinfo = vim.fn.getbufinfo(entry.bufnr)
+    local bufinfo = vim.fn.getbufinfo(entry.bufnr or 0)
     if entry.bufnr == vim.api.nvim_get_current_buf() then
       mark_win_info = '󿕅'
     elseif not vim.tbl_isempty(bufinfo) and not vim.tbl_isempty(bufinfo[1].windows) then

@@ -62,6 +62,9 @@ local server_cmd_list = {
   },
   efm = {
     server_dir .. '/efm-langserver/efm-langserver', '-c', vim.fn['efm_langserver_settings#config_path']()
+  },
+  clangd = {
+    server_dir .. '/clangd/clangd', '--background-index'
   }
 }
 

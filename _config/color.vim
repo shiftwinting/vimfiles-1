@@ -116,6 +116,9 @@ function! s:define_my_highlight() abort
       hi LirFloatNormal guibg=#423f3e
 
       hi LirFloatBorder guifg=#7c6f64
+      hi LirDir guifg=#7ebae4
+      hi LirSymLink guifg=#afeafe
+      hi LirEmptyDirText guifg=#afeafe
 
       hi TSDefinition guibg=#504945
 

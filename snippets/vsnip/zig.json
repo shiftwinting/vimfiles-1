@@ -15,6 +15,16 @@
       "}"
     ]
   },
+  "if error union": {
+    "prefix": "iferr",
+    "body": [
+      "if (${1}) |${2}| {",
+      "\t${0}",
+      "} else |err| {",
+      "\treturn err;",
+      "}"
+    ]
+  },
   "else": {
     "prefix": "else",
     "body": [
@@ -56,6 +66,16 @@
       "}"
     ]
   },
+  "while error union": {
+    "prefix": "whileerr",
+    "body": [
+      "while (${1}) |${2}| {",
+      "\t${0}",
+      "} else |err| {",
+      "\treturn err;",
+      "}"
+    ]
+  },
   "print": {
     "prefix": "print",
     "body": [
@@ -84,6 +104,28 @@
       "test \"${1}\" {",
       "\t${0}",
       "}"
+    ]
+  },
+  "arenaallocator": {
+    "prefix": "arena",
+    "body": [
+      "var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);",
+      "defer arena.deinit();",
+      "var allocator = &arena.allocator;"
+    ]
+  },
+  "zigfmt": {
+    "prefix": "zigfmt",
+    "body": [
+      "// zig fmt: off",
+      "${0}",
+      "// zig fmt: on"
+    ]
+  },
+  "self": {
+    "prefix": "self",
+    "body": [
+      "self: *Self"
     ]
   }
 }

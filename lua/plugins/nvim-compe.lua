@@ -5,7 +5,7 @@ require'compe'.setup {
   min_length = 1,
   preselect = 'enable',
 
-  allow_prefix_unmatch = false,
+  -- allow_prefix_unmatch = false,
 
   source = {
     path = {ignored_filetypes = {'deoledit'}},
@@ -21,6 +21,7 @@ require'compe'.setup {
     necosyntax = {filetypes = {'make', 'teal', 'zig', 'i3config'}},
     -- nvim_treesitter = {filetypes = {'lua'}},
     -- vim_lsp = true
+    math = true,
   }
 }
 
