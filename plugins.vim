@@ -81,7 +81,7 @@ Plug 'kana/vim-operator-user',
 " Plug 'yuki-yano/vim-operator-replace'
 Plug 'kana/vim-operator-replace'
 " Plug 'mopp/vim-operator-convert-case'
-Plug 'Shougo/deol.nvim', { 'on': ['Deol'] }
+Plug 'Shougo/deol.nvim'
 
 " Neovim
 " Plug 'prabirshrestha/vim-lsp'

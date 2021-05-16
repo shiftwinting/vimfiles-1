@@ -909,6 +909,16 @@ local lir_mrr = function()
   }
 end
 
+
+-- deol が表示されているか
+local is_show_deol = function()
+  if vim.fn.exists('t:deol') ~= 1 then
+    return false
+  end
+
+  return not vim.tbl_isempty(vim.fn.win_findbuf(vim.t.deol.bufnr))
+end
+
 local reverse = function(t)
   local res = {}
   for i = #t, 1, -1 do
@@ -936,12 +946,29 @@ local deol_history = function()
       actions.select_default:replace(function()
         local entry = actions.get_selected_entry()
         actions.close(prompt_bufnr)
+
+        -- もし、開いてなかったら、開く
+        if not is_show_deol() then
+          vim.fn.DeolOpen()
+        end
+
         vim.fn['deol#send'](entry.value)
       end)
 
       local edit = function()
         local selection = action_state.get_selected_entry()
         actions.close(prompt_bufnr)
+
+        -- edit が開いていなければ、開く
+        if not is_show_deol() then
+          vim.fn.DeolOpen()
+        end
+
+        if vim.api.nvim_get_current_buf() ~= vim.t.deol.edit_bufnr then
+          -- edit を開く
+          vim.cmd [[DeolEdit]]
+        end
+
         vim.api.nvim_buf_set_lines(0, vim.fn.line('.')-1, vim.fn.line('.')-1, false, {selection.value})
 
         vim.api.nvim_feedkeys(a.nvim_replace_termcodes("k", true, false, true), 'n', true)
@@ -950,8 +977,8 @@ local deol_history = function()
 
       map('i', '<C-e>', edit)
       map('n', '<C-e>', edit)
-      map('i', '<C-l>', actions.close)
-      map('n', '<C-l>', actions.close)
+      map('i', '<A-s>', actions.close)
+      map('n', '<A-s>', actions.close)
 
       return true
     end

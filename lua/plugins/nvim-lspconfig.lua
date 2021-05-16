@@ -163,6 +163,8 @@ function on_attach(client)
 
   map( 'n', '<Space>vl', '<Plug>(nlsp-buf-config)', { noremap = false })
 
+  map("n", "<A-d>", "<cmd>lua require'vim.lsp.diagnostic'.set_loclist()<cr>")
+
   -- require'xlsp/lightbulb'.on_attach()
 end
 

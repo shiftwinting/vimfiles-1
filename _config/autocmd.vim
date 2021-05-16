@@ -322,6 +322,9 @@ function! s:my_ft_qf() abort
   nnoremap <buffer> <C-j> <Cmd>call search('^[^\\|]')<CR>
   nnoremap <buffer> <C-k> <Cmd>call search('^[^\\|]', 'b')<CR>
 
+  " quickfix とじる
+  nnoremap <buffer> <A-d> <Cmd>lclose<CR>
+
   wincmd J
   resize 20
   setlocal signcolumn=no

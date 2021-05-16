@@ -15,6 +15,6 @@ require'trouble'.setup {
   mode = 'lsp_document_diagnostics',
 }
 
-vim.api.nvim_set_keymap("n", "<A-d>", "<cmd>LspTroubleWorkSpaceToggle<cr>",
-  {silent = true, noremap = true}
-)
+-- vim.api.nvim_set_keymap("n", "<A-d>", "<cmd>LspTroubleWorkSpaceToggle<cr>",
+--   {silent = true, noremap = true}
+-- )

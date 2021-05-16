@@ -166,6 +166,10 @@ function! s:tldr_line() abort
   call deol#send('tldr ' .. getline('.'))
 endfunction
 
+
+nnoremap <silent> <A-s> <Cmd>lua require'plugins.telescope_nvim'.deol_history()<CR>
+
+
 function! s:deol_editor_settings() abort
 
     inoremap <buffer><silent> <A-e> <Esc>:call <SID>deol_kill_editor()<CR>
@@ -185,8 +189,8 @@ function! s:deol_editor_settings() abort
     " nvim-compe
     inoremap <buffer><silent><expr> <TAB> pumvisible() ? "\<C-n>" : compe#complete()
 
-    nnoremap <buffer><silent> <C-s> <Cmd>lua require'plugins.telescope_nvim'.deol_history()<CR>
-    inoremap <buffer><silent> <C-s> <Cmd>lua require'plugins.telescope_nvim'.deol_history()<CR>
+    nnoremap <buffer><silent> <A-s> <Cmd>lua require'plugins.telescope_nvim'.deol_history()<CR>
+    inoremap <buffer><silent> <A-s> <Cmd>lua require'plugins.telescope_nvim'.deol_history()<CR>
 
     nnoremap <buffer><silent> ? <Cmd>call <SID>open_help()<CR>
 
