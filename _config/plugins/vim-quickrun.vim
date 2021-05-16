@@ -42,6 +42,14 @@ let g:quickrun_config = {
 \   'zig': {
 \       'exec': 'zig run %s'
 \   },
+\   'zig/test': {
+\       'exec': 'zig test %s',
+\       'outputter': 'quickfix',
+\   },
+\   'ts/deno': {
+\       'exec': 'deno run --allow-read --allow-write --allow-net %s',
+\       'runner': 'nvimterm',
+\   },
 \}
 
 " \   'c': {

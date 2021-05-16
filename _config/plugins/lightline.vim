@@ -29,7 +29,7 @@ let g:lightline.active = {
 \             [ 'readonly', 't_filename' ],
 \             [ 't_filetype' ],
 \   ],
-\   'right': []
+\   'right': [ [], [ 't_lineinfo' ] ]
 \}
 " \             [ 't_kaomoji' ],
 
@@ -113,9 +113,10 @@ function! L_percent()
 endfunction
 
 function! L_lineinfo() abort
-    return  VisibleRightComponent() ?
-    \       line('.') . ':' . printf('%-3d', col('.')) :
-    \       ''
+    " return  VisibleRightComponent() ?
+    " \       line('.') . ':' . printf('%-3d', col('.')) :
+    " \       ''
+    return  'Ln '..line('.') . ', Col ' .. col('.') .. '  '
 endfunction
 
 function! L_inactiveMode() abort

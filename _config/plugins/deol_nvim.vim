@@ -28,11 +28,11 @@ let g:deol#extra_options = {
 \   'term_kill': 'kill',
 \}
 
-let g:deol#password_pattern =
-\ '\[sudo] \w のパスワード'
-" \   '\%(Enter \|Repeat \|[Oo]ld \|[Nn]ew \|login ' .
-" \   '\|Kerberos \|EncFS \|CVS \|UNIX \| SMB \|LDAP \|\[sudo] ' .
-" \   '\|^\|\n\|''s \)\%([Pp]assword\|[Pp]assphrase\)\>'
+" let g:deol#password_pattern =
+" \ '\[sudo] \w のパスワード'
+" " \   '\%(Enter \|Repeat \|[Oo]ld \|[Nn]ew \|login ' .
+" " \   '\|Kerberos \|EncFS \|CVS \|UNIX \| SMB \|LDAP \|\[sudo] ' .
+" " \   '\|^\|\n\|''s \)\%([Pp]assword\|[Pp]assphrase\)\>'
 
 nnoremap <silent><A-t> <Cmd>call DeolToggle()<CR>
 tnoremap <silent><A-t> <C-\><C-n><Cmd>call DeolToggle()<CR>

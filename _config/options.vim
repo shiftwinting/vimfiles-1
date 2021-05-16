@@ -279,3 +279,6 @@ if executable("rg")
   set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case\ --glob\ '!tags*'
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
+
+" " 自動でならないようにする
+" set winfixheight

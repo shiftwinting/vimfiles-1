@@ -19,7 +19,7 @@ require('nvim-treesitter.configs').setup{
   },
   highlight = {
     enable = true,
-    disable = {'markdown', 'zig'},
+    disable = {'markdown', 'zig', 'typescript'},
   },
   -- indent = {
   --   enable = true,

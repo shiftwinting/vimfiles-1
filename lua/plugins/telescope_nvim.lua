@@ -84,7 +84,9 @@ require'telescope'.setup{
         ["<C-v>"] = actions.select_vertical,
         ["<CR>"]  = actions.select_default,
 
-        ["<C-x>"]  = require("trouble.providers.telescope").open_with_trouble,
+        -- ["<C-x>"]  = require("trouble.providers.telescope").open_with_trouble,
+
+        ["<C-l>"]  = actions.toggle_selection + actions.move_selection_next,
 
         -- TODO:
       },
@@ -996,6 +998,30 @@ local git_commit_prefix = function()
   }):find()
 end
 
+local gitignore = function()
+  local results = vim.fn['denops#request']('gignore', 'getLanguages', {})
+
+  pickers.new({}, {
+    prompt_title = 'gitignore',
+    finder = finders.new_table {
+      results = results,
+    },
+    sorter = conf.generic_sorter({}),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        local entry = actions.get_selected_entry()
+        actions.close(prompt_bufnr)
+        -- TODO: 複数に対応
+        vim.fn['denops#request']('gignore', 'setlines', {entry.value})
+      end)
+
+      return true
+    end,
+  }):find()
+end
+
+vim.cmd[[command! GitIgnoreTelescope lua require'plugins.telescope_nvim'.gitignore()]]
+
 
 return {
   lsp_references = lsp_references,
@@ -1003,4 +1029,5 @@ return {
   lir_mrr = lir_mrr,
   deol_history = deol_history,
   git_commit_prefix = git_commit_prefix,
+  gitignore = gitignore,
 }

@@ -6,8 +6,9 @@ scriptencoding utf-8
 
 " <Esc> をマッピングしないようにする
 let g:lexima_map_escape = ''
-" endwise をしないようにする
-let g:lexima_enable_endwise_rules = 0
+" " endwise をしないようにする
+" let g:lexima_enable_endwise_rules = 0
+let g:lexima_enable_endwise_rules = 1
 
 " TODO: オススメらしい？
 let g:lexima_accept_pum_with_enter = 0

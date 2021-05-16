@@ -20,6 +20,9 @@ Plug 'sainnhe/gruvbox-material'
 " Plug 'sainnhe/edge'
 " Plug 'RRethy/nvim-base16'
 " Plug 'folke/tokyonight.nvim'
+" Plug 'savq/melange'
+" Plug 'lucastrvsn/kikwis'
+" Plug 'shaunsingh/moonlight.nvim'
 
 Plug 'andymass/vim-matchup'
 Plug 'cohama/lexima.vim'
@@ -32,6 +35,7 @@ Plug 'lambdalisue/edita.vim'
 Plug 'lambdalisue/mr-quickfix.vim', { 'on': ['Mru', 'Mrw'] }
 Plug 'lambdalisue/mr.vim'
 Plug 'lambdalisue/suda.vim'
+Plug 'lambdalisue/vim-protocol'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'machakann/vim-highlightedyank'
 Plug 'machakann/vim-sandwich'
@@ -43,7 +47,9 @@ Plug 'thinca/vim-prettyprint', { 'on': ['PP', 'PrettyPrint'] }
 Plug 'thinca/vim-qfreplace', { 'on': 'Qfreplace' }
 Plug 'thinca/vim-quickrun'
 Plug 'lambdalisue/vim-quickrun-neovim-job'
+Plug 'statiolake/vim-quickrun-runner-nvimterm'
 Plug 'tomtom/tcomment_vim'
+" Plug 'tyru/caw.vim'
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
 Plug 'tyru/open-browser-github.vim'
 Plug 'tyru/open-browser.vim'
@@ -54,6 +60,7 @@ Plug 'voldikss/vim-translator', { 'on': ['TranslateW', 'TranslateR', 'Translate'
 Plug 'kana/vim-niceblock'
 Plug 'tpope/vim-obsession'
 " Plug 'osyo-manga/vim-over'
+" Plug 'aonemd/fmt.vim'
 
 " saerch
 Plug 'haya14busa/vim-asterisk'
@@ -93,6 +100,10 @@ Plug 'tsuyoshicho/vim-efm-langserver-settings'
 Plug 'folke/lsp-trouble.nvim'
 " Plug '~/ghq/github.com/folke/lsp-trouble.nvim'
 Plug 'simrat39/symbols-outline.nvim'
+Plug 'kdav5758/NoCLC.nvim'
+Plug 'kevinhwang91/nvim-bqf'
+" Plug 'famiu/feline.nvim'
+Plug '~/ghq/github.com/tamago324/tiknot.nvim'
 
 " Plug 'mfussenegger/nvim-dap'
 " Plug 'rcarriga/nvim-dap-ui'
@@ -109,8 +120,8 @@ Plug 'onsails/lspkind-nvim'
 " Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
-" Plug 'nvim-lua/telescope.nvim'
-Plug '~/ghq/github.com/nvim-lua/telescope.nvim'
+Plug 'nvim-lua/telescope.nvim'
+" Plug '~/ghq/github.com/nvim-lua/telescope.nvim'
 Plug 'nvim-telescope/telescope-ghq.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 " Plug 'tamago324/telescope-sonictemplate.nvim'
@@ -126,6 +137,8 @@ Plug 'nvim-treesitter/playground'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 " Plug 'code-biscuits/nvim-biscuits'
 " Plug 'tjdevries/tree-sitter-lua'
+" Plug 'p00f/nvim-ts-rainbow'
+
 
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'norcalli/nvim-colorizer.lua'
@@ -139,11 +152,13 @@ Plug 'antoinemadec/FixCursorHold.nvim'
 " Plug 'kevinhwang91/nvim-hlslens'
 " Plug 'Shatur95/neovim-session-manager'
 " Plug 'thaerkh/vim-workspace'
-Plug 'gelguy/wilder.nvim' " python3 -m pip install --user --upgrade pynvim
+" Plug 'gelguy/wilder.nvim' " python3 -m pip install --user --upgrade pynvim
 " Plug 'sunjon/Shade.nvim'
-Plug 'haringsrob/nvim_context_vt'
-" Plug '~/ghq/github.com/haringsrob/nvim_context_vt'
+" Plug 'haringsrob/nvim_context_vt'
+Plug '~/ghq/github.com/haringsrob/nvim_context_vt'
 Plug 'folke/which-key.nvim'
+Plug '~/ghq/github.com/mhartington/formatter.nvim'
+
 
 " Plug 'ido-nvim/core', { 'as': 'ido' }
 " Plug 'ido-nvim/files', { 'as': 'ido_files' }
@@ -160,12 +175,21 @@ Plug 'ziglang/zig.vim'
 " i3
 Plug 'mboughaba/i3config.vim'
 
+" ruby
+Plug 'vim-ruby/vim-ruby'
+
 Plug '~/ghq/github.com/tamago324/lir.nvim'
 Plug 'tamago324/lir-bookmark.nvim'
-" Plug '~/ghq/github.com/tamago324/nlsp-settings.nvim'
+" python3 -m pip install --user --upgrade neovim-remote
+Plug 'tamago324/lir-mmv.nvim'
 Plug 'tamago324/nlsp-settings.nvim'
 
 " Plug 'spinks/vim-leader-guide'
+
+let g:my_denops_debug = v:false
+
+Plug 'vim-denops/denops.vim'
+Plug '~/ghq/github.com/tamago324/dps-gitignore'
 
 
 " 様子見
@@ -176,6 +200,7 @@ Plug 'tversteeg/registers.nvim'
 " Plug 'TimUntersberger/neogit'
 " Plug 'steelsojka/pears.nvim' " <C-h> で消したい
 " Plug 'windwp/nvim-autopairs' " <C-h> で消したい
+" Plug 'edluffy/hologram.nvim'
 
 call plug#end()
 
@@ -322,7 +347,6 @@ call plug#end()
 
 " Plug 'mhinz/vim-grepper'  -> telescope
 " Plug 'delphinus/vim-auto-cursorline'
-" Plug 'y0za/vim-reading-vimrc'
 
 " Plug 'rcmdnk/yankround.vim' -> nvim-miniyank
 
@@ -350,7 +374,6 @@ call plug#end()
 "   Plug 'tpope/vim-projectionist'
 " Plug 'norcalli/nvim_utils'
 " Plug 'euclidianAce/BetterLua.vim'
-" Plug 'mhartington/formatter.nvim'
 
 " Plug 'jubnzv/virtual-types.nvim'
 " Plug 'nvim-lua/lsp-status.nvim'
@@ -404,7 +427,6 @@ call plug#end()
 " Plug 'Shougo/deoppet.nvim'
 " Plug 'nvim-telescope/telescope-github.nvim'
 " Plug '~/.ghq/github.com/nvim-treesitter/nvim-treesitter'
-" Plug 'p00f/nvim-ts-rainbow'
 " Plug 'nvim-treesitter/nvim-treesitter-refactor'
 " Plug 'nvim-treesitter/nvim-tree-docs'
 " Plug 'romgrk/nvim-treesitter-context'
@@ -412,7 +434,6 @@ call plug#end()
 " Plug 'dstein64/vim-startuptime', { 'on': 'StartupTime' }
 " Plug 'kana/vim-repeat'
 " Plug 'machakann/vim-swap'
-" Plug 'lambdalisue/vim-protocol'
 " Plug 'lambdalisue/fin.vim'
 
 " Plug 'osyo-manga/vim-milfeulle'

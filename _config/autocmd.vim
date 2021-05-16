@@ -255,33 +255,45 @@ function! s:my_ft_help() abort
   nnoremap <buffer> q <C-w>c
 
   command! -range VimDocFormat <line1>,<line2>call VimDocFormat()
-  nnoremap <buffer> <Space>bl :<C-u>%VimDocFormat<CR>
-  xnoremap <buffer> <Space>bl :VimDocFormat<CR>
+  nnoremap <buffer> <Space>rf :<C-u>%VimDocFormat<CR>
+  xnoremap <buffer> <Space>rf :VimDocFormat<CR>
 endfunction
 
 
 " ====================
 " quickfix
 " ====================
-" https://github.com/neovim/neovim/pull/13079 がマージされないといけない...
-function! s:colder() abort
-  if getqflist({'nr': 0}).nr ==# 1
-    " execute getqflist({'nr': '$'}).nr .. 'chistory'
-  else
-    execute 'colder'
-  endif
-endfunction
 
-function! s:cnewer() abort
-  if getqflist({'nr': 0}).nr ==# getqflist({'nr': '$'}).nr
-    " execute '1chistory'
-  else
-    execute 'cnewer'
-  endif
-endfunction
+" bqf を使うため、不要
+" " https://github.com/neovim/neovim/pull/13079 がマージされないといけない...
+" function! s:colder() abort
+"   if getqflist({'nr': 0}).nr ==# 1
+"     " execute getqflist({'nr': '$'}).nr .. 'chistory'
+"   else
+"     execute 'colder'
+"   endif
+" endfunction
+"
+" function! s:cnewer() abort
+"   if getqflist({'nr': 0}).nr ==# getqflist({'nr': '$'}).nr
+"     " execute '1chistory'
+"   else
+"     execute 'cnewer'
+"   endif
+" endfunction
+
+" function! s:cursor_move(direction) abort
+"   if a:direction ==# 'j'
+"     call search('\v^[^|]+\|\d+ col \d+\|')
+"     " call search('^[^\|]')
+"   elseif a:direction ==# 'k'
+"     call search('\v^[^|]+\|\d+ col \d+\|', 'b')
+"     " call search('^[^\|]', 'b')
+"   endif
+" endfunction
 
 function! s:my_ft_qf() abort
-  nnoremap <buffer>         p         <CR>zz<C-w>p
+  " nnoremap <buffer>         p         <CR>zz<C-w>p
   nnoremap <buffer><silent> q         :<C-u>quit<CR>
   nnoremap <buffer><silent> <C-q>     :<C-u>quit<CR>
 
@@ -290,10 +302,10 @@ function! s:my_ft_qf() abort
   nnoremap <buffer><silent> gj gj
   nnoremap <buffer><silent> gk gk
 
-  nnoremap <buffer><silent> <A-l> :<C-u>call <SID>cnewer()<CR>
-  nnoremap <buffer><silent> <A-h> :<C-u>call <SID>colder()<CR>
+  " nnoremap <buffer><silent> <A-l> :<C-u>call <SID>cnewer()<CR>
+  " nnoremap <buffer><silent> <A-h> :<C-u>call <SID>colder()<CR>
 
-  nnoremap <buffer><silent> <Space>fq <Cmd>lua require'plugins.telescope_nvim'.quickfix_in_qflist()<CR>
+  " nnoremap <buffer><silent> <Space>fq <Cmd>lua require'plugins.telescope_nvim'.quickfix_in_qflist()<CR>
 
   " nnoremap <Plug>(qfpreview-toggle-auto-show) :<C-u>lua require'vimrc.qfpreview'.toggle_auto_preview()<CR>
   " nnoremap <Plug>(qfpreview-show)             :<C-u>lua require'vimrc.qfpreview'.show()<CR>
@@ -306,6 +318,9 @@ function! s:my_ft_qf() abort
   " command! -buffer ToggleQfPreview lua require'vimrc.qfpreview'.toggle_auto_preview()<CR>
   "
   " nnoremap <buffer><silent> <CR> :<C-u>lua require'vimrc.qfpreview'.edit()<CR>
+
+  nnoremap <buffer> <C-j> <Cmd>call search('^[^\\|]')<CR>
+  nnoremap <buffer> <C-k> <Cmd>call search('^[^\\|]', 'b')<CR>
 
   wincmd J
   resize 20
@@ -427,7 +442,7 @@ function! s:my_ft_python() abort
 
   nnoremap <buffer><silent> ,f :<C-u>call deol#send(getline('.'))<CR>
   vnoremap <buffer><silent> ,f :<C-u>call <SID>python_send_lines()<CR>
-  vnoremap <buffer><silent> <Space>bl :<C-u>silent !black %<CR>
+  vnoremap <buffer><silent> <Space>rf :<C-u>silent !black %<CR>
 endfunction
 
 
@@ -435,10 +450,10 @@ endfunction
 " sql
 " ====================
 function! s:my_ft_sql() abort
-  nnoremap <Space>bl :<C-u>SQLFmt<CR>
+  nnoremap <Space>rf :<C-u>SQLFmt<CR>
 
   if !empty(globpath(&rtp, 'autoload/nrrwrgn.vim'))
-    vnoremap <Space>bl :NR<CR> \| :SQLFmt<CR> \| :write<CR> \| :close<CR>
+    vnoremap <Space>rf :NR<CR> \| :SQLFmt<CR> \| :write<CR> \| :close<CR>
   endif
 endfunction
 
@@ -482,8 +497,8 @@ endfunction
 
 
 function! s:my_ft_smlnj() abort
-  nnoremap <buffer>         <Space>bl :<C-u>SmlFormat<CR>
-  vnoremap <buffer><silent> <Space>bl :<C-u>VSmlFormat<CR>
+  nnoremap <buffer>         <Space>rf :<C-u>SmlFormat<CR>
+  vnoremap <buffer><silent> <Space>rf :<C-u>VSmlFormat<CR>
   nnoremap <buffer><silent> <Space>re :<C-u>call <SID>start_sml()<CR>
 
   iabbrev <buffer> func fun
@@ -552,8 +567,8 @@ endfunction
 function! s:my_ft_lua() abort
   nnoremap <buffer><silent> <Space>vs. :<C-u>luafile %<CR>
   " nnoremap <buffer><silent> <Space>rr  :<C-u>luafile %<CR>
-  nnoremap <buffer><silent> <Space>bl <Cmd>call <SID>equal_format()<CR>
-  xnoremap <buffer><silent> <Space>bl <Cmd>call <SID>equal_format()<CR>
+  nnoremap <buffer><silent> <Space>rf <Cmd>call <SID>equal_format()<CR>
+  xnoremap <buffer><silent> <Space>rf <Cmd>call <SID>equal_format()<CR>
 
   nnoremap <buffer><silent> <Space>bf :<C-u>silent lmake\| lopen<CR>
 
@@ -600,7 +615,7 @@ function! s:equal_format() abort
   call winrestview(l:winview)
 endfunction
 function! s:my_ft_vim() abort
-  nnoremap <buffer><silent> <Space>bl <Cmd>call <SID>equal_format()<CR>
+  nnoremap <buffer><silent> <Space>rf <Cmd>call <SID>equal_format()<CR>
 
   " if exists(':AlterCommand')
   "   call altercmd#define('<buffer>', 'so', 'so %')
@@ -659,7 +674,7 @@ function! QCrun(...) abort
 endfunction
 
 function! s:my_ft_rust() abort
-  nnoremap <buffer>         <Space>bl :<C-u>RustFmt<CR>
+  nnoremap <buffer>         <Space>rf :<C-u>RustFmt<CR>
   nnoremap <buffer><silent> <Space>rr :<C-u>QCargoRun<CR>
   nnoremap <buffer><silent> <Space>rt :<C-u>QCargoTest<CR>
 
@@ -715,35 +730,55 @@ autocmd MyAutoCmd BufRead,BufWinEnter nlsp.log,lsp.log call <SID>nlsp_log()
 " augroup END
 
 
-command! QZigTest call QZigTest()
-function! QZigTest() abort
-  let l:curwin = win_getid()
-  let l:result_bufnr = v:null
-  for l:win in nvim_tabpage_list_wins(0)
-    let l:bufnr = nvim_win_get_buf(l:win)
+" command! QZigTest call QZigTest()
+" function! QZigTest() abort
+"   let l:curwin = win_getid()
+"   let l:result_bufnr = v:null
+"   for l:win in nvim_tabpage_list_wins(0)
+"     let l:bufnr = nvim_win_get_buf(l:win)
+"
+"     " 100:cargo run みたいなバッファを探す
+"     if bufname(l:bufnr) =~# '\v\d+:zig '
+"       " もし、あれば移動する
+"       let l:result_bufnr = l:bufnr
+"       break
+"     endif
+"   endfor
+"
+"   let l:fname = expand('%:p')
+"
+"   if l:result_bufnr == v:null
+"     execute '15 new'
+"   else
+"     execute printf('noautocmd %d wincmd w', bufwinnr(l:bufnr))
+"   endif
+"
+"   execute printf('terminal zig test %s', l:fname)
+"   setlocal nobuflisted
+"   call win_gotoid(l:curwin)
+" endfunction
 
-    " 100:cargo run みたいなバッファを探す
-    if bufname(l:bufnr) =~# '\v\d+:zig '
-      " もし、あれば移動する
-      let l:result_bufnr = l:bufnr
-      break
-    endif
-  endfor
-
-  let l:fname = expand('%:p')
-
-  if l:result_bufnr == v:null
-    execute '15 new'
-  else
-    execute printf('noautocmd %d wincmd w', bufwinnr(l:bufnr))
+command! -nargs=? SandboxEdit call s:sandbox_edit(<q-args>)
+function! s:sandbox_edit(file) abort
+  " sandbox-zig をeditする
+  let l:sandbox_zig_path = expand('~/ghq/github.com/tamago324/sandbox-zig/sandbox')
+  if a:0 == 0
+    execute printf('new %s', l:sandbox_zig_path)
+    return
   endif
-
-  execute printf('terminal zig test %s', l:fname)
-  setlocal nobuflisted
-  call win_gotoid(l:curwin)
+  execute printf('edit %s/%s', l:sandbox_zig_path, a:file)
 endfunction
 
 function! s:my_ft_zig() abort
-  nnoremap <buffer> <Space>rt <Cmd>QZigTest<CR>
+  nnoremap <buffer> <Space>rt <Cmd>QuickRun zig/test<CR>
   nnoremap <buffer> <Space>rm <Cmd>Make<CR>
+  nnoremap <buffer> <Space>rs <C-u>:SandboxEdit 
+endfunction
+
+
+" TODO:自動で :e! したい。 treesitter をリフレッシュしたいため
+
+
+function! s:my_ft_ruby() abort
+  
 endfunction

@@ -111,9 +111,14 @@ function! s:define_my_highlight() abort
       " red
       hi GitSignDelete gui=bold guifg=#ea6962 guibg=#3c3836
 
-      " #504945 
-      " hi LirFloatNormal guibg=#32302f
-      hi LirFloatNormal guibg=#423f3e
+      " " #504945 
+      " " hi LirFloatNormal guibg=#32302f
+      " if g:gruvbox_material_background ==# 'soft' 
+      "   hi LirFloatNormal guibg=#423f3e
+      " elseif g:gruvbox_material_background ==# 'medium' 
+      "   hi LirFloatNormal guibg=#423f3e
+      "   " hi LirFloatNormal guibg=#373433
+      " endif
 
       hi LirFloatBorder guifg=#7c6f64
       hi LirDir guifg=#7ebae4
@@ -144,6 +149,13 @@ function! s:define_my_highlight() abort
       hi LspSagaDiagnostcTruncateLine guifg=#d8a657
 
       hi link LspFloatWinNormal Normal
+
+      " hi default link BqfPreviewFloat Normal
+      hi BqfPreviewBorder guifg=#d8a657
+      " hi default link BqfPreviewCursor Cursor
+      " hi default link BqfPreviewRange IncSearch
+      " hi default BqfSign ctermfg=14 guifg=Cyan
+
     endif
   endif
   " hi TelescopeBorder guifg=#7c6f64
@@ -171,8 +183,8 @@ augroup END
 " gruvbox
 let g:gruvbox_material_enable_italic = 0
 let g:gruvbox_material_disable_italic_comment = 1
-let g:gruvbox_material_background = 'soft'
-let g:gruvbox_material_cursor = 'fg0'
+let g:gruvbox_material_background = 'medium'
+" let g:gruvbox_material_cursor = 'fg0'
 
 " " nord
 " let g:nord_uniform_diff_background = 1

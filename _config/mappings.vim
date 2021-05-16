@@ -129,7 +129,7 @@ nnoremap <Space>/ /\V<C-r>+<CR>
 nnoremap <Space>s<Space> :<C-u>%s///g<Left><Left>
 
 " カレントバッファを検索
-nnoremap <Space>gg :vimgrep /\v/ %:p<Left><Left><Left><Left><Left>
+nnoremap <Space>gg :vimgrep // %:p<Left><Left><Left><Left><Left>
 
 " help
 xnoremap <A-h> "hy:help <C-r>h<CR>
@@ -206,6 +206,8 @@ endfunction
 
 nnoremap [q <Cmd>cprev<CR>
 nnoremap ]q <Cmd>cnext<CR>
+" 先頭
+nnoremap [[ <Cmd>cfirst<CR>
 
 " toggle option
 function! s:toggle_option(key, opt) abort
@@ -263,63 +265,90 @@ onoremap ` t`
 nnoremap <Space>dt <Cmd>windo diffthis<CR>
 nnoremap <Space>do <Cmd>windo diffoff<CR>
 
-nnoremap ; g;
+nnoremap ; g;zz
 
 nnoremap sa <Cmd>tabo<CR>
 
 nnoremap sc <Cmd>tabclose<CR>
 " nnoremap sl <Cmd>only<CR>
 
-let s:float_tmp = {}
-let s:float_tmp.buf = v:null
-let s:float_tmp.win = v:null
-
-" function! s:glow_width() abort
-"   " 横幅を広げる
-"   let l:len = len(line('.'))
-"   echo l:len
-"   let l:width = nvim_win_get_config(s:float_tmp.win).width
-"   if l:len > l:width
-"     call nvim_win_set_config(s:float_tmp.win, {
-"     \ 'width': l:len - l:width
-"     \})
-"   endif
+" let s:float_tmp = {}
+" let s:float_tmp.buf = v:null
+" let s:float_tmp.win = v:null
+" 
+" " function! s:glow_width() abort
+" "   " 横幅を広げる
+" "   let l:len = len(line('.'))
+" "   echo l:len
+" "   let l:width = nvim_win_get_config(s:float_tmp.win).width
+" "   if l:len > l:width
+" "     call nvim_win_set_config(s:float_tmp.win, {
+" "     \ 'width': l:len - l:width
+" "     \})
+" "   endif
+" " endfunction
+" 
+" function! s:hide_tiknot() abort
+"   call nvim_win_hide(s:float_tmp.win)
 " endfunction
+" 
+" function! s:open_tiknot() abort
+"   " カーソルの近くに使い捨てのフローティングウィンドウを表示する
+"   if s:float_tmp.buf ==# v:null
+"     let s:float_tmp.buf = nvim_create_buf(v:false, v:true)
+"   endif
+" 
+"   " cursor って使えないの？
+"   let s:float_tmp.win = nvim_open_win(s:float_tmp.buf, v:true, {
+"  \ 'relative': 'cursor',
+"  \ 'width': 40,
+"  \ 'height': 15,
+"  \ 'col': 10,
+"  \ 'row': 3,
+"  \ 'focusable': v:true,
+"  \ 'style': 'minimal',
+"  \ 'border': 'shadow',
+"  \})
+" 
+"   setlocal winhl=Normal:TikNotNormal,EndOfBuffer:TikNotNormal
+" 
+"   setlocal cursorline
+"   setlocal number
+" 
+"   nnoremap <buffer> q  <Cmd>call <SID>hide_tiknot()<CR>
+"   nnoremap <buffer> si <Cmd>call <SID>hide_tiknot()<CR>
+" 
+"   augroup TikNot
+"     autocmd!
+"     autocmd WinLeave <buffer> call <SID>hide_tiknot()
+"   augroup END
+" endfunction
+" nnoremap si <Cmd>call <SID>open_tiknot()<CR>
 
-function! s:hide_floating_tmp() abort
-  call nvim_win_hide(s:float_tmp.win)
-endfunction
+" 現在の位置に対応する ) にジャンプ
+noremap <Space>a) ])
+noremap <Space>a] ]]
+noremap <Space>a} ]}
 
-function! s:open_floating_tmp() abort
-  " カーソルの近くに使い捨てのフローティングウィンドウを表示する
-  if s:float_tmp.buf ==# v:null
-    let s:float_tmp.buf = nvim_create_buf(v:false, v:true)
-  endif
+" noremap m) ])
+" noremap m} ]}
+"
+" vnoremap m] i]o``
+" vnoremap m( i)``
+" vnoremap m{ i}``
+" vnoremap m[ i]``
+"
+" nnoremap dm] vi]o``d
+" nnoremap dm( vi)``d
+" nnoremap dm{ vi}``d
+" nnoremap dm[ vi]``d
+"
+" nnoremap cm] vi]o``c
+" nnoremap cm( vi)``c
+" nnoremap cm{ vi}``c
+" nnoremap cm[ vi]``c
 
-  " cursor って使えないの？
-  let s:float_tmp.win = nvim_open_win(s:float_tmp.buf, v:true, {
-  \ 'relative': 'cursor',
-  \ 'width': 40,
-  \ 'height': 15,
-  \ 'col': 10,
-  \ 'row': 3,
-  \ 'focusable': v:true,
-  \ 'style': 'minimal',
-  \ 'border': 'shadow',
-  \})
 
-  call nvim_win_set_option(s:float_tmp.win, 'winhl', 'Normal:LirFloatNormal,EndOfBuffer:LirFloatNormal')
-
-  setlocal cursorline
-  setlocal number
-
-  nnoremap <buffer> q  <Cmd>call <SID>hide_floating_tmp()<CR>
-  nnoremap <buffer> si <Cmd>call <SID>hide_floating_tmp()<CR>
-
-  augroup FloatTmp
-    autocmd!
-    autocmd WinLeave <buffer> call <SID>hide_floating_tmp()
-    " autocmd InsertLeave <buffer> call <SID>glow_width()
-  augroup END
-endfunction
-nnoremap si <Cmd>call <SID>open_floating_tmp()<CR>
+" 選択場所を新しいタブで開く
+nnoremap <silent> <Space>at  <Cmd>tabnew<Cr>]p:call deletebufline('%', 1, 1)<Cr>
+vnoremap <silent> <Space>at y<Cmd>tabnew<Cr>]p:call deletebufline('%', 1, 1)<Cr>

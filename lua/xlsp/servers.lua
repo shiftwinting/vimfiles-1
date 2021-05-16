@@ -61,11 +61,15 @@ local server_cmd_list = {
     server_dir .. '/vls/vls'
   },
   efm = {
-    server_dir .. '/efm-langserver/efm-langserver', '-c', vim.fn['efm_langserver_settings#config_path']()
+    -- server_dir .. '/efm-langserver/efm-langserver', '-c', vim.fn['efm_langserver_settings#config_path']()
+    server_dir .. '/efm-langserver/efm-langserver', '-logfile', vim.fn.expand('~/.cache/nvim/efm-langserver.log')
   },
   clangd = {
     server_dir .. '/clangd/clangd', '--background-index'
-  }
+  },
+  solargraph = {
+    server_dir .. '/solargraph/solargraph', 'stdio'
+  },
 }
 
 M.get_cmd = function(langserver_name)

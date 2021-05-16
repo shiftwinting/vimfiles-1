@@ -152,11 +152,11 @@ function on_attach(client)
   end
 
   if client.resolved_capabilities.document_formatting then
-    map('n', '<Space>bl', '<Cmd>lua vim.lsp.buf.formatting({})<CR>')
+    map('n', '<Space>rf', '<Cmd>lua vim.lsp.buf.formatting({})<CR>')
 
   elseif client.resolved_capabilities.document_range_formatting then
     vim.cmd [[command! -buffer LspFormat lua require'xlsp/document_range_formatting'.format()]]
-    map('n', '<Space>bl', '<Cmd>LspFormat<CR>')
+    map('n', '<Space>rf', '<Cmd>LspFormat<CR>')
   end
 
   -- require'lspsignicha_ver2'.setup_autocmds(bufnr)
@@ -201,22 +201,46 @@ vim.lsp.set_log_level(vim.log.levels.DEBUG)
 --   require'nvim-lua-annotations'.write_to_file(annotations_path)
 -- end
 
-lspconfig.sumneko_lua.setup{
-  on_attach = on_attach,
-  cmd = servers.get_cmd('sumneko_lua'),
-  settings = {
-    Lua = {
-      workspace = {
-        library = vim.tbl_extend('force', {
-            [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-            [vim.fn.stdpath("config") .. '/lua'] = true,
-        -- vim-plug で管理しているプラグインの /lua を入れる
-        }, vim.fn.PlugLuaLibraries())
-      }
-    }
-  },
-}
+do
+  -- -- https://gist.github.com/folke/fe5d28423ea5380929c3f7ce674c41d8
+  -- local library = {}
+  -- local path = vim.split(package.path, ';')
+  --
+  -- table.insert(path, 'lua/?.lua')
+  -- table.insert(path, 'lua/?/init.lua')
+  --
+  -- local function add(lib)
+  --   for _, p in ipairs(vim.fn.expand(lib, false, true)) do
+  --     p = vim.loop.fs_realpath(p)
+  --     library[p] = true
+  --   end
+  -- end
+  --
+  -- add('$VIMRUNTIME')
+  -- add(vim.fn.stdpath('config'))
 
+  lspconfig.sumneko_lua.setup{
+    on_attach = on_attach,
+    cmd = servers.get_cmd('sumneko_lua'),
+
+    settings = {
+      Lua = {
+        -- runtime = {
+        --   path = path
+        -- },
+        workspace = {
+          -- library = library,
+          library = vim.tbl_extend('force', {
+              [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+              [vim.fn.stdpath("config") .. '/lua'] = true,
+          -- vim-plug で管理しているプラグインの /lua を入れる
+          }, vim.fn.PlugLuaLibraries())
+        }
+      }
+    },
+  }
+
+end
 
 --- vim
 -- https://github.com/iamcco/vim-language-server
@@ -269,30 +293,38 @@ lspconfig.pyright.setup{
   cmd = servers.get_cmd('pyright'),
 }
 
---- efm
--- 設定の例 : https://github.com/search?q=lspconfig+efm+language%3ALua&type=Code&ref=advsearch&l=&l=
-lspconfig.efm.setup {
-  init_options = { documentFormatting = true },
-  cmd = servers.get_cmd('efm'),
-  -- filetypes = vim.fn['efm_langserver_settings#whitelist'](),
-  filetypes = { 'zig' },
-  settings = {
-    rootMarkers = { '.git/' },
-    languages = {
-      zig = {
-        formatCommand = 'zig fmt --stdin',
-        formatStdin = true,
-      }
-    }
-  },
-  commands = {
-    Format = {
-      function()
-        vim.lsp.buf.formatting_sync({})
-      end
-    }
-  }
-}
+-- --- efm
+-- -- 設定の例 : https://github.com/search?q=lspconfig+efm+language%3ALua&type=Code&ref=advsearch&l=&l=
+-- lspconfig.efm.setup {
+--   -- init_options = { documentFormatting = true },
+--   cmd = servers.get_cmd('efm'),
+--   -- filetypes = vim.fn['efm_langserver_settings#whitelist'](),
+--   filetypes = { 'zig', 'ruby' },
+--   settings = {
+--     rootMarkers = { '.git/', 'Gemfile', 'Rakefile', '.rubocop.yml'  },
+--     languages = {
+--       -- zig = {
+--       --   formatCommand = 'zig fmt --stdin',
+--       --   formatStdin = true,
+--       -- },
+--       -- https://github.com/LkeMitchll/Dotfiles/blob/3001570a22301a99138677a66442e38b19d5db18/config/nvim/lua/lsp.lua#L56
+--       ruby = {
+--         lintCommand = 'rubocop --format emacs --force-exclusion --stdin ${INPUT}',
+--         lintIgnoreExitCode = true,
+--         lintStdin = true,
+--         -- lintFormats = {'%f:%l:%c: %m'},
+--         -- rootMarkers = { 'Gemfile', 'Rakefile', '.rubocop.yml' }
+--       }
+--     }
+--   },
+--   -- commands = {
+--   --   Format = {
+--   --     function()
+--   --       vim.lsp.buf.formatting_sync({})
+--   --     end
+--   --   }
+--   -- }
+-- }
 
 -- vim.cmd [[augroup my-efm-langserver]]
 -- vim.cmd [[  autocmd!]]
@@ -327,14 +359,14 @@ lspconfig.jsonls.setup {
       schemas = jsonls_schemas
     }
   },
-  -- Format というコマンドを定義する
-  commands = {
-    Format = {
-      function()
-        vim.lsp.buf.range_formatting({},{0,0},{vim.fn.line("$"),0})
-      end
-    }
-  }
+  -- -- Format というコマンドを定義する
+  -- commands = {
+  --   Format = {
+  --     function()
+  --       vim.lsp.buf.range_formatting({},{0,0},{vim.fn.line("$"),0})
+  --     end
+  --   }
+  -- }
 }
 
 lspconfig.bashls.setup {
@@ -385,3 +417,16 @@ lspconfig.vuels.setup{
   cmd = servers.get_cmd('vuels'),
 }
 
+lspconfig.denols.setup {
+  on_attach = on_attach,
+}
+
+lspconfig.solargraph.setup {
+  on_attach = on_attach,
+  cmd = servers.get_cmd('solargraph'),
+}
+
+-- require'xlsp.kitels'
+-- lspconfig.kitels.setup{
+--   on_attach= on_attach
+-- }

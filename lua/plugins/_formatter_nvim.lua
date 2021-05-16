@@ -28,5 +28,39 @@ require'formatter'.setup {
     --     }
     --   end,
     -- },
+    ruby = {
+      function()
+        return {
+          exe = 'rufo',
+          args = { '--' },
+          stdin = true
+        }
+      end
+    },
+    zig = {
+      function()
+        return {
+          exe = 'zig',
+          args = { 'fmt', '--stdin' },
+          stdin = true
+        }
+      end
+    },
+    -- json = {
+    --   function()
+    --     return {
+    --       exe = 'jq',
+    --       args = { '.' },
+    --       stdin = false
+    --     }
+    --   end
+    -- }
   },
 }
+
+vim.api.nvim_exec([[
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost *.zig,*.rb FormatWrite
+augroup END
+]], true)

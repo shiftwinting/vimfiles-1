@@ -10,9 +10,11 @@ require'trouble'.setup {
     warning = ' ',
     hint = ' ',
     information = '󿯦 ',
-  }
+    other = ''
+  },
+  mode = 'lsp_document_diagnostics',
 }
 
-vim.api.nvim_set_keymap("n", "<A-d>", "<cmd>LspTroubleDocumentToggle<cr>",
+vim.api.nvim_set_keymap("n", "<A-d>", "<cmd>LspTroubleWorkSpaceToggle<cr>",
   {silent = true, noremap = true}
 )

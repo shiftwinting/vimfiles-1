@@ -3,15 +3,16 @@ if vim.api.nvim_call_function('FindPlugin', {'lir.nvim'}) == 0 then do return en
 local a = vim.api
 
 local lir = require 'lir'
-local float = require 'lir.float'
+-- local float = require 'lir.float'
 local utils = require 'lir.utils'
-local uv = vim.loop
+-- local uv = vim.loop
 local Path = require 'plenary.path'
+local config = require 'lir.config'
 
--- local mmv = require 'lir.mmv.actions'.mmv
+local mmv = require 'lir.mmv.actions'.mmv
 local b_actions = require 'lir.bookmark.actions'
 local mark_actions = require 'lir.mark.actions'
-local mark_utils = require 'lir.mark.utils'
+-- local mark_utils = require 'lir.mark.utils'
 local clipboard_actions = require'lir.clipboard.actions'
 
 local actions = require'lir.actions'
@@ -31,6 +32,7 @@ end
 local function feedkeys(key)
   a.nvim_feedkeys(a.nvim_replace_termcodes(key, true, false, true), 'n', true)
 end
+
 --
 -- local function cp(context)
 --   local path = context.dir .. context:current_value()
@@ -38,13 +40,13 @@ end
 --   a.nvim_feedkeys(cmd, 'n', true)
 -- end
 
-local function yank_win_path(context)
-  local ctx = lir.get_context()
-  local path = vim.fn.expand(ctx.dir .. ctx:current_value())
-  local winpath = [[\\wsl$\Ubuntu-18.04]] .. path:gsub('/', '\\')
-  vim.fn.setreg(vim.v.register, winpath)
-  print('Yank path: ' .. winpath)
-end
+-- local function yank_win_path(context)
+--   local ctx = lir.get_context()
+--   local path = vim.fn.expand(ctx.dir .. ctx:current_value())
+--   local winpath = [[\\wsl$\Ubuntu-18.04]] .. path:gsub('/', '\\')
+--   vim.fn.setreg(vim.v.register, winpath)
+--   print('Yank path: ' .. winpath)
+-- end
 
 local function newfile()
   local save_curdir = vim.fn.getcwd()
@@ -64,7 +66,7 @@ local function newfile()
   -- . が入っていない or / が入っていないなら
   -- ディレクトリとして入力したかもしれないから、確認する
   if not name:match('%.') and not name:match('/') then
-    if vim.fn.confirm("Directory?", "&Yes\n&No", 2) == 1 then
+    if vim.fn.confirm("Directory?", "&No\n&Yes", 1) == 2 then
       -- ディレクトリ
       name = name .. '/'
     end
@@ -87,6 +89,11 @@ local function newfile()
     })
   end
 
+  -- 先頭が . で非表示だったら、表示してあげる
+  if name:match([[^%.]]) and not config.values.show_hidden_files then
+    config.values.show_hidden_files = true
+  end
+
   actions.reload()
 
   -- このディレクトリ配下にあう名前を取得する
@@ -96,13 +103,13 @@ local function newfile()
   end
 end
 
-function cd()
+local function cd()
   local ctx = lir.get_context()
   actions.cd()
   vim.fn['deol#cd'](ctx.dir)
 end
 
-function rm()
+local function rm()
   local ctx = lir.get_context()
   -- 選択されているものを取得する
   local marked_items = ctx:get_marked_items()
@@ -130,16 +137,22 @@ function rm()
   actions.reload()
 end
 
-function nop()
+local function nop()
 end
 
-function edit_or_split()
-  if states.last_buf_ft == 'deoledit' or states.last_buf_ft == 'deol' then
-    actions.split()
-  else
-    actions.edit()
-  end
-end
+-- local function edit_or_split()
+--   if states.last_buf_ft == 'deoledit' or states.last_buf_ft == 'deol' then
+--     actions.split()
+--   else
+--     actions.edit()
+--   end
+-- end
+
+-- local git = {}
+--
+-- function git.add()
+--
+-- end
 
 function _G.LirSettings()
   a.nvim_buf_set_keymap(0, 'x', 'J', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
@@ -200,7 +213,7 @@ require 'lir'.setup {
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
     ['~']     = function() vim.cmd('edit ' .. vim.fn.expand('$HOME')) end,
-    ['W']     = yank_win_path,
+    -- ['W']     = yank_win_path,
     ['B']     = b_actions.list,
     ['ba']    = b_actions.add,
 
@@ -212,14 +225,17 @@ require 'lir'.setup {
     ['X'] = clipboard_actions.cut,
     ['P'] = clipboard_actions.paste,
     ['D'] = rm,
+    -- python3 -m pip install --user --upgrade neovim-remote
+    ['M'] = mmv
   },
   float = {
     size_percentage = 0.5,
     winblend = 0,
     border = true,
     -- borderchars = {"-" , "|" , "-" , "|" , "+" , "+" , "+" , "+"},
-    borderchars = {'+', '-', '+', '|', '+', '-', '+', '|'},
-    shadow = true
+    borderchars = {'+', '─', '+', '│', '+', '─', '+', '│'},
+
+    shadow = false
   },
   hide_cursor = true
 }
