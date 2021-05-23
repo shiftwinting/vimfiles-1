@@ -15,7 +15,10 @@ require('nvim-treesitter.configs').setup{
     -- 'comment',
     'typescript',
     'zig',
+    'ruby',
+    'go',
     -- 'vim'
+    'java',
   },
   highlight = {
     enable = true,

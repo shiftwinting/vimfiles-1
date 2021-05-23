@@ -148,6 +148,7 @@ require'telescope'.setup{
         ['zig documentation']          = 'https://ziglang.org/documentation/master/',
         ['ziglings']                   = 'https://zenn.dev/tamago324/scraps/b072e8ae70907f',
         ['zig learn']                  = 'https://ziglearn.org/',
+        ['go packages']                = 'https://golang.org/pkg/',
       }
     },
     fzy_native = {
@@ -1039,7 +1040,7 @@ local gitignore = function()
         local entry = actions.get_selected_entry()
         actions.close(prompt_bufnr)
         -- TODO: 複数に対応
-        vim.fn['denops#request']('gignore', 'setlines', {entry.value})
+        vim.fn['denops#request']('gignore', 'setLines', {entry.value})
       end)
 
       return true
@@ -1050,6 +1051,43 @@ end
 vim.cmd[[command! GitIgnoreTelescope lua require'plugins.telescope_nvim'.gitignore()]]
 
 
+local fd_lir = function()
+  local cwd
+  local is_lir = vim.bo.filetype == 'lir'
+  if is_lir then
+    cwd = vim.fn.expand('%:p')
+  else
+    cwd = vim.fn.getcwd()
+  end
+  pickers.new({}, {
+    prompt_title = 'lir fd',
+    finder = finders.new_oneshot_job(
+      {'fd', '--color=never', '--type', 'directory', '--exclude', 'jdt.ls-java-project'},
+      {
+        cwd = cwd
+      }
+    ),
+    sorter = conf.generic_sorter({}),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        local entry = actions.get_selected_entry()
+        actions.close(prompt_bufnr)
+        if is_lir then
+          vim.cmd('e ' .. cwd .. '/' .. entry.value)
+          return
+        else
+        end
+        require'lir.float'.init(cwd .. '/' .. entry.value)
+      end)
+
+      return true
+    end,
+  }):find()
+end
+
+local map_opts = { noremap = true, silent = true }
+vim.api.nvim_set_keymap('n', '<Space>fd', '<Cmd>lua require"plugins/telescope_nvim".fd_lir()<CR>', map_opts)
+
 return {
   lsp_references = lsp_references,
   quickfix_in_qflist = quickfix_in_qflist,
@@ -1057,4 +1095,5 @@ return {
   deol_history = deol_history,
   git_commit_prefix = git_commit_prefix,
   gitignore = gitignore,
+  fd_lir = fd_lir,
 }

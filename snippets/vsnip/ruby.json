@@ -6,5 +6,39 @@
       "\t${0}",
       "end"
     ]
+  },
+  "class": {
+    "prefix": "class",
+    "body": [
+      "class ${1}",
+      "\t${0}",
+      "end"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ${1} do",
+      "\t${0}",
+      "end"
+    ]
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": [
+      "if ${1} do",
+      "\t${2}",
+      "else",
+      "\t${3}",
+      "end"
+    ]
+  },
+  "defi": {
+    "prefix": "defi",
+    "body": [
+      "def initialize(${1})",
+      "\t${0}",
+      "end"
+    ]
   }
 }

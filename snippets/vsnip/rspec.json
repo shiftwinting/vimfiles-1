@@ -1,0 +1,18 @@
+{
+  "describe": {
+    "prefix": "describe",
+    "body": [
+      "RSpec.describe \"${1}\" do",
+      "\t${0}",
+      "end"
+    ]
+  },
+  "it": {
+    "prefix": "it",
+    "body": [
+      "it \"${1}\" do",
+      "\t${0}",
+      "end"
+    ]
+  }
+}

@@ -19,7 +19,7 @@ vim.cmd [[  autocmd!]]
 vim.cmd [[  autocmd FileType dap-repl lua require('dap.ext.autocompl').attach()]]
 vim.cmd [[augroup END]]
 
-require'dapui'.setup()
+-- require'dapui'.setup()
 
 local map = function(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, vim.tbl_extend('keep', opts or {}, { silent = true, noremap = true }))

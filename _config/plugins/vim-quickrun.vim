@@ -11,6 +11,7 @@ let g:quickrun_config = {
 \       'runner': has('nvim') ? 'neovim_job' : 'job',
 \       'hook/output_encode/encoding': has('win32') ? 'cp932' : 'utf-8',
 \       'outputter/buffer/close_on_empty': 1,
+\       'runner/nvimterm/opener': 'new'
 \   },
 \   'vim': {
 \       'hook/output_encode/encoding': '&fileencoding',
@@ -50,6 +51,16 @@ let g:quickrun_config = {
 \       'exec': 'deno run --allow-read --allow-write --allow-net %s',
 \       'runner': 'nvimterm',
 \   },
+\   'ruby.rspec': {
+\       'command': 'bundle',
+\       'cmdopt': 'exec rspec -f d',
+\       'runner': 'nvimterm',
+\   },
+\   'go.test': {
+\       'command': 'go',
+\       'cmdopt': 'test -v',
+\       'outputter': 'quickfix',
+\   }
 \}
 
 " \   'c': {

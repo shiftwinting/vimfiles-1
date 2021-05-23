@@ -10,3 +10,6 @@ iabbrev szie size
 iabbrev laod load
 iabbrev uplaod upload
 iabbrev downlaod download
+iabbrev varhcar varchar
+iabbrev varcahr varchar
+iabbrev strint string

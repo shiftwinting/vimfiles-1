@@ -33,6 +33,8 @@ let g:deol#extra_options = {
 " " \   '\%(Enter \|Repeat \|[Oo]ld \|[Nn]ew \|login ' .
 " " \   '\|Kerberos \|EncFS \|CVS \|UNIX \| SMB \|LDAP \|\[sudo] ' .
 " " \   '\|^\|\n\|''s \)\%([Pp]assword\|[Pp]assphrase\)\>'
+let g:deol#password_pattern =
+\ 'パスワード:'
 
 nnoremap <silent><A-t> <Cmd>call DeolToggle()<CR>
 tnoremap <silent><A-t> <C-\><C-n><Cmd>call DeolToggle()<CR>
@@ -142,7 +144,26 @@ function! s:send(cmd) abort
   call s:goto_bottom()
 endfunction
 
+function! s:fzpac(text) abort
+  exec 'FloatermNew ' .. a:text
+endfunction
+
+" 第一引数には、行のテキストを渡す
+let s:cmd_map = {
+\  '\s*fzpac': function('s:fzpac')
+\}
+
 function! s:exec_line() abort
+  " マッチしたら、それを実行する
+  let l:text = getline('.')
+  for [l:cmd, l:Func] in items(s:cmd_map)
+    if l:text =~# l:cmd
+      echomsg printf('"%s"', l:text)
+      call l:Func(l:text)
+      return
+    endif
+  endfor
+
   exec "normal \<Plug>(deol_execute_line)"
   if mode() ==# 'i'
     " 行挿入 (o)

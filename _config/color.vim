@@ -196,6 +196,7 @@ set termguicolors
 " set bg=light
 set bg=dark
 colorscheme gruvbox-material
+" colorscheme nord
 
 " colorscheme nautilus
 " colorscheme nord

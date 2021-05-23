@@ -44,11 +44,15 @@ autocmd MyAutoCmd FileType rust         setlocal sw=4 sts=4 ts=4 et
 
 
 " 拡張子をもとにファイルタイプを設定
-autocmd MyAutoCmd BufRead,BufWinEnter *.ini set filetype=dosini
-autocmd MyAutoCmd BufRead,BufWinEnter *.csv set filetype=csv
-autocmd MyAutoCmd BufRead,BufWinEnter *.jsx set filetype=javascript.jsx
-autocmd MyAutoCmd BufRead,BufWinEnter *.pl0 set filetype=pl0
-autocmd MyAutoCmd BufRead,BufWinEnter *.ml  set filetype=sml
+autocmd MyAutoCmd BufRead,BufWinEnter *.ini     setlocal filetype=dosini
+autocmd MyAutoCmd BufRead,BufWinEnter *.csv     setlocal filetype=csv
+autocmd MyAutoCmd BufRead,BufWinEnter *.jsx     setlocal filetype=javascript.jsx
+autocmd MyAutoCmd BufRead,BufWinEnter *.pl0     setlocal filetype=pl0
+autocmd MyAutoCmd BufRead,BufWinEnter *.ml      setlocal filetype=sml
+autocmd MyAutoCmd BufRead,BufWinEnter *_spec.rb setlocal filetype=ruby.rspec
+autocmd MyAutoCmd BufRead,BufWinEnter *_test.go setlocal filetype=go.test
+
+" autocmd MyAutoCmd BufWinEnter,BufNewFile *_spec.rb setlocal filetype=ruby.rspec
 
 " ファイル名を元にファイルタイプを設定
 autocmd MyAutoCmd BufRead,BufWinEnter Vagrantfile set ft=ruby

@@ -217,7 +217,6 @@ function _G.LirSettings()
   a.nvim_buf_set_keymap(0, 'x', 'J', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
   -- a.nvim_buf_set_keymap(0, 'n', 'J', ':<C-u>call v:lua.LirToggleMark("n")<CR>', {noremap = true, silent = true})
 
-  vim.api.nvim_echo({{'', 'Normal'}}, false, {})
   vim.api.nvim_echo({{vim.fn.expand('%:p:h:h') .. '/', 'Normal'}, {vim.fn.expand('%:p:h:t'), 'Title'}}, false, {})
 
   -- vim.cmd [[augroup LirCloseOnWinLeave]]

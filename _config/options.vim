@@ -121,7 +121,7 @@ set listchars=
 " 改行記号
 set listchars+=eol:↲
 " タブ
-set listchars+=tab:»-
+set listchars+=tab:»\ 
 " 右が省略されている
 set listchars+=extends:>
 " 行をまたいでいる

@@ -70,6 +70,9 @@ local server_cmd_list = {
   solargraph = {
     server_dir .. '/solargraph/solargraph', 'stdio'
   },
+  jtls = {
+    server_dir .. '/eclipse-jdt-ls/eclipse-jdt-ls'
+  }
 }
 
 M.get_cmd = function(langserver_name)

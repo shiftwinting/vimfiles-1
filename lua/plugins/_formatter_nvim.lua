@@ -4,63 +4,91 @@ if vim.api.nvim_call_function('FindPlugin', {'formatter.nvim'}) == 0 then
   end
 end
 
-require'formatter'.setup {
-  filetype = {
-    -- lua = {
-    --   -- https://github.com/Koihik/LuaFormatter/blob/master/docs/Style-Config.md
-    --   function()
-    --     return {
-    --       exe = vim.g.plugs['vscode-lua-format'].dir .. 'bin/linux/lua-format',
-    --       args = {
-    --         '--indent-width=2',
-    --         '--break-before-functioncall-rp',
-    --         '--break-before-functiondef-rp',
-    --         '--break-before-table-rb',
-    --         '--chop-down-table',
-    --         '--extra-sep-at-table-end',
-    --         -- '--double-quote-to-single-quote',
-    --         '--no-keep-simple-function-one-line',
-    --         '--no-keep-simple-control-block-one-line',
-    --         '--column-limit=80',
-    --         '-i',
-    --       },
-    --       stdin = true,
-    --     }
-    --   end,
-    -- },
-    ruby = {
-      function()
-        return {
-          exe = 'rufo',
-          args = { '--' },
-          stdin = true
-        }
-      end
-    },
-    zig = {
-      function()
-        return {
-          exe = 'zig',
-          args = { 'fmt', '--stdin' },
-          stdin = true
-        }
-      end
-    },
-    -- json = {
-    --   function()
-    --     return {
-    --       exe = 'jq',
-    --       args = { '.' },
-    --       stdin = false
-    --     }
-    --   end
-    -- }
-  },
+local Path = require'plenary.path'
+
+local config = {}
+config.ruby = {
+  function()
+    return {
+      exe = 'rufo',
+      args = { '--' },
+      stdin = true
+    }
+  end
 }
 
-vim.api.nvim_exec([[
+config['ruby.rspec'] = config.ruby
+
+config.zig = {
+  function()
+    return {
+      exe = 'zig',
+      args = { 'fmt', '--stdin' },
+      stdin = true
+    }
+  end
+}
+
+-- config.go = {
+--   function()
+--     return {
+--       exe = 'gofmt',
+--       args = {'-w'},
+--       stdin = false
+--     }
+--   end
+-- }
+
+
+-- -- https://github.com/google/google-java-format
+-- local p = Path:new(os.getenv('HOME') .. '/.local/jars/google-java-format.jar')
+-- if not p:exists() then
+--   local cmd = vim.fn.stdpath('config') .. '/scripts/install-google-java-format.sh'
+--   vim.cmd(string.format('split | execute "terminal " .. "%s"', cmd))
+-- end
+--
+-- config.java = {
+--   function()
+--     return {
+--       exe = 'java',
+--       args = { '-jar', p:absolute() },
+--       stdin = true
+--     }
+--   end
+-- }
+
+-- yarn global add sql-formatter
+-- https://github.com/zeroturnaround/sql-formatter
+config.sql = {
+  function()
+    return {
+      exe = 'sql-formatter',
+      args = {
+        -- キーワードを大文字にする
+        '--uppercase',
+        -- クエリの間に改行を1つ入れる
+        '--lines-between-queries', '2',
+        -- '--language', 'postgresql'
+      },
+      stdin = true
+    }
+  end
+}
+
+require'formatter'.setup {
+  filetype = config,
+}
+
+local patterns = {
+  '*.zig',
+  '*.rb',
+  -- '*.java'
+  '*.sql',
+}
+
+vim.api.nvim_exec(string.format([[
 augroup FormatAutogroup
   autocmd!
-  autocmd BufWritePost *.zig,*.rb FormatWrite
+  autocmd BufWritePost %s FormatWrite
 augroup END
-]], true)
+]], table.concat(patterns, ',')), true)

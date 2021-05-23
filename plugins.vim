@@ -23,6 +23,7 @@ Plug 'sainnhe/gruvbox-material'
 " Plug 'savq/melange'
 " Plug 'lucastrvsn/kikwis'
 " Plug 'shaunsingh/moonlight.nvim'
+" Plug 'shaunsingh/nord.nvim'
 
 Plug 'andymass/vim-matchup'
 Plug 'cohama/lexima.vim'
@@ -48,6 +49,7 @@ Plug 'thinca/vim-qfreplace', { 'on': 'Qfreplace' }
 Plug 'thinca/vim-quickrun'
 Plug 'lambdalisue/vim-quickrun-neovim-job'
 Plug 'statiolake/vim-quickrun-runner-nvimterm'
+Plug 'heavenshell/vim-quickrun-hook-unittest'
 Plug 'tomtom/tcomment_vim'
 " Plug 'tyru/caw.vim'
 Plug 'tyru/capture.vim', { 'on': 'Capture' }
@@ -58,9 +60,10 @@ Plug 'vim-jp/vimdoc-ja'
 Plug 'voldikss/vim-translator', { 'on': ['TranslateW', 'TranslateR', 'Translate'] }
 " Plug 'itchyny/vim-winfix'
 Plug 'kana/vim-niceblock'
-Plug 'tpope/vim-obsession'
+" Plug 'tpope/vim-obsession'
 " Plug 'osyo-manga/vim-over'
 " Plug 'aonemd/fmt.vim'
+Plug 'lambdalisue/vim-findent'
 
 " saerch
 Plug 'haya14busa/vim-asterisk'
@@ -76,6 +79,7 @@ Plug 'tpope/vim-dispatch'
 " Plug 'gotchane/vim-git-commit-prefix'
 Plug 'mattn/vim-gist'
 Plug 'mattn/webapi-vim'
+" Plug 'pwntester/octo.nvim'
 
 Plug 'kana/vim-operator-user',
 " Plug 'yuki-yano/vim-operator-replace'
@@ -94,16 +98,18 @@ Plug 'h-michael/lsp-ext.nvim'
 Plug 'weilbith/nvim-lsp-smag'
 Plug '~/ghq/github.com/glepnir/lspsaga.nvim'
 Plug 'mattn/vim-findroot'
+Plug 'mfussenegger/nvim-jdtls'
+" Plug 'ray-x/go.nvim'
 " Plug 'liuchengxu/vista.vim'
-Plug 'tsuyoshicho/vim-efm-langserver-settings'
+" Plug 'tsuyoshicho/vim-efm-langserver-settings'
 " Plug 'nanotee/nvim-lua-annotations'
 Plug 'folke/lsp-trouble.nvim'
-" Plug '~/ghq/github.com/folke/lsp-trouble.nvim'
-Plug 'simrat39/symbols-outline.nvim'
+" Plug 'simrat39/symbols-outline.nvim'
 Plug 'kdav5758/NoCLC.nvim'
 Plug 'kevinhwang91/nvim-bqf'
 " Plug 'famiu/feline.nvim'
 Plug '~/ghq/github.com/tamago324/tiknot.nvim'
+Plug 'nanotee/luv-vimdocs'
 
 " Plug 'mfussenegger/nvim-dap'
 " Plug 'rcarriga/nvim-dap-ui'
@@ -116,6 +122,7 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'tamago324/compe-necosyntax'
 Plug 'Shougo/neco-syntax'
 Plug 'onsails/lspkind-nvim'
+Plug 'folke/lua-dev.nvim'
 
 " Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nvim-lua/popup.nvim'
@@ -154,10 +161,10 @@ Plug 'antoinemadec/FixCursorHold.nvim'
 " Plug 'thaerkh/vim-workspace'
 " Plug 'gelguy/wilder.nvim' " python3 -m pip install --user --upgrade pynvim
 " Plug 'sunjon/Shade.nvim'
-" Plug 'haringsrob/nvim_context_vt'
-Plug '~/ghq/github.com/haringsrob/nvim_context_vt'
+Plug 'haringsrob/nvim_context_vt'
 Plug 'folke/which-key.nvim'
 Plug '~/ghq/github.com/mhartington/formatter.nvim'
+Plug 'voldikss/vim-floaterm'
 
 
 " Plug 'ido-nvim/core', { 'as': 'ido' }
@@ -170,26 +177,30 @@ Plug 'rust-lang/rust.vim'
 Plug 'ziglang/zig.vim'
 
 " HTML
-" Plug 'mattn/emmet-vim'
+Plug 'mattn/emmet-vim'
 
 " i3
 Plug 'mboughaba/i3config.vim'
 
 " ruby
 Plug 'vim-ruby/vim-ruby'
+Plug 'hron84/Gemfile.vim'
+
+" go
+Plug 'mattn/vim-goimports'
 
 Plug '~/ghq/github.com/tamago324/lir.nvim'
 Plug 'tamago324/lir-bookmark.nvim'
 " python3 -m pip install --user --upgrade neovim-remote
 Plug 'tamago324/lir-mmv.nvim'
-Plug 'tamago324/nlsp-settings.nvim'
+Plug '~/ghq/github.com/tamago324/nlsp-settings.nvim'
 
 " Plug 'spinks/vim-leader-guide'
 
 let g:my_denops_debug = v:false
 
 Plug 'vim-denops/denops.vim'
-Plug '~/ghq/github.com/tamago324/dps-gitignore'
+Plug '~/ghq/github.com/tamago324/dps-gignore'
 
 
 " 様子見

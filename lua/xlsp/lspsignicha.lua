@@ -44,6 +44,10 @@ local NODE_NAME_MAP = {
     funccall = 'call',
     arguments = 'argument_list',
   },
+  go = {
+    funccall = 'call_expression',
+    arguments = 'argument_list'
+  }
   -- vim = {
   --   funccall = 'call_expression',
   --   -- わからん
@@ -461,6 +465,7 @@ local show_sighelp_use_ts = function()
   -- get_node_range() が返すのは、 0 base-index のため、1を加算
   col = col + 1
 
+  print(funcname)
   -- 関数呼び出しのノードを取得する
   local node = args_node
   local fcall_node = nil
@@ -590,7 +595,7 @@ local show_signature_help = function()
   M._canceled = false
 
   -- if parsers.has_parser() and vim.bo.filetype ~= 'vim' then
-  if parsers.has_parser() then
+  if parsers.has_parser() and vim.bo.filetype ~= 'go' then
     return show_sighelp_use_ts()
   else
     -- TODO

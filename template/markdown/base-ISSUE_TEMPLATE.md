@@ -1,4 +1,3 @@
-<!-- Before reporting: search existing issues and check the FAQ. -->
 
 - `nvim --version`: systemlist('nvim --version')[0]
 - `vim -u DEFAULTS` (version: ) behaves differently?
@@ -6,16 +5,49 @@
 - Terminal name/version:
 - `$TERM`:
 
-### Steps to reproduce using `nvim -u NORC`
 
+**Describe the bug**
+
+
+**To Reproduce using `nvim -u mini.vim -i NONE`**
+
+```vim
+set encoding=utf-8
+
+filetype plugin indent on
+if has('vim_starting')
+  let s:pluin_manager_dir='~/.config/nvim/.plugged/vim-plug'
+  execute 'set runtimepath+=' . s:pluin_manager_dir
+endif
+call plug#begin('~/.config/nvim/.plugged')
+Plug 'kevinhwang91/nvim-bqf'
+call plug#end()
+
+set nobackup
+set nowritebackup
+set noswapfile
+set updatecount=0
+set backspace=indent,eol,start
+language messages en_US.utf8
+
+lua << EOF
+
+require'bqf'.setup{
+  preview = {
+    win_height = 10
+  }
+}
+EOF
 ```
-nvim -u NORC
-# Alternative for shell-related problems:
-# env -i TERM=ansi-256color "$(which nvim)"
 
-```
+Steps to reproduce the behavior:
 
-### Actual behaviour
 
-### Expected behaviour
+**Expected behavior**
 
+
+**Screenshots**
+
+
+
+Thank you!

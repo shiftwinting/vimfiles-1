@@ -1,0 +1,12 @@
+{
+  "oritatami": {
+    "prefix": "oritatami",
+    "body": [
+      "<details><summary>${1}</summary><div>",
+      "",
+      "${0}",
+      "",
+      "</div></details>"
+    ]
+  }
+}

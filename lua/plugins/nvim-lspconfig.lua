@@ -129,6 +129,7 @@ function on_attach(client)
   map( 'n', 'gd',        [[<cmd>lua require'lspsaga.provider'.preview_definition()<CR>]])
   map( 'n', '<A-k>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>]])
   map( 'n', '<A-j>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>]])
+
   map( 'n', '<Space>fa', [[<cmd>Lspsaga code_action<CR>]])
   -- map( 'i', '<A-s>',     [[<cmd>lua require'xlsp.signature_help'.toggle()<CR>]])
   -- map( 'n', '<A-s>',     [[<cmd>lua require'xlsp.signature_help'.toggle()<CR>]])
@@ -432,3 +433,11 @@ lspconfig.solargraph.setup {
 -- lspconfig.kitels.setup{
 --   on_attach= on_attach
 -- }
+
+-- java
+require'plugins/lspconfig/java'
+
+
+return {
+  on_attach = on_attach,
+}

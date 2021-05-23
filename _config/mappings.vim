@@ -267,7 +267,7 @@ nnoremap <Space>do <Cmd>windo diffoff<CR>
 
 nnoremap ; g;zz
 
-nnoremap sa <Cmd>tabo<CR>
+nnoremap sq <Cmd>tabo<CR>
 
 nnoremap sc <Cmd>tabclose<CR>
 " nnoremap sl <Cmd>only<CR>

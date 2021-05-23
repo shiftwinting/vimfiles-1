@@ -30,3 +30,6 @@ let g:openbrowser_search_engines = {
 \   'crates.io': 'https://crates.io/search?q={query}',
 \   'utf8-icons': 'https://www.utf8icons.com/search?query={query}',
 \}
+
+vnoremap <Space>rs <Cmd>call openbrowser#smart_search(vimrc#getwords_last_visual())<CR>
+nnoremap <Space>rs :<C-u>OpenBrowserSmartSearch 

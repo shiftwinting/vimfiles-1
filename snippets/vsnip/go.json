@@ -1,0 +1,74 @@
+{
+  "func": {
+    "prefix": "func",
+    "body": [
+      "func ${1}(${2})${3} {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "if": {
+    "prefix": "if",
+    "body": [
+      "if ${1} {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "else": {
+    "prefix": "else",
+    "body": [
+      "else {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "print": {
+    "prefix": "print",
+    "body": [
+      "fmt.Print(${1})"
+    ]
+  },
+  "println": {
+    "prefix": "println",
+    "body": [
+      "fmt.Println(${1})"
+    ]
+  },
+  "printf": {
+    "prefix": "printf",
+    "body": [
+      "fmt.Printf(${1}, ${2})"
+    ]
+  },
+  "case": {
+    "prefix": "case",
+    "body": [
+      "case ${1}:",
+      "\t${0}"
+    ]
+  },
+  "default": {
+    "prefix": "default",
+    "body": [
+      "default:",
+      "\t${0}"
+    ]
+  },
+  "for": {
+    "prefix": "for",
+    "body": [
+      "for ${1} {",
+      "\t${0}",
+      "}"
+    ]
+  },
+  "lam": {
+    "prefix": "lam",
+    "body": [
+      "func(${1}) {",
+      "\t${0}",
+      "}"
+    ]
+  }
+}
