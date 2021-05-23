@@ -48,6 +48,20 @@ end
 --   print('Yank path: ' .. winpath)
 -- end
 
+local no_confirm_patterns = {
+  '^LICENSE$',
+  '^Makefile$'
+}
+
+local need_confirm = function(filename)
+  for _, pattern in ipairs(no_confirm_patterns) do
+    if not filename:match(pattern) then
+      return true
+    end
+  end
+  return false
+end
+
 local function newfile()
   local save_curdir = vim.fn.getcwd()
   lcd(lir.get_context().dir)
@@ -63,18 +77,20 @@ local function newfile()
     return
   end
 
-  -- . が入っていない or / が入っていないなら
-  -- ディレクトリとして入力したかもしれないから、確認する
-  if not name:match('%.') and not name:match('/') then
-    if vim.fn.confirm("Directory?", "&No\n&Yes", 1) == 2 then
-      -- ディレクトリ
-      name = name .. '/'
+  -- If I need to check, I will.
+  if need_confirm(name) then
+    -- '.' is not included or '/' is not included, then
+    -- I may have entered it as a directory, I'll check.
+    if not name:match('%.') and not name:match('/') then
+      if vim.fn.confirm("Directory?", "&No\n&Yes", 1) == 2 then
+        name = name .. '/'
+      end
     end
   end
 
   local path = Path:new(lir.get_context().dir .. name)
   if string.match(name, '/$') then
-    -- mkdir()
+    -- mkdir
     name = name:gsub('/$', '')
     path:mkdir({
       parents = true,
@@ -82,21 +98,21 @@ local function newfile()
       exists_ok = false
     })
   else
-    -- touch()
+    -- touch
     path:touch({
       parents = true,
       mode = tonumber('644', 8),
     })
   end
 
-  -- 先頭が . で非表示だったら、表示してあげる
+  -- If the first character is '.' and show_hidden_files is false, set it to true
   if name:match([[^%.]]) and not config.values.show_hidden_files then
     config.values.show_hidden_files = true
   end
 
   actions.reload()
 
-  -- このディレクトリ配下にあう名前を取得する
+  -- Jump to a line in the parent directory of the file you created.
   local lnum = lir.get_context():indexof(name:match('^[^/]+'))
   if lnum then
     vim.cmd(tostring(lnum))
@@ -140,6 +156,40 @@ end
 local function nop()
 end
 
+local function goto_git_root()
+  local dir = require'lspconfig.util'.find_git_ancestor(vim.fn.getcwd())
+  if dir == nil or dir == "" then
+    return
+  end
+  vim.cmd ('e ' .. dir)
+end
+
+local function rename_and_jump()
+  local ctx = lir.get_context()
+  local old = string.gsub(ctx:current_value(), '/$', '')
+  local new = vim.fn.input('Rename: ', old)
+  if new == '' or new == old then
+    return
+  end
+
+  if new == '.' or new == '..' or string.match(new, '[/\\]') then
+    utils.error('Invalid name: ' .. new)
+    return
+  end
+
+  if not vim.loop.fs_rename(ctx.dir .. old, ctx.dir .. new) then
+    utils.error('Rename failed')
+  end
+
+  actions.reload()
+
+  -- ジャンプ
+  local lnum = lir.get_context():indexof(new)
+  if lnum then
+    vim.cmd(tostring(lnum))
+  end
+end
+
 -- local function edit_or_split()
 --   if states.last_buf_ft == 'deoledit' or states.last_buf_ft == 'deol' then
 --     actions.split()
@@ -154,9 +204,20 @@ end
 --
 -- end
 
+-- deol が表示されているか
+local is_show_deol = function()
+  if vim.fn.exists('t:deol') ~= 1 then
+    return false
+  end
+
+  return not vim.tbl_isempty(vim.fn.win_findbuf(vim.t.deol.bufnr))
+end
+
 function _G.LirSettings()
   a.nvim_buf_set_keymap(0, 'x', 'J', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
   -- a.nvim_buf_set_keymap(0, 'n', 'J', ':<C-u>call v:lua.LirToggleMark("n")<CR>', {noremap = true, silent = true})
+
+  vim.api.nvim_echo({{'', 'Normal'}}, false, {})
   vim.api.nvim_echo({{vim.fn.expand('%:p:h:h') .. '/', 'Normal'}, {vim.fn.expand('%:p:h:t'), 'Title'}}, false, {})
 
   -- vim.cmd [[augroup LirCloseOnWinLeave]]
@@ -191,6 +252,8 @@ require 'lir'.setup {
     ['<C-v>'] = actions.vsplit,
     ['<C-t>'] = actions.tabedit,
 
+    ['<C-g>'] = goto_git_root,
+
     -- ['l'] = function()
     --   local ctx = lir.get_context()
     --   local current = ctx:current()
@@ -208,8 +271,23 @@ require 'lir'.setup {
       feedkeys(':e ')
     end,
     ['K']     = newfile,
-    ['R']     = actions.rename,
+    ['R']     = rename_and_jump,
     ['@']     = cd,
+
+    ['<A-t>'] = function()
+      local ctx = lir.get_context()
+      actions.quit()
+
+      if not is_show_deol() then
+        -- もし、Deol がなければ開く
+        vim.fn.DeolOpen()
+      end
+
+      -- これいる？
+      -- vim.cmd(string.format([[silent execute (haslocaldir() ? 'lcd' : 'cd') '%s']], ctx.dir))
+      vim.fn['deol#cd'](ctx.dir)
+    end,
+
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
     ['~']     = function() vim.cmd('edit ' .. vim.fn.expand('$HOME')) end,
