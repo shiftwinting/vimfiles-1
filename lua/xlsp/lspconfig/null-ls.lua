@@ -1,4 +1,8 @@
-if vim.api.nvim_call_function('FindPlugin', {'null-ls.nvim'}) == 0 then do return end end
+if vim.api.nvim_call_function('FindPlugin', { 'null-ls.nvim' }) == 0 then
+  do
+    return
+  end
+end
 
 --[[
 
@@ -7,7 +11,7 @@ cargo install stylua
 
 ]]
 
-local null_ls = require'null-ls'
+local null_ls = require('null-ls')
 
 -- setup に一気に渡すため、
 local sources = {
@@ -16,14 +20,13 @@ local sources = {
   null_ls.builtins.formatting.stylua,
 }
 
-
 local M = {}
 
 M.setup = function(on_attach)
-  null_ls.setup {
+  null_ls.setup({
     on_attach = on_attach,
-    sources = sources
-  }
+    sources = sources,
+  })
 end
 
 return M

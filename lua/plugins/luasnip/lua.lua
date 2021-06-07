@@ -1,4 +1,4 @@
-local ls = require'luasnip'
+local ls = require('luasnip')
 local s = ls.s
 local sn = ls.sn
 local t = ls.t
@@ -7,7 +7,7 @@ local f = ls.f
 local c = ls.c
 local d = ls.d
 
-local parse = require'plugins.luasnip.util'.parse
+local parse = require('plugins.luasnip.util').parse
 
 -- local tab = function()
 --   f(function(args)
@@ -21,48 +21,47 @@ local parse = require'plugins.luasnip.util'.parse
 --   return t{'', ''}
 -- end
 
-
 ls.snippets.lua = {
-  parse({trig = 'lam'}, {
+  parse({ trig = 'lam' }, {
     'function(${1})',
     '\t${0}',
-    'end'
+    'end',
   }),
 
-  parse({trig = 'if'}, {
+  parse({ trig = 'if' }, {
     'if ${1} then',
     '\t${0}',
-    'end'
+    'end',
   }),
 
-  parse({trig = 'else'}, 'else\n\t${0}'),
-  parse({trig = 'elseif'}, 'elseif ${1}\n\t${0}'),
+  parse({ trig = 'else' }, 'else\n\t${0}'),
+  parse({ trig = 'elseif' }, 'elseif ${1}\n\t${0}'),
 
-  parse({trig = 'for'}, {
+  parse({ trig = 'for' }, {
     'for ${1:_}, ${2:v} in ipairs(${3}) do',
     '\t${0}',
-    'end'
+    'end',
   }),
 
-  parse({trig = 'forin'}, {
+  parse({ trig = 'forin' }, {
     'for ${1:item} in ${2:list} do',
     '\t${0}',
-    'end'
+    'end',
   }),
 
-  parse({trig = 'foreach'}, {
+  parse({ trig = 'foreach' }, {
     'for ${1:_}, ${2:v} in ipairs(${3}) do',
     '\t${0}',
-    'end'
+    'end',
   }),
 
-  parse({trig = 'while'}, {
+  parse({ trig = 'while' }, {
     'while ${1} do',
     '\t${0}',
-    'end'
+    'end',
   }),
 
-  parse({trig = 'fmt'}, "string.format('${1}', ${2})"),
+  parse({ trig = 'fmt' }, "string.format('${1}', ${2})"),
 
   --[[
   function name(args)
@@ -73,26 +72,41 @@ ls.snippets.lua = {
     |
   end
   ]]
-  s({trig = 'func', wordTrig = true}, {
+  s({ trig = 'func', wordTrig = true }, {
     c(1, {
       sn(nil, {
-        t{'function '}, i(1, {'name'}),
-        t{'('},
+        t({ 'function ' }),
+        i(1, { 'name' }),
+        t({ '(' }),
         i(2),
-        t{')'}, t{'', ''},
-        t{'  '}, i(3), t{'', ''},
-        t{'end'}
+        t({ ')' }),
+        t({ '', '' }),
+        t({ '  ' }),
+        i(3),
+        t({ '', '' }),
+        t({ 'end' }),
       }),
       sn(nil, {
-        t{'local '}, i(1, {'name'}), t{' = function('}, i(2), t{')'}, t{'', ''},
-        t{'  '}, i(3), t{'', ''},
-        t{'end'}
-      })
+        t({ 'local ' }),
+        i(1, { 'name' }),
+        t({ ' = function(' }),
+        i(2),
+        t({ ')' }),
+        t({ '', '' }),
+        t({ '  ' }),
+        i(3),
+        t({ '', '' }),
+        t({ 'end' }),
+      }),
     }),
-    i(0)
+    i(0),
   }),
 
-  parse({trig = 'req'}, {
-    "require'${0}'"
-  })
+  parse({ trig = 'req' }, {
+    "require'${0}'",
+  }),
+
+  parse({ trig = 'stylua' }, {
+    '-- stylua: ignore${0}',
+  }),
 }
