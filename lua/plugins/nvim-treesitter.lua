@@ -19,10 +19,21 @@ require('nvim-treesitter.configs').setup{
     'go',
     -- 'vim'
     'java',
+    'html',
+    'css',
+    -- 'kotlin',
   },
   highlight = {
     enable = true,
     disable = {'markdown', 'zig', 'typescript'},
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      node_incremental = "<A-k>",
+      node_decremental = "<A-j>",
+    }
   },
   -- indent = {
   --   enable = true,

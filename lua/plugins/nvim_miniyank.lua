@@ -6,3 +6,5 @@ map('n', 'p',     '<Plug>(miniyank-autoput)',  {})
 map('n', 'P',     '<Plug>(miniyank-autoPut)',  {})
 map('n', '<C-p>', '<Plug>(miniyank-cycle)',     {})
 map('n', '<C-n>', '<Plug>(miniyank-cycleback)', {})
+
+vim.g.miniyank_maxitems = 100

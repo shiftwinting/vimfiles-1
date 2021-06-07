@@ -72,6 +72,9 @@ local server_cmd_list = {
   },
   jtls = {
     server_dir .. '/eclipse-jdt-ls/eclipse-jdt-ls'
+  },
+  kotlin_language_server = {
+    server_dir .. '/kotlin-language-server/kotlin-language-server'
   }
 }
 

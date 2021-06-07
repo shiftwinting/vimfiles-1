@@ -1,6 +1,7 @@
 if vim.api.nvim_call_function('FindPlugin', {'lir.nvim'}) == 0 then do return end end
 
 local a = vim.api
+local Job = require'plenary.job'
 
 local lir = require 'lir'
 -- local float = require 'lir.float'
@@ -16,6 +17,12 @@ local mark_actions = require 'lir.mark.actions'
 local clipboard_actions = require'lir.clipboard.actions'
 
 local actions = require'lir.actions'
+
+
+require'lir.git_status'.setup({
+  show_ignored = true
+})
+
 
 local states = {
   -- last_buf_ft
@@ -50,16 +57,17 @@ end
 
 local no_confirm_patterns = {
   '^LICENSE$',
-  '^Makefile$'
+  '^Makefile$',
+  '^Dockerfile$',
 }
 
 local need_confirm = function(filename)
   for _, pattern in ipairs(no_confirm_patterns) do
-    if not filename:match(pattern) then
-      return true
+    if filename:match(pattern) then
+      return false
     end
   end
-  return false
+  return true
 end
 
 local function newfile()
@@ -125,7 +133,7 @@ local function cd()
   vim.fn['deol#cd'](ctx.dir)
 end
 
-local function rm()
+local function gomi()
   local ctx = lir.get_context()
   -- 選択されているものを取得する
   local marked_items = ctx:get_marked_items()
@@ -164,7 +172,73 @@ local function goto_git_root()
   vim.cmd ('e ' .. dir)
 end
 
-local function rename_and_jump()
+--- comamnd を実行する
+---@param opts table
+---@return any #err
+---@return table #results
+local command = function(opts)
+  local results = {}
+  local err = {}
+  Job:new({
+    command = opts.command,
+    args = opts.args,
+    cwd = opts.cwd or vim.fn.getcwd(),
+
+    on_stdout = function(_, data)
+      table.insert(results, data)
+    end,
+
+    on_stderr = function(_, data)
+      table.insert(err, data)
+    end,
+
+  }):sync()
+
+  if #err ~= 0 then
+    return err, nil
+  end
+  return nil, results
+end
+
+---git root を返す
+---@return string?
+local get_git_root = function()
+  local err, results = command({
+    command = 'git',
+    args = {'rev-parse', '--show-toplevel'}
+  })
+  if err then
+    return nil
+  end
+
+  return results[1]
+end
+
+--- git ls-files の結果を返す
+---@param cwd string
+---@return table #結果のリスト
+local git_ls_files = function(cwd)
+  local err, results = command({
+    command = 'git',
+    args = {'ls-files'},
+    cwd = cwd
+  })
+  if err then
+    return {}
+  end
+
+  return results
+end
+
+local git_mv = function(cwd, from, to)
+  local err, results = command({
+    command = 'git',
+    args = {'mv', from, to},
+    cwd = cwd
+  })
+end
+
+local function rename()
   local ctx = lir.get_context()
   local old = string.gsub(ctx:current_value(), '/$', '')
   local new = vim.fn.input('Rename: ', old)
@@ -177,8 +251,29 @@ local function rename_and_jump()
     return
   end
 
-  if not vim.loop.fs_rename(ctx.dir .. old, ctx.dir .. new) then
-    utils.error('Rename failed')
+  -- もし、追跡されていたら、git mv を使う
+  local git_root = get_git_root()
+
+  if git_root == nil or vim.startswith(git_root, 'fatal') then
+    if not vim.loop.fs_rename(ctx.dir .. old, ctx.dir .. new) then
+      utils.error('Rename failed')
+    end
+
+  else
+    -- git root からの相対パス
+    local rel_path = string.sub(ctx:current().fullpath, #git_root+2)
+
+    local files = git_ls_files(git_root)
+
+    if vim.tbl_contains(files, rel_path) then
+      -- 管理対象に入っていたら、 git mv で移動
+      git_mv(ctx.dir, old, new)
+    else
+      if not vim.loop.fs_rename(ctx.dir .. old, ctx.dir .. new) then
+        utils.error('Rename failed')
+      end
+    end
+
   end
 
   actions.reload()
@@ -213,9 +308,25 @@ local is_show_deol = function()
   return not vim.tbl_isempty(vim.fn.win_findbuf(vim.t.deol.bufnr))
 end
 
+local explorer = function()
+  local ctx = lir.get_context()
+  vim.fn.system(string.format('xdg-open %s', ctx.dir))
+end
+
+-- local wipeout = function()
+--   local ctx = lir.get_context()
+--   local bufnr = vim.fn.bufnr(ctx:current_value())
+--   if bufnr ~= -1 then
+--     vim.api.nvim_buf_delete(bufnr, {force = true})
+--   end
+--   actions.delete()
+-- end
+
 function _G.LirSettings()
   a.nvim_buf_set_keymap(0, 'x', 'J', ':<C-u>lua require"lir.mark.actions".toggle_mark("v")<CR>', {noremap = true, silent = true})
   -- a.nvim_buf_set_keymap(0, 'n', 'J', ':<C-u>call v:lua.LirToggleMark("n")<CR>', {noremap = true, silent = true})
+
+  -- vim.cmd('normal! gg')
 
   vim.api.nvim_echo({{vim.fn.expand('%:p:h:h') .. '/', 'Normal'}, {vim.fn.expand('%:p:h:t'), 'Title'}}, false, {})
 
@@ -242,7 +353,7 @@ require 'lir'.setup {
     ['i']     = nop,
     ['I']     = nop,
     ['x']     = nop,
-    ['s']     = nop,
+    -- ['s']     = nop,
     ['S']     = nop,
 
     ['l']     = actions.edit,
@@ -270,7 +381,7 @@ require 'lir'.setup {
       feedkeys(':e ')
     end,
     ['K']     = newfile,
-    ['R']     = rename_and_jump,
+    ['R']     = rename,
     ['@']     = cd,
 
     ['<A-t>'] = function()
@@ -290,6 +401,7 @@ require 'lir'.setup {
     ['Y']     = actions.yank_path,
     ['.']     = actions.toggle_show_hidden,
     ['~']     = function() vim.cmd('edit ' .. vim.fn.expand('$HOME')) end,
+
     -- ['W']     = yank_win_path,
     ['B']     = b_actions.list,
     ['ba']    = b_actions.add,
@@ -301,9 +413,15 @@ require 'lir'.setup {
     ['C'] = clipboard_actions.copy,
     ['X'] = clipboard_actions.cut,
     ['P'] = clipboard_actions.paste,
-    ['D'] = rm,
+    ['D'] = gomi,
     -- python3 -m pip install --user --upgrade neovim-remote
-    ['M'] = mmv
+    ['M'] = mmv,
+
+    ['yy'] = require'plugins.telescope.lir_yank_path',
+
+    ['!'] = explorer,
+    -- ['dd'] = wipeout,
+
   },
   float = {
     size_percentage = 0.5,

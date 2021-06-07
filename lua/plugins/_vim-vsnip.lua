@@ -1,5 +1,7 @@
 if vim.api.nvim_call_function('FindPlugin', {'vim-vsnip'}) == 0 then do return end end
 
+do return end
+
 -- https://github.com/kitagry/vs-snippets をみて
 
 local g = vim.g

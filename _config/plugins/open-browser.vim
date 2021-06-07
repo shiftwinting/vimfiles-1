@@ -29,6 +29,7 @@ let g:openbrowser_search_engines = {
 \   'rust_doc_std': 'https://doc.rust-lang.org/std/index.html?search={query}',
 \   'crates.io': 'https://crates.io/search?q={query}',
 \   'utf8-icons': 'https://www.utf8icons.com/search?query={query}',
+\   'kotlin-documents': 'https://kotlinlang.org/api/latest/jvm/stdlib/?q={query}&p=0'
 \}
 
 vnoremap <Space>rs <Cmd>call openbrowser#smart_search(vimrc#getwords_last_visual())<CR>

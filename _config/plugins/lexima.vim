@@ -142,6 +142,7 @@ call add(s:rules, { 'filetype': 'markdown', 'char': '<CR>', 'at': '^\*\s\%#',   
 call add(s:rules, { 'filetype': 'markdown', 'char': '<CR>', 'at': '^\s\+\*\s\%#', 'input': "<C-u><C-u><CR>"     })
 
 call add(s:rules, { 'filetype': ['java'], 'char': "*", 'at': '/\*\%#',        'input': "*  */\<Left>\<Left>\<Left>" })
+call add(s:rules, { 'filetype': ['java'], 'char': ">", 'at': '<\%#',        'input': ">\<Left>" })
 
 for s:rule in s:rules
     call lexima#add_rule(s:rule)

@@ -3,7 +3,8 @@ UsePlugin 'lightline.vim'
 
 let g:lightline = {}
 let s:colors = [
-\   ['^gruvbox', 'gruvbox_material'],
+\   ['gruvbox-material', 'gruvbox_material'],
+\   ['gruvbox-flat', 'gruvbox-flat'],
 \   ['^tokyonight', 'tokyonight']
 \]
 

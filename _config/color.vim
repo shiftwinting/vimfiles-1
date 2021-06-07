@@ -196,7 +196,11 @@ set termguicolors
 " set bg=light
 set bg=dark
 colorscheme gruvbox-material
-" colorscheme nord
+
+" let g:gruvbox_italic_comments = v:false
+" let g:gruvbox_italic_keywords = v:false
+" let g:gruvbox_sidebar = [ 'qf', 'deol' ]
+" colorscheme gruvbox-flat
 
 " colorscheme nautilus
 " colorscheme nord

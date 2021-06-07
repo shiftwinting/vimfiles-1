@@ -32,6 +32,7 @@ autocmd MyAutoCmd FileType nim          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType vue          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType firestore    setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType java         setlocal sw=4 sts=4 ts=4 noexpandtab
+" autocmd MyAutoCmd FileType java         setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType pl0          setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType c            setlocal sw=2 sts=2 ts=2 et
 autocmd MyAutoCmd FileType lua          setlocal sw=2 sts=2 ts=2 et
@@ -783,9 +784,51 @@ function! s:my_ft_zig() abort
 endfunction
 
 
-" TODO:自動で :e! したい。 treesitter をリフレッシュしたいため
 
+" https://reviewdog.github.io/errorformat-playground/
 
-function! s:my_ft_ruby() abort
-  
+" https://qiita.com/rbtnn/items/92f80d53803ce756b4b8
+" 以下のように試せる
+" call TestErrFmt('[ERROR] %f:[%l\,%c]%m,%-G%.%#', ['[ERROR] LocalDateTimeConverter.java:[13,16] シンボルを見つけられません'])
+" %-G%.%# を入れておくと、マッチしなかったら、表示されないから、便利
+function! TestErrFmt(errfmt, lines) abort
+  let temp_errorformat = &errorformat
+  try
+    let &errorformat = a:errfmt
+    cexpr join(a:lines, "\n")
+    copen
+  catch
+    echo v:exception
+    echo v:throwpoint
+  endtry
 endfunction
+
+function! s:my_ft_java() abort
+  let l:efm = ''
+  " Spring Boot 用
+
+  let l:efm .= '[ERROR] %f:[%l\,%c]%m'
+
+  " 11:02:50.375 [main] DEBUG hogehoge
+  " %*\d は \d+ と同じ意味
+  " %.%# は .* と同じ意味
+  let l:efm .= ',%-G%*\d:%*\d:%*\d.%*\d [main] %.%#'
+
+  " 2021-05-24 11:02:51.024 ...
+  let l:efm .= ',%-G\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d.\d\d\d %.%#'
+
+  " [INFO] Finished at: 2021-05-24T11|6| 11+09:00
+  let l:efm .= ',%-G[INFO] Finished at: %.%#'
+
+  if !empty(&errorformat)
+    let l:efm .= ',' .. &errorformat
+  endif
+  let &errorformat = l:efm
+
+  nnoremap <Space>rm :<C-u>Make build
+endfunction
+
+
+
+
+" TODO:自動で :e! したい。 treesitter をリフレッシュしたいため

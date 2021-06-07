@@ -51,8 +51,13 @@ config.zig = {
 --   function()
 --     return {
 --       exe = 'java',
---       args = { '-jar', p:absolute() },
---       stdin = true
+--       args = {
+--         '-jar',
+--         p:absolute(),
+--         '--replace',
+--         vim.api.nvim_buf_get_name(0)
+--       },
+--       stdin = false
 --     }
 --   end
 -- }
@@ -75,6 +80,33 @@ config.sql = {
   end
 }
 
+-- yarn global add prettier
+config.html = {
+  function()
+    return {
+      exe = 'prettier',
+      args = {
+        '--stdin-filepath', vim.api.nvim_buf_get_name(0), '--single-quote'
+      },
+      stdin = true,
+    }
+  end
+}
+
+-- xmllint を使う？
+-- -- yarn global add @prettier/plugin-xml
+-- config.xml = {
+--   function()
+--     return {
+--       exe = 'prettier',
+--       args = {
+--         vim.api.nvim_buf_get_name(0),
+--       },
+--       stdin = true
+--     }
+--   end
+-- }
+
 require'formatter'.setup {
   filetype = config,
 }
@@ -82,8 +114,10 @@ require'formatter'.setup {
 local patterns = {
   '*.zig',
   '*.rb',
-  -- '*.java'
+  -- '*.java',
   '*.sql',
+  '*.html',
+  -- '*.xml'
 }
 
 vim.api.nvim_exec(string.format([[

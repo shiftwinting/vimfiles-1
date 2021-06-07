@@ -1,6 +1,6 @@
 scriptencoding utf-8
 
-" nnoremap <C-z> <Nop>
+nnoremap <C-z> <Nop>
 
 " " insert mode で細かく undo できるようにする
 " inoremap <Del> <C-g>u<Del>
@@ -158,6 +158,7 @@ inoremap <C-l><C-p> <C-x><C-p>
 
 " plugins.vim を開く
 nnoremap <Space>v, <Cmd>call vimrc#drop_or_tabedit(g:plug_script)<CR>
+nnoremap <Space>v. <Cmd>execute 'split ' .. g:plug_script<CR>
 
 " new tempfile
 nnoremap sf <Cmd>call <SID>new_tmp_file()<CR>

@@ -39,21 +39,36 @@ function M.start_or_attach()
       -- dap
       -- require'jdtls'.setup_dap({ hotcodereplace = 'auto' })
     end,
-    settings = require'nlspsettings'.get_settings('jdtls')
+    settings = require'nlspsettings'.get_settings('jdtls'),
+    capabilities = {
+      workspace = {
+        configuration = true,
+      },
+      textDocument = {
+        completion = {
+          completionItem = {
+            snippetSupport = true
+          }
+        }
+      }
+    },
+    -- flags = {
+    --   allow_incremental_sync = true,
+    -- }
   }
 
-  -- dap
-  local debug_dir = Path:new(os.getenv('HOME') .. '/.local/java-debug')
-  if not debug_dir:exists() then
-    local cmd = vim.fn.stdpath('config') .. '/scripts/install-java-debug.sh'
-    vim.cmd(string.format('split | execute "terminal " .. "%s"', cmd))
-  end
-
-  config['init_options'] = {
-    bundles = {
-      vim.fn.glob(os.getenv('HOME') .. '/.local/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar')
-    }
-  }
+  -- -- dap
+  -- local debug_dir = Path:new(os.getenv('HOME') .. '/.local/java-debug')
+  -- if not debug_dir:exists() then
+  --   local cmd = vim.fn.stdpath('config') .. '/scripts/install-java-debug.sh'
+  --   vim.cmd(string.format('split | execute "terminal " .. "%s"', cmd))
+  -- end
+  --
+  -- config['init_options'] = {
+  --   bundles = {
+  --     vim.fn.glob(os.getenv('HOME') .. '/.local/java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar')
+  --   }
+  -- }
 
 
   require('jdtls').start_or_attach(config)

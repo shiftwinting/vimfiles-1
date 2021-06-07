@@ -1,0 +1,4 @@
+{
+  "kotlin.completion.snippets.enabled": true,
+  "kotlin.compiler.jvm.target": "11"
+}

@@ -1,7 +1,8 @@
 {
   "java.server.launchMode": "Standard",
   "java.project.sourcePaths": ["src/main/java", "src"],
-  "java.errors.incompleteClasspath.severity": "ignore"
+  "java.errors.incompleteClasspath.severity": "ignore",
+  "java.completion.guessMethodArguments": true,
+  "java.signatureHelp.enabled": true,
+  "java.contentProvider.preferred": "fernflower"
 }
-
-

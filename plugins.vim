@@ -24,6 +24,7 @@ Plug 'sainnhe/gruvbox-material'
 " Plug 'lucastrvsn/kikwis'
 " Plug 'shaunsingh/moonlight.nvim'
 " Plug 'shaunsingh/nord.nvim'
+" Plug 'eddyekofo94/gruvbox-flat.nvim'
 
 Plug 'andymass/vim-matchup'
 Plug 'cohama/lexima.vim'
@@ -80,6 +81,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'mattn/vim-gist'
 Plug 'mattn/webapi-vim'
 " Plug 'pwntester/octo.nvim'
+" Plug 'sindrets/diffview.nvim'
 
 Plug 'kana/vim-operator-user',
 " Plug 'yuki-yano/vim-operator-replace'
@@ -105,6 +107,8 @@ Plug 'mfussenegger/nvim-jdtls'
 " Plug 'nanotee/nvim-lua-annotations'
 Plug 'folke/lsp-trouble.nvim'
 " Plug 'simrat39/symbols-outline.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+
 Plug 'kdav5758/NoCLC.nvim'
 Plug 'kevinhwang91/nvim-bqf'
 " Plug 'famiu/feline.nvim'
@@ -118,7 +122,8 @@ Plug 'nanotee/luv-vimdocs'
 
 Plug 'hrsh7th/nvim-compe'
 Plug 'tamago324/compe-zsh'
-Plug 'hrsh7th/vim-vsnip'
+" Plug 'hrsh7th/vim-vsnip'
+Plug 'L3MON4D3/LuaSnip'
 Plug 'tamago324/compe-necosyntax'
 Plug 'Shougo/neco-syntax'
 Plug 'onsails/lspkind-nvim'
@@ -132,8 +137,8 @@ Plug 'nvim-lua/telescope.nvim'
 Plug 'nvim-telescope/telescope-ghq.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
 " Plug 'tamago324/telescope-sonictemplate.nvim'
-Plug 'tamago324/telescope-openbrowser.nvim'
-" Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug '~/ghq/github.com/tamago324/telescope-openbrowser.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 " Plug 'dhruvmanila/telescope-bookmarks.nvim'
 
 " Plug 'vim-denops/denops.vim'
@@ -189,11 +194,18 @@ Plug 'hron84/Gemfile.vim'
 " go
 Plug 'mattn/vim-goimports'
 
+Plug 'udalov/kotlin-vim'
+
 Plug '~/ghq/github.com/tamago324/lir.nvim'
 Plug 'tamago324/lir-bookmark.nvim'
 " python3 -m pip install --user --upgrade neovim-remote
 Plug 'tamago324/lir-mmv.nvim'
+Plug '~/ghq/github.com/tamago324/lir-git-status.nvim'
+
 Plug '~/ghq/github.com/tamago324/nlsp-settings.nvim'
+
+Plug 'teal-language/vim-teal'
+" Plug 'bakpakin/fennel.vim'
 
 " Plug 'spinks/vim-leader-guide'
 
@@ -212,6 +224,12 @@ Plug 'tversteeg/registers.nvim'
 " Plug 'steelsojka/pears.nvim' " <C-h> で消したい
 " Plug 'windwp/nvim-autopairs' " <C-h> で消したい
 " Plug 'edluffy/hologram.nvim'
+
+
+Plug 'kyazdani42/nvim-tree.lua'
+
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-git-status.vim'
 
 call plug#end()
 
@@ -266,7 +284,6 @@ call plug#end()
 " Plug 'glepnir/indent-guides.nvim'
 
 " Plug 'kyazdani42/nvim-web-devicons'
-" Plug 'kyazdani42/nvim-tree.lua'
 
 " Plug 'mcchrish/nnn.vim'
 
@@ -306,7 +323,6 @@ call plug#end()
 
 " Plug 'chrisbra/vim-autosave' " only vim?
 
-" Plug 'lambdalisue/fern.vim'
 " Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 " Plug 'lambdalisue/fern-bookmark.vim'
 " Plug 'lambdalisue/glyph-palette.vim'
@@ -401,8 +417,6 @@ call plug#end()
 " Plug 'tjdevries/nlua.nvim'
 " Plug 'Koihik/vscode-lua-format'   " binary のため
 " Plug 'teal-language/vim-teal'
-
-" Plug 'bakpakin/fennel.vim'
 
 
 " ------------------------

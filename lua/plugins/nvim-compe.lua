@@ -2,7 +2,7 @@ if vim.api.nvim_call_function('FindPlugin', {'nvim-compe'}) == 0 then do return 
 
 require'compe'.setup {
   enabled = true,
-  min_length = 1,
+  min_length = 2,
   preselect = 'enable',
 
   -- allow_prefix_unmatch = false,
@@ -15,13 +15,14 @@ require'compe'.setup {
     -- nvim_lua = {filetypes = {'lua', 'teal'}},
     -- rust はなんか重くなる...
     -- tags = {ignored_filetypes = {'rust', 'markdown', 'md', 'deoledit', 'vim', 'stpl'}},
-    vsnip = true,
+    -- vsnip = true,
     -- neosnippet = {ignored_filetypes = {'deoledit'}},
     zsh = {filetypes = {'deoledit'}},
     necosyntax = {filetypes = {'make', 'teal', 'zig', 'i3config', 'ruby', 'sql'}},
     -- nvim_treesitter = {filetypes = {'lua'}},
     -- vim_lsp = true
     math = true,
+    luasnip = true
   }
 }
 

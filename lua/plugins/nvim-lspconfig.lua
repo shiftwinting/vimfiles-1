@@ -124,49 +124,46 @@ function on_attach(client)
   end
 
   map( 'n', 'K',         [[<Cmd>lua require'xlsp.lspsaga'.render_or_into_hover_doc()<CR>]])
-  -- map( 'n', '<Space>fl', [[<Cmd>lua require'lspsaga.provider'.lsp_finder()<CR>]])
-  map( 'n', '<Space>fl', [[<Cmd>lua require'plugins.telescope_nvim'.lsp_references()<CR>]])
-  map( 'n', 'gd',        [[<cmd>lua require'lspsaga.provider'.preview_definition()<CR>]])
+  map( 'n', '<Space>fl', [[<Cmd>Telescope lsp_references<CR>]])
+  map( 'n', 'gd',        [[<cmd>Telescope lsp_definitions<CR>]])
   map( 'n', '<A-k>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_prev()<CR>]])
   map( 'n', '<A-j>',     [[<cmd>lua require'lspsaga.diagnostic'.lsp_jump_diagnostic_next()<CR>]])
-
-  map( 'n', '<Space>fa', [[<cmd>Lspsaga code_action<CR>]])
-  -- map( 'i', '<A-s>',     [[<cmd>lua require'xlsp.signature_help'.toggle()<CR>]])
-  -- map( 'n', '<A-s>',     [[<cmd>lua require'xlsp.signature_help'.toggle()<CR>]])
-  -- map( 'n', '<C-]>',     [[<cmd>lua vim.lsp.buf.definition()<CR>]])
-  -- map( 0, 'n', '<A-l>',     [[<Cmd>lua vim.lsp.diagnostics.set_loclist()<CR>]],                      { silent = true, noremap = true })
-
-  vim.cmd [[command! -buffer LspDiagnosticSetLoclist lua vim.lsp.diagnostic.set_loclist()]]
-  -- lsp_status.on_attach(client)
+  map( 'n', '<A-d>',     [[<cmd>lua require'vim.lsp.diagnostic'.set_loclist()<cr>]])
+  map( 'n', '<Space>fa', [[<cmd>Telescope lsp_code_actions<CR>]])
 
   local bufnr = a.nvim_get_current_buf()
+
   -- signature_help を表示する
-  if client.resolved_capabilities.signature_help and client.name ~= 'zls' then
+  if client.resolved_capabilities.signature_help then
     if vim.tbl_contains({'lua'}, vim.bo.filetype) then
       require'xlsp/lspsignicha'.setup_autocmds(bufnr)
     end
-  -- if false then
   end
 
   if client.resolved_capabilities.document_highlight then
     require'xlsp/document_highlight'.setup_autocmds(bufnr)
   end
 
-  if client.resolved_capabilities.document_formatting then
-    map('n', '<Space>rf', '<Cmd>lua vim.lsp.buf.formatting({})<CR>')
+  -- if client.resolved_capabilities.document_formatting then
+  --   map('n', '<Space>rf', '<Cmd>lua vim.lsp.buf.formatting({})<CR>')
+  --
+  -- elseif client.resolved_capabilities.document_range_formatting then
+  --   vim.cmd [[command! -buffer LspFormat lua require'xlsp/document_range_formatting'.format()]]
+  --   map('n', '<Space>rf', '<Cmd>LspFormat<CR>')
+  -- end
 
-  elseif client.resolved_capabilities.document_range_formatting then
-    vim.cmd [[command! -buffer LspFormat lua require'xlsp/document_range_formatting'.format()]]
-    map('n', '<Space>rf', '<Cmd>LspFormat<CR>')
+
+  -- null-ls
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting()]]
   end
 
-  -- require'lspsignicha_ver2'.setup_autocmds(bufnr)
+  -- null-ls は vim.lsp.buf.formatting_sync()/formatting() を使うから、その他のすべての ls では false にする？？
+  -- https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/README.md#how-do-i-format-files
 
-  map( 'n', '<Space>vl', '<Plug>(nlsp-buf-config)', { noremap = false })
+  -- client.resolved_capabilities.document_formatting = false
 
-  map("n", "<A-d>", "<cmd>lua require'vim.lsp.diagnostic'.set_loclist()<cr>")
 
-  -- require'xlsp/lightbulb'.on_attach()
 end
 
 
@@ -177,7 +174,6 @@ end
 local servers = require'xlsp.servers'
 
 local lspconfig = require'lspconfig'
-
 
 local global_capabilities = vim.lsp.protocol.make_client_capabilities()
 global_capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -409,10 +405,10 @@ lspconfig.yamlls.setup{
   cmd = servers.get_cmd('yamlls'),
 }
 
-lspconfig.zls.setup{
-  on_attach = on_attach,
-  cmd = { vim.fn.expand('$HOME/.cache/zls/zls') },
-}
+-- lspconfig.zls.setup{
+--   on_attach = on_attach,
+--   cmd = { vim.fn.expand('$HOME/.cache/zls/zls') },
+-- }
 
 
 lspconfig.vuels.setup{
@@ -424,18 +420,30 @@ lspconfig.denols.setup {
   on_attach = on_attach,
 }
 
-lspconfig.solargraph.setup {
-  on_attach = on_attach,
-  cmd = servers.get_cmd('solargraph'),
-}
+-- lspconfig.solargraph.setup {
+--   on_attach = on_attach,
+--   cmd = servers.get_cmd('solargraph'),
+-- }
 
 -- require'xlsp.kitels'
 -- lspconfig.kitels.setup{
 --   on_attach= on_attach
 -- }
 
+lspconfig.dockerls.setup {
+  on_attach = on_attach,
+  cmd = servers.get_cmd('dockerls')
+}
+
 -- java
-require'plugins/lspconfig/java'
+require'xlsp/lspconfig/java'
+
+lspconfig.kotlin_language_server.setup {
+  on_attach = on_attach,
+  cmd = servers.get_cmd('kotlin_language_server')
+}
+
+require'xlsp.lspconfig.null-ls'.setup(on_attach)
 
 
 return {
